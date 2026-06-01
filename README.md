@@ -262,13 +262,14 @@ JUDGE_MODEL=Qwen/Qwen3.5-9B \
   scripts/launch_live_ablation_suite_tmux.sh
 ```
 
-For stronger reviewer-facing evidence, a target-100 suite can be queued behind
-the active target-50 run. If the active remote root is not a Git checkout, stage
-a separate code snapshot and collect from that root later:
+For stronger reviewer-facing evidence, keep a target-100 suite running or queued
+after target-50 completes. If the active remote root is not a Git checkout, stage
+a separate code snapshot and collect from that root later. The current
+target-100 run uses the exact-session-wait checkout below:
 
 ```bash
-cd /home/suraj/PIPE-Cypher-75c99d8-target100
-CODE_REVISION=75c99d8e41d5fee3466c5521d3597e3d965804a8 \
+cd /home/suraj/PIPE-Cypher-150f596-target100-exact
+CODE_REVISION=150f596f68dd530869efb497250610a40d3570ee \
 SESSION=pipecypher_ablation100_qwen9b \
 WAIT_FOR_SESSION=pipecypher_ablation50_qwen9b \
 TARGET_PER_CATEGORY=100 \
@@ -324,7 +325,7 @@ For the staged target-100 run, use the staged remote root when collecting:
 
 ```bash
 python scripts/collect_remote_ablation_suite.py \
-  --remote-root /home/suraj/PIPE-Cypher-75c99d8-target100 \
+  --remote-root /home/suraj/PIPE-Cypher-150f596-target100-exact \
   --run-prefix 20260601_ablation100_qwen9b \
   --target-per-category 100 \
   --wait-session pipecypher_ablation100_qwen9b \
@@ -345,7 +346,7 @@ python scripts/compare_ablation_suites.py \
   --output-csv experiments/snapshots/ablation_suite_comparison.csv
 ```
 
-To monitor the active target-50 suite, the queued target-100 suite, and any
+To monitor the completed target-50 suite, active target-100 suite, and any
 queued repeated-seed suites in one read-only command, including each suite's
 `next_action` and safe
 `collection_command`:

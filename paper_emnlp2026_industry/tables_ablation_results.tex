@@ -1,0 +1,28 @@
+\begin{table}[t]
+\centering
+\small
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{llrrrr}
+\toprule
+Setting & Graph & Records & Accepted & Acceptance & Categories at target \\
+\midrule
+Unconstrained LLM & FinBench & 0 & 0 & 0.000 & 0/8 \\
+Unconstrained LLM & SNB & 0 & 0 & 0.000 & 0/8 \\
+Reverse-only & FinBench & 400 & 400 & 1.000 & 8/8 \\
+Reverse-only & SNB & 402 & 400 & 0.995 & 8/8 \\
+Validators+repair & FinBench & 400 & 400 & 1.000 & 8/8 \\
+Validators+repair & SNB & 402 & 400 & 0.995 & 8/8 \\
+No retrieval & FinBench & 429 & 400 & 0.932 & 8/8 \\
+No retrieval & SNB & 402 & 400 & 0.995 & 8/8 \\
+No rewrite & FinBench & 423 & 400 & 0.946 & 8/8 \\
+No rewrite & SNB & 402 & 400 & 0.995 & 8/8 \\
+No LLM judge & FinBench & 401 & 400 & 0.998 & 8/8 \\
+No LLM judge & SNB & 406 & 400 & 0.985 & 8/8 \\
+Full PIPE-Cypher & FinBench & 416 & 400 & 0.962 & 8/8 \\
+Full PIPE-Cypher & SNB & 402 & 400 & 0.995 & 8/8 \\
+\bottomrule
+\end{tabular}
+}
+\caption{Live target-50 ablation evidence with local Qwen3.5-9B. Each graph run targets 50 accepted examples per category.}
+\label{tab:ablation_results}
+\end{table}

@@ -27,6 +27,7 @@ external/
 *.fdb_latexmk
 *.fls
 *.log
+!experiments/snapshots/**/remote_run.log
 *.out
 *.synctex.gz
 

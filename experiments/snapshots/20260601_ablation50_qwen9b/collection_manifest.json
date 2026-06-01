@@ -1,0 +1,200 @@
+{
+  "category_count": 8,
+  "collected_at": "2026-06-01T23:48:32.805509+00:00",
+  "host": "suraj@ds-serv6.ucsd.edu",
+  "metadata": {
+    "code_revision": "b5d4898e4a5f5043c33114a7746e319590f38de1",
+    "generation_model": "Qwen/Qwen3.5-9B",
+    "judge_model": "Qwen/Qwen3.5-9B",
+    "log_file": "logs/20260601_ablation50_qwen9b.log",
+    "run_prefix": "20260601_ablation50_qwen9b",
+    "run_seed": ""
+  },
+  "paper_files": {
+    "figures/ablation_suite_target50.pdf": {
+      "bytes": 18856,
+      "sha256": "922d9ef1b5ed51744fade3fef59a09286e7857d8ab9233e8ee7fe53da787a8f7"
+    },
+    "tables_ablation_quality.tex": {
+      "bytes": 1306,
+      "sha256": "7134fd5f99547872fc2656825bd88f97acbf542757ab30eda119b787f16c694b"
+    },
+    "tables_ablation_results.tex": {
+      "bytes": 1099,
+      "sha256": "47b5269f4695d235a5b2c9690851645c0bf3eb5fbea75e51927454241296deeb"
+    }
+  },
+  "remote_log_file": "logs/20260601_ablation50_qwen9b.log",
+  "remote_root": "/home/suraj/PIPE-Cypher",
+  "run_count": 14,
+  "run_prefix": "20260601_ablation50_qwen9b",
+  "runs": {
+    "20260601_220246_20260601_ablation50_qwen9b_finbench_unconstrained_local_llm": {
+      "records.jsonl": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "summary.txt": {
+        "bytes": 238,
+        "sha256": "14f7367eb65d3dc1bb8167da880acbdc2b4ee0a40de3de8e920e5a0e9c0c133d"
+      }
+    },
+    "20260601_220247_20260601_ablation50_qwen9b_finbench_reverse_only": {
+      "records.jsonl": {
+        "bytes": 829514,
+        "sha256": "3c8d1c0f837abcbc12a1a1a984cb1b14846c4538668c33e27027ddc0aa2c9050"
+      },
+      "summary.txt": {
+        "bytes": 220,
+        "sha256": "d7dae16fa7d781c7f9617784d6076572370e3ddeb08c74e1eda6a8c632dafe5f"
+      }
+    },
+    "20260601_220302_20260601_ablation50_qwen9b_finbench_validators_repair": {
+      "records.jsonl": {
+        "bytes": 828987,
+        "sha256": "8c24bcd44bdd6be03bbcdd491f830837e91ef3ad0410a506189e7a94ea6e2e29"
+      },
+      "summary.txt": {
+        "bytes": 230,
+        "sha256": "28f468a324bc278b80d4fe686e657e3a0d7eece102bf1c4f649961886fd225d9"
+      }
+    },
+    "20260601_220318_20260601_ablation50_qwen9b_finbench_ablation_retrieval_topk_0": {
+      "records.jsonl": {
+        "bytes": 964109,
+        "sha256": "a6de792dec9f1f33c1caad4d1f47ad2cdc7c2e590533ea54c807fc31ce19671a"
+      },
+      "summary.txt": {
+        "bytes": 246,
+        "sha256": "56fed8b521fdc1decf0691f09cca12b8f6a36898eedf8a6e580e431c78729fdf"
+      }
+    },
+    "20260601_222119_20260601_ablation50_qwen9b_finbench_ablation_rewrite_false": {
+      "records.jsonl": {
+        "bytes": 1523028,
+        "sha256": "634209731df00367cc09abc205582c495b7be5c5c4b7818a4a4046c44dcc09d4"
+      },
+      "summary.txt": {
+        "bytes": 240,
+        "sha256": "21645ec5cad0c916bae576c58df615058ea8f16685afa6207e680d13c886e33e"
+      }
+    },
+    "20260601_223821_20260601_ablation50_qwen9b_finbench_ablation_judge_false": {
+      "records.jsonl": {
+        "bytes": 1377380,
+        "sha256": "95ea9bc9ef346bbf0e9e61ace9908f7b64207ece2e46b6957c58abb499b810a9"
+      },
+      "summary.txt": {
+        "bytes": 236,
+        "sha256": "0cc8a45c163ebf9e37e38ef60309a741be4ab1215159271ed58819d102142e73"
+      }
+    },
+    "20260601_223836_20260601_ablation50_qwen9b_finbench_full_pipe_cypher": {
+      "records.jsonl": {
+        "bytes": 1494946,
+        "sha256": "601a3e110232a0b0cfaacb6cc3be4d1126d772ac6847890fc3a1ea6e370f85d9"
+      },
+      "summary.txt": {
+        "bytes": 228,
+        "sha256": "676e3701d38a82a6e7a64530835dca678b28ae8aa828c0a56d45ed2e5e1ed533"
+      }
+    },
+    "20260601_225457_20260601_ablation50_qwen9b_snb_unconstrained_local_llm": {
+      "records.jsonl": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "summary.txt": {
+        "bytes": 223,
+        "sha256": "666ea556b631e2294019dc3a1bc9bf327d8893633d92c0df592c48aa52245e29"
+      }
+    },
+    "20260601_225458_20260601_ablation50_qwen9b_snb_reverse_only": {
+      "records.jsonl": {
+        "bytes": 763547,
+        "sha256": "09f9c698f500bfffc01c3cdc1d4ec8f07fa42d4ff069fcdac5ce4fdb6e4c77e7"
+      },
+      "summary.txt": {
+        "bytes": 205,
+        "sha256": "f2a3f008ca606b64b93ffc6358fda42aa087bc26ff12ca6b34ac95fb226f35c0"
+      }
+    },
+    "20260601_225510_20260601_ablation50_qwen9b_snb_validators_repair": {
+      "records.jsonl": {
+        "bytes": 762638,
+        "sha256": "88549f5dc386bcadd00ed3940e54dd6860e4118714014d31ca3dc47319d26166"
+      },
+      "summary.txt": {
+        "bytes": 215,
+        "sha256": "6af89447b6d494ef122cf6d5094c17c5b20d1cd3ea77a5d6cf75c4ba2239ba4c"
+      }
+    },
+    "20260601_225522_20260601_ablation50_qwen9b_snb_ablation_retrieval_topk_0": {
+      "records.jsonl": {
+        "bytes": 819490,
+        "sha256": "b96842f4e695097087a6c9e568cb99a40c236b0cd55bf055ef5612c64027d3d7"
+      },
+      "summary.txt": {
+        "bytes": 231,
+        "sha256": "042489a68b49020e9e1286d8b72fe7265ef314e11adbedc07ac247c5044a4f14"
+      }
+    },
+    "20260601_231001_20260601_ablation50_qwen9b_snb_ablation_rewrite_false": {
+      "records.jsonl": {
+        "bytes": 1309663,
+        "sha256": "1ef7e3796f9f0766c97ca5d6aaee8be41de1f1ce7e5e309b11c8796250520a12"
+      },
+      "summary.txt": {
+        "bytes": 225,
+        "sha256": "236dc2935ef8ae337653bc2abc21ed3ce40e62e501ee41f7e2dccc20dfc420bb"
+      }
+    },
+    "20260601_232445_20260601_ablation50_qwen9b_snb_ablation_judge_false": {
+      "records.jsonl": {
+        "bytes": 1259597,
+        "sha256": "da1f21c359e3d7c4273733223664f4acb080af6bc9894f561322de9083f98acc"
+      },
+      "summary.txt": {
+        "bytes": 221,
+        "sha256": "5957cb60e3bdbc069dbbb3b957fb43b4c06cbb844c39bd65965cb76b403afe97"
+      }
+    },
+    "20260601_232457_20260601_ablation50_qwen9b_snb_full_pipe_cypher": {
+      "records.jsonl": {
+        "bytes": 1313179,
+        "sha256": "ce523b1494e738ca58eee3eb10d07e6212d3ec14439e4615927491db01034d71"
+      },
+      "summary.txt": {
+        "bytes": 213,
+        "sha256": "6776e9a77a0885232b030da63d18c0637f0c24c33721b061786b62895beae2f1"
+      }
+    }
+  },
+  "snapshot_files": {
+    "ablation_suite_audit.json": {
+      "bytes": 1703,
+      "sha256": "7312648cbd047b1f75a22da3f8149dc4026aa3d913ebce6b7b2b37d70266ef2f"
+    },
+    "ablation_suite_audit.md": {
+      "bytes": 990,
+      "sha256": "ef75b2c485023889f8f1774d721aff3081aba86ce22958fbea4c2d346795ea0c"
+    },
+    "ablation_suite_summary.csv": {
+      "bytes": 2457,
+      "sha256": "5416b8760d6b11a8be0f32f8072e6a4ae401b4ef78f8e5c9eb21ffd3543f4c75"
+    },
+    "ablation_suite_summary.json": {
+      "bytes": 23733,
+      "sha256": "a86bcbb1cc1f6338beefc51805d8e41245069b12eff6acbfc43b74a4d2d8ada9"
+    },
+    "ablation_suite_summary.md": {
+      "bytes": 3923,
+      "sha256": "b8b1774fab1876ccc4b4e6ff145075d7788508d9ee2bcae72ca5520fcb9e951d"
+    },
+    "remote_run.log": {
+      "bytes": 6210,
+      "sha256": "a33a18fc5541ddac53def2563cc6495baeaa38d05949d3fa8e63903458e01af8"
+    }
+  },
+  "target_per_category": 50
+}

@@ -66,12 +66,11 @@ For repeated suites, set `RUN_SEED` and include the seed in the run prefix. The
 pipeline records the seed in per-run summaries and suite metadata, so appendix
 variance or sensitivity claims can point to reproducible repeated-seed runs.
 
-Current large-scale follow-up: `20260601_ablation100_qwen9b` is queued on
+Current large-scale follow-up: `20260601_ablation100_qwen9b` is running on
 `ds-serv6` in tmux session `pipecypher_ablation100_qwen9b`, staged from commit
-`75c99d8e41d5fee3466c5521d3597e3d965804a8` under
-`/home/suraj/PIPE-Cypher-75c99d8-target100`. It waits for the active
-`pipecypher_ablation50_qwen9b` suite to finish. This is not paper evidence until
-it completes, is collected, and passes the paper-readiness audit.
+`150f596f68dd530869efb497250610a40d3570ee` under
+`/home/suraj/PIPE-Cypher-150f596-target100-exact`. This is not paper evidence
+until it completes, is collected, and passes the paper-readiness audit.
 
 Additional repeated-run follow-up: `20260601_ablation50_qwen9b_seed17` is queued
 in tmux session `pipecypher_ablation50_qwen9b_seed17`, staged from commit
@@ -109,11 +108,11 @@ python scripts/collect_remote_ablation_suite.py \
   --poll-seconds 60
 ```
 
-For the queued target-100 suite, collect from the staged remote root:
+For the target-100 suite, collect from the staged remote root after it exits:
 
 ```bash
 python scripts/collect_remote_ablation_suite.py \
-  --remote-root /home/suraj/PIPE-Cypher-75c99d8-target100 \
+  --remote-root /home/suraj/PIPE-Cypher-150f596-target100-exact \
   --run-prefix 20260601_ablation100_qwen9b \
   --target-per-category 100 \
   --wait-session pipecypher_ablation100_qwen9b \
@@ -237,4 +236,4 @@ python scripts/render_appendix_material.py \
   --max-examples 16
 ```
 
-Current caveat: the paper is structurally complete for serious revision and now includes the 3,000-example full FinBench/SNB benchmark export, full-test Qwen3.5-9B downstream evaluation with bootstrap uncertainty intervals, diversity diagnostics, full-run failure taxonomy, judge-audit coverage, claim/evidence traceability, prompt contracts, and representative accepted examples. Judge calibration labels and scaled ablations remain pending. Do not promote partial ablation suites or sampled downstream evaluations into the main paper or appendix; research-quality reported results need complete run directories, logs, code revisions, model IDs, graph workloads, audit status, and enough scale or uncertainty analysis to be reviewer-defensible.
+Current caveat: the paper is structurally complete for serious revision and now includes the 3,000-example full FinBench/SNB benchmark export, full-test Qwen3.5-9B downstream evaluation with bootstrap uncertainty intervals, diversity diagnostics, full-run failure taxonomy, judge-audit coverage, claim/evidence traceability, prompt contracts, representative accepted examples, and an audited target-50 ablation appendix. Judge calibration labels, target-100 ablations, and repeated-seed ablation sensitivity remain pending. Do not promote partial ablation suites or sampled downstream evaluations into the main paper or appendix; research-quality reported results need complete run directories, logs, code revisions, model IDs, graph workloads, audit status, and enough scale or uncertainty analysis to be reviewer-defensible.

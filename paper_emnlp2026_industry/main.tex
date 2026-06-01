@@ -97,11 +97,20 @@ PIPE-Cypher is designed for private benchmark generation under local-model deplo
 
 \input{tables_diversity}
 \input{tables_failure_taxonomy}
+\input{tables_ablation_results}
+\input{tables_ablation_quality}
 \input{tables_judge_audit_coverage}
 \input{tables_downstream_uncertainty}
 \input{appendix_claim_evidence}
 \input{appendix_prompt_contracts}
 \input{appendix_example_cards}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/ablation_suite_target50.pdf}
+\caption{Audited target-50 ablation suite over FinBench and SNB. The suite reaches all graph/variant/category targets and is included as appendix evidence while the larger target-100 and seeded repeat suites continue running for stronger final reliability evidence.}
+\label{fig:ablation_suite_target50}
+\end{figure}
 
 \begin{figure}[t]
 \centering

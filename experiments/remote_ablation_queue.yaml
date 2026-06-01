@@ -9,20 +9,20 @@ suites:
     generation_model: Qwen/Qwen3.5-9B
     judge_model: Qwen/Qwen3.5-9B
     code_revision: b5d4898e4a5f5043c33114a7746e319590f38de1
-    status: running
-    notes: Target-50 is the minimum paper-readiness ablation suite; collect only after the session exits and the readiness audit passes.
+    status: complete_collected_paper_ready
+    notes: Completed, collected locally, and passed paper-readiness audit; target-100 and seeded target-50 repeat remain pending for stronger final reliability evidence.
   - name: target100_qwen9b
     run_prefix: 20260601_ablation100_qwen9b
     target_per_category: 100
     category_count: 8
     host: suraj@ds-serv6.ucsd.edu
-    remote_root: /home/suraj/PIPE-Cypher-75c99d8-target100
+    remote_root: /home/suraj/PIPE-Cypher-150f596-target100-exact
     session: pipecypher_ablation100_qwen9b
     generation_model: Qwen/Qwen3.5-9B
     judge_model: Qwen/Qwen3.5-9B
-    code_revision: 75c99d8e41d5fee3466c5521d3597e3d965804a8
-    status: queued_waiting_for_target50
-    notes: Staged in a separate remote root because the active target-50 root is not a Git checkout.
+    code_revision: 150f596f68dd530869efb497250610a40d3570ee
+    status: running
+    notes: Restarted from an exact-tmux-wait checkout after the prior queued session was blocked by tmux prefix matching against the seeded target-50 repeat.
   - name: target50_qwen9b_seed17_repeat
     run_prefix: 20260601_ablation50_qwen9b_seed17
     target_per_category: 50

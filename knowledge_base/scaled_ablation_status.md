@@ -45,73 +45,68 @@ Research-use note: target-25 is an interim scaled checkpoint, not final paper ev
 
 ## Target-50 Suite
 
-Status: running on `ds-serv6` in tmux session `pipecypher_ablation50_qwen9b`.
-
-The session was launched with `WAIT_FOR_SESSION=pipecypher_ablation25_qwen9b`, so it started only after the target-25 suite exited. It reuses the existing local Qwen3.5-9B endpoint rather than starting another model server.
+Status: complete, collected locally, and paper-readiness audited. Local audit
+artifacts are tracked under
+`experiments/snapshots/20260601_ablation50_qwen9b/`.
 
 Runtime metadata:
 
 - run prefix: `20260601_ablation50_qwen9b`
 - target per category: 50
+- graphs: LDBC FinBench and LDBC SNB live Neo4j databases
+- variants: `unconstrained_local_llm`, `reverse_only`, `validators_repair`, `ablation_retrieval_topk_0`, `ablation_rewrite_false`, `ablation_judge_false`, `full_pipe_cypher`
 - generation model: `Qwen/Qwen3.5-9B`
 - judge model: `Qwen/Qwen3.5-9B`
 - recorded code revision: `b5d4898e4a5f5043c33114a7746e319590f38de1`
 - log: `/home/suraj/PIPE-Cypher/logs/20260601_ablation50_qwen9b.log`
 
-Observed at latest inspection:
+Outcome summary:
 
-- 12/14 graph/variant cells had been observed.
-- 11/14 graph/variant cells were complete.
-- The tmux session was still running.
-- Queue-monitor snapshot: SNB `ablation_rewrite_false` had 344/400 target
-  records. Treat this as a transient progress marker, not a paper result.
+- 14/14 expected graph/variant cells finished.
+- `unconstrained_local_llm` produced 0 records on both graphs under strict no-fallback settings.
+- every reverse-grounded or full pipeline variant reached 8/8 categories at the target of 50 accepted examples per category.
+- FinBench non-unconstrained variants accepted 400 examples each, with 400--429 generated records.
+- SNB non-unconstrained variants accepted 400 examples each, with 402--406 generated records.
+- Paper-readiness audit status: `paper_ready=true`.
 
-Completed at latest inspection:
+Audit artifacts:
 
-- All FinBench variants: `unconstrained_local_llm`, `reverse_only`, `validators_repair`,
-  `ablation_retrieval_topk_0`, `ablation_rewrite_false`, and
-  `ablation_judge_false`, and `full_pipe_cypher`.
-- SNB `unconstrained_local_llm`, `reverse_only`, `validators_repair`, and
-  `ablation_retrieval_topk_0`.
+- JSON summary: `experiments/snapshots/20260601_ablation50_qwen9b/ablation_suite_summary.json`
+- Markdown summary: `experiments/snapshots/20260601_ablation50_qwen9b/ablation_suite_summary.md`
+- CSV summary: `experiments/snapshots/20260601_ablation50_qwen9b/ablation_suite_summary.csv`
+- JSON audit: `experiments/snapshots/20260601_ablation50_qwen9b/ablation_suite_audit.json`
+- Markdown audit: `experiments/snapshots/20260601_ablation50_qwen9b/ablation_suite_audit.md`
+- Collection manifest: `experiments/snapshots/20260601_ablation50_qwen9b/collection_manifest.json`
+- Copied remote log: `experiments/snapshots/20260601_ablation50_qwen9b/remote_run.log`
 
-Active at latest inspection:
+Rendered appendix artifacts:
 
-- SNB `ablation_rewrite_false`; the active records file
-  `artifacts/runs/20260601_231001_20260601_ablation50_qwen9b_snb_ablation_rewrite_false/records.jsonl`
-  had 344/400 target records during the queue-monitor snapshot and continued
-  advancing afterward. Treat it as active/incomplete until the suite advances
-  and the collector/audit confirms the final status; use the monitor command
-  below for the exact live count.
+- Results table: `paper_emnlp2026_industry/tables_ablation_results.tex`
+- Quality table: `paper_emnlp2026_industry/tables_ablation_quality.tex`
+- Figure: `paper_emnlp2026_industry/figures/ablation_suite_target50.pdf`
 
-Still missing at latest inspection:
+SHA-256 from the collection manifest:
 
-- SNB `ablation_judge_false` and `full_pipe_cypher`.
+- `figures/ablation_suite_target50.pdf`: `922d9ef1b5ed51744fade3fef59a09286e7857d8ab9233e8ee7fe53da787a8f7`
+- `tables_ablation_quality.tex`: `7134fd5f99547872fc2656825bd88f97acbf542757ab30eda119b787f16c694b`
+- `tables_ablation_results.tex`: `47b5269f4695d235a5b2c9690851645c0bf3eb5fbea75e51927454241296deeb`
 
-Reporting note: once the suite finishes, `scripts/run_live_ablation_suite.sh` now writes
-`ablation_suite_summary.json`, `ablation_suite_summary.md`, `ablation_suite_summary.csv`,
-`ablation_suite_audit.json`, and `ablation_suite_audit.md`. The CSV preserves yield
-and gate-quality rates for each graph/variant cell. The audit enforces completeness,
-target scale, metadata, run summaries, category-target coverage, known graph/variant
-labels, and core gate-rate availability. `scripts/summarize_live_ablation_suite.py
---output-quality-tex` and `scripts/render_ablation_suite_figure.py` now refuse
-non-paper-ready suites by default; use their diagnostic override flags only for
-internal checks.
+Research-use note: target-50 is now acceptable appendix evidence after
+claim/evidence audit, but it should not be treated as the final scale ceiling.
+The target-100 and seeded target-50 follow-up suites remain important for
+stronger reviewer-facing reliability and variance claims.
 
-Because the active target-50 tmux session was launched from an older checkout, it may
-not write the audit packet itself. After it exits, collect and summarize from the
-local repo with:
+Collection command used:
 
 ```bash
 python scripts/collect_remote_ablation_suite.py \
+  --remote-root /home/suraj/PIPE-Cypher \
   --run-prefix 20260601_ablation50_qwen9b \
   --target-per-category 50 \
   --wait-session pipecypher_ablation50_qwen9b \
-  --poll-seconds 60
+  --poll-seconds 60 \
+  --render-paper
 ```
-
-The collector writes `collection_manifest.json` alongside the summary and audit
-files, with SHA-256 checksums for fetched run records, run summaries, the copied
-remote log, summary/audit files, and any rendered paper ablation artifacts.
 
 Launch command:
 
@@ -129,9 +124,14 @@ scripts/launch_live_ablation_suite_tmux.sh
 
 ## Target-100 Suite
 
-Status: queued on `ds-serv6` in tmux session `pipecypher_ablation100_qwen9b`.
-The session waits for `pipecypher_ablation50_qwen9b` to exit before it starts
-generation, so it does not compete with the active target-50 suite.
+Status: running on `ds-serv6` in tmux session
+`pipecypher_ablation100_qwen9b`.
+
+This suite was restarted from a fixed checkout after the earlier queued
+target-100 session was blocked by tmux prefix matching: `tmux has-session -t
+pipecypher_ablation50_qwen9b` matched the longer seeded repeat session
+`pipecypher_ablation50_qwen9b_seed17`. The launcher and collector now use exact
+tmux targets with `=<session>`.
 
 Research-use note: target-100 is the preferred next ablation scale for
 reviewer-facing reliability. Do not cancel it merely because target-50 finishes
@@ -145,16 +145,22 @@ Runtime metadata:
 - target per category: 100
 - generation model: `Qwen/Qwen3.5-9B`
 - judge model: `Qwen/Qwen3.5-9B`
-- recorded code revision: `75c99d8e41d5fee3466c5521d3597e3d965804a8`
-- remote root: `/home/suraj/PIPE-Cypher-75c99d8-target100`
-- log: `/home/suraj/PIPE-Cypher-75c99d8-target100/logs/20260601_ablation100_qwen9b.log`
+- recorded code revision: `150f596f68dd530869efb497250610a40d3570ee`
+- remote root: `/home/suraj/PIPE-Cypher-150f596-target100-exact`
+- log: `/home/suraj/PIPE-Cypher-150f596-target100-exact/logs/20260601_ablation100_qwen9b.log`
 
-The code snapshot was staged separately from `/home/suraj/PIPE-Cypher` because
-the active target-50 directory is not a Git checkout and should not be mutated
-while the older suite is still running. Remote validation before launch:
+Latest monitor snapshot:
+
+- the tmux session is running;
+- 4/14 graph/variant cells have been observed;
+- 3/14 graph/variant cells are complete;
+- FinBench `ablation_retrieval_topk_0` is active at 18/800 target records in the latest monitor output;
+- completed cells are FinBench `unconstrained_local_llm`, `reverse_only`, and `validators_repair`.
+
+Remote validation before launch:
 
 ```bash
-cd /home/suraj/PIPE-Cypher-75c99d8-target100
+cd /home/suraj/PIPE-Cypher-150f596-target100-exact
 /home/suraj/pipecypher-tools/runtime-venv/bin/python -m compileall -q pipecypher scripts
 /home/suraj/pipecypher-tools/runtime-venv/bin/python -c "import pipecypher; print('import_ok')"
 ```
@@ -162,8 +168,8 @@ cd /home/suraj/PIPE-Cypher-75c99d8-target100
 Launch command:
 
 ```bash
-cd /home/suraj/PIPE-Cypher-75c99d8-target100
-CODE_REVISION=75c99d8e41d5fee3466c5521d3597e3d965804a8 \
+cd /home/suraj/PIPE-Cypher-150f596-target100-exact
+CODE_REVISION=150f596f68dd530869efb497250610a40d3570ee \
 SESSION=pipecypher_ablation100_qwen9b \
 WAIT_FOR_SESSION=pipecypher_ablation50_qwen9b \
 TARGET_PER_CATEGORY=100 \
@@ -179,7 +185,7 @@ target-50 root:
 
 ```bash
 python scripts/collect_remote_ablation_suite.py \
-  --remote-root /home/suraj/PIPE-Cypher-75c99d8-target100 \
+  --remote-root /home/suraj/PIPE-Cypher-150f596-target100-exact \
   --run-prefix 20260601_ablation100_qwen9b \
   --target-per-category 100 \
   --wait-session pipecypher_ablation100_qwen9b \
@@ -191,7 +197,7 @@ python scripts/collect_remote_ablation_suite.py \
 Status: queued on `ds-serv6` in tmux session
 `pipecypher_ablation50_qwen9b_seed17`. The session waits for
 `pipecypher_ablation100_qwen9b` to exit before it starts generation, so it will
-not compete with the active target-50 suite or the target-100 follow-up.
+not compete with the active target-100 follow-up.
 
 Research-use note: this is a repeated-seed target-50 suite intended to provide
 variance/sensitivity evidence if target-100 finishes cleanly and enough compute
@@ -249,11 +255,11 @@ python scripts/collect_remote_ablation_suite.py \
 ssh suraj@ds-serv6.ucsd.edu
 cd /home/suraj/PIPE-Cypher
 
-tmux has-session -t pipecypher_ablation25_qwen9b && echo target25_running || echo target25_done
-tmux has-session -t pipecypher_ablation25_finalize && echo target25_finalize_running || echo target25_finalize_done
-tmux has-session -t pipecypher_ablation50_qwen9b && echo target50_running || echo target50_done
-tmux has-session -t pipecypher_ablation100_qwen9b && echo target100_running_or_waiting || echo target100_done
-tmux has-session -t pipecypher_ablation50_qwen9b_seed17 && echo target50_seed17_running_or_waiting || echo target50_seed17_done
+tmux has-session -t =pipecypher_ablation25_qwen9b && echo target25_running || echo target25_done
+tmux has-session -t =pipecypher_ablation25_finalize && echo target25_finalize_running || echo target25_finalize_done
+tmux has-session -t =pipecypher_ablation50_qwen9b && echo target50_running || echo target50_done
+tmux has-session -t =pipecypher_ablation100_qwen9b && echo target100_running_or_waiting || echo target100_done
+tmux has-session -t =pipecypher_ablation50_qwen9b_seed17 && echo target50_seed17_running_or_waiting || echo target50_seed17_done
 
 tail -f logs/20260601_ablation25_qwen9b_retry1.log
 tail -f logs/20260601_ablation25_finalize.log
@@ -263,8 +269,9 @@ tmux capture-pane -pt pipecypher_ablation50_qwen9b_seed17 -S -20
 ```
 
 From the local repo, use the read-only remote monitor without fetching partial
-artifacts. The queue monitor covers both the active target-50 suite and the
-queued target-100 suite, including their different remote roots. It also prints
+artifacts. The queue monitor covers the completed target-50 suite, the active
+target-100 suite, and the queued seeded target-50 repeat, including their
+different remote roots. It also prints
 `next_action` and a safe `collection_command` with `--wait-session` for each
 suite:
 
@@ -273,11 +280,12 @@ python scripts/monitor_remote_ablation_queue.py \
   --queue experiments/remote_ablation_queue.yaml
 ```
 
-For focused target-50 inspection:
+For focused target-100 inspection:
 
 ```bash
 python scripts/monitor_remote_ablation_suite.py \
-  --run-prefix 20260601_ablation50_qwen9b \
-  --target-per-category 50 \
-  --session pipecypher_ablation50_qwen9b
+  --remote-root /home/suraj/PIPE-Cypher-150f596-target100-exact \
+  --run-prefix 20260601_ablation100_qwen9b \
+  --target-per-category 100 \
+  --session pipecypher_ablation100_qwen9b
 ```
