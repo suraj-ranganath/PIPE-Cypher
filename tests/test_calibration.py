@@ -58,6 +58,36 @@ def test_sample_for_audit_covers_graph_category_judge_strata():
     assert len(strata) == 8
 
 
+def test_sample_for_audit_preserves_accept_reject_balance_when_stratified():
+    records = []
+    for idx in range(80):
+        records.append(
+            {
+                "accepted": True,
+                "graph_profile": "finbench" if idx % 2 else "snb",
+                "category": f"cat{idx % 4}",
+                "question": f"a{idx}",
+                "cypher": "MATCH (n) RETURN n",
+            }
+        )
+    for idx in range(30):
+        records.append(
+            {
+                "accepted": False,
+                "graph_profile": "finbench" if idx % 2 else "snb",
+                "category": f"cat{idx % 4}",
+                "question": f"r{idx}",
+                "cypher": "MATCH (n) RETURN n",
+            }
+        )
+
+    sample = sample_for_audit(records, n=40, seed=3)
+
+    assert len(sample) == 40
+    assert sum(1 for row in sample if row["accepted"]) == 20
+    assert sum(1 for row in sample if not row["accepted"]) == 20
+
+
 def test_analyze_audit_csv(tmp_path: Path):
     records = [
         {"accepted": True, "question": "q1", "cypher": "MATCH (n) RETURN n"},

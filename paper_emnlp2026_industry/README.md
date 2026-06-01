@@ -4,12 +4,14 @@ Target: EMNLP 2026 Industry Track.
 
 Core claim: PIPE-Cypher is a local-model, execution-grounded, Cypher-specific pipeline for generating private enterprise NL-to-Cypher benchmarks.
 
+Page accounting: for the EMNLP Industry submission, the counted main paper is at most 6 pages and `Conclusion` must end by the end of page 6. `Limitations`, ethical considerations, references, and appendices are excluded from this limit. The appendix should carry full ablations, diversity diagnostics, failure analysis, graph/category breakdowns, judge calibration material, reproducibility details, and examples.
+
 Files:
 
 - `paper.md`: current paper draft for rapid editing.
 - `main.tex`: ACL/EMNLP-style LaTeX draft skeleton.
 - `references.bib`: working references.
-- `tables_*.tex`: current method, experiment, full-generation, export, diversity, failure-taxonomy, distribution, ablation, and downstream tables.
+- `tables_*.tex`: current method, experiment, full-generation, export, diversity, failure-taxonomy, judge-audit, distribution, ablation, and downstream tables.
 - `figures/*.pdf`: appendix-ready ablation, diversity, failure-taxonomy, export-distribution, and downstream-evaluation figures.
 - `main.pdf`: compiled local draft when LaTeX is available.
 
@@ -75,4 +77,14 @@ python scripts/render_paper_figures.py \
   --output-dir paper_emnlp2026_industry/figures
 ```
 
-Current caveat: the paper is structurally complete for serious revision and now includes the 3,000-example full FinBench/SNB benchmark export, full-test Qwen3.5-9B downstream evaluation, live target-five FinBench/SNB ablation suites, diversity diagnostics, and full-run failure taxonomy. Judge calibration labels and full-scale ablations remain pending.
+Regenerate the judge-audit coverage table and local HTML review packet from the project root:
+
+```bash
+python scripts/render_judge_audit_packet.py \
+  --audit artifacts/audits/20260601_full_qwen9b_judge_audit_v2.csv \
+  --output-html artifacts/audits/20260601_full_qwen9b_judge_audit_v2.html \
+  --output-json experiments/snapshots/20260601_live_full_qwen9b/judge_audit_packet_v2.json \
+  --output-tex paper_emnlp2026_industry/tables_judge_audit_coverage.tex
+```
+
+Current caveat: the paper is structurally complete for serious revision and now includes the 3,000-example full FinBench/SNB benchmark export, full-test Qwen3.5-9B downstream evaluation, live target-five FinBench/SNB ablation suites, diversity diagnostics, full-run failure taxonomy, and judge-audit coverage. Judge calibration labels and full-scale ablations remain pending.

@@ -5,6 +5,7 @@ from pipecypher.paper_tables import (
     render_benchmark_export_table,
     render_downstream_table,
     render_full_artifact_distribution_table,
+    render_judge_audit_coverage_table,
 )
 
 
@@ -90,3 +91,23 @@ def test_render_ablation_table_orders_and_counts_targets():
     assert "Unconstrained LLM & FinBench & 0 & 0 & 0.000 & 0/8" in text
     assert "Full PIPE-Cypher & FinBench & 41 & 40 & 0.976 & 2/8" in text
     assert text.index("Unconstrained LLM") < text.index("Full PIPE-Cypher")
+
+
+def test_render_judge_audit_coverage_table_reports_packet_balance():
+    text = render_judge_audit_coverage_table(
+        {
+            "coverage": {
+                "total_rows": 80,
+                "judge_accepts": 40,
+                "judge_rejects": 40,
+                "labeled_rows": 0,
+                "by_graph": {"finbench": 48, "snb": 32},
+                "by_difficulty": {"easy": 26, "medium": 54},
+            }
+        }
+    )
+
+    assert "Rows & 80" in text
+    assert "Judge accept / reject & 40 / 40" in text
+    assert "FinBench / SNB rows & 48 / 32" in text
+    assert "Labeled rows & 0" in text

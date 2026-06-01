@@ -88,8 +88,18 @@ Analyze label coverage and calibration metrics after filling `human_accept`:
 
 ```bash
 python scripts/analyze_judge_audit.py \
-  --audit artifacts/audits/20260601_full_qwen9b_judge_audit.csv \
+  --audit artifacts/audits/20260601_full_qwen9b_judge_audit_v2.csv \
   --require-labels
+```
+
+Render a local browser packet for human calibration labeling:
+
+```bash
+python scripts/render_judge_audit_packet.py \
+  --audit artifacts/audits/20260601_full_qwen9b_judge_audit_v2.csv \
+  --output-html artifacts/audits/20260601_full_qwen9b_judge_audit_v2.html \
+  --output-json experiments/snapshots/20260601_live_full_qwen9b/judge_audit_packet_v2.json \
+  --output-tex paper_emnlp2026_industry/tables_judge_audit_coverage.tex
 ```
 
 The labeling rubric is in `knowledge_base/judge_audit_protocol.md`.

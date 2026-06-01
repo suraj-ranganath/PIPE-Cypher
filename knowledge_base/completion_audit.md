@@ -5,7 +5,7 @@ Status: goal is not complete yet.
 ## Evidence Already Present
 
 - Clean repo scaffold with package, configs, scripts, tests, docs, experiment matrix, and paper directory.
-- Deterministic tests pass: `125 passed`.
+- Deterministic tests pass: `130 passed`.
 - Offline smoke runs prove the CLI path, built-in FinBench and SNB reference schemas, deterministic validation, contextual return warnings, mock execution, deterministic judge, JSONL logging, strategy tags, and summary metrics.
 - LDBC FinBench SF0.1 has been generated on `ds-serv6`, transformed to snapshot CSVs, and loaded into a user-space Neo4j Community 5.26 smoke database.
 - The loaded FinBench smoke graph contains 10,006 nodes and 57,622 relationships.
@@ -46,7 +46,8 @@ Status: goal is not complete yet.
 - The final full export has 3,000/3,000 accepted examples passing read-only, syntax, schema, execution, and judge gates; the judge audit packet is `artifacts/audits/20260601_full_qwen9b_judge_audit.csv` with 80 sampled rows plus header.
 - `scripts/render_paper_artifact_tables.py` regenerates paper tables for benchmark export, distribution/gate summary, and downstream Text2Cypher results directly from `stats.json`, `manifest.json`, and the evaluation summary.
 - `knowledge_base/citation_verification.md` records the verified source for every paper bibliography entry used by the EMNLP/arXiv draft; no unverified placeholder citations remain in `paper_emnlp2026_industry/references.bib`.
-- `knowledge_base/judge_audit_protocol.md` defines the human calibration labeling rubric. `scripts/sample_judge_audit.py` now stratifies by graph, category, and judge outcome when metadata is available; `scripts/analyze_judge_audit.py` reports graph/category/difficulty coverage, agreement, precision/recall/specificity, negative predictive value, balanced accuracy, Cohen's kappa, and exits non-zero with `--require-labels` when no labels are complete.
+- `knowledge_base/judge_audit_protocol.md` defines the human calibration labeling rubric. `scripts/sample_judge_audit.py` now preserves judge accept/reject balance before graph/category stratification; `scripts/analyze_judge_audit.py` reports graph/category/difficulty coverage, agreement, precision/recall/specificity, negative predictive value, balanced accuracy, Cohen's kappa, and exits non-zero with `--require-labels` when no labels are complete.
+- The current full-run judge audit packet is `artifacts/audits/20260601_full_qwen9b_judge_audit_v2.csv`, with a tracked coverage/hash snapshot at `experiments/snapshots/20260601_live_full_qwen9b/judge_audit_packet_v2.json` and an ignored local HTML labeling packet at `artifacts/audits/20260601_full_qwen9b_judge_audit_v2.html`. It contains 80 rows, 40 judge accepts, 40 judge rejects, 48 FinBench rows, 32 SNB rows, all eight categories, and 0 completed human labels.
 - Benchmark export now deduplicates accepted examples by graph, category, and normalized question text before assigning stable example IDs, preventing equivalent recovery-run duplicates from entering the released benchmark.
 - Schema-driven value grounding now exists in `pipecypher.value_grounding` and is injected into generation prompt hints. It adapts BalkanID-style fuzzy annotations with deterministic handling for categorical values, reverse-bound entities, punctuation variants, possessives, plurals, synonyms, name partials, and small typos, without adding spaCy/SymSpell runtime dependencies.
 - Relationship-direction validation now handles both outgoing and incoming Cypher arrow syntax. It accepts `(:A)<-[:R]-(:B)` only when the schema contains `(:B)-[:R]->(:A)`, rejects reversed incoming patterns, and rejects untyped or undirected relationship patterns as benchmark-invalid.
@@ -55,7 +56,7 @@ Status: goal is not complete yet.
 - Slot binding now skips bindings whose filled question is already present in `--seen-records`, so patched top-up runs do not waste early attempts replaying accepted examples from the original run.
 - FinBench ranking/top-k seeds now include additional company-, person-withdrawal-, and account-type-scoped templates, raising theoretical seed capacity for that category from 302 to 1202 under the full config.
 - SNB negation/difference seeds now include person-neighborhood and tag-scoped forum anti-join templates, raising theoretical seed capacity for that category from 201 to 601 under the full config.
-- The ACL-style submission draft now exists at `paper_emnlp2026_industry/main_acl.tex`, with `acl.sty` and `acl_natbib.bst` staged locally.
+- The ACL-style submission draft now exists at `paper_emnlp2026_industry/main_acl.tex`, with `acl.sty` and `acl_natbib.bst` staged locally. EMNLP Industry page accounting is tracked as: `Conclusion` must end by page 6; `Limitations`, ethical considerations, references, and appendices are outside the counted limit.
 - `knowledge_base/emnlp_industry_requirements.md` records the EMNLP 2026 Industry Track constraints checked on June 1, 2026.
 - `scripts/stage_qwen35b_model.sh` exists, and `Qwen/Qwen3.5-35B-A3B` has been staged under root-backed storage.
 - The pipeline now tries each template once before random reuse, cycles reverse-query slot bindings, rejects duplicate accepted questions, and includes a second SNB ranking seed to prevent duplicate no-slot accepted examples.
@@ -69,7 +70,7 @@ Status: goal is not complete yet.
 - The detached full-generation fallback run on `ds-serv6` completed, and final run/export/downstream status is recorded in `knowledge_base/full_run_status.md`.
 - The default boolean templates now use clearer `OPTIONAL MATCH` boolean checks rather than counting matched subject variables; this patch was copied to `ds-serv6` before the sequential SNB run starts, and remote compile/template checks passed.
 - The template scheduler now avoids random reuse of exhausted no-slot templates after their exact question has already been accepted, reducing duplicate-question waste in high-target categories.
-- Paper draft has abstract, introduction, related work with verified citations, method, implementation, experiments, limitations, ethics, conclusion, and references.
+- Paper draft has abstract, introduction, related work with verified citations, method, implementation, experiments, conclusion, dedicated limitations, ethics, references, and appendix material.
 - `knowledge_base/codex_goal_prompt.md` preserves the reusable `/goal` prompt for continuing the project in future Codex threads, with outcome, verification surface, constraints, and work loop.
 
 ## Missing For Full Goal Completion
@@ -78,11 +79,11 @@ Status: goal is not complete yet.
 - Qwen3.5-35B-A3B has been staged locally, but it has not yet been served successfully through vLLM or used for generation/judging because the latest capacity check found only one safely free A5000 GPU and four required under the current serving budget.
 - Full-scale baselines and ablations have not yet been run on live graphs. The repo now has mini-ablation evidence, mid-scale generation evidence, and a materialized FinBench+SNB target-five ablation suite, but not full 3,000-example ablations for every setting.
 - Full downstream Text2Cypher model evaluation has completed on the 296-example full test split.
-- Judge calibration CSV tooling exists, the full-run audit packet has 80 sampled rows, and the labeling protocol is documented, but no completed human labels yet.
+- Judge calibration CSV/HTML tooling exists, the full-run v2 audit packet has 80 sampled rows with graph/category/judge-outcome coverage, and the labeling protocol is documented, but no completed human labels yet.
 - Paper results tables now contain full-generation, full-export, and full downstream test numbers; judge human-label calibration remains pending.
 
 ## Smallest Next Step
 
-1. Fill human labels for `artifacts/audits/20260601_full_qwen9b_judge_audit.csv`, then run `scripts/analyze_judge_audit.py`.
+1. Fill human labels for `artifacts/audits/20260601_full_qwen9b_judge_audit_v2.csv`, then run `scripts/analyze_judge_audit.py --require-labels`.
 2. Start and smoke-check a `Qwen/Qwen3.5-35B-A3B` vLLM endpoint from `/home/suraj/pipecypher-models/Qwen3.5-35B-A3B`, or explicitly finalize the study as a 9B fallback study.
 3. Update the paper tables with judge calibration metrics and any larger ablation yields.

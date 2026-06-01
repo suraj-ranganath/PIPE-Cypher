@@ -1,6 +1,6 @@
 # EMNLP Industry Track Requirements Notes
 
-Date checked: June 1, 2026.
+Date checked: June 1, 2026. Page-limit wording rechecked against the official call on June 1, 2026.
 
 Primary sources:
 
@@ -11,11 +11,12 @@ Primary sources:
 
 - Submission deadline: June 16, 2026 AoE.
 - Format: ACL rolling-review style template, double-blind.
-- Industry papers: up to 6 content pages plus references.
+- Industry papers: at most 6 counted pages for the main paper. The main narrative should end with `Conclusion` by the end of page 6.
+- Excluded from the 6-page limit: `Limitations`, ethical considerations, references, acknowledgements in the final version, and appendices.
 - The Industry Track does not use ARR.
 - There is no anonymity period requirement, but the submitted PDF must still be double-blind.
-- A dedicated section titled `Limitations` is required before references and does not count toward the page limit.
-- Appendices and supplementary material can carry reproducibility details, audit templates, additional generated examples, and full tables.
+- A dedicated section titled `Limitations` is required before references, does not count toward the page limit, and missing it can trigger desk rejection.
+- Appendices come after the bibliography and do not count toward the page limit. They can carry reproducibility details, audit templates, additional generated examples, full tables, plots, and error analysis. The submission should still be self-contained because reviewers are not required to review appendices.
 - The paper should be explicit about automated evaluation, human audits, and deployment constraints because the Industry Track expects practical deployed-system relevance.
 
 ## Current Repo State
@@ -27,7 +28,7 @@ Primary sources:
 ## Submission Cleanup Checklist
 
 - Replace placeholder anonymous author block only for arXiv/non-anonymous drafts or camera-ready material, not for the submitted double-blind PDF.
-- Fit the ACL-style body to 6 pages before references.
-- Move long reproducibility details to appendix/supplement.
-- Keep limitations and ethics after the main conclusion, outside the core argument.
+- Ensure `Conclusion` ends by the end of page 6 in the ACL-style submission draft.
+- Keep `Limitations`, optional ethics, references, and appendices after the main conclusion; they are outside the counted six-page limit.
+- Move long reproducibility details, full ablations, judge packets, graph-specific tables, examples, and error analysis to appendix/supplement.
 - Update results tables from the full 3,000-example run and final ablations.

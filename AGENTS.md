@@ -74,11 +74,13 @@ The core contribution is an enterprise benchmark-generation pipeline, not anothe
 - diversity metrics grounded in prior text-generation and text-to-query evaluation practice;
 - reproducible local-model operation.
 
-The main paper should stay tight, but the appendix can be long. Use the appendix for full ablation tables, plots, diversity diagnostics, graph/category breakdowns, run commands, extra examples, and details that are too large for the main EMNLP Industry page budget.
+The main paper should stay tight, but the appendix can be long. Use the appendix for full ablation tables, plots, diversity diagnostics, graph/category breakdowns, run commands, extra examples, and details that are too large for the counted six-page EMNLP Industry main body.
 
 ## Paper And Reporting Standards
 
 - Target EMNLP Industry Track first and maintain an arXiv-ready extended version in parallel.
+- EMNLP 2026 Industry Track page accounting: the counted main paper is at most 6 pages, and the `Conclusion` must end by the end of page 6. The `Limitations` section, ethical considerations, references, acknowledgements in the final version, and appendices do not count toward this limit.
+- Keep a dedicated section titled `Limitations` before references; papers without it can be desk rejected. Put appendices after the bibliography, and use them heavily but only for material that supports the main paper.
 - Keep main-paper claims compact and evidence-backed. Use the appendix aggressively for full experiment matrices, ablation plots, judge calibration, failure taxonomy, qualitative examples, prompt variants, parser/rewrite case studies, downstream per-difficulty breakdowns, and graph-specific details.
 - The paper should compare or position against verified prior work such as Text-to-Cypher benchmarks, SyntheT2C, Spider 2.0, BIRD, AutoQuery-style generation pipelines, LDBC FinBench, LDBC SNB, and relevant Text-to-SQL synthetic benchmark methods found during literature review.
 - Report metrics that reviewers can audit: generation yield, syntax validity, schema validity, read-only safety, execution success, non-empty result rate, repair success, judge pass rate, judge-human agreement, diversity metrics, difficulty balance, downstream execution accuracy, answer F1, parse validity, schema validity, and per-category/per-difficulty performance.

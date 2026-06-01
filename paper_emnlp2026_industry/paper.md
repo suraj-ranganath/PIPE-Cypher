@@ -119,7 +119,7 @@ The full live run produced 3,000 accepted examples from 4,777 candidates using l
 
 Failure taxonomy over the same 4,777 full-run candidates shows that rejected candidates were dominated by duplicate/diversity control during recovery (1,335), empty execution results (374), judge semantic rejection (66), and schema invalidity (2). This indicates that deterministic schema governance made invalid Cypher rare, while refresh-scale generation mostly needs better template and value exploration.
 
-The repository includes a judge-audit CSV sampled from full-run accepted and rejected candidates, plus a labeling protocol. The human labels are intentionally blank in the current artifact; this file is the starting point for the calibration analysis rather than a pipeline gate.
+The repository includes a judge-audit CSV sampled from full-run accepted and rejected candidates, plus a labeling protocol and local HTML review packet. The current v2 audit packet has 80 rows, a 40/40 judge accept/reject split, 48 FinBench rows, 32 SNB rows, and coverage over all eight categories. The human labels are intentionally blank in the current artifact; this file is the starting point for the calibration analysis rather than a pipeline gate.
 
 Current smoke evidence:
 
@@ -168,14 +168,14 @@ Finally, we ran a downstream Text2Cypher evaluation using local Qwen3.5-9B on th
 
 PIPE-Cypher is intended to be rerun when an enterprise graph changes. The generated artifact records the schema snapshot, graph profile, model identifier, validation gates, execution samples, judge scores, difficulty features, and source run for every example. Long-running jobs can be monitored from JSONL records and recovered with category-specific top-up runs that reject questions accepted in earlier runs. This design supports private benchmark refreshes without exposing schemas or values to paid APIs, while still leaving audit hooks for data owners to sample accepted and rejected examples.
 
-## 8 Limitations
+## 8 Conclusion
+
+PIPE-Cypher provides a practical path for enterprises to create private, executable, balanced NL-to-Cypher benchmarks. By combining schema introspection, constrained generation, deterministic validation, execution feedback, diversity control, and automated judge review, it makes benchmark generation more reliable and repeatable for deployed graph analytics.
+
+## Limitations
 
 Execution validity does not guarantee semantic correctness; this motivates the judge gate and human audit calibration. LLM judges can inherit model biases and may over-accept plausible but wrong queries. FinBench and SNB are representative benchmarks but cannot cover every enterprise graph. Local model constraints may reduce generation quality relative to paid frontier models, but they match industry governance and cost constraints.
 
-## 9 Ethics And Governance
+## Ethics And Governance
 
 PIPE-Cypher is designed for private enterprise benchmark generation. Prompt logs and benchmark artifacts may contain schema details and sampled values, so organizations should apply access controls, retention policies, and redaction where needed. The pipeline rejects write/admin Cypher to reduce operational risk.
-
-## 10 Conclusion
-
-PIPE-Cypher provides a practical path for enterprises to create private, executable, balanced NL-to-Cypher benchmarks. By combining schema introspection, constrained generation, deterministic validation, execution feedback, diversity control, and automated judge review, it makes benchmark generation more reliable and repeatable for deployed graph analytics.

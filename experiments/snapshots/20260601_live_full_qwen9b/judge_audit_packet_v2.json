@@ -1,0 +1,54 @@
+{
+  "audit_csv": "artifacts/audits/20260601_full_qwen9b_judge_audit_v2.csv",
+  "audit_sha256": "59d1be5a1a946fd2141cf5d5d1b735a82eb9ef18db7018f6cbcb049953b3eeea",
+  "coverage": {
+    "by_category": {
+      "boolean_existence": 13,
+      "complex_aggregation": 6,
+      "complex_retrieval": 7,
+      "negation_difference": 21,
+      "path_temporal": 6,
+      "ranking_topk": 14,
+      "simple_aggregation": 7,
+      "simple_retrieval": 6
+    },
+    "by_difficulty": {
+      "easy": 26,
+      "medium": 54
+    },
+    "by_graph": {
+      "finbench": 48,
+      "snb": 32
+    },
+    "by_strategy": {
+      "aggregation": 26,
+      "join_heavy": 7,
+      "negation": 21,
+      "order_rank": 14,
+      "path": 6,
+      "single_hop": 6
+    },
+    "judge_accepts": 40,
+    "judge_rejects": 40,
+    "labeled_rows": 0,
+    "total_rows": 80,
+    "unlabeled_rows": 80
+  },
+  "html_packet": "artifacts/audits/20260601_full_qwen9b_judge_audit_v2.html",
+  "label_completion_rate": 0.0,
+  "metrics": {
+    "agreement_rate": 0.0,
+    "balanced_accuracy": 0.0,
+    "cohen_kappa": 0.0,
+    "false_accepts": 0,
+    "false_rejects": 0,
+    "judge_negative_predictive_value": 0.0,
+    "judge_precision": 0.0,
+    "judge_recall": 0.0,
+    "judge_specificity": 0.0,
+    "total_labeled": 0,
+    "true_accepts": 0,
+    "true_rejects": 0
+  },
+  "ready_for_calibration": false
+}

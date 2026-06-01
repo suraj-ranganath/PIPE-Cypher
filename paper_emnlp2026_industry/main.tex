@@ -86,7 +86,7 @@ We report diversity as a diagnostic, not only as a design target. The full expor
 
 The full-run failure taxonomy shows where generation effort was spent before export: 1,335 rejected candidates came from diversity or duplicate controls during recovery, 374 from empty execution results, 66 from judge semantic rejection, and only 2 from schema invalidity. This supports the claim that deterministic schema gates made invalid Cypher rare, while refresh-scale generation mostly needs better value/template exploration.
 
-For judge calibration, the released artifacts include an 80-row audit packet sampled from accepted and rejected full-run candidates. The calibration tooling tracks graph, category, difficulty, strategy, and judge-decision coverage, and reports agreement, precision/recall, specificity, balanced accuracy, and Cohen's kappa once human labels are filled. The current draft treats these labels as pending human review rather than as a generation gate.
+For judge calibration, the released artifacts include an 80-row audit packet sampled from accepted and rejected full-run candidates, with 40 judge accepts, 40 judge rejects, 48 FinBench rows, 32 SNB rows, and all eight categories represented. The calibration tooling tracks graph, category, difficulty, strategy, and judge-decision coverage, and reports agreement, precision/recall, specificity, balanced accuracy, and Cohen's kappa once human labels are filled. The current draft treats these labels as pending human review rather than as a generation gate.
 
 Finally, we ran a downstream Text2Cypher evaluation using local Qwen3.5-9B on the exported full test split. The model saw schema text and the natural-language question, generated Cypher, and was evaluated by live execution against the corresponding FinBench or SNB database. The result verifies that the exported artifact can drive downstream model evaluation and gives a difficulty signal: the zero-shot 9B baseline solves simple aggregation examples but struggles on more operational categories.
 
@@ -95,11 +95,14 @@ Finally, we ran a downstream Text2Cypher evaluation using local Qwen3.5-9B on th
 \section{Industry Use}
 PIPE-Cypher is intended to be rerun when an enterprise graph changes. The generated artifact records the schema snapshot, graph profile, model identifier, validation gates, execution samples, judge scores, difficulty features, and source run for every example. Long-running jobs can be monitored from JSONL records and recovered with category-specific top-up runs that reject questions accepted in earlier runs. This design supports private benchmark refreshes without exposing schemas or values to paid APIs, while still leaving audit hooks for data owners to sample accepted and rejected examples.
 
-\section{Limitations and Ethics}
-Execution validity does not guarantee semantic correctness. LLM judges can over-accept plausible but wrong examples, so the final study includes a small human audit for calibration. Generated artifacts may contain private schema details or sampled values, so organizations should apply normal data governance controls.
-
 \section{Conclusion}
 PIPE-Cypher provides a practical path for enterprises to create private, executable, balanced NL-to-Cypher benchmarks. The pipeline combines schema introspection, constrained generation, deterministic validation, execution feedback, diversity control, and automated judge review.
+
+\section*{Limitations}
+Execution validity does not guarantee semantic correctness. LLM judges can over-accept plausible but wrong examples, so the final study includes a small human audit for calibration. Generated artifacts may contain private schema details or sampled values, so organizations should apply normal data governance controls.
+
+\section*{Ethics Statement}
+PIPE-Cypher is designed for private benchmark generation under local-model deployment constraints. Organizations using it should restrict benchmark artifacts to authorized users, review sampled values for sensitive content, and document whether judge calibration relied on human annotators.
 
 \bibliographystyle{plain}
 \bibliography{references}
@@ -110,6 +113,7 @@ PIPE-Cypher provides a practical path for enterprises to create private, executa
 
 \input{tables_diversity}
 \input{tables_failure_taxonomy}
+\input{tables_judge_audit_coverage}
 
 \begin{figure}[t]
 \centering

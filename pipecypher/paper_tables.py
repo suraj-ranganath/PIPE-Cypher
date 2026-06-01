@@ -210,6 +210,44 @@ def render_failure_taxonomy_table(report: dict[str, Any]) -> str:
     )
 
 
+def render_judge_audit_coverage_table(snapshot: dict[str, Any]) -> str:
+    coverage = snapshot["coverage"]
+    graph = coverage.get("by_graph", {})
+    difficulty = coverage.get("by_difficulty", {})
+    rows = [
+        r"\begin{tabular}{lr}",
+        r"\toprule",
+        r"Audit packet property & Value \\",
+        r"\midrule",
+        f"Rows & {_fmt_int(coverage.get('total_rows', 0))} \\\\",
+        "Judge accept / reject & {accepts} / {rejects} \\\\".format(
+            accepts=_fmt_int(coverage.get("judge_accepts", 0)),
+            rejects=_fmt_int(coverage.get("judge_rejects", 0)),
+        ),
+        "FinBench / SNB rows & {finbench} / {snb} \\\\".format(
+            finbench=_fmt_int(graph.get("finbench", 0)),
+            snb=_fmt_int(graph.get("snb", 0)),
+        ),
+        "Easy / medium rows & {easy} / {medium} \\\\".format(
+            easy=_fmt_int(difficulty.get("easy", 0)),
+            medium=_fmt_int(difficulty.get("medium", 0)),
+        ),
+        "Labeled rows & {labeled} \\\\".format(
+            labeled=_fmt_int(coverage.get("labeled_rows", 0)),
+        ),
+        r"\bottomrule",
+        r"\end{tabular}",
+    ]
+    return _table(
+        body="\n".join(rows),
+        caption=(
+            "Post-hoc judge calibration packet coverage. Human labels are pending "
+            "and are not used as a generation gate."
+        ),
+        label="tab:judge_audit_coverage",
+    )
+
+
 def _table(*, body: str, caption: str, label: str) -> str:
     return "\n".join(
         [

@@ -77,7 +77,44 @@ def _stratified_audit_sample(
 ) -> list[dict[str, Any]]:
     if n <= 0 or not records:
         return []
-    groups: dict[tuple[str, str, bool], list[dict[str, Any]]] = {}
+    accepted = [row for row in records if row.get("accepted")]
+    rejected = [row for row in records if not row.get("accepted")]
+    accepted_target, rejected_target = _balanced_targets(
+        n=n,
+        accepted_count=len(accepted),
+        rejected_count=len(rejected),
+    )
+    sample = [
+        *_stratified_by_graph_category(accepted, n=accepted_target, rng=rng),
+        *_stratified_by_graph_category(rejected, n=rejected_target, rng=rng),
+    ]
+    rng.shuffle(sample)
+    return sample
+
+
+def _balanced_targets(*, n: int, accepted_count: int, rejected_count: int) -> tuple[int, int]:
+    accepted_target = min(n // 2, accepted_count)
+    rejected_target = min(n - accepted_target, rejected_count)
+    remaining = n - accepted_target - rejected_target
+    if remaining > 0 and accepted_target < accepted_count:
+        extra = min(remaining, accepted_count - accepted_target)
+        accepted_target += extra
+        remaining -= extra
+    if remaining > 0 and rejected_target < rejected_count:
+        extra = min(remaining, rejected_count - rejected_target)
+        rejected_target += extra
+    return accepted_target, rejected_target
+
+
+def _stratified_by_graph_category(
+    records: list[dict[str, Any]],
+    *,
+    n: int,
+    rng: random.Random,
+) -> list[dict[str, Any]]:
+    if n <= 0 or not records:
+        return []
+    groups: dict[tuple[str, str], list[dict[str, Any]]] = {}
     for row in records:
         groups.setdefault(_audit_stratum(row), []).append(row)
     for rows in groups.values():
@@ -101,14 +138,13 @@ def _stratified_audit_sample(
             rows = groups[key]
             if rows:
                 sample.append(rows.pop())
-    rng.shuffle(sample)
     return sample
 
 
-def _audit_stratum(row: dict[str, Any]) -> tuple[str, str, bool]:
+def _audit_stratum(row: dict[str, Any]) -> tuple[str, str]:
     graph = str(row.get("graph_profile") or "unknown")
     category = str(row.get("category") or "unknown")
-    return graph, category, bool(row.get("accepted"))
+    return graph, category
 
 
 def _dedupe_records(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
