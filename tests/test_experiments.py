@@ -7,6 +7,8 @@ from pipecypher.experiments import (
     summarize_records,
     variant_applies_to_graph,
 )
+from pipecypher.io import write_jsonl
+from pipecypher.ablation_suite import format_ablation_suite_markdown, summarize_ablation_suite
 
 
 def test_build_experiment_variants_includes_baseline():
@@ -127,3 +129,88 @@ def test_format_run_comparison_outputs_paper_tables():
     csv_text = format_run_comparison_csv(summaries)
     assert "| run_a | 2 | 1 | 0.500 | 1 | 2 | simple_retrieval:1 |" in markdown
     assert "run_a,2,1,0.500,1,2,simple_retrieval:1" in csv_text
+
+
+def test_summarize_ablation_suite_marks_missing_and_incomplete_runs(tmp_path):
+    run_dir = tmp_path / "20260601_finbench_reverse_only"
+    write_jsonl(
+        run_dir / "records.jsonl",
+        [
+            {
+                "accepted": True,
+                "category": "simple_retrieval",
+                "validation": {
+                    "read_only": True,
+                    "syntax_valid": True,
+                    "schema_valid": True,
+                    "structural_features": {
+                        "difficulty": "easy",
+                        "primary_strategy": "single_hop",
+                    },
+                },
+                "execution": {"success": True},
+                "judge": {"passed": True},
+            }
+        ],
+    )
+
+    report = summarize_ablation_suite(
+        [run_dir],
+        target_per_category=1,
+        category_count=1,
+        expected_graphs=["finbench", "snb"],
+        expected_variants=["reverse_only"],
+    )
+
+    assert report["all_runs_finished"] is False
+    assert report["runs"][0]["graph"] == "finbench"
+    assert report["runs"][0]["variant"] == "reverse_only"
+    assert report["runs"][0]["categories_at_target"] == 1
+    assert report["runs"][0]["summary_present"] is False
+    assert report["missing"] == [{"graph": "snb", "variant": "reverse_only"}]
+    assert "do not report as paper evidence" in report["research_status"]
+
+
+def test_summarize_ablation_suite_complete_target25_is_interim(tmp_path):
+    run_dirs = []
+    for graph in ["finbench", "snb"]:
+        run_dir = tmp_path / f"20260601_{graph}_full_pipe_cypher"
+        write_jsonl(
+            run_dir / "records.jsonl",
+            [
+                {
+                    "accepted": True,
+                    "category": "simple_retrieval",
+                    "validation": {
+                        "read_only": True,
+                        "syntax_valid": True,
+                        "schema_valid": True,
+                        "structural_features": {
+                            "difficulty": "easy",
+                            "primary_strategy": "single_hop",
+                        },
+                    },
+                    "execution": {"success": True},
+                    "judge": {"passed": True},
+                }
+                for _ in range(25)
+            ],
+        )
+        (run_dir / "summary.txt").write_text("records=25\naccepted=25\n", encoding="utf-8")
+        run_dirs.append(run_dir)
+
+    report = summarize_ablation_suite(
+        run_dirs,
+        target_per_category=25,
+        category_count=1,
+        expected_graphs=["finbench", "snb"],
+        expected_variants=["full_pipe_cypher"],
+        metadata={"code_revision": "abc123", "generation_model": "Qwen/Test"},
+    )
+    markdown = format_ablation_suite_markdown(report)
+
+    assert report["all_runs_finished"] is True
+    assert report["research_status"] == "interim scaled checkpoint; larger final ablations preferred"
+    assert report["metadata"]["code_revision"] == "abc123"
+    assert "| Full PIPE-Cypher | finbench |" in markdown
+    assert "generation_model: `Qwen/Test`" in markdown

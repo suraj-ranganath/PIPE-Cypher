@@ -15,6 +15,7 @@ VARIANT_SET="${VARIANT_SET:-${DEFAULT_VARIANTS}}"
 LOG_DIR="${LOG_DIR:-logs}"
 LOG_FILE="${LOG_FILE:-${LOG_DIR}/${RUN_PREFIX}.log}"
 CODE_REVISION="${CODE_REVISION:-$(git rev-parse HEAD 2>/dev/null || printf 'unavailable')}"
+SUMMARY_DIR="${SUMMARY_DIR:-experiments/snapshots/${RUN_PREFIX}}"
 
 mkdir -p "${LOG_DIR}"
 
@@ -68,6 +69,7 @@ log "judge_model=${JUDGE_MODEL}"
 log "graph_set=${GRAPH_SET}"
 log "variant_set=${VARIANT_SET}"
 log "code_revision=${CODE_REVISION}"
+log "summary_dir=${SUMMARY_DIR}"
 
 for graph in ${GRAPH_SET}; do
   materialize_graph "${graph}" "$(config_for_graph "${graph}")"
@@ -78,5 +80,25 @@ for graph in ${GRAPH_SET}; do
     run_variant "${graph}" "${variant}"
   done
 done
+
+mkdir -p "${SUMMARY_DIR}"
+summary_args=(
+  --glob "artifacts/runs/*${RUN_PREFIX}*"
+  --target-per-category "${TARGET_PER_CATEGORY}"
+  --output-json "${SUMMARY_DIR}/ablation_suite_summary.json"
+  --output-md "${SUMMARY_DIR}/ablation_suite_summary.md"
+  --metadata "run_prefix=${RUN_PREFIX}"
+  --metadata "generation_model=${GENERATION_MODEL}"
+  --metadata "judge_model=${JUDGE_MODEL}"
+  --metadata "code_revision=${CODE_REVISION}"
+  --metadata "log_file=${LOG_FILE}"
+)
+for graph in ${GRAPH_SET}; do
+  summary_args+=(--expected-graph "${graph}")
+done
+for variant in ${VARIANT_SET}; do
+  summary_args+=(--expected-variant "${variant}")
+done
+"${PYTHON_BIN}" scripts/summarize_live_ablation_suite.py "${summary_args[@]}" 2>&1 | tee -a "${LOG_FILE}"
 
 log "done run_prefix=${RUN_PREFIX}"

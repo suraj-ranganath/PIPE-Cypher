@@ -242,6 +242,21 @@ RUN_PREFIX=20260601_ablation25_qwen9b \
 
 The default target-25 suite runs the paper-relevant variants: strict unconstrained LLM, reverse-only, validators+repair, no retrieval, no rewrite, no LLM judge, and full PIPE-Cypher, for both FinBench and SNB. Increase `TARGET_PER_CATEGORY` only after checking runtime and endpoint stability.
 
+Completed ablation suites now write an audit packet under
+`experiments/snapshots/<run_prefix>/`. To summarize an already-finished suite
+without rerunning generation:
+
+```bash
+python scripts/summarize_live_ablation_suite.py \
+  --glob 'artifacts/runs/*20260601_ablation25_qwen9b_retry1*' \
+  --target-per-category 25 \
+  --output-json experiments/snapshots/20260601_ablation25_qwen9b_retry1/ablation_suite_summary.json \
+  --output-md experiments/snapshots/20260601_ablation25_qwen9b_retry1/ablation_suite_summary.md
+```
+
+The summarizer refuses to render a LaTeX paper table from incomplete suites
+unless explicitly overridden for internal diagnostics.
+
 Estimate whether the built-in seeds can support the full category targets before launching long runs:
 
 ```bash

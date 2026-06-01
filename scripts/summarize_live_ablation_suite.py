@@ -1,0 +1,110 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+import glob
+import sys
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from pipecypher.ablation_suite import (
+    DEFAULT_GRAPHS,
+    DEFAULT_VARIANTS,
+    format_ablation_suite_markdown,
+    summarize_ablation_suite,
+    write_ablation_suite_json,
+)
+from pipecypher.paper_tables import render_ablation_table
+
+
+def _parse_metadata(items: list[str]) -> dict[str, str]:
+    metadata: dict[str, str] = {}
+    for item in items:
+        if "=" not in item:
+            raise SystemExit(f"metadata must be KEY=VALUE, got {item!r}")
+        key, value = item.split("=", 1)
+        key = key.strip()
+        if not key:
+            raise SystemExit(f"metadata key cannot be empty: {item!r}")
+        metadata[key] = value.strip()
+    return metadata
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description="Summarize a live FinBench/SNB ablation suite from run artifacts."
+    )
+    parser.add_argument("runs", nargs="*", help="Run directories or records.jsonl files.")
+    parser.add_argument("--glob", action="append", default=[], help="Glob for run directories.")
+    parser.add_argument("--target-per-category", type=int, required=True)
+    parser.add_argument("--category-count", type=int, default=8)
+    parser.add_argument("--expected-graph", action="append")
+    parser.add_argument("--expected-variant", action="append")
+    parser.add_argument("--output-json")
+    parser.add_argument("--output-md")
+    parser.add_argument("--output-tex")
+    parser.add_argument(
+        "--metadata",
+        action="append",
+        default=[],
+        metavar="KEY=VALUE",
+        help="Metadata to embed in JSON/Markdown summaries.",
+    )
+    parser.add_argument(
+        "--allow-incomplete-tex",
+        action="store_true",
+        help="Allow LaTeX output even when expected runs are missing or still active.",
+    )
+    args = parser.parse_args()
+
+    paths = [Path(run) for run in args.runs]
+    for pattern in args.glob:
+        paths.extend(Path(path) for path in sorted(glob.glob(pattern)))
+    paths = sorted({path for path in paths})
+    if not paths:
+        raise SystemExit("no run paths matched")
+
+    report = summarize_ablation_suite(
+        paths,
+        target_per_category=args.target_per_category,
+        category_count=args.category_count,
+        expected_graphs=args.expected_graph or list(DEFAULT_GRAPHS),
+        expected_variants=args.expected_variant or list(DEFAULT_VARIANTS),
+        metadata=_parse_metadata(args.metadata),
+    )
+
+    if args.output_json:
+        write_ablation_suite_json(report, args.output_json)
+        print(f"wrote {args.output_json}")
+    if args.output_md:
+        output = Path(args.output_md)
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(format_ablation_suite_markdown(report), encoding="utf-8")
+        print(f"wrote {output}")
+    if args.output_tex:
+        if not report["all_runs_finished"] and not args.allow_incomplete_tex:
+            raise SystemExit(
+                "refusing to render ablation LaTeX from an incomplete suite; "
+                "use --allow-incomplete-tex only for internal diagnostics"
+            )
+        output = Path(args.output_tex)
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(
+            render_ablation_table(
+                report["runs"],
+                target_per_category=args.target_per_category,
+                category_count=args.category_count,
+            ),
+            encoding="utf-8",
+        )
+        print(f"wrote {output}")
+
+    if not args.output_json and not args.output_md and not args.output_tex:
+        print(format_ablation_suite_markdown(report))
+
+
+if __name__ == "__main__":
+    main()

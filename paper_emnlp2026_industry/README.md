@@ -41,6 +41,19 @@ RUN_PREFIX=20260601_ablation25_qwen9b \
   scripts/run_live_ablation_suite.sh
 ```
 
+After the suite finishes, create a non-paper audit summary first:
+
+```bash
+python scripts/summarize_live_ablation_suite.py \
+  --glob 'artifacts/runs/*20260601_ablation25_qwen9b*' \
+  --target-per-category 25 \
+  --output-json experiments/snapshots/20260601_ablation25_qwen9b/ablation_suite_summary.json \
+  --output-md experiments/snapshots/20260601_ablation25_qwen9b/ablation_suite_summary.md
+```
+
+Only after the suite is complete and claim/evidence audited should it be
+rendered into `tables_ablation_results.tex`.
+
 Regenerate the diversity table and appendix figures from the project root:
 
 ```bash
