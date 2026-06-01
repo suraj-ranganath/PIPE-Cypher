@@ -33,12 +33,22 @@ ORDER BY c DESC, start_label, rel_type, end_label
 LIMIT $limit
 """
 
+CATEGORICAL_VALUE_QUERY_TEMPLATE = """
+MATCH (n:`{label}`)
+WHERE n.`{property}` IS NOT NULL
+WITH DISTINCT n.`{property}` AS value
+ORDER BY value
+LIMIT $limit
+RETURN collect(value) AS values, count(value) AS distinct_count
+"""
+
 
 def introspect_schema(
     client: Neo4jCypherClient,
     *,
     graph_name: str,
     relationship_limit: int = 500,
+    categorical_max_values: int = 12,
 ) -> SchemaSummary:
     node_properties = []
     rel_properties = []
@@ -85,13 +95,62 @@ def introspect_schema(
             if row.get("start_label") and row.get("rel_type") and row.get("end_label")
         ]
 
+    categorical_properties = infer_categorical_properties(
+        client,
+        node_properties=node_properties,
+        max_values=categorical_max_values,
+    )
+
     return SchemaSummary(
         node_properties=node_properties,
         relationship_properties=rel_properties,
         relationships=relationships,
+        categorical_properties=categorical_properties,
         graph_name=graph_name,
         source="neo4j",
     )
+
+
+def infer_categorical_properties(
+    client: Neo4jCypherClient,
+    *,
+    node_properties: list[NodeProperty],
+    max_values: int = 12,
+) -> dict[str, list[str]]:
+    if max_values <= 0:
+        return {}
+
+    categorical: dict[str, list[str]] = {}
+    for prop in node_properties:
+        if not _is_categorical_candidate_type(prop.type):
+            continue
+        query = CATEGORICAL_VALUE_QUERY_TEMPLATE.format(
+            label=_escape_cypher_identifier(prop.label),
+            property=_escape_cypher_identifier(prop.property),
+        )
+        result = client.run(
+            query,
+            params={"limit": max_values + 1},
+            read_only=False,
+            limit_rows=1,
+        )
+        if not result.success or not result.rows:
+            continue
+        row = result.rows[0]
+        values = [str(value) for value in row.get("values", []) if isinstance(value, str)]
+        distinct_count = int(row.get("distinct_count", len(values)) or 0)
+        if values and distinct_count <= max_values:
+            categorical[f"{prop.label}.{prop.property}"] = sorted(values)
+    return categorical
+
+
+def _is_categorical_candidate_type(value_type: str) -> bool:
+    normalized = value_type.upper()
+    return "STRING" in normalized and "LIST" not in normalized and "[]" not in normalized
+
+
+def _escape_cypher_identifier(identifier: str) -> str:
+    return identifier.replace("`", "``")
 
 
 def save_schema(schema: SchemaSummary, path: str | Path) -> None:
@@ -103,4 +162,3 @@ def save_schema(schema: SchemaSummary, path: str | Path) -> None:
 def load_schema(path: str | Path) -> SchemaSummary:
     data: dict[str, Any] = json.loads(Path(path).read_text(encoding="utf-8"))
     return SchemaSummary.from_dict(data)
-

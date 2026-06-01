@@ -39,7 +39,7 @@ The implementation is a Python package with Neo4j as the experimental backend. T
 
 The intended full-quality model is Qwen3.5-35B-A3B, but our June 1, 2026 live evidence uses the cached Qwen3.5-9B fallback. The 35B-A3B weights were staged on ds-serv6 under root-backed storage. A serving-capacity check estimated that the staged weights require four A5000 GPUs under our vLLM budget, while only one GPU was safely free in the live snapshot, so the reported generation and downstream results use the 9B fallback.
 
-The built-in FinBench profile is grounded in the public datagen snapshot export and includes typed node and relationship properties. The generated Neo4j import script uses uniqueness constraints for nodes and creates, rather than merges, transaction relationships so repeated account-to-account events are preserved. The SNB reference profile is grounded in the official Neo4j/Cypher headers and read-query files.
+The built-in FinBench profile is grounded in the public datagen snapshot export and includes typed node and relationship properties. Live schema inspection also records low-cardinality string values as categorical constraints for prompting and validation. The generated Neo4j import script uses uniqueness constraints for nodes and creates, rather than merges, transaction relationships so repeated account-to-account events are preserved. The SNB reference profile is grounded in the official Neo4j/Cypher headers and read-query files.
 
 For reproducible smoke runs, PIPE-Cypher can use seeded templates with deterministic reverse-binding queries. Full runs use a mixed mode that prepends these proven workload seeds to LLM-proposed templates, then records accepted and rejected candidates for yield analysis.
 

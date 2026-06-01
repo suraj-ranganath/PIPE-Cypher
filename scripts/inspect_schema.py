@@ -20,6 +20,12 @@ def main() -> None:
     parser.add_argument("--config", required=True)
     parser.add_argument("--output", default="")
     parser.add_argument("--reference-only", action="store_true")
+    parser.add_argument(
+        "--categorical-max-values",
+        type=int,
+        default=12,
+        help="Infer string properties with at most this many distinct values as categorical; use 0 to disable.",
+    )
     args = parser.parse_args()
 
     cfg = load_config(args.config)
@@ -33,7 +39,11 @@ def main() -> None:
             database=cfg.neo4j.database,
             timeout_sec=cfg.neo4j.query_timeout_sec,
         )
-        schema = introspect_schema(client, graph_name=cfg.generation.graph_profile)
+        schema = introspect_schema(
+            client,
+            graph_name=cfg.generation.graph_profile,
+            categorical_max_values=args.categorical_max_values,
+        )
         client.close()
 
     output = Path(args.output or cfg.paths.schema_path or f"configs/schema_{cfg.generation.graph_profile}.json")

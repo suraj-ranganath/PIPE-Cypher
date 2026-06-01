@@ -71,7 +71,7 @@ Implementation plan:
    - APPLY_LOAN: 2,298
    - GUARANTEE: 1,225
 
-7. For the community-edition smoke database, run `scripts/inspect_schema.py --config configs/finbench_live_smoke.yaml --output configs/schema_finbench.json`. For paper-scale experiments on a named database, use `configs/finbench_full.yaml`.
+7. For the community-edition smoke database, run `scripts/inspect_schema.py --config configs/finbench_live_smoke.yaml --output configs/schema_finbench.json`. This also infers low-cardinality string categorical values unless `--categorical-max-values 0` is supplied. For paper-scale experiments on a named database, use `configs/finbench_full.yaml`.
 8. Run a smoke PIPE-Cypher generation pass on 1-2 examples per category before scaling. The June 1, 2026 live smoke accepted 4/4 examples with `configs/finbench_live_smoke.yaml`.
 
 Minimum smoke checks:

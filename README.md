@@ -147,6 +147,9 @@ Run the live FinBench smoke after Neo4j and vLLM are running:
   --run-name live_finbench_qwen9b_defaultslots
 ```
 
+Schema inspection also infers low-cardinality string properties as categorical
+values by default. Use `--categorical-max-values 0` to disable that pass.
+
 The June 1, 2026 live smoke over FinBench SF0.1 accepted 4/4 examples with Qwen3.5-9B judge review and non-empty Neo4j execution.
 
 For an all-category seeded FinBench smoke:

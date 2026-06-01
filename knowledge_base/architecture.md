@@ -4,6 +4,7 @@ PIPE-Cypher generates enterprise-specific NL-to-Cypher benchmark examples throug
 
 1. **Schema profiling**
    - Introspect labels, properties, relationship types, and observed relationship directions from the property graph backend.
+   - Infer low-cardinality string properties as categorical values for prompting and deterministic validation, with a bounded value cap so high-cardinality identifiers are excluded.
    - Store a compact schema summary for prompting, validation, and reproducibility.
 
 2. **Template and slot generation**

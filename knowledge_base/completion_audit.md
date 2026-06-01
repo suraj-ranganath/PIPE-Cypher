@@ -5,11 +5,12 @@ Status: goal is not complete yet.
 ## Evidence Already Present
 
 - Clean repo scaffold with package, configs, scripts, tests, docs, experiment matrix, and paper directory.
-- Deterministic tests pass: `108 passed`.
+- Deterministic tests pass: `109 passed`.
 - Offline smoke runs prove the CLI path, built-in FinBench and SNB reference schemas, deterministic validation, contextual return warnings, mock execution, deterministic judge, JSONL logging, strategy tags, and summary metrics.
 - LDBC FinBench SF0.1 has been generated on `ds-serv6`, transformed to snapshot CSVs, and loaded into a user-space Neo4j Community 5.26 smoke database.
 - The loaded FinBench smoke graph contains 10,006 nodes and 57,622 relationships.
 - Live FinBench schema introspection produced `configs/schema_finbench.json`.
+- Schema introspection now includes a bounded low-cardinality string-value pass, so categorical property values can be captured from loaded enterprise graphs instead of only hand-authored reference profiles.
 - `Qwen/Qwen3.5-9B` has been served through vLLM on `ds-serv6` and used for a live LLM-judged FinBench smoke run.
 - The live run `artifacts/runs/20260601_122841_live_finbench_qwen9b_defaultslots` accepted 4/4 examples with graph-backed slot values and non-empty Neo4j execution.
 - The live run `artifacts/runs/20260601_124531_live_finbench_qwen9b_8cat_seeded` accepted 8/8 examples across all planned FinBench categories, with four easy and four medium examples.

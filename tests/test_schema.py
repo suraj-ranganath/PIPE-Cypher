@@ -1,5 +1,6 @@
 from pipecypher.graph_profiles import finbench_reference_schema, snb_reference_schema
-from pipecypher.models import SchemaSummary
+from pipecypher.models import ExecutionResult, SchemaSummary
+from pipecypher.schema import introspect_schema
 
 
 def test_schema_round_trip_dict():
@@ -23,3 +24,64 @@ def test_snb_reference_schema_matches_cypher_workload_shape():
     assert schema.has_relationship("Person", "KNOWS", "Person")
     assert "Message" in schema.labels
     assert "creationDate" in schema.properties_for_relationship("KNOWS")
+
+
+class FakeSchemaClient:
+    def run(self, query, params=None, *, read_only=True, limit_rows=None):
+        if "db.schema.nodeTypeProperties" in query:
+            return ExecutionResult(
+                success=True,
+                rows=[
+                    {"label": "Account", "property": "accountType", "type": "String"},
+                    {"label": "Account", "property": "accountId", "type": "String"},
+                    {"label": "Account", "property": "isBlocked", "type": "Boolean"},
+                    {"label": "Person", "property": "email", "type": "String[]"},
+                ],
+            )
+        if "db.schema.relTypeProperties" in query:
+            return ExecutionResult(success=True, rows=[])
+        if "MATCH (a)-[r]->(b)" in query:
+            return ExecutionResult(
+                success=True,
+                rows=[
+                    {
+                        "start_label": "Person",
+                        "rel_type": "OWN_ACCOUNT",
+                        "end_label": "Account",
+                        "c": 10,
+                    }
+                ],
+            )
+        if "MATCH (n:`Account`)" in query and "n.`accountType`" in query:
+            return ExecutionResult(
+                success=True,
+                rows=[{"values": ["checking", "savings"], "distinct_count": 2}],
+            )
+        if "MATCH (n:`Account`)" in query and "n.`accountId`" in query:
+            limit = params["limit"]
+            return ExecutionResult(
+                success=True,
+                rows=[
+                    {
+                        "values": [f"acct-{idx}" for idx in range(limit)],
+                        "distinct_count": limit,
+                    }
+                ],
+            )
+        if "MATCH (n:`Person`)" in query:
+            raise AssertionError("list-valued string properties should not be scanned")
+        raise AssertionError(f"unexpected query: {query}")
+
+
+def test_schema_introspection_discovers_bounded_categorical_values():
+    schema = introspect_schema(
+        FakeSchemaClient(),
+        graph_name="fake_finbench",
+        categorical_max_values=4,
+    )
+
+    assert schema.categorical_properties == {
+        "Account.accountType": ["checking", "savings"]
+    }
+    assert "Account.accountId" not in schema.categorical_properties
+    assert schema.has_relationship("Person", "OWN_ACCOUNT", "Account")
