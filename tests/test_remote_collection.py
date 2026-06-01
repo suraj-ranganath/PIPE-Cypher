@@ -31,8 +31,10 @@ def test_parse_run_log_metadata_reads_first_header_values():
                 "target_per_category=50",
                 "generation_model=Qwen/Qwen3.5-9B",
                 "judge_model=Qwen/Qwen3.5-9B",
+                "run_seed=101",
                 "code_revision=b5d4898",
                 "run graph=finbench variant=reverse_only",
+                "run_seed=later_should_not_override",
                 "code_revision=later_should_not_override",
             ]
         )
@@ -43,6 +45,7 @@ def test_parse_run_log_metadata_reads_first_header_values():
         "target_per_category": "50",
         "generation_model": "Qwen/Qwen3.5-9B",
         "judge_model": "Qwen/Qwen3.5-9B",
+        "run_seed": "101",
         "code_revision": "b5d4898",
     }
 
@@ -115,6 +118,7 @@ def test_build_summary_metadata_prefers_explicit_over_log():
         parsed_log={
             "generation_model": "Qwen/Old",
             "judge_model": "Qwen/Old",
+            "run_seed": "19",
             "code_revision": "old",
         },
         generation_model="Qwen/New",
@@ -126,6 +130,7 @@ def test_build_summary_metadata_prefers_explicit_over_log():
         "run_prefix": "run",
         "generation_model": "Qwen/New",
         "judge_model": "Qwen/Old",
+        "run_seed": "19",
         "code_revision": "new",
         "log_file": "logs/run.log",
     }

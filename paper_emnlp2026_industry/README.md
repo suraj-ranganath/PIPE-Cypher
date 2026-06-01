@@ -62,6 +62,10 @@ scale. Prefer `TARGET_PER_CATEGORY=100`, repeated target-50 suites, or another
 scale-equivalent design for final appendix claims when the endpoint is stable
 enough.
 
+For repeated suites, set `RUN_SEED` and include the seed in the run prefix. The
+pipeline records the seed in per-run summaries and suite metadata, so appendix
+variance or sensitivity claims can point to reproducible repeated-seed runs.
+
 Current large-scale follow-up: `20260601_ablation100_qwen9b` is queued on
 `ds-serv6` in tmux session `pipecypher_ablation100_qwen9b`, staged from commit
 `75c99d8e41d5fee3466c5521d3597e3d965804a8` under

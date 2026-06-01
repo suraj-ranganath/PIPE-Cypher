@@ -62,6 +62,7 @@ class PipeCypherPipeline:
         self.structural_diversity = StructuralDiversityTracker()
         self.slot_binding_offsets: Counter[str] = Counter()
         self.accepted_question_keys: set[tuple[str, str]] = set(seen_question_keys or set())
+        self.rng = random.Random(config.generation.random_seed)
 
     def _validate_cypher(self, cypher: str) -> ValidationResult:
         return validate_cypher(
@@ -469,7 +470,7 @@ class PipeCypherPipeline:
                     template = templates[attempts - 1]
                 else:
                     reusable = [template for template in templates if self._can_produce_new_question(category, template)]
-                    template = random.choice(reusable or templates)
+                    template = self.rng.choice(reusable or templates)
                 if self.structural_diversity.seen(category, template.template) and attempts <= len(templates):
                     continue
                 record = self.run_candidate(template)

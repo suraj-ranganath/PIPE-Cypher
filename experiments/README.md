@@ -75,6 +75,12 @@ tracked in `remote_ablation_queue.yaml` and can be monitored without fetching
 partial artifacts. The monitor prints each suite's `next_action` and safe
 `collection_command`:
 
+Repeated suites should set `RUN_SEED` and include the seed in `RUN_PREFIX`.
+Seeded ablation launches pass the seed into `run_pipeline.py --random-seed` and
+store it in run summaries, suite metadata, and collection manifests. This makes
+repeated target-50 or target-100 evidence auditable as repeated-seed evidence
+rather than an uncontrolled rerun.
+
 ```bash
 python scripts/monitor_remote_ablation_queue.py \
   --queue experiments/remote_ablation_queue.yaml

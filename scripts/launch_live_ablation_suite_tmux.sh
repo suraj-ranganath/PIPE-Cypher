@@ -7,6 +7,7 @@ TARGET_PER_CATEGORY="${TARGET_PER_CATEGORY:-25}"
 RUN_PREFIX="${RUN_PREFIX:-$(date +%Y%m%d_%H%M%S)_ablation${TARGET_PER_CATEGORY}}"
 GENERATION_MODEL="${GENERATION_MODEL:-Qwen/Qwen3.5-9B}"
 JUDGE_MODEL="${JUDGE_MODEL:-${GENERATION_MODEL}}"
+RUN_SEED="${RUN_SEED:-}"
 GRAPH_SET="${GRAPH_SET:-finbench snb}"
 VARIANT_SET="${VARIANT_SET:-}"
 WAIT_FOR_SESSION="${WAIT_FOR_SESSION:-}"
@@ -34,6 +35,7 @@ CMD+="TARGET_PER_CATEGORY=$(quote "${TARGET_PER_CATEGORY}") "
 CMD+="RUN_PREFIX=$(quote "${RUN_PREFIX}") "
 CMD+="GENERATION_MODEL=$(quote "${GENERATION_MODEL}") "
 CMD+="JUDGE_MODEL=$(quote "${JUDGE_MODEL}") "
+CMD+="RUN_SEED=$(quote "${RUN_SEED}") "
 CMD+="GRAPH_SET=$(quote "${GRAPH_SET}") "
 CMD+="CODE_REVISION=$(quote "${CODE_REVISION}") "
 if [[ -n "${VARIANT_SET}" ]]; then
@@ -43,6 +45,9 @@ CMD+="bash scripts/run_live_ablation_suite.sh 2>&1 | tee $(quote "${LOG_PATH}")"
 
 tmux new-session -d -s "${SESSION}" "${CMD}"
 echo "started session=${SESSION} run_prefix=${RUN_PREFIX} target_per_category=${TARGET_PER_CATEGORY} generation_model=${GENERATION_MODEL} log=${LOG_PATH}"
+if [[ -n "${RUN_SEED}" ]]; then
+  echo "run_seed=${RUN_SEED}"
+fi
 if [[ -n "${WAIT_FOR_SESSION}" ]]; then
   echo "waiting_for_session=${WAIT_FOR_SESSION}"
 fi

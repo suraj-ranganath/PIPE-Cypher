@@ -25,6 +25,12 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Run PIPE-Cypher generation pipeline")
     parser.add_argument("--config", required=True)
     parser.add_argument("--run-name", default="")
+    parser.add_argument(
+        "--random-seed",
+        type=int,
+        default=None,
+        help="Optional deterministic seed for template reuse and other pipeline RNG choices.",
+    )
     parser.add_argument("--offline-smoke", action="store_true", help="Use built-in schema, null LLM, and mock execution")
     parser.add_argument(
         "--seen-records",
@@ -35,6 +41,8 @@ def main() -> None:
     args = parser.parse_args()
 
     cfg = load_config(args.config)
+    if args.random_seed is not None:
+        cfg.generation.random_seed = args.random_seed
     run_label = args.run_name.strip().replace(" ", "_")
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     run_id = f"{timestamp}_{run_label}" if run_label else timestamp
@@ -108,6 +116,7 @@ def main() -> None:
             [
                 f"run_id={run_id}",
                 f"graph_profile={cfg.generation.graph_profile}",
+                f"random_seed={cfg.generation.random_seed if cfg.generation.random_seed is not None else ''}",
                 f"records={len(result.records)}",
                 f"accepted={accepted}",
                 f"output={output_path}",

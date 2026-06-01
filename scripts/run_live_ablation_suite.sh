@@ -7,6 +7,7 @@ RUN_PREFIX="${RUN_PREFIX:-$(date +%Y%m%d_%H%M%S)_ablation${TARGET_PER_CATEGORY}}
 OUTPUT_ROOT="${OUTPUT_ROOT:-configs/generated_ablation${TARGET_PER_CATEGORY}}"
 GENERATION_MODEL="${GENERATION_MODEL:-Qwen/Qwen3.5-9B}"
 JUDGE_MODEL="${JUDGE_MODEL:-${GENERATION_MODEL}}"
+RUN_SEED="${RUN_SEED:-}"
 GRAPH_SET="${GRAPH_SET:-finbench snb}"
 DEFAULT_VARIANTS="unconstrained_local_llm reverse_only validators_repair"
 DEFAULT_VARIANTS+=" ablation_retrieval_topk_0 ablation_rewrite_false"
@@ -55,17 +56,24 @@ run_variant() {
     return 0
   fi
   log "run graph=${graph} variant=${variant} config=${config}"
+  local seed_args=()
+  if [[ -n "${RUN_SEED}" ]]; then
+    seed_args+=(--random-seed "${RUN_SEED}")
+  fi
   PIPE_CYPHER_LLM_MODEL="${GENERATION_MODEL}" \
+  PIPE_CYPHER_RANDOM_SEED="${RUN_SEED}" \
   PIPE_CYPHER_JUDGE_MODEL="${JUDGE_MODEL}" \
     "${PYTHON_BIN}" scripts/run_pipeline.py \
       --config "${config}" \
-      --run-name "${RUN_PREFIX}_${graph}_${variant}" 2>&1 | tee -a "${LOG_FILE}"
+      --run-name "${RUN_PREFIX}_${graph}_${variant}" \
+      "${seed_args[@]}" 2>&1 | tee -a "${LOG_FILE}"
 }
 
 log "run_prefix=${RUN_PREFIX}"
 log "target_per_category=${TARGET_PER_CATEGORY}"
 log "generation_model=${GENERATION_MODEL}"
 log "judge_model=${JUDGE_MODEL}"
+log "run_seed=${RUN_SEED}"
 log "graph_set=${GRAPH_SET}"
 log "variant_set=${VARIANT_SET}"
 log "code_revision=${CODE_REVISION}"
@@ -93,6 +101,7 @@ summary_args=(
   --metadata "run_prefix=${RUN_PREFIX}"
   --metadata "generation_model=${GENERATION_MODEL}"
   --metadata "judge_model=${JUDGE_MODEL}"
+  --metadata "run_seed=${RUN_SEED}"
   --metadata "code_revision=${CODE_REVISION}"
   --metadata "log_file=${LOG_FILE}"
 )

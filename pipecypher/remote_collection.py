@@ -14,6 +14,7 @@ LOG_METADATA_KEYS = {
     "target_per_category",
     "generation_model",
     "judge_model",
+    "run_seed",
     "code_revision",
     "summary_dir",
 }
@@ -104,11 +105,13 @@ def build_summary_metadata(
     generation_model: str | None = None,
     judge_model: str | None = None,
     code_revision: str | None = None,
+    run_seed: str | None = None,
 ) -> dict[str, str]:
     return {
         "run_prefix": run_prefix,
         "generation_model": generation_model or parsed_log.get("generation_model", ""),
         "judge_model": judge_model or parsed_log.get("judge_model", ""),
+        "run_seed": run_seed if run_seed is not None else parsed_log.get("run_seed", ""),
         "code_revision": code_revision or parsed_log.get("code_revision", ""),
         "log_file": log_file,
     }

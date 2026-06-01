@@ -75,6 +75,57 @@ def test_pipeline_tries_templates_in_order_before_reuse(tmp_path: Path):
     assert seen[:2] == ["First template?", "Second template?"]
 
 
+def test_pipeline_random_seed_makes_template_reuse_deterministic(tmp_path: Path):
+    def run_with_seed(seed: int) -> list[str]:
+        cfg = RunConfig()
+        cfg.generation.categories = ["simple_retrieval"]
+        cfg.generation.target_per_category = 5
+        cfg.generation.random_seed = seed
+        cfg.generation.max_entity_pct = 1.0
+        pipeline = PipeCypherPipeline(
+            config=cfg,
+            schema=finbench_reference_schema(),
+            client=SmokeCypherClient(),
+            llm=NullLLM(),
+            judge=DeterministicJudge(),
+        )
+
+        from pipecypher.models import TemplateCandidate
+
+        templates = [
+            TemplateCandidate(template="Template A?", category="simple_retrieval", slots={"a": "Account.accountId"}),
+            TemplateCandidate(template="Template B?", category="simple_retrieval", slots={"b": "Account.accountId"}),
+        ]
+        seen = []
+
+        def fake_generate_templates(category):
+            return templates
+
+        def fake_run_candidate(template):
+            from pipecypher.models import ExecutionResult, GenerationRecord, JudgeResult
+            from pipecypher.validator import validate_cypher
+
+            seen.append(template.template)
+            cypher = "MATCH (n) RETURN DISTINCT n LIMIT 1"
+            return GenerationRecord(
+                question=f"{template.template} #{len(seen)}",
+                cypher=cypher,
+                category=template.category,
+                graph_profile="finbench",
+                accepted=True,
+                validation=validate_cypher(cypher, finbench_reference_schema()),
+                execution=ExecutionResult(success=True, rows=[{"n": 1}]),
+                judge=JudgeResult(True, 0.0, 1.0, 1.0, "easy"),
+            )
+
+        pipeline.generate_templates = fake_generate_templates
+        pipeline.run_candidate = fake_run_candidate
+        pipeline.run(tmp_path / f"records_{seed}_{len(list(tmp_path.iterdir()))}.jsonl")
+        return seen
+
+    assert run_with_seed(17) == run_with_seed(17)
+
+
 def test_pipeline_rejects_duplicate_accepted_questions(tmp_path: Path):
     cfg = RunConfig()
     cfg.generation.categories = ["ranking_topk"]

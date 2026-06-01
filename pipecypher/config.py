@@ -39,6 +39,7 @@ class GenerationConfig:
     graph_profile: str = "finbench"
     categories: list[str] = field(default_factory=lambda: list(DEFAULT_CATEGORIES))
     target_per_category: int = 5
+    random_seed: int | None = None
     template_candidates: int = 4
     template_source: str = "llm"
     allow_seed_template_fallback: bool = True
@@ -102,6 +103,9 @@ def _apply_env(config: RunConfig) -> RunConfig:
     for env_name, (section, attr) in env_map.items():
         if env_name in os.environ:
             setattr(getattr(config, section), attr, os.environ[env_name])
+    if "PIPE_CYPHER_RANDOM_SEED" in os.environ:
+        raw_seed = os.environ["PIPE_CYPHER_RANDOM_SEED"].strip()
+        config.generation.random_seed = int(raw_seed) if raw_seed else None
     return config
 
 

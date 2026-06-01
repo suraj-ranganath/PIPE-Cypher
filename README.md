@@ -242,6 +242,12 @@ RUN_PREFIX=20260601_ablation50_qwen9b \
 
 The target-50 suite runs the intended paper-ablation variants: strict unconstrained LLM, reverse-only, validators+repair, no retrieval, no rewrite, no LLM judge, and full PIPE-Cypher, for both FinBench and SNB. Treat target-50 as the minimum paper-readiness threshold, not the ideal scale; increase to target-100 or repeat target-50 runs after checking runtime and endpoint stability.
 
+For repeated suites, set `RUN_SEED` and keep it in the run prefix. The launcher
+passes the seed through `run_pipeline.py --random-seed`, records it in each
+run's `summary.txt`, and includes it in ablation summary metadata so repeated
+target-50 or target-100 evidence can be audited as repeated-seed evidence rather
+than uncontrolled reruns.
+
 For long runs, prefer the tmux launcher. It can queue a larger suite behind an
 active run and still preserve model IDs, revision metadata, and logs:
 
@@ -267,6 +273,23 @@ SESSION=pipecypher_ablation100_qwen9b \
 WAIT_FOR_SESSION=pipecypher_ablation50_qwen9b \
 TARGET_PER_CATEGORY=100 \
 RUN_PREFIX=20260601_ablation100_qwen9b \
+PYTHON_BIN=/home/suraj/pipecypher-tools/runtime-venv/bin/python \
+GENERATION_MODEL=Qwen/Qwen3.5-9B \
+JUDGE_MODEL=Qwen/Qwen3.5-9B \
+  bash scripts/launch_live_ablation_suite_tmux.sh
+```
+
+To queue a repeated target-50 suite behind a completed target-100 suite from a
+fresh staged checkout:
+
+```bash
+cd /home/suraj/PIPE-Cypher-<commit>-target50-seed17
+CODE_REVISION=<commit> \
+SESSION=pipecypher_ablation50_qwen9b_seed17 \
+WAIT_FOR_SESSION=pipecypher_ablation100_qwen9b \
+TARGET_PER_CATEGORY=50 \
+RUN_PREFIX=20260601_ablation50_qwen9b_seed17 \
+RUN_SEED=17 \
 PYTHON_BIN=/home/suraj/pipecypher-tools/runtime-venv/bin/python \
 GENERATION_MODEL=Qwen/Qwen3.5-9B \
 JUDGE_MODEL=Qwen/Qwen3.5-9B \
