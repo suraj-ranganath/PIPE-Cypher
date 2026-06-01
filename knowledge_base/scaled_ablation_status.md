@@ -75,7 +75,7 @@ Active at latest inspection:
 
 - SNB `ablation_retrieval_topk_0`; the active records file
   `artifacts/runs/20260601_225522_20260601_ablation50_qwen9b_snb_ablation_retrieval_topk_0/records.jsonl`
-  had reached 113 records during local inspection and continued advancing
+  had passed 100 records during local inspection and continued advancing
   afterward. Treat it as active/incomplete until the suite advances and the
   collector/audit confirms the final status; use the monitor command below for
   the exact live count.
