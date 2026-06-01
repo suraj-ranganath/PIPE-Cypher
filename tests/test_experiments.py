@@ -8,7 +8,11 @@ from pipecypher.experiments import (
     variant_applies_to_graph,
 )
 from pipecypher.io import write_jsonl
-from pipecypher.ablation_suite import format_ablation_suite_markdown, summarize_ablation_suite
+from pipecypher.ablation_suite import (
+    format_ablation_suite_csv,
+    format_ablation_suite_markdown,
+    summarize_ablation_suite,
+)
 
 
 def test_build_experiment_variants_includes_baseline():
@@ -214,3 +218,9 @@ def test_summarize_ablation_suite_complete_target25_is_interim(tmp_path):
     assert report["metadata"]["code_revision"] == "abc123"
     assert "| Full PIPE-Cypher | finbench |" in markdown
     assert "generation_model: `Qwen/Test`" in markdown
+    assert "| Full PIPE-Cypher | finbench | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 |" in markdown
+
+    csv_text = format_ablation_suite_csv(report)
+    assert "setting,graph,run,records,accepted,accept_rate" in csv_text
+    assert "Full PIPE-Cypher,finbench" in csv_text
+    assert ",1.000000,1,1,true,1.000000,1.000000,1.000000,1.000000,1.000000" in csv_text

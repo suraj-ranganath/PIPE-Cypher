@@ -15,9 +15,10 @@ from pipecypher.ablation_suite import (
     DEFAULT_VARIANTS,
     format_ablation_suite_markdown,
     summarize_ablation_suite,
+    write_ablation_suite_csv,
     write_ablation_suite_json,
 )
-from pipecypher.paper_tables import render_ablation_table
+from pipecypher.paper_tables import render_ablation_quality_table, render_ablation_table
 
 
 def _parse_metadata(items: list[str]) -> dict[str, str]:
@@ -45,7 +46,9 @@ def main() -> None:
     parser.add_argument("--expected-variant", action="append")
     parser.add_argument("--output-json")
     parser.add_argument("--output-md")
+    parser.add_argument("--output-csv")
     parser.add_argument("--output-tex")
+    parser.add_argument("--output-quality-tex")
     parser.add_argument(
         "--metadata",
         action="append",
@@ -84,6 +87,9 @@ def main() -> None:
         output.parent.mkdir(parents=True, exist_ok=True)
         output.write_text(format_ablation_suite_markdown(report), encoding="utf-8")
         print(f"wrote {output}")
+    if args.output_csv:
+        write_ablation_suite_csv(report, args.output_csv)
+        print(f"wrote {args.output_csv}")
     if args.output_tex:
         if not report["all_runs_finished"] and not args.allow_incomplete_tex:
             raise SystemExit(
@@ -101,8 +107,32 @@ def main() -> None:
             encoding="utf-8",
         )
         print(f"wrote {output}")
+    if args.output_quality_tex:
+        if not report["all_runs_finished"] and not args.allow_incomplete_tex:
+            raise SystemExit(
+                "refusing to render ablation quality LaTeX from an incomplete suite; "
+                "use --allow-incomplete-tex only for internal diagnostics"
+            )
+        output = Path(args.output_quality_tex)
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(
+            render_ablation_quality_table(
+                report["runs"],
+                target_per_category=args.target_per_category,
+            ),
+            encoding="utf-8",
+        )
+        print(f"wrote {output}")
 
-    if not args.output_json and not args.output_md and not args.output_tex:
+    if not any(
+        [
+            args.output_json,
+            args.output_md,
+            args.output_csv,
+            args.output_tex,
+            args.output_quality_tex,
+        ]
+    ):
         print(format_ablation_suite_markdown(report))
 
 

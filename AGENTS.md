@@ -91,6 +91,14 @@ The main paper should stay tight, but the appendix can be long. Use the appendix
 - Report metrics that reviewers can audit: generation yield, syntax validity, schema validity, read-only safety, execution success, non-empty result rate, repair success, judge pass rate, judge-human agreement, diversity metrics, difficulty balance, downstream execution accuracy, answer F1, parse validity, schema validity, and per-category/per-difficulty performance.
 - Every figure and table should answer a paper question: why the benchmark matters, what the pipeline changes, which gates improve quality, how diversity/difficulty are controlled, where failures occur, and whether downstream evaluation becomes more discriminative.
 
+## Large-Scale Experiment Standard
+
+- Bias toward larger runs whenever compute is available. The reviewer-facing study should use the full 3,000-example benchmark, both FinBench and SNB, target-50-or-larger ablation cells when practical, downstream test evaluation, judge calibration, and graph/category/difficulty stratification.
+- Treat target-25 ablations as interim scaled checkpoints and target-five runs as engineering checks. They can guide implementation, debugging, and appendix planning, but they should not anchor paper claims unless a later claim/evidence audit explicitly justifies a narrow use.
+- For every reported ablation, keep both yield and quality-gate reporting: accepted examples, generated records, acceptance rate, categories at target, read-only rate, syntax-valid rate, schema-valid rate, execution-success rate, judge-pass rate, failure taxonomy, and diversity diagnostics where relevant.
+- Prefer repeated, graph-stratified, or category-stratified analyses over single aggregate numbers. Main-paper tables may be compact, but appendix material should include the full matrix, per-graph/per-category breakdowns, and enough uncertainty or variance evidence to satisfy skeptical reviewers.
+- Do not promote a running or partially summarized suite into the paper. Only report results after the summary artifacts, logs, model IDs, graph workloads, code revision, and failure analysis have been checked into the evidence map or documented as externally stored large artifacts.
+
 ## Compute Notes
 
 Known `ds-serv6` snapshot from June 1, 2026:

@@ -87,6 +87,7 @@ summary_args=(
   --target-per-category "${TARGET_PER_CATEGORY}"
   --output-json "${SUMMARY_DIR}/ablation_suite_summary.json"
   --output-md "${SUMMARY_DIR}/ablation_suite_summary.md"
+  --output-csv "${SUMMARY_DIR}/ablation_suite_summary.csv"
   --metadata "run_prefix=${RUN_PREFIX}"
   --metadata "generation_model=${GENERATION_MODEL}"
   --metadata "judge_model=${JUDGE_MODEL}"

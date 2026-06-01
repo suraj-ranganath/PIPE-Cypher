@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pipecypher.paper_tables import (
+    render_ablation_quality_table,
     render_ablation_table,
     render_benchmark_export_table,
     render_downstream_table,
@@ -110,6 +111,28 @@ def test_render_ablation_table_uses_requested_target_label():
 
     assert "Live target-25 ablation evidence" in text
     assert "Full PIPE-Cypher & SNB & 201 & 200 & 0.995 & 1/8" in text
+
+
+def test_render_ablation_quality_table_reports_gate_rates():
+    text = render_ablation_quality_table(
+        [
+            {
+                "run": "20260601_ablation25_snb_full_pipe_cypher",
+                "records": 200,
+                "gate_rates": {
+                    "read_only": 1.0,
+                    "syntax_valid": 1.0,
+                    "schema_valid": 0.995,
+                    "execution_success": 0.985,
+                    "judge_pass": 0.975,
+                },
+            }
+        ],
+        target_per_category=25,
+    )
+
+    assert "Quality-gate rates for the live target-25 ablation suite" in text
+    assert "Full PIPE-Cypher & SNB & 1.000 & 1.000 & 0.995 & 0.985 & 0.975" in text
 
 
 def test_render_judge_audit_coverage_table_reports_packet_balance():

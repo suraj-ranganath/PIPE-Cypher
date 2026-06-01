@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import csv
+import io
 import json
 from pathlib import Path
 from typing import Any
@@ -119,6 +121,29 @@ def format_ablation_suite_markdown(report: dict[str, Any]) -> str:
             )
         )
 
+    lines.extend(
+        [
+            "",
+            "## Gate Rates",
+            "",
+            "| Setting | Graph | Read-only | Syntax | Schema | Execution | Judge |",
+            "| --- | --- | ---: | ---: | ---: | ---: | ---: |",
+        ]
+    )
+    for run in report["runs"]:
+        gate_rates = run.get("gate_rates", {})
+        lines.append(
+            "| {label} | {graph} | {read_only} | {syntax} | {schema} | {execution} | {judge} |".format(
+                label=run["variant_label"],
+                graph=run["graph"],
+                read_only=_markdown_rate(gate_rates, "read_only"),
+                syntax=_markdown_rate(gate_rates, "syntax_valid"),
+                schema=_markdown_rate(gate_rates, "schema_valid"),
+                execution=_markdown_rate(gate_rates, "execution_success"),
+                judge=_markdown_rate(gate_rates, "judge_pass"),
+            )
+        )
+
     if report["missing"]:
         lines.extend(["", "## Missing Expected Runs", ""])
         for item in report["missing"]:
@@ -133,10 +158,59 @@ def format_ablation_suite_markdown(report: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def format_ablation_suite_csv(report: dict[str, Any]) -> str:
+    out = io.StringIO()
+    fields = [
+        "setting",
+        "graph",
+        "run",
+        "records",
+        "accepted",
+        "accept_rate",
+        "categories_at_target",
+        "category_count",
+        "finished",
+        "read_only_rate",
+        "syntax_valid_rate",
+        "schema_valid_rate",
+        "execution_success_rate",
+        "judge_pass_rate",
+    ]
+    writer = csv.DictWriter(out, fieldnames=fields)
+    writer.writeheader()
+    for run in report["runs"]:
+        gate_rates = run.get("gate_rates", {})
+        writer.writerow(
+            {
+                "setting": run["variant_label"],
+                "graph": run["graph"],
+                "run": run["run"],
+                "records": run["records"],
+                "accepted": run["accepted"],
+                "accept_rate": f"{float(run['accept_rate']):.6f}",
+                "categories_at_target": run["categories_at_target"],
+                "category_count": report["category_count"],
+                "finished": str(bool(run["summary_present"])).lower(),
+                "read_only_rate": _csv_rate(gate_rates, "read_only"),
+                "syntax_valid_rate": _csv_rate(gate_rates, "syntax_valid"),
+                "schema_valid_rate": _csv_rate(gate_rates, "schema_valid"),
+                "execution_success_rate": _csv_rate(gate_rates, "execution_success"),
+                "judge_pass_rate": _csv_rate(gate_rates, "judge_pass"),
+            }
+        )
+    return out.getvalue()
+
+
 def write_ablation_suite_json(report: dict[str, Any], path: str | Path) -> None:
     out = Path(path)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(report, indent=2, sort_keys=True), encoding="utf-8")
+
+
+def write_ablation_suite_csv(report: dict[str, Any], path: str | Path) -> None:
+    out = Path(path)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(format_ablation_suite_csv(report), encoding="utf-8")
 
 
 def _enrich_summary(
@@ -234,3 +308,11 @@ def _reporting_rule(report: dict[str, Any]) -> str:
         "claim/evidence audit verifies run logs, model IDs, graph workloads, code revision, "
         "and failure analysis."
     )
+
+
+def _csv_rate(gate_rates: dict[str, Any], key: str) -> str:
+    return f"{float(gate_rates.get(key, 0.0)):.6f}"
+
+
+def _markdown_rate(gate_rates: dict[str, Any], key: str) -> str:
+    return f"{float(gate_rates.get(key, 0.0)):.3f}"

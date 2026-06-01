@@ -180,6 +180,42 @@ def render_ablation_table(
     )
 
 
+def render_ablation_quality_table(
+    summaries: list[dict[str, Any]],
+    *,
+    target_per_category: int,
+) -> str:
+    target_label = _target_label(target_per_category)
+    rows = [
+        r"\begin{tabular}{llrrrrr}",
+        r"\toprule",
+        r"Setting & Graph & Read-only & Syntax & Schema & Exec. & Judge \\",
+        r"\midrule",
+    ]
+    for summary in sorted(summaries, key=_ablation_sort_key):
+        gate_rates = _gate_rates(summary)
+        rows.append(
+            "{name} & {graph} & {read_only} & {syntax} & {schema} & {exec_success} & {judge} \\\\".format(
+                name=_escape_latex(_ablation_label(str(summary.get("run", "")))),
+                graph=_escape_latex(_graph_label(str(summary.get("run", "")))),
+                read_only=_fmt_float(gate_rates.get("read_only", 0.0)),
+                syntax=_fmt_float(gate_rates.get("syntax_valid", 0.0)),
+                schema=_fmt_float(gate_rates.get("schema_valid", 0.0)),
+                exec_success=_fmt_float(gate_rates.get("execution_success", 0.0)),
+                judge=_fmt_float(gate_rates.get("judge_pass", 0.0)),
+            )
+        )
+    rows.extend([r"\bottomrule", r"\end{tabular}"])
+    return _table(
+        body="\n".join(rows),
+        caption=(
+            f"Quality-gate rates for the live {target_label} ablation suite. "
+            "Rates are computed over all generated records in each graph/setting."
+        ),
+        label="tab:ablation_quality",
+    )
+
+
 def render_failure_taxonomy_table(report: dict[str, Any]) -> str:
     labels = report.get("bucket_labels", {})
     rejection_counts = report.get("rejection_bucket_counts", {})
@@ -284,6 +320,17 @@ def _fmt_int(value: Any) -> str:
 
 def _fmt_float(value: Any) -> str:
     return f"{float(value):.3f}"
+
+
+def _gate_rates(summary: dict[str, Any]) -> dict[str, float]:
+    if "gate_rates" in summary:
+        return {str(key): float(value) for key, value in summary["gate_rates"].items()}
+    records = int(summary.get("records", 0))
+    gates = summary.get("gates", {})
+    return {
+        str(key): (int(value) / records if records else 0.0)
+        for key, value in gates.items()
+    }
 
 
 def _target_label(target_per_category: int) -> str:

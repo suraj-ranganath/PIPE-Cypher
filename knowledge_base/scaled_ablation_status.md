@@ -64,7 +64,16 @@ Completed at latest inspection:
 
 Active at latest inspection:
 
-- FinBench `ablation_retrieval_topk_0`.
+- FinBench `ablation_retrieval_topk_0`; the active records file
+  `artifacts/runs/20260601_220318_20260601_ablation50_qwen9b_finbench_ablation_retrieval_topk_0/records.jsonl`
+  had reached 262 records at inspection time.
+
+Reporting note: once the suite finishes, `scripts/run_live_ablation_suite.sh` now writes
+`ablation_suite_summary.json`, `ablation_suite_summary.md`, and `ablation_suite_summary.csv`.
+The CSV preserves yield and gate-quality rates for each graph/variant cell, and
+`scripts/summarize_live_ablation_suite.py --output-quality-tex` can render an appendix
+quality-gate table only after the suite is complete unless `--allow-incomplete-tex` is
+explicitly used for internal diagnostics.
 
 Launch command:
 
