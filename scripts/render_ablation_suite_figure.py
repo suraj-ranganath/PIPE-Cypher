@@ -10,7 +10,13 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from pipecypher.ablation_suite import DEFAULT_GRAPHS, DEFAULT_VARIANTS, variant_label
+from pipecypher.ablation_suite import (
+    DEFAULT_GRAPHS,
+    DEFAULT_PAPER_TARGET_PER_CATEGORY,
+    DEFAULT_VARIANTS,
+    audit_ablation_suite_for_paper,
+    variant_label,
+)
 
 
 def main() -> None:
@@ -19,17 +25,25 @@ def main() -> None:
     )
     parser.add_argument("--suite-summary", required=True)
     parser.add_argument("--output", required=True)
+    parser.add_argument("--min-paper-target", type=int, default=DEFAULT_PAPER_TARGET_PER_CATEGORY)
     parser.add_argument(
         "--allow-incomplete",
         action="store_true",
-        help="Render incomplete summaries for internal diagnostics only.",
+        help="Render non-paper-ready summaries for internal diagnostics only.",
     )
     args = parser.parse_args()
 
     summary = json.loads(Path(args.suite_summary).read_text(encoding="utf-8"))
-    if not summary.get("all_runs_finished") and not args.allow_incomplete:
+    audit = audit_ablation_suite_for_paper(
+        summary,
+        min_target_per_category=args.min_paper_target,
+    )
+    if not audit["paper_ready"] and not args.allow_incomplete:
+        failed = ", ".join(check["name"] for check in audit["failed_checks"])
         raise SystemExit(
-            "refusing to render a paper-style ablation figure from an incomplete suite"
+            "refusing to render a paper-style ablation figure from a suite that is "
+            f"not paper-ready; failed checks: {failed}. Use --allow-incomplete only "
+            "for internal diagnostics"
         )
 
     import matplotlib

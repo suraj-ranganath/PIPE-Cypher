@@ -46,18 +46,41 @@ Use `TARGET_PER_CATEGORY=25` only as an interim scaled checkpoint. Prefer
 `TARGET_PER_CATEGORY=50` or larger for final appendix claims when the endpoint is
 stable enough.
 
-After the suite finishes, create a non-paper audit summary first:
+After the suite finishes, create a non-paper audit summary first. The audit
+defaults to a target-50 minimum for paper-style reporting:
 
 ```bash
 python scripts/summarize_live_ablation_suite.py \
-  --glob 'artifacts/runs/*20260601_ablation25_qwen9b*' \
-  --target-per-category 25 \
-  --output-json experiments/snapshots/20260601_ablation25_qwen9b/ablation_suite_summary.json \
-  --output-md experiments/snapshots/20260601_ablation25_qwen9b/ablation_suite_summary.md
+  --glob 'artifacts/runs/*20260601_ablation50_qwen9b*' \
+  --target-per-category 50 \
+  --output-json experiments/snapshots/20260601_ablation50_qwen9b/ablation_suite_summary.json \
+  --output-md experiments/snapshots/20260601_ablation50_qwen9b/ablation_suite_summary.md \
+  --output-csv experiments/snapshots/20260601_ablation50_qwen9b/ablation_suite_summary.csv \
+  --output-audit-json experiments/snapshots/20260601_ablation50_qwen9b/ablation_suite_audit.json \
+  --output-audit-md experiments/snapshots/20260601_ablation50_qwen9b/ablation_suite_audit.md \
+  --metadata run_prefix=20260601_ablation50_qwen9b \
+  --metadata generation_model=Qwen/Qwen3.5-9B \
+  --metadata judge_model=Qwen/Qwen3.5-9B \
+  --metadata code_revision=<RECORDED_REVISION> \
+  --metadata log_file=logs/20260601_ablation50_qwen9b.log
 ```
 
-Only after the suite is complete and claim/evidence audited should it be
-rendered into `tables_ablation_results.tex`.
+Only after the suite is complete and the audit reports `paper_ready=true`
+should it be rendered into `tables_ablation_results.tex` and
+`tables_ablation_quality.tex`:
+
+```bash
+python scripts/summarize_live_ablation_suite.py \
+  --glob 'artifacts/runs/*20260601_ablation50_qwen9b*' \
+  --target-per-category 50 \
+  --output-tex paper_emnlp2026_industry/tables_ablation_results.tex \
+  --output-quality-tex paper_emnlp2026_industry/tables_ablation_quality.tex \
+  --metadata run_prefix=20260601_ablation50_qwen9b \
+  --metadata generation_model=Qwen/Qwen3.5-9B \
+  --metadata judge_model=Qwen/Qwen3.5-9B \
+  --metadata code_revision=<RECORDED_REVISION> \
+  --metadata log_file=logs/20260601_ablation50_qwen9b.log
+```
 
 The matching ablation figure is also generated separately, not by the default
 paper-figure script, so partial ablation evidence is not accidentally pulled
@@ -65,8 +88,8 @@ into the manuscript:
 
 ```bash
 python scripts/render_ablation_suite_figure.py \
-  --suite-summary experiments/snapshots/20260601_ablation25_qwen9b/ablation_suite_summary.json \
-  --output paper_emnlp2026_industry/figures/ablation_suite_target25.pdf
+  --suite-summary experiments/snapshots/20260601_ablation50_qwen9b/ablation_suite_summary.json \
+  --output paper_emnlp2026_industry/figures/ablation_suite_target50.pdf
 ```
 
 Regenerate the diversity table and appendix figures from the project root:

@@ -9,7 +9,9 @@ from pipecypher.experiments import (
 )
 from pipecypher.io import write_jsonl
 from pipecypher.ablation_suite import (
+    audit_ablation_suite_for_paper,
     format_ablation_suite_csv,
+    format_ablation_suite_audit_markdown,
     format_ablation_suite_markdown,
     summarize_ablation_suite,
 )
@@ -209,7 +211,13 @@ def test_summarize_ablation_suite_complete_target25_is_interim(tmp_path):
         category_count=1,
         expected_graphs=["finbench", "snb"],
         expected_variants=["full_pipe_cypher"],
-        metadata={"code_revision": "abc123", "generation_model": "Qwen/Test"},
+        metadata={
+            "run_prefix": "20260601_ablation25",
+            "generation_model": "Qwen/Test",
+            "judge_model": "Qwen/Test",
+            "code_revision": "abc123",
+            "log_file": "logs/test.log",
+        },
     )
     markdown = format_ablation_suite_markdown(report)
 
@@ -224,3 +232,61 @@ def test_summarize_ablation_suite_complete_target25_is_interim(tmp_path):
     assert "setting,graph,run,records,accepted,accept_rate" in csv_text
     assert "Full PIPE-Cypher,finbench" in csv_text
     assert ",1.000000,1,1,true,1.000000,1.000000,1.000000,1.000000,1.000000" in csv_text
+
+    audit = audit_ablation_suite_for_paper(report)
+    assert audit["paper_ready"] is False
+    assert {check["name"] for check in audit["failed_checks"]} == {"target_is_large_enough"}
+    audit_markdown = format_ablation_suite_audit_markdown(audit)
+    assert "Status: `not_paper_ready`" in audit_markdown
+    assert "| target_is_large_enough | no | target_per_category=25; required>=50 |" in audit_markdown
+
+
+def test_ablation_suite_audit_accepts_complete_target50(tmp_path):
+    run_dirs = []
+    rows = [
+        {
+            "accepted": True,
+            "category": "simple_retrieval",
+            "validation": {
+                "read_only": True,
+                "syntax_valid": True,
+                "schema_valid": True,
+                "structural_features": {
+                    "difficulty": "easy",
+                    "primary_strategy": "single_hop",
+                },
+            },
+            "execution": {"success": True},
+            "judge": {"passed": True},
+        }
+        for _ in range(50)
+    ]
+    for graph in ["finbench", "snb"]:
+        for variant in ["unconstrained_local_llm", "full_pipe_cypher"]:
+            run_dir = tmp_path / f"20260601_{graph}_{variant}"
+            if variant == "full_pipe_cypher":
+                write_jsonl(run_dir / "records.jsonl", rows)
+            else:
+                write_jsonl(run_dir / "records.jsonl", [])
+            (run_dir / "summary.txt").write_text("done\n", encoding="utf-8")
+            run_dirs.append(run_dir)
+
+    report = summarize_ablation_suite(
+        run_dirs,
+        target_per_category=50,
+        category_count=1,
+        expected_graphs=["finbench", "snb"],
+        expected_variants=["unconstrained_local_llm", "full_pipe_cypher"],
+        metadata={
+            "run_prefix": "20260601_ablation50",
+            "generation_model": "Qwen/Test",
+            "judge_model": "Qwen/Test",
+            "code_revision": "abc123",
+            "log_file": "logs/test.log",
+        },
+    )
+    audit = audit_ablation_suite_for_paper(report)
+
+    assert audit["paper_ready"] is True
+    assert audit["failed_checks"] == []
+    assert len(audit["empty_baseline_runs"]) == 2

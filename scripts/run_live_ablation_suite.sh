@@ -88,6 +88,8 @@ summary_args=(
   --output-json "${SUMMARY_DIR}/ablation_suite_summary.json"
   --output-md "${SUMMARY_DIR}/ablation_suite_summary.md"
   --output-csv "${SUMMARY_DIR}/ablation_suite_summary.csv"
+  --output-audit-json "${SUMMARY_DIR}/ablation_suite_audit.json"
+  --output-audit-md "${SUMMARY_DIR}/ablation_suite_audit.md"
   --metadata "run_prefix=${RUN_PREFIX}"
   --metadata "generation_model=${GENERATION_MODEL}"
   --metadata "judge_model=${JUDGE_MODEL}"
