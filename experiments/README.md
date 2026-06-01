@@ -86,6 +86,18 @@ python scripts/monitor_remote_ablation_queue.py \
   --queue experiments/remote_ablation_queue.yaml
 ```
 
+After target-50, target-100, or repeated-seed suites are collected and audited,
+compare their per-cell variation with:
+
+```bash
+python scripts/compare_ablation_suites.py \
+  experiments/snapshots/<suite-a>/ablation_suite_summary.json \
+  experiments/snapshots/<suite-b>/ablation_suite_summary.json \
+  --output-json experiments/snapshots/ablation_suite_comparison.json \
+  --output-md experiments/snapshots/ablation_suite_comparison.md \
+  --output-csv experiments/snapshots/ablation_suite_comparison.csv
+```
+
 ## Tracked Full-Run Snapshot
 
 The full Qwen3.5-9B fallback export is not committed as JSONL because generated

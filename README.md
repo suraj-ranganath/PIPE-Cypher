@@ -331,6 +331,20 @@ python scripts/collect_remote_ablation_suite.py \
   --poll-seconds 60
 ```
 
+After two or more suites have completed and passed their individual readiness
+audits, compare target-size or repeated-seed sensitivity from the collected
+summary JSON files:
+
+```bash
+python scripts/compare_ablation_suites.py \
+  experiments/snapshots/20260601_ablation50_qwen9b/ablation_suite_summary.json \
+  experiments/snapshots/20260601_ablation100_qwen9b/ablation_suite_summary.json \
+  experiments/snapshots/20260601_ablation50_qwen9b_seed17/ablation_suite_summary.json \
+  --output-json experiments/snapshots/ablation_suite_comparison.json \
+  --output-md experiments/snapshots/ablation_suite_comparison.md \
+  --output-csv experiments/snapshots/ablation_suite_comparison.csv
+```
+
 To monitor the active target-50 suite, the queued target-100 suite, and any
 queued repeated-seed suites in one read-only command, including each suite's
 `next_action` and safe

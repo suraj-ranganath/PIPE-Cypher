@@ -173,6 +173,18 @@ python scripts/render_ablation_suite_figure.py \
   --output paper_emnlp2026_industry/figures/ablation_suite_target50.pdf
 ```
 
+For target-size or repeated-seed sensitivity, compare collected suite summaries
+before writing variance claims:
+
+```bash
+python scripts/compare_ablation_suites.py \
+  experiments/snapshots/<suite-a>/ablation_suite_summary.json \
+  experiments/snapshots/<suite-b>/ablation_suite_summary.json \
+  --output-json experiments/snapshots/ablation_suite_comparison.json \
+  --output-md experiments/snapshots/ablation_suite_comparison.md \
+  --output-csv experiments/snapshots/ablation_suite_comparison.csv
+```
+
 Regenerate the diversity table and appendix figures from the project root:
 
 ```bash
