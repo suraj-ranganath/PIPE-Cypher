@@ -176,10 +176,12 @@ scripts/launch_ds_serv6_vllm.sh
 Check feasibility before launching:
 
 ```bash
-/home/suraj/pipecypher-tools/runtime-venv/bin/python scripts/check_vllm_capacity.py \
+python scripts/check_vllm_capacity.py \
   --model-dir /home/suraj/pipecypher-models/Qwen3.5-35B-A3B \
   --gpu-memory-utilization 0.90 \
-  --reserve-mib 2048
+  --reserve-mib 2048 \
+  --remote \
+  --format json
 ```
 
-The latest June 1, 2026 18:32 UTC snapshot reported 68,573 MiB of safetensor weights, four required A5000 GPUs under the conservative serving budget, and only GPU 3 safely free. Do not launch the 35B endpoint until at least four low-utilization GPUs are available, or update the serving plan with a tested quantized/CPU-offload configuration. The full capacity table is in `knowledge_base/qwen35b_capacity_snapshot_20260601.md`.
+The latest June 1, 2026 remote snapshot reported 68,573 MiB of safetensor weights, four required A5000 GPUs under the conservative serving budget, and only GPU 3 safely free. The command exits with status 2 while `feasible=false`. Do not launch the 35B endpoint until at least four low-utilization GPUs are available, or update the serving plan with a tested quantized/CPU-offload configuration. The full capacity table is in `knowledge_base/qwen35b_capacity_snapshot_20260601.md`, and the tracked JSON evidence is `experiments/snapshots/qwen35b_capacity_20260601_latest.json`.

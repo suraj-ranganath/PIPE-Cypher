@@ -2,7 +2,25 @@
 
 Date checked: June 1, 2026 18:32 UTC on `ds-serv6`.
 
-Command:
+Remote command from the local repo:
+
+```bash
+python scripts/check_vllm_capacity.py \
+  --model-dir /home/suraj/pipecypher-models/Qwen3.5-35B-A3B \
+  --gpu-memory-utilization 0.90 \
+  --reserve-mib 2048 \
+  --remote \
+  --format json
+```
+
+The command exits with status 2 when serving is not feasible. The latest tracked
+JSON output is:
+
+```text
+experiments/snapshots/qwen35b_capacity_20260601_latest.json
+```
+
+Equivalent command from an SSH session on `ds-serv6`:
 
 ```bash
 cd /home/suraj/PIPE-Cypher
@@ -22,6 +40,8 @@ Capacity result:
 | Required A5000 GPUs | 4 |
 | Safe GPUs | 1 (`3`) |
 | Feasible now | no |
+
+Latest local-to-remote check status: exit code 2, because `feasible=false`.
 
 GPU snapshot:
 

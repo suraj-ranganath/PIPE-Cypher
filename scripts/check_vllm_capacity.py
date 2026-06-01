@@ -3,7 +3,9 @@ from __future__ import annotations
 
 import argparse
 import json
+import shlex
 import sys
+import subprocess
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -22,7 +24,9 @@ from pipecypher.gpu_capacity import (
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Estimate whether a staged model can be served with vLLM on currently safe GPUs."
+        description=(
+            "Estimate whether a staged model can be served with vLLM on currently safe GPUs."
+        )
     )
     parser.add_argument("--model-dir", required=True)
     parser.add_argument("--gpu-memory-utilization", type=float, default=0.90)
@@ -34,8 +38,22 @@ def main() -> None:
         default="",
         help="Optional path to nvidia-smi CSV fixture for offline checks.",
     )
+    parser.add_argument(
+        "--remote",
+        action="store_true",
+        help="Run this capacity check on ds-serv6 over SSH.",
+    )
+    parser.add_argument("--host", default="suraj@ds-serv6.ucsd.edu")
+    parser.add_argument("--remote-project-root", default="/home/suraj/PIPE-Cypher")
+    parser.add_argument(
+        "--remote-python",
+        default="/home/suraj/pipecypher-tools/runtime-venv/bin/python",
+    )
     parser.add_argument("--format", choices=["markdown", "json"], default="markdown")
     args = parser.parse_args()
+
+    if args.remote:
+        raise SystemExit(run_remote_capacity_check(args))
 
     if args.gpu_csv:
         gpus = parse_nvidia_smi_gpu_csv(Path(args.gpu_csv).read_text(encoding="utf-8"))
@@ -66,6 +84,45 @@ def main() -> None:
             )
     if not report.feasible:
         raise SystemExit(2)
+
+
+def build_remote_command(args: argparse.Namespace) -> list[str]:
+    remote_args = [
+        args.remote_python,
+        "scripts/check_vllm_capacity.py",
+        "--model-dir",
+        args.model_dir,
+        "--gpu-memory-utilization",
+        str(args.gpu_memory_utilization),
+        "--reserve-mib",
+        str(args.reserve_mib),
+        "--max-used-mib",
+        str(args.max_used_mib),
+        "--max-utilization-pct",
+        str(args.max_utilization_pct),
+        "--format",
+        args.format,
+    ]
+    if args.gpu_csv:
+        remote_args.extend(["--gpu-csv", args.gpu_csv])
+    remote_shell = (
+        f"cd {shlex.quote(args.remote_project_root)} && "
+        f"{shlex.join(remote_args)}"
+    )
+    return [
+        "ssh",
+        "-o",
+        "BatchMode=yes",
+        "-o",
+        "ConnectTimeout=8",
+        args.host,
+        remote_shell,
+    ]
+
+
+def run_remote_capacity_check(args: argparse.Namespace) -> int:
+    completed = subprocess.run(build_remote_command(args), check=False)
+    return completed.returncode
 
 
 if __name__ == "__main__":

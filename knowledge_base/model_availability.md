@@ -96,11 +96,12 @@ Choose GPU IDs only after checking `nvidia-smi`; the command above is a template
 Before launching a 35B vLLM endpoint, check current GPU capacity:
 
 ```bash
-/home/suraj/pipecypher-tools/runtime-venv/bin/python scripts/check_vllm_capacity.py \
+python scripts/check_vllm_capacity.py \
   --model-dir /home/suraj/pipecypher-models/Qwen3.5-35B-A3B \
   --gpu-memory-utilization 0.90 \
   --reserve-mib 2048 \
-  --format markdown
+  --remote \
+  --format json
 ```
 
 Latest June 1, 2026 18:32 UTC `ds-serv6` result:
@@ -115,4 +116,4 @@ Feasible now: no
 
 The live GPU snapshot had GPU 2 occupied by the Qwen3.5-9B vLLM endpoint, GPUs 0/1/4/5/6/7 occupied by other long-running jobs or high utilization, and only GPU 3 safely free. Even stopping the 9B endpoint would leave at most two safe GPUs, below the conservative four-GPU requirement. This is the concrete blocker for 35B serving in the current run; the 9B fallback results are therefore the reported live results.
 
-The detailed snapshot is recorded in `knowledge_base/qwen35b_capacity_snapshot_20260601.md`.
+The detailed snapshot is recorded in `knowledge_base/qwen35b_capacity_snapshot_20260601.md`, with the latest remote JSON evidence in `experiments/snapshots/qwen35b_capacity_20260601_latest.json`.

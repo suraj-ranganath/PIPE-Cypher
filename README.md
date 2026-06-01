@@ -224,10 +224,12 @@ Before serving the staged 35B target, check whether enough GPUs are safely free:
 python scripts/check_vllm_capacity.py \
   --model-dir /home/suraj/pipecypher-models/Qwen3.5-35B-A3B \
   --gpu-memory-utilization 0.90 \
-  --reserve-mib 2048
+  --reserve-mib 2048 \
+  --remote \
+  --format json
 ```
 
-The June 1, 2026 snapshot estimated that the staged 35B weights require four A5000 GPUs under this vLLM budget, while only GPU 3 was safely free. The full live benchmark therefore uses the documented 9B fallback.
+This command exits with status 2 when serving is not currently feasible. The latest tracked snapshot is `experiments/snapshots/qwen35b_capacity_20260601_latest.json`: the staged 35B weights require four A5000 GPUs under this vLLM budget, while only GPU 3 is safely free. The full live benchmark therefore uses the documented 9B fallback.
 
 Launch a detached full-generation fallback run with the currently served 9B endpoint:
 

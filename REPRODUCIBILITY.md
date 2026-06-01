@@ -99,6 +99,24 @@ python scripts/check_model_availability.py \
   --remote
 ```
 
+The staged 35B serving-capacity check can be run locally against `ds-serv6`:
+
+```bash
+python scripts/check_vllm_capacity.py \
+  --model-dir /home/suraj/pipecypher-models/Qwen3.5-35B-A3B \
+  --gpu-memory-utilization 0.90 \
+  --reserve-mib 2048 \
+  --remote \
+  --format json
+```
+
+Exit code 2 means the staged model exists but cannot be served under the current
+safe-GPU budget. The latest tracked JSON evidence is:
+
+```text
+experiments/snapshots/qwen35b_capacity_20260601_latest.json
+```
+
 The detached full-generation fallback launch command is:
 
 ```bash
