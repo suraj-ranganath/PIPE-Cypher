@@ -5,7 +5,7 @@ from collections import Counter
 from collections.abc import Iterable
 from typing import Any
 
-from .cypher_parser import OptionalCypherParser
+from .cypher_parser import OptionalCypherParser, analyze_cypher
 from .models import SchemaSummary, ValidationIssue, ValidationResult
 from .strategy import primary_strategy, strategy_tags
 
@@ -53,8 +53,11 @@ def strip_code_fences(text: str) -> str:
 
 def normalize_cypher(query: str) -> str:
     query = clean_cypher(query)
+    analysis = analyze_cypher(query)
+    if not analysis.rewrite_safe:
+        return query
     query = re.sub(r"(?i)COALESCE\(([^)]*)\)", lambda m: "COALESCE(" + m.group(1).replace(" ", "") + ")", query)
-    if re.search(r"(?i)\bRETURN\b", query) and not re.search(r"(?i)\bRETURN\s+DISTINCT\b", query):
+    if analysis.has_return and not analysis.has_return_distinct:
         query = re.sub(r"(?i)\bRETURN\b", "RETURN DISTINCT", query, count=1)
     return query
 
@@ -321,11 +324,9 @@ def variable_label_map(query: str) -> dict[str, str]:
 
 def structural_features(query: str) -> dict[str, Any]:
     upper = query.upper()
+    analysis = analyze_cypher(query)
     rel_count = len(_relationship_patterns(query))
-    return_items = []
-    return_match = re.search(r"(?i)\bRETURN\s+(?:DISTINCT\s+)?(.+?)(?:\bORDER BY\b|\bLIMIT\b|$)", query)
-    if return_match:
-        return_items = [x.strip() for x in return_match.group(1).split(",") if x.strip()]
+    return_items = [item.expression for item in analysis.projection_items]
     labels = [label for _, label, _ in _node_patterns(query) if label]
     rels = [rel_type for _, rel_type in _relationship_patterns(query) if rel_type]
     features = {
@@ -343,6 +344,7 @@ def structural_features(query: str) -> dict[str, Any]:
         "label_counts": dict(Counter(labels)),
         "relationship_counts": dict(Counter(rels)),
     }
+    features.update(analysis.to_feature_dict())
     features["difficulty"] = infer_difficulty(features)
     features["strategy_tags"] = strategy_tags(features)
     features["primary_strategy"] = primary_strategy(features)
@@ -371,8 +373,32 @@ def validate_cypher(
     parser: OptionalCypherParser | None = None,
     normalize: bool = True,
 ) -> ValidationResult:
+    cleaned = clean_cypher(query)
+    pre_normalization_analysis = analyze_cypher(cleaned)
     normalized = normalize_cypher(query) if normalize else clean_cypher(query)
+    post_normalization_analysis = analyze_cypher(normalized)
     issues: list[ValidationIssue] = []
+
+    if normalize and pre_normalization_analysis.rewrite_skip_reasons:
+        issues.append(
+            ValidationIssue(
+                "warning",
+                "rewrite_skipped",
+                "Skipped Cypher normalization because "
+                + "; ".join(pre_normalization_analysis.rewrite_skip_reasons),
+            )
+        )
+        if (
+            post_normalization_analysis.has_return
+            and not post_normalization_analysis.has_return_distinct
+        ):
+            issues.append(
+                ValidationIssue(
+                    "warning",
+                    "missing_return_distinct",
+                    "RETURN DISTINCT was not inserted because parser-aware rewrite safety checks failed",
+                )
+            )
 
     read_only = is_read_only(normalized)
     if not read_only:
