@@ -46,6 +46,16 @@ Use `TARGET_PER_CATEGORY=25` only as an interim scaled checkpoint. Prefer
 `TARGET_PER_CATEGORY=50` or larger for final appendix claims when the endpoint is
 stable enough.
 
+While a remote suite is running, inspect progress without copying partial
+artifacts:
+
+```bash
+python scripts/monitor_remote_ablation_suite.py \
+  --run-prefix 20260601_ablation50_qwen9b \
+  --target-per-category 50 \
+  --session pipecypher_ablation50_qwen9b
+```
+
 After the suite finishes, create a non-paper audit summary first. The audit
 defaults to a target-50 minimum for paper-style reporting:
 

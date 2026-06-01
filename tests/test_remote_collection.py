@@ -3,13 +3,16 @@ from __future__ import annotations
 from pathlib import Path
 
 from pipecypher.remote_collection import (
+    build_remote_ablation_status_command,
     build_collection_manifest,
     build_remote_find_runs_command,
     build_rsync_run_command,
     build_summary_metadata,
     build_tmux_has_session_command,
     parse_run_log_metadata,
+    parse_remote_ablation_status_rows,
 )
+from scripts.monitor_remote_ablation_suite import build_progress_report, format_progress_text
 
 
 def test_parse_run_log_metadata_reads_first_header_values():
@@ -44,6 +47,28 @@ def test_build_remote_find_runs_command_quotes_prefix():
 
     assert command.startswith("cd /home/suraj/PIPE-Cypher && find artifacts/runs")
     assert "-name '*20260601_ablation50_qwen9b*'" in command
+
+
+def test_build_remote_ablation_status_command_counts_records_and_summary():
+    command = build_remote_ablation_status_command(
+        remote_root="/home/suraj/PIPE-Cypher",
+        run_prefix="20260601_ablation50_qwen9b",
+    )
+
+    assert "wc -l < \"$d/records.jsonl\"" in command
+    assert "summary=yes" in command
+    assert "-name '*20260601_ablation50_qwen9b*'" in command
+
+
+def test_parse_remote_ablation_status_rows_skips_bad_lines():
+    rows = parse_remote_ablation_status_rows(
+        "run_a\t400\tyes\nbad line\nrun_b\t17\tno\n"
+    )
+
+    assert rows == [
+        {"run": "run_a", "records": 400, "summary_present": True},
+        {"run": "run_b", "records": 17, "summary_present": False},
+    ]
 
 
 def test_build_tmux_has_session_command_quotes_session():
@@ -134,3 +159,35 @@ def test_build_collection_manifest_hashes_snapshot_and_run_files(tmp_path: Path)
     assert manifest["snapshot_files"]["remote_run.log"]["bytes"] == len("run_prefix=run\n")
     assert "tables_ablation_results.tex" in manifest["paper_files"]
     assert "figures/ablation_suite_target50.pdf" in manifest["paper_files"]
+
+
+def test_build_progress_report_marks_missing_and_active_cells():
+    report = build_progress_report(
+        [
+            {
+                "run": "20260601_ablation50_qwen9b_finbench_reverse_only",
+                "records": 400,
+                "summary_present": True,
+            },
+            {
+                "run": "20260601_ablation50_qwen9b_snb_full_pipe_cypher",
+                "records": 17,
+                "summary_present": False,
+            },
+        ],
+        run_prefix="20260601_ablation50_qwen9b",
+        target_per_category=50,
+        category_count=8,
+        expected_graphs=["finbench", "snb"],
+        expected_variants=["reverse_only", "full_pipe_cypher"],
+        session="suite",
+        session_running=True,
+    )
+    text = format_progress_text(report)
+
+    assert report["observed_cells"] == 2
+    assert report["completed_cells"] == 1
+    assert report["active_or_incomplete_cells"] == 1
+    assert {"graph": "finbench", "variant": "full_pipe_cypher"} in report["missing"]
+    assert "session=suite running=true" in text
+    assert "| snb | Full PIPE-Cypher | 17 | 400 | 0.043 | no |" in text

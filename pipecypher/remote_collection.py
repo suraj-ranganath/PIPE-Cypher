@@ -45,6 +45,39 @@ def build_tmux_has_session_command(session: str) -> str:
     return f"tmux has-session -t {shlex.quote(session)}"
 
 
+def build_remote_ablation_status_command(*, remote_root: str, run_prefix: str) -> str:
+    pattern = f"*{run_prefix}*"
+    return (
+        "cd {root} && "
+        "for d in $(find artifacts/runs -maxdepth 1 -type d -name {pattern} | sort); do "
+        "records=0; "
+        "if [ -f \"$d/records.jsonl\" ]; then records=$(wc -l < \"$d/records.jsonl\"); fi; "
+        "summary=no; "
+        "if [ -f \"$d/summary.txt\" ]; then summary=yes; fi; "
+        "printf '%s\\t%s\\t%s\\n' \"$(basename \"$d\")\" \"$records\" \"$summary\"; "
+        "done"
+    ).format(root=shlex.quote(remote_root), pattern=shlex.quote(pattern))
+
+
+def parse_remote_ablation_status_rows(text: str) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for line in text.splitlines():
+        if not line.strip():
+            continue
+        parts = line.split("\t")
+        if len(parts) != 3:
+            continue
+        run, records, summary = parts
+        rows.append(
+            {
+                "run": run,
+                "records": int(records),
+                "summary_present": summary == "yes",
+            }
+        )
+    return rows
+
+
 def build_rsync_run_command(
     *,
     host: str,

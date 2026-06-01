@@ -67,7 +67,7 @@ Active at latest inspection:
 
 - FinBench `ablation_rewrite_false`; the active records file
   `artifacts/runs/20260601_222119_20260601_ablation50_qwen9b_finbench_ablation_rewrite_false/records.jsonl`
-  had reached 77 records at inspection time.
+  had reached 314 records at inspection time.
 
 Reporting note: once the suite finishes, `scripts/run_live_ablation_suite.sh` now writes
 `ablation_suite_summary.json`, `ablation_suite_summary.md`, `ablation_suite_summary.csv`,
@@ -122,4 +122,14 @@ tmux has-session -t pipecypher_ablation50_qwen9b && echo target50_running || ech
 tail -f logs/20260601_ablation25_qwen9b_retry1.log
 tail -f logs/20260601_ablation25_finalize.log
 tail -f logs/20260601_ablation50_qwen9b.log
+```
+
+From the local repo, use the read-only remote monitor without fetching partial
+artifacts:
+
+```bash
+python scripts/monitor_remote_ablation_suite.py \
+  --run-prefix 20260601_ablation50_qwen9b \
+  --target-per-category 50 \
+  --session pipecypher_ablation50_qwen9b
 ```
