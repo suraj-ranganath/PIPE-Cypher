@@ -1,0 +1,434 @@
+{
+  "categorical_properties": {},
+  "graph_name": "finbench",
+  "node_properties": [
+    {
+      "label": "Account",
+      "property": "accountId",
+      "type": "String"
+    },
+    {
+      "label": "Account",
+      "property": "accountType",
+      "type": "String"
+    },
+    {
+      "label": "Account",
+      "property": "createTime",
+      "type": "DateTime"
+    },
+    {
+      "label": "Account",
+      "property": "email",
+      "type": "String"
+    },
+    {
+      "label": "Account",
+      "property": "freqLoginType",
+      "type": "String"
+    },
+    {
+      "label": "Account",
+      "property": "isBlocked",
+      "type": "Boolean"
+    },
+    {
+      "label": "Account",
+      "property": "lastLoginTime",
+      "type": "DateTime"
+    },
+    {
+      "label": "Account",
+      "property": "nickname",
+      "type": "String"
+    },
+    {
+      "label": "Account",
+      "property": "phonenum",
+      "type": "String"
+    },
+    {
+      "label": "Company",
+      "property": "business",
+      "type": "String"
+    },
+    {
+      "label": "Company",
+      "property": "city",
+      "type": "String"
+    },
+    {
+      "label": "Company",
+      "property": "companyId",
+      "type": "String"
+    },
+    {
+      "label": "Company",
+      "property": "companyName",
+      "type": "String"
+    },
+    {
+      "label": "Company",
+      "property": "country",
+      "type": "String"
+    },
+    {
+      "label": "Company",
+      "property": "createTime",
+      "type": "DateTime"
+    },
+    {
+      "label": "Company",
+      "property": "description",
+      "type": "String"
+    },
+    {
+      "label": "Company",
+      "property": "isBlocked",
+      "type": "Boolean"
+    },
+    {
+      "label": "Company",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "Loan",
+      "property": "balance",
+      "type": "Double"
+    },
+    {
+      "label": "Loan",
+      "property": "createTime",
+      "type": "DateTime"
+    },
+    {
+      "label": "Loan",
+      "property": "interestRate",
+      "type": "Double"
+    },
+    {
+      "label": "Loan",
+      "property": "loanAmount",
+      "type": "Double"
+    },
+    {
+      "label": "Loan",
+      "property": "loanId",
+      "type": "String"
+    },
+    {
+      "label": "Loan",
+      "property": "loanUsage",
+      "type": "String"
+    },
+    {
+      "label": "Medium",
+      "property": "createTime",
+      "type": "DateTime"
+    },
+    {
+      "label": "Medium",
+      "property": "isBlocked",
+      "type": "Boolean"
+    },
+    {
+      "label": "Medium",
+      "property": "lastLoginTime",
+      "type": "DateTime"
+    },
+    {
+      "label": "Medium",
+      "property": "mediumId",
+      "type": "String"
+    },
+    {
+      "label": "Medium",
+      "property": "mediumType",
+      "type": "String"
+    },
+    {
+      "label": "Person",
+      "property": "birthday",
+      "type": "Date"
+    },
+    {
+      "label": "Person",
+      "property": "city",
+      "type": "String"
+    },
+    {
+      "label": "Person",
+      "property": "country",
+      "type": "String"
+    },
+    {
+      "label": "Person",
+      "property": "createTime",
+      "type": "DateTime"
+    },
+    {
+      "label": "Person",
+      "property": "gender",
+      "type": "String"
+    },
+    {
+      "label": "Person",
+      "property": "isBlocked",
+      "type": "Boolean"
+    },
+    {
+      "label": "Person",
+      "property": "personId",
+      "type": "String"
+    },
+    {
+      "label": "Person",
+      "property": "personName",
+      "type": "String"
+    }
+  ],
+  "relationship_properties": [
+    {
+      "property": "comment",
+      "type": ":`APPLY_LOAN`",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": ":`APPLY_LOAN`",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "loanAmount",
+      "type": ":`APPLY_LOAN`",
+      "value_type": "Double"
+    },
+    {
+      "property": "org",
+      "type": ":`APPLY_LOAN`",
+      "value_type": "String"
+    },
+    {
+      "property": "amount",
+      "type": ":`DEPOSIT`",
+      "value_type": "Double"
+    },
+    {
+      "property": "comment",
+      "type": ":`DEPOSIT`",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": ":`DEPOSIT`",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "comment",
+      "type": ":`GUARANTEE`",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": ":`GUARANTEE`",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "relation",
+      "type": ":`GUARANTEE`",
+      "value_type": "String"
+    },
+    {
+      "property": "comment",
+      "type": ":`INVEST`",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": ":`INVEST`",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "ratio",
+      "type": ":`INVEST`",
+      "value_type": "Double"
+    },
+    {
+      "property": "comment",
+      "type": ":`OWN_ACCOUNT`",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": ":`OWN_ACCOUNT`",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "amount",
+      "type": ":`REPAY`",
+      "value_type": "Double"
+    },
+    {
+      "property": "comment",
+      "type": ":`REPAY`",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": ":`REPAY`",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "comment",
+      "type": ":`SIGN_IN`",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": ":`SIGN_IN`",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "location",
+      "type": ":`SIGN_IN`",
+      "value_type": "String"
+    },
+    {
+      "property": "amount",
+      "type": ":`TRANSFER_TO`",
+      "value_type": "Double"
+    },
+    {
+      "property": "comment",
+      "type": ":`TRANSFER_TO`",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": ":`TRANSFER_TO`",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "goodsType",
+      "type": ":`TRANSFER_TO`",
+      "value_type": "String"
+    },
+    {
+      "property": "orderNum",
+      "type": ":`TRANSFER_TO`",
+      "value_type": "String"
+    },
+    {
+      "property": "payType",
+      "type": ":`TRANSFER_TO`",
+      "value_type": "String"
+    },
+    {
+      "property": "amount",
+      "type": ":`WITHDRAW_TO`",
+      "value_type": "Double"
+    },
+    {
+      "property": "comment",
+      "type": ":`WITHDRAW_TO`",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": ":`WITHDRAW_TO`",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "fromType",
+      "type": ":`WITHDRAW_TO`",
+      "value_type": "String"
+    },
+    {
+      "property": "toType",
+      "type": ":`WITHDRAW_TO`",
+      "value_type": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "count": 17661,
+      "end_label": "Account",
+      "start_label": "Account",
+      "type": "WITHDRAW_TO"
+    },
+    {
+      "count": 13385,
+      "end_label": "Account",
+      "start_label": "Account",
+      "type": "TRANSFER_TO"
+    },
+    {
+      "count": 5976,
+      "end_label": "Account",
+      "start_label": "Medium",
+      "type": "SIGN_IN"
+    },
+    {
+      "count": 4971,
+      "end_label": "Account",
+      "start_label": "Loan",
+      "type": "DEPOSIT"
+    },
+    {
+      "count": 3654,
+      "end_label": "Loan",
+      "start_label": "Account",
+      "type": "REPAY"
+    },
+    {
+      "count": 2330,
+      "end_label": "Company",
+      "start_label": "Company",
+      "type": "INVEST"
+    },
+    {
+      "count": 2312,
+      "end_label": "Company",
+      "start_label": "Person",
+      "type": "INVEST"
+    },
+    {
+      "count": 1913,
+      "end_label": "Account",
+      "start_label": "Person",
+      "type": "OWN_ACCOUNT"
+    },
+    {
+      "count": 1897,
+      "end_label": "Account",
+      "start_label": "Company",
+      "type": "OWN_ACCOUNT"
+    },
+    {
+      "count": 1150,
+      "end_label": "Loan",
+      "start_label": "Person",
+      "type": "APPLY_LOAN"
+    },
+    {
+      "count": 1148,
+      "end_label": "Loan",
+      "start_label": "Company",
+      "type": "APPLY_LOAN"
+    },
+    {
+      "count": 646,
+      "end_label": "Person",
+      "start_label": "Person",
+      "type": "GUARANTEE"
+    },
+    {
+      "count": 579,
+      "end_label": "Company",
+      "start_label": "Company",
+      "type": "GUARANTEE"
+    }
+  ],
+  "source": "neo4j"
+}

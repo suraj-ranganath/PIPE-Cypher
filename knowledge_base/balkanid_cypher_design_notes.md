@@ -1,0 +1,41 @@
+# BalkanID Cypher Design Notes To Transfer
+
+Source inspected: `/Users/suraj/Documents/Archive/BalkanID/Dev/copilot-api`.
+
+## Prompt-Level Constraints
+
+The BalkanID Cypher prompt contains several production lessons that should remain central in PIPE-Cypher:
+
+- Use only schema-provided relationship types and properties.
+- Preserve relationship directions and use comma-separated `MATCH` patterns when necessary rather than reversing edges.
+- Return only Cypher, with no commentary or markdown.
+- Enforce `RETURN DISTINCT` to avoid duplicate rows.
+- Include entities mentioned in the question in the return surface.
+- Use exact matching for text inside single quotes.
+- Handle domain synonyms explicitly, such as group/membership mapping to graph concepts.
+- Encode categorical property values directly in prompt context.
+- Add domain-specific semantics for insights, reviews, roles, purposes, and constraints when those concepts exist.
+
+## Rewrite And Validation Ideas
+
+BalkanID's `AlterCypherQuery` and listeners motivate PIPE-Cypher's deterministic gate:
+
+- reject unsafe/reserved variable names such as `index`, `constraint`, `create`, `drop`, `exists`, and `remove`;
+- skip risky parser transformations for complex features such as `CASE`, `UNION`, `CALL`, `WHERE EXISTS`, `UNWIND`;
+- add `RETURN DISTINCT` when missing;
+- normalize function formatting such as `COALESCE(a,b)`;
+- add display/context columns programmatically where the product requires them;
+- enrich returned entities with optional context only after the core query is valid;
+- prefer parser-aware modification over broad string replacement.
+
+Implemented transfer in PIPE-Cypher:
+
+- `pipecypher.validator.normalize_cypher` strips fences, normalizes whitespace, normalizes `COALESCE(...)`, and enforces `RETURN DISTINCT`.
+- `pipecypher.validator.validate_cypher` rejects write/admin tokens, unsafe reserved variable names, unknown labels, unknown relationship types, unknown properties, and reversed relationship directions.
+- `pipecypher.question_constraints.apply_question_constraints` turns the quoted-exact-match prompt rule into an executable gate.
+- `pipecypher.validator.contextual_return_issues` warns when returned FinBench identifiers or names lack useful enterprise context columns, mirroring BalkanID's table-display return enrichment pattern without making parser-risky rewrites.
+- `pipecypher.cypher_parser.OptionalCypherParser` can use the BalkanID ANTLR parser when its local runtime dependencies are available, but keeps offline tests independent of that archive.
+
+## Benchmark Implication
+
+PIPE-Cypher should not simply ask an LLM to write Cypher. It should test whether generated examples follow the sort of constraints deployed systems need: schema discipline, directionality, safe execution, exact matching, contextual return fields, and robust handling of domain synonyms.

@@ -1,0 +1,49 @@
+models:
+  generation_model: Qwen/Qwen3.5-9B
+  judge_model: Qwen/Qwen3.5-9B
+  embedding_model: BAAI/bge-m3
+  llm_base_url: http://localhost:8000/v1
+  request_timeout_sec: 180
+  temperature: 0.2
+  max_tokens: 1024
+  reasoning_effort: none
+  include_reasoning: false
+  enable_thinking: false
+  strip_reasoning: true
+neo4j:
+  uri: bolt://localhost:7688
+  user: neo4j
+  password: password
+  database: neo4j
+  query_timeout_sec: 90
+generation:
+  graph_profile: snb
+  categories:
+  - simple_retrieval
+  - complex_retrieval
+  - simple_aggregation
+  - complex_aggregation
+  - boolean_existence
+  - negation_difference
+  - path_temporal
+  - ranking_topk
+  target_per_category: 5
+  template_candidates: 12
+  template_source: mixed
+  retrieval_top_k: 4
+  repair_attempts: 2
+  deterministic_cypher_fallback: true
+  max_entity_pct: 0.08
+  require_non_empty: true
+  generated_query_limit: 200
+  normalize_cypher: true
+judge:
+  enabled: true
+  deterministic_fallback: true
+  min_semantic_alignment: 0.78
+  min_schema_use: 0.85
+  max_ambiguity: 0.3
+paths:
+  artifact_dir: artifacts
+  schema_path: configs/schema_snb.json
+  seed_examples_path: null

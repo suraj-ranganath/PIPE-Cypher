@@ -1,0 +1,19 @@
+\begin{table*}[t]
+\centering
+\small
+\begin{tabular}{lll}
+\toprule
+Gate & Evidence checked & Failure mode caught \\
+\midrule
+Read-only safety & blocked Cypher write/admin tokens & destructive or operational queries \\
+Schema validity & labels, relationship types, properties & hallucinated graph vocabulary \\
+Direction validity & observed relationship directions & reversed or invalid traversals \\
+Cypher normalization & rewrites and \texttt{RETURN DISTINCT} & duplicate/noisy rows \\
+Question constraints & quoted values use exact literals & fuzzy matching of exact user values \\
+Execution & query runs and returns rows & syntactic validity without answerability \\
+LLM judge & ambiguity, semantic alignment, schema use & executable but semantically weak examples \\
+\bottomrule
+\end{tabular}
+\caption{PIPE-Cypher candidate acceptance gates.}
+\label{tab:gates}
+\end{table*}

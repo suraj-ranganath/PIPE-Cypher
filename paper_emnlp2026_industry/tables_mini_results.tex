@@ -1,0 +1,17 @@
+\begin{table}[t]
+\centering
+\small
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lrrr}
+\toprule
+Live run & Records & Accepted & Acceptance \\
+\midrule
+FinBench LLM-only probe & 16 & 0 & 0.000 \\
+FinBench mixed mini & 29 & 16 & 0.552 \\
+SNB mixed mini & 8 & 8 & 1.000 \\
+\bottomrule
+\end{tabular}
+}
+\caption{Live mini-ablation evidence with local Qwen3.5-9B. The LLM-only probe disables deterministic seed/fallback, while mixed runs combine seeded templates with LLM-proposed templates and full validation/judge gates.}
+\label{tab:mini_results}
+\end{table}

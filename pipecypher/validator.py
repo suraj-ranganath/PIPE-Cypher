@@ -1,0 +1,359 @@
+from __future__ import annotations
+
+import re
+from collections import Counter
+from collections.abc import Iterable
+from typing import Any
+
+from .cypher_parser import OptionalCypherParser
+from .models import SchemaSummary, ValidationIssue, ValidationResult
+from .strategy import primary_strategy, strategy_tags
+
+
+WRITE_TOKENS = (
+    "CREATE",
+    "MERGE",
+    "DELETE",
+    "DETACH",
+    "SET",
+    "REMOVE",
+    "DROP",
+    "LOAD CSV",
+    "CALL DBMS",
+    "CALL APOC.CREATE",
+    "CALL APOC.LOAD",
+    "CALL APOC.PERIODIC",
+    "CALL APOC.TRIGGER",
+)
+
+RESERVED_VARIABLES = {"index", "constraint", "create", "drop", "exists", "remove"}
+AGGREGATES = ("COUNT(", "SUM(", "AVG(", "MIN(", "MAX(", "COLLECT(")
+CONTEXTUAL_RETURN_PROPERTIES = {
+    "Person": {"personName": ("personId",)},
+    "Company": {"companyName": ("companyId", "business")},
+    "Account": {"accountId": ("accountType", "isBlocked")},
+    "Loan": {"loanId": ("loanAmount", "balance")},
+    "Medium": {"mediumId": ("mediumType", "riskLevel")},
+}
+
+
+def strip_code_fences(text: str) -> str:
+    cleaned = text.strip()
+    if "```" not in cleaned:
+        return cleaned
+    parts = cleaned.split("```")
+    if len(parts) >= 3:
+        cleaned = parts[1]
+    else:
+        cleaned = parts[-1]
+    if cleaned.lower().startswith("cypher"):
+        cleaned = cleaned[6:]
+    return cleaned.strip()
+
+
+def normalize_cypher(query: str) -> str:
+    query = clean_cypher(query)
+    query = re.sub(r"(?i)COALESCE\(([^)]*)\)", lambda m: "COALESCE(" + m.group(1).replace(" ", "") + ")", query)
+    if re.search(r"(?i)\bRETURN\b", query) and not re.search(r"(?i)\bRETURN\s+DISTINCT\b", query):
+        query = re.sub(r"(?i)\bRETURN\b", "RETURN DISTINCT", query, count=1)
+    return query
+
+
+def clean_cypher(query: str) -> str:
+    query = strip_code_fences(query)
+    return re.sub(r"\s+", " ", query).strip()
+
+
+def assert_read_only(query: str) -> None:
+    upper = strip_code_fences(query).upper()
+    for token in WRITE_TOKENS:
+        if re.search(rf"(?<![A-Z0-9_]){re.escape(token)}(?![A-Z0-9_])", upper):
+            raise ValueError(f"Generated Cypher is not read-only: blocked token {token}")
+
+
+def is_read_only(query: str) -> bool:
+    try:
+        assert_read_only(query)
+        return True
+    except ValueError:
+        return False
+
+
+def _node_patterns(query: str) -> list[tuple[str | None, str | None, str | None]]:
+    # Returns variable, first label, property-map body.
+    pattern = re.compile(r"\(\s*([A-Za-z_][A-Za-z0-9_]*)?\s*(?::([A-Za-z_][A-Za-z0-9_]*))?(?:\s*\{([^}]*)\})?\s*\)")
+    return [(m.group(1), m.group(2), m.group(3)) for m in pattern.finditer(query)]
+
+
+def _relationship_patterns(query: str) -> list[tuple[str | None, str | None]]:
+    pattern = re.compile(
+        r"-\[\s*([A-Za-z_][A-Za-z0-9_]*)?\s*(?::([A-Za-z_][A-Za-z0-9_]*))?"
+        r"(?:\*[^]\s{}]*)?(?:\s*\{[^}]*\})?\s*\]->"
+    )
+    return [(m.group(1), m.group(2)) for m in pattern.finditer(query)]
+
+
+def _directed_triples(query: str) -> list[tuple[str | None, str | None, str | None]]:
+    pattern = re.compile(
+        r"\(\s*[A-Za-z_][A-Za-z0-9_]*?\s*(?::(?P<start>[A-Za-z_][A-Za-z0-9_]*))?[^)]*\)"
+        r"\s*-\[\s*(?:[A-Za-z_][A-Za-z0-9_]*)?\s*:(?P<rel>[A-Za-z_][A-Za-z0-9_]*)[^]]*\]->\s*"
+        r"\(\s*[A-Za-z_][A-Za-z0-9_]*?\s*(?::(?P<end>[A-Za-z_][A-Za-z0-9_]*))?[^)]*\)"
+    )
+    return [(m.group("start"), m.group("rel"), m.group("end")) for m in pattern.finditer(query)]
+
+
+def _property_names(prop_map: str | None) -> list[str]:
+    if not prop_map:
+        return []
+    return re.findall(r"([A-Za-z_][A-Za-z0-9_]*)\s*:", prop_map)
+
+
+def _split_projection_items(projection: str) -> list[str]:
+    items: list[str] = []
+    current: list[str] = []
+    depth = 0
+    for char in projection:
+        if char in "([{":
+            depth += 1
+        elif char in ")]}" and depth > 0:
+            depth -= 1
+        if char == "," and depth == 0:
+            item = "".join(current).strip()
+            if item:
+                items.append(item)
+            current = []
+        else:
+            current.append(char)
+    item = "".join(current).strip()
+    if item:
+        items.append(item)
+    return items
+
+
+def _return_projection(query: str) -> str:
+    match = re.search(
+        r"(?i)\bRETURN\s+(?:DISTINCT\s+)?(.+?)(?:\bORDER\s+BY\b|\bSKIP\b|\bLIMIT\b|$)",
+        query,
+    )
+    return match.group(1).strip() if match else ""
+
+
+def _exact_variable_returned(items: Iterable[str], var: str) -> bool:
+    return any(re.match(rf"^{re.escape(var)}(?:\s+AS\s+[A-Za-z_][A-Za-z0-9_]*)?$", item, re.I) for item in items)
+
+
+def contextual_return_issues(query: str, var_to_label: dict[str, str]) -> list[ValidationIssue]:
+    projection = _return_projection(query)
+    if not projection:
+        return []
+    items = _split_projection_items(projection)
+    returned_props_by_var: dict[str, set[str]] = {}
+    for var, prop in re.findall(r"\b([A-Za-z_][A-Za-z0-9_]*)\.([A-Za-z_][A-Za-z0-9_]*)\b", projection):
+        returned_props_by_var.setdefault(var, set()).add(prop)
+
+    issues: list[ValidationIssue] = []
+    for var, props in returned_props_by_var.items():
+        label = var_to_label.get(var)
+        if not label or _exact_variable_returned(items, var):
+            continue
+        rules = CONTEXTUAL_RETURN_PROPERTIES.get(label, {})
+        for trigger_prop, required_props in rules.items():
+            if trigger_prop not in props:
+                continue
+            missing = [prop for prop in required_props if prop not in props]
+            if missing:
+                issues.append(
+                    ValidationIssue(
+                        "warning",
+                        "missing_context_column",
+                        f"Return {label}.{trigger_prop} with contextual column(s): {', '.join(missing)}",
+                    )
+                )
+    return issues
+
+
+def generic_node_scan_issues(query: str) -> list[ValidationIssue]:
+    nodes = _node_patterns(query)
+    rels = _relationship_patterns(query)
+    if not nodes or rels:
+        return []
+    if any(label or prop_map for _, label, prop_map in nodes):
+        return []
+
+    projection = _return_projection(query)
+    if not projection:
+        return []
+    items = _split_projection_items(projection)
+    node_vars = [var for var, _, _ in nodes if var]
+    if len(node_vars) == 1 and _exact_variable_returned(items, node_vars[0]):
+        return [
+            ValidationIssue(
+                "warning",
+                "generic_node_scan",
+                "Query returns an unlabeled node variable; use schema-specific labels and columns",
+            )
+        ]
+    return []
+
+
+def variable_label_map(query: str) -> dict[str, str]:
+    mapping = {}
+    for var, label, _ in _node_patterns(query):
+        if var and label:
+            mapping[var] = label
+    return mapping
+
+
+def structural_features(query: str) -> dict[str, Any]:
+    upper = query.upper()
+    rel_count = len(_relationship_patterns(query))
+    return_items = []
+    return_match = re.search(r"(?i)\bRETURN\s+(?:DISTINCT\s+)?(.+?)(?:\bORDER BY\b|\bLIMIT\b|$)", query)
+    if return_match:
+        return_items = [x.strip() for x in return_match.group(1).split(",") if x.strip()]
+    labels = [label for _, label, _ in _node_patterns(query) if label]
+    rels = [rel_type for _, rel_type in _relationship_patterns(query) if rel_type]
+    features = {
+        "node_pattern_count": len(_node_patterns(query)),
+        "relationship_pattern_count": rel_count,
+        "optional_match": "OPTIONAL MATCH" in upper,
+        "aggregation": any(fn in upper for fn in AGGREGATES),
+        "ordering": "ORDER BY" in upper,
+        "limit": "LIMIT" in upper,
+        "negation": any(tok in upper for tok in (" NOT ", "NOT EXISTS", "WHERE NOT", "<>")),
+        "path_pattern": "*" in query or "shortestPath" in query,
+        "return_arity": len(return_items),
+        "labels": sorted(set(labels)),
+        "relationship_types": sorted(set(rels)),
+        "label_counts": dict(Counter(labels)),
+        "relationship_counts": dict(Counter(rels)),
+    }
+    features["difficulty"] = infer_difficulty(features)
+    features["strategy_tags"] = strategy_tags(features)
+    features["primary_strategy"] = primary_strategy(features)
+    return features
+
+
+def infer_difficulty(features: dict[str, Any]) -> str:
+    score = 0
+    score += int(features.get("relationship_pattern_count", 0) >= 2)
+    score += int(features.get("aggregation", False))
+    score += int(features.get("ordering", False))
+    score += int(features.get("negation", False))
+    score += int(features.get("optional_match", False))
+    score += int(features.get("path_pattern", False))
+    if score <= 1:
+        return "easy"
+    if score <= 3:
+        return "medium"
+    return "hard"
+
+
+def validate_cypher(
+    query: str,
+    schema: SchemaSummary | None = None,
+    *,
+    parser: OptionalCypherParser | None = None,
+    normalize: bool = True,
+) -> ValidationResult:
+    normalized = normalize_cypher(query) if normalize else clean_cypher(query)
+    issues: list[ValidationIssue] = []
+
+    read_only = is_read_only(normalized)
+    if not read_only:
+        issues.append(ValidationIssue("error", "not_read_only", "Query contains write/admin tokens"))
+
+    syntax_valid = True
+    if not re.search(r"(?i)\b(MATCH|OPTIONAL MATCH|WITH|RETURN|ASK|CALL)\b", normalized):
+        syntax_valid = False
+        issues.append(ValidationIssue("error", "syntax_shape", "Query lacks recognizable Cypher clauses"))
+    if normalized.count("(") != normalized.count(")"):
+        syntax_valid = False
+        issues.append(ValidationIssue("error", "unbalanced_parentheses", "Parentheses are unbalanced"))
+    if normalized.count("[") != normalized.count("]"):
+        syntax_valid = False
+        issues.append(ValidationIssue("error", "unbalanced_brackets", "Relationship brackets are unbalanced"))
+    issues.extend(generic_node_scan_issues(normalized))
+
+    for var, _, _ in _node_patterns(normalized):
+        if var and var.lower() in RESERVED_VARIABLES:
+            syntax_valid = False
+            issues.append(
+                ValidationIssue(
+                    "error",
+                    "reserved_variable",
+                    f"Variable `{var}` is a reserved or high-risk Cypher keyword",
+                )
+            )
+    for var, _ in _relationship_patterns(normalized):
+        if var and var.lower() in RESERVED_VARIABLES:
+            syntax_valid = False
+            issues.append(
+                ValidationIssue("error", "reserved_variable", f"Relationship variable `{var}` is reserved")
+            )
+
+    parser = parser or OptionalCypherParser()
+    parse_error = parser.parse_error(normalized)
+    if parse_error:
+        syntax_valid = False
+        issues.append(ValidationIssue("error", "antlr_parse", parse_error))
+
+    schema_valid = True
+    if schema is not None:
+        labels = schema.labels
+        rel_types = schema.relationship_types
+        var_to_label = variable_label_map(normalized)
+        for _, label, prop_map in _node_patterns(normalized):
+            if label and labels and label not in labels:
+                schema_valid = False
+                issues.append(ValidationIssue("error", "unknown_label", f"Unknown label :{label}"))
+            if label and prop_map:
+                allowed = schema.properties_for_label(label)
+                for prop in _property_names(prop_map):
+                    if allowed and prop not in allowed:
+                        schema_valid = False
+                        issues.append(
+                            ValidationIssue("error", "unknown_property", f"Unknown property :{label}.{prop}")
+                        )
+        for _, rel_type in _relationship_patterns(normalized):
+            if rel_type and rel_types and rel_type not in rel_types:
+                schema_valid = False
+                issues.append(
+                    ValidationIssue("error", "unknown_relationship", f"Unknown relationship :{rel_type}")
+                )
+        for start, rel_type, end in _directed_triples(normalized):
+            if not (start and rel_type and end):
+                continue
+            if schema.relationships and not schema.has_relationship(start, rel_type, end):
+                if schema.has_reverse_relationship(start, rel_type, end):
+                    msg = f"Relationship direction should be (:{end})-[:{rel_type}]->(:{start})"
+                    issues.append(ValidationIssue("error", "wrong_direction", msg))
+                    schema_valid = False
+                else:
+                    issues.append(
+                        ValidationIssue(
+                            "warning",
+                            "unseen_relationship_pattern",
+                            f"Pattern (:{start})-[:{rel_type}]->(:{end}) was not observed",
+                        )
+                    )
+        for var, prop in re.findall(r"\b([A-Za-z_][A-Za-z0-9_]*)\.([A-Za-z_][A-Za-z0-9_]*)\b", normalized):
+            label = var_to_label.get(var)
+            if not label:
+                continue
+            allowed = schema.properties_for_label(label)
+            if allowed and prop not in allowed:
+                schema_valid = False
+                issues.append(
+                    ValidationIssue("error", "unknown_property", f"Unknown property :{label}.{prop}")
+                )
+        issues.extend(contextual_return_issues(normalized, var_to_label))
+
+    return ValidationResult(
+        read_only=read_only,
+        syntax_valid=syntax_valid,
+        schema_valid=schema_valid,
+        normalized_cypher=normalized,
+        issues=issues,
+        structural_features=structural_features(normalized),
+    )

@@ -1,0 +1,46 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+import sys
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from pipecypher.config import load_config
+from pipecypher.cypher_client import Neo4jCypherClient
+from pipecypher.graph_profiles import reference_schema
+from pipecypher.schema import introspect_schema, save_schema
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Inspect a Neo4j graph schema for PIPE-Cypher")
+    parser.add_argument("--config", required=True)
+    parser.add_argument("--output", default="")
+    parser.add_argument("--reference-only", action="store_true")
+    args = parser.parse_args()
+
+    cfg = load_config(args.config)
+    if args.reference_only:
+        schema = reference_schema(cfg.generation.graph_profile)
+    else:
+        client = Neo4jCypherClient(
+            cfg.neo4j.uri,
+            cfg.neo4j.user,
+            cfg.neo4j.password,
+            database=cfg.neo4j.database,
+            timeout_sec=cfg.neo4j.query_timeout_sec,
+        )
+        schema = introspect_schema(client, graph_name=cfg.generation.graph_profile)
+        client.close()
+
+    output = Path(args.output or cfg.paths.schema_path or f"configs/schema_{cfg.generation.graph_profile}.json")
+    save_schema(schema, output)
+    print(schema.to_prompt(max_items=80))
+    print(f"\nSchema saved to {output}")
+
+
+if __name__ == "__main__":
+    main()

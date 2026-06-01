@@ -1,0 +1,59 @@
+target_dataset:
+  total_accepted_pairs: 3000
+  finbench_pairs: 2000
+  snb_pairs: 1000
+  categories:
+    - simple_retrieval
+    - complex_retrieval
+    - simple_aggregation
+    - complex_aggregation
+    - boolean_existence
+    - negation_difference
+    - path_temporal
+    - ranking_topk
+
+baselines:
+  - name: unconstrained_local_llm
+    description: Question-to-Cypher generation with schema text but no deterministic validation, rewrite, retrieval, or judge gate.
+  - name: reverse_only
+    description: PIPE-KG-style reverse grounding ported to Cypher without BalkanID-inspired rewrites.
+  - name: validators_repair
+    description: Deterministic read-only/schema/parse/execution validation plus repair, no LLM judge.
+  - name: full_pipe_cypher
+    description: Constrained prompting, retrieval, rewrite, execution validation, diversity control, and LLM judge.
+
+ablations:
+  retrieval_top_k: [0, 2, 4]
+  rewrite: [false, true]
+  judge: [false, true]
+  generation_model:
+    - Qwen/Qwen3.5-9B
+    - Qwen/Qwen3.5-35B-A3B
+  graph_mix:
+    - finbench_only
+    - finbench_plus_snb
+
+metrics:
+  generation_quality:
+    - generation_yield
+    - syntax_valid_rate
+    - schema_valid_rate
+    - read_only_safety_rate
+    - execution_success_rate
+    - non_empty_result_rate
+    - repair_success_rate
+    - judge_pass_rate
+  diversity:
+    - labels_covered
+    - relationship_types_covered
+    - properties_covered
+    - entity_repetition_gini
+    - template_signature_count
+    - difficulty_distribution
+  downstream_text2cypher:
+    - execution_accuracy
+    - answer_f1
+    - parse_valid_rate
+    - schema_valid_rate
+    - difficulty_breakdown
+
