@@ -30,7 +30,7 @@ Text-to-SQL benchmarks such as Spider 2.0~\cite{spider22024} and BIRD~\cite{bird
 For generated benchmark quality, PIPE-Cypher combines text-generation diversity diagnostics with text-to-query structure metrics. Distinct-n~\cite{li2016diversity} and self-BLEU-style redundancy checks~\cite{zhu2018texygen} capture lexical repetition, while schema coverage, query-signature diversity, structural feature rates, and normalized entropy over graph/category/difficulty cells capture properties that matter for executable Cypher benchmarks.
 
 \section{Method}
-PIPE-Cypher has five stages: schema profiling, template generation, reverse Cypher grounding, constrained Cypher generation and repair, deterministic validation and execution, and LLM-judge review. Deterministic checks enforce read-only safety, syntax shape, schema-visible labels and properties, relationship types, observed relationship directions, and non-empty execution where required.
+PIPE-Cypher has five stages: schema profiling, template generation, reverse Cypher grounding, constrained Cypher generation and repair, deterministic validation and execution, and LLM-judge review. Deterministic checks enforce read-only safety, syntax shape, schema-visible labels and properties, explicit relationship types, observed relationship directions, and non-empty execution where required. The direction gate interprets both outgoing and incoming Cypher arrow syntax before schema checking, and rejects undirected relationship patterns so directionality is an executable constraint rather than only a prompt instruction.
 
 \input{tables_method}
 

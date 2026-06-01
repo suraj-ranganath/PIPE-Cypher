@@ -85,21 +85,55 @@ def _node_patterns(query: str) -> list[tuple[str | None, str | None, str | None]
     return [(m.group(1), m.group(2), m.group(3)) for m in pattern.finditer(query)]
 
 
+def _relationship_fragments(query: str) -> list[tuple[str | None, str | None, str]]:
+    pattern = re.compile(
+        r"(?P<left_arrow><)?-\[\s*(?P<var>[A-Za-z_][A-Za-z0-9_]*)?"
+        r"\s*(?::(?P<rel>[A-Za-z_][A-Za-z0-9_]*))?"
+        r"(?:\*[^]\s{}]*)?(?:\s*\{[^}]*\})?\s*\]-(?P<right_arrow>>)?"
+    )
+    fragments: list[tuple[str | None, str | None, str]] = []
+    for match in pattern.finditer(query):
+        left_arrow = bool(match.group("left_arrow"))
+        right_arrow = bool(match.group("right_arrow"))
+        if left_arrow and right_arrow:
+            direction = "bidirectional"
+        elif left_arrow:
+            direction = "incoming"
+        elif right_arrow:
+            direction = "outgoing"
+        else:
+            direction = "undirected"
+        fragments.append((match.group("var"), match.group("rel"), direction))
+    return fragments
+
+
 def _relationship_patterns(query: str) -> list[tuple[str | None, str | None]]:
-    pattern = re.compile(
-        r"-\[\s*([A-Za-z_][A-Za-z0-9_]*)?\s*(?::([A-Za-z_][A-Za-z0-9_]*))?"
-        r"(?:\*[^]\s{}]*)?(?:\s*\{[^}]*\})?\s*\]->"
-    )
-    return [(m.group(1), m.group(2)) for m in pattern.finditer(query)]
+    return [(var, rel_type) for var, rel_type, _ in _relationship_fragments(query)]
 
 
-def _directed_triples(query: str) -> list[tuple[str | None, str | None, str | None]]:
+def _relationship_triples(query: str) -> list[tuple[str | None, str | None, str | None, str]]:
     pattern = re.compile(
-        r"\(\s*[A-Za-z_][A-Za-z0-9_]*?\s*(?::(?P<start>[A-Za-z_][A-Za-z0-9_]*))?[^)]*\)"
-        r"\s*-\[\s*(?:[A-Za-z_][A-Za-z0-9_]*)?\s*:(?P<rel>[A-Za-z_][A-Za-z0-9_]*)[^]]*\]->\s*"
-        r"\(\s*[A-Za-z_][A-Za-z0-9_]*?\s*(?::(?P<end>[A-Za-z_][A-Za-z0-9_]*))?[^)]*\)"
+        r"\(\s*(?:[A-Za-z_][A-Za-z0-9_]*\s*)?(?::(?P<left_label>[A-Za-z_][A-Za-z0-9_]*))?[^)]*\)"
+        r"\s*(?P<left_arrow><)?-\[\s*(?:[A-Za-z_][A-Za-z0-9_]*\s*)?"
+        r"(?::(?P<rel>[A-Za-z_][A-Za-z0-9_]*))[^]]*\]-(?P<right_arrow>>)?\s*"
+        r"\(\s*(?:[A-Za-z_][A-Za-z0-9_]*\s*)?(?::(?P<right_label>[A-Za-z_][A-Za-z0-9_]*))?[^)]*\)"
     )
-    return [(m.group("start"), m.group("rel"), m.group("end")) for m in pattern.finditer(query)]
+    triples: list[tuple[str | None, str | None, str | None, str]] = []
+    for match in pattern.finditer(query):
+        left_label = match.group("left_label")
+        right_label = match.group("right_label")
+        rel_type = match.group("rel")
+        left_arrow = bool(match.group("left_arrow"))
+        right_arrow = bool(match.group("right_arrow"))
+        if left_arrow and right_arrow:
+            triples.append((left_label, rel_type, right_label, "bidirectional"))
+        elif left_arrow:
+            triples.append((right_label, rel_type, left_label, "incoming"))
+        elif right_arrow:
+            triples.append((left_label, rel_type, right_label, "outgoing"))
+        else:
+            triples.append((left_label, rel_type, right_label, "undirected"))
+    return triples
 
 
 def _property_names(prop_map: str | None) -> list[str]:
@@ -315,13 +349,43 @@ def validate_cypher(
                         issues.append(
                             ValidationIssue("error", "unknown_property", f"Unknown property :{label}.{prop}")
                         )
-        for _, rel_type in _relationship_patterns(normalized):
-            if rel_type and rel_types and rel_type not in rel_types:
+        for _, rel_type, direction in _relationship_fragments(normalized):
+            if direction == "undirected":
+                schema_valid = False
+                issues.append(
+                    ValidationIssue(
+                        "error",
+                        "undirected_relationship",
+                        "Relationship patterns must use an explicit Cypher direction",
+                    )
+                )
+            if direction == "bidirectional":
+                schema_valid = False
+                issues.append(
+                    ValidationIssue(
+                        "error",
+                        "bidirectional_relationship",
+                        "Relationship patterns cannot point in both directions",
+                    )
+                )
+            if not rel_type:
+                schema_valid = False
+                issues.append(
+                    ValidationIssue(
+                        "error",
+                        "missing_relationship_type",
+                        "Relationship patterns must include a schema-visible type",
+                    )
+                )
+                continue
+            if rel_types and rel_type not in rel_types:
                 schema_valid = False
                 issues.append(
                     ValidationIssue("error", "unknown_relationship", f"Unknown relationship :{rel_type}")
                 )
-        for start, rel_type, end in _directed_triples(normalized):
+        for start, rel_type, end, direction in _relationship_triples(normalized):
+            if direction in {"undirected", "bidirectional"}:
+                continue
             if not (start and rel_type and end):
                 continue
             if schema.relationships and not schema.has_relationship(start, rel_type, end):

@@ -5,7 +5,7 @@ Status: goal is not complete yet.
 ## Evidence Already Present
 
 - Clean repo scaffold with package, configs, scripts, tests, docs, experiment matrix, and paper directory.
-- Deterministic tests pass: `94 passed`.
+- Deterministic tests pass: `105 passed`.
 - Offline smoke runs prove the CLI path, built-in FinBench and SNB reference schemas, deterministic validation, contextual return warnings, mock execution, deterministic judge, JSONL logging, strategy tags, and summary metrics.
 - LDBC FinBench SF0.1 has been generated on `ds-serv6`, transformed to snapshot CSVs, and loaded into a user-space Neo4j Community 5.26 smoke database.
 - The loaded FinBench smoke graph contains 10,006 nodes and 57,622 relationships.
@@ -46,6 +46,7 @@ Status: goal is not complete yet.
 - `knowledge_base/citation_verification.md` records the verified source for every paper bibliography entry used by the EMNLP/arXiv draft; no unverified placeholder citations remain in `paper_emnlp2026_industry/references.bib`.
 - `knowledge_base/judge_audit_protocol.md` defines the human calibration labeling rubric. `scripts/analyze_judge_audit.py` now reports audit coverage and exits non-zero with `--require-labels` when no labels are complete.
 - Benchmark export now deduplicates accepted examples by graph, category, and normalized question text before assigning stable example IDs, preventing equivalent recovery-run duplicates from entering the released benchmark.
+- Relationship-direction validation now handles both outgoing and incoming Cypher arrow syntax. It accepts `(:A)<-[:R]-(:B)` only when the schema contains `(:B)-[:R]->(:A)`, rejects reversed incoming patterns, and rejects untyped or undirected relationship patterns as benchmark-invalid.
 - FinBench negation/difference seeds now include additional company- and account-scoped slotted templates, raising theoretical seed capacity for that category from 302 to 1202 under the full config.
 - Slot binding now skips bindings whose filled question is already present in `--seen-records`, so patched top-up runs do not waste early attempts replaying accepted examples from the original run.
 - FinBench ranking/top-k seeds now include additional company-, person-withdrawal-, and account-type-scoped templates, raising theoretical seed capacity for that category from 302 to 1202 under the full config.

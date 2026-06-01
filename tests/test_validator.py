@@ -42,6 +42,37 @@ def test_schema_validation_rejects_reverse_direction():
     assert any(issue.code == "wrong_direction" for issue in result.issues)
 
 
+def test_schema_validation_accepts_incoming_arrow_when_direction_is_preserved():
+    schema = finbench_reference_schema()
+    query = "MATCH (a:Account)<-[:OWN_ACCOUNT]-(p:Person) RETURN a.accountId AS AccountId"
+    result = validate_cypher(query, schema)
+    assert result.ok
+
+
+def test_schema_validation_rejects_incoming_arrow_when_direction_is_reversed():
+    schema = finbench_reference_schema()
+    query = "MATCH (p:Person)<-[:OWN_ACCOUNT]-(a:Account) RETURN a.accountId AS AccountId"
+    result = validate_cypher(query, schema)
+    assert not result.ok
+    assert any(issue.code == "wrong_direction" for issue in result.issues)
+
+
+def test_schema_validation_rejects_undirected_relationship_patterns():
+    schema = finbench_reference_schema()
+    query = "MATCH (p:Person)-[:OWN_ACCOUNT]-(a:Account) RETURN a.accountId AS AccountId"
+    result = validate_cypher(query, schema)
+    assert not result.ok
+    assert any(issue.code == "undirected_relationship" for issue in result.issues)
+
+
+def test_schema_validation_rejects_untyped_relationship_patterns():
+    schema = finbench_reference_schema()
+    query = "MATCH (p:Person)-[r]->(a:Account) RETURN a.accountId AS AccountId"
+    result = validate_cypher(query, schema)
+    assert not result.ok
+    assert any(issue.code == "missing_relationship_type" for issue in result.issues)
+
+
 def test_structural_features_detect_path_and_ranking():
     query = "MATCH (a:Account)-[:TRANSFER_TO*1..2]->(b:Account) RETURN DISTINCT b.accountId AS id ORDER BY id LIMIT 10"
     features = structural_features(query)

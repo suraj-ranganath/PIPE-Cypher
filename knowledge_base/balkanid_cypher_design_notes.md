@@ -35,7 +35,7 @@ BalkanID's `AlterCypherQuery` and listeners motivate PIPE-Cypher's deterministic
 Implemented transfer in PIPE-Cypher:
 
 - `pipecypher.validator.normalize_cypher` strips fences, normalizes whitespace, normalizes `COALESCE(...)`, and enforces `RETURN DISTINCT`.
-- `pipecypher.validator.validate_cypher` rejects write/admin tokens, unsafe reserved variable names, unknown labels, unknown relationship types, unknown properties, and reversed relationship directions.
+- `pipecypher.validator.validate_cypher` rejects write/admin tokens, unsafe reserved variable names, unknown labels, missing or unknown relationship types, unknown properties, reversed relationship directions, and undirected relationship patterns. It now interprets incoming Cypher arrows such as `(:A)<-[:R]-(:B)` as the directed edge `(:B)-[:R]->(:A)` before checking the observed schema direction, closing a common gap in string-only direction checks.
 - `pipecypher.question_constraints.apply_question_constraints` turns the quoted-exact-match prompt rule into an executable gate.
 - `pipecypher.validator.contextual_return_issues` warns when returned FinBench identifiers or names lack useful enterprise context columns, mirroring BalkanID's table-display return enrichment pattern without making parser-risky rewrites.
 - `pipecypher.cypher_parser.OptionalCypherParser` can use the BalkanID ANTLR parser when its local runtime dependencies are available, but keeps offline tests independent of that archive.
