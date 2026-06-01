@@ -91,6 +91,10 @@ python scripts/collect_remote_ablation_suite.py \
   --poll-seconds 60
 ```
 
+The collector writes `collection_manifest.json` alongside the summary and audit
+files, with SHA-256 checksums for fetched run records, run summaries, the copied
+remote log, summary/audit files, and any rendered paper ablation artifacts.
+
 Launch command:
 
 ```bash

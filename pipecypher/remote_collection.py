@@ -1,7 +1,12 @@
 from __future__ import annotations
 
+import json
 import shlex
+from datetime import datetime, timezone
 from pathlib import Path
+from typing import Any
+
+from pipecypher.artifact_snapshot import sha256_file
 
 
 LOG_METADATA_KEYS = {
@@ -72,3 +77,84 @@ def build_summary_metadata(
         "code_revision": code_revision or parsed_log.get("code_revision", ""),
         "log_file": log_file,
     }
+
+
+def build_collection_manifest(
+    *,
+    host: str,
+    remote_root: str,
+    run_prefix: str,
+    target_per_category: int,
+    category_count: int,
+    snapshot_dir: str | Path,
+    local_run_root: str | Path,
+    run_names: list[str],
+    metadata: dict[str, str],
+    log_file: str,
+    render_paper: bool,
+    paper_dir: str | Path,
+    collected_at: str | None = None,
+) -> dict[str, Any]:
+    snapshot_path = Path(snapshot_dir)
+    run_root = Path(local_run_root)
+    paper_path = Path(paper_dir)
+    manifest = {
+        "collected_at": collected_at or datetime.now(timezone.utc).isoformat(),
+        "host": host,
+        "remote_root": remote_root,
+        "run_prefix": run_prefix,
+        "target_per_category": target_per_category,
+        "category_count": category_count,
+        "metadata": dict(sorted(metadata.items())),
+        "remote_log_file": log_file,
+        "run_count": len(run_names),
+        "runs": {
+            run_name: _checksums_for_paths(
+                run_root / run_name,
+                ["records.jsonl", "summary.txt"],
+            )
+            for run_name in sorted(run_names)
+        },
+        "snapshot_files": _checksums_for_paths(
+            snapshot_path,
+            [
+                "remote_run.log",
+                "ablation_suite_summary.json",
+                "ablation_suite_summary.md",
+                "ablation_suite_summary.csv",
+                "ablation_suite_audit.json",
+                "ablation_suite_audit.md",
+            ],
+        ),
+        "paper_files": (
+            _checksums_for_paths(
+                paper_path,
+                [
+                    "tables_ablation_results.tex",
+                    "tables_ablation_quality.tex",
+                    f"figures/ablation_suite_target{target_per_category}.pdf",
+                ],
+            )
+            if render_paper
+            else {}
+        ),
+    }
+    return manifest
+
+
+def write_collection_manifest(manifest: dict[str, Any], path: str | Path) -> None:
+    output = Path(path)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def _checksums_for_paths(base: Path, names: list[str]) -> dict[str, dict[str, Any]]:
+    checksums: dict[str, dict[str, Any]] = {}
+    for name in names:
+        path = base / name
+        if path.exists() and path.is_file():
+            checksums[name] = {
+                "bytes": path.stat().st_size,
+                "sha256": sha256_file(path),
+            }
+    return checksums

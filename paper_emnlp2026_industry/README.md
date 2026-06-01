@@ -60,8 +60,10 @@ python scripts/collect_remote_ablation_suite.py \
 The collector fetches matching remote run directories from `ds-serv6`, copies
 the remote log into `experiments/snapshots/<run_prefix>/remote_run.log`, and
 writes `ablation_suite_summary.{json,md,csv}` plus
-`ablation_suite_audit.{json,md}` locally. If the run directories are already
-local, the lower-level summary command is:
+`ablation_suite_audit.{json,md}` and `collection_manifest.json` locally. The
+manifest fingerprints fetched records, run summaries, summary/audit files, the
+remote log, and any rendered paper ablation artifacts. If the run directories
+are already local, the lower-level summary command is:
 
 ```bash
 python scripts/summarize_live_ablation_suite.py \

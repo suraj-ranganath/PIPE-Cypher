@@ -12,11 +12,13 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from pipecypher.remote_collection import (
+    build_collection_manifest,
     build_remote_find_runs_command,
     build_rsync_run_command,
     build_summary_metadata,
     build_tmux_has_session_command,
     parse_run_log_metadata,
+    write_collection_manifest,
 )
 
 
@@ -34,6 +36,7 @@ def main() -> None:
     parser.add_argument("--category-count", type=int, default=8)
     parser.add_argument("--local-run-root", default="artifacts/runs")
     parser.add_argument("--snapshot-dir")
+    parser.add_argument("--collection-manifest")
     parser.add_argument("--log-file")
     parser.add_argument("--generation-model")
     parser.add_argument("--judge-model")
@@ -170,6 +173,27 @@ def main() -> None:
         if args.allow_diagnostic_render:
             figure_cmd.append("--allow-incomplete")
         _run(figure_cmd, dry_run=args.dry_run)
+
+    manifest_path = Path(args.collection_manifest or snapshot_dir / "collection_manifest.json")
+    if args.dry_run:
+        print("+ write", str(manifest_path))
+    else:
+        manifest = build_collection_manifest(
+            host=args.host,
+            remote_root=args.remote_root,
+            run_prefix=args.run_prefix,
+            target_per_category=target_per_category,
+            category_count=args.category_count,
+            snapshot_dir=snapshot_dir,
+            local_run_root=args.local_run_root,
+            run_names=run_names,
+            metadata=metadata,
+            log_file=log_file,
+            render_paper=args.render_paper,
+            paper_dir=args.paper_dir,
+        )
+        write_collection_manifest(manifest, manifest_path)
+        print(f"wrote {manifest_path}")
 
 
 def _target_from_log(metadata: dict[str, str]) -> int:
