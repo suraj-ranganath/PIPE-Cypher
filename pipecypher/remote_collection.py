@@ -36,6 +36,10 @@ def build_remote_find_runs_command(*, remote_root: str, run_prefix: str) -> str:
     )
 
 
+def build_tmux_has_session_command(session: str) -> str:
+    return f"tmux has-session -t {shlex.quote(session)}"
+
+
 def build_rsync_run_command(
     *,
     host: str,
@@ -68,4 +72,3 @@ def build_summary_metadata(
         "code_revision": code_revision or parsed_log.get("code_revision", ""),
         "log_file": log_file,
     }
-

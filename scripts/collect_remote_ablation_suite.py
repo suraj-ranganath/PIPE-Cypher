@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -14,6 +15,7 @@ from pipecypher.remote_collection import (
     build_remote_find_runs_command,
     build_rsync_run_command,
     build_summary_metadata,
+    build_tmux_has_session_command,
     parse_run_log_metadata,
 )
 
@@ -38,6 +40,17 @@ def main() -> None:
     parser.add_argument("--code-revision")
     parser.add_argument("--python-bin", default=sys.executable)
     parser.add_argument(
+        "--wait-session",
+        help="Remote tmux session to wait for before fetching artifacts.",
+    )
+    parser.add_argument("--poll-seconds", type=int, default=60)
+    parser.add_argument(
+        "--timeout-seconds",
+        type=int,
+        default=0,
+        help="Maximum wait time for --wait-session; 0 means no timeout.",
+    )
+    parser.add_argument(
         "--render-paper",
         action="store_true",
         help="Also render paper ablation tables and figure; guarded by paper-readiness audit.",
@@ -50,6 +63,19 @@ def main() -> None:
     parser.add_argument("--paper-dir", default="paper_emnlp2026_industry")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
+
+    if args.poll_seconds <= 0:
+        raise SystemExit("--poll-seconds must be positive")
+    if args.timeout_seconds < 0:
+        raise SystemExit("--timeout-seconds cannot be negative")
+    if args.wait_session:
+        _wait_for_remote_session(
+            host=args.host,
+            session=args.wait_session,
+            poll_seconds=args.poll_seconds,
+            timeout_seconds=args.timeout_seconds,
+            dry_run=args.dry_run,
+        )
 
     snapshot_dir = Path(args.snapshot_dir or f"experiments/snapshots/{args.run_prefix}")
     log_file = args.log_file or f"logs/{args.run_prefix}.log"
@@ -153,6 +179,43 @@ def _target_from_log(metadata: dict[str, str]) -> int:
     return int(raw)
 
 
+def _wait_for_remote_session(
+    *,
+    host: str,
+    session: str,
+    poll_seconds: int,
+    timeout_seconds: int,
+    dry_run: bool,
+) -> None:
+    command = build_tmux_has_session_command(session)
+    if dry_run:
+        print("+ wait-until-missing", "ssh", host, command)
+        return
+
+    start = time.monotonic()
+    while True:
+        result = subprocess.run(
+            ["ssh", host, command],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            check=False,
+        )
+        if result.returncode != 0:
+            print(f"remote tmux session ended: {session}")
+            return
+        elapsed = time.monotonic() - start
+        if timeout_seconds and elapsed >= timeout_seconds:
+            raise SystemExit(
+                f"timed out after {timeout_seconds}s waiting for remote session {session!r}"
+            )
+        print(f"waiting_for_remote_session={session}", flush=True)
+        if timeout_seconds:
+            sleep_seconds = min(poll_seconds, max(timeout_seconds - elapsed, 1))
+        else:
+            sleep_seconds = poll_seconds
+        time.sleep(sleep_seconds)
+
+
 def _remote_cat(*, host: str, remote_root: str, path: str, dry_run: bool) -> str:
     command = f"cd {remote_root!r} && cat {path!r} 2>/dev/null || true"
     if dry_run:
@@ -185,4 +248,3 @@ def _run(command: list[str], *, dry_run: bool) -> None:
 
 if __name__ == "__main__":
     main()
-

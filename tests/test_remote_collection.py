@@ -4,6 +4,7 @@ from pipecypher.remote_collection import (
     build_remote_find_runs_command,
     build_rsync_run_command,
     build_summary_metadata,
+    build_tmux_has_session_command,
     parse_run_log_metadata,
 )
 
@@ -40,6 +41,17 @@ def test_build_remote_find_runs_command_quotes_prefix():
 
     assert command.startswith("cd /home/suraj/PIPE-Cypher && find artifacts/runs")
     assert "-name '*20260601_ablation50_qwen9b*'" in command
+
+
+def test_build_tmux_has_session_command_quotes_session():
+    assert (
+        build_tmux_has_session_command("pipecypher_ablation50_qwen9b")
+        == "tmux has-session -t pipecypher_ablation50_qwen9b"
+    )
+    assert (
+        build_tmux_has_session_command("session with spaces")
+        == "tmux has-session -t 'session with spaces'"
+    )
 
 
 def test_build_rsync_run_command_targets_local_run_root():
@@ -79,4 +91,3 @@ def test_build_summary_metadata_prefers_explicit_over_log():
         "code_revision": "new",
         "log_file": "logs/run.log",
     }
-

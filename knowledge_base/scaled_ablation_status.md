@@ -86,7 +86,9 @@ local repo with:
 ```bash
 python scripts/collect_remote_ablation_suite.py \
   --run-prefix 20260601_ablation50_qwen9b \
-  --target-per-category 50
+  --target-per-category 50 \
+  --wait-session pipecypher_ablation50_qwen9b \
+  --poll-seconds 60
 ```
 
 Launch command:
