@@ -63,6 +63,8 @@ Observed at latest inspection:
 - 12/14 graph/variant cells had been observed.
 - 11/14 graph/variant cells were complete.
 - The tmux session was still running.
+- Queue-monitor snapshot: SNB `ablation_rewrite_false` had 87/400 target
+  records. Treat this as a transient progress marker, not a paper result.
 
 Completed at latest inspection:
 
@@ -76,10 +78,10 @@ Active at latest inspection:
 
 - SNB `ablation_rewrite_false`; the active records file
   `artifacts/runs/20260601_231001_20260601_ablation50_qwen9b_snb_ablation_rewrite_false/records.jsonl`
-  had started during local inspection and continued advancing
-  afterward. Treat it as active/incomplete until the suite advances and the
-  collector/audit confirms the final status; use the monitor command below for
-  the exact live count.
+  had 87/400 target records during the queue-monitor snapshot and continued
+  advancing afterward. Treat it as active/incomplete until the suite advances
+  and the collector/audit confirms the final status; use the monitor command
+  below for the exact live count.
 
 Still missing at latest inspection:
 
@@ -130,6 +132,12 @@ scripts/launch_live_ablation_suite_tmux.sh
 Status: queued on `ds-serv6` in tmux session `pipecypher_ablation100_qwen9b`.
 The session waits for `pipecypher_ablation50_qwen9b` to exit before it starts
 generation, so it does not compete with the active target-50 suite.
+
+Research-use note: target-100 is the preferred next ablation scale for
+reviewer-facing reliability. Do not cancel it merely because target-50 finishes
+unless a real compute, model, graph-backend, or storage blocker is documented.
+If target-100 completes, collect and audit it before deciding whether target-50
+is still needed in the manuscript.
 
 Runtime metadata:
 
