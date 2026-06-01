@@ -20,16 +20,14 @@ claims:
     status: "Supported by code, tests, and full-run failure taxonomy."
     risk: "Semantic correctness still depends on execution evidence and judge review; human audit labels are pending."
 
-  - claim: "Reverse grounding and structured workload seeds are necessary under local-model constraints."
-    evidence: "A strict local LLM-only FinBench probe accepted 0/16 candidates and produced generic node scans, while mixed PIPE-Cypher runs reached all planned categories. Target-five FinBench/SNB ablations show unconstrained LLM settings failing to produce usable records, while reverse-grounded and full settings reach the category targets."
+  - claim: "Reverse grounding and structured workload seeds are expected to improve reliability under local-model constraints."
+    evidence: "The paper does not yet report this as a completed ablation claim. A scaled target-25 FinBench/SNB ablation suite was launched from code revision 2122a86e457a3c0039367a09290dde120c660d68 to replace earlier development-only evidence."
     artifacts:
-      - "knowledge_base/mini_ablation_results.md"
-      - "knowledge_base/target5_ablation_results.md"
-      - "paper_emnlp2026_industry/tables_mini_results.tex"
-      - "paper_emnlp2026_industry/tables_ablation5_results.tex"
-      - "paper_emnlp2026_industry/figures/ablation_acceptance.pdf"
-    status: "Supported by small and target-five live ablations."
-    risk: "Full 3,000-example ablations for every setting remain pending."
+      - "scripts/run_live_ablation_suite.sh"
+      - "logs/20260601_ablation25_qwen9b_retry1.log"
+      - "configs/generated_ablation25"
+    status: "Pending scaled ablation completion; not reported as a paper result yet."
+    risk: "Component-level claims should not be made from tiny engineering checks."
 
   - claim: "The benchmark controls category and difficulty balance while exposing residual diversity limits."
     evidence: "The full export has perfect category balance, planned 2:1 FinBench/SNB graph mix, and a near-even easy/medium split. Diversity diagnostics report Distinct-n, sampled self-BLEU-2, query-signature diversity, normalized entropy, schema coverage, and structural feature rates, making template concentration visible instead of hidden."
@@ -46,7 +44,7 @@ claims:
     artifacts:
       - "artifacts/evaluations/20260601_full_qwen9b_test_summary.json"
       - "knowledge_base/downstream_evaluation.md"
-      - "paper_emnlp2026_industry/tables_downstream_smoke.tex"
+      - "paper_emnlp2026_industry/tables_downstream_evaluation.tex"
       - "paper_emnlp2026_industry/figures/downstream_breakdown.pdf"
     status: "Supported by live downstream evaluation against FinBench/SNB databases."
     risk: "Only one downstream model has been evaluated so far."

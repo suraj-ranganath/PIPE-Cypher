@@ -34,7 +34,7 @@ claims:
     evidence: A full run exported examples.
     artifacts:
       - artifacts/benchmarks/run
-    status: Supported by smoke evidence.
+    status: Supported by artifact evidence.
     risk: More graphs are needed.
 """,
         encoding="utf-8",

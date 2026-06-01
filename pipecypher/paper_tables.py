@@ -94,7 +94,7 @@ def render_downstream_table(summary: dict[str, Any]) -> str:
             ]
         ),
         caption="Downstream Text2Cypher evaluation for local Qwen3.5-9B on the exported full benchmark test split.",
-        label="tab:downstream_smoke",
+        label="tab:downstream_evaluation",
     )
 
 
@@ -176,7 +176,7 @@ def render_ablation_table(
             f"Live {target_label} ablation evidence with local Qwen3.5-9B. "
             f"Each graph run targets {target_per_category} accepted examples per category."
         ),
-        label="tab:ablation5_results",
+        label="tab:ablation_results",
     )
 
 

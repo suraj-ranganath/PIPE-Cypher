@@ -37,7 +37,7 @@ Second, the system generates category-specific question templates. Reverse Cyphe
 
 Third, a local LLM generates Cypher using a constrained prompt. Retrieved examples are formatted with typed placeholders for graph-specific values, preserving query structure while reducing tenant-value leakage and memorized entity reuse. A schema-driven value grounder adds typed prompt annotations for categorical values and reverse-bound entities, covering punctuation variants, possessives, plurals, synonyms, name partials, and small typos. The prompt enforces schema-only generation, exact matching for quoted values, forward relationship directions, read-only behavior, `RETURN DISTINCT`, and aggregation rules.
 
-Fourth, generated Cypher passes deterministic gates: read-only safety, syntax shape, parser validation when available, label and relationship checks, direction checks, property checks, execution, and repair. A lightweight Cypher analyzer extracts return aliases, variables, labels, relationship observations, risky constructs, and rewrite skip reasons so normalization is auditable rather than a silent string edit. For reproducible smoke and seeded full runs, PIPE-Cypher keeps a small library of workload templates with deterministic reverse-binding queries and fallback Cypher instantiated with graph-backed slot values.
+Fourth, generated Cypher passes deterministic gates: read-only safety, syntax shape, parser validation when available, label and relationship checks, direction checks, property checks, execution, and repair. A lightweight Cypher analyzer extracts return aliases, variables, labels, relationship observations, risky constructs, and rewrite skip reasons so normalization is auditable rather than a silent string edit. For seeded full runs, PIPE-Cypher keeps a library of workload templates with deterministic reverse-binding queries and fallback Cypher instantiated with graph-backed slot values.
 
 Fifth, a local LLM judge reviews the question, query, schema, execution sample, and validation summary. The judge outputs strict JSON with a pass flag, ambiguity score, semantic alignment score, schema-use score, difficulty, and failure reason. The judge receives a schema slice tied to the candidate Cypher, while deterministic validation still uses the full introspected schema.
 
@@ -56,7 +56,7 @@ Candidate acceptance gates:
 
 The implementation is a Python package with Neo4j as the experimental backend. Neo4j is used for execution and schema introspection, while the paper frames the contribution around Cypher and property graphs.
 
-The project supports local vLLM-compatible model serving on `ds-serv6`. The target model is `Qwen/Qwen3.5-35B-A3B`; `Qwen/Qwen3.5-9B` is used for smoke tests and fallback full runs. Embeddings use local BGE-M3-style models where retrieval embeddings are needed.
+The project supports local vLLM-compatible model serving on `ds-serv6`. The target model is `Qwen/Qwen3.5-35B-A3B`; `Qwen/Qwen3.5-9B` is used for fallback full runs when the target model cannot be served. Embeddings use local BGE-M3-style models where retrieval embeddings are needed.
 
 The June 1, 2026 model check found `Qwen/Qwen3.5-35B-A3B` available remotely; it has since been staged under `/home/suraj/pipecypher-models/Qwen3.5-35B-A3B`. A serving-capacity check estimated that the staged weights require four A5000 GPUs under our vLLM budget, while only one GPU was safely free in the live snapshot. All live evidence in this draft therefore uses the 9B fallback.
 
@@ -107,7 +107,7 @@ Metrics:
 
 ## 6 Results
 
-The repository includes the package scaffold, validators, schema introspection, generation loop, judge interface, configs, scripts, offline smoke mode, FinBench and SNB load helpers, and live smoke paths. On June 1, 2026, we generated and loaded FinBench SF0.1 into a user-space Neo4j Community instance on `ds-serv6`, loaded the official SNB Cypher test-data into a second Neo4j instance, served Qwen3.5-9B locally with vLLM, introspected both live schemas, and ran four-category smoke benchmarks.
+The repository includes the package scaffold, validators, schema introspection, generation loop, judge interface, configs, scripts, FinBench and SNB load helpers, and deterministic engineering checks. Paper results below report only the full benchmark export, full-run diagnostics, the judge-audit packet, and full-test downstream evaluation.
 
 The full live run produced 3,000 accepted examples from 4,777 candidates using local Qwen3.5-9B for generation and judging. Category-specific recovery top-ups filled the only under-target categories from the initial sequential run. Every exported example passed read-only, syntax, schema, execution, non-empty result, and judge gates.
 
@@ -120,37 +120,6 @@ The full live run produced 3,000 accepted examples from 4,777 candidates using l
 Failure taxonomy over the same 4,777 full-run candidates shows that rejected candidates were dominated by duplicate/diversity control during recovery (1,335), empty execution results (374), judge semantic rejection (66), and schema invalidity (2). This indicates that deterministic schema governance made invalid Cypher rare, while refresh-scale generation mostly needs better template and value exploration.
 
 The repository includes a judge-audit CSV sampled from full-run accepted and rejected candidates, plus a labeling protocol and local HTML review packet. The current v2 audit packet has 80 rows, a 40/40 judge accept/reject split, 48 FinBench rows, 32 SNB rows, and coverage over all eight categories. The human labels are intentionally blank in the current artifact; this file is the starting point for the calibration analysis rather than a pipeline gate.
-
-Current smoke evidence:
-
-| Metric | Offline | Live FinBench | Live SNB |
-| --- | ---: | ---: | ---: |
-| Records generated | 4 | 4 | 4 |
-| Accepted records | 4 | 4 | 4 |
-| Read-only pass | 4 | 4 | 4 |
-| Syntax-valid pass | 4 | 4 | 4 |
-| Schema-valid pass | 4 | 4 | 4 |
-| Execution-success pass | 4 | 4 | 4 |
-| Judge pass | 4 | 4 | 4 |
-
-The live smokes used graph-backed entity values and non-empty Neo4j execution. A broader seeded FinBench run also accepted 8/8 examples across all planned categories, with four easy and four medium examples. These smoke numbers verify end-to-end wiring but are not final experimental results.
-
-Live mini-ablation evidence with Qwen3.5-9B:
-
-| Run | Records | Accepted | Acceptance |
-| --- | ---: | ---: | ---: |
-| FinBench LLM-only probe | 16 | 0 | 0.000 |
-| FinBench mixed mini | 29 | 16 | 0.552 |
-| SNB mixed mini | 8 | 8 | 1.000 |
-
-The FinBench LLM-only probe disabled deterministic seed/fallback behavior and accepted no examples; deterministic validation tagged all 16 attempts as generic unlabeled node scans. The mixed run recovered two useful benchmark candidates in every planned FinBench category, while still logging rejected Qwen-generated node scans for failure analysis.
-
-We then ran a live mid-scale generation pass with a target of five accepted examples per category for each graph.
-
-| Run | Records | Accepted | Acceptance | Categories at target |
-| --- | ---: | ---: | ---: | ---: |
-| FinBench mid-scale | 46 | 40 | 0.870 | 8/8 |
-| SNB mid-scale | 47 | 40 | 0.851 | 8/8 |
 
 The accepted full-run records were exported into a benchmark package with stable example identifiers, train/dev/test splits, result samples, gate metadata, aggregate statistics, and a manifest hash. The export contains 3,000 accepted examples: 2,000 FinBench, 1,000 SNB, and 375 accepted examples in every planned category.
 

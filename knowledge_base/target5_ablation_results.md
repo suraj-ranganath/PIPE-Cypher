@@ -30,9 +30,9 @@ Interpretation:
 
 - Strict unconstrained local template generation produced no usable records on either graph once seeded template fallback was disabled. This is the strongest small-ablation signal: raw local LLM generation is not enough for reliable private benchmark construction.
 - Once reverse grounding and seeded workload structure are available, target-five generation saturates across FinBench and SNB variants. This makes the target-five ablation a sanity check for component removal, not a substitute for full-scale ablation.
-- The paper should use this table to justify structured workload generation and use the full 3,000-example export, downstream evaluation, diversity statistics, and judge calibration for the main empirical claims.
+- Treat this as an engineering sanity-check record only. The paper should not cite this table as experimental evidence; use scaled ablations, the full 3,000-example export, downstream evaluation, diversity statistics, and judge calibration for empirical claims.
 
-The paper table is reproducibly generated with:
+An archival LaTeX table can be reproduced with:
 
 ```bash
 python scripts/render_ablation_paper_table.py \
@@ -51,5 +51,5 @@ python scripts/render_ablation_paper_table.py \
   artifacts/runs/20260601_183653_20260601_ablation5_snb_ablation_judge_false \
   artifacts/runs/20260601_183236_20260601_ablation5_snb_full_pipe_cypher \
   --target-per-category 5 \
-  --output paper_emnlp2026_industry/tables_ablation5_results.tex
+  --output artifacts/reports/tables_ablation5_results.tex
 ```

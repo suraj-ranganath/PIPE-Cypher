@@ -25,9 +25,9 @@ Interpretation:
 
 - The strict unconstrained local-LLM baseline disables seeded template fallback, retrieval, normalization/rewrite, repair, deterministic Cypher fallback, and the LLM judge. It produced no records because the local model did not return parseable template JSON.
 - Once reverse grounding and seeded workload structure are available, target-five FinBench generation saturates across variants. This means the small ablation is useful as a sanity check but not strong enough to separate later pipeline gates by yield.
-- The paper should use this table to justify the need for structured workload generation and should rely on the 3,000-example full export, full-test downstream evaluation, diversity statistics, and judge calibration for the main contribution claims.
+- Treat this as an engineering sanity-check record only. The paper should not cite this table as experimental evidence; use scaled ablations, the 3,000-example full export, full-test downstream evaluation, diversity statistics, and judge calibration for contribution claims.
 
-The paper table is reproducibly generated with:
+An archival LaTeX table can be reproduced with:
 
 ```bash
 python scripts/render_ablation_paper_table.py \
@@ -39,5 +39,5 @@ python scripts/render_ablation_paper_table.py \
   artifacts/runs/20260601_182549_20260601_ablation5_finbench_ablation_judge_false \
   artifacts/runs/20260601_182058_20260601_ablation5_finbench_full_pipe_cypher \
   --target-per-category 5 \
-  --output paper_emnlp2026_industry/tables_ablation5_results.tex
+  --output artifacts/reports/tables_ablation5_results.tex
 ```

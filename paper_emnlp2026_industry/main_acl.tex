@@ -43,9 +43,9 @@ The intended full-quality model is Qwen3.5-35B-A3B, but our June 1, 2026 live ev
 
 The built-in FinBench profile is grounded in the public datagen snapshot export and includes typed node and relationship properties. Live schema inspection also records low-cardinality string values as categorical constraints for prompting and validation. The generated Neo4j import script uses uniqueness constraints for nodes and creates, rather than merges, transaction relationships so repeated account-to-account events are preserved. The SNB reference profile is grounded in the official Neo4j/Cypher headers and read-query files.
 
-For reproducible smoke runs, PIPE-Cypher can use seeded templates with deterministic reverse-binding queries. Full runs use a mixed mode that prepends these proven workload seeds to LLM-proposed templates, then records accepted and rejected candidates for yield analysis. Retrieved few-shot examples replace graph-specific values with typed placeholders, preserving query structure while reducing tenant-value leakage and memorized entity reuse. A dependency-light value grounder adds typed prompt annotations for categorical values and reverse-bound entities, covering punctuation variants, possessives, plurals, synonyms, name partials, and small typos.
+For generation, PIPE-Cypher uses seeded workload templates with deterministic reverse-binding queries and a mixed mode that prepends proven workload seeds to LLM-proposed templates. Every run records accepted and rejected candidates for yield analysis. Retrieved few-shot examples replace graph-specific values with typed placeholders, preserving query structure while reducing tenant-value leakage and memorized entity reuse. A dependency-light value grounder adds typed prompt annotations for categorical values and reverse-bound entities, covering punctuation variants, possessives, plurals, synonyms, name partials, and small typos.
 
-For LLM-judge review, the implementation slices schema context to the labels, relationship types, and properties used by the candidate query. This preserves validation against the full schema while keeping local 9B smoke-model prompts within context limits on larger schemas.
+For LLM-judge review, the implementation slices schema context to the labels, relationship types, and properties used by the candidate query. This preserves validation against the full schema while keeping local 9B fallback-model prompts within context limits on larger schemas.
 
 The deterministic Cypher layer borrows from production lessons in the BalkanID Cypher system: schema-only prompting, exact matching, relationship direction discipline, \texttt{RETURN DISTINCT}, reserved variable rejection, categorical values, required contextual return columns, fuzzy value annotations, placeholderized retrieval examples, and parser-aware rewrite boundaries. PIPE-Cypher records parser-style structure features and skips rewrites for risky constructs such as \texttt{UNION}, \texttt{CALL}, \texttt{UNWIND}, \texttt{WHERE EXISTS}, multiple \texttt{WHERE} clauses, or reserved variables.
 
@@ -63,22 +63,6 @@ The full live run produced 3,000 accepted examples from 4,777 candidates using l
 
 \input{tables_full_results}
 
-As an implementation smoke check, we generated and loaded FinBench SF0.1 into Neo4j, loaded the official SNB Cypher test-data into a second Neo4j instance, introspected both live schemas, served Qwen3.5-9B locally through vLLM, and ran four-category smokes on both graphs. All eight accepted examples passed read-only, syntax, schema, execution, non-empty result, and LLM-judge gates. A broader seeded FinBench smoke additionally accepted 8/8 examples across all planned categories with four easy and four medium examples.
-
-\input{tables_smoke}
-
-We also ran a small live mini-ablation. A FinBench LLM-only probe accepted 0/16 candidates, with deterministic validation tagging all 16 as generic unlabeled node scans. Re-enabling seeded templates, scalar reverse-binding, duplicate-question control, deterministic fallback, execution validation, and LLM-judge review accepted 16/29 FinBench candidates, with two accepted examples in every planned category. The analogous SNB mixed run accepted 8/8 candidates.
-
-\input{tables_mini_results}
-
-We additionally materialized the planned baseline and ablation configurations and ran target-five suites on both FinBench and SNB. The strict unconstrained local-LLM baseline disables seeded template fallback, retrieval, rewrite, repair, deterministic Cypher fallback, and the LLM judge; it produced no usable records on either graph because the local model did not return parseable template JSON. Once reverse grounding and seeded workload structure are available, the small target saturates across variants, which is why the full results emphasize scale, recovery, and export quality rather than only small-yield differences.
-
-\input{tables_ablation5_results}
-
-We then ran a live mid-scale generation pass with a target of five accepted examples per category for each graph. FinBench accepted 40/46 candidates and SNB accepted 40/47 candidates; both runs reached the category target in all eight planned categories.
-
-\input{tables_midscale_results}
-
 The accepted full-run records were exported into a benchmark package with stable example identifiers, train/dev/test splits, result samples, gate metadata, aggregate statistics, and a manifest hash for artifact tracking. The export contains 3,000 accepted examples: 2,000 FinBench, 1,000 SNB, and 375 accepted examples in every planned category.
 
 \input{tables_benchmark_export}
@@ -92,7 +76,7 @@ For judge calibration, the released artifacts include an 80-row audit packet sam
 
 Finally, we ran a downstream Text2Cypher evaluation using local Qwen3.5-9B on the exported full test split. The model saw schema text and the natural-language question, generated Cypher, and was evaluated by live execution against the corresponding FinBench or SNB database. The result verifies that the exported artifact can drive downstream model evaluation and gives a difficulty signal: the zero-shot 9B baseline solves simple aggregation examples but struggles on more operational categories.
 
-\input{tables_downstream_smoke}
+\input{tables_downstream_evaluation}
 
 \section{Industry Use}
 PIPE-Cypher is intended to be rerun when an enterprise graph changes. The generated artifact records the schema snapshot, graph profile, model identifier, validation gates, execution samples, judge scores, difficulty features, and source run for every example. Long-running jobs can be monitored from JSONL records and recovered with category-specific top-up runs that reject questions accepted in earlier runs. This design supports private benchmark refreshes without exposing schemas or values to paid APIs, while still leaving audit hooks for data owners to sample accepted and rejected examples.
@@ -124,13 +108,6 @@ PIPE-Cypher is designed for private benchmark generation under local-model deplo
 \includegraphics[width=\columnwidth]{figures/diversity_diagnostics.pdf}
 \caption{Diversity diagnostics for the full 3,000-example export. Category, graph-category, and difficulty balance are strong by construction; schema coverage and query-signature diversity expose remaining concentration from the fallback seeded-template run.}
 \label{fig:diversity_diagnostics}
-\end{figure}
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\columnwidth]{figures/ablation_acceptance.pdf}
-\caption{Target-five ablation acceptance rates on live FinBench and SNB graphs. The strict unconstrained local-LLM setting produces no usable examples, while reverse grounding and deterministic structure make the small target saturate across later variants.}
-\label{fig:ablation_acceptance}
 \end{figure}
 
 \begin{figure}[t]

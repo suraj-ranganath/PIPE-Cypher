@@ -5,7 +5,7 @@ Status: goal is not complete yet.
 ## Evidence Already Present
 
 - Clean repo scaffold with package, configs, scripts, tests, docs, experiment matrix, and paper directory.
-- Deterministic tests pass: `136 passed`.
+- Deterministic tests pass: `137 passed`.
 - Offline smoke runs prove the CLI path, built-in FinBench and SNB reference schemas, deterministic validation, contextual return warnings, mock execution, deterministic judge, JSONL logging, strategy tags, and summary metrics.
 - LDBC FinBench SF0.1 has been generated on `ds-serv6`, transformed to snapshot CSVs, and loaded into a user-space Neo4j Community 5.26 smoke database.
 - The loaded FinBench smoke graph contains 10,006 nodes and 57,622 relationships.
@@ -28,7 +28,8 @@ Status: goal is not complete yet.
   - `artifacts/runs/20260601_135706_live_snb_qwen9b_8cat_seeded_fixed`: 8/8 accepted across all planned categories.
   - `artifacts/runs/20260601_140632_20260601_midscale_finbench`: 40/46 accepted, five accepted examples in every planned category.
   - `artifacts/runs/20260601_140855_20260601_midscale_snb`: 40/47 accepted, five accepted examples in every planned category.
-- A materialized FinBench+SNB target-five ablation suite is recorded in `knowledge_base/target5_ablation_results.md` and rendered as `paper_emnlp2026_industry/tables_ablation5_results.tex`. The strict unconstrained local-LLM baseline produced 0/0 records on both graphs without seeded template fallback; reverse-only, validators+repair, no-retrieval, no-rewrite, no-LLM-judge, and full PIPE-Cypher all reached 5 accepted examples in all eight categories on both FinBench and SNB.
+- A materialized FinBench+SNB target-five ablation suite is recorded in `knowledge_base/target5_ablation_results.md` as engineering sanity-check evidence only. It is no longer rendered into the paper because target-five runs are too small for publication-quality ablation claims.
+- A scaled target-25 FinBench/SNB ablation suite was launched on `ds-serv6` in tmux session `pipecypher_ablation25_qwen9b` with run prefix `20260601_ablation25_qwen9b_retry1`, local Qwen3.5-9B generation/judging, and code revision `2122a86e457a3c0039367a09290dde120c660d68`. It is intended to replace smoke/probe/target-five evidence for paper ablation reporting once complete.
 - `artifacts/benchmarks/20260601_live_all_category_mini` exports 24 accepted examples with stable IDs, train/dev/test JSONL splits, stats, a manifest hash, and exactly three accepted examples in every planned category across FinBench+SNB.
 - `artifacts/benchmarks/20260601_live_midscale` exports 80 accepted examples with stable IDs, train/dev/test JSONL splits, stats, a manifest hash, and ten accepted examples in every planned category across FinBench+SNB.
 - The EMNLP draft compiles with `pdflatex`/`bibtex`; generated PDF: `paper_emnlp2026_industry/main.pdf`.
@@ -41,7 +42,7 @@ Status: goal is not complete yet.
 - Full-run auto-finalization scripting now exists: `scripts/auto_finalize_full_run_after_main.sh` waits for the main sequential tmux run, launches patched multi-pass FinBench/SNB top-ups for missing categories, and finalizes the combined benchmark with the top-up run directories included.
 - The full Qwen3.5-9B fallback benchmark is exported at `artifacts/benchmarks/20260601_live_full_qwen9b` with exactly 3,000 accepted examples, 2,000 FinBench examples, 1,000 SNB examples, 375 examples per category, 2,408/296/296 train/dev/test splits, and manifest hash `8bc79a53a06b291a81974d7859d1a02d013c1e7dfc401e447b2897259aeaa47c`.
 - A tracked lightweight full-export snapshot now exists at `experiments/snapshots/20260601_live_full_qwen9b` with the export manifest hash, file-level SHA-256 checksums, aggregate stats, and 16 representative examples selected by stable ID, one for each FinBench/SNB graph-category cell.
-- Diversity diagnostics now exist at `experiments/snapshots/20260601_live_full_qwen9b/diversity_report.json`, with Distinct-n, sampled self-BLEU-2, query-signature diversity, normalized entropy, schema coverage, and structural feature rates. The paper appendix includes `paper_emnlp2026_industry/tables_diversity.tex` plus `figures/diversity_diagnostics.pdf`, `figures/ablation_acceptance.pdf`, `figures/full_export_distribution.pdf`, and `figures/downstream_breakdown.pdf`.
+- Diversity diagnostics now exist at `experiments/snapshots/20260601_live_full_qwen9b/diversity_report.json`, with Distinct-n, sampled self-BLEU-2, query-signature diversity, normalized entropy, schema coverage, and structural feature rates. The paper appendix includes `paper_emnlp2026_industry/tables_diversity.tex` plus `figures/diversity_diagnostics.pdf`, `figures/full_export_distribution.pdf`, and `figures/downstream_breakdown.pdf`.
 - Full-run failure taxonomy now exists at `experiments/snapshots/20260601_live_full_qwen9b/failure_taxonomy.json`, with a rendered appendix table and figure in `paper_emnlp2026_industry/tables_failure_taxonomy.tex` and `figures/failure_taxonomy.pdf`. Across 4,777 candidates, 3,000 were accepted and 1,777 were rejected; rejected candidates were dominated by diversity/duplicate control during recovery (1,335), empty execution results (374), judge semantic rejects (66), and schema invalidity (2).
 - The final full export has 3,000/3,000 accepted examples passing read-only, syntax, schema, execution, and judge gates; the judge audit packet is `artifacts/audits/20260601_full_qwen9b_judge_audit.csv` with 80 sampled rows plus header.
 - `scripts/render_paper_artifact_tables.py` regenerates paper tables for benchmark export, distribution/gate summary, and downstream Text2Cypher results directly from `stats.json`, `manifest.json`, and the evaluation summary.
@@ -77,9 +78,9 @@ Status: goal is not complete yet.
 
 ## Missing For Full Goal Completion
 
-- Qwen3.5-9B has been used for live FinBench/SNB smokes, mini-ablation, an 80-example mid-scale generation/evaluation run, and the full 3,000-example fallback benchmark.
+- Qwen3.5-9B has been used for live FinBench/SNB engineering checks, the full 3,000-example fallback benchmark, and an in-progress scaled target-25 ablation suite.
 - Qwen3.5-35B-A3B has been staged locally, but it has not yet been served successfully through vLLM or used for generation/judging because the latest capacity check found only one safely free A5000 GPU and four required under the current serving budget.
-- Full-scale baselines and ablations have not yet been run on live graphs. The repo now has mini-ablation evidence, mid-scale generation evidence, and a materialized FinBench+SNB target-five ablation suite, but not full 3,000-example ablations for every setting.
+- Scaled baselines and ablations have not yet completed on live graphs. A target-25 FinBench/SNB suite is running; no ablation result should be reported in the paper until the scaled suite completes and is summarized from run artifacts.
 - Full downstream Text2Cypher model evaluation has completed on the 296-example full test split.
 - Judge calibration CSV/HTML tooling exists, the full-run v2 audit packet has 80 sampled rows with graph/category/judge-outcome coverage, and the labeling protocol is documented, but no completed human labels yet.
 - Paper results tables now contain full-generation, full-export, and full downstream test numbers; judge human-label calibration remains pending.
@@ -88,4 +89,4 @@ Status: goal is not complete yet.
 
 1. Fill human labels for `artifacts/audits/20260601_full_qwen9b_judge_audit_v2.csv`, then run `scripts/analyze_judge_audit.py --require-labels`.
 2. Start and smoke-check a `Qwen/Qwen3.5-35B-A3B` vLLM endpoint from `/home/suraj/pipecypher-models/Qwen3.5-35B-A3B`, or explicitly finalize the study as a 9B fallback study.
-3. Update the paper tables with judge calibration metrics and any larger ablation yields.
+3. Summarize the completed target-25 ablation suite from run artifacts, then add only scaled ablation tables/figures to the paper.

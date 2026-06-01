@@ -11,9 +11,9 @@ Files:
 - `paper.md`: current paper draft for rapid editing.
 - `main.tex`: ACL/EMNLP-style LaTeX draft skeleton.
 - `references.bib`: working references.
-- `tables_*.tex`: current method, experiment, full-generation, export, diversity, failure-taxonomy, judge-audit, distribution, ablation, and downstream tables.
+- `tables_*.tex`: current method, experiment, full-generation, export, diversity, failure-taxonomy, judge-audit, distribution, and downstream evaluation tables.
 - `appendix_claim_evidence.tex`, `appendix_prompt_contracts.tex`, and `appendix_example_cards.tex`: generated appendix material for claim/evidence traceability, prompt contracts, and representative accepted benchmark examples.
-- `figures/*.pdf`: appendix-ready ablation, diversity, failure-taxonomy, export-distribution, and downstream-evaluation figures.
+- `figures/*.pdf`: appendix-ready diversity, failure-taxonomy, export-distribution, and downstream-evaluation figures.
 - `main.pdf`: compiled local draft when LaTeX is available.
 
 Citation provenance is tracked in `../knowledge_base/citation_verification.md`; no placeholder citations are currently present in `references.bib`.
@@ -27,26 +27,18 @@ python ../scripts/render_paper_artifact_tables.py \
   --paper-dir .
 ```
 
-Regenerate the target-five FinBench+SNB ablation table with:
+Target-five and smaller ablations are engineering sanity checks, not paper
+results. Do not include `tables_ablation5_results.tex`, `tables_smoke.tex`,
+`tables_mini_results.tex`, or `tables_midscale_results.tex` in the paper. Run a
+scaled ablation suite from the project root before adding ablation tables:
 
 ```bash
-python ../scripts/render_ablation_paper_table.py \
-  ../artifacts/runs/20260601_182730_20260601_ablation5_finbench_unconstrained_local_llm_strict \
-  ../artifacts/runs/20260601_182553_20260601_ablation5_finbench_reverse_only \
-  ../artifacts/runs/20260601_182551_20260601_ablation5_finbench_validators_repair \
-  ../artifacts/runs/20260601_182245_20260601_ablation5_finbench_ablation_retrieval_topk_0 \
-  ../artifacts/runs/20260601_182417_20260601_ablation5_finbench_ablation_rewrite_false \
-  ../artifacts/runs/20260601_182549_20260601_ablation5_finbench_ablation_judge_false \
-  ../artifacts/runs/20260601_182058_20260601_ablation5_finbench_full_pipe_cypher \
-  ../artifacts/runs/20260601_183657_20260601_ablation5_snb_unconstrained_local_llm \
-  ../artifacts/runs/20260601_183656_20260601_ablation5_snb_reverse_only \
-  ../artifacts/runs/20260601_183655_20260601_ablation5_snb_validators_repair \
-  ../artifacts/runs/20260601_183401_20260601_ablation5_snb_ablation_retrieval_topk_0 \
-  ../artifacts/runs/20260601_183527_20260601_ablation5_snb_ablation_rewrite_false \
-  ../artifacts/runs/20260601_183653_20260601_ablation5_snb_ablation_judge_false \
-  ../artifacts/runs/20260601_183236_20260601_ablation5_snb_full_pipe_cypher \
-  --target-per-category 5 \
-  --output tables_ablation5_results.tex
+TARGET_PER_CATEGORY=25 \
+PYTHON_BIN=/home/suraj/pipecypher-tools/runtime-venv/bin/python \
+GENERATION_MODEL=Qwen/Qwen3.5-9B \
+JUDGE_MODEL=Qwen/Qwen3.5-9B \
+RUN_PREFIX=20260601_ablation25_qwen9b \
+  scripts/run_live_ablation_suite.sh
 ```
 
 Regenerate the diversity table and appendix figures from the project root:
@@ -100,4 +92,4 @@ python scripts/render_appendix_material.py \
   --max-examples 16
 ```
 
-Current caveat: the paper is structurally complete for serious revision and now includes the 3,000-example full FinBench/SNB benchmark export, full-test Qwen3.5-9B downstream evaluation, live target-five FinBench/SNB ablation suites, diversity diagnostics, full-run failure taxonomy, judge-audit coverage, claim/evidence traceability, prompt contracts, and representative accepted examples. Judge calibration labels and full-scale ablations remain pending.
+Current caveat: the paper is structurally complete for serious revision and now includes the 3,000-example full FinBench/SNB benchmark export, full-test Qwen3.5-9B downstream evaluation, diversity diagnostics, full-run failure taxonomy, judge-audit coverage, claim/evidence traceability, prompt contracts, and representative accepted examples. Judge calibration labels and scaled ablations remain pending.

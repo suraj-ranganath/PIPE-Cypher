@@ -224,7 +224,7 @@ PYTHON_BIN=/home/suraj/pipecypher-tools/runtime-venv/bin/python \
 
 The June 1, 2026 mini-ablation evidence is summarized in `knowledge_base/mini_ablation_results.md`: FinBench LLM-only accepted 0/16, FinBench mixed accepted 16/29, and SNB mixed accepted 8/8.
 
-The materialized FinBench+SNB target-five ablation suite is summarized in `knowledge_base/target5_ablation_results.md` and rendered into `paper_emnlp2026_industry/tables_ablation5_results.tex`.
+The mini-ablation and target-five artifacts are engineering sanity checks only. Do not report them in the paper as experimental evidence; paper ablations should use scaled runs such as target-25 or larger with explicit run logs and both graph workloads when the claim is not graph-specific.
 
 Run a larger bounded live ablation suite when the Qwen3.5-9B endpoint and both Neo4j databases are up on `ds-serv6`:
 
@@ -233,6 +233,7 @@ source ~/miniforge3/etc/profile.d/conda.sh
 conda activate pipe-rdf-arr
 cd /home/suraj/PIPE-Cypher
 TARGET_PER_CATEGORY=25 \
+PYTHON_BIN=/home/suraj/pipecypher-tools/runtime-venv/bin/python \
 GENERATION_MODEL=Qwen/Qwen3.5-9B \
 JUDGE_MODEL=Qwen/Qwen3.5-9B \
 RUN_PREFIX=20260601_ablation25_qwen9b \
@@ -295,7 +296,7 @@ Run the all-category SNB seeded smoke:
 
 The June 1, 2026 all-category SNB run accepted 8/8 examples across the full planned category set.
 
-Run the live mid-scale suite:
+Run the old live mid-scale suite for engineering diagnostics only:
 
 ```bash
 RUN_PREFIX=20260601_midscale \
@@ -303,7 +304,7 @@ PYTHON_BIN=/home/suraj/pipecypher-tools/runtime-venv/bin/python \
   scripts/run_live_midscale.sh
 ```
 
-The June 1, 2026 mid-scale runs accepted 40/46 FinBench candidates and 40/47 SNB candidates, reaching five accepted examples in every planned graph/category cell.
+The June 1, 2026 mid-scale runs accepted 40/46 FinBench candidates and 40/47 SNB candidates, reaching five accepted examples in every planned graph/category cell. These runs are too small for paper reporting and should not be used as publication evidence.
 
 Export accepted mid-scale records into a benchmark package with stable IDs, splits, stats, and a manifest hash:
 

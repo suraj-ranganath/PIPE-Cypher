@@ -25,7 +25,7 @@ Result:
 Interpretation:
 
 - `Qwen/Qwen3.5-35B-A3B` remains the target generation/judge model for full-quality experiments. It is not in the default Hugging Face cache, but it has now been staged under `/home/suraj/pipecypher-models/Qwen3.5-35B-A3B`.
-- `Qwen/Qwen3.5-9B` is the current local fallback model and has been used for all live generation, judge, and downstream Text2Cypher smoke evidence so far.
+- `Qwen/Qwen3.5-9B` is the current local fallback model and has been used for live engineering checks, the full 3,000-example fallback benchmark, and downstream Text2Cypher evaluation so far.
 - `BAAI/bge-m3` is cached for local retrieval/embedding work.
 - `/data` currently has only about 1.1T free, while `/` has about 11T free. Stage large model weights under home/root-backed storage unless `/data` is cleaned.
 

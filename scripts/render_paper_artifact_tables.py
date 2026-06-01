@@ -41,7 +41,7 @@ def main() -> None:
     outputs = {
         "tables_benchmark_export.tex": render_benchmark_export_table(stats, manifest),
         "tables_full_artifact_distribution.tex": render_full_artifact_distribution_table(stats),
-        "tables_downstream_smoke.tex": render_downstream_table(evaluation),
+        "tables_downstream_evaluation.tex": render_downstream_table(evaluation),
     }
     paper_dir.mkdir(parents=True, exist_ok=True)
     for name, text in outputs.items():
