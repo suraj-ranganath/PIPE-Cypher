@@ -26,6 +26,7 @@ from .prompts import (
 )
 from .question_constraints import apply_question_constraints
 from .retrieval import ExampleStore
+from .value_grounding import ValueGrounder
 from .validator import validate_cypher
 
 
@@ -292,11 +293,12 @@ class PipeCypherPipeline:
             k=self.config.generation.retrieval_top_k,
             category=category,
         )
+        prompt_entity_hints = self._entity_prompt_hints(question, entity_hints)
         prompt = CYPHER_GENERATION_PROMPT.format(
             schema=self.schema.to_prompt(),
             question=question,
             examples=self.examples.format_examples(retrieved),
-            entity_hints=json.dumps(entity_hints, ensure_ascii=False),
+            entity_hints=json.dumps(prompt_entity_hints, ensure_ascii=False),
         )
         try:
             cypher = self.llm.chat(
@@ -312,6 +314,15 @@ class PipeCypherPipeline:
                 bindings=bindings,
             )
         return cypher, retrieved
+
+    def _entity_prompt_hints(self, question: str, entity_hints: dict[str, str]) -> dict[str, Any]:
+        hints: dict[str, Any] = dict(entity_hints)
+        grounder = ValueGrounder.from_schema_and_hints(self.schema, entity_hints)
+        mentions = grounder.ground(question)
+        if mentions:
+            hints["_grounded_mentions"] = [mention.to_prompt_dict() for mention in mentions]
+            hints["_annotated_question"] = grounder.annotate_text(question, mentions)
+        return hints
 
     def repair_cypher(self, question: str, cypher: str, issue: str) -> str:
         prompt = REPAIR_PROMPT.format(

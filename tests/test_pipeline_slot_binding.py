@@ -136,3 +136,24 @@ def test_pipeline_rejects_object_slot_bindings_and_uses_generic_scalar_fallback(
 
     assert "Bertrand" in record.question
     assert "<object object" not in record.question
+
+
+def test_pipeline_adds_grounded_mentions_to_prompt_hints():
+    cfg = RunConfig()
+    pipeline = PipeCypherPipeline(
+        config=cfg,
+        schema=finbench_reference_schema(),
+        client=BindingCypherClient(),
+        llm=NullLLM(),
+        judge=DeterministicJudge(),
+    )
+
+    hints = pipeline._entity_prompt_hints(
+        "Which accounts are owned by person 'Bertrand'?",
+        {"personName": "Bertrand | Person.personName"},
+    )
+
+    assert hints["personName"] == "Bertrand | Person.personName"
+    assert hints["_grounded_mentions"][0]["canonical_value"] == "Bertrand"
+    assert hints["_grounded_mentions"][0]["schema_path"] == "Person.personName"
+    assert "(Person.personName: Bertrand)" in hints["_annotated_question"]

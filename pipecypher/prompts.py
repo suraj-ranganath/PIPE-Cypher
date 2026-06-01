@@ -68,6 +68,8 @@ Instructions:
 - Use only the provided labels, relationship types, properties, categorical values, and relationship directions.
 - Do not invent labels, relationship types, or properties.
 - Retrieved examples may replace graph-specific values with placeholders like `{{PERSONNAME_1}}`; copy their query structure, not the placeholder values.
+- If Entity hints include `_grounded_mentions` or `_annotated_question`, use the canonical values
+  and schema paths there for entity and categorical matches.
 - Return only one Cypher statement.
 - Do not include explanations, apologies, comments, markdown, or new lines.
 - All set-returning RETURN clauses must use RETURN DISTINCT.
