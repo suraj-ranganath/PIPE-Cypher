@@ -10,7 +10,7 @@ Files:
 - `main.tex`: ACL/EMNLP-style LaTeX draft skeleton.
 - `references.bib`: working references.
 - `tables_*.tex`: current method, experiment, full-generation, export, diversity, distribution, ablation, and downstream tables.
-- `figures/*.pdf`: appendix-ready ablation and diversity figures.
+- `figures/*.pdf`: appendix-ready ablation, diversity, export-distribution, and downstream-evaluation figures.
 - `main.pdf`: compiled local draft when LaTeX is available.
 
 Citation provenance is tracked in `../knowledge_base/citation_verification.md`; no placeholder citations are currently present in `references.bib`.
@@ -58,6 +58,8 @@ python scripts/analyze_benchmark_diversity.py \
 
 python scripts/render_paper_figures.py \
   --diversity-report experiments/snapshots/20260601_live_full_qwen9b/diversity_report.json \
+  --benchmark-stats artifacts/benchmarks/20260601_live_full_qwen9b/stats.json \
+  --downstream-summary artifacts/evaluations/20260601_full_qwen9b_test_summary.json \
   --output-dir paper_emnlp2026_industry/figures
 ```
 

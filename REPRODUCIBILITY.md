@@ -246,5 +246,7 @@ Regenerate the appendix figures:
 ```bash
 python scripts/render_paper_figures.py \
   --diversity-report experiments/snapshots/20260601_live_full_qwen9b/diversity_report.json \
+  --benchmark-stats artifacts/benchmarks/20260601_live_full_qwen9b/stats.json \
+  --downstream-summary artifacts/evaluations/20260601_full_qwen9b_test_summary.json \
   --output-dir paper_emnlp2026_industry/figures
 ```

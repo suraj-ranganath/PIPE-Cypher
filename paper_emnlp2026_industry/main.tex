@@ -120,4 +120,18 @@ PIPE-Cypher provides a practical path for enterprises to create private, executa
 \label{fig:ablation_acceptance}
 \end{figure}
 
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/full_export_distribution.pdf}
+\caption{Full 3,000-example export distribution. The benchmark preserves the planned 2:1 FinBench/SNB graph mix while balancing all eight Cypher workload categories and maintaining a near-even easy/medium difficulty split.}
+\label{fig:full_export_distribution}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/downstream_breakdown.pdf}
+\caption{Downstream zero-shot Qwen3.5-9B Text2Cypher evaluation by workload category on the full test split. The breakdown separates final execution accuracy from parse/schema/execution success signals, making difficult operational categories visible.}
+\label{fig:downstream_breakdown}
+\end{figure}
+
 \end{document}
