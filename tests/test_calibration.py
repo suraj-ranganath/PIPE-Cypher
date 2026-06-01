@@ -1,3 +1,4 @@
+import csv
 from pathlib import Path
 
 from pipecypher.calibration import (
@@ -32,6 +33,31 @@ def test_sample_for_audit_dedupes_repeated_candidates():
     assert len(sample) == 2
 
 
+def test_sample_for_audit_covers_graph_category_judge_strata():
+    records = []
+    for graph in ["finbench", "snb"]:
+        for category in ["simple", "ranking"]:
+            for accepted in [True, False]:
+                records.append(
+                    {
+                        "accepted": accepted,
+                        "graph_profile": graph,
+                        "category": category,
+                        "question": f"{graph}-{category}-{accepted}",
+                        "cypher": "MATCH (n) RETURN n",
+                    }
+                )
+
+    sample = sample_for_audit(records, n=8, seed=1)
+    strata = {
+        (row["graph_profile"], row["category"], row["accepted"])
+        for row in sample
+    }
+
+    assert len(sample) == 8
+    assert len(strata) == 8
+
+
 def test_analyze_audit_csv(tmp_path: Path):
     records = [
         {"accepted": True, "question": "q1", "cypher": "MATCH (n) RETURN n"},
@@ -39,22 +65,33 @@ def test_analyze_audit_csv(tmp_path: Path):
     ]
     path = tmp_path / "audit.csv"
     write_audit_csv(records, path)
-    text = path.read_text(encoding="utf-8")
-    text = text.replace("true,", "true,true,", 1)
-    text = text.replace("false,", "false,true,", 1)
-    path.write_text(text, encoding="utf-8")
+    rows = []
+    with path.open("r", encoding="utf-8", newline="") as f:
+        reader = csv.DictReader(f)
+        rows = list(reader)
+        fieldnames = reader.fieldnames
+    rows[0]["human_accept"] = "true"
+    rows[1]["human_accept"] = "true"
+    with path.open("w", encoding="utf-8", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(rows)
     metrics = analyze_audit_csv(path)
     assert metrics.total_labeled == 2
     assert metrics.false_rejects == 1
+    assert metrics.true_accepts == 1
+    assert metrics.true_rejects == 0
     assert metrics.judge_precision == 1.0
+    assert metrics.judge_recall == 0.5
+    assert metrics.balanced_accuracy == 0.0
 
 
 def test_summarize_audit_csv_reports_label_coverage(tmp_path: Path):
     path = tmp_path / "audit.csv"
     path.write_text(
-        "id,judge_accept,human_accept,category,difficulty,primary_strategy,question,cypher,judge_failure_reason,human_notes\n"
-        "0,true,true,simple,easy,single_hop,q,c,,\n"
-        "1,false,,negation,medium,negation,q,c,failed,\n",
+        "id,graph_profile,judge_accept,human_accept,category,difficulty,primary_strategy,question,cypher,judge_failure_reason,human_notes\n"
+        "0,finbench,true,true,simple,easy,single_hop,q,c,,\n"
+        "1,snb,false,,negation,medium,negation,q,c,failed,\n",
         encoding="utf-8",
     )
 
@@ -65,4 +102,5 @@ def test_summarize_audit_csv_reports_label_coverage(tmp_path: Path):
     assert coverage.unlabeled_rows == 1
     assert coverage.judge_accepts == 1
     assert coverage.judge_rejects == 1
+    assert coverage.by_graph == {"finbench": 1, "snb": 1}
     assert coverage.by_category == {"negation": 1, "simple": 1}

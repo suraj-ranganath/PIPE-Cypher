@@ -12,7 +12,7 @@ Current full-run audit packet:
 artifacts/audits/20260601_full_qwen9b_judge_audit.csv
 ```
 
-The file has 80 rows: 40 judge-accepted and 40 judge-rejected candidates sampled from the full Qwen3.5-9B generation artifacts.
+The file has 80 rows: 40 judge-accepted and 40 judge-rejected candidates sampled from the full Qwen3.5-9B generation artifacts. Newly generated audit packets are stratified by `graph_profile`, `category`, and judge accept/reject outcome when those fields are present; legacy packets without `graph_profile` are reported under `unknown` by the analyzer.
 
 ## Labeling Rule
 
@@ -21,7 +21,7 @@ Fill `human_accept` with one of:
 - `true`: the natural-language question is clear, the Cypher is read-only, schema-grounded, directionally plausible, and semantically answers the question.
 - `false`: the pair is ambiguous, uses the wrong schema element, reverses an important relationship direction, mismatches an exact literal, returns inadequate context columns, is unsafe, or otherwise should not appear in the benchmark.
 
-Use `human_notes` for a short reason when `human_accept=false`, or when a row is borderline. Do not edit `judge_accept`, `question`, `cypher`, `category`, or `difficulty`.
+Use `human_notes` for a short reason when `human_accept=false`, or when a row is borderline. Do not edit `graph_profile`, `judge_accept`, `question`, `cypher`, `category`, or `difficulty`.
 
 ## Review Checklist
 
@@ -53,4 +53,4 @@ python scripts/analyze_judge_audit.py \
   > artifacts/audits/20260601_full_qwen9b_judge_audit_metrics.json
 ```
 
-Report `total_labeled`, agreement rate, judge precision, judge recall, false accepts, and false rejects in the paper. The strongest paper claim is not that the judge is perfect, but that the pipeline is automated and the post-hoc audit makes judge risk visible.
+Report coverage by graph/category/difficulty plus `total_labeled`, agreement rate, judge precision, judge recall, judge specificity, negative predictive value, balanced accuracy, Cohen's kappa, false accepts, and false rejects in the paper. The strongest paper claim is not that the judge is perfect, but that the pipeline is automated and the post-hoc audit makes judge risk visible.

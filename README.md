@@ -80,6 +80,10 @@ python scripts/sample_judge_audit.py \
   --n 100
 ```
 
+By default, audit sampling is stratified by graph profile, category, and judge
+accept/reject outcome when those fields are present. Use `--no-stratify` only
+for legacy global accept/reject sampling.
+
 Analyze label coverage and calibration metrics after filling `human_accept`:
 
 ```bash

@@ -5,7 +5,7 @@ Status: goal is not complete yet.
 ## Evidence Already Present
 
 - Clean repo scaffold with package, configs, scripts, tests, docs, experiment matrix, and paper directory.
-- Deterministic tests pass: `109 passed`.
+- Deterministic tests pass: `110 passed`.
 - Offline smoke runs prove the CLI path, built-in FinBench and SNB reference schemas, deterministic validation, contextual return warnings, mock execution, deterministic judge, JSONL logging, strategy tags, and summary metrics.
 - LDBC FinBench SF0.1 has been generated on `ds-serv6`, transformed to snapshot CSVs, and loaded into a user-space Neo4j Community 5.26 smoke database.
 - The loaded FinBench smoke graph contains 10,006 nodes and 57,622 relationships.
@@ -45,7 +45,7 @@ Status: goal is not complete yet.
 - The final full export has 3,000/3,000 accepted examples passing read-only, syntax, schema, execution, and judge gates; the judge audit packet is `artifacts/audits/20260601_full_qwen9b_judge_audit.csv` with 80 sampled rows plus header.
 - `scripts/render_paper_artifact_tables.py` regenerates paper tables for benchmark export, distribution/gate summary, and downstream Text2Cypher results directly from `stats.json`, `manifest.json`, and the evaluation summary.
 - `knowledge_base/citation_verification.md` records the verified source for every paper bibliography entry used by the EMNLP/arXiv draft; no unverified placeholder citations remain in `paper_emnlp2026_industry/references.bib`.
-- `knowledge_base/judge_audit_protocol.md` defines the human calibration labeling rubric. `scripts/analyze_judge_audit.py` now reports audit coverage and exits non-zero with `--require-labels` when no labels are complete.
+- `knowledge_base/judge_audit_protocol.md` defines the human calibration labeling rubric. `scripts/sample_judge_audit.py` now stratifies by graph, category, and judge outcome when metadata is available; `scripts/analyze_judge_audit.py` reports graph/category/difficulty coverage, agreement, precision/recall/specificity, negative predictive value, balanced accuracy, Cohen's kappa, and exits non-zero with `--require-labels` when no labels are complete.
 - Benchmark export now deduplicates accepted examples by graph, category, and normalized question text before assigning stable example IDs, preventing equivalent recovery-run duplicates from entering the released benchmark.
 - Relationship-direction validation now handles both outgoing and incoming Cypher arrow syntax. It accepts `(:A)<-[:R]-(:B)` only when the schema contains `(:B)-[:R]->(:A)`, rejects reversed incoming patterns, and rejects untyped or undirected relationship patterns as benchmark-invalid.
 - Categorical property validation now rejects generated Cypher that uses unsupported schema-provided enum-like values in node maps or `WHERE` predicates. The tracked FinBench schema records categorical values for `Account.accountType`, `Company.business`, and `Medium.mediumType`; a full-export check found zero categorical-value violations among existing FinBench examples.

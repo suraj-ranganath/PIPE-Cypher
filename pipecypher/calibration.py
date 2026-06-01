@@ -14,6 +14,12 @@ class CalibrationMetrics:
     agreement_rate: float
     judge_precision: float
     judge_recall: float
+    judge_specificity: float
+    judge_negative_predictive_value: float
+    balanced_accuracy: float
+    cohen_kappa: float
+    true_accepts: int
+    true_rejects: int
     false_accepts: int
     false_rejects: int
 
@@ -25,6 +31,7 @@ class AuditCoverage:
     unlabeled_rows: int
     judge_accepts: int
     judge_rejects: int
+    by_graph: dict[str, int]
     by_category: dict[str, int]
     by_difficulty: dict[str, int]
     by_strategy: dict[str, int]
@@ -43,9 +50,12 @@ def sample_for_audit(
     *,
     n: int,
     seed: int = 13,
+    stratify: bool = True,
 ) -> list[dict[str, Any]]:
     rng = random.Random(seed)
     unique_records = _dedupe_records(records)
+    if stratify:
+        return _stratified_audit_sample(unique_records, n=n, rng=rng)
     accepted = [row for row in unique_records if row.get("accepted")]
     rejected = [row for row in unique_records if not row.get("accepted")]
     half = n // 2
@@ -57,6 +67,48 @@ def sample_for_audit(
         sample.extend(rng.sample(remaining, min(n - len(sample), len(remaining))))
     rng.shuffle(sample)
     return sample
+
+
+def _stratified_audit_sample(
+    records: list[dict[str, Any]],
+    *,
+    n: int,
+    rng: random.Random,
+) -> list[dict[str, Any]]:
+    if n <= 0 or not records:
+        return []
+    groups: dict[tuple[str, str, bool], list[dict[str, Any]]] = {}
+    for row in records:
+        groups.setdefault(_audit_stratum(row), []).append(row)
+    for rows in groups.values():
+        rng.shuffle(rows)
+
+    sample: list[dict[str, Any]] = []
+    for key in sorted(groups):
+        if len(sample) >= n:
+            break
+        rows = groups[key]
+        if rows:
+            sample.append(rows.pop())
+
+    while len(sample) < n:
+        keys = sorted(groups, key=lambda key: (-len(groups[key]), key))
+        if not keys or not groups[keys[0]]:
+            break
+        for key in keys:
+            if len(sample) >= n:
+                break
+            rows = groups[key]
+            if rows:
+                sample.append(rows.pop())
+    rng.shuffle(sample)
+    return sample
+
+
+def _audit_stratum(row: dict[str, Any]) -> tuple[str, str, bool]:
+    graph = str(row.get("graph_profile") or "unknown")
+    category = str(row.get("category") or "unknown")
+    return graph, category, bool(row.get("accepted"))
 
 
 def _dedupe_records(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -81,6 +133,7 @@ def write_audit_csv(records: list[dict[str, Any]], path: str | Path) -> None:
     out.parent.mkdir(parents=True, exist_ok=True)
     fields = [
         "id",
+        "graph_profile",
         "judge_accept",
         "human_accept",
         "category",
@@ -99,6 +152,7 @@ def write_audit_csv(records: list[dict[str, Any]], path: str | Path) -> None:
             writer.writerow(
                 {
                     "id": idx,
+                    "graph_profile": row.get("graph_profile", ""),
                     "judge_accept": str(bool(row.get("accepted"))).lower(),
                     "human_accept": "",
                     "category": row.get("category", ""),
@@ -133,20 +187,42 @@ def analyze_audit_csv(path: str | Path) -> CalibrationMetrics:
             rows.append((judge, human))
     total = len(rows)
     if total == 0:
-        return CalibrationMetrics(0, 0.0, 0.0, 0.0, 0, 0)
+        return CalibrationMetrics(0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, 0, 0, 0)
     agreements = sum(1 for judge, human in rows if judge == human)
     true_accepts = sum(1 for judge, human in rows if judge and human)
+    true_rejects = sum(1 for judge, human in rows if not judge and not human)
     judge_accepts = sum(1 for judge, _ in rows if judge)
+    judge_rejects = total - judge_accepts
     human_accepts = sum(1 for _, human in rows if human)
+    human_rejects = total - human_accepts
     false_accepts = sum(1 for judge, human in rows if judge and not human)
     false_rejects = sum(1 for judge, human in rows if not judge and human)
     precision = true_accepts / judge_accepts if judge_accepts else 0.0
     recall = true_accepts / human_accepts if human_accepts else 0.0
+    specificity = true_rejects / human_rejects if human_rejects else 0.0
+    negative_predictive_value = true_rejects / judge_rejects if judge_rejects else 0.0
+    balanced_accuracy = (recall + specificity) / 2 if human_accepts and human_rejects else 0.0
+    expected_agreement = (
+        (judge_accepts / total) * (human_accepts / total)
+        + (judge_rejects / total) * (human_rejects / total)
+    )
+    observed_agreement = agreements / total
+    cohen_kappa = (
+        (observed_agreement - expected_agreement) / (1 - expected_agreement)
+        if expected_agreement < 1.0
+        else 1.0
+    )
     return CalibrationMetrics(
         total_labeled=total,
-        agreement_rate=agreements / total,
+        agreement_rate=observed_agreement,
         judge_precision=precision,
         judge_recall=recall,
+        judge_specificity=specificity,
+        judge_negative_predictive_value=negative_predictive_value,
+        balanced_accuracy=balanced_accuracy,
+        cohen_kappa=cohen_kappa,
+        true_accepts=true_accepts,
+        true_rejects=true_rejects,
         false_accepts=false_accepts,
         false_rejects=false_rejects,
     )
@@ -157,6 +233,7 @@ def summarize_audit_csv(path: str | Path) -> AuditCoverage:
     labeled = 0
     judge_accepts = 0
     judge_rejects = 0
+    by_graph: dict[str, int] = {}
     by_category: dict[str, int] = {}
     by_difficulty: dict[str, int] = {}
     by_strategy: dict[str, int] = {}
@@ -171,6 +248,7 @@ def summarize_audit_csv(path: str | Path) -> AuditCoverage:
                 judge_accepts += 1
             elif judge is False:
                 judge_rejects += 1
+            _increment(by_graph, row.get("graph_profile", "unknown"))
             _increment(by_category, row.get("category", "unknown"))
             _increment(by_difficulty, row.get("difficulty", "unknown"))
             _increment(by_strategy, row.get("primary_strategy", "unknown"))
@@ -180,6 +258,7 @@ def summarize_audit_csv(path: str | Path) -> AuditCoverage:
         unlabeled_rows=total - labeled,
         judge_accepts=judge_accepts,
         judge_rejects=judge_rejects,
+        by_graph=dict(sorted(by_graph.items())),
         by_category=dict(sorted(by_category.items())),
         by_difficulty=dict(sorted(by_difficulty.items())),
         by_strategy=dict(sorted(by_strategy.items())),
