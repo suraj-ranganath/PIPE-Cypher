@@ -60,8 +60,8 @@ Runtime metadata:
 
 Observed at latest inspection:
 
-- 11/14 graph/variant cells had been observed.
-- 10/14 graph/variant cells were complete.
+- 12/14 graph/variant cells had been observed.
+- 11/14 graph/variant cells were complete.
 - The tmux session was still running.
 
 Completed at latest inspection:
@@ -69,21 +69,21 @@ Completed at latest inspection:
 - All FinBench variants: `unconstrained_local_llm`, `reverse_only`, `validators_repair`,
   `ablation_retrieval_topk_0`, `ablation_rewrite_false`, and
   `ablation_judge_false`, and `full_pipe_cypher`.
-- SNB `unconstrained_local_llm`, `reverse_only`, and `validators_repair`.
+- SNB `unconstrained_local_llm`, `reverse_only`, `validators_repair`, and
+  `ablation_retrieval_topk_0`.
 
 Active at latest inspection:
 
-- SNB `ablation_retrieval_topk_0`; the active records file
-  `artifacts/runs/20260601_225522_20260601_ablation50_qwen9b_snb_ablation_retrieval_topk_0/records.jsonl`
-  had passed 300 records during local inspection and continued advancing
+- SNB `ablation_rewrite_false`; the active records file
+  `artifacts/runs/20260601_231001_20260601_ablation50_qwen9b_snb_ablation_rewrite_false/records.jsonl`
+  had started during local inspection and continued advancing
   afterward. Treat it as active/incomplete until the suite advances and the
   collector/audit confirms the final status; use the monitor command below for
   the exact live count.
 
 Still missing at latest inspection:
 
-- SNB `ablation_rewrite_false`, `ablation_judge_false`, and
-  `full_pipe_cypher`.
+- SNB `ablation_judge_false` and `full_pipe_cypher`.
 
 Reporting note: once the suite finishes, `scripts/run_live_ablation_suite.sh` now writes
 `ablation_suite_summary.json`, `ablation_suite_summary.md`, `ablation_suite_summary.csv`,

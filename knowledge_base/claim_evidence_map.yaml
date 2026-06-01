@@ -61,6 +61,7 @@ claims:
       - "pipecypher/calibration.py"
       - "pipecypher/judge_audit_packet.py"
       - "experiments/snapshots/20260601_live_full_qwen9b/judge_audit_packet_v2.json"
+      - "knowledge_base/judge_audit_protocol.md"
       - "paper_emnlp2026_industry/tables_judge_audit_coverage.tex"
     status: "Pipeline gate is implemented; audit packet coverage is supported."
     risk: "Judge-human agreement is not yet known because human labels are still blank."

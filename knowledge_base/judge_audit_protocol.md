@@ -23,6 +23,48 @@ Fill `human_accept` with one of:
 
 Use `human_notes` for a short reason when `human_accept=false`, or when a row is borderline. Do not edit `graph_profile`, `judge_accept`, `question`, `cypher`, `category`, or `difficulty`.
 
+## Reviewer-Defensible Calibration Design
+
+The audit is a calibration sample, not a hidden generation stage. Accepted and
+rejected candidates are both present so the paper can estimate false accepts and
+false rejects instead of only checking accepted examples. The v2 packet should
+remain frozen for the first reported calibration run; do not resample after
+seeing labels unless the paper explicitly reports the first packet as a pilot
+and declares a new packet before labeling.
+
+Preferred labeling design:
+
+1. Use two independent annotators when possible. Each annotator should label the
+   same `human_accept` decision without seeing the other annotator's label.
+2. Annotators may see `judge_accept` because the audit evaluates judge agreement,
+   but the paper must state this. If a blinded variant is run later, keep it as a
+   separate audit file and report it separately.
+3. Disagreements should be adjudicated into a final `human_accept` label only
+   after recording the original labels in a separate sidecar file. Do not replace
+   the raw individual labels without preserving them.
+4. Rows should be judged against the schema and execution sample available to the
+   pipeline, not against assumptions about the data generator that are absent
+   from the candidate record.
+
+Minimum acceptable paper evidence:
+
+- all 80 rows labeled, or an explicit reason and coverage table if any row is
+  excluded;
+- coverage by graph, category, difficulty, strategy, and judge decision;
+- agreement rate, precision, recall, specificity, negative predictive value,
+  balanced accuracy, Cohen's kappa, false accepts, and false rejects;
+- a short failure taxonomy for false accepts and false rejects.
+
+Claims that remain invalid until labels exist:
+
+- "the LLM judge is reliable";
+- "human audit confirms semantic correctness";
+- "judge calibration improves generation quality."
+
+The defensible claim before labels are complete is narrower: the benchmark
+generation gate is automated, and the repository includes a frozen post-hoc
+audit packet and analysis tooling that will expose judge risk.
+
 ## Review Checklist
 
 For each row, inspect:
