@@ -13,7 +13,7 @@ Files:
 - `references.bib`: working references.
 - `tables_*.tex`: current method, experiment, full-generation, export, diversity, failure-taxonomy, judge-audit, distribution, downstream evaluation, and downstream uncertainty tables.
 - `appendix_claim_evidence.tex`, `appendix_prompt_contracts.tex`, and `appendix_example_cards.tex`: generated appendix material for claim/evidence traceability, prompt contracts, and representative accepted benchmark examples.
-- `figures/*.pdf`: appendix-ready diversity, failure-taxonomy, export-distribution, and downstream-evaluation figures.
+- `figures/*.pdf`: appendix-ready diversity, failure-taxonomy, export-distribution, downstream-evaluation, and downstream-uncertainty figures.
 - `main.pdf`: compiled local draft when LaTeX is available.
 
 Citation provenance is tracked in `../knowledge_base/citation_verification.md`; no placeholder citations are currently present in `references.bib`.
@@ -162,6 +162,7 @@ python scripts/render_paper_figures.py \
   --failure-taxonomy experiments/snapshots/20260601_live_full_qwen9b/failure_taxonomy.json \
   --benchmark-stats artifacts/benchmarks/20260601_live_full_qwen9b/stats.json \
   --downstream-summary artifacts/evaluations/20260601_full_qwen9b_test_summary.json \
+  --downstream-uncertainty experiments/snapshots/20260601_live_full_qwen9b/downstream_uncertainty.json \
   --output-dir paper_emnlp2026_industry/figures
 ```
 

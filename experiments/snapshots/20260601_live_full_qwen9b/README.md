@@ -8,7 +8,7 @@ This directory is a lightweight, tracked snapshot of an ignored full benchmark e
 - Representative sample: `16` examples in `sample_examples.json`, selected by stable ID within each graph/category cell.
 - Diversity diagnostics: `diversity_report.json`.
 - Failure taxonomy: `failure_taxonomy.json`, derived from the ignored full-run raw candidate records on `ds-serv6`. It summarizes `4,777` candidates, `3,000` accepted examples, and `1,777` rejected candidates.
-- Downstream uncertainty: `downstream_uncertainty.json` and `downstream_uncertainty.md`, derived from the 296-row full-test evaluation JSONL with 2,000 fixed-seed bootstrap resamples.
+- Downstream uncertainty: `downstream_uncertainty.json` and `downstream_uncertainty.md`, derived from the 296-row full-test evaluation JSONL with 2,000 fixed-seed bootstrap resamples. The appendix figure is `paper_emnlp2026_industry/figures/downstream_uncertainty.pdf`.
 - Judge audit packet snapshot: `judge_audit_packet_v2.json`. The ignored source CSV is `artifacts/audits/20260601_full_qwen9b_judge_audit_v2.csv` with SHA-256 `59d1be5a1a946fd2141cf5d5d1b735a82eb9ef18db7018f6cbcb049953b3eeea`, 80 rows, a 40/40 judge accept/reject split, 48 FinBench rows, 32 SNB rows, and 0 completed human labels.
 
 Use `manifest.json` to verify file sizes, split counts, aggregate statistics, and checksums for the full local export.

@@ -22,6 +22,10 @@ def main() -> None:
         default="artifacts/evaluations/20260601_full_qwen9b_test_summary.json",
     )
     parser.add_argument(
+        "--downstream-uncertainty",
+        default="experiments/snapshots/20260601_live_full_qwen9b/downstream_uncertainty.json",
+    )
+    parser.add_argument(
         "--failure-taxonomy",
         default="experiments/snapshots/20260601_live_full_qwen9b/failure_taxonomy.json",
     )
@@ -38,15 +42,24 @@ def main() -> None:
     diversity_report = json.loads(Path(args.diversity_report).read_text(encoding="utf-8"))
     benchmark_stats = json.loads(Path(args.benchmark_stats).read_text(encoding="utf-8"))
     downstream_summary = json.loads(Path(args.downstream_summary).read_text(encoding="utf-8"))
+    downstream_uncertainty = json.loads(
+        Path(args.downstream_uncertainty).read_text(encoding="utf-8")
+    )
     failure_taxonomy = json.loads(Path(args.failure_taxonomy).read_text(encoding="utf-8"))
 
     render_diversity_figure(diversity_report, out / "diversity_diagnostics.pdf", plt)
     render_full_distribution_figure(benchmark_stats, out / "full_export_distribution.pdf", plt)
     render_downstream_figure(downstream_summary, out / "downstream_breakdown.pdf", plt)
+    render_downstream_uncertainty_figure(
+        downstream_uncertainty,
+        out / "downstream_uncertainty.pdf",
+        plt,
+    )
     render_failure_taxonomy_figure(failure_taxonomy, out / "failure_taxonomy.pdf", plt)
     print(f"wrote {out / 'diversity_diagnostics.pdf'}")
     print(f"wrote {out / 'full_export_distribution.pdf'}")
     print(f"wrote {out / 'downstream_breakdown.pdf'}")
+    print(f"wrote {out / 'downstream_uncertainty.pdf'}")
     print(f"wrote {out / 'failure_taxonomy.pdf'}")
 
 
@@ -140,6 +153,54 @@ def render_downstream_figure(summary: dict, output: Path, plt) -> None:
     ax.set_xticklabels([_short_category(label) for label in categories], rotation=28, ha="right", fontsize=8)
     ax.legend(frameon=False, ncols=3, loc="upper left")
     ax.grid(axis="y", linestyle=":", linewidth=0.6, alpha=0.7)
+    fig.tight_layout()
+    fig.savefig(output)
+    plt.close(fig)
+
+
+def render_downstream_uncertainty_figure(report: dict, output: Path, plt) -> None:
+    category_groups = report["groups"]["category"]
+    categories = list(sorted(category_groups))
+    metrics = [
+        ("execution_accuracy", "Execution accuracy", "#2563eb"),
+        ("execution_success", "Execution success", "#f97316"),
+    ]
+    fig, axes = plt.subplots(1, 2, figsize=(9.4, 3.6), sharey=True)
+    x_positions = list(range(len(categories)))
+    confidence = int(round(float(report.get("confidence_level", 0.95)) * 100))
+
+    for ax, (metric, title, color) in zip(axes, metrics, strict=True):
+        points = [category_groups[category][metric]["point"] for category in categories]
+        lowers = [category_groups[category][metric]["lower"] for category in categories]
+        uppers = [category_groups[category][metric]["upper"] for category in categories]
+        yerr = [
+            [point - lower for point, lower in zip(points, lowers, strict=True)],
+            [upper - point for point, upper in zip(points, uppers, strict=True)],
+        ]
+        ax.errorbar(
+            x_positions,
+            points,
+            yerr=yerr,
+            fmt="o",
+            color=color,
+            ecolor=color,
+            elinewidth=1.2,
+            capsize=3,
+            markersize=4.5,
+        )
+        ax.set_title(title)
+        ax.set_ylim(-0.04, 1.05)
+        ax.set_xticks(x_positions)
+        ax.set_xticklabels(
+            [_short_category(label) for label in categories],
+            rotation=35,
+            ha="right",
+            fontsize=8,
+        )
+        ax.grid(axis="y", linestyle=":", linewidth=0.6, alpha=0.7)
+        ax.axhline(0.0, color="#64748b", linewidth=0.7)
+    axes[0].set_ylabel(f"Rate with {confidence}% bootstrap CI")
+    fig.suptitle("Downstream Qwen3.5-9B uncertainty by workload category", y=1.02)
     fig.tight_layout()
     fig.savefig(output)
     plt.close(fig)

@@ -50,6 +50,7 @@ claims:
       - "paper_emnlp2026_industry/tables_downstream_evaluation.tex"
       - "paper_emnlp2026_industry/tables_downstream_uncertainty.tex"
       - "paper_emnlp2026_industry/figures/downstream_breakdown.pdf"
+      - "paper_emnlp2026_industry/figures/downstream_uncertainty.pdf"
     status: "Supported by live downstream evaluation against FinBench/SNB databases, with bootstrap uncertainty computed from row-level outputs."
     risk: "Only one downstream model has been evaluated so far."
 
