@@ -242,6 +242,20 @@ RUN_PREFIX=20260601_ablation25_qwen9b \
 
 The default target-25 suite runs the paper-relevant variants: strict unconstrained LLM, reverse-only, validators+repair, no retrieval, no rewrite, no LLM judge, and full PIPE-Cypher, for both FinBench and SNB. Increase `TARGET_PER_CATEGORY` only after checking runtime and endpoint stability.
 
+For long runs, prefer the tmux launcher. It can queue a larger suite behind an
+active run and still preserve model IDs, revision metadata, and logs:
+
+```bash
+SESSION=pipecypher_ablation50_qwen9b \
+WAIT_FOR_SESSION=pipecypher_ablation25_qwen9b \
+TARGET_PER_CATEGORY=50 \
+RUN_PREFIX=20260601_ablation50_qwen9b \
+PYTHON_BIN=/home/suraj/pipecypher-tools/runtime-venv/bin/python \
+GENERATION_MODEL=Qwen/Qwen3.5-9B \
+JUDGE_MODEL=Qwen/Qwen3.5-9B \
+  scripts/launch_live_ablation_suite_tmux.sh
+```
+
 Completed ablation suites now write an audit packet under
 `experiments/snapshots/<run_prefix>/`. To summarize an already-finished suite
 without rerunning generation:

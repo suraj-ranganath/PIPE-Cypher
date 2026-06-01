@@ -33,13 +33,18 @@ results. Do not include `tables_ablation5_results.tex`, `tables_smoke.tex`,
 scaled ablation suite from the project root before adding ablation tables:
 
 ```bash
+SESSION=pipecypher_ablation25_qwen9b \
 TARGET_PER_CATEGORY=25 \
 PYTHON_BIN=/home/suraj/pipecypher-tools/runtime-venv/bin/python \
 GENERATION_MODEL=Qwen/Qwen3.5-9B \
 JUDGE_MODEL=Qwen/Qwen3.5-9B \
 RUN_PREFIX=20260601_ablation25_qwen9b \
-  scripts/run_live_ablation_suite.sh
+  scripts/launch_live_ablation_suite_tmux.sh
 ```
+
+Use `TARGET_PER_CATEGORY=25` only as an interim scaled checkpoint. Prefer
+`TARGET_PER_CATEGORY=50` or larger for final appendix claims when the endpoint is
+stable enough.
 
 After the suite finishes, create a non-paper audit summary first:
 
