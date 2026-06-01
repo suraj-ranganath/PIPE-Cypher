@@ -28,7 +28,7 @@ quote() {
 LOG_PATH="${LOG_DIR}/${RUN_PREFIX}.log"
 CMD=""
 if [[ -n "${WAIT_FOR_SESSION}" ]]; then
-  CMD+="while tmux has-session -t $(quote "${WAIT_FOR_SESSION}") 2>/dev/null; do date; echo waiting_for_session=$(quote "${WAIT_FOR_SESSION}"); sleep 60; done; "
+  CMD+="while tmux has-session -t $(quote "=${WAIT_FOR_SESSION}") 2>/dev/null; do date; echo waiting_for_session=$(quote "${WAIT_FOR_SESSION}"); sleep 60; done; "
 fi
 CMD+="PYTHON_BIN=$(quote "${PYTHON_BIN}") "
 CMD+="TARGET_PER_CATEGORY=$(quote "${TARGET_PER_CATEGORY}") "
