@@ -28,23 +28,26 @@ python ../scripts/render_paper_artifact_tables.py \
 ```
 
 Target-five and smaller ablations are engineering sanity checks, not paper
-results. Do not include `tables_ablation5_results.tex`, `tables_smoke.tex`,
-`tables_mini_results.tex`, or `tables_midscale_results.tex` in the paper. Run a
-scaled ablation suite from the project root before adding ablation tables:
+results. Target-25 is an interim checkpoint. Do not include
+`tables_ablation5_results.tex`, `tables_smoke.tex`, `tables_mini_results.tex`,
+or `tables_midscale_results.tex` in the paper. Run a scaled ablation suite from
+the project root before adding ablation tables:
 
 ```bash
-SESSION=pipecypher_ablation25_qwen9b \
-TARGET_PER_CATEGORY=25 \
+SESSION=pipecypher_ablation50_qwen9b \
+TARGET_PER_CATEGORY=50 \
 PYTHON_BIN=/home/suraj/pipecypher-tools/runtime-venv/bin/python \
 GENERATION_MODEL=Qwen/Qwen3.5-9B \
 JUDGE_MODEL=Qwen/Qwen3.5-9B \
-RUN_PREFIX=20260601_ablation25_qwen9b \
+RUN_PREFIX=20260601_ablation50_qwen9b \
   scripts/launch_live_ablation_suite_tmux.sh
 ```
 
-Use `TARGET_PER_CATEGORY=25` only as an interim scaled checkpoint. Prefer
-`TARGET_PER_CATEGORY=50` or larger for final appendix claims when the endpoint is
-stable enough.
+Use `TARGET_PER_CATEGORY=25` only as an interim scaled checkpoint. Treat
+`TARGET_PER_CATEGORY=50` as the minimum paper-readiness threshold, not the ideal
+scale. Prefer `TARGET_PER_CATEGORY=100`, repeated target-50 suites, or another
+scale-equivalent design for final appendix claims when the endpoint is stable
+enough.
 
 While a remote suite is running, inspect progress without copying partial
 artifacts:
@@ -92,8 +95,10 @@ python scripts/summarize_live_ablation_suite.py \
 ```
 
 Only after the suite is complete and the audit reports `paper_ready=true`
-should it be rendered into `tables_ablation_results.tex` and
-`tables_ablation_quality.tex`:
+should it be considered for manuscript reporting. For final claims, also check
+whether the run is sufficiently scaled, graph-stratified, and accompanied by
+failure analysis and uncertainty or variance evidence. Render accepted suites
+into `tables_ablation_results.tex` and `tables_ablation_quality.tex`:
 
 ```bash
 python scripts/summarize_live_ablation_suite.py \
@@ -169,4 +174,4 @@ python scripts/render_appendix_material.py \
   --max-examples 16
 ```
 
-Current caveat: the paper is structurally complete for serious revision and now includes the 3,000-example full FinBench/SNB benchmark export, full-test Qwen3.5-9B downstream evaluation, diversity diagnostics, full-run failure taxonomy, judge-audit coverage, claim/evidence traceability, prompt contracts, and representative accepted examples. Judge calibration labels and scaled ablations remain pending.
+Current caveat: the paper is structurally complete for serious revision and now includes the 3,000-example full FinBench/SNB benchmark export, full-test Qwen3.5-9B downstream evaluation, diversity diagnostics, full-run failure taxonomy, judge-audit coverage, claim/evidence traceability, prompt contracts, and representative accepted examples. Judge calibration labels and scaled ablations remain pending. Do not promote partial ablation suites or sampled downstream evaluations into the main paper or appendix; research-quality reported results need complete run directories, logs, code revisions, model IDs, graph workloads, audit status, and enough scale or uncertainty analysis to be reviewer-defensible.

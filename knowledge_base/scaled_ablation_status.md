@@ -67,7 +67,14 @@ Active at latest inspection:
 
 - FinBench `ablation_rewrite_false`; the active records file
   `artifacts/runs/20260601_222119_20260601_ablation50_qwen9b_finbench_ablation_rewrite_false/records.jsonl`
-  had reached 314 records at inspection time.
+  had reached 420 records at inspection time, but the cell had not written a run
+  summary yet. Treat it as active/incomplete until the suite advances and the
+  collector/audit confirms the final status.
+
+Still missing at latest inspection:
+
+- FinBench `ablation_judge_false` and `full_pipe_cypher`.
+- All SNB target-50 variants.
 
 Reporting note: once the suite finishes, `scripts/run_live_ablation_suite.sh` now writes
 `ablation_suite_summary.json`, `ablation_suite_summary.md`, `ablation_suite_summary.csv`,
