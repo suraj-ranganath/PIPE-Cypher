@@ -93,6 +93,25 @@ def test_render_ablation_table_orders_and_counts_targets():
     assert text.index("Unconstrained LLM") < text.index("Full PIPE-Cypher")
 
 
+def test_render_ablation_table_uses_requested_target_label():
+    text = render_ablation_table(
+        [
+            {
+                "run": "20260601_ablation25_snb_full_pipe_cypher",
+                "records": 201,
+                "accepted": 200,
+                "accept_rate": 200 / 201,
+                "accepted_by_category": {"simple_retrieval": 25, "ranking_topk": 24},
+            }
+        ],
+        target_per_category=25,
+        category_count=8,
+    )
+
+    assert "Live target-25 ablation evidence" in text
+    assert "Full PIPE-Cypher & SNB & 201 & 200 & 0.995 & 1/8" in text
+
+
 def test_render_judge_audit_coverage_table_reports_packet_balance():
     text = render_judge_audit_coverage_table(
         {

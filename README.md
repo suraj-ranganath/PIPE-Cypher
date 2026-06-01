@@ -226,6 +226,21 @@ The June 1, 2026 mini-ablation evidence is summarized in `knowledge_base/mini_ab
 
 The materialized FinBench+SNB target-five ablation suite is summarized in `knowledge_base/target5_ablation_results.md` and rendered into `paper_emnlp2026_industry/tables_ablation5_results.tex`.
 
+Run a larger bounded live ablation suite when the Qwen3.5-9B endpoint and both Neo4j databases are up on `ds-serv6`:
+
+```bash
+source ~/miniforge3/etc/profile.d/conda.sh
+conda activate pipe-rdf-arr
+cd /home/suraj/PIPE-Cypher
+TARGET_PER_CATEGORY=25 \
+GENERATION_MODEL=Qwen/Qwen3.5-9B \
+JUDGE_MODEL=Qwen/Qwen3.5-9B \
+RUN_PREFIX=20260601_ablation25_qwen9b \
+  scripts/run_live_ablation_suite.sh
+```
+
+The default target-25 suite runs the paper-relevant variants: strict unconstrained LLM, reverse-only, validators+repair, no retrieval, no rewrite, no LLM judge, and full PIPE-Cypher, for both FinBench and SNB. Increase `TARGET_PER_CATEGORY` only after checking runtime and endpoint stability.
+
 Estimate whether the built-in seeds can support the full category targets before launching long runs:
 
 ```bash

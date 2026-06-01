@@ -143,6 +143,7 @@ def render_ablation_table(
     target_per_category: int,
     category_count: int = 8,
 ) -> str:
+    target_label = _target_label(target_per_category)
     rows = [
         r"\begin{tabular}{llrrrr}",
         r"\toprule",
@@ -151,9 +152,14 @@ def render_ablation_table(
     ]
     for summary in sorted(summaries, key=_ablation_sort_key):
         accepted_by_category = summary.get("accepted_by_category", {})
-        at_target = sum(1 for value in accepted_by_category.values() if int(value) >= target_per_category)
+        at_target = sum(
+            1 for value in accepted_by_category.values() if int(value) >= target_per_category
+        )
         rows.append(
-            "{name} & {graph} & {records} & {accepted} & {rate} & {at_target}/{category_count} \\\\".format(
+            (
+                "{name} & {graph} & {records} & {accepted} & {rate} & "
+                "{at_target}/{category_count} \\\\"
+            ).format(
                 name=_escape_latex(_ablation_label(str(summary.get("run", "")))),
                 graph=_escape_latex(_graph_label(str(summary.get("run", "")))),
                 records=_fmt_int(summary.get("records", 0)),
@@ -167,7 +173,7 @@ def render_ablation_table(
     return _table(
         body="\n".join(rows),
         caption=(
-            "Live target-five ablation evidence with local Qwen3.5-9B. "
+            f"Live {target_label} ablation evidence with local Qwen3.5-9B. "
             f"Each graph run targets {target_per_category} accepted examples per category."
         ),
         label="tab:ablation5_results",
@@ -278,6 +284,12 @@ def _fmt_int(value: Any) -> str:
 
 def _fmt_float(value: Any) -> str:
     return f"{float(value):.3f}"
+
+
+def _target_label(target_per_category: int) -> str:
+    if target_per_category == 5:
+        return "target-five"
+    return f"target-{target_per_category}"
 
 
 def _ablation_label(run: str) -> str:
