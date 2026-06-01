@@ -63,7 +63,7 @@ Observed at latest inspection:
 - 12/14 graph/variant cells had been observed.
 - 11/14 graph/variant cells were complete.
 - The tmux session was still running.
-- Queue-monitor snapshot: SNB `ablation_rewrite_false` had 87/400 target
+- Queue-monitor snapshot: SNB `ablation_rewrite_false` had 344/400 target
   records. Treat this as a transient progress marker, not a paper result.
 
 Completed at latest inspection:
@@ -78,7 +78,7 @@ Active at latest inspection:
 
 - SNB `ablation_rewrite_false`; the active records file
   `artifacts/runs/20260601_231001_20260601_ablation50_qwen9b_snb_ablation_rewrite_false/records.jsonl`
-  had 87/400 target records during the queue-monitor snapshot and continued
+  had 344/400 target records during the queue-monitor snapshot and continued
   advancing afterward. Treat it as active/incomplete until the suite advances
   and the collector/audit confirms the final status; use the monitor command
   below for the exact live count.
@@ -186,6 +186,63 @@ python scripts/collect_remote_ablation_suite.py \
   --poll-seconds 60
 ```
 
+## Target-50 Seeded Repeat
+
+Status: queued on `ds-serv6` in tmux session
+`pipecypher_ablation50_qwen9b_seed17`. The session waits for
+`pipecypher_ablation100_qwen9b` to exit before it starts generation, so it will
+not compete with the active target-50 suite or the target-100 follow-up.
+
+Research-use note: this is a repeated-seed target-50 suite intended to provide
+variance/sensitivity evidence if target-100 finishes cleanly and enough compute
+time remains. It should not be reported until collected and audited.
+
+Runtime metadata:
+
+- run prefix: `20260601_ablation50_qwen9b_seed17`
+- target per category: 50
+- run seed: 17
+- generation model: `Qwen/Qwen3.5-9B`
+- judge model: `Qwen/Qwen3.5-9B`
+- recorded code revision: `e9301cc08afaea5668291aee7bdbc26c9f1e7296`
+- remote root: `/home/suraj/PIPE-Cypher-e9301cc-target50-seed17`
+- log: `/home/suraj/PIPE-Cypher-e9301cc-target50-seed17/logs/20260601_ablation50_qwen9b_seed17.log`
+
+Remote validation before launch:
+
+```bash
+cd /home/suraj/PIPE-Cypher-e9301cc-target50-seed17
+/home/suraj/pipecypher-tools/runtime-venv/bin/python -m compileall -q pipecypher scripts
+/home/suraj/pipecypher-tools/runtime-venv/bin/python -c "import pipecypher; from pipecypher.config import RunConfig; print(RunConfig().generation.random_seed)"
+```
+
+Launch command:
+
+```bash
+cd /home/suraj/PIPE-Cypher-e9301cc-target50-seed17
+CODE_REVISION=e9301cc08afaea5668291aee7bdbc26c9f1e7296 \
+SESSION=pipecypher_ablation50_qwen9b_seed17 \
+WAIT_FOR_SESSION=pipecypher_ablation100_qwen9b \
+TARGET_PER_CATEGORY=50 \
+RUN_PREFIX=20260601_ablation50_qwen9b_seed17 \
+RUN_SEED=17 \
+PYTHON_BIN=/home/suraj/pipecypher-tools/runtime-venv/bin/python \
+GENERATION_MODEL=Qwen/Qwen3.5-9B \
+JUDGE_MODEL=Qwen/Qwen3.5-9B \
+bash scripts/launch_live_ablation_suite_tmux.sh
+```
+
+After it completes, collect from the staged remote root:
+
+```bash
+python scripts/collect_remote_ablation_suite.py \
+  --remote-root /home/suraj/PIPE-Cypher-e9301cc-target50-seed17 \
+  --run-prefix 20260601_ablation50_qwen9b_seed17 \
+  --target-per-category 50 \
+  --wait-session pipecypher_ablation50_qwen9b_seed17 \
+  --poll-seconds 60
+```
+
 ## Monitoring Commands
 
 ```bash
@@ -196,11 +253,13 @@ tmux has-session -t pipecypher_ablation25_qwen9b && echo target25_running || ech
 tmux has-session -t pipecypher_ablation25_finalize && echo target25_finalize_running || echo target25_finalize_done
 tmux has-session -t pipecypher_ablation50_qwen9b && echo target50_running || echo target50_done
 tmux has-session -t pipecypher_ablation100_qwen9b && echo target100_running_or_waiting || echo target100_done
+tmux has-session -t pipecypher_ablation50_qwen9b_seed17 && echo target50_seed17_running_or_waiting || echo target50_seed17_done
 
 tail -f logs/20260601_ablation25_qwen9b_retry1.log
 tail -f logs/20260601_ablation25_finalize.log
 tail -f logs/20260601_ablation50_qwen9b.log
 tmux capture-pane -pt pipecypher_ablation100_qwen9b -S -20
+tmux capture-pane -pt pipecypher_ablation50_qwen9b_seed17 -S -20
 ```
 
 From the local repo, use the read-only remote monitor without fetching partial

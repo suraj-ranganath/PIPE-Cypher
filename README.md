@@ -331,8 +331,9 @@ python scripts/collect_remote_ablation_suite.py \
   --poll-seconds 60
 ```
 
-To monitor both the active target-50 suite and the queued target-100 suite in
-one read-only command, including each suite's `next_action` and safe
+To monitor the active target-50 suite, the queued target-100 suite, and any
+queued repeated-seed suites in one read-only command, including each suite's
+`next_action` and safe
 `collection_command`:
 
 ```bash

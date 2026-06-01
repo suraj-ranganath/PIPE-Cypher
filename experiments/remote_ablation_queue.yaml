@@ -23,3 +23,16 @@ suites:
     code_revision: 75c99d8e41d5fee3466c5521d3597e3d965804a8
     status: queued_waiting_for_target50
     notes: Staged in a separate remote root because the active target-50 root is not a Git checkout.
+  - name: target50_qwen9b_seed17_repeat
+    run_prefix: 20260601_ablation50_qwen9b_seed17
+    target_per_category: 50
+    category_count: 8
+    host: suraj@ds-serv6.ucsd.edu
+    remote_root: /home/suraj/PIPE-Cypher-e9301cc-target50-seed17
+    session: pipecypher_ablation50_qwen9b_seed17
+    generation_model: Qwen/Qwen3.5-9B
+    judge_model: Qwen/Qwen3.5-9B
+    run_seed: 17
+    code_revision: e9301cc08afaea5668291aee7bdbc26c9f1e7296
+    status: queued_waiting_for_target100
+    notes: Seeded target-50 repeat queued behind target-100 to add repeated-run evidence for reviewer-facing reliability without competing with active suites.

@@ -21,7 +21,7 @@ claims:
     risk: "Semantic correctness still depends on execution evidence and judge review; human audit labels are pending."
 
   - claim: "Reverse grounding and structured workload seeds are designed to improve reliability under local-model constraints."
-    evidence: "The paper-readiness audit, remote collector, queue monitor, and live ablation runner are implemented for FinBench/SNB graph-stratified suites. A target-50 suite is currently running, and a target-100 follow-up is queued to improve reviewer-facing reliability. No ablation result is claimed in the manuscript until a target-50-or-larger suite completes, is collected with logs/model IDs/code revision, and passes the readiness audit."
+    evidence: "The paper-readiness audit, remote collector, queue monitor, and live ablation runner are implemented for FinBench/SNB graph-stratified suites. A target-50 suite is currently running, a target-100 follow-up is queued, and a seeded target-50 repeat is queued to improve reviewer-facing reliability. No ablation result is claimed in the manuscript until a target-50-or-larger suite completes, is collected with logs/model IDs/code revision, and passes the readiness audit."
     artifacts:
       - "scripts/run_live_ablation_suite.sh"
       - "scripts/monitor_remote_ablation_suite.py"
@@ -29,8 +29,8 @@ claims:
       - "scripts/collect_remote_ablation_suite.py"
       - "scripts/summarize_live_ablation_suite.py"
       - "knowledge_base/scaled_ablation_status.md"
-    status: "Pending scaled ablation evidence; the active target-50 and queued target-100 suites are not yet reported as paper results."
-    risk: "Component-level reliability claims require a completed and audited target-50-or-larger suite; target-100 or repeated target-50 evidence is preferred for final claims if compute allows."
+    status: "Pending scaled ablation evidence; the active target-50, queued target-100, and queued seeded target-50 repeat suites are not yet reported as paper results."
+    risk: "Component-level reliability claims require a completed and audited target-50-or-larger suite; target-100 or repeated-seed target-50 evidence is preferred for final claims if compute allows."
 
   - claim: "The benchmark controls category and difficulty balance while exposing residual diversity limits."
     evidence: "The full export has perfect category balance, planned 2:1 FinBench/SNB graph mix, and a near-even easy/medium split. Diversity diagnostics report Distinct-n, sampled self-BLEU-2, query-signature diversity, normalized entropy, schema coverage, and structural feature rates, making template concentration visible instead of hidden."

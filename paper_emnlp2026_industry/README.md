@@ -73,6 +73,13 @@ Current large-scale follow-up: `20260601_ablation100_qwen9b` is queued on
 `pipecypher_ablation50_qwen9b` suite to finish. This is not paper evidence until
 it completes, is collected, and passes the paper-readiness audit.
 
+Additional repeated-run follow-up: `20260601_ablation50_qwen9b_seed17` is queued
+in tmux session `pipecypher_ablation50_qwen9b_seed17`, staged from commit
+`e9301cc08afaea5668291aee7bdbc26c9f1e7296` under
+`/home/suraj/PIPE-Cypher-e9301cc-target50-seed17`. It waits for target-100 to
+finish and records `RUN_SEED=17` for repeated-seed sensitivity evidence. This is
+also not paper evidence until collected and audited.
+
 While a remote suite is running, inspect progress without copying partial
 artifacts. The queue monitor prints each suite's `next_action` and safe
 `collection_command`:

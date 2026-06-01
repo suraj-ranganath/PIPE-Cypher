@@ -97,6 +97,7 @@ def monitor_suite_from_config(suite: dict[str, Any], *, dry_run: bool = False) -
     report["configured_status"] = str(suite.get("status", ""))
     report["generation_model"] = str(suite.get("generation_model", ""))
     report["judge_model"] = str(suite.get("judge_model", ""))
+    report["run_seed"] = str(suite.get("run_seed", ""))
     report["code_revision"] = str(suite.get("code_revision", ""))
     report["notes"] = str(suite.get("notes", ""))
     report["suite_state"] = infer_suite_state(report)
@@ -181,6 +182,8 @@ def format_queue_text(queue_report: dict[str, Any]) -> str:
             lines.append(
                 f"generation_model={report['generation_model']} judge_model={report['judge_model']}"
             )
+        if report.get("run_seed"):
+            lines.append(f"run_seed={report['run_seed']}")
         if report.get("notes"):
             lines.append(f"notes={report['notes']}")
         lines.append(f"collection_command={report['collection_command']}")

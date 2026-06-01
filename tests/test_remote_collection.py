@@ -255,6 +255,7 @@ def test_queue_report_marks_queued_and_running_suites():
             "configured_status": "queued",
             "generation_model": "Qwen/Qwen3.5-9B",
             "judge_model": "Qwen/Qwen3.5-9B",
+            "run_seed": "17",
             "code_revision": "abc123",
             "notes": "waiting",
         }
@@ -285,6 +286,7 @@ def test_queue_report_marks_queued_and_running_suites():
             "configured_status": "running",
             "generation_model": "Qwen/Qwen3.5-9B",
             "judge_model": "Qwen/Qwen3.5-9B",
+            "run_seed": "",
             "code_revision": "def456",
             "notes": "",
         }
@@ -304,6 +306,7 @@ def test_queue_report_marks_queued_and_running_suites():
     assert "--wait-session target100" in queued["collection_command"]
     assert "## target100" in text
     assert "state=queued_or_waiting configured_status=queued" in text
+    assert "run_seed=17" in text
     assert "next_action=wait_for_dependency_or_session_start" in text
     assert "collection_command=python scripts/collect_remote_ablation_suite.py" in text
     assert "remote_root=/remote/target50" in text
