@@ -12,7 +12,7 @@ Files:
 - `main.tex`: ACL/EMNLP-style LaTeX draft skeleton.
 - `references.bib`: working references.
 - `tables_*.tex`: current method, experiment, full-generation, export, diversity, failure-taxonomy, judge-audit, distribution, ablation, and downstream tables.
-- `appendix_prompt_contracts.tex` and `appendix_example_cards.tex`: generated appendix material for prompt contracts and representative accepted benchmark examples.
+- `appendix_claim_evidence.tex`, `appendix_prompt_contracts.tex`, and `appendix_example_cards.tex`: generated appendix material for claim/evidence traceability, prompt contracts, and representative accepted benchmark examples.
 - `figures/*.pdf`: appendix-ready ablation, diversity, failure-taxonomy, export-distribution, and downstream-evaluation figures.
 - `main.pdf`: compiled local draft when LaTeX is available.
 
@@ -92,10 +92,12 @@ Regenerate the appendix prompt contracts and representative accepted examples:
 
 ```bash
 python scripts/render_appendix_material.py \
+  --claim-map knowledge_base/claim_evidence_map.yaml \
+  --output-claims paper_emnlp2026_industry/appendix_claim_evidence.tex \
   --examples experiments/snapshots/20260601_live_full_qwen9b/sample_examples.json \
   --output-prompts paper_emnlp2026_industry/appendix_prompt_contracts.tex \
   --output-examples paper_emnlp2026_industry/appendix_example_cards.tex \
   --max-examples 16
 ```
 
-Current caveat: the paper is structurally complete for serious revision and now includes the 3,000-example full FinBench/SNB benchmark export, full-test Qwen3.5-9B downstream evaluation, live target-five FinBench/SNB ablation suites, diversity diagnostics, full-run failure taxonomy, judge-audit coverage, prompt contracts, and representative accepted examples. Judge calibration labels and full-scale ablations remain pending.
+Current caveat: the paper is structurally complete for serious revision and now includes the 3,000-example full FinBench/SNB benchmark export, full-test Qwen3.5-9B downstream evaluation, live target-five FinBench/SNB ablation suites, diversity diagnostics, full-run failure taxonomy, judge-audit coverage, claim/evidence traceability, prompt contracts, and representative accepted examples. Judge calibration labels and full-scale ablations remain pending.

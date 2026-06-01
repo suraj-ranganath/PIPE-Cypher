@@ -4,8 +4,10 @@ from pathlib import Path
 import pytest
 
 from pipecypher.paper_appendix import (
+    load_claim_evidence,
     load_examples,
     prompt_contracts,
+    render_claim_evidence_tex,
     render_example_cards_tex,
     render_prompt_contracts_tex,
 )
@@ -21,6 +23,46 @@ def test_prompt_contracts_include_generation_and_judge_hashes():
     assert "RETURN DISTINCT" in text
     assert "SHA-256" in text
     assert r"\label{tab:prompt_contracts}" in text
+
+
+def test_load_claim_evidence_validates_required_keys(tmp_path: Path):
+    path = tmp_path / "claims.yaml"
+    path.write_text(
+        """
+claims:
+  - claim: Local generation works.
+    evidence: A full run exported examples.
+    artifacts:
+      - artifacts/benchmarks/run
+    status: Supported by smoke evidence.
+    risk: More graphs are needed.
+""",
+        encoding="utf-8",
+    )
+
+    claims = load_claim_evidence(path)
+    text = render_claim_evidence_tex(claims)
+
+    assert claims[0]["claim"] == "Local generation works."
+    assert r"\label{tab:claim_evidence_map}" in text
+    assert "Local generation works." in text
+    assert "Risk: More graphs are needed." in text
+    assert "benchmark export" in text
+    assert "artifacts/benchmarks/run" not in text
+
+
+def test_load_claim_evidence_rejects_missing_keys(tmp_path: Path):
+    path = tmp_path / "bad_claims.yaml"
+    path.write_text(
+        """
+claims:
+  - claim: Missing fields.
+""",
+        encoding="utf-8",
+    )
+
+    with pytest.raises(ValueError, match="missing keys"):
+        load_claim_evidence(path)
 
 
 def test_render_example_cards_escapes_cypher_and_reports_gates():

@@ -5,7 +5,7 @@ Status: goal is not complete yet.
 ## Evidence Already Present
 
 - Clean repo scaffold with package, configs, scripts, tests, docs, experiment matrix, and paper directory.
-- Deterministic tests pass: `134 passed`.
+- Deterministic tests pass: `136 passed`.
 - Offline smoke runs prove the CLI path, built-in FinBench and SNB reference schemas, deterministic validation, contextual return warnings, mock execution, deterministic judge, JSONL logging, strategy tags, and summary metrics.
 - LDBC FinBench SF0.1 has been generated on `ds-serv6`, transformed to snapshot CSVs, and loaded into a user-space Neo4j Community 5.26 smoke database.
 - The loaded FinBench smoke graph contains 10,006 nodes and 57,622 relationships.
@@ -45,7 +45,8 @@ Status: goal is not complete yet.
 - Full-run failure taxonomy now exists at `experiments/snapshots/20260601_live_full_qwen9b/failure_taxonomy.json`, with a rendered appendix table and figure in `paper_emnlp2026_industry/tables_failure_taxonomy.tex` and `figures/failure_taxonomy.pdf`. Across 4,777 candidates, 3,000 were accepted and 1,777 were rejected; rejected candidates were dominated by diversity/duplicate control during recovery (1,335), empty execution results (374), judge semantic rejects (66), and schema invalidity (2).
 - The final full export has 3,000/3,000 accepted examples passing read-only, syntax, schema, execution, and judge gates; the judge audit packet is `artifacts/audits/20260601_full_qwen9b_judge_audit.csv` with 80 sampled rows plus header.
 - `scripts/render_paper_artifact_tables.py` regenerates paper tables for benchmark export, distribution/gate summary, and downstream Text2Cypher results directly from `stats.json`, `manifest.json`, and the evaluation summary.
-- `scripts/render_appendix_material.py` regenerates appendix prompt-contract and representative-example material from tracked code prompt constants and `experiments/snapshots/20260601_live_full_qwen9b/sample_examples.json`; outputs are `paper_emnlp2026_industry/appendix_prompt_contracts.tex` and `paper_emnlp2026_industry/appendix_example_cards.tex`.
+- `knowledge_base/claim_evidence_map.yaml` maps the main paper claims to concrete code, run artifacts, tables, figures, and explicit remaining risks; it renders to the reviewer-facing appendix table `paper_emnlp2026_industry/appendix_claim_evidence.tex`.
+- `scripts/render_appendix_material.py` regenerates appendix claim/evidence traceability, prompt-contract, and representative-example material from tracked code prompt constants, `knowledge_base/claim_evidence_map.yaml`, and `experiments/snapshots/20260601_live_full_qwen9b/sample_examples.json`; outputs are `paper_emnlp2026_industry/appendix_claim_evidence.tex`, `paper_emnlp2026_industry/appendix_prompt_contracts.tex`, and `paper_emnlp2026_industry/appendix_example_cards.tex`.
 - `knowledge_base/citation_verification.md` records the verified source for every paper bibliography entry used by the EMNLP/arXiv draft; no unverified placeholder citations remain in `paper_emnlp2026_industry/references.bib`.
 - `knowledge_base/judge_audit_protocol.md` defines the human calibration labeling rubric. `scripts/sample_judge_audit.py` now preserves judge accept/reject balance before graph/category stratification; `scripts/analyze_judge_audit.py` reports graph/category/difficulty coverage, agreement, precision/recall/specificity, negative predictive value, balanced accuracy, Cohen's kappa, and exits non-zero with `--require-labels` when no labels are complete.
 - The current full-run judge audit packet is `artifacts/audits/20260601_full_qwen9b_judge_audit_v2.csv`, with a tracked coverage/hash snapshot at `experiments/snapshots/20260601_live_full_qwen9b/judge_audit_packet_v2.json` and an ignored local HTML labeling packet at `artifacts/audits/20260601_full_qwen9b_judge_audit_v2.html`. It contains 80 rows, 40 judge accepts, 40 judge rejects, 48 FinBench rows, 32 SNB rows, all eight categories, and 0 completed human labels.
@@ -71,7 +72,7 @@ Status: goal is not complete yet.
 - The detached full-generation fallback run on `ds-serv6` completed, and final run/export/downstream status is recorded in `knowledge_base/full_run_status.md`.
 - The default boolean templates now use clearer `OPTIONAL MATCH` boolean checks rather than counting matched subject variables; this patch was copied to `ds-serv6` before the sequential SNB run starts, and remote compile/template checks passed.
 - The template scheduler now avoids random reuse of exhausted no-slot templates after their exact question has already been accepted, reducing duplicate-question waste in high-target categories.
-- Paper draft has abstract, introduction, related work with verified citations, method, implementation, experiments, conclusion, dedicated limitations, ethics, references, and appendix material, including prompt contracts and representative accepted examples.
+- Paper draft has abstract, introduction, related work with verified citations, method, implementation, experiments, conclusion, dedicated limitations, ethics, references, and appendix material, including a claim/evidence map, prompt contracts, and representative accepted examples.
 - `knowledge_base/codex_goal_prompt.md` preserves the reusable `/goal` prompt for continuing the project in future Codex threads, with outcome, verification surface, constraints, and work loop.
 
 ## Missing For Full Goal Completion

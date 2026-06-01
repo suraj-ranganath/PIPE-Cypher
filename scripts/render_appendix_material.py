@@ -10,7 +10,9 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from pipecypher.paper_appendix import (
+    load_claim_evidence,
     load_examples,
+    render_claim_evidence_tex,
     render_example_cards_tex,
     render_prompt_contracts_tex,
 )
@@ -32,8 +34,22 @@ def main() -> None:
         "--output-examples",
         default="paper_emnlp2026_industry/appendix_example_cards.tex",
     )
+    parser.add_argument(
+        "--claim-map",
+        default="knowledge_base/claim_evidence_map.yaml",
+    )
+    parser.add_argument(
+        "--output-claims",
+        default="paper_emnlp2026_industry/appendix_claim_evidence.tex",
+    )
     parser.add_argument("--max-examples", type=int, default=16)
     args = parser.parse_args()
+
+    claims = load_claim_evidence(args.claim_map)
+    claims_path = Path(args.output_claims)
+    claims_path.parent.mkdir(parents=True, exist_ok=True)
+    claims_path.write_text(render_claim_evidence_tex(claims), encoding="utf-8")
+    print(f"wrote {claims_path}")
 
     prompts_path = Path(args.output_prompts)
     prompts_path.parent.mkdir(parents=True, exist_ok=True)

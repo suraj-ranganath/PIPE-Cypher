@@ -7,6 +7,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+import yaml
+
 from .prompts import (
     CYPHER_GENERATION_PROMPT,
     JUDGE_PROMPT,
@@ -37,6 +39,20 @@ def load_examples(path: str | Path) -> list[dict[str, Any]]:
     if not isinstance(data, list):
         raise ValueError(f"expected a JSON list at {path}")
     return data
+
+
+def load_claim_evidence(path: str | Path) -> list[dict[str, Any]]:
+    data = yaml.safe_load(Path(path).read_text(encoding="utf-8"))
+    claims = data.get("claims") if isinstance(data, dict) else None
+    if not isinstance(claims, list):
+        raise ValueError(f"expected a top-level claims list at {path}")
+    for idx, claim in enumerate(claims):
+        if not isinstance(claim, dict):
+            raise ValueError(f"claim {idx} is not a mapping")
+        missing = {"claim", "evidence", "artifacts", "status", "risk"} - set(claim)
+        if missing:
+            raise ValueError(f"claim {idx} is missing keys: {sorted(missing)}")
+    return claims
 
 
 def prompt_contracts() -> list[PromptContract]:
@@ -150,6 +166,53 @@ def render_prompt_contracts_tex() -> str:
     return "\n".join(rows) + "\n"
 
 
+def render_claim_evidence_tex(claims: list[dict[str, Any]]) -> str:
+    rows = [
+        r"\section{Claim--Evidence Map}",
+        (
+            "Table~\\ref{tab:claim_evidence_map} maps the main paper claims to "
+            "the strongest current evidence and to the remaining risks. This is "
+            "intended as a reviewer-facing audit surface: claims with pending "
+            "evidence remain marked as such rather than being folded into the "
+            "main results."
+        ),
+        r"\begin{table*}[t]",
+        r"\centering",
+        r"\scriptsize",
+        (
+            r"\begin{tabular}{p{0.24\textwidth}p{0.31\textwidth}"
+            r"p{0.19\textwidth}p{0.20\textwidth}}"
+        ),
+        r"\toprule",
+        r"Claim & Evidence & Key artifacts & Status / risk \\",
+        r"\midrule",
+    ]
+    for item in claims:
+        rows.append(
+            "{claim} & {evidence} & {artifacts} & {status} \\newline {risk} \\\\".format(
+                claim=_escape_latex(str(item["claim"])),
+                evidence=_escape_latex(str(item["evidence"])),
+                artifacts=_escape_latex(_artifact_summary(item.get("artifacts", []))),
+                status=_escape_latex(str(item["status"])),
+                risk=_escape_latex("Risk: " + str(item["risk"])),
+            )
+        )
+    rows.extend(
+        [
+            r"\bottomrule",
+            r"\end{tabular}",
+            (
+                r"\caption{Claim--evidence map for the current PIPE-Cypher "
+                r"paper draft. Each claim points to concrete code, artifacts, "
+                r"tables, figures, or an explicit blocker.}"
+            ),
+            r"\label{tab:claim_evidence_map}",
+            r"\end{table*}",
+        ]
+    )
+    return "\n".join(rows) + "\n"
+
+
 def render_example_cards_tex(
     examples: list[dict[str, Any]],
     *,
@@ -246,6 +309,45 @@ def _escape_latex(value: str) -> str:
         ">": r"\textgreater{}",
     }
     return "".join(replacements.get(char, char) for char in value)
+
+
+def _artifact_summary(artifacts: Any) -> str:
+    if not isinstance(artifacts, list):
+        return str(artifacts)
+    shortened = []
+    for artifact in artifacts[:4]:
+        shortened.append(_artifact_label(str(artifact)))
+    if len(artifacts) > 4:
+        shortened.append(f"+{len(artifacts) - 4} more")
+    return "; ".join(shortened)
+
+
+def _artifact_label(artifact: str) -> str:
+    path = Path(artifact)
+    name = path.name
+    stem = path.stem.replace("_", " ")
+    if artifact.startswith("artifacts/benchmarks/"):
+        return "benchmark export"
+    if artifact.startswith("artifacts/evaluations/"):
+        return "downstream summary"
+    if artifact.startswith("artifacts/audits/"):
+        return "judge-audit packet"
+    if artifact.startswith("experiments/snapshots/") and name == "manifest.json":
+        return "manifest snapshot"
+    if artifact.startswith("experiments/snapshots/") and name.endswith(".json"):
+        return f"snapshot: {stem}"
+    if artifact.startswith("knowledge_base/"):
+        return f"research note: {stem}"
+    if artifact.startswith("paper_emnlp2026_industry/tables_"):
+        table_name = name.removeprefix("tables_").removesuffix(".tex")
+        return f"paper table: {table_name.replace('_', ' ')}"
+    if artifact.startswith("paper_emnlp2026_industry/figures/"):
+        return f"paper figure: {stem}"
+    if artifact.startswith("pipecypher/"):
+        return f"code: {name}"
+    if artifact.startswith("scripts/"):
+        return f"script: {name}"
+    return name or artifact
 
 
 def _wrap_code(value: str, *, width: int) -> str:
