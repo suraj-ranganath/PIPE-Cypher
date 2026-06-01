@@ -11,7 +11,7 @@ Files:
 - `paper.md`: current paper draft for rapid editing.
 - `main.tex`: ACL/EMNLP-style LaTeX draft skeleton.
 - `references.bib`: working references.
-- `tables_*.tex`: current method, experiment, full-generation, export, diversity, failure-taxonomy, judge-audit, distribution, and downstream evaluation tables.
+- `tables_*.tex`: current method, experiment, full-generation, export, diversity, failure-taxonomy, judge-audit, distribution, downstream evaluation, and downstream uncertainty tables.
 - `appendix_claim_evidence.tex`, `appendix_prompt_contracts.tex`, and `appendix_example_cards.tex`: generated appendix material for claim/evidence traceability, prompt contracts, and representative accepted benchmark examples.
 - `figures/*.pdf`: appendix-ready diversity, failure-taxonomy, export-distribution, and downstream-evaluation figures.
 - `main.pdf`: compiled local draft when LaTeX is available.
@@ -25,6 +25,19 @@ python ../scripts/render_paper_artifact_tables.py \
   --benchmark-dir ../artifacts/benchmarks/20260601_live_full_qwen9b \
   --evaluation-summary ../artifacts/evaluations/20260601_full_qwen9b_test_summary.json \
   --paper-dir .
+```
+
+From the project root, regenerate downstream-evaluation uncertainty intervals
+from the full row-level evaluation artifact:
+
+```bash
+python scripts/analyze_evaluation_uncertainty.py \
+  --evaluation artifacts/evaluations/20260601_full_qwen9b_test_eval.jsonl \
+  --output-json experiments/snapshots/20260601_live_full_qwen9b/downstream_uncertainty.json \
+  --output-md experiments/snapshots/20260601_live_full_qwen9b/downstream_uncertainty.md \
+  --output-tex paper_emnlp2026_industry/tables_downstream_uncertainty.tex \
+  --iterations 2000 \
+  --seed 13
 ```
 
 Target-five and smaller ablations are engineering sanity checks, not paper
@@ -174,4 +187,4 @@ python scripts/render_appendix_material.py \
   --max-examples 16
 ```
 
-Current caveat: the paper is structurally complete for serious revision and now includes the 3,000-example full FinBench/SNB benchmark export, full-test Qwen3.5-9B downstream evaluation, diversity diagnostics, full-run failure taxonomy, judge-audit coverage, claim/evidence traceability, prompt contracts, and representative accepted examples. Judge calibration labels and scaled ablations remain pending. Do not promote partial ablation suites or sampled downstream evaluations into the main paper or appendix; research-quality reported results need complete run directories, logs, code revisions, model IDs, graph workloads, audit status, and enough scale or uncertainty analysis to be reviewer-defensible.
+Current caveat: the paper is structurally complete for serious revision and now includes the 3,000-example full FinBench/SNB benchmark export, full-test Qwen3.5-9B downstream evaluation with bootstrap uncertainty intervals, diversity diagnostics, full-run failure taxonomy, judge-audit coverage, claim/evidence traceability, prompt contracts, and representative accepted examples. Judge calibration labels and scaled ablations remain pending. Do not promote partial ablation suites or sampled downstream evaluations into the main paper or appendix; research-quality reported results need complete run directories, logs, code revisions, model IDs, graph workloads, audit status, and enough scale or uncertainty analysis to be reviewer-defensible.

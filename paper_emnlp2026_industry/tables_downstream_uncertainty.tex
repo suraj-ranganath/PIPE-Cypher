@@ -1,0 +1,19 @@
+\begin{table}[t]
+\centering
+\small
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lrrrr}
+\toprule
+Metric & Point & 95\% CI & SE & N \\
+\midrule
+Parse valid & 0.959 & [0.936, 0.980] & 0.012 & 296 \\
+Schema valid & 0.905 & [0.872, 0.939] & 0.017 & 296 \\
+Execution success & 0.622 & [0.564, 0.676] & 0.028 & 296 \\
+Execution accuracy & 0.189 & [0.145, 0.233] & 0.022 & 296 \\
+Answer F1 & 0.189 & [0.149, 0.236] & 0.023 & 296 \\
+\bottomrule
+\end{tabular}
+}
+\caption{Bootstrap uncertainty for downstream Text2Cypher evaluation on the full exported test split. Intervals use row-level resampling with a fixed seed and are intended for appendix reporting.}
+\label{tab:downstream_uncertainty}
+\end{table}

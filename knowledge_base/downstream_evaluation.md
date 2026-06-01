@@ -1,8 +1,8 @@
-# Downstream Text2Cypher Evaluation Smoke
+# Downstream Text2Cypher Evaluation
 
 Date: June 1, 2026.
 
-This note records local `Qwen/Qwen3.5-9B` Text2Cypher baseline evaluations on exported PIPE-Cypher benchmark test splits, including the final full-test run and earlier wiring smokes.
+This note records local `Qwen/Qwen3.5-9B` Text2Cypher baseline evaluations on exported PIPE-Cypher benchmark test splits. The final full-test run is the research-quality downstream evidence; earlier mini and mid-scale runs are wiring smokes.
 
 ## Full Benchmark Evaluation
 
@@ -26,6 +26,24 @@ Overall result:
 | Split | Examples | Parse Valid | Read-Only | Schema Valid | Execution Success | Execution Accuracy | Answer F1 |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | `test` | 296 | 0.959 | 1.000 | 0.905 | 0.622 | 0.189 | 0.189 |
+
+Bootstrap uncertainty over the 296 row-level evaluation records is tracked in:
+
+```text
+experiments/snapshots/20260601_live_full_qwen9b/downstream_uncertainty.json
+experiments/snapshots/20260601_live_full_qwen9b/downstream_uncertainty.md
+paper_emnlp2026_industry/tables_downstream_uncertainty.tex
+```
+
+Overall 95% percentile intervals from 2,000 fixed-seed resamples:
+
+| Metric | Point | 95% CI | SE |
+| --- | ---: | ---: | ---: |
+| Parse valid | 0.959 | [0.936, 0.980] | 0.012 |
+| Schema valid | 0.905 | [0.872, 0.939] | 0.017 |
+| Execution success | 0.622 | [0.564, 0.676] | 0.028 |
+| Execution accuracy | 0.189 | [0.145, 0.233] | 0.022 |
+| Answer F1 | 0.189 | [0.149, 0.236] | 0.023 |
 
 By graph:
 

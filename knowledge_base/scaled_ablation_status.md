@@ -60,20 +60,19 @@ Runtime metadata:
 
 Completed at latest inspection:
 
-- FinBench `unconstrained_local_llm`, `reverse_only`, `validators_repair`, and
-  `ablation_retrieval_topk_0`. The no-retrieval cell finished at 400/429 accepted.
+- FinBench `unconstrained_local_llm`, `reverse_only`, `validators_repair`,
+  `ablation_retrieval_topk_0`, `ablation_rewrite_false`, and
+  `ablation_judge_false`.
 
 Active at latest inspection:
 
-- FinBench `ablation_rewrite_false`; the active records file
-  `artifacts/runs/20260601_222119_20260601_ablation50_qwen9b_finbench_ablation_rewrite_false/records.jsonl`
-  had reached 420 records at inspection time, but the cell had not written a run
-  summary yet. Treat it as active/incomplete until the suite advances and the
-  collector/audit confirms the final status.
+- FinBench `full_pipe_cypher`; the active records file
+  `artifacts/runs/20260601_223836_20260601_ablation50_qwen9b_finbench_full_pipe_cypher/records.jsonl`
+  had reached 148 records at inspection time. Treat it as active/incomplete until
+  the suite advances and the collector/audit confirms the final status.
 
 Still missing at latest inspection:
 
-- FinBench `ablation_judge_false` and `full_pipe_cypher`.
 - All SNB target-50 variants.
 
 Reporting note: once the suite finishes, `scripts/run_live_ablation_suite.sh` now writes

@@ -42,13 +42,15 @@ claims:
     risk: "Low query-signature diversity in the 9B fallback run remains a limitation and ablation target."
 
   - claim: "The generated benchmark is useful for downstream Text2Cypher evaluation."
-    evidence: "A zero-shot local Qwen3.5-9B downstream evaluation over the 296-example full test split reports parse validity, schema validity, execution success, execution accuracy, answer F1, and per-category breakdowns. The model reaches 0.189 execution accuracy and 0.622 execution success, showing the benchmark can discriminate easy aggregation from harder operational categories."
+    evidence: "A zero-shot local Qwen3.5-9B downstream evaluation over the 296-example full test split reports parse validity, schema validity, execution success, execution accuracy, answer F1, per-category breakdowns, and fixed-seed bootstrap uncertainty intervals. The model reaches 0.189 execution accuracy with a 95% bootstrap interval of [0.145, 0.233] and 0.622 execution success with interval [0.564, 0.676], showing the benchmark can discriminate easy aggregation from harder operational categories."
     artifacts:
       - "artifacts/evaluations/20260601_full_qwen9b_test_summary.json"
+      - "experiments/snapshots/20260601_live_full_qwen9b/downstream_uncertainty.json"
       - "knowledge_base/downstream_evaluation.md"
       - "paper_emnlp2026_industry/tables_downstream_evaluation.tex"
+      - "paper_emnlp2026_industry/tables_downstream_uncertainty.tex"
       - "paper_emnlp2026_industry/figures/downstream_breakdown.pdf"
-    status: "Supported by live downstream evaluation against FinBench/SNB databases."
+    status: "Supported by live downstream evaluation against FinBench/SNB databases, with bootstrap uncertainty computed from row-level outputs."
     risk: "Only one downstream model has been evaluated so far."
 
   - claim: "Automated LLM-judge review can replace human-in-the-loop generation gates while still exposing judge risk."
