@@ -1,0 +1,815 @@
+{
+  "all_runs_finished": true,
+  "category_count": 8,
+  "expected_graphs": [
+    "finbench",
+    "snb"
+  ],
+  "expected_variants": [
+    "unconstrained_local_llm",
+    "reverse_only",
+    "validators_repair",
+    "ablation_retrieval_topk_0",
+    "ablation_rewrite_false",
+    "ablation_judge_false",
+    "full_pipe_cypher"
+  ],
+  "incomplete": [],
+  "metadata": {
+    "code_revision": "2122a86e457a3c0039367a09290dde120c660d68",
+    "generation_model": "Qwen/Qwen3.5-9B",
+    "judge_model": "Qwen/Qwen3.5-9B",
+    "log_file": "logs/20260601_ablation25_qwen9b_retry1.log",
+    "run_prefix": "20260601_ablation25_qwen9b_retry1"
+  },
+  "missing": [],
+  "research_status": "interim scaled checkpoint; larger final ablations preferred",
+  "run_count": 14,
+  "runs": [
+    {
+      "accept_rate": 0.0,
+      "accepted": 0,
+      "accepted_by_category": {},
+      "by_category": {},
+      "categories_at_target": 0,
+      "category_count": 8,
+      "difficulty": {},
+      "gate_rates": {},
+      "gates": {},
+      "graph": "finbench",
+      "issues": {},
+      "primary_strategy": {},
+      "records": 0,
+      "records_path": "artifacts/runs/20260601_211604_20260601_ablation25_qwen9b_retry1_finbench_unconstrained_local_llm/records.jsonl",
+      "run": "20260601_211604_20260601_ablation25_qwen9b_retry1_finbench_unconstrained_local_llm",
+      "summary_present": true,
+      "variant": "unconstrained_local_llm",
+      "variant_label": "Unconstrained LLM"
+    },
+    {
+      "accept_rate": 1.0,
+      "accepted": 200,
+      "accepted_by_category": {
+        "boolean_existence": 25,
+        "complex_aggregation": 25,
+        "complex_retrieval": 25,
+        "negation_difference": 25,
+        "path_temporal": 25,
+        "ranking_topk": 25,
+        "simple_aggregation": 25,
+        "simple_retrieval": 25
+      },
+      "by_category": {
+        "boolean_existence": 25,
+        "complex_aggregation": 25,
+        "complex_retrieval": 25,
+        "negation_difference": 25,
+        "path_temporal": 25,
+        "ranking_topk": 25,
+        "simple_aggregation": 25,
+        "simple_retrieval": 25
+      },
+      "categories_at_target": 8,
+      "category_count": 8,
+      "difficulty": {
+        "easy": 85,
+        "medium": 115
+      },
+      "gate_rates": {
+        "execution_success": 1.0,
+        "judge_pass": 1.0,
+        "read_only": 1.0,
+        "schema_valid": 1.0,
+        "syntax_valid": 1.0
+      },
+      "gates": {
+        "execution_success": 200,
+        "judge_pass": 200,
+        "read_only": 200,
+        "schema_valid": 200,
+        "syntax_valid": 200
+      },
+      "graph": "finbench",
+      "issues": {
+        "missing_context_column": 17
+      },
+      "primary_strategy": {
+        "aggregation": 75,
+        "join_heavy": 25,
+        "negation": 25,
+        "order_rank": 25,
+        "path": 25,
+        "single_hop": 25
+      },
+      "records": 200,
+      "records_path": "artifacts/runs/20260601_211605_20260601_ablation25_qwen9b_retry1_finbench_reverse_only/records.jsonl",
+      "run": "20260601_211605_20260601_ablation25_qwen9b_retry1_finbench_reverse_only",
+      "summary_present": true,
+      "variant": "reverse_only",
+      "variant_label": "Reverse-only"
+    },
+    {
+      "accept_rate": 1.0,
+      "accepted": 200,
+      "accepted_by_category": {
+        "boolean_existence": 25,
+        "complex_aggregation": 25,
+        "complex_retrieval": 25,
+        "negation_difference": 25,
+        "path_temporal": 25,
+        "ranking_topk": 25,
+        "simple_aggregation": 25,
+        "simple_retrieval": 25
+      },
+      "by_category": {
+        "boolean_existence": 25,
+        "complex_aggregation": 25,
+        "complex_retrieval": 25,
+        "negation_difference": 25,
+        "path_temporal": 25,
+        "ranking_topk": 25,
+        "simple_aggregation": 25,
+        "simple_retrieval": 25
+      },
+      "categories_at_target": 8,
+      "category_count": 8,
+      "difficulty": {
+        "easy": 88,
+        "medium": 112
+      },
+      "gate_rates": {
+        "execution_success": 1.0,
+        "judge_pass": 1.0,
+        "read_only": 1.0,
+        "schema_valid": 1.0,
+        "syntax_valid": 1.0
+      },
+      "gates": {
+        "execution_success": 200,
+        "judge_pass": 200,
+        "read_only": 200,
+        "schema_valid": 200,
+        "syntax_valid": 200
+      },
+      "graph": "finbench",
+      "issues": {
+        "missing_context_column": 18
+      },
+      "primary_strategy": {
+        "aggregation": 75,
+        "join_heavy": 25,
+        "negation": 25,
+        "order_rank": 25,
+        "path": 25,
+        "single_hop": 25
+      },
+      "records": 200,
+      "records_path": "artifacts/runs/20260601_211613_20260601_ablation25_qwen9b_retry1_finbench_validators_repair/records.jsonl",
+      "run": "20260601_211613_20260601_ablation25_qwen9b_retry1_finbench_validators_repair",
+      "summary_present": true,
+      "variant": "validators_repair",
+      "variant_label": "Validators+repair"
+    },
+    {
+      "accept_rate": 0.9803921568627451,
+      "accepted": 200,
+      "accepted_by_category": {
+        "boolean_existence": 25,
+        "complex_aggregation": 25,
+        "complex_retrieval": 25,
+        "negation_difference": 25,
+        "path_temporal": 25,
+        "ranking_topk": 25,
+        "simple_aggregation": 25,
+        "simple_retrieval": 25
+      },
+      "by_category": {
+        "boolean_existence": 25,
+        "complex_aggregation": 25,
+        "complex_retrieval": 25,
+        "negation_difference": 29,
+        "path_temporal": 25,
+        "ranking_topk": 25,
+        "simple_aggregation": 25,
+        "simple_retrieval": 25
+      },
+      "categories_at_target": 8,
+      "category_count": 8,
+      "difficulty": {
+        "easy": 89,
+        "medium": 115
+      },
+      "gate_rates": {
+        "execution_success": 1.0,
+        "judge_pass": 0.9803921568627451,
+        "read_only": 1.0,
+        "schema_valid": 1.0,
+        "syntax_valid": 1.0
+      },
+      "gates": {
+        "execution_success": 204,
+        "judge_pass": 200,
+        "read_only": 204,
+        "schema_valid": 204,
+        "syntax_valid": 204
+      },
+      "graph": "finbench",
+      "issues": {
+        "missing_context_column": 18
+      },
+      "primary_strategy": {
+        "aggregation": 75,
+        "join_heavy": 25,
+        "negation": 29,
+        "order_rank": 25,
+        "path": 25,
+        "single_hop": 25
+      },
+      "records": 204,
+      "records_path": "artifacts/runs/20260601_211624_20260601_ablation25_qwen9b_retry1_finbench_ablation_retrieval_topk_0/records.jsonl",
+      "run": "20260601_211624_20260601_ablation25_qwen9b_retry1_finbench_ablation_retrieval_topk_0",
+      "summary_present": true,
+      "variant": "ablation_retrieval_topk_0",
+      "variant_label": "No retrieval"
+    },
+    {
+      "accept_rate": 0.970873786407767,
+      "accepted": 200,
+      "accepted_by_category": {
+        "boolean_existence": 25,
+        "complex_aggregation": 25,
+        "complex_retrieval": 25,
+        "negation_difference": 25,
+        "path_temporal": 25,
+        "ranking_topk": 25,
+        "simple_aggregation": 25,
+        "simple_retrieval": 25
+      },
+      "by_category": {
+        "boolean_existence": 25,
+        "complex_aggregation": 25,
+        "complex_retrieval": 25,
+        "negation_difference": 31,
+        "path_temporal": 25,
+        "ranking_topk": 25,
+        "simple_aggregation": 25,
+        "simple_retrieval": 25
+      },
+      "categories_at_target": 8,
+      "category_count": 8,
+      "difficulty": {
+        "easy": 87,
+        "medium": 119
+      },
+      "gate_rates": {
+        "execution_success": 1.0,
+        "judge_pass": 0.970873786407767,
+        "read_only": 1.0,
+        "schema_valid": 1.0,
+        "syntax_valid": 1.0
+      },
+      "gates": {
+        "execution_success": 206,
+        "judge_pass": 200,
+        "read_only": 206,
+        "schema_valid": 206,
+        "syntax_valid": 206
+      },
+      "graph": "finbench",
+      "issues": {
+        "missing_context_column": 28
+      },
+      "primary_strategy": {
+        "aggregation": 75,
+        "join_heavy": 25,
+        "negation": 31,
+        "order_rank": 25,
+        "path": 25,
+        "single_hop": 25
+      },
+      "records": 206,
+      "records_path": "artifacts/runs/20260601_212403_20260601_ablation25_qwen9b_retry1_finbench_ablation_rewrite_false/records.jsonl",
+      "run": "20260601_212403_20260601_ablation25_qwen9b_retry1_finbench_ablation_rewrite_false",
+      "summary_present": true,
+      "variant": "ablation_rewrite_false",
+      "variant_label": "No rewrite"
+    },
+    {
+      "accept_rate": 1.0,
+      "accepted": 200,
+      "accepted_by_category": {
+        "boolean_existence": 25,
+        "complex_aggregation": 25,
+        "complex_retrieval": 25,
+        "negation_difference": 25,
+        "path_temporal": 25,
+        "ranking_topk": 25,
+        "simple_aggregation": 25,
+        "simple_retrieval": 25
+      },
+      "by_category": {
+        "boolean_existence": 25,
+        "complex_aggregation": 25,
+        "complex_retrieval": 25,
+        "negation_difference": 25,
+        "path_temporal": 25,
+        "ranking_topk": 25,
+        "simple_aggregation": 25,
+        "simple_retrieval": 25
+      },
+      "categories_at_target": 8,
+      "category_count": 8,
+      "difficulty": {
+        "easy": 90,
+        "medium": 110
+      },
+      "gate_rates": {
+        "execution_success": 1.0,
+        "judge_pass": 1.0,
+        "read_only": 1.0,
+        "schema_valid": 1.0,
+        "syntax_valid": 1.0
+      },
+      "gates": {
+        "execution_success": 200,
+        "judge_pass": 200,
+        "read_only": 200,
+        "schema_valid": 200,
+        "syntax_valid": 200
+      },
+      "graph": "finbench",
+      "issues": {
+        "missing_context_column": 18
+      },
+      "primary_strategy": {
+        "aggregation": 75,
+        "join_heavy": 25,
+        "negation": 25,
+        "order_rank": 25,
+        "path": 25,
+        "single_hop": 25
+      },
+      "records": 200,
+      "records_path": "artifacts/runs/20260601_213153_20260601_ablation25_qwen9b_retry1_finbench_ablation_judge_false/records.jsonl",
+      "run": "20260601_213153_20260601_ablation25_qwen9b_retry1_finbench_ablation_judge_false",
+      "summary_present": true,
+      "variant": "ablation_judge_false",
+      "variant_label": "No LLM judge"
+    },
+    {
+      "accept_rate": 0.966183574879227,
+      "accepted": 200,
+      "accepted_by_category": {
+        "boolean_existence": 25,
+        "complex_aggregation": 25,
+        "complex_retrieval": 25,
+        "negation_difference": 25,
+        "path_temporal": 25,
+        "ranking_topk": 25,
+        "simple_aggregation": 25,
+        "simple_retrieval": 25
+      },
+      "by_category": {
+        "boolean_existence": 25,
+        "complex_aggregation": 25,
+        "complex_retrieval": 25,
+        "negation_difference": 32,
+        "path_temporal": 25,
+        "ranking_topk": 25,
+        "simple_aggregation": 25,
+        "simple_retrieval": 25
+      },
+      "categories_at_target": 8,
+      "category_count": 8,
+      "difficulty": {
+        "easy": 90,
+        "medium": 117
+      },
+      "gate_rates": {
+        "execution_success": 1.0,
+        "judge_pass": 0.966183574879227,
+        "read_only": 1.0,
+        "schema_valid": 1.0,
+        "syntax_valid": 1.0
+      },
+      "gates": {
+        "execution_success": 207,
+        "judge_pass": 200,
+        "read_only": 207,
+        "schema_valid": 207,
+        "syntax_valid": 207
+      },
+      "graph": "finbench",
+      "issues": {
+        "missing_context_column": 17
+      },
+      "primary_strategy": {
+        "aggregation": 75,
+        "join_heavy": 25,
+        "negation": 32,
+        "order_rank": 25,
+        "path": 25,
+        "single_hop": 25
+      },
+      "records": 207,
+      "records_path": "artifacts/runs/20260601_213159_20260601_ablation25_qwen9b_retry1_finbench_full_pipe_cypher/records.jsonl",
+      "run": "20260601_213159_20260601_ablation25_qwen9b_retry1_finbench_full_pipe_cypher",
+      "summary_present": true,
+      "variant": "full_pipe_cypher",
+      "variant_label": "Full PIPE-Cypher"
+    },
+    {
+      "accept_rate": 0.0,
+      "accepted": 0,
+      "accepted_by_category": {},
+      "by_category": {},
+      "categories_at_target": 0,
+      "category_count": 8,
+      "difficulty": {},
+      "gate_rates": {},
+      "gates": {},
+      "graph": "snb",
+      "issues": {},
+      "primary_strategy": {},
+      "records": 0,
+      "records_path": "artifacts/runs/20260601_213959_20260601_ablation25_qwen9b_retry1_snb_unconstrained_local_llm/records.jsonl",
+      "run": "20260601_213959_20260601_ablation25_qwen9b_retry1_snb_unconstrained_local_llm",
+      "summary_present": true,
+      "variant": "unconstrained_local_llm",
+      "variant_label": "Unconstrained LLM"
+    },
+    {
+      "accept_rate": 0.9900990099009901,
+      "accepted": 200,
+      "accepted_by_category": {
+        "boolean_existence": 25,
+        "complex_aggregation": 25,
+        "complex_retrieval": 25,
+        "negation_difference": 25,
+        "path_temporal": 25,
+        "ranking_topk": 25,
+        "simple_aggregation": 25,
+        "simple_retrieval": 25
+      },
+      "by_category": {
+        "boolean_existence": 25,
+        "complex_aggregation": 25,
+        "complex_retrieval": 26,
+        "negation_difference": 25,
+        "path_temporal": 25,
+        "ranking_topk": 25,
+        "simple_aggregation": 26,
+        "simple_retrieval": 25
+      },
+      "categories_at_target": 8,
+      "category_count": 8,
+      "difficulty": {
+        "easy": 102,
+        "medium": 100
+      },
+      "gate_rates": {
+        "execution_success": 0.9900990099009901,
+        "judge_pass": 0.9900990099009901,
+        "read_only": 1.0,
+        "schema_valid": 0.9900990099009901,
+        "syntax_valid": 1.0
+      },
+      "gates": {
+        "execution_success": 200,
+        "judge_pass": 200,
+        "read_only": 202,
+        "schema_valid": 200,
+        "syntax_valid": 202
+      },
+      "graph": "snb",
+      "issues": {
+        "unknown_property": 2
+      },
+      "primary_strategy": {
+        "aggregation": 76,
+        "join_heavy": 26,
+        "negation": 25,
+        "order_rank": 25,
+        "path": 25,
+        "single_hop": 25
+      },
+      "records": 202,
+      "records_path": "artifacts/runs/20260601_214000_20260601_ablation25_qwen9b_retry1_snb_reverse_only/records.jsonl",
+      "run": "20260601_214000_20260601_ablation25_qwen9b_retry1_snb_reverse_only",
+      "summary_present": true,
+      "variant": "reverse_only",
+      "variant_label": "Reverse-only"
+    },
+    {
+      "accept_rate": 0.9900990099009901,
+      "accepted": 200,
+      "accepted_by_category": {
+        "boolean_existence": 25,
+        "complex_aggregation": 25,
+        "complex_retrieval": 25,
+        "negation_difference": 25,
+        "path_temporal": 25,
+        "ranking_topk": 25,
+        "simple_aggregation": 25,
+        "simple_retrieval": 25
+      },
+      "by_category": {
+        "boolean_existence": 25,
+        "complex_aggregation": 25,
+        "complex_retrieval": 26,
+        "negation_difference": 25,
+        "path_temporal": 25,
+        "ranking_topk": 25,
+        "simple_aggregation": 26,
+        "simple_retrieval": 25
+      },
+      "categories_at_target": 8,
+      "category_count": 8,
+      "difficulty": {
+        "easy": 102,
+        "medium": 100
+      },
+      "gate_rates": {
+        "execution_success": 0.9900990099009901,
+        "judge_pass": 0.9900990099009901,
+        "read_only": 1.0,
+        "schema_valid": 0.9900990099009901,
+        "syntax_valid": 1.0
+      },
+      "gates": {
+        "execution_success": 200,
+        "judge_pass": 200,
+        "read_only": 202,
+        "schema_valid": 200,
+        "syntax_valid": 202
+      },
+      "graph": "snb",
+      "issues": {
+        "unknown_property": 2
+      },
+      "primary_strategy": {
+        "aggregation": 76,
+        "join_heavy": 26,
+        "negation": 25,
+        "order_rank": 25,
+        "path": 25,
+        "single_hop": 25
+      },
+      "records": 202,
+      "records_path": "artifacts/runs/20260601_214006_20260601_ablation25_qwen9b_retry1_snb_validators_repair/records.jsonl",
+      "run": "20260601_214006_20260601_ablation25_qwen9b_retry1_snb_validators_repair",
+      "summary_present": true,
+      "variant": "validators_repair",
+      "variant_label": "Validators+repair"
+    },
+    {
+      "accept_rate": 0.9900990099009901,
+      "accepted": 200,
+      "accepted_by_category": {
+        "boolean_existence": 25,
+        "complex_aggregation": 25,
+        "complex_retrieval": 25,
+        "negation_difference": 25,
+        "path_temporal": 25,
+        "ranking_topk": 25,
+        "simple_aggregation": 25,
+        "simple_retrieval": 25
+      },
+      "by_category": {
+        "boolean_existence": 25,
+        "complex_aggregation": 25,
+        "complex_retrieval": 26,
+        "negation_difference": 25,
+        "path_temporal": 25,
+        "ranking_topk": 25,
+        "simple_aggregation": 26,
+        "simple_retrieval": 25
+      },
+      "categories_at_target": 8,
+      "category_count": 8,
+      "difficulty": {
+        "easy": 102,
+        "medium": 100
+      },
+      "gate_rates": {
+        "execution_success": 0.9900990099009901,
+        "judge_pass": 0.9900990099009901,
+        "read_only": 1.0,
+        "schema_valid": 0.9900990099009901,
+        "syntax_valid": 1.0
+      },
+      "gates": {
+        "execution_success": 200,
+        "judge_pass": 200,
+        "read_only": 202,
+        "schema_valid": 200,
+        "syntax_valid": 202
+      },
+      "graph": "snb",
+      "issues": {
+        "unknown_property": 2
+      },
+      "primary_strategy": {
+        "aggregation": 76,
+        "join_heavy": 26,
+        "negation": 25,
+        "order_rank": 25,
+        "path": 25,
+        "single_hop": 25
+      },
+      "records": 202,
+      "records_path": "artifacts/runs/20260601_214012_20260601_ablation25_qwen9b_retry1_snb_ablation_retrieval_topk_0/records.jsonl",
+      "run": "20260601_214012_20260601_ablation25_qwen9b_retry1_snb_ablation_retrieval_topk_0",
+      "summary_present": true,
+      "variant": "ablation_retrieval_topk_0",
+      "variant_label": "No retrieval"
+    },
+    {
+      "accept_rate": 0.9900990099009901,
+      "accepted": 200,
+      "accepted_by_category": {
+        "boolean_existence": 25,
+        "complex_aggregation": 25,
+        "complex_retrieval": 25,
+        "negation_difference": 25,
+        "path_temporal": 25,
+        "ranking_topk": 25,
+        "simple_aggregation": 25,
+        "simple_retrieval": 25
+      },
+      "by_category": {
+        "boolean_existence": 25,
+        "complex_aggregation": 25,
+        "complex_retrieval": 26,
+        "negation_difference": 25,
+        "path_temporal": 25,
+        "ranking_topk": 25,
+        "simple_aggregation": 26,
+        "simple_retrieval": 25
+      },
+      "categories_at_target": 8,
+      "category_count": 8,
+      "difficulty": {
+        "easy": 102,
+        "medium": 100
+      },
+      "gate_rates": {
+        "execution_success": 0.9900990099009901,
+        "judge_pass": 0.9900990099009901,
+        "read_only": 1.0,
+        "schema_valid": 0.9900990099009901,
+        "syntax_valid": 1.0
+      },
+      "gates": {
+        "execution_success": 200,
+        "judge_pass": 200,
+        "read_only": 202,
+        "schema_valid": 200,
+        "syntax_valid": 202
+      },
+      "graph": "snb",
+      "issues": {
+        "unknown_property": 2
+      },
+      "primary_strategy": {
+        "aggregation": 76,
+        "join_heavy": 26,
+        "negation": 25,
+        "order_rank": 25,
+        "path": 25,
+        "single_hop": 25
+      },
+      "records": 202,
+      "records_path": "artifacts/runs/20260601_214743_20260601_ablation25_qwen9b_retry1_snb_ablation_rewrite_false/records.jsonl",
+      "run": "20260601_214743_20260601_ablation25_qwen9b_retry1_snb_ablation_rewrite_false",
+      "summary_present": true,
+      "variant": "ablation_rewrite_false",
+      "variant_label": "No rewrite"
+    },
+    {
+      "accept_rate": 0.9900990099009901,
+      "accepted": 200,
+      "accepted_by_category": {
+        "boolean_existence": 25,
+        "complex_aggregation": 25,
+        "complex_retrieval": 25,
+        "negation_difference": 25,
+        "path_temporal": 25,
+        "ranking_topk": 25,
+        "simple_aggregation": 25,
+        "simple_retrieval": 25
+      },
+      "by_category": {
+        "boolean_existence": 25,
+        "complex_aggregation": 25,
+        "complex_retrieval": 26,
+        "negation_difference": 25,
+        "path_temporal": 25,
+        "ranking_topk": 25,
+        "simple_aggregation": 26,
+        "simple_retrieval": 25
+      },
+      "categories_at_target": 8,
+      "category_count": 8,
+      "difficulty": {
+        "easy": 102,
+        "medium": 100
+      },
+      "gate_rates": {
+        "execution_success": 0.9900990099009901,
+        "judge_pass": 0.9900990099009901,
+        "read_only": 1.0,
+        "schema_valid": 0.9900990099009901,
+        "syntax_valid": 1.0
+      },
+      "gates": {
+        "execution_success": 200,
+        "judge_pass": 200,
+        "read_only": 202,
+        "schema_valid": 200,
+        "syntax_valid": 202
+      },
+      "graph": "snb",
+      "issues": {
+        "unknown_property": 2
+      },
+      "primary_strategy": {
+        "aggregation": 76,
+        "join_heavy": 26,
+        "negation": 25,
+        "order_rank": 25,
+        "path": 25,
+        "single_hop": 25
+      },
+      "records": 202,
+      "records_path": "artifacts/runs/20260601_215512_20260601_ablation25_qwen9b_retry1_snb_ablation_judge_false/records.jsonl",
+      "run": "20260601_215512_20260601_ablation25_qwen9b_retry1_snb_ablation_judge_false",
+      "summary_present": true,
+      "variant": "ablation_judge_false",
+      "variant_label": "No LLM judge"
+    },
+    {
+      "accept_rate": 0.9900990099009901,
+      "accepted": 200,
+      "accepted_by_category": {
+        "boolean_existence": 25,
+        "complex_aggregation": 25,
+        "complex_retrieval": 25,
+        "negation_difference": 25,
+        "path_temporal": 25,
+        "ranking_topk": 25,
+        "simple_aggregation": 25,
+        "simple_retrieval": 25
+      },
+      "by_category": {
+        "boolean_existence": 25,
+        "complex_aggregation": 25,
+        "complex_retrieval": 26,
+        "negation_difference": 25,
+        "path_temporal": 25,
+        "ranking_topk": 25,
+        "simple_aggregation": 26,
+        "simple_retrieval": 25
+      },
+      "categories_at_target": 8,
+      "category_count": 8,
+      "difficulty": {
+        "easy": 102,
+        "medium": 100
+      },
+      "gate_rates": {
+        "execution_success": 0.9900990099009901,
+        "judge_pass": 0.9900990099009901,
+        "read_only": 1.0,
+        "schema_valid": 0.9900990099009901,
+        "syntax_valid": 1.0
+      },
+      "gates": {
+        "execution_success": 200,
+        "judge_pass": 200,
+        "read_only": 202,
+        "schema_valid": 200,
+        "syntax_valid": 202
+      },
+      "graph": "snb",
+      "issues": {
+        "unknown_property": 2
+      },
+      "primary_strategy": {
+        "aggregation": 76,
+        "join_heavy": 26,
+        "negation": 25,
+        "order_rank": 25,
+        "path": 25,
+        "single_hop": 25
+      },
+      "records": 202,
+      "records_path": "artifacts/runs/20260601_215518_20260601_ablation25_qwen9b_retry1_snb_full_pipe_cypher/records.jsonl",
+      "run": "20260601_215518_20260601_ablation25_qwen9b_retry1_snb_full_pipe_cypher",
+      "summary_present": true,
+      "variant": "full_pipe_cypher",
+      "variant_label": "Full PIPE-Cypher"
+    }
+  ],
+  "target_per_category": 25
+}

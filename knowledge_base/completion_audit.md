@@ -5,7 +5,7 @@ Status: goal is not complete yet.
 ## Evidence Already Present
 
 - Clean repo scaffold with package, configs, scripts, tests, docs, experiment matrix, and paper directory.
-- Deterministic tests pass: `137 passed`.
+- Deterministic tests pass: `139 passed`.
 - Offline smoke runs prove the CLI path, built-in FinBench and SNB reference schemas, deterministic validation, contextual return warnings, mock execution, deterministic judge, JSONL logging, strategy tags, and summary metrics.
 - LDBC FinBench SF0.1 has been generated on `ds-serv6`, transformed to snapshot CSVs, and loaded into a user-space Neo4j Community 5.26 smoke database.
 - The loaded FinBench smoke graph contains 10,006 nodes and 57,622 relationships.
@@ -29,8 +29,8 @@ Status: goal is not complete yet.
   - `artifacts/runs/20260601_140632_20260601_midscale_finbench`: 40/46 accepted, five accepted examples in every planned category.
   - `artifacts/runs/20260601_140855_20260601_midscale_snb`: 40/47 accepted, five accepted examples in every planned category.
 - A materialized FinBench+SNB target-five ablation suite is recorded in `knowledge_base/target5_ablation_results.md` as engineering sanity-check evidence only. It is no longer rendered into the paper because target-five runs are too small for publication-quality ablation claims.
-- A scaled target-25 FinBench/SNB ablation suite was launched on `ds-serv6` in tmux session `pipecypher_ablation25_qwen9b` with run prefix `20260601_ablation25_qwen9b_retry1`, local Qwen3.5-9B generation/judging, and code revision `2122a86e457a3c0039367a09290dde120c660d68`. A finalizer session will summarize it after completion. It is an interim scaled checkpoint, not final paper evidence by default.
-- A target-50 FinBench/SNB ablation suite is queued behind target-25 in tmux session `pipecypher_ablation50_qwen9b`, with run prefix `20260601_ablation50_qwen9b`, local Qwen3.5-9B generation/judging, and code revision `b5d4898e4a5f5043c33114a7746e319590f38de1`; details are in `knowledge_base/scaled_ablation_status.md`.
+- A scaled target-25 FinBench/SNB ablation suite completed on `ds-serv6` with run prefix `20260601_ablation25_qwen9b_retry1`, local Qwen3.5-9B generation/judging, and code revision `2122a86e457a3c0039367a09290dde120c660d68`. Audit artifacts are tracked in `experiments/snapshots/20260601_ablation25_qwen9b_retry1/`, and the summary marks the suite as an interim scaled checkpoint rather than final paper evidence.
+- A target-50 FinBench/SNB ablation suite is running in tmux session `pipecypher_ablation50_qwen9b`, with run prefix `20260601_ablation50_qwen9b`, local Qwen3.5-9B generation/judging, and code revision `b5d4898e4a5f5043c33114a7746e319590f38de1`; details are in `knowledge_base/scaled_ablation_status.md`.
 - `artifacts/benchmarks/20260601_live_all_category_mini` exports 24 accepted examples with stable IDs, train/dev/test JSONL splits, stats, a manifest hash, and exactly three accepted examples in every planned category across FinBench+SNB.
 - `artifacts/benchmarks/20260601_live_midscale` exports 80 accepted examples with stable IDs, train/dev/test JSONL splits, stats, a manifest hash, and ten accepted examples in every planned category across FinBench+SNB.
 - The EMNLP draft compiles with `pdflatex`/`bibtex`; generated PDF: `paper_emnlp2026_industry/main.pdf`.
@@ -81,9 +81,9 @@ Status: goal is not complete yet.
 
 ## Missing For Full Goal Completion
 
-- Qwen3.5-9B has been used for live FinBench/SNB engineering checks, the full 3,000-example fallback benchmark, and an in-progress scaled target-25 ablation suite.
+- Qwen3.5-9B has been used for live FinBench/SNB engineering checks, the full 3,000-example fallback benchmark, a completed target-25 ablation checkpoint, and an in-progress target-50 ablation suite.
 - Qwen3.5-35B-A3B has been staged locally, but it has not yet been served successfully through vLLM or used for generation/judging because the latest capacity check found only one safely free A5000 GPU and four required under the current serving budget.
-- Scaled baselines and ablations have not yet completed on live graphs. A target-25 FinBench/SNB suite is running and a target-50 suite is queued behind it; no ablation result should be reported in the paper until a scaled suite completes, is summarized from run artifacts, and passes claim/evidence audit.
+- A target-25 FinBench/SNB ablation checkpoint completed, but the project is still waiting on the larger target-50 suite for stronger reviewer-facing evidence. No ablation result should be reported in the paper until a scaled suite completes, is summarized from run artifacts, and passes claim/evidence audit.
 - Full downstream Text2Cypher model evaluation has completed on the 296-example full test split.
 - Judge calibration CSV/HTML tooling exists, the full-run v2 audit packet has 80 sampled rows with graph/category/judge-outcome coverage, and the labeling protocol is documented, but no completed human labels yet.
 - Paper results tables now contain full-generation, full-export, and full downstream test numbers; judge human-label calibration remains pending.
@@ -92,4 +92,4 @@ Status: goal is not complete yet.
 
 1. Fill human labels for `artifacts/audits/20260601_full_qwen9b_judge_audit_v2.csv`, then run `scripts/analyze_judge_audit.py --require-labels`.
 2. Start and smoke-check a `Qwen/Qwen3.5-35B-A3B` vLLM endpoint from `/home/suraj/pipecypher-models/Qwen3.5-35B-A3B`, or explicitly finalize the study as a 9B fallback study.
-3. Summarize the completed target-25 ablation suite from run artifacts, then add only scaled ablation tables/figures to the paper.
+3. Monitor the running target-50 ablation suite, copy its completed summary artifacts, and only then decide whether to render scaled ablation tables/figures into the appendix.

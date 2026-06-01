@@ -4,7 +4,7 @@ Date: June 1, 2026.
 
 ## Target-25 Suite
 
-Status: running on `ds-serv6` in tmux session `pipecypher_ablation25_qwen9b`.
+Status: complete on `ds-serv6`; local audit artifacts are tracked under `experiments/snapshots/20260601_ablation25_qwen9b_retry1/`.
 
 Runtime metadata:
 
@@ -17,30 +17,37 @@ Runtime metadata:
 - recorded code revision: `2122a86e457a3c0039367a09290dde120c660d68`
 - log: `/home/suraj/PIPE-Cypher/logs/20260601_ablation25_qwen9b_retry1.log`
 
-Completed at latest inspection:
+Completed runs:
 
 - all FinBench variants;
-- SNB `unconstrained_local_llm`, `reverse_only`, `validators_repair`, and `ablation_retrieval_topk_0`.
+- all SNB variants.
 
-Active at latest inspection:
+Outcome summary:
 
-- SNB `ablation_rewrite_false`.
+- 14/14 expected graph/variant cells finished.
+- `unconstrained_local_llm` produced 0 records on both graphs under strict no-fallback settings.
+- every reverse-grounded or full pipeline variant reached 8/8 categories at the target of 25 accepted examples per category.
+- acceptance rates were 0.966--1.000 on FinBench non-unconstrained variants and 0.990--1.000 on SNB non-unconstrained variants.
 
-Post-processing:
+Audit artifacts:
 
-- tmux session `pipecypher_ablation25_finalize` is waiting for `pipecypher_ablation25_qwen9b` to end.
-- After completion it will write:
-  - `/home/suraj/PIPE-Cypher/experiments/snapshots/20260601_ablation25_qwen9b_retry1/ablation_suite_summary.json`
-  - `/home/suraj/PIPE-Cypher/experiments/snapshots/20260601_ablation25_qwen9b_retry1/ablation_suite_summary.md`
-  - `/home/suraj/PIPE-Cypher/experiments/snapshots/20260601_ablation25_qwen9b_retry1/ablation_suite_target25.pdf`
+- JSON: `experiments/snapshots/20260601_ablation25_qwen9b_retry1/ablation_suite_summary.json`
+- Markdown: `experiments/snapshots/20260601_ablation25_qwen9b_retry1/ablation_suite_summary.md`
+- Figure: `experiments/snapshots/20260601_ablation25_qwen9b_retry1/ablation_suite_target25.pdf`
+
+SHA-256:
+
+- `ablation_suite_summary.json`: `906a501b87f0d78dc6cc0fbd7e6dc2906bfb6a25b150b7381d019ed2b1853776`
+- `ablation_suite_summary.md`: `d5848c5c91946d725ab062ebaeb45d6caebb7192599ced53e0d93a594b56e653`
+- `ablation_suite_target25.pdf`: `fc398b5f2e31a3e2489d3bb89f59e667b52a6593e183454bb9c3b785bac20975`
 
 Research-use note: target-25 is an interim scaled checkpoint, not final paper evidence unless later claim/evidence audit determines that it is sufficient for a narrow appendix claim. Larger target-per-category runs remain preferred.
 
 ## Target-50 Suite
 
-Status: queued on `ds-serv6` in tmux session `pipecypher_ablation50_qwen9b`.
+Status: running on `ds-serv6` in tmux session `pipecypher_ablation50_qwen9b`.
 
-The session was launched with `WAIT_FOR_SESSION=pipecypher_ablation25_qwen9b`, so it should start only after the target-25 suite exits. It reuses the existing local Qwen3.5-9B endpoint rather than starting another model server.
+The session was launched with `WAIT_FOR_SESSION=pipecypher_ablation25_qwen9b`, so it started only after the target-25 suite exited. It reuses the existing local Qwen3.5-9B endpoint rather than starting another model server.
 
 Runtime metadata:
 
@@ -50,6 +57,14 @@ Runtime metadata:
 - judge model: `Qwen/Qwen3.5-9B`
 - recorded code revision: `b5d4898e4a5f5043c33114a7746e319590f38de1`
 - log: `/home/suraj/PIPE-Cypher/logs/20260601_ablation50_qwen9b.log`
+
+Completed at latest inspection:
+
+- FinBench `unconstrained_local_llm`, `reverse_only`, and `validators_repair`.
+
+Active at latest inspection:
+
+- FinBench `ablation_retrieval_topk_0`.
 
 Launch command:
 
