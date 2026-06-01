@@ -58,24 +58,32 @@ Runtime metadata:
 - recorded code revision: `b5d4898e4a5f5043c33114a7746e319590f38de1`
 - log: `/home/suraj/PIPE-Cypher/logs/20260601_ablation50_qwen9b.log`
 
+Observed at latest inspection:
+
+- 9/14 graph/variant cells had been observed.
+- 8/14 graph/variant cells were complete.
+- The tmux session was still running.
+
 Completed at latest inspection:
 
-- FinBench `unconstrained_local_llm`, `reverse_only`, `validators_repair`,
+- All FinBench variants: `unconstrained_local_llm`, `reverse_only`, `validators_repair`,
   `ablation_retrieval_topk_0`, `ablation_rewrite_false`, and
-  `ablation_judge_false`.
+  `ablation_judge_false`, and `full_pipe_cypher`.
+- SNB `unconstrained_local_llm`.
 
 Active at latest inspection:
 
-- FinBench `full_pipe_cypher`; the active records file
-  `artifacts/runs/20260601_223836_20260601_ablation50_qwen9b_finbench_full_pipe_cypher/records.jsonl`
-  had reached 331 records during local inspection and continued advancing
+- SNB `reverse_only`; the active records file
+  `artifacts/runs/20260601_225458_20260601_ablation50_qwen9b_snb_reverse_only/records.jsonl`
+  had reached 74 records during local inspection and continued advancing
   afterward. Treat it as active/incomplete until the suite advances and the
   collector/audit confirms the final status; use the monitor command below for
   the exact live count.
 
 Still missing at latest inspection:
 
-- All SNB target-50 variants.
+- SNB `validators_repair`, `ablation_retrieval_topk_0`,
+  `ablation_rewrite_false`, `ablation_judge_false`, and `full_pipe_cypher`.
 
 Reporting note: once the suite finishes, `scripts/run_live_ablation_suite.sh` now writes
 `ablation_suite_summary.json`, `ablation_suite_summary.md`, `ablation_suite_summary.csv`,
