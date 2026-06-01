@@ -224,7 +224,7 @@ PYTHON_BIN=/home/suraj/pipecypher-tools/runtime-venv/bin/python \
 
 The June 1, 2026 mini-ablation evidence is summarized in `knowledge_base/mini_ablation_results.md`: FinBench LLM-only accepted 0/16, FinBench mixed accepted 16/29, and SNB mixed accepted 8/8.
 
-The mini-ablation and target-five artifacts are engineering sanity checks only. Do not report them in the paper as experimental evidence; paper ablations should use scaled runs such as target-25 or larger with explicit run logs and both graph workloads when the claim is not graph-specific.
+The mini-ablation, target-five, and target-25 artifacts are development or interim scaled checkpoints only. Do not report them in the paper as experimental evidence. Paper ablations should use audited target-50-or-larger suites at minimum, preferably target-100 or repeated target-50 runs, with explicit run logs and both graph workloads when the claim is not graph-specific.
 
 Run a larger bounded live ablation suite when the Qwen3.5-9B endpoint and both Neo4j databases are up on `ds-serv6`:
 
@@ -232,15 +232,15 @@ Run a larger bounded live ablation suite when the Qwen3.5-9B endpoint and both N
 source ~/miniforge3/etc/profile.d/conda.sh
 conda activate pipe-rdf-arr
 cd /home/suraj/PIPE-Cypher
-TARGET_PER_CATEGORY=25 \
+TARGET_PER_CATEGORY=50 \
 PYTHON_BIN=/home/suraj/pipecypher-tools/runtime-venv/bin/python \
 GENERATION_MODEL=Qwen/Qwen3.5-9B \
 JUDGE_MODEL=Qwen/Qwen3.5-9B \
-RUN_PREFIX=20260601_ablation25_qwen9b \
+RUN_PREFIX=20260601_ablation50_qwen9b \
   scripts/run_live_ablation_suite.sh
 ```
 
-The default target-25 suite runs the paper-relevant variants: strict unconstrained LLM, reverse-only, validators+repair, no retrieval, no rewrite, no LLM judge, and full PIPE-Cypher, for both FinBench and SNB. Increase `TARGET_PER_CATEGORY` only after checking runtime and endpoint stability.
+The target-50 suite runs the intended paper-ablation variants: strict unconstrained LLM, reverse-only, validators+repair, no retrieval, no rewrite, no LLM judge, and full PIPE-Cypher, for both FinBench and SNB. Treat target-50 as the minimum paper-readiness threshold, not the ideal scale; increase to target-100 or repeat target-50 runs after checking runtime and endpoint stability.
 
 For long runs, prefer the tmux launcher. It can queue a larger suite behind an
 active run and still preserve model IDs, revision metadata, and logs:
@@ -262,10 +262,10 @@ without rerunning generation:
 
 ```bash
 python scripts/summarize_live_ablation_suite.py \
-  --glob 'artifacts/runs/*20260601_ablation25_qwen9b_retry1*' \
-  --target-per-category 25 \
-  --output-json experiments/snapshots/20260601_ablation25_qwen9b_retry1/ablation_suite_summary.json \
-  --output-md experiments/snapshots/20260601_ablation25_qwen9b_retry1/ablation_suite_summary.md
+  --glob 'artifacts/runs/*20260601_ablation50_qwen9b*' \
+  --target-per-category 50 \
+  --output-json experiments/snapshots/20260601_ablation50_qwen9b/ablation_suite_summary.json \
+  --output-md experiments/snapshots/20260601_ablation50_qwen9b/ablation_suite_summary.md
 ```
 
 The summarizer refuses to render a LaTeX paper table from incomplete suites
@@ -276,8 +276,8 @@ complete:
 
 ```bash
 python scripts/render_ablation_suite_figure.py \
-  --suite-summary experiments/snapshots/20260601_ablation25_qwen9b_retry1/ablation_suite_summary.json \
-  --output paper_emnlp2026_industry/figures/ablation_suite_target25.pdf
+  --suite-summary experiments/snapshots/20260601_ablation50_qwen9b/ablation_suite_summary.json \
+  --output paper_emnlp2026_industry/figures/ablation_suite_target50.pdf
 ```
 
 Estimate whether the built-in seeds can support the full category targets before launching long runs:

@@ -41,7 +41,7 @@ SHA-256:
 - `ablation_suite_summary.md`: `d5848c5c91946d725ab062ebaeb45d6caebb7192599ced53e0d93a594b56e653`
 - `ablation_suite_target25.pdf`: `fc398b5f2e31a3e2489d3bb89f59e667b52a6593e183454bb9c3b785bac20975`
 
-Research-use note: target-25 is an interim scaled checkpoint, not final paper evidence unless later claim/evidence audit determines that it is sufficient for a narrow appendix claim. Larger target-per-category runs remain preferred.
+Research-use note: target-25 is an interim scaled checkpoint, not final paper evidence. Use it for engineering diagnosis and planning only; paper claims should wait for an audited target-50-or-larger suite, preferably target-100 or repeated target-50 if compute allows.
 
 ## Target-50 Suite
 
@@ -68,7 +68,7 @@ Active at latest inspection:
 
 - FinBench `full_pipe_cypher`; the active records file
   `artifacts/runs/20260601_223836_20260601_ablation50_qwen9b_finbench_full_pipe_cypher/records.jsonl`
-  had reached at least 148 records during local inspection and continued advancing
+  had reached 331 records during local inspection and continued advancing
   afterward. Treat it as active/incomplete until the suite advances and the
   collector/audit confirms the final status; use the monitor command below for
   the exact live count.

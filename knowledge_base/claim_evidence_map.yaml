@@ -20,16 +20,16 @@ claims:
     status: "Supported by code, tests, and full-run failure taxonomy."
     risk: "Semantic correctness still depends on execution evidence and judge review; human audit labels are pending."
 
-  - claim: "Reverse grounding and structured workload seeds are expected to improve reliability under local-model constraints."
-    evidence: "A target-25 FinBench/SNB ablation checkpoint completed with all expected graph/variant cells. Strict unconstrained generation produced no records, while reverse-grounded and full variants reached all graph/category targets. The paper does not yet report this as a final ablation claim because a larger target-50 suite is running for stronger reviewer-facing evidence."
+  - claim: "Reverse grounding and structured workload seeds are designed to improve reliability under local-model constraints."
+    evidence: "The paper-readiness audit, remote collector, and live ablation runner are implemented for FinBench/SNB graph-stratified suites, and a target-50 suite is currently running. No ablation result is claimed in the manuscript until a target-50-or-larger suite completes, is collected with logs/model IDs/code revision, and passes the readiness audit."
     artifacts:
       - "scripts/run_live_ablation_suite.sh"
-      - "experiments/snapshots/20260601_ablation25_qwen9b_retry1/ablation_suite_summary.json"
-      - "experiments/snapshots/20260601_ablation25_qwen9b_retry1/ablation_suite_summary.md"
-      - "experiments/snapshots/20260601_ablation25_qwen9b_retry1/ablation_suite_target25.pdf"
+      - "scripts/monitor_remote_ablation_suite.py"
+      - "scripts/collect_remote_ablation_suite.py"
+      - "scripts/summarize_live_ablation_suite.py"
       - "knowledge_base/scaled_ablation_status.md"
-    status: "Supported as an interim target-25 checkpoint; final target-50 ablation evidence is still running and not yet reported in the paper."
-    risk: "Target-25 saturates for most structured variants, so component-level claims need larger runs, additional quality metrics, or downstream effects rather than yield alone."
+    status: "Pending scaled ablation evidence; the active target-50 suite is not yet reported as a paper result."
+    risk: "Component-level reliability claims require a completed and audited target-50-or-larger suite, preferably target-100 or repeated target-50 if compute allows."
 
   - claim: "The benchmark controls category and difficulty balance while exposing residual diversity limits."
     evidence: "The full export has perfect category balance, planned 2:1 FinBench/SNB graph mix, and a near-even easy/medium split. Diversity diagnostics report Distinct-n, sampled self-BLEU-2, query-signature diversity, normalized entropy, schema coverage, and structural feature rates, making template concentration visible instead of hidden."
