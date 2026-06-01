@@ -73,6 +73,29 @@ def test_schema_validation_rejects_untyped_relationship_patterns():
     assert any(issue.code == "missing_relationship_type" for issue in result.issues)
 
 
+def test_categorical_property_values_are_enforced_in_where_clauses():
+    schema = finbench_reference_schema()
+    query = "MATCH (a:Account) WHERE a.accountType = 'brokerage' RETURN a.accountId AS AccountId"
+    result = validate_cypher(query, schema)
+    assert not result.ok
+    assert any(issue.code == "invalid_categorical_value" for issue in result.issues)
+
+
+def test_categorical_property_values_accept_known_literals():
+    schema = finbench_reference_schema()
+    query = "MATCH (a:Account) WHERE a.accountType IN ['checking', 'savings'] RETURN a.accountId AS AccountId"
+    result = validate_cypher(query, schema)
+    assert result.ok
+
+
+def test_categorical_property_values_are_enforced_in_node_maps():
+    schema = finbench_reference_schema()
+    query = "MATCH (c:Company {business: 'hospitality'}) RETURN c.companyName AS CompanyName"
+    result = validate_cypher(query, schema)
+    assert not result.ok
+    assert any(issue.code == "invalid_categorical_value" for issue in result.issues)
+
+
 def test_structural_features_detect_path_and_ranking():
     query = "MATCH (a:Account)-[:TRANSFER_TO*1..2]->(b:Account) RETURN DISTINCT b.accountId AS id ORDER BY id LIMIT 10"
     features = structural_features(query)

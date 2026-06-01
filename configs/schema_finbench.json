@@ -1,5 +1,24 @@
 {
-  "categorical_properties": {},
+  "categorical_properties": {
+    "Account.accountType": [
+      "debit",
+      "credit",
+      "checking",
+      "savings"
+    ],
+    "Company.business": [
+      "finance",
+      "retail",
+      "technology",
+      "services"
+    ],
+    "Medium.mediumType": [
+      "email",
+      "phone",
+      "device",
+      "ip"
+    ]
+  },
   "graph_name": "finbench",
   "node_properties": [
     {

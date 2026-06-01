@@ -22,6 +22,7 @@ PIPE-Cypher generates enterprise-specific NL-to-Cypher benchmark examples throug
 4. **Validation and execution**
    - Validate read-only safety, syntax shape, labels, relationship types, properties, and relationship direction.
    - Interpret both Cypher arrow forms, `(:A)-[:R]->(:B)` and `(:A)<-[:R]-(:B)`, against the schema's actual relationship direction, and reject untyped or undirected relationship patterns in generated benchmark queries. This makes direction discipline an executable gate rather than only a prompt instruction.
+   - Enforce schema-provided categorical property values in node maps and `WHERE` comparisons, so generated examples cannot improve yield by inventing unsupported enum-like values.
    - Execute against Neo4j in read-only mode and reject empty results for benchmark examples unless the category intentionally tests emptiness.
 
 5. **LLM-judge review**

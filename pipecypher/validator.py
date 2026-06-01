@@ -142,6 +142,87 @@ def _property_names(prop_map: str | None) -> list[str]:
     return re.findall(r"([A-Za-z_][A-Za-z0-9_]*)\s*:", prop_map)
 
 
+def _string_literals(text: str) -> list[str]:
+    literals: list[str] = []
+    for single, double in re.findall(r"'((?:\\'|[^'])*)'|\"((?:\\\"|[^\"])*)\"", text):
+        literals.append(single if single else double)
+    return literals
+
+
+def _property_literal_pairs(prop_map: str | None) -> list[tuple[str, str]]:
+    if not prop_map:
+        return []
+    pairs: list[tuple[str, str]] = []
+    for match in re.finditer(
+        r"([A-Za-z_][A-Za-z0-9_]*)\s*:\s*('(?:\\'|[^'])*'|\"(?:\\\"|[^\"])*\")",
+        prop_map,
+    ):
+        for literal in _string_literals(match.group(2)):
+            pairs.append((match.group(1), literal))
+    return pairs
+
+
+def _where_property_literal_pairs(query: str) -> list[tuple[str, str, str]]:
+    pairs: list[tuple[str, str, str]] = []
+    pattern = re.compile(
+        r"\b([A-Za-z_][A-Za-z0-9_]*)\.([A-Za-z_][A-Za-z0-9_]*)\s*"
+        r"(?:=|<>|IN)\s*(\[[^\]]+\]|'(?:\\'|[^'])*'|\"(?:\\\"|[^\"])*\")",
+        re.I,
+    )
+    for var, prop, literal_expr in pattern.findall(query):
+        for literal in _string_literals(literal_expr):
+            pairs.append((var, prop, literal))
+    return pairs
+
+
+def categorical_property_issues(
+    query: str,
+    schema: SchemaSummary,
+    var_to_label: dict[str, str],
+) -> list[ValidationIssue]:
+    allowed_by_key = {
+        key: {str(value) for value in values}
+        for key, values in schema.categorical_properties.items()
+        if values
+    }
+    if not allowed_by_key:
+        return []
+
+    checks: list[tuple[str, str, str]] = []
+    for var, label, prop_map in _node_patterns(query):
+        if not label:
+            continue
+        for prop, literal in _property_literal_pairs(prop_map):
+            checks.append((label, prop, literal))
+            if var:
+                var_to_label.setdefault(var, label)
+    for var, prop, literal in _where_property_literal_pairs(query):
+        label = var_to_label.get(var)
+        if label:
+            checks.append((label, prop, literal))
+
+    issues: list[ValidationIssue] = []
+    seen: set[tuple[str, str, str]] = set()
+    for label, prop, literal in checks:
+        key = f"{label}.{prop}"
+        allowed = allowed_by_key.get(key)
+        if not allowed or literal in allowed:
+            continue
+        issue_key = (key, literal, ",".join(sorted(allowed)))
+        if issue_key in seen:
+            continue
+        seen.add(issue_key)
+        issues.append(
+            ValidationIssue(
+                "error",
+                "invalid_categorical_value",
+                f"Value `{literal}` is not allowed for categorical property {key}; "
+                f"expected one of: {', '.join(sorted(allowed))}",
+            )
+        )
+    return issues
+
+
 def _split_projection_items(projection: str) -> list[str]:
     items: list[str] = []
     current: list[str] = []
@@ -411,6 +492,10 @@ def validate_cypher(
                 issues.append(
                     ValidationIssue("error", "unknown_property", f"Unknown property :{label}.{prop}")
                 )
+        categorical_issues = categorical_property_issues(normalized, schema, var_to_label)
+        if categorical_issues:
+            schema_valid = False
+            issues.extend(categorical_issues)
         issues.extend(contextual_return_issues(normalized, var_to_label))
 
     return ValidationResult(
