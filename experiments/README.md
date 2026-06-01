@@ -69,6 +69,18 @@ The generated configs now cover all ablations in `configs/experiment_matrix.yaml
 
 The June 1, 2026 target-five FinBench+SNB ablation run is summarized in `../knowledge_base/target5_ablation_results.md`. It is a live graph sanity check rather than a substitute for full-scale ablations.
 
+## Tracked Full-Run Snapshot
+
+The full Qwen3.5-9B fallback export is not committed as JSONL because generated
+artifacts are ignored. A compact verification snapshot is tracked in:
+
+```text
+snapshots/20260601_live_full_qwen9b/
+```
+
+It contains the full export manifest hash, file checksums, aggregate counts, and
+16 representative examples: one per graph/category cell.
+
 ## Downstream Text2Cypher Evaluation
 
 Predictions should be JSONL with:

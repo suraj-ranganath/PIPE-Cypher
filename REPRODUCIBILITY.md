@@ -180,3 +180,26 @@ The mid-scale judge calibration packet is:
 ```text
 artifacts/audits/20260601_midscale_judge_audit.csv
 ```
+
+## Tracked Full-Export Snapshot
+
+Generated benchmark JSONL files are intentionally ignored by Git. The repository
+therefore keeps a compact full-export snapshot at:
+
+```text
+experiments/snapshots/20260601_live_full_qwen9b/
+```
+
+That snapshot records the full export manifest hash
+`8bc79a53a06b291a81974d7859d1a02d013c1e7dfc401e447b2897259aeaa47c`, file sizes,
+per-file SHA-256 checksums, aggregate stats, and 16 representative examples
+selected by stable ID, one for each FinBench/SNB graph-category cell.
+
+Regenerate it with:
+
+```bash
+python scripts/snapshot_benchmark_artifact.py \
+  --export-dir artifacts/benchmarks/20260601_live_full_qwen9b \
+  --output-dir experiments/snapshots/20260601_live_full_qwen9b \
+  --source-export-dir artifacts/benchmarks/20260601_live_full_qwen9b
+```

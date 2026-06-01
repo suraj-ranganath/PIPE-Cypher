@@ -1,0 +1,155 @@
+{
+  "file_checksums": {
+    "all.jsonl": {
+      "bytes": 5883307,
+      "sha256": "1ec40968cc5a16856b20da4e19bdd8dbb30172686ba3cbd0d455f123c2c3c36f"
+    },
+    "dev.jsonl": {
+      "bytes": 580035,
+      "sha256": "b9689b992e24a8f5edc0caa58e567c3342755ffae3e1ae297322229068a796bd"
+    },
+    "manifest.json": {
+      "bytes": 1044,
+      "sha256": "0e45826b9d10432556a94b11350eb4e057bfe0746fda52f934b966aa3e27c041"
+    },
+    "stats.json": {
+      "bytes": 1959,
+      "sha256": "9b390b856f73673ff7506d2d767b146d19f2e7de2b3e9facfec034541e107e11"
+    },
+    "test.jsonl": {
+      "bytes": 580772,
+      "sha256": "74c32ec1cb854791d926909839557373d82c60ebf89c8803b6f38ab26c0d363b"
+    },
+    "train.jsonl": {
+      "bytes": 4722500,
+      "sha256": "dec2fca9643df2ac7f5387accc4e771ec9569bd32519bec32fa1e88dc8e8e414"
+    }
+  },
+  "sample": {
+    "by_graph_category": {
+      "finbench::boolean_existence": 1,
+      "finbench::complex_aggregation": 1,
+      "finbench::complex_retrieval": 1,
+      "finbench::negation_difference": 1,
+      "finbench::path_temporal": 1,
+      "finbench::ranking_topk": 1,
+      "finbench::simple_aggregation": 1,
+      "finbench::simple_retrieval": 1,
+      "snb::boolean_existence": 1,
+      "snb::complex_aggregation": 1,
+      "snb::complex_retrieval": 1,
+      "snb::negation_difference": 1,
+      "snb::path_temporal": 1,
+      "snb::ranking_topk": 1,
+      "snb::simple_aggregation": 1,
+      "snb::simple_retrieval": 1
+    },
+    "count": 16,
+    "path": "sample_examples.json",
+    "per_graph_category": 1,
+    "selection": "stable-id order within each graph_profile/category cell",
+    "sha256": "af2438e63eeaf8ea22297914cec7e6d0487062bee5e35d4656f68ac4be7160cd"
+  },
+  "snapshot_version": "1.0",
+  "source_export_created_at": "2026-06-01T17:38:54.666187+00:00",
+  "source_export_dir": "artifacts/benchmarks/20260601_live_full_qwen9b",
+  "source_manifest_sha256": "8bc79a53a06b291a81974d7859d1a02d013c1e7dfc401e447b2897259aeaa47c",
+  "split_counts": {
+    "dev": 296,
+    "test": 296,
+    "train": 2408
+  },
+  "stats": {
+    "by_category": {
+      "boolean_existence": 375,
+      "complex_aggregation": 375,
+      "complex_retrieval": 375,
+      "negation_difference": 375,
+      "path_temporal": 375,
+      "ranking_topk": 375,
+      "simple_aggregation": 375,
+      "simple_retrieval": 375
+    },
+    "by_difficulty": {
+      "easy": 1521,
+      "medium": 1479
+    },
+    "by_graph": {
+      "finbench": 2000,
+      "snb": 1000
+    },
+    "by_graph_category": {
+      "finbench::boolean_existence": 250,
+      "finbench::complex_aggregation": 250,
+      "finbench::complex_retrieval": 250,
+      "finbench::negation_difference": 250,
+      "finbench::path_temporal": 250,
+      "finbench::ranking_topk": 250,
+      "finbench::simple_aggregation": 250,
+      "finbench::simple_retrieval": 250,
+      "snb::boolean_existence": 125,
+      "snb::complex_aggregation": 125,
+      "snb::complex_retrieval": 125,
+      "snb::negation_difference": 125,
+      "snb::path_temporal": 125,
+      "snb::ranking_topk": 125,
+      "snb::simple_aggregation": 125,
+      "snb::simple_retrieval": 125
+    },
+    "by_split": {
+      "dev": 296,
+      "test": 296,
+      "train": 2408
+    },
+    "gate_counts": {
+      "accepted": 3000,
+      "execution_success": 3000,
+      "judge_pass": 3000,
+      "read_only": 3000,
+      "schema_valid": 3000,
+      "syntax_valid": 3000
+    },
+    "label_counts": {
+      "Account": 2000,
+      "Company": 18,
+      "Forum": 478,
+      "Loan": 15,
+      "Person": 2584,
+      "Post": 751,
+      "Tag": 404
+    },
+    "relationship_type_counts": {
+      "APPLY_LOAN": 15,
+      "CONTAINER_OF": 250,
+      "HAS_MEMBER": 478,
+      "HAS_TAG": 404,
+      "KNOWS": 146,
+      "LIKES": 376,
+      "OWN_ACCOUNT": 1727,
+      "TRANSFER_TO": 1484,
+      "WITHDRAW_TO": 1
+    },
+    "total": 3000,
+    "unique_labels": [
+      "Account",
+      "Company",
+      "Forum",
+      "Loan",
+      "Person",
+      "Post",
+      "Tag"
+    ],
+    "unique_relationship_types": [
+      "APPLY_LOAN",
+      "CONTAINER_OF",
+      "HAS_MEMBER",
+      "HAS_TAG",
+      "KNOWS",
+      "LIKES",
+      "OWN_ACCOUNT",
+      "TRANSFER_TO",
+      "WITHDRAW_TO"
+    ]
+  },
+  "total_examples": 3000
+}

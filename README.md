@@ -272,6 +272,21 @@ python scripts/export_benchmark.py \
 
 The current full live export contains 3,000 accepted examples: 2,000 FinBench, 1,000 SNB, and 375 accepted examples in every planned category across the two graphs.
 
+The full JSONL export remains under ignored `artifacts/` paths, but the repo includes a tracked lightweight snapshot with checksums, aggregate stats, and one representative example per graph/category cell:
+
+```text
+experiments/snapshots/20260601_live_full_qwen9b/
+```
+
+Regenerate that snapshot from a local full export with:
+
+```bash
+python scripts/snapshot_benchmark_artifact.py \
+  --export-dir artifacts/benchmarks/20260601_live_full_qwen9b \
+  --output-dir experiments/snapshots/20260601_live_full_qwen9b \
+  --source-export-dir artifacts/benchmarks/20260601_live_full_qwen9b
+```
+
 Generate and evaluate local Text2Cypher predictions on the exported test split:
 
 ```bash
