@@ -50,6 +50,18 @@ After the suite finishes, create a non-paper audit summary first. The audit
 defaults to a target-50 minimum for paper-style reporting:
 
 ```bash
+python scripts/collect_remote_ablation_suite.py \
+  --run-prefix 20260601_ablation50_qwen9b \
+  --target-per-category 50
+```
+
+The collector fetches matching remote run directories from `ds-serv6`, copies
+the remote log into `experiments/snapshots/<run_prefix>/remote_run.log`, and
+writes `ablation_suite_summary.{json,md,csv}` plus
+`ablation_suite_audit.{json,md}` locally. If the run directories are already
+local, the lower-level summary command is:
+
+```bash
 python scripts/summarize_live_ablation_suite.py \
   --glob 'artifacts/runs/*20260601_ablation50_qwen9b*' \
   --target-per-category 50 \

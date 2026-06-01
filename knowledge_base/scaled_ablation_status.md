@@ -60,13 +60,14 @@ Runtime metadata:
 
 Completed at latest inspection:
 
-- FinBench `unconstrained_local_llm`, `reverse_only`, and `validators_repair`.
+- FinBench `unconstrained_local_llm`, `reverse_only`, `validators_repair`, and
+  `ablation_retrieval_topk_0`. The no-retrieval cell finished at 400/429 accepted.
 
 Active at latest inspection:
 
-- FinBench `ablation_retrieval_topk_0`; the active records file
-  `artifacts/runs/20260601_220318_20260601_ablation50_qwen9b_finbench_ablation_retrieval_topk_0/records.jsonl`
-  had reached 363 records at inspection time.
+- FinBench `ablation_rewrite_false`; the active records file
+  `artifacts/runs/20260601_222119_20260601_ablation50_qwen9b_finbench_ablation_rewrite_false/records.jsonl`
+  had reached 77 records at inspection time.
 
 Reporting note: once the suite finishes, `scripts/run_live_ablation_suite.sh` now writes
 `ablation_suite_summary.json`, `ablation_suite_summary.md`, `ablation_suite_summary.csv`,
@@ -77,6 +78,16 @@ labels, and core gate-rate availability. `scripts/summarize_live_ablation_suite.
 --output-quality-tex` and `scripts/render_ablation_suite_figure.py` now refuse
 non-paper-ready suites by default; use their diagnostic override flags only for
 internal checks.
+
+Because the active target-50 tmux session was launched from an older checkout, it may
+not write the audit packet itself. After it exits, collect and summarize from the
+local repo with:
+
+```bash
+python scripts/collect_remote_ablation_suite.py \
+  --run-prefix 20260601_ablation50_qwen9b \
+  --target-per-category 50
+```
 
 Launch command:
 
