@@ -62,6 +62,13 @@ scale. Prefer `TARGET_PER_CATEGORY=100`, repeated target-50 suites, or another
 scale-equivalent design for final appendix claims when the endpoint is stable
 enough.
 
+Current large-scale follow-up: `20260601_ablation100_qwen9b` is queued on
+`ds-serv6` in tmux session `pipecypher_ablation100_qwen9b`, staged from commit
+`75c99d8e41d5fee3466c5521d3597e3d965804a8` under
+`/home/suraj/PIPE-Cypher-75c99d8-target100`. It waits for the active
+`pipecypher_ablation50_qwen9b` suite to finish. This is not paper evidence until
+it completes, is collected, and passes the paper-readiness audit.
+
 While a remote suite is running, inspect progress without copying partial
 artifacts:
 
@@ -80,6 +87,17 @@ python scripts/collect_remote_ablation_suite.py \
   --run-prefix 20260601_ablation50_qwen9b \
   --target-per-category 50 \
   --wait-session pipecypher_ablation50_qwen9b \
+  --poll-seconds 60
+```
+
+For the queued target-100 suite, collect from the staged remote root:
+
+```bash
+python scripts/collect_remote_ablation_suite.py \
+  --remote-root /home/suraj/PIPE-Cypher-75c99d8-target100 \
+  --run-prefix 20260601_ablation100_qwen9b \
+  --target-per-category 100 \
+  --wait-session pipecypher_ablation100_qwen9b \
   --poll-seconds 60
 ```
 

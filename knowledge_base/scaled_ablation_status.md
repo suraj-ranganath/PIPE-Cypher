@@ -60,8 +60,8 @@ Runtime metadata:
 
 Observed at latest inspection:
 
-- 9/14 graph/variant cells had been observed.
-- 8/14 graph/variant cells were complete.
+- 11/14 graph/variant cells had been observed.
+- 10/14 graph/variant cells were complete.
 - The tmux session was still running.
 
 Completed at latest inspection:
@@ -69,21 +69,21 @@ Completed at latest inspection:
 - All FinBench variants: `unconstrained_local_llm`, `reverse_only`, `validators_repair`,
   `ablation_retrieval_topk_0`, `ablation_rewrite_false`, and
   `ablation_judge_false`, and `full_pipe_cypher`.
-- SNB `unconstrained_local_llm`.
+- SNB `unconstrained_local_llm`, `reverse_only`, and `validators_repair`.
 
 Active at latest inspection:
 
-- SNB `reverse_only`; the active records file
-  `artifacts/runs/20260601_225458_20260601_ablation50_qwen9b_snb_reverse_only/records.jsonl`
-  had reached 74 records during local inspection and continued advancing
+- SNB `ablation_retrieval_topk_0`; the active records file
+  `artifacts/runs/20260601_225522_20260601_ablation50_qwen9b_snb_ablation_retrieval_topk_0/records.jsonl`
+  had reached 113 records during local inspection and continued advancing
   afterward. Treat it as active/incomplete until the suite advances and the
   collector/audit confirms the final status; use the monitor command below for
   the exact live count.
 
 Still missing at latest inspection:
 
-- SNB `validators_repair`, `ablation_retrieval_topk_0`,
-  `ablation_rewrite_false`, `ablation_judge_false`, and `full_pipe_cypher`.
+- SNB `ablation_rewrite_false`, `ablation_judge_false`, and
+  `full_pipe_cypher`.
 
 Reporting note: once the suite finishes, `scripts/run_live_ablation_suite.sh` now writes
 `ablation_suite_summary.json`, `ablation_suite_summary.md`, `ablation_suite_summary.csv`,
@@ -125,6 +125,59 @@ JUDGE_MODEL=Qwen/Qwen3.5-9B \
 scripts/launch_live_ablation_suite_tmux.sh
 ```
 
+## Target-100 Suite
+
+Status: queued on `ds-serv6` in tmux session `pipecypher_ablation100_qwen9b`.
+The session waits for `pipecypher_ablation50_qwen9b` to exit before it starts
+generation, so it does not compete with the active target-50 suite.
+
+Runtime metadata:
+
+- run prefix: `20260601_ablation100_qwen9b`
+- target per category: 100
+- generation model: `Qwen/Qwen3.5-9B`
+- judge model: `Qwen/Qwen3.5-9B`
+- recorded code revision: `75c99d8e41d5fee3466c5521d3597e3d965804a8`
+- remote root: `/home/suraj/PIPE-Cypher-75c99d8-target100`
+- log: `/home/suraj/PIPE-Cypher-75c99d8-target100/logs/20260601_ablation100_qwen9b.log`
+
+The code snapshot was staged separately from `/home/suraj/PIPE-Cypher` because
+the active target-50 directory is not a Git checkout and should not be mutated
+while the older suite is still running. Remote validation before launch:
+
+```bash
+cd /home/suraj/PIPE-Cypher-75c99d8-target100
+/home/suraj/pipecypher-tools/runtime-venv/bin/python -m compileall -q pipecypher scripts
+/home/suraj/pipecypher-tools/runtime-venv/bin/python -c "import pipecypher; print('import_ok')"
+```
+
+Launch command:
+
+```bash
+cd /home/suraj/PIPE-Cypher-75c99d8-target100
+CODE_REVISION=75c99d8e41d5fee3466c5521d3597e3d965804a8 \
+SESSION=pipecypher_ablation100_qwen9b \
+WAIT_FOR_SESSION=pipecypher_ablation50_qwen9b \
+TARGET_PER_CATEGORY=100 \
+RUN_PREFIX=20260601_ablation100_qwen9b \
+PYTHON_BIN=/home/suraj/pipecypher-tools/runtime-venv/bin/python \
+GENERATION_MODEL=Qwen/Qwen3.5-9B \
+JUDGE_MODEL=Qwen/Qwen3.5-9B \
+bash scripts/launch_live_ablation_suite_tmux.sh
+```
+
+After it completes, collect from the staged remote root rather than the older
+target-50 root:
+
+```bash
+python scripts/collect_remote_ablation_suite.py \
+  --remote-root /home/suraj/PIPE-Cypher-75c99d8-target100 \
+  --run-prefix 20260601_ablation100_qwen9b \
+  --target-per-category 100 \
+  --wait-session pipecypher_ablation100_qwen9b \
+  --poll-seconds 60
+```
+
 ## Monitoring Commands
 
 ```bash
@@ -134,10 +187,12 @@ cd /home/suraj/PIPE-Cypher
 tmux has-session -t pipecypher_ablation25_qwen9b && echo target25_running || echo target25_done
 tmux has-session -t pipecypher_ablation25_finalize && echo target25_finalize_running || echo target25_finalize_done
 tmux has-session -t pipecypher_ablation50_qwen9b && echo target50_running || echo target50_done
+tmux has-session -t pipecypher_ablation100_qwen9b && echo target100_running_or_waiting || echo target100_done
 
 tail -f logs/20260601_ablation25_qwen9b_retry1.log
 tail -f logs/20260601_ablation25_finalize.log
 tail -f logs/20260601_ablation50_qwen9b.log
+tmux capture-pane -pt pipecypher_ablation100_qwen9b -S -20
 ```
 
 From the local repo, use the read-only remote monitor without fetching partial
