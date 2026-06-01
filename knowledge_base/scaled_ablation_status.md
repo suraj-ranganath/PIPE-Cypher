@@ -68,8 +68,10 @@ Active at latest inspection:
 
 - FinBench `full_pipe_cypher`; the active records file
   `artifacts/runs/20260601_223836_20260601_ablation50_qwen9b_finbench_full_pipe_cypher/records.jsonl`
-  had reached 148 records at inspection time. Treat it as active/incomplete until
-  the suite advances and the collector/audit confirms the final status.
+  had reached at least 148 records during local inspection and continued advancing
+  afterward. Treat it as active/incomplete until the suite advances and the
+  collector/audit confirms the final status; use the monitor command below for
+  the exact live count.
 
 Still missing at latest inspection:
 
