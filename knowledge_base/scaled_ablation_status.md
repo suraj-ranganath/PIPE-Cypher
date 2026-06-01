@@ -196,7 +196,15 @@ tmux capture-pane -pt pipecypher_ablation100_qwen9b -S -20
 ```
 
 From the local repo, use the read-only remote monitor without fetching partial
-artifacts:
+artifacts. The queue monitor covers both the active target-50 suite and the
+queued target-100 suite, including their different remote roots:
+
+```bash
+python scripts/monitor_remote_ablation_queue.py \
+  --queue experiments/remote_ablation_queue.yaml
+```
+
+For focused target-50 inspection:
 
 ```bash
 python scripts/monitor_remote_ablation_suite.py \

@@ -35,10 +35,11 @@ def parse_run_log_metadata(text: str) -> dict[str, str]:
 
 def build_remote_find_runs_command(*, remote_root: str, run_prefix: str) -> str:
     pattern = f"*{run_prefix}*"
-    return "cd {root} && find artifacts/runs -maxdepth 1 -type d -name {pattern} -printf '%f\\n' | sort".format(
-        root=shlex.quote(remote_root),
-        pattern=shlex.quote(pattern),
-    )
+    return (
+        "cd {root} || exit 2; "
+        "[ -d artifacts/runs ] || exit 0; "
+        "find artifacts/runs -maxdepth 1 -type d -name {pattern} -printf '%f\\n' | sort"
+    ).format(root=shlex.quote(remote_root), pattern=shlex.quote(pattern))
 
 
 def build_tmux_has_session_command(session: str) -> str:
@@ -48,7 +49,8 @@ def build_tmux_has_session_command(session: str) -> str:
 def build_remote_ablation_status_command(*, remote_root: str, run_prefix: str) -> str:
     pattern = f"*{run_prefix}*"
     return (
-        "cd {root} && "
+        "cd {root} || exit 2; "
+        "[ -d artifacts/runs ] || exit 0; "
         "for d in $(find artifacts/runs -maxdepth 1 -type d -name {pattern} | sort); do "
         "records=0; "
         "if [ -f \"$d/records.jsonl\" ]; then records=$(wc -l < \"$d/records.jsonl\"); fi; "

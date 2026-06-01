@@ -308,6 +308,14 @@ python scripts/collect_remote_ablation_suite.py \
   --poll-seconds 60
 ```
 
+To monitor both the active target-50 suite and the queued target-100 suite in
+one read-only command:
+
+```bash
+python scripts/monitor_remote_ablation_queue.py \
+  --queue experiments/remote_ablation_queue.yaml
+```
+
 Estimate whether the built-in seeds can support the full category targets before launching long runs:
 
 ```bash

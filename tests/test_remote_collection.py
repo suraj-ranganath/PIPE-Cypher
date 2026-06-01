@@ -13,6 +13,12 @@ from pipecypher.remote_collection import (
     parse_remote_ablation_status_rows,
 )
 from scripts.monitor_remote_ablation_suite import build_progress_report, format_progress_text
+from scripts.monitor_remote_ablation_queue import (
+    build_queue_report,
+    format_queue_text,
+    infer_suite_state,
+    load_queue_config,
+)
 
 
 def test_parse_run_log_metadata_reads_first_header_values():
@@ -45,7 +51,8 @@ def test_build_remote_find_runs_command_quotes_prefix():
         run_prefix="20260601_ablation50_qwen9b",
     )
 
-    assert command.startswith("cd /home/suraj/PIPE-Cypher && find artifacts/runs")
+    assert command.startswith("cd /home/suraj/PIPE-Cypher || exit 2;")
+    assert "[ -d artifacts/runs ] || exit 0" in command
     assert "-name '*20260601_ablation50_qwen9b*'" in command
 
 
@@ -55,6 +62,7 @@ def test_build_remote_ablation_status_command_counts_records_and_summary():
         run_prefix="20260601_ablation50_qwen9b",
     )
 
+    assert "[ -d artifacts/runs ] || exit 0" in command
     assert "wc -l < \"$d/records.jsonl\"" in command
     assert "summary=yes" in command
     assert "-name '*20260601_ablation50_qwen9b*'" in command
@@ -191,3 +199,94 @@ def test_build_progress_report_marks_missing_and_active_cells():
     assert {"graph": "finbench", "variant": "full_pipe_cypher"} in report["missing"]
     assert "session=suite running=true" in text
     assert "| snb | Full PIPE-Cypher | 17 | 400 | 0.043 | no |" in text
+
+
+def test_load_queue_config_validates_required_fields(tmp_path: Path):
+    queue = tmp_path / "queue.yaml"
+    queue.write_text(
+        "\n".join(
+            [
+                "suites:",
+                "  - name: target100",
+                "    run_prefix: 20260601_ablation100_qwen9b",
+                "    target_per_category: 100",
+                "    remote_root: /home/suraj/PIPE-Cypher-target100",
+                "    session: pipecypher_ablation100_qwen9b",
+            ]
+        ),
+        encoding="utf-8",
+    )
+
+    suites = load_queue_config(queue)
+
+    assert suites == [
+        {
+            "name": "target100",
+            "run_prefix": "20260601_ablation100_qwen9b",
+            "target_per_category": 100,
+            "remote_root": "/home/suraj/PIPE-Cypher-target100",
+            "session": "pipecypher_ablation100_qwen9b",
+        }
+    ]
+
+
+def test_queue_report_marks_queued_and_running_suites():
+    queued = build_progress_report(
+        [],
+        run_prefix="20260601_ablation100_qwen9b",
+        target_per_category=100,
+        category_count=8,
+        expected_graphs=["finbench"],
+        expected_variants=["full_pipe_cypher"],
+        session="target100",
+        session_running=True,
+    )
+    queued.update(
+        {
+            "name": "target100",
+            "remote_root": "/remote/target100",
+            "configured_status": "queued",
+            "generation_model": "Qwen/Qwen3.5-9B",
+            "judge_model": "Qwen/Qwen3.5-9B",
+            "code_revision": "abc123",
+            "notes": "waiting",
+        }
+    )
+    queued["suite_state"] = infer_suite_state(queued)
+    running = build_progress_report(
+        [
+            {
+                "run": "20260601_ablation50_qwen9b_snb_full_pipe_cypher",
+                "records": 17,
+                "summary_present": False,
+            }
+        ],
+        run_prefix="20260601_ablation50_qwen9b",
+        target_per_category=50,
+        category_count=8,
+        expected_graphs=["snb"],
+        expected_variants=["full_pipe_cypher"],
+        session="target50",
+        session_running=True,
+    )
+    running.update(
+        {
+            "name": "target50",
+            "remote_root": "/remote/target50",
+            "configured_status": "running",
+            "generation_model": "Qwen/Qwen3.5-9B",
+            "judge_model": "Qwen/Qwen3.5-9B",
+            "code_revision": "def456",
+            "notes": "",
+        }
+    )
+    running["suite_state"] = infer_suite_state(running)
+
+    report = build_queue_report([queued, running])
+    text = format_queue_text(report)
+
+    assert report["queued_or_waiting_suites"] == 1
+    assert report["running_suites"] == 1
+    assert "## target100" in text
+    assert "state=queued_or_waiting configured_status=queued" in text
+    assert "remote_root=/remote/target50" in text

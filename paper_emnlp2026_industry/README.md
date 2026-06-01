@@ -73,6 +73,13 @@ While a remote suite is running, inspect progress without copying partial
 artifacts:
 
 ```bash
+python scripts/monitor_remote_ablation_queue.py \
+  --queue experiments/remote_ablation_queue.yaml
+```
+
+For focused target-50 inspection, use the single-suite monitor:
+
+```bash
 python scripts/monitor_remote_ablation_suite.py \
   --run-prefix 20260601_ablation50_qwen9b \
   --target-per-category 50 \

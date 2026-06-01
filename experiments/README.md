@@ -53,13 +53,13 @@ python scripts/materialize_experiments.py \
   --matrix configs/experiment_matrix.yaml \
   --base-config configs/finbench_full.yaml \
   --output-dir configs/generated/finbench \
-  --target-per-category 25
+  --target-per-category 50
 
 python scripts/materialize_experiments.py \
   --matrix configs/experiment_matrix.yaml \
   --base-config configs/snb_full.yaml \
   --output-dir configs/generated/snb \
-  --target-per-category 25
+  --target-per-category 50
 
 bash configs/generated/finbench/run_commands.sh
 bash configs/generated/snb/run_commands.sh
@@ -68,6 +68,16 @@ bash configs/generated/snb/run_commands.sh
 The generated configs now cover all ablations in `configs/experiment_matrix.yaml`: retrieval depth, judge on/off, rewrite on/off, model choice, and graph mix. Since each `run_pipeline.py` config targets one graph profile, `finbench_only` materializes only under `configs/generated/finbench`, while `finbench_plus_snb` materializes under both graph directories and should be exported as a combined benchmark after both runs complete.
 
 The June 1, 2026 target-five FinBench+SNB ablation run is summarized in `../knowledge_base/target5_ablation_results.md`. It is a live graph sanity check rather than a substitute for full-scale ablations.
+
+For paper-facing ablations, target-50 is the minimum scale and target-100 or
+repeated target-50 is preferred when compute permits. The active remote queue is
+tracked in `remote_ablation_queue.yaml` and can be monitored without fetching
+partial artifacts:
+
+```bash
+python scripts/monitor_remote_ablation_queue.py \
+  --queue experiments/remote_ablation_queue.yaml
+```
 
 ## Tracked Full-Run Snapshot
 
