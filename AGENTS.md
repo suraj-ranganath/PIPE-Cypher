@@ -22,6 +22,44 @@ PIPE-Cypher is an industry-track research codebase for automatic benchmark gener
 - Log every accepted and rejected candidate with enough metadata to reproduce failure analysis.
 - Do not silently weaken validation to improve yield; add explicit ablations if a check is optional.
 - Measure benchmark diversity explicitly. Report lexical diversity, query-template/signature diversity, schema coverage, structural feature coverage, difficulty balance, and graph/category balance.
+- When adding Cypher transformations, prefer parser/listener/token-span logic where practical. String rewrites must be conservative, covered by tests, and logged with before/after Cypher plus the reason for applying or skipping the rewrite.
+- Preserve deterministic tests for the AST, validator, diversity, judge, and reporting layers. GPU-dependent behavior should have smokeable local stubs or fixtures.
+
+## Required Research Skills And Workflow
+
+- Use `ml-paper-writing` whenever drafting, restructuring, or auditing the paper. Keep a one-sentence contribution, a coherent narrative, a strong Figure 1, and a reviewer-facing claim/evidence map.
+- Use `literature-review` for state-of-the-art synthesis and gap analysis across Text-to-Cypher, Text-to-SQL, query benchmark generation, synthetic data generation, LLM-as-judge evaluation, and enterprise graph benchmarks.
+- Use `citation-management` or equivalent verified-citation tooling for BibTeX. Never invent citations; mark unverifiable references as placeholders with explicit TODOs.
+- Use `scientific-critical-thinking` or equivalent reasoning when deciding claims, threats to validity, judge calibration, diversity metrics, and ablation design.
+- Use `scientific-schematics` or publication plotting scripts for paper figures. Figures should share a consistent visual theme, use accessible palettes, render as vector PDFs where possible, and have captions that state the takeaway rather than merely naming the plot.
+- Favor concrete artifacts over narration: code, tests, run scripts, logs, paper tables, figures, and reproducibility notes should be updated as evidence changes.
+
+## Novelty And Method Targets
+
+PIPE-Cypher should make a defensible research contribution beyond porting PIPE-KG to Cypher. Prioritize implementable novelty that improves practical benchmark generation:
+
+- Cypher governance layer: read-only safety, schema validation, relationship-direction validation, categorical-value validation, contextual return-column requirements, and parser-aware rewrites.
+- AST-aware generation repair: extract Cypher structure, features, return columns, variables, labels, relationship types, properties, predicates, aggregation, ordering, path patterns, and risky constructs from parser output when possible.
+- Enterprise value grounding: fuzzy entity/value annotation, synonym normalization, exact matching for quoted values, placeholder-based retrieval examples, and value overuse controls.
+- Diversity and difficulty control: balanced category sampling, structural feature coverage, template/signature diversity, schema coverage, value/entity coverage, lexical diversity, self-similarity diagnostics, and per-difficulty downstream evaluation.
+- Automated quality gates: deterministic validators plus local LLM judge, with a post-hoc human audit only for judge calibration and failure analysis.
+- Benchmark refresh story: show how an enterprise can regenerate or update a private benchmark as schemas, categorical values, and graph contents evolve.
+
+Each novelty claim in the paper should map to code, an ablation, a table/figure, or a documented blocked experiment.
+
+## BalkanID Design Mining Mandate
+
+Treat `/Users/suraj/Documents/Archive/BalkanID/Dev/copilot-api` as a primary design source. Re-inspect it before major Cypher changes and record transferable ideas in `knowledge_base/balkanid_cypher_design_notes.md`.
+
+High-value ideas to adapt where practical:
+
+- ANTLR grammar/parser/listener flow from `modules/llm_manager/cypher_parser/`, `alter_cypher_query.py`, and `cypher_listener_helpers.py`.
+- Conservative alteration policy: skip rewrites for reserved variable names, `CASE`, `UNION`, `CALL`, `WHERE EXISTS`, `WHERE NOT EXISTS`, `UNWIND`, multiple `WHERE` clauses, or any parser-risky construct unless tests prove the rewrite is safe.
+- Listener-style extraction of return columns, projection aliases, variable-to-label mappings, MATCH patterns, WHERE clauses, ORDER BY, SKIP, LIMIT, aggregation, and optional-match opportunities.
+- Rewrite/normalization ideas: add `RETURN DISTINCT`, normalize function formatting, canonicalize contextual return columns, expand required optional matches only when semantically safe, and preserve ordering/limits.
+- Prompt rules: schema-only generation, forward relationship direction, exact matching for quoted values, no explanations, no newlines when required by downstream parsing, categorical-property constraints, required co-returned context columns, and domain synonym normalization.
+- Fuzzy/value grounding from `modules/fuzzy_manager/`: graph-derived entity lists, preprocessing, abbreviation replacement, omit lists, typo correction, n-gram matching, typed annotations, and placeholder replacement so retrieval examples do not leak tenant-specific values.
+- Auditability: every generated, repaired, rewritten, skipped, accepted, and rejected query should carry enough metadata to reproduce the decision.
 
 ## Research Framing
 
@@ -37,6 +75,14 @@ The core contribution is an enterprise benchmark-generation pipeline, not anothe
 - reproducible local-model operation.
 
 The main paper should stay tight, but the appendix can be long. Use the appendix for full ablation tables, plots, diversity diagnostics, graph/category breakdowns, run commands, extra examples, and details that are too large for the main EMNLP Industry page budget.
+
+## Paper And Reporting Standards
+
+- Target EMNLP Industry Track first and maintain an arXiv-ready extended version in parallel.
+- Keep main-paper claims compact and evidence-backed. Use the appendix aggressively for full experiment matrices, ablation plots, judge calibration, failure taxonomy, qualitative examples, prompt variants, parser/rewrite case studies, downstream per-difficulty breakdowns, and graph-specific details.
+- The paper should compare or position against verified prior work such as Text-to-Cypher benchmarks, SyntheT2C, Spider 2.0, BIRD, AutoQuery-style generation pipelines, LDBC FinBench, LDBC SNB, and relevant Text-to-SQL synthetic benchmark methods found during literature review.
+- Report metrics that reviewers can audit: generation yield, syntax validity, schema validity, read-only safety, execution success, non-empty result rate, repair success, judge pass rate, judge-human agreement, diversity metrics, difficulty balance, downstream execution accuracy, answer F1, parse validity, schema validity, and per-category/per-difficulty performance.
+- Every figure and table should answer a paper question: why the benchmark matters, what the pipeline changes, which gates improve quality, how diversity/difficulty are controlled, where failures occur, and whether downstream evaluation becomes more discriminative.
 
 ## Compute Notes
 
