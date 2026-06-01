@@ -35,7 +35,7 @@ First, the system introspects the target property graph to collect labels, prope
 
 Second, the system generates category-specific question templates. Reverse Cypher queries ground template slots in graph-backed values, reducing unanswerable questions.
 
-Third, a local LLM generates Cypher using a constrained prompt. The prompt enforces schema-only generation, exact matching for quoted values, forward relationship directions, read-only behavior, `RETURN DISTINCT`, and aggregation rules.
+Third, a local LLM generates Cypher using a constrained prompt. Retrieved examples are formatted with typed placeholders for graph-specific values, preserving query structure while reducing tenant-value leakage and memorized entity reuse. The prompt enforces schema-only generation, exact matching for quoted values, forward relationship directions, read-only behavior, `RETURN DISTINCT`, and aggregation rules.
 
 Fourth, generated Cypher passes deterministic gates: read-only safety, syntax shape, parser validation when available, label and relationship checks, direction checks, property checks, execution, and repair. A lightweight Cypher analyzer extracts return aliases, variables, labels, relationship observations, risky constructs, and rewrite skip reasons so normalization is auditable rather than a silent string edit. For reproducible smoke and seeded full runs, PIPE-Cypher keeps a small library of workload templates with deterministic reverse-binding queries and fallback Cypher instantiated with graph-backed slot values.
 
@@ -67,7 +67,7 @@ We also estimate seed-template capacity before full generation. This check caugh
 | FinBench | 250 | 300 | 300 | Yes |
 | SNB | 125 | 200 | 200 | Yes |
 
-The deterministic Cypher layer borrows from production lessons in the BalkanID Cypher system: schema-only prompting, exact matching, relationship direction discipline, `RETURN DISTINCT`, reserved variable rejection, categorical values, required contextual return columns, and parser-aware rewrite boundaries. PIPE-Cypher now records parser-style structure features and skips rewrites for risky constructs such as `UNION`, `CALL`, `UNWIND`, `WHERE EXISTS`, multiple `WHERE` clauses, or reserved variables.
+The deterministic Cypher layer borrows from production lessons in the BalkanID Cypher system: schema-only prompting, exact matching, relationship direction discipline, `RETURN DISTINCT`, reserved variable rejection, categorical values, required contextual return columns, placeholderized retrieval examples, and parser-aware rewrite boundaries. PIPE-Cypher now records parser-style structure features and skips rewrites for risky constructs such as `UNION`, `CALL`, `UNWIND`, `WHERE EXISTS`, multiple `WHERE` clauses, or reserved variables.
 
 For LDBC FinBench, the implementation grounds its built-in reference profile in the public snapshot export used by the datagen tooling. The profile includes typed properties and directed relationship patterns for people, companies, accounts, loans, media, transfers, withdrawals, repayments, deposits, sign-ins, investments, guarantees, account ownership, and loan applications. The Neo4j import script uses node uniqueness constraints and relationship creation rather than relationship merging so repeated transaction events between the same endpoints remain visible to generated benchmark queries. The SNB reference profile is grounded in the official Neo4j/Cypher headers and read-query files, covering people, forums, messages, tags, locations, organizations, and the standard interactive relationship patterns.
 

@@ -9,6 +9,7 @@ from typing import Any
 
 
 TOKEN_RE = re.compile(r"[A-Za-z0-9_]+")
+STRING_LITERAL_RE = re.compile(r"'((?:\\'|[^'])*)'|\"((?:\\\"|[^\"])*)\"")
 
 
 def tokenize(text: str) -> list[str]:
@@ -26,6 +27,91 @@ def cosine_counts(a: list[str], b: list[str]) -> float:
     if norm_a == 0 or norm_b == 0:
         return 0.0
     return dot / (norm_a * norm_b)
+
+
+def _string_literals(text: str) -> list[str]:
+    literals: list[str] = []
+    for single, double in STRING_LITERAL_RE.findall(text):
+        literals.append(single if single else double)
+    return literals
+
+
+def _safe_values(values: list[Any]) -> list[str]:
+    cleaned: list[str] = []
+    seen: set[str] = set()
+    for value in values:
+        if value is None:
+            continue
+        text = str(value).strip()
+        if len(text) < 2 or text in seen:
+            continue
+        seen.add(text)
+        cleaned.append(text)
+    cleaned.sort(key=len, reverse=True)
+    return cleaned
+
+
+def _placeholder_stem(value: str, cypher: str) -> str:
+    escaped = re.escape(value)
+    patterns = [
+        rf"\b(?P<prop>[A-Za-z_][A-Za-z0-9_]*)\s*:\s*['\"]{escaped}['\"]",
+        rf"\.[ ]*(?P<prop>[A-Za-z_][A-Za-z0-9_]*)\s*=\s*['\"]{escaped}['\"]",
+    ]
+    for pattern in patterns:
+        match = re.search(pattern, cypher)
+        if match:
+            stem = re.sub(r"[^A-Za-z0-9]+", "_", match.group("prop")).strip("_")
+            if stem:
+                return stem.upper()
+    return "VALUE"
+
+
+def _replace_values(text: str, mapping: dict[str, str]) -> str:
+    replaced = text
+    for value, placeholder in sorted(mapping.items(), key=lambda item: len(item[0]), reverse=True):
+        replaced = re.sub(re.escape(value), placeholder, replaced)
+    return replaced
+
+
+def placeholderize_example(example: dict[str, Any]) -> dict[str, Any]:
+    """Return a retrieval-safe example with graph-specific values replaced.
+
+    This mirrors the BalkanID pattern of adding examples with tenant-specific
+    values replaced by typed placeholders. The goal is to preserve query shape
+    while reducing value leakage and memorized entity reuse in few-shot prompts.
+    """
+
+    question = str(example.get("question", ""))
+    cypher = str(example.get("cypher", example.get("query", "")))
+    raw_entity_values = example.get("entity_values", [])
+    if not isinstance(raw_entity_values, list):
+        raw_entity_values = [raw_entity_values]
+    values = _safe_values(
+        [
+            *raw_entity_values,
+            *_string_literals(question),
+        ]
+    )
+    mapping: dict[str, str] = {}
+    stem_counts: dict[str, int] = {}
+    for value in values:
+        stem = _placeholder_stem(value, cypher)
+        stem_counts[stem] = stem_counts.get(stem, 0) + 1
+        mapping[value] = "{{" + f"{stem}_{stem_counts[stem]}" + "}}"
+
+    if not mapping:
+        return {
+            **example,
+            "placeholder_map": {},
+            "question": question,
+            "cypher": cypher,
+        }
+    return {
+        **example,
+        "placeholder_map": mapping,
+        "question": _replace_values(question, mapping),
+        "cypher": _replace_values(cypher, mapping),
+    }
 
 
 @dataclass
@@ -63,14 +149,14 @@ class ExampleStore:
         scored.sort(key=lambda item: item[0], reverse=True)
         return [{**example, "score": score} for score, example in scored[:k]]
 
-    def format_examples(self, examples: list[dict[str, Any]]) -> str:
+    def format_examples(self, examples: list[dict[str, Any]], *, anonymize: bool = True) -> str:
         if not examples:
             return "None"
         rows = []
         for idx, example in enumerate(examples, start=1):
+            display = placeholderize_example(example) if anonymize else example
             rows.append(
-                f"{idx}. Question: {example.get('question', '')}\n"
-                f"   Cypher: {example.get('cypher', example.get('query', ''))}"
+                f"{idx}. Question: {display.get('question', '')}\n"
+                f"   Cypher: {display.get('cypher', display.get('query', ''))}"
             )
         return "\n".join(rows)
-

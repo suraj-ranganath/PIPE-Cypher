@@ -16,6 +16,7 @@ PIPE-Cypher generates enterprise-specific NL-to-Cypher benchmark examples throug
 
 3. **Cypher generation and repair**
    - Generate read-only Cypher with schema-visible constructs only.
+   - Retrieve similar examples by category, but format prompt examples with graph-specific values replaced by typed placeholders such as `{{PERSONNAME_1}}`. This preserves structural guidance while reducing tenant-value leakage and memorized entity reuse.
    - Normalize generated queries using BalkanID-inspired rules: strip markdown, enforce `RETURN DISTINCT`, avoid reserved variables, preserve relationship directions, and reject writes.
    - Run repair on deterministic validation and execution errors.
    - Fall back to deterministic template Cypher with graph-bound slot values when an LLM proposal fails validation, execution, or judge review. This keeps smoke runs reproducible while retaining rejected LLM candidates for yield analysis in larger runs.
