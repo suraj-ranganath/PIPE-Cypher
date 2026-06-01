@@ -75,7 +75,7 @@ Active at latest inspection:
 
 - SNB `ablation_retrieval_topk_0`; the active records file
   `artifacts/runs/20260601_225522_20260601_ablation50_qwen9b_snb_ablation_retrieval_topk_0/records.jsonl`
-  had passed 100 records during local inspection and continued advancing
+  had passed 300 records during local inspection and continued advancing
   afterward. Treat it as active/incomplete until the suite advances and the
   collector/audit confirms the final status; use the monitor command below for
   the exact live count.
@@ -197,7 +197,9 @@ tmux capture-pane -pt pipecypher_ablation100_qwen9b -S -20
 
 From the local repo, use the read-only remote monitor without fetching partial
 artifacts. The queue monitor covers both the active target-50 suite and the
-queued target-100 suite, including their different remote roots:
+queued target-100 suite, including their different remote roots. It also prints
+`next_action` and a safe `collection_command` with `--wait-session` for each
+suite:
 
 ```bash
 python scripts/monitor_remote_ablation_queue.py \

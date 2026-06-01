@@ -100,6 +100,8 @@ def monitor_suite_from_config(suite: dict[str, Any], *, dry_run: bool = False) -
     report["code_revision"] = str(suite.get("code_revision", ""))
     report["notes"] = str(suite.get("notes", ""))
     report["suite_state"] = infer_suite_state(report)
+    report["next_action"] = infer_next_action(report)
+    report["collection_command"] = build_collection_command(report)
     return report
 
 
@@ -113,6 +115,36 @@ def infer_suite_state(report: dict[str, Any]) -> str:
     if report["observed_cells"] == 0:
         return "not_started_or_missing"
     return "incomplete_session_stopped"
+
+
+def infer_next_action(report: dict[str, Any]) -> str:
+    state = report["suite_state"]
+    if state == "complete":
+        return "collect_and_run_readiness_audit"
+    if state == "running":
+        return "wait_for_active_session_then_collect"
+    if state == "queued_or_waiting":
+        return "wait_for_dependency_or_session_start"
+    if state == "incomplete_session_stopped":
+        return "investigate_stopped_incomplete_suite"
+    return "verify_remote_root_or_launch_session"
+
+
+def build_collection_command(report: dict[str, Any]) -> str:
+    parts = [
+        "python",
+        "scripts/collect_remote_ablation_suite.py",
+        "--remote-root",
+        str(report["remote_root"]),
+        "--run-prefix",
+        str(report["run_prefix"]),
+        "--target-per-category",
+        str(report["target_per_category"]),
+    ]
+    if report.get("session"):
+        parts.extend(["--wait-session", str(report["session"])])
+    parts.extend(["--poll-seconds", "60"])
+    return " ".join(parts)
 
 
 def build_queue_report(reports: list[dict[str, Any]]) -> dict[str, Any]:
@@ -139,6 +171,7 @@ def format_queue_text(queue_report: dict[str, Any]) -> str:
             [
                 f"## {report['name']}",
                 f"state={report['suite_state']} configured_status={report['configured_status']}",
+                f"next_action={report['next_action']}",
                 f"remote_root={report['remote_root']}",
             ]
         )
@@ -150,6 +183,7 @@ def format_queue_text(queue_report: dict[str, Any]) -> str:
             )
         if report.get("notes"):
             lines.append(f"notes={report['notes']}")
+        lines.append(f"collection_command={report['collection_command']}")
         lines.append(format_progress_text(report))
         lines.append("")
     return "\n".join(lines).rstrip()

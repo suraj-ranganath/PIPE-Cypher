@@ -72,7 +72,8 @@ The June 1, 2026 target-five FinBench+SNB ablation run is summarized in `../know
 For paper-facing ablations, target-50 is the minimum scale and target-100 or
 repeated target-50 is preferred when compute permits. The active remote queue is
 tracked in `remote_ablation_queue.yaml` and can be monitored without fetching
-partial artifacts:
+partial artifacts. The monitor prints each suite's `next_action` and safe
+`collection_command`:
 
 ```bash
 python scripts/monitor_remote_ablation_queue.py \

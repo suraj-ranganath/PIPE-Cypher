@@ -70,7 +70,8 @@ Current large-scale follow-up: `20260601_ablation100_qwen9b` is queued on
 it completes, is collected, and passes the paper-readiness audit.
 
 While a remote suite is running, inspect progress without copying partial
-artifacts:
+artifacts. The queue monitor prints each suite's `next_action` and safe
+`collection_command`:
 
 ```bash
 python scripts/monitor_remote_ablation_queue.py \

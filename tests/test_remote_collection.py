@@ -14,8 +14,10 @@ from pipecypher.remote_collection import (
 )
 from scripts.monitor_remote_ablation_suite import build_progress_report, format_progress_text
 from scripts.monitor_remote_ablation_queue import (
+    build_collection_command,
     build_queue_report,
     format_queue_text,
+    infer_next_action,
     infer_suite_state,
     load_queue_config,
 )
@@ -253,6 +255,8 @@ def test_queue_report_marks_queued_and_running_suites():
         }
     )
     queued["suite_state"] = infer_suite_state(queued)
+    queued["next_action"] = infer_next_action(queued)
+    queued["collection_command"] = build_collection_command(queued)
     running = build_progress_report(
         [
             {
@@ -281,12 +285,20 @@ def test_queue_report_marks_queued_and_running_suites():
         }
     )
     running["suite_state"] = infer_suite_state(running)
+    running["next_action"] = infer_next_action(running)
+    running["collection_command"] = build_collection_command(running)
 
     report = build_queue_report([queued, running])
     text = format_queue_text(report)
 
     assert report["queued_or_waiting_suites"] == 1
     assert report["running_suites"] == 1
+    assert queued["next_action"] == "wait_for_dependency_or_session_start"
+    assert running["next_action"] == "wait_for_active_session_then_collect"
+    assert "--remote-root /remote/target100" in queued["collection_command"]
+    assert "--wait-session target100" in queued["collection_command"]
     assert "## target100" in text
     assert "state=queued_or_waiting configured_status=queued" in text
+    assert "next_action=wait_for_dependency_or_session_start" in text
+    assert "collection_command=python scripts/collect_remote_ablation_suite.py" in text
     assert "remote_root=/remote/target50" in text

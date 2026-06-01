@@ -309,7 +309,8 @@ python scripts/collect_remote_ablation_suite.py \
 ```
 
 To monitor both the active target-50 suite and the queued target-100 suite in
-one read-only command:
+one read-only command, including each suite's `next_action` and safe
+`collection_command`:
 
 ```bash
 python scripts/monitor_remote_ablation_queue.py \
