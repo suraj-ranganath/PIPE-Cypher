@@ -1,0 +1,525 @@
+{
+  "by_graph": {
+    "finbench": {
+      "distributions": {
+        "category": {
+          "counts": {
+            "boolean_existence": 250,
+            "complex_aggregation": 250,
+            "complex_retrieval": 250,
+            "negation_difference": 250,
+            "path_temporal": 250,
+            "ranking_topk": 250,
+            "simple_aggregation": 250,
+            "simple_retrieval": 250
+          },
+          "effective_count": 8.0,
+          "entropy_bits": 3.0,
+          "normalized_entropy": 1.0,
+          "simpson_diversity": 0.875,
+          "total": 2000,
+          "unique": 8
+        },
+        "difficulty": {
+          "counts": {
+            "easy": 1021,
+            "medium": 979
+          },
+          "effective_count": 1.9995590162046053,
+          "entropy_bits": 0.9996818623579606,
+          "normalized_entropy": 0.9996818623579606,
+          "simpson_diversity": 0.49977950000000004,
+          "total": 2000,
+          "unique": 2
+        },
+        "graph_category": {
+          "counts": {
+            "finbench::boolean_existence": 250,
+            "finbench::complex_aggregation": 250,
+            "finbench::complex_retrieval": 250,
+            "finbench::negation_difference": 250,
+            "finbench::path_temporal": 250,
+            "finbench::ranking_topk": 250,
+            "finbench::simple_aggregation": 250,
+            "finbench::simple_retrieval": 250
+          },
+          "effective_count": 8.0,
+          "entropy_bits": 3.0,
+          "normalized_entropy": 1.0,
+          "simpson_diversity": 0.875,
+          "total": 2000,
+          "unique": 8
+        },
+        "labels": {
+          "counts": {
+            "Account": 2000,
+            "Company": 18,
+            "Loan": 15,
+            "Person": 1709
+          },
+          "effective_count": 2.097103978754049,
+          "entropy_bits": 1.0683983950128886,
+          "normalized_entropy": 0.5341991975064443,
+          "simpson_diversity": 0.5057169529808969,
+          "total": 3742,
+          "unique": 4
+        },
+        "primary_strategy": {
+          "counts": {
+            "aggregation": 750,
+            "join_heavy": 250,
+            "negation": 250,
+            "order_rank": 250,
+            "path": 250,
+            "single_hop": 250
+          },
+          "effective_count": 5.298702257124207,
+          "entropy_bits": 2.4056390622295662,
+          "normalized_entropy": 0.9306282244165778,
+          "simpson_diversity": 0.78125,
+          "total": 2000,
+          "unique": 6
+        },
+        "relationship_types": {
+          "counts": {
+            "APPLY_LOAN": 15,
+            "OWN_ACCOUNT": 1727,
+            "TRANSFER_TO": 1484,
+            "WITHDRAW_TO": 1
+          },
+          "effective_count": 2.052944300975923,
+          "entropy_bits": 1.0376944858021413,
+          "normalized_entropy": 0.5188472429010706,
+          "simpson_diversity": 0.5020889652297507,
+          "total": 3227,
+          "unique": 4
+        }
+      },
+      "n": 2000,
+      "query_templates": {
+        "top_signature_share": 0.125,
+        "unique_signature_count": 17,
+        "unique_signature_ratio": 0.0085
+      },
+      "question_text": {
+        "distinct_1": 0.03314785751652637,
+        "distinct_2": 0.07741630314815788,
+        "distinct_3": 0.14230340048158807,
+        "self_bleu_2_sampled": 0.8065448300593572,
+        "unique_question_ratio": 1.0
+      },
+      "schema_coverage": {
+        "labels": {
+          "available_count": 17,
+          "coverage": 0.23529411764705882,
+          "used": [
+            "Account",
+            "Company",
+            "Loan",
+            "Person"
+          ],
+          "used_count": 4
+        },
+        "properties": {
+          "available_count": 54,
+          "coverage": 0.16666666666666666,
+          "used": [
+            "accountId",
+            "accountType",
+            "amount",
+            "business",
+            "companyId",
+            "companyName",
+            "isBlocked",
+            "personId",
+            "personName"
+          ],
+          "used_count": 9
+        },
+        "relationship_types": {
+          "available_count": 24,
+          "coverage": 0.16666666666666666,
+          "used": [
+            "APPLY_LOAN",
+            "OWN_ACCOUNT",
+            "TRANSFER_TO",
+            "WITHDRAW_TO"
+          ],
+          "used_count": 4
+        }
+      },
+      "structural_features": {
+        "aggregation_rate": 0.5,
+        "limit_rate": 0.625,
+        "mean_node_patterns": 2.7385,
+        "mean_relationship_patterns": 1.6135,
+        "mean_return_arity": 2.3745,
+        "negation_rate": 0.125,
+        "optional_match_rate": 0.0,
+        "ordering_rate": 0.125,
+        "path_pattern_rate": 0.125
+      }
+    },
+    "snb": {
+      "distributions": {
+        "category": {
+          "counts": {
+            "boolean_existence": 125,
+            "complex_aggregation": 125,
+            "complex_retrieval": 125,
+            "negation_difference": 125,
+            "path_temporal": 125,
+            "ranking_topk": 125,
+            "simple_aggregation": 125,
+            "simple_retrieval": 125
+          },
+          "effective_count": 8.0,
+          "entropy_bits": 3.0,
+          "normalized_entropy": 1.0,
+          "simpson_diversity": 0.875,
+          "total": 1000,
+          "unique": 8
+        },
+        "difficulty": {
+          "counts": {
+            "easy": 500,
+            "medium": 500
+          },
+          "effective_count": 2.0,
+          "entropy_bits": 1.0,
+          "normalized_entropy": 1.0,
+          "simpson_diversity": 0.5,
+          "total": 1000,
+          "unique": 2
+        },
+        "graph_category": {
+          "counts": {
+            "snb::boolean_existence": 125,
+            "snb::complex_aggregation": 125,
+            "snb::complex_retrieval": 125,
+            "snb::negation_difference": 125,
+            "snb::path_temporal": 125,
+            "snb::ranking_topk": 125,
+            "snb::simple_aggregation": 125,
+            "snb::simple_retrieval": 125
+          },
+          "effective_count": 8.0,
+          "entropy_bits": 3.0,
+          "normalized_entropy": 1.0,
+          "simpson_diversity": 0.875,
+          "total": 1000,
+          "unique": 8
+        },
+        "labels": {
+          "counts": {
+            "Forum": 478,
+            "Person": 875,
+            "Post": 751,
+            "Tag": 404
+          },
+          "effective_count": 3.813311777636488,
+          "entropy_bits": 1.9310444911116598,
+          "normalized_entropy": 0.9655222455558299,
+          "simpson_diversity": 0.7263420531174245,
+          "total": 2508,
+          "unique": 4
+        },
+        "primary_strategy": {
+          "counts": {
+            "aggregation": 375,
+            "join_heavy": 125,
+            "negation": 125,
+            "order_rank": 125,
+            "path": 125,
+            "single_hop": 125
+          },
+          "effective_count": 5.298702257124207,
+          "entropy_bits": 2.4056390622295662,
+          "normalized_entropy": 0.9306282244165778,
+          "simpson_diversity": 0.78125,
+          "total": 1000,
+          "unique": 6
+        },
+        "relationship_types": {
+          "counts": {
+            "CONTAINER_OF": 250,
+            "HAS_MEMBER": 478,
+            "HAS_TAG": 404,
+            "KNOWS": 146,
+            "LIKES": 376
+          },
+          "effective_count": 4.662931018992113,
+          "entropy_bits": 2.22123708734581,
+          "normalized_entropy": 0.9566347434430622,
+          "simpson_diversity": 0.774504371067757,
+          "total": 1654,
+          "unique": 5
+        }
+      },
+      "n": 1000,
+      "query_templates": {
+        "top_signature_share": 0.125,
+        "unique_signature_count": 13,
+        "unique_signature_ratio": 0.013
+      },
+      "question_text": {
+        "distinct_1": 0.06018746916625555,
+        "distinct_2": 0.11045429666119322,
+        "distinct_3": 0.1869698832206515,
+        "self_bleu_2_sampled": 0.835540868690929,
+        "unique_question_ratio": 1.0
+      },
+      "schema_coverage": {
+        "labels": {
+          "available_count": 17,
+          "coverage": 0.23529411764705882,
+          "used": [
+            "Forum",
+            "Person",
+            "Post",
+            "Tag"
+          ],
+          "used_count": 4
+        },
+        "properties": {
+          "available_count": 54,
+          "coverage": 0.24074074074074073,
+          "used": [
+            "_Bush",
+            "_Eisenhower",
+            "_Grant",
+            "_Heinlein",
+            "_Kennedy",
+            "_Polk",
+            "_R",
+            "_Roosevelt",
+            "_Tolkien",
+            "firstName",
+            "id",
+            "lastName",
+            "title"
+          ],
+          "used_count": 13
+        },
+        "relationship_types": {
+          "available_count": 24,
+          "coverage": 0.20833333333333334,
+          "used": [
+            "CONTAINER_OF",
+            "HAS_MEMBER",
+            "HAS_TAG",
+            "KNOWS",
+            "LIKES"
+          ],
+          "used_count": 5
+        }
+      },
+      "structural_features": {
+        "aggregation_rate": 0.5,
+        "limit_rate": 0.625,
+        "mean_node_patterns": 3.433,
+        "mean_relationship_patterns": 1.654,
+        "mean_return_arity": 1.627,
+        "negation_rate": 0.125,
+        "optional_match_rate": 0.125,
+        "ordering_rate": 0.125,
+        "path_pattern_rate": 0.125
+      }
+    }
+  },
+  "distributions": {
+    "category": {
+      "counts": {
+        "boolean_existence": 375,
+        "complex_aggregation": 375,
+        "complex_retrieval": 375,
+        "negation_difference": 375,
+        "path_temporal": 375,
+        "ranking_topk": 375,
+        "simple_aggregation": 375,
+        "simple_retrieval": 375
+      },
+      "effective_count": 8.0,
+      "entropy_bits": 3.0,
+      "normalized_entropy": 1.0,
+      "simpson_diversity": 0.875,
+      "total": 3000,
+      "unique": 8
+    },
+    "difficulty": {
+      "counts": {
+        "easy": 1521,
+        "medium": 1479
+      },
+      "effective_count": 1.9998040032011453,
+      "entropy_bits": 0.9998586112670831,
+      "normalized_entropy": 0.9998586112670831,
+      "simpson_diversity": 0.49990199999999996,
+      "total": 3000,
+      "unique": 2
+    },
+    "graph_category": {
+      "counts": {
+        "finbench::boolean_existence": 250,
+        "finbench::complex_aggregation": 250,
+        "finbench::complex_retrieval": 250,
+        "finbench::negation_difference": 250,
+        "finbench::path_temporal": 250,
+        "finbench::ranking_topk": 250,
+        "finbench::simple_aggregation": 250,
+        "finbench::simple_retrieval": 250,
+        "snb::boolean_existence": 125,
+        "snb::complex_aggregation": 125,
+        "snb::complex_retrieval": 125,
+        "snb::negation_difference": 125,
+        "snb::path_temporal": 125,
+        "snb::ranking_topk": 125,
+        "snb::simple_aggregation": 125,
+        "snb::simple_retrieval": 125
+      },
+      "effective_count": 15.119052598738474,
+      "entropy_bits": 3.918295834054489,
+      "normalized_entropy": 0.9795739585136223,
+      "simpson_diversity": 0.9305555555555556,
+      "total": 3000,
+      "unique": 16
+    },
+    "labels": {
+      "counts": {
+        "Account": 2000,
+        "Company": 18,
+        "Forum": 478,
+        "Loan": 15,
+        "Person": 2584,
+        "Post": 751,
+        "Tag": 404
+      },
+      "effective_count": 4.012345918632348,
+      "entropy_bits": 2.0044459911899146,
+      "normalized_entropy": 0.7139980682317109,
+      "simpson_diversity": 0.7021873664,
+      "total": 6250,
+      "unique": 7
+    },
+    "primary_strategy": {
+      "counts": {
+        "aggregation": 1125,
+        "join_heavy": 375,
+        "negation": 375,
+        "order_rank": 375,
+        "path": 375,
+        "single_hop": 375
+      },
+      "effective_count": 5.298702257124207,
+      "entropy_bits": 2.4056390622295662,
+      "normalized_entropy": 0.9306282244165778,
+      "simpson_diversity": 0.78125,
+      "total": 3000,
+      "unique": 6
+    },
+    "relationship_types": {
+      "counts": {
+        "APPLY_LOAN": 15,
+        "CONTAINER_OF": 250,
+        "HAS_MEMBER": 478,
+        "HAS_TAG": 404,
+        "KNOWS": 146,
+        "LIKES": 376,
+        "OWN_ACCOUNT": 1727,
+        "TRANSFER_TO": 1484,
+        "WITHDRAW_TO": 1
+      },
+      "effective_count": 5.142550533501431,
+      "entropy_bits": 2.3624840655268184,
+      "normalized_entropy": 0.7452807446396653,
+      "simpson_diversity": 0.7564697871207301,
+      "total": 4881,
+      "unique": 9
+    }
+  },
+  "n": 3000,
+  "query_templates": {
+    "top_signature_share": 0.08333333333333333,
+    "unique_signature_count": 30,
+    "unique_signature_ratio": 0.01
+  },
+  "question_text": {
+    "distinct_1": 0.041171940183556896,
+    "distinct_2": 0.08770683900291172,
+    "distinct_3": 0.15658532708051826,
+    "self_bleu_2_sampled": 0.8255589098249609,
+    "unique_question_ratio": 1.0
+  },
+  "schema_coverage": {
+    "labels": {
+      "available_count": 17,
+      "coverage": 0.4117647058823529,
+      "used": [
+        "Account",
+        "Company",
+        "Forum",
+        "Loan",
+        "Person",
+        "Post",
+        "Tag"
+      ],
+      "used_count": 7
+    },
+    "properties": {
+      "available_count": 54,
+      "coverage": 0.4074074074074074,
+      "used": [
+        "_Bush",
+        "_Eisenhower",
+        "_Grant",
+        "_Heinlein",
+        "_Kennedy",
+        "_Polk",
+        "_R",
+        "_Roosevelt",
+        "_Tolkien",
+        "accountId",
+        "accountType",
+        "amount",
+        "business",
+        "companyId",
+        "companyName",
+        "firstName",
+        "id",
+        "isBlocked",
+        "lastName",
+        "personId",
+        "personName",
+        "title"
+      ],
+      "used_count": 22
+    },
+    "relationship_types": {
+      "available_count": 24,
+      "coverage": 0.375,
+      "used": [
+        "APPLY_LOAN",
+        "CONTAINER_OF",
+        "HAS_MEMBER",
+        "HAS_TAG",
+        "KNOWS",
+        "LIKES",
+        "OWN_ACCOUNT",
+        "TRANSFER_TO",
+        "WITHDRAW_TO"
+      ],
+      "used_count": 9
+    }
+  },
+  "structural_features": {
+    "aggregation_rate": 0.5,
+    "limit_rate": 0.625,
+    "mean_node_patterns": 2.97,
+    "mean_relationship_patterns": 1.627,
+    "mean_return_arity": 2.1253333333333333,
+    "negation_rate": 0.125,
+    "optional_match_rate": 0.041666666666666664,
+    "ordering_rate": 0.125,
+    "path_pattern_rate": 0.125
+  }
+}

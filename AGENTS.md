@@ -11,6 +11,7 @@ PIPE-Cypher is an industry-track research codebase for automatic benchmark gener
 - Default embedding model: BGE-M3 or another local embedding model.
 - Primary graph workload: LDBC FinBench, because it targets financial fraud and risk-control scenarios. Secondary generality workload: LDBC SNB.
 - Preserve the BalkanID Cypher work as a first-class design source. Reuse its ideas for constrained prompting, relationship direction discipline, read-only query safety, `RETURN DISTINCT`, exact matching for quoted values, required contextual return columns, synonym normalization, categorical-property constraints, and post-generation rewrites.
+- Treat BalkanID's parser/listener and query-alteration design as an innovation source, not just an implementation detail. When practical, prefer grammar/AST-aware validation and conservative rewrites over brittle string edits; when parser risk is high, skip rewrites and log why.
 - Human review is not a generation gate. Use deterministic validation plus LLM-judge review. A small human audit may be used only to calibrate judge reliability for the paper.
 
 ## Engineering Rules
@@ -20,6 +21,7 @@ PIPE-Cypher is an industry-track research codebase for automatic benchmark gener
 - Prefer schema-derived constraints over prompt-only instructions.
 - Log every accepted and rejected candidate with enough metadata to reproduce failure analysis.
 - Do not silently weaken validation to improve yield; add explicit ablations if a check is optional.
+- Measure benchmark diversity explicitly. Report lexical diversity, query-template/signature diversity, schema coverage, structural feature coverage, difficulty balance, and graph/category balance.
 
 ## Research Framing
 
@@ -30,7 +32,11 @@ The core contribution is an enterprise benchmark-generation pipeline, not anothe
 - constrained Cypher generation and repair;
 - automated quality gates with judge calibration;
 - balanced difficulty and workload diversity;
+- ablations with appendix-ready tables and figures;
+- diversity metrics grounded in prior text-generation and text-to-query evaluation practice;
 - reproducible local-model operation.
+
+The main paper should stay tight, but the appendix can be long. Use the appendix for full ablation tables, plots, diversity diagnostics, graph/category breakdowns, run commands, extra examples, and details that are too large for the main EMNLP Industry page budget.
 
 ## Compute Notes
 

@@ -15,6 +15,8 @@ Purpose: keep the EMNLP/arXiv draft aligned with verified bibliographic sources 
 | `spider22024` | arXiv: https://arxiv.org/abs/2411.07763 | Title, authors, arXiv ID, DOI, and version history verified. |
 | `bird2023` | arXiv: https://arxiv.org/abs/2305.03111 | Title, authors, arXiv ID, DOI, and NeurIPS 2023 note verified. |
 | `autoquery2024` | DBLP: https://dblp.org/rec/conf/cikm/00020G24 | Title, authors, CIKM 2024 pages, and DOI verified. |
+| `li2016diversity` | ACL Anthology: https://aclanthology.org/N16-1014/ | Title, authors, venue, pages, DOI, and URL verified. |
+| `zhu2018texygen` | IR Anthology/DBLP: https://ir.webis.de/anthology/2018.sigirconf_conference-2018.145/ | Title, authors, SIGIR 2018 pages, DOI, and URL verified. |
 | `ldbcfinbench` | arXiv: https://arxiv.org/abs/2306.15975 | Title, arXiv ID, and DOI verified. |
 | `ldbcsnb` | arXiv: https://arxiv.org/abs/2307.04820 | Title, arXiv ID, and DOI verified. |
 

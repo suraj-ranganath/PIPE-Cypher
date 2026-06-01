@@ -27,6 +27,10 @@ BalkanID's `AlterCypherQuery` and listeners motivate PIPE-Cypher's deterministic
 - add display/context columns programmatically where the product requires them;
 - enrich returned entities with optional context only after the core query is valid;
 - prefer parser-aware modification over broad string replacement.
+- extract return columns with parser listeners before changing the display surface;
+- split long `MATCH` chains into safer anchored `MATCH` plus `OPTIONAL MATCH` expansions only when the parser sees no relationship variables/properties that would change semantics;
+- add product-context enrichments after parsing, such as optional insight/finding matches, while keeping the base query available for execution validation;
+- document programmatic query-alteration steps to users and reviewers so rewritten Cypher is auditable rather than silent.
 
 Implemented transfer in PIPE-Cypher:
 
@@ -39,3 +43,5 @@ Implemented transfer in PIPE-Cypher:
 ## Benchmark Implication
 
 PIPE-Cypher should not simply ask an LLM to write Cypher. It should test whether generated examples follow the sort of constraints deployed systems need: schema discipline, directionality, safe execution, exact matching, contextual return fields, and robust handling of domain synonyms.
+
+For the paper, the deeper innovation story should frame these as "parser-aware Cypher governance" rather than only prompt engineering. The BalkanID archive shows why deployed text-to-Cypher systems need a layered approach: constrained prompting, grammar/AST parsing, conservative skip rules for high-risk constructs, deterministic rewrites, display-column enrichment, and explicit explanation of any alteration. PIPE-Cypher adapts the parts that are benchmark-safe: validation, normalization, exact-match checks, relationship-direction discipline, and contextual return diagnostics. Future work can port more listener-based AST rewrites into PIPE-Cypher once the ANTLR runtime is packaged cleanly.

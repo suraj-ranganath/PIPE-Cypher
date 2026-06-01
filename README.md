@@ -320,6 +320,21 @@ python scripts/render_paper_artifact_tables.py \
   --paper-dir paper_emnlp2026_industry
 ```
 
+Compute diversity diagnostics and render the appendix table/figures:
+
+```bash
+python scripts/analyze_benchmark_diversity.py \
+  --benchmark artifacts/benchmarks/20260601_live_full_qwen9b/all.jsonl \
+  --schema configs/schema_finbench.json \
+  --schema configs/schema_snb.json \
+  --output-json experiments/snapshots/20260601_live_full_qwen9b/diversity_report.json \
+  --output-tex paper_emnlp2026_industry/tables_diversity.tex
+
+python scripts/render_paper_figures.py \
+  --diversity-report experiments/snapshots/20260601_live_full_qwen9b/diversity_report.json \
+  --output-dir paper_emnlp2026_industry/figures
+```
+
 Compare completed run artifacts for ablation paper tables:
 
 ```bash

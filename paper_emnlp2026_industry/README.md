@@ -9,7 +9,8 @@ Files:
 - `paper.md`: current paper draft for rapid editing.
 - `main.tex`: ACL/EMNLP-style LaTeX draft skeleton.
 - `references.bib`: working references.
-- `tables_*.tex`: current method, experiment, full-generation, export, distribution, and downstream tables.
+- `tables_*.tex`: current method, experiment, full-generation, export, diversity, distribution, ablation, and downstream tables.
+- `figures/*.pdf`: appendix-ready ablation and diversity figures.
 - `main.pdf`: compiled local draft when LaTeX is available.
 
 Citation provenance is tracked in `../knowledge_base/citation_verification.md`; no placeholder citations are currently present in `references.bib`.
@@ -45,4 +46,19 @@ python ../scripts/render_ablation_paper_table.py \
   --output tables_ablation5_results.tex
 ```
 
-Current caveat: the paper is structurally complete for serious revision and now includes the 3,000-example full FinBench/SNB benchmark export, full-test Qwen3.5-9B downstream evaluation, and live target-five FinBench/SNB ablation suites. Judge calibration labels and full-scale ablations remain pending.
+Regenerate the diversity table and appendix figures from the project root:
+
+```bash
+python scripts/analyze_benchmark_diversity.py \
+  --benchmark artifacts/benchmarks/20260601_live_full_qwen9b/all.jsonl \
+  --schema configs/schema_finbench.json \
+  --schema configs/schema_snb.json \
+  --output-json experiments/snapshots/20260601_live_full_qwen9b/diversity_report.json \
+  --output-tex paper_emnlp2026_industry/tables_diversity.tex
+
+python scripts/render_paper_figures.py \
+  --diversity-report experiments/snapshots/20260601_live_full_qwen9b/diversity_report.json \
+  --output-dir paper_emnlp2026_industry/figures
+```
+
+Current caveat: the paper is structurally complete for serious revision and now includes the 3,000-example full FinBench/SNB benchmark export, full-test Qwen3.5-9B downstream evaluation, live target-five FinBench/SNB ablation suites, and diversity diagnostics. Judge calibration labels and full-scale ablations remain pending.

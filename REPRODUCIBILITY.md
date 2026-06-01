@@ -203,3 +203,30 @@ python scripts/snapshot_benchmark_artifact.py \
   --output-dir experiments/snapshots/20260601_live_full_qwen9b \
   --source-export-dir artifacts/benchmarks/20260601_live_full_qwen9b
 ```
+
+## Diversity Diagnostics And Appendix Figures
+
+The full-export diversity report is tracked at:
+
+```text
+experiments/snapshots/20260601_live_full_qwen9b/diversity_report.json
+```
+
+Regenerate the report and LaTeX table:
+
+```bash
+python scripts/analyze_benchmark_diversity.py \
+  --benchmark artifacts/benchmarks/20260601_live_full_qwen9b/all.jsonl \
+  --schema configs/schema_finbench.json \
+  --schema configs/schema_snb.json \
+  --output-json experiments/snapshots/20260601_live_full_qwen9b/diversity_report.json \
+  --output-tex paper_emnlp2026_industry/tables_diversity.tex
+```
+
+Regenerate the appendix figures:
+
+```bash
+python scripts/render_paper_figures.py \
+  --diversity-report experiments/snapshots/20260601_live_full_qwen9b/diversity_report.json \
+  --output-dir paper_emnlp2026_industry/figures
+```

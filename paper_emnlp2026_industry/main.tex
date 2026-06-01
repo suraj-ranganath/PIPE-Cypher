@@ -27,6 +27,8 @@ Recent Text2Cypher resources, including Mind the Query~\cite{mindthequery2025}, 
 
 Text-to-SQL benchmarks such as Spider 2.0~\cite{spider22024} and BIRD~\cite{bird2023} motivate realistic database tasks, execution-based evaluation, and enterprise workflow complexity. CIKM AutoQuery~\cite{autoquery2024} motivates strategy-level workload generation analysis and separating workload quality from model quality. LDBC FinBench~\cite{ldbcfinbench} and SNB~\cite{ldbcsnb} provide graph workloads suitable for industry-oriented evaluation.
 
+For generated benchmark quality, PIPE-Cypher combines text-generation diversity diagnostics with text-to-query structure metrics. Distinct-n~\cite{li2016diversity} and self-BLEU-style redundancy checks~\cite{zhu2018texygen} capture lexical repetition, while schema coverage, query-signature diversity, structural feature rates, and normalized entropy over graph/category/difficulty cells capture properties that matter for executable Cypher benchmarks.
+
 \section{Method}
 PIPE-Cypher has five stages: schema profiling, template generation, reverse Cypher grounding, constrained Cypher generation and repair, deterministic validation and execution, and LLM-judge review. Deterministic checks enforce read-only safety, syntax shape, schema-visible labels and properties, relationship types, observed relationship directions, and non-empty execution where required.
 
@@ -78,6 +80,8 @@ The accepted full-run records were exported into a benchmark package with stable
 \input{tables_benchmark_export}
 \input{tables_full_artifact_distribution}
 
+We report diversity as a diagnostic, not only as a design target. The full export has perfect category balance and near-perfect difficulty balance, but the Qwen3.5-9B fallback run still has low query-signature diversity because seeded graph-grounded templates are doing substantial work. This is useful evidence for industry deployment: the artifact is balanced and executable, while the appendix makes template concentration visible rather than hiding it.
+
 For judge calibration, the released artifacts include an 80-row audit packet sampled from accepted and rejected full-run candidates. The current draft treats these labels as pending human review rather than as a generation gate.
 
 Finally, we ran a downstream Text2Cypher evaluation using local Qwen3.5-9B on the exported full test split. The model saw schema text and the natural-language question, generated Cypher, and was evaluated by live execution against the corresponding FinBench or SNB database. The result verifies that the exported artifact can drive downstream model evaluation and gives a difficulty signal: the zero-shot 9B baseline solves simple aggregation examples but struggles on more operational categories.
@@ -95,5 +99,25 @@ PIPE-Cypher provides a practical path for enterprises to create private, executa
 
 \bibliographystyle{plain}
 \bibliography{references}
+
+\appendix
+
+\section{Additional Results}
+
+\input{tables_diversity}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/diversity_diagnostics.pdf}
+\caption{Diversity diagnostics for the full 3,000-example export. Category, graph-category, and difficulty balance are strong by construction; schema coverage and query-signature diversity expose remaining concentration from the fallback seeded-template run.}
+\label{fig:diversity_diagnostics}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/ablation_acceptance.pdf}
+\caption{Target-five ablation acceptance rates on live FinBench and SNB graphs. The strict unconstrained local-LLM setting produces no usable examples, while reverse grounding and deterministic structure make the small target saturate across later variants.}
+\label{fig:ablation_acceptance}
+\end{figure}
 
 \end{document}

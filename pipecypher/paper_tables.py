@@ -98,6 +98,45 @@ def render_downstream_table(summary: dict[str, Any]) -> str:
     )
 
 
+def render_diversity_table(report: dict[str, Any]) -> str:
+    text = report["question_text"]
+    templates = report["query_templates"]
+    coverage = report["schema_coverage"]
+    distributions = report["distributions"]
+    structural = report["structural_features"]
+    rows = [
+        r"\begin{tabular}{lr}",
+        r"\toprule",
+        r"Metric & Value \\",
+        r"\midrule",
+        f"Question Distinct-1 & {_fmt_float(text['distinct_1'])} \\\\",
+        f"Question Distinct-2 & {_fmt_float(text['distinct_2'])} \\\\",
+        f"Question self-BLEU-2 (sampled) & {_fmt_float(text['self_bleu_2_sampled'])} \\\\",
+        f"Unique query-signature ratio & {_fmt_float(templates['unique_signature_ratio'])} \\\\",
+        f"Top query-signature share & {_fmt_float(templates['top_signature_share'])} \\\\",
+        f"Category normalized entropy & {_fmt_float(distributions['category']['normalized_entropy'])} \\\\",
+        f"Graph-category normalized entropy & {_fmt_float(distributions['graph_category']['normalized_entropy'])} \\\\",
+        f"Difficulty normalized entropy & {_fmt_float(distributions['difficulty']['normalized_entropy'])} \\\\",
+        f"Label coverage & {_fmt_float(coverage['labels']['coverage'])} \\\\",
+        f"Relationship-type coverage & {_fmt_float(coverage['relationship_types']['coverage'])} \\\\",
+        f"Property-name coverage & {_fmt_float(coverage['properties']['coverage'])} \\\\",
+        f"Aggregation / negation / ordering rates & "
+        f"{_fmt_float(structural['aggregation_rate'])} / "
+        f"{_fmt_float(structural['negation_rate'])} / "
+        f"{_fmt_float(structural['ordering_rate'])} \\\\",
+        r"\bottomrule",
+        r"\end{tabular}",
+    ]
+    return _table(
+        body="\n".join(rows),
+        caption=(
+            "Diversity diagnostics for the full exported benchmark. Distinct-n follows "
+            "text-generation usage; self-BLEU is lower when questions are less redundant."
+        ),
+        label="tab:diversity_metrics",
+    )
+
+
 def render_ablation_table(
     summaries: list[dict[str, Any]],
     *,

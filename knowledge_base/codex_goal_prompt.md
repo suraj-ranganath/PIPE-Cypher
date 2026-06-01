@@ -7,7 +7,7 @@ Use this with `/goal` when restarting or continuing the project in a fresh Codex
 ```text
 Complete PIPE-Cypher as an end-to-end, publishable EMNLP Industry Track research project and arXiv-ready paper.
 
-Work in /Users/suraj/Desktop/PIPE-Cypher. Build it as an industry-focused successor to /Users/suraj/Desktop/Archive/PIPE-KG for automatic enterprise NL-to-Cypher benchmark generation. Preserve Cypher/property-graph framing throughout; Neo4j is only the experimental backend. Use LDBC FinBench as the primary industry graph and LDBC SNB as the secondary generality graph unless evidence blocks that choice. Deeply inspect and borrow implementable ideas from /Users/suraj/Documents/Archive/BalkanID/Dev/copilot-api, especially constrained Cypher prompting, exact matching, relationship-direction discipline, RETURN DISTINCT, read-only safety, categorical-property constraints, required contextual return columns, parser-aware rewrites, retrieval examples, and query alteration/normalization.
+Work in /Users/suraj/Desktop/PIPE-Cypher. Build it as an industry-focused successor to /Users/suraj/Desktop/Archive/PIPE-KG for automatic enterprise NL-to-Cypher benchmark generation. Preserve Cypher/property-graph framing throughout; Neo4j is only the experimental backend. Use LDBC FinBench as the primary industry graph and LDBC SNB as the secondary generality graph unless evidence blocks that choice. Deeply inspect and borrow implementable ideas from /Users/suraj/Documents/Archive/BalkanID/Dev/copilot-api, especially constrained Cypher prompting, exact matching, relationship-direction discipline, RETURN DISTINCT, read-only safety, categorical-property constraints, required contextual return columns, parser/grammar/AST-aware rewrites, retrieval examples, query alteration/normalization, conservative skip rules for risky Cypher constructs, and auditable explanations of query rewrites.
 
 Use relevant skills throughout, especially ml-paper-writing for paper structure and citation discipline, literature-review for research synthesis, citation-management for verified BibTeX, venue-templates for EMNLP/ACL formatting, and GPU skills for ds-serv6 work. Do not invent citations; verify references through primary sources.
 
@@ -18,14 +18,16 @@ Core constraints:
 - Use local embeddings such as BGE-M3 where retrieval embeddings are needed.
 - Keep benchmark artifacts reproducible, executable, private-graph oriented, and useful for enterprise teams.
 - Replace human-in-the-loop dataset gating with LLM-judge review, while keeping a small post-hoc human audit for judge calibration.
+- Treat diversity as a first-class benchmark quality dimension: measure lexical diversity, self-similarity, query-template/signature diversity, schema label/relationship/property coverage, structural-feature coverage, difficulty balance, and graph/category balance.
+- Use appendix space aggressively. The main EMNLP Industry paper should stay focused, but the appendix may include full ablation tables, ablation plots, diversity diagnostics, extra examples, graph/category breakdowns, run commands, failure modes, and extended BalkanID-inspired design notes.
 - Keep edits scoped, run tests/smokes, and update documentation and paper claims whenever evidence changes.
 
 Success means:
 1. The repo has a clean Python package, configs, scripts, tests, docs, AGENTS.md, experiment matrix, literature notes, graph-loading notes, and paper directory.
 2. The pipeline supports schema introspection, constrained prompt generation, reverse Cypher grounding, deterministic validation, read-only safety checks, schema validation, execution validation, repair/rewrite, retrieval, diversity controls, strategy/difficulty tagging, JSONL logging, and LLM-judge review.
 3. ds-serv6 setup is documented and scripted for Qwen3.5 models, BGE-M3, FinBench, SNB, Neo4j experimental backends, vLLM endpoints, monitoring, recovery, and final export.
-4. The experiment plan covers the intended 3,000-example target, FinBench/SNB split, baselines, ablations, metrics, judge calibration audit, and downstream Text2Cypher evaluation.
-5. The paper draft under paper_emnlp2026_industry/ is serious-submission quality: abstract, introduction, related work with verified citations, method, implementation, experiments, results, limitations, ethics, reproducibility notes, and references in ACL/EMNLP format.
+4. The experiment plan covers the intended 3,000-example target, FinBench/SNB split, baselines, ablations, diversity metrics, judge calibration audit, and downstream Text2Cypher evaluation.
+5. The paper draft under paper_emnlp2026_industry/ is serious-submission quality: abstract, introduction, related work with verified citations, method, implementation, experiments, results, appendix results/plots/tables, limitations, ethics, reproducibility notes, and references in ACL/EMNLP format.
 6. Verification includes available unit tests, compile checks, LaTeX builds, smoke commands, generated benchmark exports, and exact logs or blocker reports for any full experiment that cannot complete.
 
 Work loop:
