@@ -174,6 +174,42 @@ def render_ablation_table(
     )
 
 
+def render_failure_taxonomy_table(report: dict[str, Any]) -> str:
+    labels = report.get("bucket_labels", {})
+    rejection_counts = report.get("rejection_bucket_counts", {})
+    rejected = max(int(report.get("rejected", 0)), 1)
+    rows = [
+        r"\begin{tabular}{lrr}",
+        r"\toprule",
+        r"Failure bucket & Count & Share of rejected \\",
+        r"\midrule",
+    ]
+    sorted_counts = sorted(
+        rejection_counts.items(),
+        key=lambda item: (-int(item[1]), item[0]),
+    )
+    for key, count in sorted_counts:
+        if not count:
+            continue
+        label = labels.get(key, key.replace("_", " ").title())
+        rows.append(
+            "{label} & {count} & {share} \\\\".format(
+                label=_escape_latex(label),
+                count=_fmt_int(count),
+                share=_fmt_float(count / rejected),
+            )
+        )
+    rows.extend([r"\bottomrule", r"\end{tabular}"])
+    return _table(
+        body="\n".join(rows),
+        caption=(
+            "Failure taxonomy over full-run generation candidates before benchmark export. "
+            "Accepted examples are excluded from the bucket shares."
+        ),
+        label="tab:failure_taxonomy",
+    )
+
+
 def _table(*, body: str, caption: str, label: str) -> str:
     return "\n".join(
         [

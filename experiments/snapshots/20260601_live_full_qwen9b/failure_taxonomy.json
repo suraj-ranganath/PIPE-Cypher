@@ -1,0 +1,286 @@
+{
+  "accept_rate": 0.6280092108017584,
+  "accepted": 3000,
+  "bucket_counts": {
+    "accepted": 3000,
+    "diversity_control": 1335,
+    "empty_result": 374,
+    "judge_reject": 66,
+    "schema_invalid": 2
+  },
+  "bucket_labels": {
+    "accepted": "Accepted",
+    "diversity_control": "Diversity/duplicate control",
+    "empty_result": "Empty result",
+    "execution_error": "Execution error",
+    "judge_reject": "Judge semantic reject",
+    "other_reject": "Other reject",
+    "read_only_safety": "Read-only safety",
+    "schema_invalid": "Schema invalid",
+    "syntax_invalid": "Syntax invalid"
+  },
+  "by_category": {
+    "boolean_existence": {
+      "accept_rate": 0.8620689655172413,
+      "accepted": 375,
+      "bucket_counts": {
+        "accepted": 375,
+        "judge_reject": 60
+      },
+      "rejected": 60,
+      "rejection_bucket_counts": {
+        "judge_reject": 60
+      },
+      "top_judge_reason_buckets": {
+        "ambiguity": 4,
+        "schema_mismatch": 56
+      },
+      "top_validation_issues": {
+        "quoted_value_not_literal": 1
+      },
+      "total": 435
+    },
+    "complex_aggregation": {
+      "accept_rate": 0.9973404255319149,
+      "accepted": 375,
+      "bucket_counts": {
+        "accepted": 375,
+        "judge_reject": 1
+      },
+      "rejected": 1,
+      "rejection_bucket_counts": {
+        "judge_reject": 1
+      },
+      "top_judge_reason_buckets": {
+        "schema_mismatch": 1
+      },
+      "top_validation_issues": {
+        "quoted_value_not_literal": 1
+      },
+      "total": 376
+    },
+    "complex_retrieval": {
+      "accept_rate": 0.9946949602122016,
+      "accepted": 375,
+      "bucket_counts": {
+        "accepted": 375,
+        "judge_reject": 1,
+        "schema_invalid": 1
+      },
+      "rejected": 2,
+      "rejection_bucket_counts": {
+        "judge_reject": 1,
+        "schema_invalid": 1
+      },
+      "top_judge_reason_buckets": {
+        "schema_mismatch": 1,
+        "semantic_mismatch": 1
+      },
+      "top_validation_issues": {
+        "quoted_value_not_literal": 1,
+        "unknown_property": 1
+      },
+      "total": 377
+    },
+    "negation_difference": {
+      "accept_rate": 0.24703557312252963,
+      "accepted": 375,
+      "bucket_counts": {
+        "accepted": 375,
+        "diversity_control": 775,
+        "empty_result": 368
+      },
+      "rejected": 1143,
+      "rejection_bucket_counts": {
+        "diversity_control": 775,
+        "empty_result": 368
+      },
+      "top_judge_reason_buckets": {
+        "diversity_control": 775,
+        "empty_result": 368
+      },
+      "top_validation_issues": {
+        "missing_context_column": 21
+      },
+      "total": 1518
+    },
+    "path_temporal": {
+      "accept_rate": 0.9973404255319149,
+      "accepted": 375,
+      "bucket_counts": {
+        "accepted": 375,
+        "judge_reject": 1
+      },
+      "rejected": 1,
+      "rejection_bucket_counts": {
+        "judge_reject": 1
+      },
+      "top_judge_reason_buckets": {
+        "ambiguity": 1
+      },
+      "top_validation_issues": {
+        "quoted_value_not_literal": 1
+      },
+      "total": 376
+    },
+    "ranking_topk": {
+      "accept_rate": 0.3980891719745223,
+      "accepted": 375,
+      "bucket_counts": {
+        "accepted": 375,
+        "diversity_control": 560,
+        "empty_result": 6,
+        "judge_reject": 1
+      },
+      "rejected": 567,
+      "rejection_bucket_counts": {
+        "diversity_control": 560,
+        "empty_result": 6,
+        "judge_reject": 1
+      },
+      "top_judge_reason_buckets": {
+        "ambiguity": 1,
+        "diversity_control": 560,
+        "empty_result": 6
+      },
+      "top_validation_issues": {
+        "quoted_value_not_literal": 1
+      },
+      "total": 942
+    },
+    "simple_aggregation": {
+      "accept_rate": 0.9946949602122016,
+      "accepted": 375,
+      "bucket_counts": {
+        "accepted": 375,
+        "judge_reject": 1,
+        "schema_invalid": 1
+      },
+      "rejected": 2,
+      "rejection_bucket_counts": {
+        "judge_reject": 1,
+        "schema_invalid": 1
+      },
+      "top_judge_reason_buckets": {
+        "schema_mismatch": 1,
+        "semantic_mismatch": 1
+      },
+      "top_validation_issues": {
+        "quoted_value_not_literal": 1,
+        "unknown_property": 1
+      },
+      "total": 377
+    },
+    "simple_retrieval": {
+      "accept_rate": 0.9973404255319149,
+      "accepted": 375,
+      "bucket_counts": {
+        "accepted": 375,
+        "judge_reject": 1
+      },
+      "rejected": 1,
+      "rejection_bucket_counts": {
+        "judge_reject": 1
+      },
+      "top_judge_reason_buckets": {
+        "ambiguity": 1
+      },
+      "top_validation_issues": {
+        "quoted_value_not_literal": 1
+      },
+      "total": 376
+    }
+  },
+  "by_graph": {
+    "finbench": {
+      "accept_rate": 0.5875440658049353,
+      "accepted": 2000,
+      "bucket_counts": {
+        "accepted": 2000,
+        "diversity_control": 1334,
+        "empty_result": 4,
+        "judge_reject": 66
+      },
+      "rejected": 1404,
+      "rejection_bucket_counts": {
+        "diversity_control": 1334,
+        "empty_result": 4,
+        "judge_reject": 66
+      },
+      "top_judge_reason_buckets": {
+        "ambiguity": 7,
+        "diversity_control": 1334,
+        "empty_result": 4,
+        "schema_mismatch": 57,
+        "semantic_mismatch": 2
+      },
+      "top_validation_issues": {
+        "missing_context_column": 21,
+        "quoted_value_not_literal": 7
+      },
+      "total": 3404
+    },
+    "snb": {
+      "accept_rate": 0.7283321194464676,
+      "accepted": 1000,
+      "bucket_counts": {
+        "accepted": 1000,
+        "diversity_control": 1,
+        "empty_result": 370,
+        "schema_invalid": 2
+      },
+      "rejected": 373,
+      "rejection_bucket_counts": {
+        "diversity_control": 1,
+        "empty_result": 370,
+        "schema_invalid": 2
+      },
+      "top_judge_reason_buckets": {
+        "diversity_control": 1,
+        "empty_result": 370,
+        "schema_mismatch": 2
+      },
+      "top_validation_issues": {
+        "unknown_property": 2
+      },
+      "total": 1373
+    }
+  },
+  "judge_reason_labels": {
+    "ambiguity": "Ambiguity",
+    "diversity_control": "Diversity/duplicate control",
+    "empty_result": "Empty result",
+    "generic_node_scan": "Generic node scan",
+    "other": "Other",
+    "schema_mismatch": "Schema mismatch",
+    "semantic_mismatch": "Semantic mismatch"
+  },
+  "rejected": 1777,
+  "rejection_bucket_counts": {
+    "diversity_control": 1335,
+    "empty_result": 374,
+    "judge_reject": 66,
+    "schema_invalid": 2
+  },
+  "source_paths": [
+    "artifacts/runs/20260601_142318_20260601_full_qwen9b_finbench",
+    "artifacts/runs/20260601_165047_20260601_full_qwen9b_snb",
+    "artifacts/runs/20260601_173836_20260601_full_qwen9b_finbench_fill_20260601_173235_negation_difference",
+    "artifacts/runs/20260601_173838_20260601_full_qwen9b_snb_fill_20260601_173235_negation_difference",
+    "artifacts/runs/20260601_173842_20260601_full_qwen9b_snb_fill_20260601_173235_path_temporal",
+    "artifacts/runs/20260601_173848_20260601_full_qwen9b_snb_fill_20260601_173235_ranking_topk"
+  ],
+  "top_judge_reason_buckets": {
+    "ambiguity": 7,
+    "diversity_control": 1335,
+    "empty_result": 374,
+    "schema_mismatch": 59,
+    "semantic_mismatch": 2
+  },
+  "top_validation_issues": {
+    "missing_context_column": 21,
+    "quoted_value_not_literal": 7,
+    "unknown_property": 2
+  },
+  "total": 4777
+}

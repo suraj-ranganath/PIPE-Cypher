@@ -9,8 +9,8 @@ Files:
 - `paper.md`: current paper draft for rapid editing.
 - `main.tex`: ACL/EMNLP-style LaTeX draft skeleton.
 - `references.bib`: working references.
-- `tables_*.tex`: current method, experiment, full-generation, export, diversity, distribution, ablation, and downstream tables.
-- `figures/*.pdf`: appendix-ready ablation, diversity, export-distribution, and downstream-evaluation figures.
+- `tables_*.tex`: current method, experiment, full-generation, export, diversity, failure-taxonomy, distribution, ablation, and downstream tables.
+- `figures/*.pdf`: appendix-ready ablation, diversity, failure-taxonomy, export-distribution, and downstream-evaluation figures.
 - `main.pdf`: compiled local draft when LaTeX is available.
 
 Citation provenance is tracked in `../knowledge_base/citation_verification.md`; no placeholder citations are currently present in `references.bib`.
@@ -56,11 +56,23 @@ python scripts/analyze_benchmark_diversity.py \
   --output-json experiments/snapshots/20260601_live_full_qwen9b/diversity_report.json \
   --output-tex paper_emnlp2026_industry/tables_diversity.tex
 
+python scripts/analyze_failure_taxonomy.py \
+  --records \
+    artifacts/runs/20260601_142318_20260601_full_qwen9b_finbench \
+    artifacts/runs/20260601_165047_20260601_full_qwen9b_snb \
+    artifacts/runs/20260601_173836_20260601_full_qwen9b_finbench_fill_20260601_173235_negation_difference \
+    artifacts/runs/20260601_173838_20260601_full_qwen9b_snb_fill_20260601_173235_negation_difference \
+    artifacts/runs/20260601_173842_20260601_full_qwen9b_snb_fill_20260601_173235_path_temporal \
+    artifacts/runs/20260601_173848_20260601_full_qwen9b_snb_fill_20260601_173235_ranking_topk \
+  --output-json experiments/snapshots/20260601_live_full_qwen9b/failure_taxonomy.json \
+  --output-tex paper_emnlp2026_industry/tables_failure_taxonomy.tex
+
 python scripts/render_paper_figures.py \
   --diversity-report experiments/snapshots/20260601_live_full_qwen9b/diversity_report.json \
+  --failure-taxonomy experiments/snapshots/20260601_live_full_qwen9b/failure_taxonomy.json \
   --benchmark-stats artifacts/benchmarks/20260601_live_full_qwen9b/stats.json \
   --downstream-summary artifacts/evaluations/20260601_full_qwen9b_test_summary.json \
   --output-dir paper_emnlp2026_industry/figures
 ```
 
-Current caveat: the paper is structurally complete for serious revision and now includes the 3,000-example full FinBench/SNB benchmark export, full-test Qwen3.5-9B downstream evaluation, live target-five FinBench/SNB ablation suites, and diversity diagnostics. Judge calibration labels and full-scale ablations remain pending.
+Current caveat: the paper is structurally complete for serious revision and now includes the 3,000-example full FinBench/SNB benchmark export, full-test Qwen3.5-9B downstream evaluation, live target-five FinBench/SNB ablation suites, diversity diagnostics, and full-run failure taxonomy. Judge calibration labels and full-scale ablations remain pending.

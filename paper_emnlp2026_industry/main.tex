@@ -84,6 +84,8 @@ The accepted full-run records were exported into a benchmark package with stable
 
 We report diversity as a diagnostic, not only as a design target. The full export has perfect category balance and near-perfect difficulty balance, but the Qwen3.5-9B fallback run still has low query-signature diversity because seeded graph-grounded templates are doing substantial work. This is useful evidence for industry deployment: the artifact is balanced and executable, while the appendix makes template concentration visible rather than hiding it.
 
+The full-run failure taxonomy shows where generation effort was spent before export: 1,335 rejected candidates came from diversity or duplicate controls during recovery, 374 from empty execution results, 66 from judge semantic rejection, and only 2 from schema invalidity. This supports the claim that deterministic schema gates made invalid Cypher rare, while refresh-scale generation mostly needs better value/template exploration.
+
 For judge calibration, the released artifacts include an 80-row audit packet sampled from accepted and rejected full-run candidates. The calibration tooling tracks graph, category, difficulty, strategy, and judge-decision coverage, and reports agreement, precision/recall, specificity, balanced accuracy, and Cohen's kappa once human labels are filled. The current draft treats these labels as pending human review rather than as a generation gate.
 
 Finally, we ran a downstream Text2Cypher evaluation using local Qwen3.5-9B on the exported full test split. The model saw schema text and the natural-language question, generated Cypher, and was evaluated by live execution against the corresponding FinBench or SNB database. The result verifies that the exported artifact can drive downstream model evaluation and gives a difficulty signal: the zero-shot 9B baseline solves simple aggregation examples but struggles on more operational categories.
@@ -107,6 +109,7 @@ PIPE-Cypher provides a practical path for enterprises to create private, executa
 \section{Additional Results}
 
 \input{tables_diversity}
+\input{tables_failure_taxonomy}
 
 \begin{figure}[t]
 \centering
@@ -134,6 +137,13 @@ PIPE-Cypher provides a practical path for enterprises to create private, executa
 \includegraphics[width=\columnwidth]{figures/downstream_breakdown.pdf}
 \caption{Downstream zero-shot Qwen3.5-9B Text2Cypher evaluation by workload category on the full test split. The breakdown separates final execution accuracy from parse/schema/execution success signals, making difficult operational categories visible.}
 \label{fig:downstream_breakdown}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/failure_taxonomy.pdf}
+\caption{Full-run rejection taxonomy before benchmark export. Most rejected candidates come from duplicate/diversity control during category recovery and from empty execution results; schema-invalid Cypher is rare after deterministic governance.}
+\label{fig:failure_taxonomy}
 \end{figure}
 
 \end{document}
