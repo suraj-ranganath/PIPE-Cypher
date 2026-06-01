@@ -44,7 +44,7 @@ def build_remote_find_runs_command(*, remote_root: str, run_prefix: str) -> str:
 
 
 def build_tmux_has_session_command(session: str) -> str:
-    return f"tmux has-session -t {shlex.quote(session)}"
+    return f"tmux has-session -t {shlex.quote('=' + session)}"
 
 
 def build_remote_ablation_status_command(*, remote_root: str, run_prefix: str) -> str:

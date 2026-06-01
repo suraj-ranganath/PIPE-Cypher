@@ -87,11 +87,11 @@ def test_parse_remote_ablation_status_rows_skips_bad_lines():
 def test_build_tmux_has_session_command_quotes_session():
     assert (
         build_tmux_has_session_command("pipecypher_ablation50_qwen9b")
-        == "tmux has-session -t pipecypher_ablation50_qwen9b"
+        == "tmux has-session -t =pipecypher_ablation50_qwen9b"
     )
     assert (
         build_tmux_has_session_command("session with spaces")
-        == "tmux has-session -t 'session with spaces'"
+        == "tmux has-session -t '=session with spaces'"
     )
 
 
