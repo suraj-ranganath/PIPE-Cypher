@@ -104,6 +104,16 @@ python scripts/render_judge_audit_packet.py \
 
 The labeling rubric is in `knowledge_base/judge_audit_protocol.md`.
 
+Render appendix prompt contracts and representative accepted examples:
+
+```bash
+python scripts/render_appendix_material.py \
+  --examples experiments/snapshots/20260601_live_full_qwen9b/sample_examples.json \
+  --output-prompts paper_emnlp2026_industry/appendix_prompt_contracts.tex \
+  --output-examples paper_emnlp2026_industry/appendix_example_cards.tex \
+  --max-examples 16
+```
+
 Check the GPU host:
 
 ```bash

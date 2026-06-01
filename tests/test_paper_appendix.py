@@ -1,0 +1,74 @@
+import json
+from pathlib import Path
+
+import pytest
+
+from pipecypher.paper_appendix import (
+    load_examples,
+    prompt_contracts,
+    render_example_cards_tex,
+    render_prompt_contracts_tex,
+)
+
+
+def test_prompt_contracts_include_generation_and_judge_hashes():
+    names = {contract.name for contract in prompt_contracts()}
+    text = render_prompt_contracts_tex()
+
+    assert r"\section{Prompt Contracts}" in text
+    assert "Cypher generation" in names
+    assert "LLM judge" in names
+    assert "RETURN DISTINCT" in text
+    assert "SHA-256" in text
+    assert r"\label{tab:prompt_contracts}" in text
+
+
+def test_render_example_cards_escapes_cypher_and_reports_gates():
+    text = render_example_cards_tex(
+        [
+            {
+                "id": "b",
+                "graph_profile": "snb",
+                "category": "ranking_topk",
+                "difficulty": "medium",
+                "question": "Which posts have tag 'A&B'?",
+                "cypher": "MATCH (p:Post)-[:HAS_TAG]->(t:Tag {name: 'A&B'}) RETURN DISTINCT p.id",
+                "result_rows_sample": [{"id": 1}],
+                "gates": {
+                    "read_only": True,
+                    "syntax_valid": True,
+                    "schema_valid": True,
+                    "execution_success": True,
+                    "judge_pass": True,
+                },
+                "structural_features": {
+                    "strategy_tags": ["join_heavy", "bounded_result"],
+                    "relationship_types": ["HAS_TAG"],
+                },
+            }
+        ]
+    )
+
+    assert r"A\&B" in text
+    assert r"\textgreater{}" in text
+    assert "RO/Syn/Schema/Exec/Judge" in text
+    assert "HAS\\_TAG" in text
+
+
+def test_load_examples_supports_json_and_jsonl(tmp_path: Path):
+    rows = [{"id": "1"}, {"id": "2"}]
+    json_path = tmp_path / "examples.json"
+    jsonl_path = tmp_path / "examples.jsonl"
+    json_path.write_text(json.dumps(rows), encoding="utf-8")
+    jsonl_path.write_text("\n".join(json.dumps(row) for row in rows), encoding="utf-8")
+
+    assert load_examples(json_path) == rows
+    assert load_examples(jsonl_path) == rows
+
+
+def test_load_examples_rejects_non_list_json(tmp_path: Path):
+    path = tmp_path / "bad.json"
+    path.write_text('{"id": "not-a-list"}', encoding="utf-8")
+
+    with pytest.raises(ValueError):
+        load_examples(path)

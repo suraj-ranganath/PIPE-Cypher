@@ -1,0 +1,141 @@
+\section{Representative Accepted Examples}
+The examples below are selected in stable identifier order from the tracked full-export snapshot, one per graph/category cell when available. They show the natural-language question, accepted Cypher, structural tags, gate status, and a bounded execution-result sample.
+\begin{enumerate}
+\item \textbf{FinBench / Boolean Existence / easy.}
+\textit{Question:} Does account '187743809466009406' have any outgoing transfer?
+\begin{quote}\scriptsize\ttfamily\raggedright
+MATCH (src:Account \{accountId:\\
+'187743809466009406'\})-[:TRANSFER\_TO]-\textgreater{}(:Account) RETURN\\
+DISTINCT COUNT(DISTINCT src) \textgreater{} 0 AS HasOutgoingTransfer
+\end{quote}
+\textit{Structure:} single\_hop, aggregation; relationships: TRANSFER\_TO; gates: RO/Syn/Schema/Exec/Judge.\par \textit{Result sample:} \{HasOutgoingTransfer: True\}; observed rows: 1
+\item \textbf{FinBench / Complex Aggregation / medium.}
+\textit{Question:} What is the total transferred amount from accounts owned by person 'Gwar'?
+\begin{quote}\scriptsize\ttfamily\raggedright
+MATCH (p:Person \{personName: 'Gwar'\})-[:OWN\_ACCOUNT]-\textgreater{}(src:Accou\\
+nt)-[t:TRANSFER\_TO]-\textgreater{}(:Account) RETURN DISTINCT SUM(t.amount) AS\\
+TotalTransferredAmount
+\end{quote}
+\textit{Structure:} join\_heavy, aggregation; relationships: OWN\_ACCOUNT, TRANSFER\_TO; gates: RO/Syn/Schema/Exec/Judge.\par \textit{Result sample:} \{TotalTransferredAmount: 14972318.41\}; observed rows: 1
+\item \textbf{FinBench / Complex Retrieval / easy.}
+\textit{Question:} Which accounts received transfers from accounts owned by person 'Zof'?
+\begin{quote}\scriptsize\ttfamily\raggedright
+MATCH (p:Person \{personName: 'Zof'\})-[:OWN\_ACCOUNT]-\textgreater{}(src:Accoun\\
+t)-[:TRANSFER\_TO]-\textgreater{}(dst:Account) RETURN DISTINCT dst.accountId\\
+AS AccountId, dst.accountType AS AccountType, dst.isBlocked AS\\
+IsBlocked LIMIT 300
+\end{quote}
+\textit{Structure:} join\_heavy, bounded\_result; relationships: OWN\_ACCOUNT, TRANSFER\_TO; gates: RO/Syn/Schema/Exec/Judge.\par \textit{Result sample:} \{AccountId: 4687402787162554854, AccountType: credit card, IsBlocked: False\}; observed rows: 3
+\item \textbf{FinBench / Negation Difference / medium.}
+\textit{Question:} Which accounts owned by person 'Kant' have not sent any transfers?
+\begin{quote}\scriptsize\ttfamily\raggedright
+MATCH (p:Person \{personName:\\
+'Kant'\})-[:OWN\_ACCOUNT]-\textgreater{}(a:Account) WHERE NOT\\
+(a)-[:TRANSFER\_TO]-\textgreater{}(:Account) RETURN DISTINCT a.accountId AS\\
+AccountId, a.accountType AS AccountType, a.isBlocked AS\\
+IsBlocked LIMIT 300
+\end{quote}
+\textit{Structure:} join\_heavy, negation, bounded\_result; relationships: OWN\_ACCOUNT, TRANSFER\_TO; gates: RO/Syn/Schema/Exec/Judge.\par \textit{Result sample:} \{AccountId: 4739757132830738341, AccountType: merchant account, IsBlocked: False\}; observed rows: 1
+\item \textbf{FinBench / Path Temporal / medium.}
+\textit{Question:} Which accounts can receive money within two transfer hops from accounts owned by person 'Sossamon'?
+\begin{quote}\scriptsize\ttfamily\raggedright
+MATCH (p:Person \{personName: 'Sossamon'\})-[:OWN\_ACCOUNT]-\textgreater{}(src:A\\
+ccount)-[:TRANSFER\_TO*1..2]-\textgreater{}(dst:Account) RETURN DISTINCT\\
+dst.accountId AS AccountId, dst.accountType AS AccountType,\\
+dst.isBlocked AS IsBlocked LIMIT 300
+\end{quote}
+\textit{Structure:} join\_heavy, path, bounded\_result; relationships: OWN\_ACCOUNT, TRANSFER\_TO; gates: RO/Syn/Schema/Exec/Judge.\par \textit{Result sample:} \{AccountId: 4687402787162554854, AccountType: credit card, IsBlocked: False\}; observed rows: 4
+\item \textbf{FinBench / Ranking Topk / medium.}
+\textit{Question:} For accounts owned by person 'Barry', which account sent the highest total transfer amount?
+\begin{quote}\scriptsize\ttfamily\raggedright
+MATCH (p:Person \{personName: 'Barry'\})-[:OWN\_ACCOUNT]-\textgreater{}(src:Acco\\
+unt)-[t:TRANSFER\_TO]-\textgreater{}(:Account) WITH src, SUM(t.amount) AS\\
+totalAmount RETURN DISTINCT src.accountId AS AccountId,\\
+src.accountType AS AccountType, src.isBlocked AS IsBlocked,\\
+totalAmount ORDER BY totalAmount DESC LIMIT 1
+\end{quote}
+\textit{Structure:} join\_heavy, aggregation, order\_rank, bounded\_result; relationships: OWN\_ACCOUNT, TRANSFER\_TO; gates: RO/Syn/Schema/Exec/Judge.\par \textit{Result sample:} \{AccountId: 4732438783436260772, AccountType: internet account, IsBlocked: False\}; observed rows: 1
+\item \textbf{FinBench / Simple Aggregation / easy.}
+\textit{Question:} How many accounts are owned by person 'Kaewsuktae'?
+\begin{quote}\scriptsize\ttfamily\raggedright
+MATCH (p:Person \{personName:\\
+'Kaewsuktae'\})-[:OWN\_ACCOUNT]-\textgreater{}(a:Account) RETURN DISTINCT\\
+COUNT(DISTINCT a) AS AccountCount
+\end{quote}
+\textit{Structure:} single\_hop, aggregation; relationships: OWN\_ACCOUNT; gates: RO/Syn/Schema/Exec/Judge.\par \textit{Result sample:} \{AccountCount: 1\}; observed rows: 1
+\item \textbf{FinBench / Simple Retrieval / easy.}
+\textit{Question:} Which accounts are owned by person 'Barry'?
+\begin{quote}\scriptsize\ttfamily\raggedright
+MATCH (p:Person \{personName:\\
+'Barry'\})-[:OWN\_ACCOUNT]-\textgreater{}(a:Account) RETURN DISTINCT\\
+a.accountId AS AccountId, a.accountType AS AccountType,\\
+a.isBlocked AS IsBlocked LIMIT 300
+\end{quote}
+\textit{Structure:} single\_hop, bounded\_result; relationships: OWN\_ACCOUNT; gates: RO/Syn/Schema/Exec/Judge.\par \textit{Result sample:} \{AccountId: 4732438783436260772, AccountType: internet account, IsBlocked: False\}; observed rows: 1
+\item \textbf{SNB / Boolean Existence / medium.}
+\textit{Question:} Does person with id 6597069766828 like any post?
+\begin{quote}\scriptsize\ttfamily\raggedright
+MATCH (p:Person \{id: 6597069766828\}) OPTIONAL MATCH\\
+(p)-[:LIKES]-\textgreater{}(post:Post) RETURN DISTINCT COUNT(post) \textgreater{} 0 AS\\
+LikesAnyPost
+\end{quote}
+\textit{Structure:} single\_hop, aggregation, optional; relationships: LIKES; gates: RO/Syn/Schema/Exec/Judge.\par \textit{Result sample:} \{LikesAnyPost: True\}; observed rows: 1
+\item \textbf{SNB / Complex Aggregation / medium.}
+\textit{Question:} How many distinct posts are in forums joined by person with id 6597069766845?
+\begin{quote}\scriptsize\ttfamily\raggedright
+MATCH (forum:Forum)-[:HAS\_MEMBER]-\textgreater{}(p:Person \{id:\\
+6597069766845\}) MATCH (forum)-[:CONTAINER\_OF]-\textgreater{}(post:Post)\\
+RETURN DISTINCT COUNT(DISTINCT post) AS JoinedForumPostCount
+\end{quote}
+\textit{Structure:} join\_heavy, aggregation; relationships: CONTAINER\_OF, HAS\_MEMBER; gates: RO/Syn/Schema/Exec/Judge.\par \textit{Result sample:} \{JoinedForumPostCount: 1\}; observed rows: 1
+\item \textbf{SNB / Complex Retrieval / easy.}
+\textit{Question:} Which people are members of forums containing posts tagged 'Manuel\_Noriega'?
+\begin{quote}\scriptsize\ttfamily\raggedright
+MATCH (forum:Forum)-[:HAS\_MEMBER]-\textgreater{}(p:Person),\\
+(forum)-[:CONTAINER\_OF]-\textgreater{}(post:Post)-[:HAS\_TAG]-\textgreater{}(tag:Tag \{name:\\
+'Manuel\_Noriega'\}) RETURN DISTINCT p.id AS PersonId LIMIT 200
+\end{quote}
+\textit{Structure:} join\_heavy, bounded\_result; relationships: CONTAINER\_OF, HAS\_MEMBER, HAS\_TAG; gates: RO/Syn/Schema/Exec/Judge.\par \textit{Result sample:} \{PersonId: 4398046511220\}; observed rows: 19
+\item \textbf{SNB / Negation Difference / medium.}
+\textit{Question:} Which members of forum 'Wall of Celso Oliveira' have not liked any post?
+\begin{quote}\scriptsize\ttfamily\raggedright
+MATCH (forum:Forum \{title: 'Wall of Celso\\
+Oliveira'\})-[:HAS\_MEMBER]-\textgreater{}(p:Person) WHERE NOT\\
+(p)-[:LIKES]-\textgreater{}(:Post) RETURN DISTINCT p.id AS PersonId,\\
+p.firstName AS FirstName, p.lastName AS LastName LIMIT 200
+\end{quote}
+\textit{Structure:} join\_heavy, negation, bounded\_result; relationships: HAS\_MEMBER, LIKES; gates: RO/Syn/Schema/Exec/Judge.\par \textit{Result sample:} \{FirstName: K., LastName: Sen, PersonId: 94\}; observed rows: 1
+\item \textbf{SNB / Path Temporal / easy.}
+\textit{Question:} Which people are within two knows hops of person with id 4398046511136?
+\begin{quote}\scriptsize\ttfamily\raggedright
+MATCH (src:Person \{id:\\
+4398046511136\})-[:KNOWS*1..2]-\textgreater{}(dst:Person) RETURN DISTINCT\\
+dst.id AS PersonId, dst.firstName AS FirstName, dst.lastName AS\\
+LastName LIMIT 200
+\end{quote}
+\textit{Structure:} single\_hop, path, bounded\_result; relationships: KNOWS; gates: RO/Syn/Schema/Exec/Judge.\par \textit{Result sample:} \{FirstName: Rafael, LastName: Fernández, PersonId: 4398046511333\}; observed rows: 25
+\item \textbf{SNB / Ranking Topk / medium.}
+\textit{Question:} Among forums tagged 'James\_K.\_Polk', which forum has the most members?
+\begin{quote}\scriptsize\ttfamily\raggedright
+MATCH (forum:Forum)-[:HAS\_TAG]-\textgreater{}(tag:Tag \{name:\\
+'James\_K.\_Polk'\}) MATCH (forum)-[:HAS\_MEMBER]-\textgreater{}(person:Person)\\
+WITH forum, COUNT(DISTINCT person) AS memberCount RETURN\\
+DISTINCT forum.title AS ForumTitle, memberCount ORDER BY\\
+memberCount DESC LIMIT 1
+\end{quote}
+\textit{Structure:} join\_heavy, aggregation, order\_rank, bounded\_result; relationships: HAS\_MEMBER, HAS\_TAG; gates: RO/Syn/Schema/Exec/Judge.\par \textit{Result sample:} \{ForumTitle: Wall of Javed Khan, memberCount: 33\}; observed rows: 1
+\item \textbf{SNB / Simple Aggregation / easy.}
+\textit{Question:} How many posts are tagged 'Vietnam'?
+\begin{quote}\scriptsize\ttfamily\raggedright
+MATCH (post:Post)-[:HAS\_TAG]-\textgreater{}(tag:Tag \{name: 'Vietnam'\}) RETURN\\
+DISTINCT COUNT(DISTINCT post) AS PostCount
+\end{quote}
+\textit{Structure:} single\_hop, aggregation; relationships: HAS\_TAG; gates: RO/Syn/Schema/Exec/Judge.\par \textit{Result sample:} \{PostCount: 1\}; observed rows: 1
+\item \textbf{SNB / Simple Retrieval / easy.}
+\textit{Question:} Which post IDs did person with id 4398046511124 like?
+\begin{quote}\scriptsize\ttfamily\raggedright
+MATCH (p:Person \{id: 4398046511124\})-[:LIKES]-\textgreater{}(post:Post)\\
+RETURN DISTINCT post.id AS PostId LIMIT 200
+\end{quote}
+\textit{Structure:} single\_hop, bounded\_result; relationships: LIKES; gates: RO/Syn/Schema/Exec/Judge.\par \textit{Result sample:} \{PostId: 343597385744\}; observed rows: 5
+\end{enumerate}
