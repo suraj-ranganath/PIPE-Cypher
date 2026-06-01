@@ -272,8 +272,9 @@ From the local repo, use the read-only remote monitor without fetching partial
 artifacts. The queue monitor covers the completed target-50 suite, the active
 target-100 suite, and the queued seeded target-50 repeat, including their
 different remote roots. It also prints
-`next_action` and a safe `collection_command` with `--wait-session` for each
-suite:
+`next_action` and a safe `collection_command` with `--wait-session` for active
+or waiting suites. Already collected paper-ready suites report
+`collection_command=not_applicable`:
 
 ```bash
 python scripts/monitor_remote_ablation_queue.py \

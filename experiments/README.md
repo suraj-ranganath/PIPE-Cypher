@@ -73,7 +73,8 @@ For paper-facing ablations, target-50 is the minimum scale and target-100 or
 repeated target-50 is preferred when compute permits. The active remote queue is
 tracked in `remote_ablation_queue.yaml` and can be monitored without fetching
 partial artifacts. The monitor prints each suite's `next_action` and safe
-`collection_command`:
+`collection_command`; already collected paper-ready suites report
+`collection_command=not_applicable`:
 
 Repeated suites should set `RUN_SEED` and include the seed in `RUN_PREFIX`.
 Seeded ablation launches pass the seed into `run_pipeline.py --random-seed` and

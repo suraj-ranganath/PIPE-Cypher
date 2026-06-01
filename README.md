@@ -348,8 +348,8 @@ python scripts/compare_ablation_suites.py \
 
 To monitor the completed target-50 suite, active target-100 suite, and any
 queued repeated-seed suites in one read-only command, including each suite's
-`next_action` and safe
-`collection_command`:
+`next_action` and safe `collection_command`. Already collected paper-ready
+suites report `collection_command=not_applicable` so they are not fetched twice:
 
 ```bash
 python scripts/monitor_remote_ablation_queue.py \

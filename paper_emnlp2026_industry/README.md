@@ -81,7 +81,8 @@ also not paper evidence until collected and audited.
 
 While a remote suite is running, inspect progress without copying partial
 artifacts. The queue monitor prints each suite's `next_action` and safe
-`collection_command`:
+`collection_command`; already collected paper-ready suites report
+`collection_command=not_applicable`:
 
 ```bash
 python scripts/monitor_remote_ablation_queue.py \

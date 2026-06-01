@@ -108,6 +108,8 @@ def monitor_suite_from_config(suite: dict[str, Any], *, dry_run: bool = False) -
 
 def infer_suite_state(report: dict[str, Any]) -> str:
     if report["completed_cells"] == report["expected_cells"] and report["expected_cells"]:
+        if is_configured_collected(report):
+            return "complete_collected"
         return "complete"
     if report["observed_cells"] == 0 and report.get("session_running"):
         return "queued_or_waiting"
@@ -120,6 +122,8 @@ def infer_suite_state(report: dict[str, Any]) -> str:
 
 def infer_next_action(report: dict[str, Any]) -> str:
     state = report["suite_state"]
+    if state == "complete_collected":
+        return "no_action_required_already_collected"
     if state == "complete":
         return "collect_and_run_readiness_audit"
     if state == "running":
@@ -131,7 +135,14 @@ def infer_next_action(report: dict[str, Any]) -> str:
     return "verify_remote_root_or_launch_session"
 
 
+def is_configured_collected(report: dict[str, Any]) -> bool:
+    configured_status = str(report.get("configured_status", "")).lower()
+    return "collected" in configured_status or "paper_ready" in configured_status
+
+
 def build_collection_command(report: dict[str, Any]) -> str:
+    if report.get("next_action") == "no_action_required_already_collected":
+        return ""
     parts = [
         "python",
         "scripts/collect_remote_ablation_suite.py",
@@ -151,7 +162,9 @@ def build_collection_command(report: dict[str, Any]) -> str:
 def build_queue_report(reports: list[dict[str, Any]]) -> dict[str, Any]:
     return {
         "suite_count": len(reports),
-        "complete_suites": sum(1 for report in reports if report["suite_state"] == "complete"),
+        "complete_suites": sum(
+            1 for report in reports if report["suite_state"] in {"complete", "complete_collected"}
+        ),
         "running_suites": sum(1 for report in reports if report["suite_state"] == "running"),
         "queued_or_waiting_suites": sum(
             1 for report in reports if report["suite_state"] == "queued_or_waiting"
@@ -186,7 +199,10 @@ def format_queue_text(queue_report: dict[str, Any]) -> str:
             lines.append(f"run_seed={report['run_seed']}")
         if report.get("notes"):
             lines.append(f"notes={report['notes']}")
-        lines.append(f"collection_command={report['collection_command']}")
+        if report.get("collection_command"):
+            lines.append(f"collection_command={report['collection_command']}")
+        else:
+            lines.append("collection_command=not_applicable")
         lines.append(format_progress_text(report))
         lines.append("")
     return "\n".join(lines).rstrip()

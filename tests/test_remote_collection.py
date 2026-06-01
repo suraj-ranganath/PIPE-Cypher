@@ -310,3 +310,47 @@ def test_queue_report_marks_queued_and_running_suites():
     assert "next_action=wait_for_dependency_or_session_start" in text
     assert "collection_command=python scripts/collect_remote_ablation_suite.py" in text
     assert "remote_root=/remote/target50" in text
+
+
+def test_queue_report_marks_already_collected_suite_without_collection_action():
+    collected = build_progress_report(
+        [
+            {
+                "run": "20260601_ablation50_qwen9b_snb_full_pipe_cypher",
+                "records": 400,
+                "summary_present": True,
+            }
+        ],
+        run_prefix="20260601_ablation50_qwen9b",
+        target_per_category=50,
+        category_count=8,
+        expected_graphs=["snb"],
+        expected_variants=["full_pipe_cypher"],
+        session="target50",
+        session_running=False,
+    )
+    collected.update(
+        {
+            "name": "target50",
+            "remote_root": "/remote/target50",
+            "configured_status": "complete_collected_paper_ready",
+            "generation_model": "Qwen/Qwen3.5-9B",
+            "judge_model": "Qwen/Qwen3.5-9B",
+            "run_seed": "",
+            "code_revision": "abc123",
+            "notes": "already audited",
+        }
+    )
+    collected["suite_state"] = infer_suite_state(collected)
+    collected["next_action"] = infer_next_action(collected)
+    collected["collection_command"] = build_collection_command(collected)
+
+    report = build_queue_report([collected])
+    text = format_queue_text(report)
+
+    assert report["complete_suites"] == 1
+    assert collected["suite_state"] == "complete_collected"
+    assert collected["next_action"] == "no_action_required_already_collected"
+    assert collected["collection_command"] == ""
+    assert "state=complete_collected configured_status=complete_collected_paper_ready" in text
+    assert "collection_command=not_applicable" in text
