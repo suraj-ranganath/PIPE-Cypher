@@ -257,6 +257,15 @@ python scripts/summarize_live_ablation_suite.py \
 The summarizer refuses to render a LaTeX paper table from incomplete suites
 unless explicitly overridden for internal diagnostics.
 
+Render an appendix-ready ablation figure only after the suite summary is
+complete:
+
+```bash
+python scripts/render_ablation_suite_figure.py \
+  --suite-summary experiments/snapshots/20260601_ablation25_qwen9b_retry1/ablation_suite_summary.json \
+  --output paper_emnlp2026_industry/figures/ablation_suite_target25.pdf
+```
+
 Estimate whether the built-in seeds can support the full category targets before launching long runs:
 
 ```bash

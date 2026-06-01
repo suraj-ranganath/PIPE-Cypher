@@ -54,6 +54,16 @@ python scripts/summarize_live_ablation_suite.py \
 Only after the suite is complete and claim/evidence audited should it be
 rendered into `tables_ablation_results.tex`.
 
+The matching ablation figure is also generated separately, not by the default
+paper-figure script, so partial ablation evidence is not accidentally pulled
+into the manuscript:
+
+```bash
+python scripts/render_ablation_suite_figure.py \
+  --suite-summary experiments/snapshots/20260601_ablation25_qwen9b/ablation_suite_summary.json \
+  --output paper_emnlp2026_industry/figures/ablation_suite_target25.pdf
+```
+
 Regenerate the diversity table and appendix figures from the project root:
 
 ```bash
