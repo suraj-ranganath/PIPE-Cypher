@@ -1,0 +1,28 @@
+{
+  "adjudication_template": {
+    "path": "artifacts/audits/20260601_full_qwen9b_judge_audit_v2_annotation/20260601_full_qwen9b_judge_audit_v2_adjudication.csv",
+    "sha256": "f6baf8206f7f97486495c3bd6aa876599d46f335e752b81844fadebfe8513565"
+  },
+  "annotator_sheets": [
+    {
+      "annotator": "annotator_a",
+      "path": "artifacts/audits/20260601_full_qwen9b_judge_audit_v2_annotation/20260601_full_qwen9b_judge_audit_v2_annotator_a.csv",
+      "sha256": "ddb49ee294ce30ac236a4365fa8883d42399f7e3c706084966443e556a99161d"
+    },
+    {
+      "annotator": "annotator_b",
+      "path": "artifacts/audits/20260601_full_qwen9b_judge_audit_v2_annotation/20260601_full_qwen9b_judge_audit_v2_annotator_b.csv",
+      "sha256": "08154e2b0a48e6256c4bd2cb69698a348fff38ed84bbb79acde36b05a9b53b87"
+    }
+  ],
+  "audit_csv": "artifacts/audits/20260601_full_qwen9b_judge_audit_v2.csv",
+  "audit_sha256": "59d1be5a1a946fd2141cf5d5d1b735a82eb9ef18db7018f6cbcb049953b3eeea",
+  "include_judge_accept": true,
+  "instructions": "Each annotator fills only human_accept and human_notes in their own sheet. Preserve both raw annotator sheets, then use the adjudication template to record final adjudicated_accept labels before copying final labels into the audit CSV.",
+  "label_status": "unlabeled",
+  "output_dir": "artifacts/audits/20260601_full_qwen9b_judge_audit_v2_annotation",
+  "prefix": "20260601_full_qwen9b_judge_audit_v2",
+  "ready_for_calibration": false,
+  "row_count": 80,
+  "seed": 17
+}

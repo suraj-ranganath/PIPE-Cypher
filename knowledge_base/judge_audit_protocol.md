@@ -46,6 +46,14 @@ Preferred labeling design:
    pipeline, not against assumptions about the data generator that are absent
    from the candidate record.
 
+The repository now provides deterministic sidecar sheet generation for this
+design. The generated annotator sheets keep `human_accept` and `human_notes`
+blank, preserve source row IDs, and shuffle row order independently per
+annotator. The generated adjudication template preserves the raw annotator
+columns plus a final adjudicated label column. These files live under ignored
+`artifacts/`; the tracked manifest records hashes and row counts without
+committing raw enterprise values.
+
 Minimum acceptable paper evidence:
 
 - all 80 rows labeled, or an explicit reason and coverage table if any row is
@@ -95,6 +103,20 @@ python scripts/render_judge_audit_packet.py \
   --output-json experiments/snapshots/20260601_live_full_qwen9b/judge_audit_packet_v2.json \
   --output-tex paper_emnlp2026_industry/tables_judge_audit_coverage.tex
 ```
+
+To create two independent annotator CSVs, an adjudication template, and a
+tracked hash manifest:
+
+```bash
+python scripts/create_judge_annotation_sheets.py \
+  --audit artifacts/audits/20260601_full_qwen9b_judge_audit_v2.csv \
+  --output-dir artifacts/audits/20260601_full_qwen9b_judge_audit_v2_annotation \
+  --prefix 20260601_full_qwen9b_judge_audit_v2 \
+  --manifest-json experiments/snapshots/20260601_live_full_qwen9b/judge_annotation_sheets_manifest.json
+```
+
+Use `--blind-judge` only for a separately reported blinded audit variant; the
+default sheet includes `judge_accept`, matching the current protocol.
 
 After labels are filled, require labels and save the output:
 

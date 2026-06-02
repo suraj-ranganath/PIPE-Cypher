@@ -4,12 +4,46 @@ import csv
 import hashlib
 import html
 import json
+import random
 import re
 from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
 from .calibration import analyze_audit_csv, summarize_audit_csv
+
+ANNOTATOR_FIELDS = [
+    "review_order",
+    "id",
+    "graph_profile",
+    "judge_accept",
+    "human_accept",
+    "category",
+    "difficulty",
+    "primary_strategy",
+    "question",
+    "cypher",
+    "judge_failure_reason",
+    "human_notes",
+]
+
+ADJUDICATION_FIELDS = [
+    "id",
+    "graph_profile",
+    "judge_accept",
+    "annotator_a_accept",
+    "annotator_a_notes",
+    "annotator_b_accept",
+    "annotator_b_notes",
+    "adjudicated_accept",
+    "adjudication_notes",
+    "category",
+    "difficulty",
+    "primary_strategy",
+    "question",
+    "cypher",
+    "judge_failure_reason",
+]
 
 
 def load_audit_rows(path: str | Path) -> list[dict[str, str]]:
@@ -43,6 +77,70 @@ def audit_packet_snapshot(path: str | Path, *, html_path: str | Path | None = No
         ),
     }
     return snapshot
+
+
+def write_annotation_sheets(
+    path: str | Path,
+    output_dir: str | Path,
+    *,
+    prefix: str = "judge_audit",
+    annotators: tuple[str, ...] = ("annotator_a", "annotator_b"),
+    seed: int = 17,
+    include_judge_accept: bool = True,
+) -> dict[str, Any]:
+    """Create independent annotation CSVs plus an adjudication template.
+
+    The sheets intentionally leave `human_accept` blank. They operationalize the
+    post-hoc human audit without converting human review into a generation gate.
+    """
+
+    audit_path = Path(path)
+    rows = load_audit_rows(audit_path)
+    out_dir = Path(output_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    annotator_paths = []
+    for annotator in annotators:
+        safe_name = _safe_filename(annotator)
+        output = out_dir / f"{prefix}_{safe_name}.csv"
+        ordered = list(rows)
+        random.Random(f"{seed}:{annotator}").shuffle(ordered)
+        _write_annotator_sheet(
+            ordered,
+            output,
+            include_judge_accept=include_judge_accept,
+        )
+        annotator_paths.append(
+            {"annotator": annotator, "path": str(output), "sha256": _sha256(output)}
+        )
+
+    adjudication_path = out_dir / f"{prefix}_adjudication.csv"
+    _write_adjudication_template(
+        rows,
+        adjudication_path,
+        include_judge_accept=include_judge_accept,
+    )
+    snapshot = audit_packet_snapshot(audit_path)
+    return {
+        "audit_csv": str(audit_path),
+        "audit_sha256": _sha256(audit_path),
+        "output_dir": str(out_dir),
+        "prefix": prefix,
+        "seed": seed,
+        "include_judge_accept": include_judge_accept,
+        "row_count": len(rows),
+        "label_status": snapshot["label_status"],
+        "ready_for_calibration": snapshot["ready_for_calibration"],
+        "annotator_sheets": annotator_paths,
+        "adjudication_template": {
+            "path": str(adjudication_path),
+            "sha256": _sha256(adjudication_path),
+        },
+        "instructions": (
+            "Each annotator fills only human_accept and human_notes in their own sheet. "
+            "Preserve both raw annotator sheets, then use the adjudication template to "
+            "record final adjudicated_accept labels before copying final labels into the audit CSV."
+        ),
+    }
 
 
 def render_audit_html(path: str | Path, *, title: str = "PIPE-Cypher Judge Audit") -> str:
@@ -155,6 +253,68 @@ def _sha256(path: Path) -> str:
         for chunk in iter(lambda: f.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def _write_annotator_sheet(
+    rows: list[dict[str, str]],
+    output: Path,
+    *,
+    include_judge_accept: bool,
+) -> None:
+    fields = (
+        ANNOTATOR_FIELDS
+        if include_judge_accept
+        else [f for f in ANNOTATOR_FIELDS if f != "judge_accept"]
+    )
+    with output.open("w", encoding="utf-8", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=fields)
+        writer.writeheader()
+        for index, row in enumerate(rows):
+            out = {field: row.get(field, "") for field in fields if field != "review_order"}
+            out["review_order"] = str(index)
+            out["human_accept"] = ""
+            out["human_notes"] = ""
+            writer.writerow(out)
+
+
+def _write_adjudication_template(
+    rows: list[dict[str, str]],
+    output: Path,
+    *,
+    include_judge_accept: bool,
+) -> None:
+    fields = (
+        ADJUDICATION_FIELDS
+        if include_judge_accept
+        else [f for f in ADJUDICATION_FIELDS if f != "judge_accept"]
+    )
+    with output.open("w", encoding="utf-8", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=fields)
+        writer.writeheader()
+        for row in rows:
+            writer.writerow(
+                {
+                    field: (
+                        ""
+                        if field
+                        in {
+                            "annotator_a_accept",
+                            "annotator_a_notes",
+                            "annotator_b_accept",
+                            "annotator_b_notes",
+                            "adjudicated_accept",
+                            "adjudication_notes",
+                        }
+                        else row.get(field, "")
+                    )
+                    for field in fields
+                }
+            )
+
+
+def _safe_filename(value: str) -> str:
+    safe = re.sub(r"[^A-Za-z0-9_.-]+", "_", value.strip())
+    return safe.strip("._") or "annotator"
 
 
 def _e(value: Any) -> str:
