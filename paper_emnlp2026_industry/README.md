@@ -6,6 +6,13 @@ Core claim: PIPE-Cypher is a local-model, execution-grounded, Cypher-specific pi
 
 Page accounting: for the EMNLP Industry submission, the counted main paper is at most 6 pages and `Conclusion` must end by the end of page 6. `Limitations`, ethical considerations, references, and appendices are excluded from this limit. The appendix should carry full ablations, diversity diagnostics, failure analysis, graph/category breakdowns, judge calibration material, reproducibility details, and examples.
 
+After rebuilding the ACL-style draft, audit the page accounting from the project root:
+
+```bash
+python scripts/audit_emnlp_page_budget.py \
+  --pdf paper_emnlp2026_industry/main_acl.pdf
+```
+
 Files:
 
 - `paper.md`: current paper draft for rapid editing.

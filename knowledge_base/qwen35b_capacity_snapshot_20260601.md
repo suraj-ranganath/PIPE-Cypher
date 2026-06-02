@@ -1,6 +1,6 @@
 # Qwen3.5-35B-A3B Capacity Snapshot
 
-Date checked: June 2, 2026 00:33 UTC on ds-serv6.
+Date checked: June 2, 2026 01:02 UTC on ds-serv6.
 
 Command:
 
