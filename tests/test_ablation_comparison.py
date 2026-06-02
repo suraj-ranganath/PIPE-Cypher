@@ -9,12 +9,13 @@ from pipecypher.ablation_comparison import (
     compare_ablation_suites,
     format_ablation_suite_comparison_csv,
     format_ablation_suite_comparison_markdown,
+    format_ablation_suite_comparison_tex,
 )
 
 
 def test_compare_ablation_suites_preserves_seed_metadata_and_cell_variation(tmp_path: Path):
     first = _write_summary(
-        tmp_path / "suite_a.json",
+        tmp_path / "suite_a" / "ablation_suite_summary.json",
         run_prefix="suite_a",
         run_seed="",
         accepted=400,
@@ -23,7 +24,7 @@ def test_compare_ablation_suites_preserves_seed_metadata_and_cell_variation(tmp_
         judge_rate=0.85,
     )
     second = _write_summary(
-        tmp_path / "suite_b.json",
+        tmp_path / "suite_b" / "ablation_suite_summary.json",
         run_prefix="suite_b_seed17",
         run_seed="17",
         accepted=420,
@@ -36,7 +37,10 @@ def test_compare_ablation_suites_preserves_seed_metadata_and_cell_variation(tmp_
 
     assert report["suite_count"] == 2
     assert report["complete_suite_count"] == 2
+    assert report["evidence_ready_suite_count"] == 2
     assert report["suites"][1]["run_seed"] == "17"
+    assert report["suites"][1]["target_records"] == 800
+    assert report["suites"][1]["evidence_ready"] is True
     assert len(report["cells"]) == 1
     cell = report["cells"][0]
     assert cell["graph"] == "finbench"
@@ -44,17 +48,57 @@ def test_compare_ablation_suites_preserves_seed_metadata_and_cell_variation(tmp_
     assert cell["accepted"]["mean"] == 410
     assert cell["accepted"]["min"] == 400
     assert cell["accepted"]["max"] == 420
+    assert cell["target_coverage"]["mean"] == pytest.approx((400 / 400 + 420 / 800) / 2)
+    assert cell["category_target_share"]["mean"] == 1.0
     assert cell["accept_rate"]["mean"] == pytest.approx(0.82)
     assert cell["gate_rates"]["execution_success"]["mean"] == pytest.approx(0.925)
     assert cell["gate_rates"]["judge_pass"]["mean"] == pytest.approx(0.875)
 
     markdown = format_ablation_suite_comparison_markdown(report)
     csv_text = format_ablation_suite_comparison_csv(report)
+    tex = format_ablation_suite_comparison_tex(report)
 
     assert "suite_b_seed17" in markdown
-    assert "| finbench | Full PIPE-Cypher | 2 | 410.0 | 400-420 | 0.820" in markdown
-    assert "graph,variant,variant_label,suite_count" in csv_text
+    assert "| suite_b_seed17 | 100 | 800 | 17 | yes | yes |" in markdown
+    assert "| finbench | Full PIPE-Cypher | 2 | 0.762 | 0.525-1.000 | 0.820" in markdown
+    assert "graph,variant,variant_label,suite_count,compared_suite_count" in csv_text
+    assert "target_coverage_mean" in csv_text
     assert "full_pipe_cypher" in csv_text
+    assert r"\label{tab:ablation_suite_comparison}" in tex
+    assert r"Full PIPE-Cypher & FinBench & 2/2" in tex
+
+
+def test_compare_ablation_suites_reports_missing_cells_and_missing_evidence(tmp_path: Path):
+    first = _write_summary(
+        tmp_path / "suite_a" / "ablation_suite_summary.json",
+        run_prefix="suite_a",
+        run_seed="",
+        accepted=400,
+        accept_rate=0.8,
+        execution_rate=0.9,
+        judge_rate=0.85,
+    )
+    second = _write_summary(
+        tmp_path / "suite_b" / "ablation_suite_summary.json",
+        run_prefix="suite_b",
+        run_seed="",
+        accepted=0,
+        accept_rate=0.0,
+        execution_rate=0.0,
+        judge_rate=0.0,
+        include_run=False,
+        write_evidence=False,
+    )
+
+    report = compare_ablation_suites([first, second])
+
+    assert report["evidence_ready_suite_count"] == 1
+    assert report["suites"][1]["evidence_ready"] is False
+    cell = report["cells"][0]
+    assert cell["suite_count"] == 1
+    assert cell["compared_suite_count"] == 2
+    assert cell["missing_suite_count"] == 1
+    assert cell["missing_suite_prefixes"] == ["suite_b"]
 
 
 def _write_summary(
@@ -66,11 +110,16 @@ def _write_summary(
     accept_rate: float,
     execution_rate: float,
     judge_rate: float,
+    include_run: bool = True,
+    write_evidence: bool = True,
 ) -> Path:
+    path.parent.mkdir(parents=True, exist_ok=True)
     summary = {
-        "target_per_category": 50,
+        "target_per_category": 100 if run_seed else 50,
         "category_count": 8,
-        "all_runs_finished": True,
+        "expected_graphs": ["finbench"],
+        "expected_variants": ["full_pipe_cypher"],
+        "all_runs_finished": include_run,
         "research_status": "paper-ready candidate",
         "metadata": {
             "run_prefix": run_prefix,
@@ -79,7 +128,9 @@ def _write_summary(
             "judge_model": "Qwen/Qwen3.5-9B",
             "code_revision": "abc123",
         },
-        "runs": [
+        "runs": []
+        if not include_run
+        else [
             {
                 "graph": "finbench",
                 "variant": "full_pipe_cypher",
@@ -99,4 +150,11 @@ def _write_summary(
         ],
     }
     path.write_text(json.dumps(summary), encoding="utf-8")
+    if write_evidence:
+        (path.parent / "ablation_suite_audit.json").write_text(
+            json.dumps({"paper_ready": True}), encoding="utf-8"
+        )
+        (path.parent / "collection_manifest.json").write_text(
+            json.dumps({"run_prefix": run_prefix}), encoding="utf-8"
+        )
     return path

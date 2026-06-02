@@ -174,7 +174,9 @@ python scripts/render_ablation_suite_figure.py \
 ```
 
 For target-size or repeated-seed sensitivity, compare collected suite summaries
-before writing variance claims:
+before writing variance claims. The comparison report uses target-normalized
+coverage, so target-50 and target-100 suites can be compared without treating
+larger raw accepted counts as quality gains:
 
 ```bash
 python scripts/compare_ablation_suites.py \
@@ -182,8 +184,14 @@ python scripts/compare_ablation_suites.py \
   experiments/snapshots/<suite-b>/ablation_suite_summary.json \
   --output-json experiments/snapshots/ablation_suite_comparison.json \
   --output-md experiments/snapshots/ablation_suite_comparison.md \
-  --output-csv experiments/snapshots/ablation_suite_comparison.csv
+  --output-csv experiments/snapshots/ablation_suite_comparison.csv \
+  --output-tex paper_emnlp2026_industry/tables_ablation_comparison.tex
 ```
+
+The `--output-tex` path is guarded: it refuses to render from fewer than two
+suites or from suites without sibling `ablation_suite_audit.json` and
+`collection_manifest.json` evidence. Use `--allow-diagnostic-tex` only for
+internal layout checks, not for paper reporting.
 
 Regenerate the diversity table and appendix figures from the project root:
 

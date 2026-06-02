@@ -249,6 +249,29 @@ python scripts/collect_remote_ablation_suite.py \
   --poll-seconds 60
 ```
 
+## Target-Size And Seed Sensitivity Comparison
+
+After target-100 or the seeded target-50 repeat has completed, been collected,
+and passed its paper-readiness audit, compare it against the collected
+target-50 suite before writing variance or sensitivity claims:
+
+```bash
+python scripts/compare_ablation_suites.py \
+  experiments/snapshots/20260601_ablation50_qwen9b/ablation_suite_summary.json \
+  experiments/snapshots/20260601_ablation100_qwen9b/ablation_suite_summary.json \
+  experiments/snapshots/20260601_ablation50_qwen9b_seed17/ablation_suite_summary.json \
+  --output-json experiments/snapshots/ablation_suite_comparison.json \
+  --output-md experiments/snapshots/ablation_suite_comparison.md \
+  --output-csv experiments/snapshots/ablation_suite_comparison.csv \
+  --output-tex paper_emnlp2026_industry/tables_ablation_comparison.tex
+```
+
+The comparison uses target-normalized coverage rather than raw accepted counts,
+so target-100 is not treated as better merely because it contains more planned
+examples. The LaTeX output is guarded and refuses to render unless at least two
+suites have sibling `ablation_suite_audit.json` and `collection_manifest.json`
+evidence; use `--allow-diagnostic-tex` only for internal layout checks.
+
 ## Monitoring Commands
 
 ```bash
