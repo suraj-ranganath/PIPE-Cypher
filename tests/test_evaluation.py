@@ -1,4 +1,4 @@
-from pipecypher.evaluation import answer_set_scores, summarize_evaluation_rows
+from pipecypher.evaluation import answer_rows_to_text, answer_set_scores, summarize_evaluation_rows
 
 
 def test_answer_set_scores_exact():
@@ -21,6 +21,11 @@ def test_answer_set_scores_ignores_single_scalar_alias():
     assert scores.f1 == 1.0
 
 
+def test_answer_rows_to_text_serializes_result_sets_stably():
+    text = answer_rows_to_text([{"b": 2, "a": 1}, {"count": 3}])
+    assert text == "_scalar=3 | a=1; b=2"
+
+
 def test_summarize_evaluation_rows_groups_core_metrics():
     rows = [
         {
@@ -33,6 +38,8 @@ def test_summarize_evaluation_rows_groups_core_metrics():
             "execution_success": True,
             "execution_accuracy": True,
             "answer_f1": 1.0,
+            "answer_text_rougeL_f1": 1.0,
+            "query_text_bleu": 0.8,
         },
         {
             "graph_profile": "finbench",
@@ -44,10 +51,14 @@ def test_summarize_evaluation_rows_groups_core_metrics():
             "execution_success": False,
             "execution_accuracy": False,
             "answer_f1": 0.0,
+            "answer_text_rougeL_f1": 0.0,
+            "query_text_bleu": 0.2,
         },
     ]
     summary = summarize_evaluation_rows(rows)
     assert summary["overall"]["n"] == 2
     assert summary["overall"]["execution_accuracy"] == 0.5
     assert summary["by_graph"]["finbench"]["answer_f1"] == 0.5
+    assert summary["overall"]["answer_text_rougeL_f1"] == 0.5
+    assert summary["overall"]["query_text_bleu"] == 0.5
     assert summary["by_category"]["ranking_topk"]["schema_valid"] == 0.0

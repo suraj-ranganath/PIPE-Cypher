@@ -25,11 +25,27 @@ def load_jsonl(path: str) -> list[dict]:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Evaluate predicted Cypher against PIPE-Cypher records")
+    parser = argparse.ArgumentParser(
+        description="Evaluate predicted Cypher against PIPE-Cypher records"
+    )
     parser.add_argument("--config", required=True)
     parser.add_argument("--gold", required=True, help="PIPE-Cypher records JSONL")
-    parser.add_argument("--predictions", required=True, help="JSONL with question and predicted_cypher")
+    parser.add_argument(
+        "--predictions",
+        required=True,
+        help="JSONL with question and predicted_cypher",
+    )
     parser.add_argument("--output", required=True)
+    parser.add_argument(
+        "--disable-text-metrics",
+        action="store_true",
+        help="Skip supplementary ROUGE/BLEU/METEOR/cosine/Jaro-Winkler/exact-match metrics",
+    )
+    parser.add_argument(
+        "--optional-text-metrics",
+        action="store_true",
+        help="Also attempt optional BERTScore and FrugalScore integrations when installed",
+    )
     args = parser.parse_args()
 
     cfg = load_config(args.config)
@@ -55,6 +71,8 @@ def main() -> None:
                 predicted_cypher=pred["predicted_cypher"],
                 schema=schema,
                 client=client,
+                include_text_metrics=not args.disable_text_metrics,
+                include_optional_text_metrics=args.optional_text_metrics,
             )
         )
     out = Path(args.output)
@@ -69,4 +87,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

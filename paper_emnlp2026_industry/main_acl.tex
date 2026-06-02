@@ -58,6 +58,8 @@ For arbitrary enterprise onboarding, PIPE-Cypher includes a deployment template 
 \section{Experiments}
 The generated benchmark contains 3,000 accepted examples: 2,000 from LDBC FinBench and 1,000 from LDBC SNB. Categories include simple retrieval, complex retrieval, simple aggregation, complex aggregation, boolean existence, negation/difference, path/temporal transaction, and ranking/top-k.
 
+Downstream Text2Cypher evaluation uses execution accuracy and answer-set precision/recall/F1 as primary correctness metrics. The benchmark evaluator also supports supplementary reference-based text metrics over serialized answer sets and query strings, including ROUGE, BLEU, METEOR, BERTScore, FrugalScore, cosine similarity, Jaro-Winkler similarity, and exact match; Appendix Table~\ref{tab:supported_text_metrics} lists the supported metrics and citations. We treat these as debugging and near-match diagnostics rather than substitutes for executable correctness.
+
 \input{tables_experiments}
 
 \section{Results}
@@ -107,6 +109,7 @@ PIPE-Cypher is designed for private benchmark generation under local-model deplo
 \input{tables_judge_audit_coverage}
 \input{tables_downstream_uncertainty}
 \input{tables_downstream_error_taxonomy}
+\input{tables_supported_text_metrics}
 \input{appendix_claim_evidence}
 \input{appendix_prompt_contracts}
 \input{appendix_example_cards}

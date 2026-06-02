@@ -32,6 +32,16 @@ def main() -> None:
     )
     parser.add_argument("--output", required=True)
     parser.add_argument("--summary-output", default="")
+    parser.add_argument(
+        "--disable-text-metrics",
+        action="store_true",
+        help="Skip supplementary ROUGE/BLEU/METEOR/cosine/Jaro-Winkler/exact-match metrics",
+    )
+    parser.add_argument(
+        "--optional-text-metrics",
+        action="store_true",
+        help="Also attempt optional BERTScore and FrugalScore integrations when installed",
+    )
     args = parser.parse_args()
 
     examples = read_jsonl(_benchmark_records_path(args.benchmark, args.split))
@@ -56,6 +66,8 @@ def main() -> None:
                 predicted_cypher=prediction.get("predicted_cypher", ""),
                 schema=schema,
                 client=client,
+                include_text_metrics=not args.disable_text_metrics,
+                include_optional_text_metrics=args.optional_text_metrics,
             )
             row.update(
                 {

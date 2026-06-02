@@ -103,7 +103,8 @@ Metrics:
 - execution success and non-empty result rates;
 - repair success and judge pass rates;
 - diversity over labels, relationships, properties, entities, templates, and difficulty;
-- downstream Text2Cypher execution accuracy and answer F1.
+- downstream Text2Cypher execution accuracy and answer F1;
+- supplementary reference-based text metrics over serialized answer sets and query strings: ROUGE, BLEU, METEOR, BERTScore, FrugalScore, cosine similarity, Jaro-Winkler similarity, and exact match. These are debugging and near-match diagnostics, not substitutes for executable correctness.
 
 ## 6 Results
 
