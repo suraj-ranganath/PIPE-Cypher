@@ -129,6 +129,15 @@ python scripts/evaluate_predictions.py \
   --output artifacts/evaluations/<model>_finbench.jsonl
 ```
 
+For the paper, downstream evaluation should be framed as a benchmark stress
+test: high parse/schema validity with low exact execution accuracy means the
+benchmark is exposing semantic graph-query failures rather than merely checking
+query formatting. The completed Qwen3.5-9B run is the anchor result. The next
+high-value extension is the multi-model transfer experiment in
+`downstream_model_transfer_plan.md`, which compares a general instruction model,
+a code-tuned model, and a Text2Cypher-finetuned model on the same fixed held-out
+split.
+
 ## Judge Calibration Audit
 
 The generation gate is automated, but the paper should include a small human audit

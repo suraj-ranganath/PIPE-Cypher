@@ -199,6 +199,9 @@ The main paper should stay tight, but the appendix can be long. Use the appendix
 - Large-scale follow-up work is part of the research obligation, not an optional cleanup pass. While the goal remains active, future agents should keep monitoring queued `ds-serv6` experiments, collect only completed suites, and prefer launching the next defensible scale increment when GPUs are free.
 - The appendix should make scale legible to reviewers: include the full ablation matrix, graph/category/difficulty counts, run-to-run sensitivity, uncertainty intervals, failure modes, and any excluded or failed cells with clear reasons. Do not hide weak cells by only reporting aggregate wins.
 - Downstream evaluation should be treated as a full-benchmark reliability study. When additional models or larger local-model endpoints become feasible, run them on the complete held-out split and report paired, slice-aware comparisons instead of isolated sample results.
+- Frame completed downstream Text2Cypher results as a benchmark stress test, not as evidence that the evaluated baseline model is strong. Low execution accuracy with high parse/schema validity supports the claim that PIPE-Cypher is hard and discriminative.
+- Prioritize a multi-model transfer stress test when compute permits: evaluate a general instruction local model, a code-tuned local model, and a Text2Cypher-finetuned local model on the same full held-out split. Report paired differences by graph, category, difficulty, and Cypher strategy before claiming that public Text2Cypher performance transfers or fails to transfer to enterprise-style graphs.
+- If multi-model transfer is weak, frame PIPE-Cypher as useful for generating private tenant-specific training and refresh data as well as evaluation data. Do not make this fine-tuning claim until a before/after training or adaptation experiment is completed on separated train/dev/test splits.
 
 ## Compute Notes
 
