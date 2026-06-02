@@ -1,0 +1,402 @@
+{
+  "by_primary_strategy": {
+    "aggregation": {
+      "avg_relationship_patterns": 1.4151111111111112,
+      "avg_result_rows_observed": 1.0,
+      "avg_return_arity": 1.0,
+      "downstream": {
+        "error_bucket_counts": {
+          "answer_mismatch": 0,
+          "exact": 44,
+          "execution_failed": 42,
+          "parse_invalid": 12,
+          "schema_invalid": 13
+        },
+        "examples": 111,
+        "execution_accuracy": 0.3963963963963964,
+        "execution_success": 0.3963963963963964
+      },
+      "examples": 1125,
+      "share": 0.375
+    },
+    "join_heavy": {
+      "avg_relationship_patterns": 2.3333333333333335,
+      "avg_result_rows_observed": 9.522666666666666,
+      "avg_return_arity": 2.3333333333333335,
+      "downstream": {
+        "error_bucket_counts": {
+          "answer_mismatch": 26,
+          "exact": 0,
+          "execution_failed": 0,
+          "parse_invalid": 0,
+          "schema_invalid": 11
+        },
+        "examples": 37,
+        "execution_accuracy": 0.0,
+        "execution_success": 0.7027027027027027
+      },
+      "examples": 375,
+      "share": 0.125
+    },
+    "negation": {
+      "avg_relationship_patterns": 2.082666666666667,
+      "avg_result_rows_observed": 2.032,
+      "avg_return_arity": 2.997333333333333,
+      "downstream": {
+        "error_bucket_counts": {
+          "answer_mismatch": 33,
+          "exact": 0,
+          "execution_failed": 0,
+          "parse_invalid": 0,
+          "schema_invalid": 4
+        },
+        "examples": 37,
+        "execution_accuracy": 0.0,
+        "execution_success": 0.8918918918918919
+      },
+      "examples": 375,
+      "share": 0.125
+    },
+    "order_rank": {
+      "avg_relationship_patterns": 1.9893333333333334,
+      "avg_result_rows_observed": 1.0,
+      "avg_return_arity": 3.3386666666666667,
+      "downstream": {
+        "error_bucket_counts": {
+          "answer_mismatch": 12,
+          "exact": 0,
+          "execution_failed": 25,
+          "parse_invalid": 0,
+          "schema_invalid": 0
+        },
+        "examples": 37,
+        "execution_accuracy": 0.0,
+        "execution_success": 0.32432432432432434
+      },
+      "examples": 375,
+      "share": 0.125
+    },
+    "path": {
+      "avg_relationship_patterns": 1.3653333333333333,
+      "avg_result_rows_observed": 14.549333333333333,
+      "avg_return_arity": 3.0,
+      "downstream": {
+        "error_bucket_counts": {
+          "answer_mismatch": 32,
+          "exact": 0,
+          "execution_failed": 5,
+          "parse_invalid": 0,
+          "schema_invalid": 0
+        },
+        "examples": 37,
+        "execution_accuracy": 0.0,
+        "execution_success": 0.8648648648648649
+      },
+      "examples": 375,
+      "share": 0.125
+    },
+    "single_hop": {
+      "avg_relationship_patterns": 1.0,
+      "avg_result_rows_observed": 3.0853333333333333,
+      "avg_return_arity": 2.3333333333333335,
+      "downstream": {
+        "error_bucket_counts": {
+          "answer_mismatch": 25,
+          "exact": 12,
+          "execution_failed": 0,
+          "parse_invalid": 0,
+          "schema_invalid": 0
+        },
+        "examples": 37,
+        "execution_accuracy": 0.32432432432432434,
+        "execution_success": 1.0
+      },
+      "examples": 375,
+      "share": 0.125
+    }
+  },
+  "categories": [
+    "boolean_existence",
+    "complex_aggregation",
+    "complex_retrieval",
+    "negation_difference",
+    "path_temporal",
+    "ranking_topk",
+    "simple_aggregation",
+    "simple_retrieval"
+  ],
+  "category_counts": {
+    "boolean_existence": 375,
+    "complex_aggregation": 375,
+    "complex_retrieval": 375,
+    "negation_difference": 375,
+    "path_temporal": 375,
+    "ranking_topk": 375,
+    "simple_aggregation": 375,
+    "simple_retrieval": 375
+  },
+  "category_strategy_counts": {
+    "boolean_existence": {
+      "aggregation": 375,
+      "bounded_result": 0,
+      "join_heavy": 92,
+      "negation": 0,
+      "optional": 125,
+      "order_rank": 0,
+      "path": 0,
+      "single_hop": 283
+    },
+    "complex_aggregation": {
+      "aggregation": 375,
+      "bounded_result": 0,
+      "join_heavy": 375,
+      "negation": 0,
+      "optional": 0,
+      "order_rank": 0,
+      "path": 0,
+      "single_hop": 0
+    },
+    "complex_retrieval": {
+      "aggregation": 0,
+      "bounded_result": 375,
+      "join_heavy": 375,
+      "negation": 0,
+      "optional": 0,
+      "order_rank": 0,
+      "path": 0,
+      "single_hop": 0
+    },
+    "negation_difference": {
+      "aggregation": 0,
+      "bounded_result": 375,
+      "join_heavy": 375,
+      "negation": 375,
+      "optional": 0,
+      "order_rank": 0,
+      "path": 0,
+      "single_hop": 0
+    },
+    "path_temporal": {
+      "aggregation": 0,
+      "bounded_result": 375,
+      "join_heavy": 137,
+      "negation": 0,
+      "optional": 0,
+      "order_rank": 0,
+      "path": 375,
+      "single_hop": 238
+    },
+    "ranking_topk": {
+      "aggregation": 375,
+      "bounded_result": 375,
+      "join_heavy": 371,
+      "negation": 0,
+      "optional": 0,
+      "order_rank": 375,
+      "path": 0,
+      "single_hop": 4
+    },
+    "simple_aggregation": {
+      "aggregation": 375,
+      "bounded_result": 0,
+      "join_heavy": 0,
+      "negation": 0,
+      "optional": 0,
+      "order_rank": 0,
+      "path": 0,
+      "single_hop": 375
+    },
+    "simple_retrieval": {
+      "aggregation": 0,
+      "bounded_result": 375,
+      "join_heavy": 0,
+      "negation": 0,
+      "optional": 0,
+      "order_rank": 0,
+      "path": 0,
+      "single_hop": 375
+    }
+  },
+  "category_strategy_rates": {
+    "boolean_existence": {
+      "aggregation": 1.0,
+      "bounded_result": 0.0,
+      "join_heavy": 0.24533333333333332,
+      "negation": 0.0,
+      "optional": 0.3333333333333333,
+      "order_rank": 0.0,
+      "path": 0.0,
+      "single_hop": 0.7546666666666667
+    },
+    "complex_aggregation": {
+      "aggregation": 1.0,
+      "bounded_result": 0.0,
+      "join_heavy": 1.0,
+      "negation": 0.0,
+      "optional": 0.0,
+      "order_rank": 0.0,
+      "path": 0.0,
+      "single_hop": 0.0
+    },
+    "complex_retrieval": {
+      "aggregation": 0.0,
+      "bounded_result": 1.0,
+      "join_heavy": 1.0,
+      "negation": 0.0,
+      "optional": 0.0,
+      "order_rank": 0.0,
+      "path": 0.0,
+      "single_hop": 0.0
+    },
+    "negation_difference": {
+      "aggregation": 0.0,
+      "bounded_result": 1.0,
+      "join_heavy": 1.0,
+      "negation": 1.0,
+      "optional": 0.0,
+      "order_rank": 0.0,
+      "path": 0.0,
+      "single_hop": 0.0
+    },
+    "path_temporal": {
+      "aggregation": 0.0,
+      "bounded_result": 1.0,
+      "join_heavy": 0.36533333333333334,
+      "negation": 0.0,
+      "optional": 0.0,
+      "order_rank": 0.0,
+      "path": 1.0,
+      "single_hop": 0.6346666666666667
+    },
+    "ranking_topk": {
+      "aggregation": 1.0,
+      "bounded_result": 1.0,
+      "join_heavy": 0.9893333333333333,
+      "negation": 0.0,
+      "optional": 0.0,
+      "order_rank": 1.0,
+      "path": 0.0,
+      "single_hop": 0.010666666666666666
+    },
+    "simple_aggregation": {
+      "aggregation": 1.0,
+      "bounded_result": 0.0,
+      "join_heavy": 0.0,
+      "negation": 0.0,
+      "optional": 0.0,
+      "order_rank": 0.0,
+      "path": 0.0,
+      "single_hop": 1.0
+    },
+    "simple_retrieval": {
+      "aggregation": 0.0,
+      "bounded_result": 1.0,
+      "join_heavy": 0.0,
+      "negation": 0.0,
+      "optional": 0.0,
+      "order_rank": 0.0,
+      "path": 0.0,
+      "single_hop": 1.0
+    }
+  },
+  "downstream_by_strategy": {
+    "aggregation": {
+      "error_bucket_counts": {
+        "answer_mismatch": 0,
+        "exact": 44,
+        "execution_failed": 42,
+        "parse_invalid": 12,
+        "schema_invalid": 13
+      },
+      "examples": 111,
+      "execution_accuracy": 0.3963963963963964,
+      "execution_success": 0.3963963963963964
+    },
+    "join_heavy": {
+      "error_bucket_counts": {
+        "answer_mismatch": 26,
+        "exact": 0,
+        "execution_failed": 0,
+        "parse_invalid": 0,
+        "schema_invalid": 11
+      },
+      "examples": 37,
+      "execution_accuracy": 0.0,
+      "execution_success": 0.7027027027027027
+    },
+    "negation": {
+      "error_bucket_counts": {
+        "answer_mismatch": 33,
+        "exact": 0,
+        "execution_failed": 0,
+        "parse_invalid": 0,
+        "schema_invalid": 4
+      },
+      "examples": 37,
+      "execution_accuracy": 0.0,
+      "execution_success": 0.8918918918918919
+    },
+    "order_rank": {
+      "error_bucket_counts": {
+        "answer_mismatch": 12,
+        "exact": 0,
+        "execution_failed": 25,
+        "parse_invalid": 0,
+        "schema_invalid": 0
+      },
+      "examples": 37,
+      "execution_accuracy": 0.0,
+      "execution_success": 0.32432432432432434
+    },
+    "path": {
+      "error_bucket_counts": {
+        "answer_mismatch": 32,
+        "exact": 0,
+        "execution_failed": 5,
+        "parse_invalid": 0,
+        "schema_invalid": 0
+      },
+      "examples": 37,
+      "execution_accuracy": 0.0,
+      "execution_success": 0.8648648648648649
+    },
+    "single_hop": {
+      "error_bucket_counts": {
+        "answer_mismatch": 25,
+        "exact": 12,
+        "execution_failed": 0,
+        "parse_invalid": 0,
+        "schema_invalid": 0
+      },
+      "examples": 37,
+      "execution_accuracy": 0.32432432432432434,
+      "execution_success": 1.0
+    }
+  },
+  "error_bucket_labels": {
+    "answer_mismatch": "Answer mismatch",
+    "exact": "Exact answer",
+    "execution_failed": "Execution failed",
+    "parse_invalid": "Parse invalid",
+    "schema_invalid": "Schema invalid"
+  },
+  "primary_strategy_counts": {
+    "aggregation": 1125,
+    "join_heavy": 375,
+    "negation": 375,
+    "order_rank": 375,
+    "path": 375,
+    "single_hop": 375
+  },
+  "strategies": [
+    "single_hop",
+    "join_heavy",
+    "aggregation",
+    "order_rank",
+    "negation",
+    "path",
+    "optional",
+    "bounded_result"
+  ],
+  "total_examples": 3000
+}

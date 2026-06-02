@@ -1,0 +1,20 @@
+\begin{table}[t]
+\centering
+\small
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lrrrrr}
+\toprule
+Primary strategy & Examples & Share & Rel. patterns & Return arity & Downstream exec. acc. \\
+\midrule
+Aggregation & 1125 & 0.375 & 1.42 & 1.00 & 0.396 \\
+Join-heavy & 375 & 0.125 & 2.33 & 2.33 & 0.000 \\
+Negation & 375 & 0.125 & 2.08 & 3.00 & 0.000 \\
+Order/rank & 375 & 0.125 & 1.99 & 3.34 & 0.000 \\
+Path & 375 & 0.125 & 1.37 & 3.00 & 0.000 \\
+Single hop & 375 & 0.125 & 1.00 & 2.33 & 0.324 \\
+\bottomrule
+\end{tabular}
+}
+\caption{Cypher strategy diagnostics over the full 3,000-example export. Strategy tags are derived from generated Cypher structure rather than from category labels; downstream execution accuracy is reported on the full held-out test split when a strategy appears there.}
+\label{tab:strategy_diagnostics}
+\end{table}

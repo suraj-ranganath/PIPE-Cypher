@@ -81,6 +81,7 @@ The generated benchmark contains 3,000 accepted examples: 2,000 from LDBC FinBen
 We report three completed ablation suites over FinBench and SNB: an initial target-50 suite, a corrected target-100 suite, and a seed-17 target-50 repeat. Each suite contains 14 graph/setting cells over unconstrained local generation, reverse-only generation, validators+repair, no retrieval, no rewrite, no LLM judge, and full PIPE-Cypher. All paper-reported ablations have collection manifests, model IDs, code revisions, run summaries, and readiness audits. We additionally report a live ICIJ Offshore Leaks onboarding run as public finance/compliance evidence for arbitrary-schema deployment beyond LDBC.
 
 Downstream Text2Cypher evaluation uses execution accuracy and answer-set precision/recall/F1 as primary correctness metrics. The benchmark evaluator also supports supplementary reference-based text metrics over serialized answer sets and query strings, including ROUGE, BLEU, METEOR, BERTScore, FrugalScore, cosine similarity, Jaro-Winkler similarity, and exact match; Appendix Table~\ref{tab:supported_text_metrics} lists the supported metrics and citations. We treat these as debugging and near-match diagnostics rather than substitutes for executable correctness.
+Appendix Table~\ref{tab:strategy_diagnostics} and Figures~\ref{fig:strategy_coverage}--\ref{fig:strategy_downstream_errors} further separate workload-category balance from Cypher operator-strategy coverage.
 
 \input{tables_experiments}
 
@@ -136,6 +137,7 @@ PIPE-Cypher is designed for private benchmark generation under local-model deplo
 \input{tables_graph_statistics}
 \input{tables_icij_onboarding}
 \input{tables_diversity}
+\input{tables_strategy_diagnostics}
 \input{tables_failure_taxonomy}
 \input{tables_category_crosswalk}
 \input{tables_validator_cascade}
@@ -179,6 +181,20 @@ PIPE-Cypher is designed for private benchmark generation under local-model deplo
 \caption{Diversity diagnostics for the full 3,000-example export. Category, graph-category, and difficulty balance are strong by construction; schema coverage and query-signature diversity expose remaining concentration from the seeded-template run.}
 \label{fig:diversity_diagnostics}
 \end{figure}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.92\textwidth]{figures/strategy_coverage.pdf}
+\caption{Cypher strategy coverage by workload category. Category balancing does not by itself guarantee operator coverage; the strategy matrix shows where the benchmark exercises single-hop retrieval, joins, aggregation, ordering, negation, path patterns, optional matches, and bounded-result queries.}
+\label{fig:strategy_coverage}
+\end{figure*}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.88\textwidth]{figures/strategy_downstream_errors.pdf}
+\caption{Downstream outcomes by gold Cypher strategy on the full held-out test split. The local Qwen3.5-9B baseline fails differently across strategies: aggregation mixes exact matches with execution failures, while join-heavy, negation, path, and ranking examples are dominated by semantically wrong executable queries or execution failures.}
+\label{fig:strategy_downstream_errors}
+\end{figure*}
 
 \begin{figure}[t]
 \centering

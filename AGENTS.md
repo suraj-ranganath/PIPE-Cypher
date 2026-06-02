@@ -107,6 +107,20 @@ High-value ideas to adapt:
 
 Do not copy Mind the Query's Gemini/manual-review setup. PIPE-Cypher must remain local-model, privacy-aware, AST/governance-oriented, and automated-judge-first. Do not commit full PDF text or page screenshots; commit only sanitized analysis, tables, and comparisons.
 
+## PIPE-RDF Transfer Mandate
+
+Treat the PIPE-RDF paper and artifacts in `/Users/suraj/Desktop/Archive/PIPE-KG` as an internal predecessor for benchmark-factory presentation and observability. Record transferable ideas in `knowledge_base/pipe_rdf_transfer_notes.md`.
+
+High-value ideas to adapt:
+
+- report operator/strategy coverage separately from natural-language category balance;
+- include strategy-conditioned downstream error analyses so reviewers can see whether failures come from aggregation, joins, paths, negation, ranking, or simple retrieval;
+- keep pre-repair/post-repair, validator-gate, and failure-taxonomy reporting explicit;
+- use latency, prompt-length, retrieval-score, answer-count, and structural-complexity diagnostics only when complete stage-level ledgers exist for the reported runs;
+- prefer appendix heatmaps and compact strategy tables that make benchmark-generation behavior legible without overloading the six-page main body.
+
+Do not copy PIPE-RDF's SPARQL/RDF framing into the PIPE-Cypher paper. Adapt only the parts that make an enterprise Cypher benchmark factory more auditable: strategy coverage, operator-level failure modes, and operational diagnostics backed by completed research-quality artifacts.
+
 ## Cypher Example Reference Design Mining Mandate
 
 Treat the private cypher example reference archive as a primary design source. Re-inspect it before major Cypher changes and record transferable ideas in `knowledge_base/cypher_example_reference_design_notes.md`.

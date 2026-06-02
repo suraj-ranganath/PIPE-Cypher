@@ -109,6 +109,7 @@ Metrics:
 - execution success and non-empty result rates;
 - repair success and judge pass rates;
 - diversity over labels, relationships, properties, entities, templates, and difficulty;
+- Cypher operator-strategy coverage and strategy-conditioned downstream failures;
 - downstream Text2Cypher execution accuracy and answer F1;
 - supplementary reference-based text metrics over serialized answer sets and query strings: ROUGE, BLEU, METEOR, BERTScore, FrugalScore, cosine similarity, Jaro-Winkler similarity, and exact match. These are debugging and near-match diagnostics, not substitutes for executable correctness.
 
@@ -141,6 +142,8 @@ Finally, we ran a downstream Text2Cypher evaluation using local Qwen3.5-9B on th
 | Live full test | 296 | 0.959 | 0.905 | 0.622 | 0.189 | 0.189 |
 
 The downstream error taxonomy makes the discriminative signal more concrete: the 296-row full test split contains 56 exact-answer matches and 240 incorrect rows. Incorrect rows are dominated by answer mismatches (128), followed by execution failures (72), schema-invalid predictions (28), and parse-invalid predictions (12). This separates invalid-Cypher failures from executable but semantically wrong Cypher, which is the distinction an enterprise benchmark needs to expose.
+
+Strategy diagnostics add a second view of benchmark structure beyond category balance. The full export contains six primary Cypher strategies: aggregation (1,125 examples), and single-hop, join-heavy, negation, order/rank, and path strategies (375 examples each). Strategy-conditioned downstream evaluation shows that local Qwen3.5-9B gets exact answers mainly on aggregation and single-hop queries, while join-heavy, negation, ranking, and path examples expose semantic and execution failures.
 
 The scaled ablation suites show that the benchmark factory is stable once deterministic grounding and schema metadata are fixed. In the target-100 suite, every non-unconstrained graph/setting cell reached all eight category targets with 800 accepted examples per cell; the full PIPE-Cypher setting accepted 800/824 candidates on both FinBench and SNB. Across the three evidence-ready suites, target-normalized coverage is 1.000 for every non-unconstrained cell, while the unconstrained local-generation stress baseline produced no accepted examples under the same execution-grounded gates.
 

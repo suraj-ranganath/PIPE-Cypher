@@ -233,6 +233,14 @@ python scripts/render_paper_figures.py \
   --downstream-summary artifacts/evaluations/20260601_full_qwen9b_test_summary.json \
   --downstream-uncertainty experiments/snapshots/20260601_live_full_qwen9b/downstream_uncertainty.json \
   --output-dir paper_emnlp2026_industry/figures
+
+python scripts/analyze_strategy_diagnostics.py \
+  --benchmark artifacts/benchmarks/20260601_live_full_qwen9b/all.jsonl \
+  --evaluation artifacts/evaluations/20260601_full_qwen9b_test_eval.jsonl \
+  --output-json experiments/snapshots/20260601_live_full_qwen9b/strategy_diagnostics.json \
+  --output-tex paper_emnlp2026_industry/tables_strategy_diagnostics.tex \
+  --coverage-figure paper_emnlp2026_industry/figures/strategy_coverage.pdf \
+  --downstream-figure paper_emnlp2026_industry/figures/strategy_downstream_errors.pdf
 ```
 
 Regenerate the judge-audit coverage table and local HTML review packet from the project root:
@@ -257,4 +265,4 @@ python scripts/render_appendix_material.py \
   --max-examples 16
 ```
 
-Current caveat: the paper is structurally complete for serious revision and now includes the 3,000-example full FinBench/SNB benchmark export, full-test Qwen3.5-9B downstream evaluation with bootstrap uncertainty intervals, diversity diagnostics, full-run failure taxonomy, judge-audit coverage, claim/evidence traceability, prompt contracts, representative accepted examples, and an audited target-50 ablation appendix. Judge calibration labels, target-100 ablations, and repeated-seed ablation sensitivity remain pending. Do not promote partial ablation suites or sampled downstream evaluations into the main paper or appendix; research-quality reported results need complete run directories, logs, code revisions, model IDs, graph workloads, audit status, and enough scale or uncertainty analysis to be reviewer-defensible.
+Current caveat: the paper is structurally complete for serious revision and now includes the 3,000-example full FinBench/SNB benchmark export, full-test Qwen3.5-9B downstream evaluation with bootstrap uncertainty intervals, diversity diagnostics, strategy diagnostics, full-run failure taxonomy, completed judge-audit calibration, ICIJ onboarding, claim/evidence traceability, prompt contracts, representative accepted examples, the corrected target-100 ablation suite, and the seed-17 target-50 repeat. Do not promote partial ablation suites or sampled downstream evaluations into the main paper or appendix; research-quality reported results need complete run directories, logs, code revisions, model IDs, graph workloads, audit status, and enough scale or uncertainty analysis to be reviewer-defensible.
