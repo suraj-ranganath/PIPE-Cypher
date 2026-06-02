@@ -13,6 +13,18 @@ from pipecypher.paper_appendix import (
 )
 
 
+REPO_ROOT = Path(__file__).resolve().parents[1]
+TRACKED_EVIDENCE_PREFIXES = (
+    "configs/",
+    "experiments/",
+    "knowledge_base/",
+    "paper_emnlp2026_industry/",
+    "pipecypher/",
+    "scripts/",
+    "tests/",
+)
+
+
 def test_prompt_contracts_include_generation_and_judge_hashes():
     names = {contract.name for contract in prompt_contracts()}
     text = render_prompt_contracts_tex()
@@ -63,6 +75,20 @@ claims:
 
     with pytest.raises(ValueError, match="missing keys"):
         load_claim_evidence(path)
+
+
+def test_claim_evidence_tracked_artifacts_resolve():
+    claims = load_claim_evidence(REPO_ROOT / "knowledge_base/claim_evidence_map.yaml")
+
+    missing: list[str] = []
+    for claim in claims:
+        for artifact in claim.get("artifacts", []):
+            if not any(str(artifact).startswith(prefix) for prefix in TRACKED_EVIDENCE_PREFIXES):
+                continue
+            if not (REPO_ROOT / str(artifact)).exists():
+                missing.append(str(artifact))
+
+    assert missing == []
 
 
 def test_render_example_cards_escapes_cypher_and_reports_gates():

@@ -5,7 +5,7 @@ Status: goal is not complete yet.
 ## Evidence Already Present
 
 - Clean repo scaffold with package, configs, scripts, tests, docs, experiment matrix, and paper directory.
-- Deterministic tests pass: `161 passed`.
+- Deterministic tests pass: `162 passed`.
 - Offline smoke runs prove the CLI path, built-in FinBench and SNB reference schemas, deterministic validation, contextual return warnings, mock execution, deterministic judge, JSONL logging, strategy tags, and summary metrics.
 - LDBC FinBench SF0.1 has been generated on `ds-serv6`, transformed to snapshot CSVs, and loaded into a user-space Neo4j Community 5.26 smoke database.
 - The loaded FinBench smoke graph contains 10,006 nodes and 57,622 relationships.
@@ -56,6 +56,7 @@ Status: goal is not complete yet.
 - The final full export has 3,000/3,000 accepted examples passing read-only, syntax, schema, execution, and judge gates; the judge audit packet is `artifacts/audits/20260601_full_qwen9b_judge_audit.csv` with 80 sampled rows plus header.
 - `scripts/render_paper_artifact_tables.py` regenerates paper tables for benchmark export, distribution/gate summary, and downstream Text2Cypher results directly from `stats.json`, `manifest.json`, and the evaluation summary.
 - `knowledge_base/claim_evidence_map.yaml` maps the main paper claims to concrete code, run artifacts, tables, figures, and explicit remaining risks; it renders to the reviewer-facing appendix table `paper_emnlp2026_industry/appendix_claim_evidence.tex`.
+- Claim/evidence appendix tests now verify that tracked local artifacts listed in `knowledge_base/claim_evidence_map.yaml` resolve in the current repo, preventing stale code, script, snapshot, or paper paths from silently appearing in reviewer-facing appendix material.
 - `scripts/render_appendix_material.py` regenerates appendix claim/evidence traceability, prompt-contract, and representative-example material from tracked code prompt constants, `knowledge_base/claim_evidence_map.yaml`, and `experiments/snapshots/20260601_live_full_qwen9b/sample_examples.json`; outputs are `paper_emnlp2026_industry/appendix_claim_evidence.tex`, `paper_emnlp2026_industry/appendix_prompt_contracts.tex`, and `paper_emnlp2026_industry/appendix_example_cards.tex`.
 - `knowledge_base/citation_verification.md` records the verified source for every paper bibliography entry used by the EMNLP/arXiv draft; no unverified placeholder citations remain in `paper_emnlp2026_industry/references.bib`.
 - `knowledge_base/judge_audit_protocol.md` defines the human calibration labeling rubric. `scripts/sample_judge_audit.py` now preserves judge accept/reject balance before graph/category stratification; `scripts/analyze_judge_audit.py` reports graph/category/difficulty coverage, agreement, precision/recall/specificity, negative predictive value, balanced accuracy, Cohen's kappa, and exits non-zero with `--require-labels` when no labels are complete.

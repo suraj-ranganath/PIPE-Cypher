@@ -13,8 +13,8 @@ claims:
     evidence: "The pipeline validates read-only safety, schema-visible labels/properties/relationships, observed relationship direction, categorical values, contextual return columns, parser-style structure, execution success, and LLM-judge review. In the full run, only 2 of 4,777 candidates were schema-invalid after deterministic governance, and all 3,000 exported examples passed the deterministic and judge gates."
     artifacts:
       - "pipecypher/validator.py"
-      - "pipecypher/cypher_features.py"
-      - "pipecypher/cypher_normalizer.py"
+      - "pipecypher/cypher_parser.py"
+      - "pipecypher/question_constraints.py"
       - "experiments/snapshots/20260601_live_full_qwen9b/failure_taxonomy.json"
       - "paper_emnlp2026_industry/tables_failure_taxonomy.tex"
     status: "Supported by code, tests, and full-run failure taxonomy."
