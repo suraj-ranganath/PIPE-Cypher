@@ -101,13 +101,20 @@ generated dataset.
 - Added `scripts/validate_config.py` for preflight checks before long GPU jobs.
 - Added tests for unknown-key rejection, numeric guardrails, CLI acceptance of
   run configs, and rejection of non-run experiment matrices.
+- Added `pipecypher.run_estimate` and `scripts/estimate_run_capacity.py` to
+  estimate target examples, nominal/upper candidate attempts, LLM calls, judge
+  calls, repair calls, and rough token load before long graph/model runs.
+- Added `pipecypher.benchmark_card` and `scripts/render_benchmark_card.py` for a
+  redacted benchmark-card artifact covering graph profile, schema fingerprint,
+  generation setup, privacy policy, quality gates, run summaries, and export
+  summaries.
 
 ## Follow-Up Implementation Targets
 
-- Add `scripts/estimate_run_capacity.py` to estimate LLM calls, judge calls,
-  approximate token load, category cells, and endpoint wall-clock before target-50
-  or target-100 runs.
-- Add a redacted benchmark-card renderer and include its output in snapshots.
+- Add endpoint wall-clock calibration to `scripts/estimate_run_capacity.py` from
+  live run throughput logs or completed records.
+- Include generated benchmark cards in snapshot artifacts when exporting
+  research-quality benchmark releases.
 - Add a provenance column audit for accepted examples and redacted exports.
 - Add graph-grounding diagnostic scores inspired by citation filtering.
 - Add a cross-neighborhood sampler for harder multi-hop/path examples.
