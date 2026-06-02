@@ -69,18 +69,21 @@ def test_build_remote_ablation_status_command_counts_records_and_summary():
 
     assert "[ -d artifacts/runs ] || exit 0" in command
     assert "wc -l < \"$d/records.jsonl\"" in command
+    assert "grep -Ec" in command
+    assert '"accepted"' in command
     assert "summary=yes" in command
     assert "-name '*20260601_ablation50_qwen9b*'" in command
 
 
 def test_parse_remote_ablation_status_rows_skips_bad_lines():
     rows = parse_remote_ablation_status_rows(
-        "run_a\t400\tyes\nbad line\nrun_b\t17\tno\n"
+        "run_a\t400\t388\tyes\nbad line\nrun_b\t17\t3\tno\nlegacy_run\t9\tno\n"
     )
 
     assert rows == [
-        {"run": "run_a", "records": 400, "summary_present": True},
-        {"run": "run_b", "records": 17, "summary_present": False},
+        {"run": "run_a", "records": 400, "accepted": 388, "summary_present": True},
+        {"run": "run_b", "records": 17, "accepted": 3, "summary_present": False},
+        {"run": "legacy_run", "records": 9, "accepted": 0, "summary_present": False},
     ]
 
 
@@ -182,11 +185,13 @@ def test_build_progress_report_marks_missing_and_active_cells():
             {
                 "run": "20260601_ablation50_qwen9b_finbench_reverse_only",
                 "records": 400,
+                "accepted": 400,
                 "summary_present": True,
             },
             {
                 "run": "20260601_ablation50_qwen9b_snb_full_pipe_cypher",
                 "records": 17,
+                "accepted": 9,
                 "summary_present": False,
             },
         ],
@@ -205,7 +210,7 @@ def test_build_progress_report_marks_missing_and_active_cells():
     assert report["active_or_incomplete_cells"] == 1
     assert {"graph": "finbench", "variant": "full_pipe_cypher"} in report["missing"]
     assert "session=suite running=true" in text
-    assert "| snb | Full PIPE-Cypher | 17 | 400 | 0.043 | no |" in text
+    assert "| snb | Full PIPE-Cypher | 17 | 9 | 400 | 0.043 | 0.022 | no |" in text
 
 
 def test_build_progress_report_flags_over_target_incomplete_cells():
@@ -214,6 +219,7 @@ def test_build_progress_report_flags_over_target_incomplete_cells():
             {
                 "run": "20260601_ablation100_qwen9b_finbench_ablation_retrieval_topk_0",
                 "records": 1170,
+                "accepted": 341,
                 "summary_present": False,
             }
         ],
@@ -234,12 +240,15 @@ def test_build_progress_report_flags_over_target_incomplete_cells():
             "graph": "finbench",
             "variant": "ablation_retrieval_topk_0",
             "records": 1170,
+            "accepted": 341,
             "record_target": 800,
+            "accepted_target": 800,
             "run": "20260601_ablation100_qwen9b_finbench_ablation_retrieval_topk_0",
         }
     ]
-    assert "| finbench | No retrieval | 1170 | 800 | 1.000 | no-over-target |" in text
+    assert "| finbench | No retrieval | 1170 | 341 | 800 | 1.000 | 0.426 | no-over-target |" in text
     assert "Over-target incomplete cells:" in text
+    assert "341/800 accepted without summary" in text
 
 
 def test_load_queue_config_validates_required_fields(tmp_path: Path):
@@ -302,6 +311,7 @@ def test_queue_report_marks_queued_and_running_suites():
             {
                 "run": "20260601_ablation50_qwen9b_snb_full_pipe_cypher",
                 "records": 17,
+                "accepted": 8,
                 "summary_present": False,
             }
         ],
@@ -352,6 +362,7 @@ def test_queue_next_action_investigates_over_target_incomplete_suite():
             {
                 "run": "20260601_ablation100_qwen9b_finbench_ablation_retrieval_topk_0",
                 "records": 1170,
+                "accepted": 341,
                 "summary_present": False,
             }
         ],
@@ -377,6 +388,7 @@ def test_queue_report_marks_already_collected_suite_without_collection_action():
             {
                 "run": "20260601_ablation50_qwen9b_snb_full_pipe_cypher",
                 "records": 400,
+                "accepted": 400,
                 "summary_present": True,
             }
         ],
@@ -421,6 +433,7 @@ def test_queue_report_marks_retired_suite_without_collection_action():
             {
                 "run": "20260601_ablation100_qwen9b_finbench_ablation_retrieval_topk_0",
                 "records": 1213,
+                "accepted": 341,
                 "summary_present": False,
             }
         ],

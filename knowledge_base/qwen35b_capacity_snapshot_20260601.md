@@ -1,6 +1,6 @@
 # Qwen3.5-35B-A3B Capacity Snapshot
 
-Date checked: June 2, 2026 01:02 UTC on ds-serv6.
+Date checked: June 2, 2026 02:11 UTC on ds-serv6.
 
 Command:
 
@@ -10,7 +10,7 @@ python scripts/check_vllm_capacity.py --model-dir /home/suraj/pipecypher-models/
 
 Exit code: `2`. The capacity checker exits non-zero when `feasible=false`.
 
-Tracked JSON evidence: `experiments/snapshots/qwen35b_capacity_20260601_latest.json`.
+Tracked JSON evidence: `experiments/snapshots/qwen35b_capacity_20260602_latest.json`.
 
 ## Capacity Result
 
@@ -28,9 +28,9 @@ Tracked JSON evidence: `experiments/snapshots/qwen35b_capacity_20260601_latest.j
 
 | GPU | Used MiB | Free MiB | Utilization | Interpretation |
 | ---: | ---: | ---: | ---: | --- |
-| 0 | 8,329 | 16,235 | 0% | memory occupied |
+| 0 | 9,057 | 15,507 | 0% | memory occupied |
 | 1 | 6,622 | 17,942 | 0% | memory occupied |
-| 2 | 20,555 | 4,009 | 90% | high utilization |
+| 2 | 20,555 | 4,009 | 91% | high utilization |
 | 3 | 1 | 24,563 | 0% | safe |
 | 4 | 415 | 24,149 | 100% | high utilization |
 | 5 | 415 | 24,149 | 100% | high utilization |

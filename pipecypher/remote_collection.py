@@ -54,10 +54,14 @@ def build_remote_ablation_status_command(*, remote_root: str, run_prefix: str) -
         "[ -d artifacts/runs ] || exit 0; "
         "for d in $(find artifacts/runs -maxdepth 1 -type d -name {pattern} | sort); do "
         "records=0; "
-        "if [ -f \"$d/records.jsonl\" ]; then records=$(wc -l < \"$d/records.jsonl\"); fi; "
+        "accepted=0; "
+        "if [ -f \"$d/records.jsonl\" ]; then "
+        "records=$(wc -l < \"$d/records.jsonl\"); "
+        "accepted=$(grep -Ec '\"accepted\"[[:space:]]*:[[:space:]]*true' \"$d/records.jsonl\" || true); "
+        "fi; "
         "summary=no; "
         "if [ -f \"$d/summary.txt\" ]; then summary=yes; fi; "
-        "printf '%s\\t%s\\t%s\\n' \"$(basename \"$d\")\" \"$records\" \"$summary\"; "
+        "printf '%s\\t%s\\t%s\\t%s\\n' \"$(basename \"$d\")\" \"$records\" \"$accepted\" \"$summary\"; "
         "done"
     ).format(root=shlex.quote(remote_root), pattern=shlex.quote(pattern))
 
@@ -68,13 +72,19 @@ def parse_remote_ablation_status_rows(text: str) -> list[dict[str, Any]]:
         if not line.strip():
             continue
         parts = line.split("\t")
-        if len(parts) != 3:
+        if len(parts) == 3:
+            run, records, summary = parts
+            accepted = 0
+        elif len(parts) == 4:
+            run, records, accepted_text, summary = parts
+            accepted = int(accepted_text)
+        else:
             continue
-        run, records, summary = parts
         rows.append(
             {
                 "run": run,
                 "records": int(records),
+                "accepted": accepted,
                 "summary_present": summary == "yes",
             }
         )

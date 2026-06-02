@@ -34,7 +34,7 @@ suites:
     judge_model: Qwen/Qwen3.5-9B
     run_seed: 17
     code_revision: e9301cc08afaea5668291aee7bdbc26c9f1e7296
-    status: retired_superseded_by_postpatch_seed17
+    status: retired_superseded_by_schemafix_seed17
     notes: Retired before generation on June 2, 2026 because it used a pre-patch revision; replaced by the schemafix seeded target-50 repeat queued behind the schemafix target-100 suite.
   - name: target100_qwen9b_postpatch
     run_prefix: 20260602_ablation100_qwen9b_postpatch

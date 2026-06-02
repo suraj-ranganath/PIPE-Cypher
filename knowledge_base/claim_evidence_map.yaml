@@ -88,6 +88,6 @@ claims:
       - "scripts/render_vllm_capacity_snapshot.py"
       - "knowledge_base/model_availability.md"
       - "knowledge_base/qwen35b_capacity_snapshot_20260601.md"
-      - "experiments/snapshots/qwen35b_capacity_20260601_latest.json"
+      - "experiments/snapshots/qwen35b_capacity_20260602_latest.json"
     status: "Documented blocker; current paper results are explicitly reported as Qwen3.5-9B fallback evidence."
     risk: "A later 35B run may change yield, diversity, judge behavior, and downstream conclusions."

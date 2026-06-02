@@ -83,6 +83,7 @@ def build_progress_report(
         graph = infer_graph(str(row["run"]))
         variant = infer_variant(str(row["run"]))
         records = int(row["records"])
+        accepted = int(row.get("accepted", 0))
         target_records = target_per_category * category_count
         enriched.append(
             {
@@ -91,7 +92,11 @@ def build_progress_report(
                 "variant": variant,
                 "variant_label": variant_label(variant),
                 "record_target": target_records,
+                "accepted_target": target_records,
                 "record_progress": min(records / target_records, 1.0) if target_records else 0.0,
+                "accepted_progress": (
+                    min(accepted / target_records, 1.0) if target_records else 0.0
+                ),
                 "over_target_without_summary": bool(
                     target_records and records >= target_records and not row["summary_present"]
                 ),
@@ -121,7 +126,9 @@ def build_progress_report(
                 "graph": row["graph"],
                 "variant": row["variant"],
                 "records": row["records"],
+                "accepted": row["accepted"],
                 "record_target": row["record_target"],
+                "accepted_target": row["accepted_target"],
                 "run": row["run"],
             }
             for row in sorted(
@@ -151,8 +158,8 @@ def format_progress_text(report: dict) -> str:
     lines.extend(
         [
             "",
-            "| Graph | Variant | Records | Target records | Progress | Summary | Run |",
-            "| --- | --- | ---: | ---: | ---: | --- | --- |",
+            "| Graph | Variant | Records | Accepted | Target | Record prog. | Accept prog. | Summary | Run |",
+            "| --- | --- | ---: | ---: | ---: | ---: | ---: | --- | --- |",
         ]
     )
     for row in report["rows"]:
@@ -160,12 +167,14 @@ def format_progress_text(report: dict) -> str:
         if row.get("over_target_without_summary"):
             summary = "no-over-target"
         lines.append(
-            "| {graph} | {variant} | {records} | {target} | {progress:.3f} | {summary} | `{run}` |".format(
+            "| {graph} | {variant} | {records} | {accepted} | {target} | {record_progress:.3f} | {accepted_progress:.3f} | {summary} | `{run}` |".format(
                 graph=row["graph"],
                 variant=row["variant_label"],
                 records=row["records"],
+                accepted=row["accepted"],
                 target=row["record_target"],
-                progress=row["record_progress"],
+                record_progress=row["record_progress"],
+                accepted_progress=row["accepted_progress"],
                 summary=summary,
                 run=row["run"],
             )
@@ -174,11 +183,13 @@ def format_progress_text(report: dict) -> str:
         lines.extend(["", "Over-target incomplete cells:"])
         for item in report["over_target_incomplete"]:
             lines.append(
-                "- {graph} / {variant}: {records}/{target} records without summary (`{run}`)".format(
+                "- {graph} / {variant}: {records}/{target} records, {accepted}/{accepted_target} accepted without summary (`{run}`)".format(
                     graph=item["graph"],
                     variant=variant_label(str(item["variant"])),
                     records=item["records"],
                     target=item["record_target"],
+                    accepted=item["accepted"],
+                    accepted_target=item["accepted_target"],
                     run=item["run"],
                 )
             )

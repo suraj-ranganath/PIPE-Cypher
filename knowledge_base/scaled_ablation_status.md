@@ -130,7 +130,8 @@ failed or weak cells are visible rather than silently omitted.
 - `20260601_ablation100_qwen9b` at revision
   `150f596f68dd530869efb497250610a40d3570ee` was retired on June 2, 2026.
   Its FinBench no-retrieval cell crossed the 800-record target without a run
-  summary; manual inspection at 1,216 rows showed 341 accepted examples, with
+  summary; the remote monitor now reports 1,237 rows and 348 accepted examples,
+  and manual inspection at 1,216 rows showed the accepted distribution, with
   `simple_retrieval` at 0/400 and `complex_retrieval` at 14/400 accepted. The
   dominant failure pattern came from the old judge/schema treatment of
   relationship properties and observed categorical execution-result values.
@@ -301,9 +302,10 @@ tmux capture-pane -pt pipecypher_ablation50_qwen9b_seed17_schemafix -S -20
 From the local repo, use the read-only remote monitor without fetching partial
 artifacts. The queue monitor covers completed, retired, active, and queued
 suites across their different remote roots. It prints `next_action`,
-over-target incomplete cell diagnostics, and a safe `collection_command` with
-`--wait-session` for active or waiting suites. Already collected or retired
-suites report `collection_command=not_applicable`:
+generated-record and accepted-record progress, over-target incomplete cell
+diagnostics, and a safe `collection_command` with `--wait-session` for active
+or waiting suites. Already collected or retired suites report
+`collection_command=not_applicable`:
 
 ```bash
 python scripts/monitor_remote_ablation_queue.py \
