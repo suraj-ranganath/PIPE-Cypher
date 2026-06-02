@@ -24,7 +24,7 @@ Primary sources:
 - `paper_emnlp2026_industry/main.tex` is a simple article draft for fast iteration.
 - `paper_emnlp2026_industry/main_acl.tex` is the ACL-style submission draft.
 - `paper_emnlp2026_industry/acl.sty` and `paper_emnlp2026_industry/acl_natbib.bst` are staged from the ACL style-file repository.
-- `scripts/audit_emnlp_page_budget.py` checks the compiled ACL-style PDF and fails if `Conclusion` starts after page 6, `Limitations` is missing, references precede limitations, or appendix material appears before references. On June 2, 2026 at 01:02 UTC, `paper_emnlp2026_industry/main_acl.pdf` passed with `Conclusion`, `Limitations`, `Ethics Statement`, and `References` on page 4 and `Additional Results` on page 5.
+- `scripts/audit_emnlp_page_budget.py` checks the compiled ACL-style PDF and fails if `Conclusion` starts after page 6, `Limitations` is missing, references precede limitations, or appendix material appears before references. The latest June 2, 2026 audit of `paper_emnlp2026_industry/main_acl.pdf` passed with `Conclusion` and `Limitations` on page 4, `Ethics Statement` and `References` on page 5, and `Additional Results` on page 6.
 
 ## Submission Cleanup Checklist
 

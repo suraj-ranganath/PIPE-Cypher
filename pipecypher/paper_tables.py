@@ -354,8 +354,9 @@ def render_graph_statistics_table(rows: list[dict[str, Any]]) -> str:
     return _table(
         body="\n".join(body),
         caption=(
-            "Study graph statistics. ICIJ is listed as an onboarding workload only "
-            "until its live generation run passes the same audit standard as FinBench and SNB."
+            "Study graph statistics. ICIJ Offshore Leaks is used as a public "
+            "third-graph onboarding audit for arbitrary finance/compliance schemas "
+            "beyond the two LDBC study workloads."
         ),
         label="tab:graph_statistics",
     )
@@ -442,7 +443,7 @@ def render_prompt_refinement_table() -> str:
         ("Instructions", "Exact values, datatype rules, no nested aggregations.", "Targets MTQ-style prompt refinements."),
         ("Examples", "Placeholderized retrieved NL-Cypher pairs.", "Tests whether examples help without extra governance."),
         ("Examples + instructions", "Few-shot plus explicit rules.", "Closest controlled analogue to MTQ Table 5."),
-        ("Full governed", "production-derived Cypher hints, AST-safe rewrites, judge gate.", "PIPE-Cypher production setting."),
+        ("Full governed", "Production-derived Cypher hints, AST-safe rewrites, judge gate.", "PIPE-Cypher production setting."),
     ]
     body = [
         r"\begin{tabular}{lll}",

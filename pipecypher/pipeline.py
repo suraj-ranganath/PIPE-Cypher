@@ -432,6 +432,8 @@ class PipeCypherPipeline:
                 entity_values=[],
                 reverse_cypher=reverse_cypher,
                 model=getattr(self.llm, "model", self.config.models.generation_model),
+                template=template.template,
+                template_metadata=template.metadata,
             )
         question, entity_hints = self.fill_template(template, bindings)
         cypher, retrieved = self.generate_cypher(
@@ -504,6 +506,8 @@ class PipeCypherPipeline:
             empty_result_diagnostic=empty_result_diagnostic,
             repair_attempts=repair_attempts,
             model=getattr(self.llm, "model", self.config.models.generation_model),
+            template=template.template,
+            template_metadata=template.metadata,
         )
 
     @staticmethod

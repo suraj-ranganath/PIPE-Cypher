@@ -234,6 +234,8 @@ class GenerationRecord:
     empty_result_diagnostic: dict[str, Any] | None = None
     repair_attempts: int = 0
     model: str | None = None
+    template: str | None = None
+    template_metadata: dict[str, Any] = field(default_factory=dict)
     created_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
     def to_dict(self) -> dict[str, Any]:

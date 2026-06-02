@@ -23,6 +23,12 @@ PIPE-Cypher is an industry-track research codebase for automatic benchmark gener
 - Keep the pipeline runnable without GPU access for deterministic tests.
 - Treat generated Cypher as unsafe until it passes read-only, schema, syntax, execution, and judge checks.
 - Prefer schema-derived constraints over prompt-only instructions.
+- For arbitrary enterprise onboarding, sparse categories such as ranking/top-k,
+  negation/difference, and complex aggregation must have schema-derived
+  relationship-count, anti-join, or top-k template families when seed/LLM
+  templates exhaust. Reverse grounding for these templates must be
+  outcome-aware: sampled slot values must satisfy the final query predicate,
+  not merely exist on the right label/property.
 - Provide configurable privacy redaction and value-sampling policies for enterprise users. Raw internal artifacts may contain schema names, values, questions, Cypher literals, and result samples; anything intended for broad review, appendix material, or external sharing must either be sanitized or clearly marked as private/internal.
 - Treat low-cardinality value sampling as potentially sensitive. Bound sampled value length and omit free-text/sensitive properties such as notes, comments, and addresses unless the owner explicitly enables them.
 - Keep categorical metadata synchronized with the loaded graph before scaled runs. Categorical lists constrain Cypher literals and exact-match filters, not observed result-row values; if an LLM judge rejects because output rows contain values absent from a sampled/redacted categorical list, fix the schema/value policy or narrow judge guard rather than weakening query validation.
@@ -31,6 +37,11 @@ PIPE-Cypher is an industry-track research codebase for automatic benchmark gener
 - Do not silently weaken validation to improve yield; add explicit ablations if a check is optional.
 - Measure benchmark diversity explicitly. Report lexical diversity, query-template/signature diversity, schema coverage, structural feature coverage, difficulty balance, and graph/category balance.
 - When adding Cypher transformations, prefer parser/listener/token-span logic where practical. String rewrites must be conservative, covered by tests, and logged with before/after Cypher plus the reason for applying or skipping the rewrite.
+- Do not let schema-derived sparse templates fall back to broad generic slot
+  lookup when their outcome-aware reverse bindings are unavailable or exhausted.
+  Log `slot bindings unavailable` or `slot bindings exhausted` explicitly so
+  sparse enterprise schemas fail audibly instead of producing empty or
+  placeholder-valued queries.
 - Preserve deterministic tests for the AST, validator, diversity, judge, and reporting layers. GPU-dependent behavior should have smokeable local stubs or fixtures.
 - Before launching long YAML-driven GPU jobs, run strict config validation. Unknown or misspelled config keys must be treated as launch blockers, because silent YAML mistakes can invalidate multi-hour ablations.
 
@@ -55,6 +66,12 @@ PIPE-Cypher should make a defensible research contribution beyond porting PIPE-K
 - Benchmark refresh story: show how an enterprise can regenerate or update a private benchmark as schemas, categorical values, and graph contents evolve.
 - Enterprise deployment story: maintain a clean guide for connecting a company's own graph, read-only credentials, schema introspection, local model endpoint, privacy/value policy, dry run, scaled run, audit, and redacted export.
 - Benchmark-factory reliability inspired by YourBench: strict config validation, pre-run capacity/token/request estimation, stage-level inference accounting, benchmark-card generation, provenance-rich exports, and schema-validated benchmark rows. Adapt these ideas to property-graph execution; do not copy document-ingestion or citation-QA mechanics directly.
+- Schema-derived sparse-category augmentation for arbitrary property graphs:
+  derive relationship-count aggregation, anti-join negation, and relationship
+  top-k templates from observed labels, relationship directions, and safe
+  low-cardinality properties. Use this to keep generated question banks
+  balanced across difficulty categories even when a new enterprise schema has
+  few hand-authored seed templates.
 
 Each novelty claim in the paper should map to code, an ablation, a table/figure, or a documented blocked experiment.
 

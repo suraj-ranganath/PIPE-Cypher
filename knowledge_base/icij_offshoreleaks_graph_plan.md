@@ -10,9 +10,11 @@ dates, and entity-resolution style links. That makes it a useful proxy for
 private KYC, AML, financial-crime, ownership, and risk-investigation graphs.
 
 Use this graph as an additional onboarding/generalization artifact, not as a
-replacement for the primary FinBench/SNB research-quality results. Do not report
-ICIJ results in the paper until a completed live run has been loaded, generated,
-audited, and collected with the same standards as the LDBC runs.
+replacement for the primary FinBench/SNB research-quality results. As of June 2,
+2026, only the corrected target-100 run
+`20260602_icij_target100_schema_templates_v3` has been loaded, generated,
+audited, sanitized, and collected with the same standards as the LDBC runs. The
+earlier incomplete catfix run is failure-analysis evidence only.
 
 ## Verified Public Artifacts
 
@@ -143,7 +145,7 @@ python scripts/run_pipeline.py \
   --run-name live_icij_qwen9b_target100
 ```
 
-Completed live run as of June 2, 2026:
+Initial live target-100 diagnostic run as of June 2, 2026:
 
 ```text
 remote root: /home/suraj/PIPE-Cypher-4df5175-catfix
@@ -171,6 +173,82 @@ categories, but it is not paper-ready. Do not promote ICIJ numbers into the
 paper or appendix result tables until a top-up or corrected run reaches the
 target categories and passes the same readiness audit used for FinBench/SNB.
 
+Root cause: ICIJ exposed a general arbitrary-schema onboarding failure, not an
+ICIJ-specific loader problem. The ranking/top-k seed set had only two reusable
+no-slot templates, so the category exhausted after two accepted questions. The
+negation/difference seed relied on a sparse anti-join with only 79 productive
+jurisdiction bindings; after those were consumed, generic slot lookup sampled
+values that did not satisfy the final query predicate and produced empty
+results. The same sparse-template pattern later appeared for
+complex-aggregation during schema-template diagnostics.
+
+General fix: PIPE-Cypher now derives deterministic templates directly from the
+observed property-graph schema for sparse categories. For any onboarded graph,
+the pipeline can add relationship-count aggregation templates, anti-join
+negation templates, and top-k relationship-count templates, with scoped variants
+over safe low-cardinality properties. Reverse grounding for scoped templates is
+outcome-aware, so sampled slot values must satisfy the final query predicate.
+Schema-derived templates do not fall back to broad generic slot lookup when
+their outcome-aware bindings are unavailable or exhausted; they log
+`slot bindings unavailable` or `slot bindings exhausted` instead. Future raw
+generation records also carry template metadata so sparse-category evidence is
+auditable without relying on question-string inference.
+
+Corrected live target-100 run as of June 2, 2026:
+
+```text
+remote root: /home/suraj/PIPE-Cypher-afa1791-schema-templates-v3
+session: pipecypher_icij_target100_schema_templates_v3
+endpoint: http://localhost:8001/v1
+run name: 20260602_icij_target100_schema_templates_v3
+run directory: artifacts/runs/20260602_192926_20260602_icij_target100_schema_templates_v3
+code revision: afa1791
+run seed: 31
+```
+
+Outcome:
+
+- live graph size: 2,016,523 nodes, 3,339,267 relationships, 5 labels, and 14
+  relationship types.
+- records: 983
+- accepted: 800
+- accept rate: 0.814
+- categories at target: 8/8, with 100 accepted examples in every planned
+  category.
+- gate rates: read-only 1.000, syntax-valid 1.000, schema-valid 1.000,
+  execution-success 0.814, non-empty execution 0.814, and judge-pass 0.814.
+- sparse-category evidence: because this run predates explicit template
+  metadata logging, schema-derived accepts are inferred from deterministic
+  schema-derived question style: complex-aggregation 97, negation/difference
+  28, and ranking/top-k 98.
+- remaining failures are now expected exhaustion signals rather than invalid
+  questions: complex-aggregation has 61 unavailable and 14 exhausted bindings,
+  negation/difference has 23 unavailable and 15 exhausted bindings, and
+  ranking/top-k has 57 unavailable and 13 exhausted bindings.
+- sanitized local snapshot:
+  `experiments/snapshots/20260602_icij_target100_schema_templates_v3/`.
+
+Collection command:
+
+```bash
+python scripts/collect_remote_onboarding_run.py \
+  --remote-root /home/suraj/PIPE-Cypher-afa1791-schema-templates-v3 \
+  --run-prefix 20260602_icij_target100_schema_templates_v3 \
+  --run-dir-name 20260602_192926_20260602_icij_target100_schema_templates_v3 \
+  --target-per-category 100 \
+  --graph-profile icij_offshoreleaks \
+  --snapshot-dir experiments/snapshots/20260602_icij_target100_schema_templates_v3 \
+  --generation-model Qwen/Qwen3.5-9B \
+  --judge-model Qwen/Qwen3.5-9B \
+  --code-revision afa1791 \
+  --run-seed 31 \
+  --config configs/icij_offshoreleaks_full.yaml \
+  --metadata graph_nodes=2016523 \
+  --metadata graph_relationships=3339267 \
+  --metadata graph_labels=5 \
+  --metadata graph_relationship_types=14
+```
+
 The ICIJ graph contains low-cardinality free-text properties such as notes and
 addresses. Keep `privacy.categorical_max_value_chars` and
 `privacy.categorical_omitted_properties` enabled during live introspection so
@@ -182,10 +260,11 @@ The defensible paper story is:
 
 1. FinBench and SNB remain the completed research-quality evaluation workloads.
 2. ICIJ Offshore Leaks demonstrates the onboarding path on a real public
-   finance/compliance property graph with millions of graph records.
-3. Any ICIJ generation numbers should appear only after a live run is complete,
-   audited, and summarized under the same paper-readiness criteria as the LDBC
-   suites.
+   finance/compliance property graph with millions of graph records, including
+   sparse-category schema-derived templates that are not tailored to LDBC.
+3. ICIJ numbers may be used only from the corrected target-100 snapshot above,
+   because it is complete, audited, summarized, and sanitized. The initial
+   catfix run remains failure-analysis evidence only.
 
 This lets the paper strengthen its industry motivation without pretending that a
 public graph is a private enterprise deployment.

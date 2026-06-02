@@ -87,9 +87,9 @@ def _graph_statistics_rows() -> list[dict[str, object]]:
         (
             "ICIJ Offshore Leaks",
             "configs/schema_icij_offshoreleaks_live.json",
-            None,
-            None,
-            "onboarding only",
+            2016523,
+            3339267,
+            "onboarding audit",
         ),
     ]:
         name, schema_path, nodes, relationships, status = item

@@ -58,7 +58,7 @@ Completed corrected suites:
     `experiments/snapshots/20260602_ablation50_qwen9b_seed17_catfix/`
   - paper-readiness audit: `paper_ready=true`
 
-Completed third-graph onboarding run:
+Completed third-graph onboarding runs:
 
 - `pipecypher_icij_target100_after_seed17_catfix` waits for
   `pipecypher_ablation50_qwen9b_seed17_catfix`, then runs
@@ -75,6 +75,27 @@ Completed third-graph onboarding run:
     Dominant failures were duplicate accepted questions and empty execution
     results. Do not promote ICIJ numbers into the manuscript until a top-up or
     corrected ICIJ run passes the same readiness standard as FinBench/SNB.
+
+- Corrected schema-derived template run:
+  - remote root: `/home/suraj/PIPE-Cypher-afa1791-schema-templates-v3`
+  - session: `pipecypher_icij_target100_schema_templates_v3`
+  - run directory:
+    `artifacts/runs/20260602_192926_20260602_icij_target100_schema_templates_v3`
+  - config: `configs/icij_offshoreleaks_full.yaml`
+  - run seed: 31
+  - code revision: `afa1791`
+  - live graph size: 2,016,523 nodes, 3,339,267 relationships, 5 labels, and
+    14 relationship types.
+  - outcome: 800 accepted examples from 983 records, 8/8 categories at target,
+    100 accepted examples in every planned category, and sanitized audit
+    `ready_for_paper_promotion=true`.
+  - local artifacts:
+    `experiments/snapshots/20260602_icij_target100_schema_templates_v3/`
+  - fix summary: schema-derived relationship-count, anti-join, and top-k
+    templates plus outcome-aware reverse grounding fixed the sparse-category
+    failures that blocked ranking/top-k, negation/difference, and later
+    complex-aggregation diagnostics. Schema-derived templates now avoid broad
+    generic slot fallback and log unavailable/exhausted bindings explicitly.
 
 Collection commands used:
 
