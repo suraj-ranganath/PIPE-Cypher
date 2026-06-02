@@ -104,7 +104,7 @@ python scripts/check_vllm_capacity.py \
   --format json
 ```
 
-Latest June 1, 2026 18:32 UTC `ds-serv6` result:
+Latest June 2, 2026 00:00 UTC `ds-serv6` result:
 
 ```text
 Model size MiB: 68573
@@ -114,6 +114,6 @@ Safe GPUs: 1 (GPU 3)
 Feasible now: no
 ```
 
-The live GPU snapshot had GPU 2 occupied by the Qwen3.5-9B vLLM endpoint, GPUs 0/1/4/5/6/7 occupied by other long-running jobs or high utilization, and only GPU 3 safely free. Even stopping the 9B endpoint would leave at most two safe GPUs, below the conservative four-GPU requirement. This is the concrete blocker for 35B serving in the current run; the 9B fallback results are therefore the reported live results.
+The live GPU snapshot had GPU 2 occupied by the active Qwen3.5-9B vLLM ablation endpoint, GPUs 0/1/4/5/6/7 occupied by other long-running jobs or high utilization, and only GPU 3 safely free. Even stopping the 9B endpoint would leave at most two safe GPUs, below the conservative four-GPU requirement. This is the concrete blocker for 35B serving in the current run; the 9B fallback results are therefore the reported live results.
 
 The detailed snapshot is recorded in `knowledge_base/qwen35b_capacity_snapshot_20260601.md`, with the latest remote JSON evidence in `experiments/snapshots/qwen35b_capacity_20260601_latest.json`.

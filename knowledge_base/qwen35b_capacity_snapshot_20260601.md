@@ -1,6 +1,6 @@
 # Qwen3.5-35B-A3B Capacity Snapshot
 
-Date checked: June 1, 2026 18:32 UTC on `ds-serv6`.
+Date checked: June 2, 2026 00:00 UTC on `ds-serv6`.
 
 Remote command from the local repo:
 
@@ -49,7 +49,7 @@ GPU snapshot:
 | ---: | ---: | ---: | ---: | --- |
 | 0 | 8,329 | 15,784 | 0% | memory occupied |
 | 1 | 6,622 | 17,492 | 0% | memory occupied |
-| 2 | 20,555 | 3,558 | 0% | occupied by Qwen3.5-9B/vLLM stack |
+| 2 | 20,555 | 3,558 | 90% | occupied by the active Qwen3.5-9B/vLLM ablation stack |
 | 3 | 1 | 24,112 | 0% | safe |
 | 4 | 415 | 23,698 | 100% | high utilization |
 | 5 | 415 | 23,698 | 100% | high utilization |
