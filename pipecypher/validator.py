@@ -64,7 +64,44 @@ def normalize_cypher(query: str) -> str:
 
 def clean_cypher(query: str) -> str:
     query = strip_code_fences(query)
-    return re.sub(r"\s+", " ", query).strip()
+    return _collapse_whitespace_outside_literals(query)
+
+
+def _collapse_whitespace_outside_literals(query: str) -> str:
+    """Collapse Cypher formatting whitespace without changing quoted values."""
+
+    chars: list[str] = []
+    quote: str | None = None
+    escaped = False
+    pending_space = False
+    for char in query:
+        if quote:
+            chars.append(char)
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == quote:
+                quote = None
+            continue
+
+        if char in {"'", '"'}:
+            if pending_space and chars:
+                chars.append(" ")
+            pending_space = False
+            quote = char
+            chars.append(char)
+            continue
+
+        if char.isspace():
+            pending_space = True
+            continue
+
+        if pending_space and chars:
+            chars.append(" ")
+        pending_space = False
+        chars.append(char)
+    return "".join(chars).strip()
 
 
 def assert_read_only(query: str) -> None:

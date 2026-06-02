@@ -251,7 +251,11 @@ class PipeCypherPipeline:
         if value is None:
             return False
         if isinstance(value, str):
-            return bool(value.strip()) and len(value) <= 160
+            if not value.strip() or len(value) > 160:
+                return False
+            if value != value.strip():
+                return False
+            return not any(char in value for char in "\r\n\t")
         if isinstance(value, bool | int | float | date | datetime):
             return True
         return False

@@ -25,6 +25,7 @@ PIPE-Cypher is an industry-track research codebase for automatic benchmark gener
 - Prefer schema-derived constraints over prompt-only instructions.
 - Provide configurable privacy redaction and value-sampling policies for enterprise users. Raw internal artifacts may contain schema names, values, questions, Cypher literals, and result samples; anything intended for broad review, appendix material, or external sharing must either be sanitized or clearly marked as private/internal.
 - Treat low-cardinality value sampling as potentially sensitive. Bound sampled value length and omit free-text/sensitive properties such as notes, comments, and addresses unless the owner explicitly enables them.
+- Preserve exact values inside Cypher string literals during normalization and rewriting. Do not collapse, trim, or otherwise alter whitespace inside quoted literals. Slot grounding should reject hidden-control or leading/trailing-whitespace values unless an explicit value-normalization policy is being evaluated.
 - Log every accepted and rejected candidate with enough metadata to reproduce failure analysis.
 - Do not silently weaken validation to improve yield; add explicit ablations if a check is optional.
 - Measure benchmark diversity explicitly. Report lexical diversity, query-template/signature diversity, schema coverage, structural feature coverage, difficulty balance, and graph/category balance.

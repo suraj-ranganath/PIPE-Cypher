@@ -30,6 +30,20 @@ class MultiBindingCypherClient:
         return ExecutionResult(success=True, rows=[{"AccountId": "acct-1"}])
 
 
+class DirtyBindingCypherClient:
+    def run(self, query, params=None, *, read_only=True, limit_rows=None):
+        if "RETURN DISTINCT p.personName AS personName" in query:
+            return ExecutionResult(
+                success=True,
+                rows=[
+                    {"personName": "\tBertrand"},
+                    {"personName": "  Mallory"},
+                    {"personName": "Chong"},
+                ],
+            )
+        return ExecutionResult(success=True, rows=[{"AccountId": "acct-1"}])
+
+
 class ObjectBindingCypherClient:
     def run(self, query, params=None, *, read_only=True, limit_rows=None):
         if "RETURN DISTINCT p.personName AS personName" in query:
@@ -89,6 +103,30 @@ def test_pipeline_cycles_slot_bindings_for_repeated_seed_template():
 
     assert "Bertrand" in first.question
     assert "Chong" in second.question
+
+
+def test_pipeline_skips_dirty_string_slot_bindings():
+    cfg = RunConfig()
+    cfg.generation.template_source = "default"
+    cfg.generation.repair_attempts = 0
+    pipeline = PipeCypherPipeline(
+        config=cfg,
+        schema=finbench_reference_schema(),
+        client=DirtyBindingCypherClient(),
+        llm=NullLLM(),
+        judge=DeterministicJudge(),
+    )
+    template = next(
+        item
+        for item in default_templates("finbench")
+        if item.category == "simple_retrieval"
+    )
+
+    record = pipeline.run_candidate(template)
+
+    assert "Chong" in record.question
+    assert "\tBertrand" not in record.question
+    assert "  Mallory" not in record.question
 
 
 def test_pipeline_skips_seen_slot_bindings_from_previous_runs():

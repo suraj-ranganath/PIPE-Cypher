@@ -7,6 +7,16 @@ def test_normalize_adds_return_distinct():
     assert normalize_cypher(query) == "MATCH (p:Person) RETURN DISTINCT p.name AS name"
 
 
+def test_normalize_preserves_whitespace_inside_string_literals():
+    query = "MATCH (o:Officer {name: '\tStar  Alucase China Ltd'})\nRETURN o.name AS name"
+
+    normalized = normalize_cypher(query)
+
+    assert "'\tStar  Alucase China Ltd'" in normalized
+    assert "\nRETURN" not in normalized
+    assert "RETURN DISTINCT" in normalized
+
+
 def test_read_only_rejects_write():
     try:
         assert_read_only("MATCH (p:Person) DELETE p")
