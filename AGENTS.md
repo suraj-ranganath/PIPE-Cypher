@@ -143,3 +143,5 @@ Known `ds-serv6` snapshot from June 1, 2026:
 - `/` had about 11 TB free.
 
 Use staged storage under `/` unless `/data` has been cleaned. Run long jobs in `tmux`; log `git rev-parse HEAD`, model IDs, GPU allocation, commands, and output directories.
+
+For research-scale runs, do not default to a single serial endpoint when clean GPU capacity is available. Start independent local vLLM/OpenAI-compatible endpoints on genuinely free GPUs, assign non-overlapping run prefixes or graph/variant cells to each endpoint via `PIPE_CYPHER_LLM_BASE_URL`, and summarize only completed, non-duplicated cells. Do not commandeer GPUs that have another user's resident processes or reserved VRAM without explicit owner approval; low utilization is not the same as free capacity.
