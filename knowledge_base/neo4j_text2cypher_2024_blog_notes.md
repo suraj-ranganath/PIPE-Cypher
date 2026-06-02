@@ -27,3 +27,17 @@ Captured locally on 2026-06-02 for visual analysis only. Full-page and extracted
 ## Current-Family Policy
 
 The blog chart is a 2024 snapshot and should be treated as historical context. New PIPE-Cypher model-family benchmarks should use the latest local-weight checkpoint that is runnable under project constraints, not the exact chart entry, unless a historical baseline has already been launched. Candidate families to prefer for future local-only sweeps include Gemma 3 IT over Gemma 2, Qwen3-Coder over older code baselines, and current Llama instruct checkpoints when license access and 24 GB GPU memory permit.
+
+## Fine-Tuned HF Model Inventory
+
+Fine-tuned Text2Cypher/Cypher checkpoints located on Hugging Face:
+
+- `tomasonjo/text2cypher-demo-16bit`: full Llama-family checkpoint, already evaluated locally.
+- `neo4j/text-to-cypher-Gemma-3-4B-Instruct-2025.04.0`: full Gemma3 Text2Cypher checkpoint, already evaluated locally.
+- `neo4j/text2cypher-gemma-2-9b-it-finetuned-2024v1`: PEFT LoRA adapter over `google/gemma-2-9b-it`; serve with vLLM `--enable-lora --max-lora-rank 64` and merged system messages.
+- `projectwilsen/llama3.1-8b-text2cypher-neo4j-live`, `Saiprasanth15/llama3.1-8b-text2cypher-neo4j-live`, and `Bhargav6239/llama3.1-8b-text2cypher-neo4j-finetune`: LoRA adapters over `unsloth/meta-llama-3.1-8b-bnb-4bit`; the base lacks a chat template under vLLM, so use a template-aware runner before reporting.
+- `aigentx/llama-3.1-8b-instruct-cypher`: LoRA adapter over `unsloth/meta-llama-3.1-8b-instruct-unsloth-bnb-4bit`; vLLM health check passes and the full held-out run was launched locally.
+- `ragraph-ai/stable-cypher-instruct-3b`: fine-tuned StableLM checkpoint, but the HF config declares bitsandbytes 8-bit quantization on `StableLmForCausalLM`; vLLM rejects this quantization path, so use a direct Transformers/bitsandbytes or GGUF runner before reporting.
+- `ed-neo4j/text-to-cypher-unsloth-Llama-3.3-70B-Instruct-bnb-4bit`: fine-tuned 70B 4-bit checkpoint around 39.5 GB; feasible only with careful multi-GPU planning and not a first-pass A5000 single-GPU run.
+
+The exact public HF repo for the chart label `hf_finetuned_neo4j_text2cypher_23_codellama` was not located via HF search; do not report it as evaluated unless a concrete model ID is found.
