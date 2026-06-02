@@ -56,7 +56,7 @@ Candidate acceptance gates:
 
 The implementation is a Python package with Neo4j as the experimental backend. Neo4j is used for execution and schema introspection, while the paper frames the contribution around Cypher and property graphs.
 
-The project supports local vLLM-compatible model serving on `ds-serv6`. All reported generation, judging, and downstream evaluation runs use `Qwen/Qwen3.5-9B`; embeddings use local BGE-M3-style models where retrieval embeddings are needed. This matches the paper's enterprise deployment framing: benchmark generation stays inside the organization's compute boundary and does not rely on paid generation APIs.
+The project supports local vLLM-compatible model serving inside a private compute environment. All reported generation, judging, and downstream evaluation runs use `Qwen/Qwen3.5-9B`; embeddings use local BGE-M3-style models where retrieval embeddings are needed. This matches the paper's enterprise deployment framing: benchmark generation stays inside the organization's compute boundary and does not rely on paid generation APIs.
 
 We also estimate seed-template capacity before full generation. This check caught and fixed a scale blocker: reverse-binding execution was hard-capped to 10 rows, and no-slot negation/ranking seeds could not support full category targets. PIPE-Cypher now uses the configured binding limit and includes slotted negation and ranking seeds for both graphs.
 
@@ -134,7 +134,7 @@ The accepted full-run records were exported into a benchmark package with stable
 
 Diversity diagnostics treat value grounding as a first-class signal. The full export uses 1,115 unique grounded entity values, has a unique grounded-value ratio of 0.373, and exactly quotes grounded values in 82.6% of examples with entity bindings. The appendix reports these aggregate metrics without listing raw values, which keeps concentration visible without making the diagnostic itself a value leak.
 
-Finally, we ran a downstream Text2Cypher evaluation using local Qwen3.5-9B on the exported full test split. The model saw schema text and the natural-language question, generated Cypher, and was evaluated by live execution against the corresponding FinBench or SNB database. The promoted main-paper figure shows why execution-grounded benchmarks are useful: parse validity, schema validity, and execution success can be high while exact execution accuracy remains low for operational categories.
+Finally, we ran a downstream Text2Cypher evaluation using local Qwen3.5-9B on the exported full test split. The model saw schema text and the natural-language question, generated Cypher, and was evaluated by live execution against the corresponding FinBench or SNB database. This result should be read as a discriminative-utility test rather than a strong-baseline claim: parse validity, schema validity, and execution success can be high while exact execution accuracy remains low for operational categories.
 
 | Split | Examples | Parse | Schema | Exec. success | Exec. acc. | Answer F1 |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |

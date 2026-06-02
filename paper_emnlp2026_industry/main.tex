@@ -53,9 +53,7 @@ The deterministic layer enforces read-only safety, syntax shape, schema-visible 
 \input{tables_method}
 
 \section{Implementation}
-The implementation is a Python package with Neo4j as the experimental backend. The paper frames the contribution around Cypher and property graphs rather than a single vendor. Local models are served through a vLLM/OpenAI-compatible endpoint on ds-serv6, using Qwen3.5-9B for generation and judging.
-
-All reported generation, judging, and downstream evaluation runs use a local Qwen3.5-9B endpoint. This keeps the study aligned with an enterprise deployment pattern in which the benchmark pipeline runs inside the organization's compute boundary without paid generation APIs.
+The implementation is a Python package with Neo4j as the experimental backend. The paper frames the contribution around Cypher and property graphs rather than a single vendor. All reported generation, judging, and downstream evaluation runs use a local Qwen3.5-9B endpoint behind a vLLM/OpenAI-compatible interface. This keeps the study aligned with an enterprise deployment pattern in which the benchmark pipeline runs inside the organization's compute boundary without paid generation APIs.
 
 The built-in FinBench profile is grounded in the public datagen snapshot export and includes typed node and relationship properties. Live schema inspection also records low-cardinality string values as categorical constraints for prompting and validation. The generated Neo4j import script uses uniqueness constraints for nodes and creates, rather than merges, transaction relationships so repeated account-to-account events are preserved. The SNB reference profile is grounded in the official Neo4j/Cypher headers and read-query files.
 
@@ -96,19 +94,19 @@ The accepted full-run records were exported into a benchmark package with stable
 
 \noindent\textbf{Diversity and residual concentration.} We report diversity as a diagnostic, not only as a design target. The full export has perfect category balance and near-perfect difficulty balance, uses 1,115 unique grounded entity values, and exactly quotes grounded values in 82.6\% of examples with entity bindings. The reported local-model run still has low query-signature diversity because seeded graph-grounded templates are doing substantial work. This is useful evidence for industry deployment: the artifact is balanced and executable, while the appendix makes template and value concentration visible rather than hiding it.
 
-\noindent\textbf{RQ2: governed generation.} The full-run failure taxonomy shows where generation effort was spent before export: 1,335 rejected candidates came from diversity or duplicate controls during recovery, 374 from empty execution results, 66 from judge semantic rejection, and only 2 from schema invalidity. This supports the claim that deterministic schema gates made invalid Cypher rare, while refresh-scale generation mostly needs better value/template exploration. The scaled ablation suites show that the benchmark factory is stable once deterministic grounding and schema metadata are fixed. In the target-100 suite, every non-unconstrained graph/setting cell reached all eight category targets with 800 accepted examples per cell; the full PIPE-Cypher setting accepted 800/824 candidates on both FinBench and SNB. Across the three evidence-ready suites, target-normalized coverage is 1.000 for every non-unconstrained cell, while the unconstrained local generation baseline produced no accepted examples under the same execution-grounded gates.
+\noindent\textbf{RQ2: governed generation.} The full-run failure taxonomy shows where generation effort was spent before export: 1,335 rejected candidates came from diversity or duplicate controls during recovery, 374 from empty execution results, 66 from judge semantic rejection, and only 2 from schema invalidity. This supports the claim that deterministic schema gates made invalid Cypher rare, while refresh-scale generation mostly needs better value/template exploration. The scaled ablation suites show that the benchmark factory is stable once deterministic grounding and schema metadata are fixed. In the target-100 suite, every non-unconstrained graph/setting cell reached all eight category targets with 800 accepted examples per cell; the full PIPE-Cypher setting accepted 800/824 candidates on both FinBench and SNB. Figure~\ref{fig:ablation_suite_target100_main} shows the contrast with unconstrained local generation, which produced no accepted examples under the same executable benchmark gates. Across the three evidence-ready suites, target-normalized coverage is 1.000 for every non-unconstrained cell.
 
 \noindent\textbf{Judge calibration.} For judge calibration, the released artifacts include an 80-row audit packet sampled from accepted and rejected full-run candidates, with a 40/40 judge accept/reject split and coverage over both graphs and all eight categories. A completed human audit shows 80.0\% agreement, Cohen's $\kappa=0.60$, judge precision and specificity of 1.00, recall of 0.714, and no false accepts in the sample. The judge is therefore conservative: it protects accepted-example quality while rejecting some human-approved candidates and reducing yield. Human labels are used only for post-hoc calibration, not as a generation gate.
 
-\noindent\textbf{RQ3: downstream utility.} We ran a downstream Text2Cypher evaluation using local Qwen3.5-9B on the exported full test split. The model saw schema text and the natural-language question, generated Cypher, and was evaluated by live execution against the corresponding FinBench or SNB database. Figure~\ref{fig:downstream_breakdown_main} shows why execution-grounded benchmarks are useful: parse validity, schema validity, and execution success can be high while exact execution accuracy remains low for operational categories. The zero-shot 9B baseline solves simple aggregation examples but struggles with retrieval, boolean, negation, and path-shaped questions.
+\noindent\textbf{RQ3: downstream utility.} We ran a downstream Text2Cypher evaluation using local Qwen3.5-9B on the exported full test split. The model saw schema text and the natural-language question, generated Cypher, and was evaluated by live execution against the corresponding FinBench or SNB database. This is not a claim that the baseline is strong; it is a discriminative-utility test for the benchmark. The model reaches high parse validity and schema validity, but much lower exact execution accuracy, showing that PIPE-Cypher separates executable-looking Cypher from semantically correct Cypher.
 
 \input{tables_downstream_evaluation}
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=0.78\textwidth]{figures/downstream_breakdown.pdf}
-\caption{Downstream zero-shot Qwen3.5-9B Text2Cypher evaluation by workload category on the full test split. The benchmark separates parse/schema/execution success from exact execution accuracy, exposing operational categories where executable Cypher is still semantically wrong.}
-\label{fig:downstream_breakdown_main}
+\includegraphics[width=0.82\textwidth]{figures/ablation_suite_target100.pdf}
+\caption{Target-100 ablation yield on FinBench and SNB. Unconstrained local generation produces no accepted examples under executable benchmark gates, while governed PIPE-Cypher variants reach all eight workload-category targets on both graphs.}
+\label{fig:ablation_suite_target100_main}
 \end{figure*}
 
 \noindent\textbf{RQ4: third-graph onboarding.} ICIJ onboarding reaches the same per-category target on a larger public finance/compliance graph: 800 accepted examples from 983 candidates over 2.0M nodes and 3.3M relationships, with 100 examples in every category. This result is important because it exercises schema-derived sparse-category templates and live reverse grounding on a graph whose schema is not one of the two LDBC study workloads.
@@ -152,13 +150,6 @@ PIPE-Cypher is designed for private benchmark generation under local-model deplo
 \input{appendix_claim_evidence}
 \input{appendix_prompt_contracts}
 \input{appendix_example_cards}
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\columnwidth]{figures/ablation_suite_target100.pdf}
-\caption{Audited target-100 ablation suite over FinBench and SNB. Every non-unconstrained graph/setting cell reaches all eight category targets with 800 accepted examples per cell.}
-\label{fig:ablation_suite_target100}
-\end{figure}
 
 \begin{figure}[t]
 \centering

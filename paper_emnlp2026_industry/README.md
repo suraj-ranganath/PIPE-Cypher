@@ -78,7 +78,7 @@ pipeline records the seed in per-run summaries and suite metadata, so appendix
 variance or sensitivity claims can point to reproducible repeated-seed runs.
 
 Current large-scale follow-up: `20260602_ablation100_qwen9b_schemafix` is running on
-`ds-serv6` in tmux session `pipecypher_ablation100_qwen9b_schemafix`, staged from commit
+the remote compute host in tmux session `pipecypher_ablation100_qwen9b_schemafix`, staged from commit
 `389e7e09af06bbdcc48c6a4bc80f8f2c7af3b944` under
 `/home/suraj/PIPE-Cypher-389e7e0-schemafix`. This is not paper evidence
 until it completes, is collected, and passes the paper-readiness audit.
@@ -131,7 +131,7 @@ python scripts/collect_remote_ablation_suite.py \
   --poll-seconds 60
 ```
 
-The collector fetches matching remote run directories from `ds-serv6`, copies
+The collector fetches matching remote run directories from the configured remote host, copies
 the remote log into `experiments/snapshots/<run_prefix>/remote_run.log`, and
 writes `ablation_suite_summary.{json,md,csv}` plus
 `ablation_suite_audit.{json,md}` and `collection_manifest.json` locally. The

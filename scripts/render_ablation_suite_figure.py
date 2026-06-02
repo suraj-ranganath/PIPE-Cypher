@@ -106,11 +106,12 @@ def render_ablation_suite_figure(summary: dict, output: Path, plt) -> None:
 
     axes[0].set_ylim(0, 1.05)
     axes[0].set_ylabel("Acceptance rate")
-    axes[0].set_title(
-        f"Target-{summary.get('target_per_category')} ablation yield by graph"
-    )
     style_axis(axes[0], grid_axis="y")
-    axes[0].legend(frameon=False, ncols=max(1, len(graphs)), loc="upper right")
+    axes[0].legend(
+        frameon=False,
+        ncols=max(1, len(graphs)),
+        loc="upper left",
+    )
 
     axes[1].set_ylim(0, 1.05)
     axes[1].set_ylabel("Categories at target")
