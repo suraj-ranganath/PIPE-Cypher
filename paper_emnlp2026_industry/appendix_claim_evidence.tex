@@ -14,7 +14,7 @@ This section maps the main paper claims to the strongest current evidence and to
 \textit{Risk.} Semantic correctness still depends on execution evidence and judge review; human audit labels are pending.
 \item \textbf{Claim 3.} Reverse grounding and structured workload seeds are designed to improve reliability under local-model constraints.\par
 \textit{Evidence.} The target-50 FinBench/SNB ablation suite completed 14/14 graph/variant cells, reached every category target for all non-empty/non-unconstrained runs, and passed the paper-readiness audit with logs, model IDs, code revision, run summaries, and gate-rate availability. Appendix-only tables and a figure report the audited target-50 evidence while the target-100 follow-up and seeded target-50 repeat continue for stronger final reliability and variance claims.\par
-\textit{Key artifacts.} script: run\_live\_ablation\_suite.sh; script: monitor\_remote\_ablation\_suite.py; script: monitor\_remote\_ablation\_queue.py; script: collect\_remote\_ablation\_suite.py; +8 more\par
+\textit{Key artifacts.} script: run live ablation suite; script: monitor remote ablation suite; script: monitor remote ablation queue; script: collect remote ablation suite; +8 more\par
 \textit{Status.} Supported by audited target-50 appendix evidence; target-100 and seeded target-50 repeat runs are still pending for stronger final reliability claims.\par
 \textit{Risk.} A single target-50 suite is the minimum publishable ablation scale, not the strongest possible evidence. If target-100 or repeated-seed runs complete, final claims should use those sensitivity results instead of relying only on target-50.
 \item \textbf{Claim 4.} The benchmark controls category and difficulty balance while exposing residual diversity limits.\par
@@ -34,7 +34,7 @@ This section maps the main paper claims to the strongest current evidence and to
 \textit{Risk.} Judge-human agreement is not yet known because human labels are still blank.
 \item \textbf{Claim 7.} The intended 35B local generation/judge path is staged but not currently runnable under observed shared-GPU constraints.\par
 \textit{Evidence.} Qwen3.5-35B-A3B is staged on ds-serv6, but the capacity checker reports 68,573 MiB of weights, four required A5000 GPUs under the conservative vLLM budget, and only one safe GPU in the latest snapshot.\par
-\textit{Key artifacts.} script: check\_vllm\_capacity.py; research note: model availability; research note: qwen35b capacity snapshot 20260601; snapshot: qwen35b capacity 20260601 latest\par
+\textit{Key artifacts.} script: check vllm capacity; research note: model availability; research note: qwen35b capacity snapshot 20260601; snapshot: qwen35b capacity 20260601 latest\par
 \textit{Status.} Documented blocker; current paper results are explicitly reported as Qwen3.5-9B fallback evidence.\par
 \textit{Risk.} A later 35B run may change yield, diversity, judge behavior, and downstream conclusions.
 \end{enumerate}

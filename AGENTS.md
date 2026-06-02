@@ -112,6 +112,9 @@ The main paper should stay tight, but the appendix can be long. Use the appendix
 - Prefer repeated, graph-stratified, or category-stratified analyses over single aggregate numbers. Main-paper tables may be compact, but appendix material should include the full matrix, per-graph/per-category breakdowns, and enough uncertainty or variance evidence to satisfy skeptical reviewers.
 - Large appendix results are expected. Put full ablation matrices, repeated-run variance, confidence intervals, diversity distributions, failure taxonomies, judge-human agreement, downstream per-difficulty slices, and representative examples in the appendix even when the main six-page body can only summarize the headline.
 - Do not promote a running, partially summarized, or under-audited suite into the paper. Only report results after the summary artifacts, logs, model IDs, graph workloads, code revision, readiness audit, and failure analysis have been checked into the evidence map or documented as externally stored large artifacts.
+- Large-scale follow-up work is part of the research obligation, not an optional cleanup pass. While the goal remains active, future agents should keep monitoring queued `ds-serv6` experiments, collect only completed suites, and prefer launching the next defensible scale increment when GPUs are free.
+- The appendix should make scale legible to reviewers: include the full ablation matrix, graph/category/difficulty counts, run-to-run sensitivity, uncertainty intervals, failure modes, and any excluded or failed cells with clear reasons. Do not hide weak cells by only reporting aggregate wins.
+- Downstream evaluation should be treated as a full-benchmark reliability study. When additional models or larger local-model endpoints become feasible, run them on the complete held-out split and report paired, slice-aware comparisons instead of isolated sample results.
 
 ## Compute Notes
 

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import textwrap
 from dataclasses import dataclass
 from pathlib import Path
@@ -124,43 +125,31 @@ def prompt_contracts() -> list[PromptContract]:
 def render_prompt_contracts_tex() -> str:
     rows = [
         r"\section{Prompt Contracts}",
+        r"\label{tab:prompt_contracts}",
         (
             "PIPE-Cypher treats prompts as versioned implementation artifacts. "
-            "The table summarizes the prompt contracts used for generation, repair, "
+            "The list summarizes the prompt contracts used for generation, repair, "
             "judging, and downstream evaluation; hashes fingerprint the full prompt "
             "constants in the codebase."
         ),
-        r"\begin{table*}[t]",
-        r"\centering",
-        r"\small",
-        (
-            r"\begin{tabular}{p{0.16\textwidth}p{0.18\textwidth}"
-            r"p{0.50\textwidth}p{0.10\textwidth}}"
-        ),
-        r"\toprule",
-        r"Prompt & Pipeline stage & Contract summary & SHA-256 \\",
-        r"\midrule",
+        r"\begin{enumerate}",
     ]
     for contract in prompt_contracts():
-        rows.append(
-            "{name} & {stage} & {constraints} & \\texttt{{{sha}}} \\\\".format(
-                name=_escape_latex(contract.name),
-                stage=_escape_latex(contract.stage),
-                constraints=_escape_latex("; ".join(contract.constraints)),
-                sha=contract.sha256[:6],
-            )
+        rows.extend(
+            [
+                "\\item \\textbf{{{name}.}} Stage: {stage}. SHA-256: \\texttt{{{sha}}}.\\par".format(
+                    name=_escape_latex(contract.name),
+                    stage=_escape_latex(contract.stage),
+                    sha=contract.sha256[:6],
+                ),
+                "\\textit{{Contract.}} {constraints}".format(
+                    constraints=_escape_latex("; ".join(contract.constraints)),
+                ),
+            ]
         )
     rows.extend(
         [
-            r"\bottomrule",
-            r"\end{tabular}",
-            (
-                r"\caption{Prompt contracts used by PIPE-Cypher. Hashes fingerprint "
-                r"the full prompt constants in the released code; the table summarizes "
-                r"the enforceable constraints without depending on generated prose.}"
-            ),
-            r"\label{tab:prompt_contracts}",
-            r"\end{table*}",
+            r"\end{enumerate}",
         ]
     )
     return "\n".join(rows) + "\n"
@@ -242,7 +231,7 @@ def _example_item(row: dict[str, Any]) -> list[str]:
     category = _label(str(row.get("category", "")))
     difficulty = _escape_latex(str(row.get("difficulty", "")))
     question = _escape_latex(str(row.get("question", "")))
-    cypher = _wrap_code(str(row.get("cypher", "")), width=64)
+    cypher = _wrap_code(str(row.get("cypher", "")), width=40)
     result = _escape_latex(_result_summary(row))
     features = row.get("structural_features", {})
     tags = ", ".join(str(tag) for tag in features.get("strategy_tags", []))
@@ -273,18 +262,15 @@ def _example_item(row: dict[str, Any]) -> list[str]:
             difficulty=difficulty,
         ),
         "\\textit{{Question:}} {question}".format(question=question),
-        r"\begin{quote}\scriptsize\ttfamily\raggedright",
+        r"\begin{quote}\scriptsize\ttfamily\raggedright\sloppy",
         cypher,
         r"\end{quote}",
-        (
-            "\\textit{{Structure:}} {tags}; relationships: {relationships}; gates: {gates}.\\par "
-            "\\textit{{Result sample:}} {result}"
-        ).format(
-            tags=_escape_latex(tags or "none"),
-            relationships=_escape_latex(relationships or "none"),
-            gates=_escape_latex(gate_summary or "none"),
-            result=result,
+        "\\textit{{Structure:}} {tags}.\\par".format(tags=_escape_latex(tags or "none")),
+        "\\textit{{Relationships:}} {relationships}.\\par".format(
+            relationships=_escape_latex(relationships or "none")
         ),
+        "\\textit{{Gates:}} {gates}.\\par".format(gates=_escape_latex(gate_summary or "none")),
+        "\\textit{{Result sample:}} {result}".format(result=result),
     ]
 
 
@@ -341,20 +327,42 @@ def _artifact_label(artifact: str) -> str:
     if artifact.startswith("pipecypher/"):
         return f"code: {name}"
     if artifact.startswith("scripts/"):
-        return f"script: {name}"
+        return f"script: {path.stem.replace('_', ' ')}"
     return name or artifact
 
 
 def _wrap_code(value: str, *, width: int) -> str:
-    lines = textwrap.wrap(
-        value,
-        width=width,
-        break_long_words=True,
-        break_on_hyphens=False,
-    )
+    lines: list[str] = []
+    for source_line in _display_cypher(value).splitlines():
+        lines.extend(
+            textwrap.wrap(
+                source_line,
+                width=width,
+                break_long_words=False,
+                break_on_hyphens=False,
+            )
+            or [""]
+        )
     if not lines:
         return ""
     return "\\\\\n".join(_escape_latex(line) for line in lines)
+
+
+def _display_cypher(value: str) -> str:
+    display = re.sub(r"\s+", " ", value).strip()
+    display = re.sub(
+        r"(?i)\b(OPTIONAL\s+MATCH|ORDER\s+BY|MATCH|WHERE|WITH|RETURN|SKIP|LIMIT)\b",
+        lambda match: "\n" + re.sub(r"\s+", " ", match.group(1).upper()),
+        display,
+    ).strip()
+    display = re.sub(r"\)\s*-\s*\[:", ") -[:", display)
+    display = re.sub(r"\]\s*-\s*\(", "]- (", display)
+    display = re.sub(r"\)\s*<-\s*\[:", ") <-[:", display)
+    display = re.sub(r"\]\s*->\s*\(", "]-> (", display)
+    display = display.replace("->", "-> ")
+    display = display.replace("<-", " <-")
+    display = re.sub(r"\s*,\s*", ", ", display)
+    return "\n".join(re.sub(r"\s+", " ", line).strip() for line in display.splitlines())
 
 
 def _result_summary(row: dict[str, Any]) -> str:

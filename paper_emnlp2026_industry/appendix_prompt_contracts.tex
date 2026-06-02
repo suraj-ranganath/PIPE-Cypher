@@ -1,20 +1,17 @@
 \section{Prompt Contracts}
-PIPE-Cypher treats prompts as versioned implementation artifacts. The table summarizes the prompt contracts used for generation, repair, judging, and downstream evaluation; hashes fingerprint the full prompt constants in the codebase.
-\begin{table*}[t]
-\centering
-\small
-\begin{tabular}{p{0.16\textwidth}p{0.18\textwidth}p{0.50\textwidth}p{0.10\textwidth}}
-\toprule
-Prompt & Pipeline stage & Contract summary & SHA-256 \\
-\midrule
-Template generation & Workload proposal & Schema-only labels, relationships, properties, and categorical values; Realistic enterprise analyst wording; At most two typed slots and JSON-only output & \texttt{10b25b} \\
-Reverse binding & Graph grounding & Read-only MATCH/WHERE/RETURN DISTINCT/LIMIT only; Slot variables named exactly as requested; Forward relationship directions from the schema & \texttt{48e949} \\
-Cypher generation & Candidate query & Only schema-visible constructs and observed directions; RETURN DISTINCT for set returns and exact equality for quoted values; Context columns, categorical hints, placeholderized retrieval, and no writes & \texttt{61c557} \\
-Repair & Validation feedback & Preserve question intent while fixing validation or execution issues; Keep query read-only and schema-grounded; Return only corrected Cypher & \texttt{56c419} \\
-LLM judge & Quality gate & Inputs include question, Cypher, schema slice, execution rows, and validation summary; Strict JSON scores for ambiguity, semantic alignment, schema use, and difficulty; Pass only useful, unambiguous enterprise benchmark examples & \texttt{073938} \\
-Downstream Text2Cypher & Model evaluation & Read-only Cypher only; Schema-visible constructs and exact direction preservation; RETURN DISTINCT, count/ranking rules, and no explanations & \texttt{4c07ff} \\
-\bottomrule
-\end{tabular}
-\caption{Prompt contracts used by PIPE-Cypher. Hashes fingerprint the full prompt constants in the released code; the table summarizes the enforceable constraints without depending on generated prose.}
 \label{tab:prompt_contracts}
-\end{table*}
+PIPE-Cypher treats prompts as versioned implementation artifacts. The list summarizes the prompt contracts used for generation, repair, judging, and downstream evaluation; hashes fingerprint the full prompt constants in the codebase.
+\begin{enumerate}
+\item \textbf{Template generation.} Stage: Workload proposal. SHA-256: \texttt{10b25b}.\par
+\textit{Contract.} Schema-only labels, relationships, properties, and categorical values; Realistic enterprise analyst wording; At most two typed slots and JSON-only output
+\item \textbf{Reverse binding.} Stage: Graph grounding. SHA-256: \texttt{48e949}.\par
+\textit{Contract.} Read-only MATCH/WHERE/RETURN DISTINCT/LIMIT only; Slot variables named exactly as requested; Forward relationship directions from the schema
+\item \textbf{Cypher generation.} Stage: Candidate query. SHA-256: \texttt{61c557}.\par
+\textit{Contract.} Only schema-visible constructs and observed directions; RETURN DISTINCT for set returns and exact equality for quoted values; Context columns, categorical hints, placeholderized retrieval, and no writes
+\item \textbf{Repair.} Stage: Validation feedback. SHA-256: \texttt{56c419}.\par
+\textit{Contract.} Preserve question intent while fixing validation or execution issues; Keep query read-only and schema-grounded; Return only corrected Cypher
+\item \textbf{LLM judge.} Stage: Quality gate. SHA-256: \texttt{073938}.\par
+\textit{Contract.} Inputs include question, Cypher, schema slice, execution rows, and validation summary; Strict JSON scores for ambiguity, semantic alignment, schema use, and difficulty; Pass only useful, unambiguous enterprise benchmark examples
+\item \textbf{Downstream Text2Cypher.} Stage: Model evaluation. SHA-256: \texttt{4c07ff}.\par
+\textit{Contract.} Read-only Cypher only; Schema-visible constructs and exact direction preservation; RETURN DISTINCT, count/ranking rules, and no explanations
+\end{enumerate}

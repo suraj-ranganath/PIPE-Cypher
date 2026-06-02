@@ -35,6 +35,7 @@ def test_prompt_contracts_include_generation_and_judge_hashes():
     assert "RETURN DISTINCT" in text
     assert "SHA-256" in text
     assert r"\label{tab:prompt_contracts}" in text
+    assert r"\begin{table*}" not in text
 
 
 def test_load_claim_evidence_validates_required_keys(tmp_path: Path):
@@ -62,6 +63,27 @@ claims:
     assert "benchmark export" in text
     assert "artifacts/benchmarks/run" not in text
     assert r"\begin{table*}" not in text
+
+
+def test_claim_evidence_shortens_script_artifact_labels(tmp_path: Path):
+    path = tmp_path / "claims.yaml"
+    path.write_text(
+        """
+claims:
+  - claim: Remote runs are monitored.
+    evidence: Queue tooling records active and completed suites.
+    artifacts:
+      - scripts/monitor_remote_ablation_queue.py
+    status: Supported by tooling.
+    risk: Runs still need to complete.
+""",
+        encoding="utf-8",
+    )
+
+    text = render_claim_evidence_tex(load_claim_evidence(path))
+
+    assert "script: monitor remote ablation queue" in text
+    assert "monitor\\_remote\\_ablation\\_queue.py" not in text
 
 
 def test_load_claim_evidence_rejects_missing_keys(tmp_path: Path):
@@ -122,6 +144,32 @@ def test_render_example_cards_escapes_cypher_and_reports_gates():
     assert r"\textgreater{}" in text
     assert "RO/Syn/Schema/Exec/Judge" in text
     assert "HAS\\_TAG" in text
+
+
+def test_render_example_cards_keeps_quoted_values_intact_after_wrapping():
+    text = render_example_cards_tex(
+        [
+            {
+                "id": "a",
+                "graph_profile": "finbench",
+                "category": "simple_retrieval",
+                "difficulty": "medium",
+                "question": "Which transfers mention the long routing channel?",
+                "cypher": (
+                    "MATCH (a:Account)-[:TRANSFER]->(b:Account) "
+                    "WHERE a.channel = 'International-Wire-Transfer-Clearing' "
+                    "RETURN DISTINCT a.id, b.id"
+                ),
+                "result_rows_sample": [{"source": "A1", "target": "B2"}],
+                "gates": {"read_only": True, "syntax_valid": True},
+                "structural_features": {"strategy_tags": [], "relationship_types": ["TRANSFER"]},
+            }
+        ]
+    )
+
+    assert "International-Wire-Transfer-Clearing" in text
+    assert "International-Wire-Transfer-\\\\\nClearing" not in text
+    assert ") -[:TRANSFER]-\\textgreater{}" in text
 
 
 def test_load_examples_supports_json_and_jsonl(tmp_path: Path):
