@@ -46,6 +46,10 @@ results. Target-25 is an interim checkpoint. Do not include
 or `tables_midscale_results.tex` in the paper. Run a scaled ablation suite from
 the project root before adding ablation tables:
 
+The regression test `tests/test_paper_reporting_guards.py` scans manuscript,
+table, appendix, and paper-figure surfaces for these diagnostic artifacts. Keep
+that test passing before treating the draft as paper-ready.
+
 ```bash
 SESSION=pipecypher_ablation50_qwen9b \
 TARGET_PER_CATEGORY=50 \
