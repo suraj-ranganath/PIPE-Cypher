@@ -5,7 +5,7 @@ Status: goal is not complete yet.
 ## Evidence Already Present
 
 - Clean repo scaffold with package, configs, scripts, tests, docs, experiment matrix, and paper directory.
-- Deterministic tests pass: `158 passed`.
+- Deterministic tests pass: `161 passed`.
 - Offline smoke runs prove the CLI path, built-in FinBench and SNB reference schemas, deterministic validation, contextual return warnings, mock execution, deterministic judge, JSONL logging, strategy tags, and summary metrics.
 - LDBC FinBench SF0.1 has been generated on `ds-serv6`, transformed to snapshot CSVs, and loaded into a user-space Neo4j Community 5.26 smoke database.
 - The loaded FinBench smoke graph contains 10,006 nodes and 57,622 relationships.
@@ -64,6 +64,7 @@ Status: goal is not complete yet.
 - Schema-driven value grounding now exists in `pipecypher.value_grounding` and is injected into generation prompt hints. It adapts BalkanID-style fuzzy annotations with deterministic handling for categorical values, reverse-bound entities, punctuation variants, possessives, plurals, synonyms, name partials, and small typos, without adding spaCy/SymSpell runtime dependencies.
 - Relationship-direction validation now handles both outgoing and incoming Cypher arrow syntax. It accepts `(:A)<-[:R]-(:B)` only when the schema contains `(:B)-[:R]->(:A)`, rejects reversed incoming patterns, and rejects untyped or undirected relationship patterns as benchmark-invalid.
 - Categorical property validation now rejects generated Cypher that uses unsupported schema-provided enum-like values in node maps or `WHERE` predicates. The tracked FinBench schema records categorical values for `Account.accountType`, `Company.business`, and `Medium.mediumType`; a full-export check found zero categorical-value violations among existing FinBench examples.
+- Dependency-free Cypher structure analysis now extracts top-level `ORDER BY` items plus `SKIP` and `LIMIT` expressions while ignoring those tokens inside string literals or nested expressions. This carries another BalkanID listener idea into deterministic validator metadata for difficulty, diversity, and parser-aware rewrite audits.
 - FinBench negation/difference seeds now include additional company- and account-scoped slotted templates, raising theoretical seed capacity for that category from 302 to 1202 under the full config.
 - Slot binding now skips bindings whose filled question is already present in `--seen-records`, so patched top-up runs do not waste early attempts replaying accepted examples from the original run.
 - FinBench ranking/top-k seeds now include additional company-, person-withdrawal-, and account-type-scoped templates, raising theoretical seed capacity for that category from 302 to 1202 under the full config.
