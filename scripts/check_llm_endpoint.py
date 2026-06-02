@@ -21,6 +21,12 @@ def main() -> None:
     parser.add_argument("--model", default="Qwen/Qwen3.5-9B")
     parser.add_argument("--timeout-sec", type=int, default=60)
     parser.add_argument("--max-tokens", type=int, default=32)
+    parser.add_argument(
+        "--system-message-mode",
+        choices=["separate", "merge"],
+        default="separate",
+        help="Use 'merge' for chat templates that reject the system role.",
+    )
     args = parser.parse_args()
 
     base_url = args.base_url.rstrip("/")
@@ -36,6 +42,7 @@ def main() -> None:
         include_reasoning=False,
         enable_thinking=False,
         strip_reasoning=True,
+        system_message_mode=args.system_message_mode,
     )
     chat = llm.chat(
         system="You are a terse API. Return only the requested answer.",

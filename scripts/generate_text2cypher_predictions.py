@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 from pathlib import Path
 
@@ -34,6 +35,12 @@ def main() -> None:
     parser.add_argument("--temperature", type=float, default=0.0)
     parser.add_argument("--max-tokens", type=int, default=512)
     parser.add_argument("--schema-max-items", type=int, default=70)
+    parser.add_argument(
+        "--system-message-mode",
+        choices=["separate", "merge"],
+        default=os.getenv("PIPE_CYPHER_SYSTEM_MESSAGE_MODE", "separate"),
+        help="Use 'merge' for chat templates that reject the system role.",
+    )
     parser.add_argument("--few-shot", default="", help="Optional JSONL examples, usually train.jsonl")
     parser.add_argument("--few-shot-k", type=int, default=0)
     parser.add_argument("--limit", type=int, default=0)
@@ -54,6 +61,7 @@ def main() -> None:
         include_reasoning=False,
         enable_thinking=False,
         strip_reasoning=True,
+        system_message_mode=args.system_message_mode,
     )
 
     out = Path(args.output)

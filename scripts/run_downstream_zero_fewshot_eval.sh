@@ -8,6 +8,7 @@ BASE_URL="${BASE_URL:-http://localhost:8000/v1}"
 MODEL="${MODEL:-Qwen/Qwen3.5-9B}"
 FEW_SHOT_K="${FEW_SHOT_K:-5}"
 OUTPUT_DIR="${OUTPUT_DIR:-artifacts/evaluations/${RUN_PREFIX}}"
+SYSTEM_MESSAGE_MODE="${SYSTEM_MESSAGE_MODE:-separate}"
 
 mkdir -p "${OUTPUT_DIR}"
 
@@ -19,6 +20,7 @@ python scripts/generate_text2cypher_predictions.py \
   --output "${OUTPUT_DIR}/zero_shot_predictions.jsonl" \
   --base-url "${BASE_URL}" \
   --model "${MODEL}" \
+  --system-message-mode "${SYSTEM_MESSAGE_MODE}" \
   --few-shot-k 0
 
 python scripts/evaluate_benchmark_predictions.py \
@@ -38,6 +40,7 @@ python scripts/generate_text2cypher_predictions.py \
   --output "${OUTPUT_DIR}/few_shot_predictions.jsonl" \
   --base-url "${BASE_URL}" \
   --model "${MODEL}" \
+  --system-message-mode "${SYSTEM_MESSAGE_MODE}" \
   --few-shot "${BENCHMARK}/train.jsonl" \
   --few-shot-k "${FEW_SHOT_K}"
 

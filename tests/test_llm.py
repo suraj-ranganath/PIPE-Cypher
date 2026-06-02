@@ -53,3 +53,19 @@ def test_openai_client_disables_qwen_thinking_by_default() -> None:
     assert payload["include_reasoning"] is False
     assert payload["chat_template_kwargs"] == {"enable_thinking": False}
     assert result.text == "ok"
+
+
+def test_openai_client_can_merge_system_message_for_gemma_templates() -> None:
+    response = Mock()
+    response.json.return_value = {"choices": [{"message": {"content": "ok"}}]}
+
+    with patch("pipecypher.llm.requests.post", return_value=response) as post:
+        result = OpenAICompatibleLLM(
+            "http://localhost:8000/v1",
+            "google/gemma-2-9b-it",
+            system_message_mode="merge",
+        ).chat(system="sys", user="user")
+
+    messages = post.call_args.kwargs["json"]["messages"]
+    assert messages == [{"role": "user", "content": "Instruction:\nsys\n\nRequest:\nuser"}]
+    assert result.text == "ok"

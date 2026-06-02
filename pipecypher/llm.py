@@ -27,7 +27,10 @@ class OpenAICompatibleLLM:
         include_reasoning: bool | None = False,
         enable_thinking: bool | None = False,
         strip_reasoning: bool = True,
+        system_message_mode: str = "separate",
     ) -> None:
+        if system_message_mode not in {"separate", "merge"}:
+            raise ValueError("system_message_mode must be 'separate' or 'merge'")
         self.base_url = base_url.rstrip("/")
         self.model = model
         self.timeout_sec = timeout_sec
@@ -36,6 +39,7 @@ class OpenAICompatibleLLM:
         self.include_reasoning = include_reasoning
         self.enable_thinking = enable_thinking
         self.strip_reasoning = strip_reasoning
+        self.system_message_mode = system_message_mode
 
     def chat(
         self,
@@ -46,12 +50,10 @@ class OpenAICompatibleLLM:
         max_tokens: int = 1024,
         response_format: dict[str, Any] | None = None,
     ) -> ChatResponse:
+        messages = _chat_messages(system, user, mode=self.system_message_mode)
         payload: dict[str, Any] = {
             "model": self.model,
-            "messages": [
-                {"role": "system", "content": system},
-                {"role": "user", "content": user},
-            ],
+            "messages": messages,
             "temperature": temperature,
             "max_tokens": max_tokens,
         }
@@ -122,6 +124,18 @@ def extract_json_text(text: str) -> str:
     if extracted is None:
         raise json.JSONDecodeError("No JSON object or array found", cleaned, 0)
     return extracted
+
+
+def _chat_messages(system: str, user: str, *, mode: str) -> list[dict[str, str]]:
+    if mode == "separate":
+        return [
+            {"role": "system", "content": system},
+            {"role": "user", "content": user},
+        ]
+    if mode == "merge":
+        merged = f"Instruction:\n{system.strip()}\n\nRequest:\n{user.strip()}"
+        return [{"role": "user", "content": merged}]
+    raise ValueError("system_message_mode must be 'separate' or 'merge'")
 
 
 def _first_balanced_json(text: str) -> str | None:

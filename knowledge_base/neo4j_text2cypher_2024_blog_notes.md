@@ -1,0 +1,25 @@
+# Neo4j Text2Cypher 2024 Fine-Tuning Blog Notes
+
+Source: https://neo4j.com/blog/developer/fine-tuned-text2cypher-2024-model/
+Captured locally on 2026-06-02 for visual analysis only. Full-page and extracted chart images are stored under `artifacts/internal_visual_refs/neo4j_text2cypher_2024*` and should not be committed as paper figures.
+
+## Visual/Content Takeaways
+
+- The post presents Text2Cypher fine-tuning as a same-distribution improvement story: train on the Neo4j Text2Cypher 2024 training split and evaluate on the corresponding test split.
+- Their visual result chart separates translation-style Google BLEU from execution-style ExactMatch. This is useful for PIPE-Cypher because it reinforces our decision to report execution accuracy/answer F1 as primary and text metrics as secondary diagnostics.
+- The fine-tuning delta table shows improvements for several fine-tuned models, but the execution gains are modest for some baselines. That supports evaluating transfer on our own held-out enterprise-style graphs instead of assuming public Text2Cypher fine-tuning transfers.
+- Their prompt table is much simpler than PIPE-Cypher's governance prompt contract: schema-only, no explanations, no extra relationship types/properties. PIPE-Cypher should frame its added value as turning these prompt instructions into deterministic gates, direction/property checks, value policy, and execution validation.
+- The risks table is the most useful paper motivation. It explicitly flags paraphrased-test contamination, template/logic over-concentration, inference-time compute effects, and public-test leakage. PIPE-Cypher addresses these through private graph-specific benchmark generation, diversity diagnostics, local model operation, refreshable held-out splits, and audit metadata.
+
+## How To Use In PIPE-Cypher
+
+- Cite this line of work as evidence that public fine-tuned Text2Cypher models exist and can improve same-distribution scores.
+- Use our multi-model downstream transfer experiment to test whether those gains transfer to FinBench/SNB enterprise-style workloads.
+- In the paper narrative, avoid saying fine-tuned models are bad. The stronger claim is: public Text2Cypher fine-tuning is useful, but enterprise teams still need private, executable, distribution-specific benchmarks to measure transfer, support tenant-specific fine-tuning, and refresh evaluation as schemas and graph contents change.
+- In appendix analysis, compare zero-shot vs retrieval few-shot and general/code/fine-tuned model families on the same held-out split. If the fine-tuned model improves syntax but not execution, frame this as public training improving Cypher form without fully solving graph-specific grounding.
+
+## Runnable Model Split
+
+- Blog-reported best models on same-distribution evaluation: `Finetuned'24-OpenAI/GPT-4o`, `Finetuned'24-OpenAI/GPT-4o-mini`, and `Finetuned'24-GoogleAIStudio/Gemini-1.5-Flash-001`. These are closed/vendor fine-tunes and should not be used for PIPE-Cypher reported experiments under the local/no-paid-API constraint.
+- Public local candidates to run in PIPE-Cypher transfer experiments: `tomasonjo/text2cypher-demo-16bit`, `neo4j/text-to-cypher-Gemma-3-4B-Instruct-2025.04.0`, `ragraph-ai/stable-cypher-instruct-3b`, and, if the PEFT/base-model setup is available, `neo4j/text2cypher-gemma-2-9b-it-finetuned-2024v1`.
+- The Neo4j 2024 Gemma2 model is a PEFT adapter; it is not a plain vLLM full checkpoint in the current server environment. Treat it as blocked unless `google/gemma-2-9b-it` access and a PEFT/LoRA serving path are verified.
