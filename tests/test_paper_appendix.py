@@ -58,9 +58,10 @@ claims:
     assert claims[0]["claim"] == "Local generation works."
     assert r"\label{tab:claim_evidence_map}" in text
     assert "Local generation works." in text
-    assert "Risk: More graphs are needed." in text
+    assert r"\textit{Risk.} More graphs are needed." in text
     assert "benchmark export" in text
     assert "artifacts/benchmarks/run" not in text
+    assert r"\begin{table*}" not in text
 
 
 def test_load_claim_evidence_rejects_missing_keys(tmp_path: Path):

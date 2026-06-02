@@ -169,45 +169,40 @@ def render_prompt_contracts_tex() -> str:
 def render_claim_evidence_tex(claims: list[dict[str, Any]]) -> str:
     rows = [
         r"\section{Claim--Evidence Map}",
+        r"\label{tab:claim_evidence_map}",
         (
-            "Table~\\ref{tab:claim_evidence_map} maps the main paper claims to "
+            "This section maps the main paper claims to "
             "the strongest current evidence and to the remaining risks. This is "
             "intended as a reviewer-facing audit surface: claims with pending "
             "evidence remain marked as such rather than being folded into the "
             "main results."
         ),
-        r"\begin{table*}[t]",
-        r"\centering",
-        r"\scriptsize",
-        (
-            r"\begin{tabular}{p{0.24\textwidth}p{0.31\textwidth}"
-            r"p{0.19\textwidth}p{0.20\textwidth}}"
-        ),
-        r"\toprule",
-        r"Claim & Evidence & Key artifacts & Status / risk \\",
-        r"\midrule",
+        r"\begin{enumerate}",
     ]
-    for item in claims:
-        rows.append(
-            "{claim} & {evidence} & {artifacts} & {status} \\newline {risk} \\\\".format(
-                claim=_escape_latex(str(item["claim"])),
-                evidence=_escape_latex(str(item["evidence"])),
-                artifacts=_escape_latex(_artifact_summary(item.get("artifacts", []))),
-                status=_escape_latex(str(item["status"])),
-                risk=_escape_latex("Risk: " + str(item["risk"])),
-            )
+    for index, item in enumerate(claims, start=1):
+        rows.extend(
+            [
+                "\\item \\textbf{{Claim {index}.}} {claim}\\par".format(
+                    index=index,
+                    claim=_escape_latex(str(item["claim"])),
+                ),
+                "\\textit{{Evidence.}} {evidence}\\par".format(
+                    evidence=_escape_latex(str(item["evidence"])),
+                ),
+                "\\textit{{Key artifacts.}} {artifacts}\\par".format(
+                    artifacts=_escape_latex(_artifact_summary(item.get("artifacts", []))),
+                ),
+                "\\textit{{Status.}} {status}\\par".format(
+                    status=_escape_latex(str(item["status"])),
+                ),
+                "\\textit{{Risk.}} {risk}".format(
+                    risk=_escape_latex(str(item["risk"])),
+                ),
+            ]
         )
     rows.extend(
         [
-            r"\bottomrule",
-            r"\end{tabular}",
-            (
-                r"\caption{Claim--evidence map for the current PIPE-Cypher "
-                r"paper draft. Each claim points to concrete code, artifacts, "
-                r"tables, figures, or an explicit blocker.}"
-            ),
-            r"\label{tab:claim_evidence_map}",
-            r"\end{table*}",
+            r"\end{enumerate}",
         ]
     )
     return "\n".join(rows) + "\n"
