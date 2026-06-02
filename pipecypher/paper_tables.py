@@ -362,6 +362,42 @@ def render_graph_statistics_table(rows: list[dict[str, Any]]) -> str:
     )
 
 
+def render_icij_onboarding_table(summary: dict[str, Any]) -> str:
+    metadata = summary.get("metadata", {})
+    audit = summary.get("audit", {})
+    schema_accepts = summary.get("legacy_inferred_schema_template_accepts_by_category") or summary.get(
+        "schema_template_accepts_by_category", {}
+    )
+    schema_accept_text = ", ".join(
+        f"{_short_category(key)} {_fmt_int(value)}"
+        for key, value in sorted(schema_accepts.items())
+    ) or "--"
+    rows = [
+        r"\begin{tabular}{lr}",
+        r"\toprule",
+        r"ICIJ onboarding property & Value \\",
+        r"\midrule",
+        f"Graph nodes / relationships & {_fmt_int(metadata.get('graph_nodes', 0))} / {_fmt_int(metadata.get('graph_relationships', 0))} \\\\",
+        f"Labels / relationship types & {_fmt_int(metadata.get('graph_labels', 0))} / {_fmt_int(metadata.get('graph_relationship_types', 0))} \\\\",
+        f"Generated / accepted & {_fmt_int(summary.get('records', 0))} / {_fmt_int(summary.get('accepted', 0))} \\\\",
+        f"Acceptance rate & {_fmt_float(summary.get('accept_rate', 0.0))} \\\\",
+        f"Categories at target & {_fmt_int(summary.get('categories_at_target', 0))}/{len(summary.get('expected_categories', []))} \\\\",
+        f"Paper audit & {_escape_latex('ready' if audit.get('ready_for_paper_promotion') else 'not ready')} \\\\",
+        f"Sparse schema-derived accepts & {_escape_latex(schema_accept_text)} \\\\",
+        r"\bottomrule",
+        r"\end{tabular}",
+    ]
+    return _table(
+        body="\n".join(rows),
+        caption=(
+            "ICIJ Offshore Leaks third-graph onboarding audit. The public "
+            "finance/compliance graph tests arbitrary-schema generation beyond the "
+            "two LDBC study workloads; raw values remain outside the paper artifacts."
+        ),
+        label="tab:icij_onboarding",
+    )
+
+
 def render_category_crosswalk_table() -> str:
     rows = [
         ("Simple retrieval", "SR", "Direct node/edge lookup with exact filters."),
@@ -539,6 +575,19 @@ def _fmt_count_or_dash(value: Any) -> str:
 
 def _fmt_float(value: Any) -> str:
     return f"{float(value):.3f}"
+
+
+def _short_category(label: str) -> str:
+    return {
+        "boolean_existence": "boolean",
+        "complex_aggregation": "complex agg.",
+        "complex_retrieval": "complex ret.",
+        "negation_difference": "negation",
+        "path_temporal": "path/temp.",
+        "ranking_topk": "ranking",
+        "simple_aggregation": "simple agg.",
+        "simple_retrieval": "simple ret.",
+    }.get(str(label), str(label).replace("_", " "))
 
 
 def _gate_rates(summary: dict[str, Any]) -> dict[str, float]:

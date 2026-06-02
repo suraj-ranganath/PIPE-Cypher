@@ -61,12 +61,14 @@ The deterministic Cypher layer uses production-derived constraints: schema-only 
 
 We also estimate seed-template capacity before full generation. This check caught and fixed a scale blocker: reverse-binding execution was hard-capped to 10 rows, and no-slot negation/ranking seeds could not support full category targets. PIPE-Cypher now uses the configured binding limit and includes slotted negation and ranking seeds for both graphs.
 
-For arbitrary enterprise onboarding, PIPE-Cypher includes a deployment template for a company's own graph, read-only credentials, local model endpoint, schema introspection, privacy policy, dry run, scaled run, audit, and redacted export. Configurable value-sampling policies bound which low-cardinality graph values enter schema prompts, and redacted exports replace quoted literals, entity values, and string-valued result samples with stable placeholders for broader internal review.
+For arbitrary enterprise onboarding, PIPE-Cypher includes a deployment template for a company's own graph, read-only credentials, local model endpoint, schema introspection, privacy policy, dry run, scaled run, audit, and redacted export. Configurable value-sampling policies bound which low-cardinality graph values enter schema prompts, and redacted exports replace quoted literals, entity values, and string-valued result samples with stable placeholders for broader internal review. The ICIJ onboarding run further motivated schema-derived sparse-category templates: PIPE-Cypher now derives relationship-count, anti-join, and top-k templates from observed labels, relationship directions, and safe low-cardinality properties, then grounds slot values with outcome-aware reverse Cypher.
 
 \input{tables_seed_capacity}
 
 \section{Experiments}
-The generated benchmark contains 3,000 accepted examples: 2,000 from LDBC FinBench and 1,000 from LDBC SNB. Categories include simple retrieval, complex retrieval, simple aggregation, complex aggregation, boolean existence, negation/difference, path/temporal transaction, and ranking/top-k. Appendix Table~\ref{tab:graph_statistics} reports graph statistics and the current ICIJ onboarding status.
+The generated benchmark contains 3,000 accepted examples: 2,000 from LDBC FinBench and 1,000 from LDBC SNB. Categories include simple retrieval, complex retrieval, simple aggregation, complex aggregation, boolean existence, negation/difference, path/temporal transaction, and ranking/top-k. Appendix Table~\ref{tab:graph_statistics} reports graph statistics, including the audited ICIJ third-graph onboarding workload.
+
+We report three completed ablation suites over FinBench and SNB: an initial target-50 suite, a corrected target-100 suite, and a seed-17 target-50 repeat. Each suite contains 14 graph/setting cells over unconstrained local generation, reverse-only generation, validators+repair, no retrieval, no rewrite, no LLM judge, and full PIPE-Cypher. All paper-reported ablations have collection manifests, model IDs, code revisions, run summaries, and readiness audits. We additionally report a live ICIJ Offshore Leaks onboarding run as public finance/compliance evidence for arbitrary-schema deployment beyond LDBC.
 
 Downstream Text2Cypher evaluation uses execution accuracy and answer-set precision/recall/F1 as primary correctness metrics. The benchmark evaluator also supports supplementary reference-based text metrics over serialized answer sets and query strings, including ROUGE, BLEU, METEOR, BERTScore, FrugalScore, cosine similarity, Jaro-Winkler similarity, and exact match; Appendix Table~\ref{tab:supported_text_metrics} lists the supported metrics and citations. We treat these as debugging and near-match diagnostics rather than substitutes for executable correctness.
 
@@ -92,6 +94,8 @@ Finally, we ran a downstream Text2Cypher evaluation using local Qwen3.5-9B on th
 
 \input{tables_downstream_evaluation}
 
+The scaled ablation suites show that the benchmark factory is stable once deterministic grounding and schema metadata are fixed. In the target-100 suite, every non-unconstrained graph/setting cell reached all eight category targets with 800 accepted examples per cell; the full PIPE-Cypher setting accepted 800/824 candidates on both FinBench and SNB. Across the three evidence-ready suites, target-normalized coverage is 1.000 for every non-unconstrained cell, while the unconstrained local generation baseline produced no accepted examples under the same execution-grounded gates. ICIJ onboarding reaches the same per-category target on a larger public finance/compliance graph: 800 accepted examples from 983 candidates over 2.0M nodes and 3.3M relationships, with 100 examples in every category.
+
 \section{Industry Use}
 PIPE-Cypher is intended to be rerun when an enterprise graph changes. The generated artifact records the schema snapshot, graph profile, model identifier, validation gates, execution samples, judge scores, difficulty features, and source run for every example. Long-running jobs can be monitored from JSONL records and recovered with category-specific top-up runs that reject questions accepted in earlier runs. This design supports private benchmark refreshes without exposing schemas or values to paid APIs, while still leaving audit hooks for data owners to sample accepted and rejected examples.
 
@@ -114,6 +118,7 @@ PIPE-Cypher is designed for private benchmark generation under local-model deplo
 \section{Additional Results}
 
 \input{tables_graph_statistics}
+\input{tables_icij_onboarding}
 \input{tables_diversity}
 \input{tables_failure_taxonomy}
 \input{tables_category_crosswalk}
@@ -122,6 +127,7 @@ PIPE-Cypher is designed for private benchmark generation under local-model deplo
 \input{tables_effort_automation}
 \input{tables_ablation_results}
 \input{tables_ablation_quality}
+\input{tables_ablation_comparison}
 \input{tables_judge_audit_coverage}
 \input{tables_downstream_uncertainty}
 \input{tables_downstream_error_taxonomy}
@@ -132,16 +138,30 @@ PIPE-Cypher is designed for private benchmark generation under local-model deplo
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\columnwidth]{figures/ablation_suite_target50.pdf}
-\caption{Audited target-50 ablation suite over FinBench and SNB. The suite reaches all graph/variant/category targets and is included as appendix evidence while the larger target-100 and seeded repeat suites continue running for stronger final reliability evidence.}
-\label{fig:ablation_suite_target50}
+\includegraphics[width=\columnwidth]{figures/ablation_suite_target100.pdf}
+\caption{Audited target-100 ablation suite over FinBench and SNB. Every non-unconstrained graph/setting cell reaches all eight category targets with 800 accepted examples per cell.}
+\label{fig:ablation_suite_target100}
 \end{figure}
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\columnwidth]{figures/ablation_quality_target50.pdf}
-\caption{Gate-rate heatmap for the audited target-50 ablation suite. Deterministic read-only and syntax gates are saturated, while schema, execution, and judge rates expose the remaining quality differences across graph and pipeline variants.}
-\label{fig:ablation_quality_target50}
+\includegraphics[width=\columnwidth]{figures/ablation_quality_target100.pdf}
+\caption{Gate-rate heatmap for the audited target-100 ablation suite. Deterministic read-only and syntax gates are saturated; execution and judge rates expose the remaining quality differences across graph and pipeline variants.}
+\label{fig:ablation_quality_target100}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/ablation_suite_comparison.pdf}
+\caption{Three-suite ablation stability over the original target-50 suite, corrected target-100 suite, and seed-17 target-50 repeat. Target-normalized coverage stays at 1.000 for all non-unconstrained cells.}
+\label{fig:ablation_suite_comparison}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/icij_onboarding_audit.pdf}
+\caption{ICIJ Offshore Leaks onboarding audit. Schema-derived sparse-category templates recover balanced target-100 coverage on a public finance/compliance graph beyond the two LDBC workloads.}
+\label{fig:icij_onboarding_audit}
 \end{figure}
 
 \begin{figure}[t]

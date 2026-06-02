@@ -2,7 +2,7 @@
 
 ## Abstract
 
-Enterprises increasingly use property graphs and Cypher to analyze fraud, risk, identity, customer, and operational data. However, public Text2Cypher benchmarks rarely reflect an organization's private schema, terminology, access patterns, or query difficulty distribution. We present PIPE-Cypher, a local-model pipeline for generating organization-specific natural-language-to-Cypher benchmarks. PIPE-Cypher combines schema introspection, reverse-query grounding, constrained Cypher generation, deterministic read-only and schema validation, execution feedback, repair, diversity controls, and LLM-judge review. The system is designed for industry settings where benchmark generation must avoid paid APIs, preserve data governance, and remain repeatable as graphs evolve. In our live study, PIPE-Cypher generates a 3,000-example benchmark over LDBC FinBench and LDBC SNB with balanced categories and all accepted examples passing execution and judge gates.
+Enterprises increasingly use property graphs and Cypher to analyze fraud, risk, identity, customer, and operational data. However, public Text2Cypher benchmarks rarely reflect an organization's private schema, terminology, access patterns, or query difficulty distribution. We present PIPE-Cypher, a local-model pipeline for generating organization-specific natural-language-to-Cypher benchmarks. PIPE-Cypher combines schema introspection, reverse-query grounding, constrained Cypher generation, deterministic read-only and schema validation, execution feedback, repair, diversity controls, and LLM-judge review. The system is designed for industry settings where benchmark generation must avoid paid APIs, preserve data governance, and remain repeatable as graphs evolve. In our live study, PIPE-Cypher generates a 3,000-example benchmark over LDBC FinBench and LDBC SNB with balanced categories and all accepted examples passing execution and judge gates; a completed ICIJ Offshore Leaks run shows the same target-100 category coverage on a third public finance/compliance graph.
 
 ## 1 Introduction
 
@@ -17,7 +17,7 @@ Contributions:
 1. A Cypher-specific benchmark-generation pipeline for enterprise property graphs.
 2. A constraint and rewrite layer inspired by production Cypher systems, including read-only safety, schema discipline, directionality, and `RETURN DISTINCT`.
 3. An automated judge gate that evaluates ambiguity, semantic alignment, schema use, and difficulty.
-4. A live 3,000-example benchmark artifact over LDBC FinBench and LDBC SNB with generation-quality and downstream Text2Cypher metrics.
+4. A live 3,000-example benchmark artifact over LDBC FinBench and LDBC SNB with generation-quality, downstream Text2Cypher metrics, three completed ablation suites, judge-human calibration, and third-graph ICIJ onboarding evidence.
 
 ## 2 Related Work
 
@@ -37,7 +37,7 @@ Second, the system generates category-specific question templates. Reverse Cyphe
 
 Third, a local LLM generates Cypher using a constrained prompt. Retrieved examples are formatted with typed placeholders for graph-specific values, preserving query structure while reducing tenant-value leakage and memorized entity reuse. A schema-driven value grounder adds typed prompt annotations for categorical values and reverse-bound entities, covering punctuation variants, possessives, plurals, synonyms, name partials, and small typos. The prompt enforces schema-only generation, exact matching for quoted values, forward relationship directions, read-only behavior, `RETURN DISTINCT`, and aggregation rules.
 
-Fourth, generated Cypher passes deterministic gates: read-only safety, syntax shape, parser validation when available, label and relationship checks, direction checks, property checks, execution, and repair. A lightweight Cypher analyzer extracts return aliases, variables, labels, relationship observations, risky constructs, and rewrite skip reasons so normalization is auditable rather than a silent string edit. For seeded full runs, PIPE-Cypher keeps a library of workload templates with deterministic reverse-binding queries and fallback Cypher instantiated with graph-backed slot values.
+Fourth, generated Cypher passes deterministic gates: read-only safety, syntax shape, parser validation when available, label and relationship checks, direction checks, property checks, execution, and repair. A lightweight Cypher analyzer extracts return aliases, variables, labels, relationship observations, risky constructs, and rewrite skip reasons so normalization is auditable rather than a silent string edit. For seeded full runs, PIPE-Cypher keeps a library of workload templates with deterministic reverse-binding queries and template Cypher instantiated with graph-backed slot values.
 
 Fifth, a local LLM judge reviews the question, query, schema, execution sample, and validation summary. The judge outputs strict JSON with a pass flag, ambiguity score, semantic alignment score, schema-use score, difficulty, and failure reason. The judge receives a schema slice tied to the candidate Cypher, while deterministic validation still uses the full introspected schema.
 
@@ -61,6 +61,8 @@ The project supports local vLLM-compatible model serving on `ds-serv6`. All repo
 We also estimate seed-template capacity before full generation. This check caught and fixed a scale blocker: reverse-binding execution was hard-capped to 10 rows, and no-slot negation/ranking seeds could not support full category targets. PIPE-Cypher now uses the configured binding limit and includes slotted negation and ranking seeds for both graphs.
 
 For arbitrary enterprise onboarding, the repo includes a deployment template, privacy/value-sampling config fields, schema introspection from read-only credentials, and a redacted export CLI. Companies can bound which low-cardinality values enter prompts and can share review artifacts with quoted literals, entity values, and string-valued result samples replaced by stable placeholders.
+
+The ICIJ onboarding run further motivated schema-derived sparse-category templates. PIPE-Cypher now derives relationship-count, anti-join, and top-k templates from observed labels, relationship directions, and safe low-cardinality properties, then grounds slot values with outcome-aware reverse Cypher.
 
 | Graph | Target/category | Binding limit | Min seed capacity | All categories meet target |
 | --- | ---: | ---: | ---: | --- |
@@ -86,6 +88,8 @@ Full live experimental setup:
 | Generation/judge model | Local Qwen3.5-9B |
 | Execution backend | Neo4j Community, two live databases |
 | Judge audit packet | 80 sampled accepted/rejected pairs |
+
+We also report three completed FinBench/SNB ablation suites: an initial target-50 suite, a corrected target-100 suite, and a seed-17 target-50 repeat. Each suite contains 14 graph/setting cells over unconstrained local generation, reverse-only generation, validators+repair, no retrieval, no rewrite, no LLM judge, and full PIPE-Cypher. Paper-reported ablations have collection manifests, model IDs, code revisions, run summaries, and readiness audits.
 
 Baselines:
 
@@ -120,7 +124,7 @@ The full live run produced 3,000 accepted examples from 4,777 candidates using l
 
 Failure taxonomy over the same 4,777 full-run candidates shows that rejected candidates were dominated by duplicate/diversity control during recovery (1,335), empty execution results (374), judge semantic rejection (66), and schema invalidity (2). This indicates that deterministic schema governance made invalid Cypher rare, while refresh-scale generation mostly needs better template and value exploration.
 
-The repository includes a judge-audit CSV sampled from full-run accepted and rejected candidates, plus a labeling protocol and local HTML review packet. The current v2 audit packet has 80 rows, a 40/40 judge accept/reject split, 48 FinBench rows, 32 SNB rows, and coverage over all eight categories. The human labels are intentionally blank in the current artifact; this file is the starting point for the calibration analysis rather than a pipeline gate.
+The completed 80-row judge audit samples full-run accepted and rejected candidates, with a 40/40 judge accept/reject split, both graphs, and all eight categories. Human labels show 80.0% agreement, Cohen's kappa of 0.60, judge precision and specificity of 1.00, judge recall of 0.714, and no false accepts in the labeled sample. The judge is therefore conservative: it protects accepted-example quality while rejecting some human-approved candidates.
 
 The accepted full-run records were exported into a benchmark package with stable example identifiers, train/dev/test splits, result samples, gate metadata, aggregate statistics, and a manifest hash. The export contains 3,000 accepted examples: 2,000 FinBench, 1,000 SNB, and 375 accepted examples in every planned category.
 
@@ -144,6 +148,10 @@ predictions (12). This separates invalid-Cypher failures from executable but
 semantically wrong Cypher, which is the distinction an enterprise benchmark
 needs to expose.
 
+The scaled ablation suites show that the benchmark factory is stable once deterministic grounding and schema metadata are fixed. In the target-100 suite, every non-unconstrained graph/setting cell reached all eight category targets with 800 accepted examples per cell; the full PIPE-Cypher setting accepted 800/824 candidates on both FinBench and SNB. Across the three evidence-ready suites, target-normalized coverage is 1.000 for every non-unconstrained cell, while the unconstrained local-generation stress baseline produced no accepted examples under the same execution-grounded gates.
+
+ICIJ onboarding reaches the same per-category target on a larger public finance/compliance graph: 800 accepted examples from 983 candidates over 2.0M nodes and 3.3M relationships, with 100 examples in every category. This does not replace private tenant validation, but it exercises arbitrary-schema onboarding beyond the two LDBC study workloads.
+
 ## 7 Industry Use
 
 PIPE-Cypher is intended to be rerun when an enterprise graph changes. The generated artifact records the schema snapshot, graph profile, model identifier, validation gates, execution samples, judge scores, difficulty features, and source run for every example. Long-running jobs can be monitored from JSONL records and recovered with category-specific top-up runs that reject questions accepted in earlier runs. This design supports private benchmark refreshes without exposing schemas or values to paid APIs, while still leaving audit hooks for data owners to sample accepted and rejected examples.
@@ -154,7 +162,7 @@ PIPE-Cypher provides a practical path for enterprises to create private, executa
 
 ## Limitations
 
-Execution validity does not guarantee semantic correctness; this motivates the judge gate and post-hoc human audit calibration. LLM judges can inherit model biases and may over-accept plausible but wrong queries, so PIPE-Cypher treats judge-human agreement as unreported until the frozen audit packet has complete human labels. FinBench and SNB are representative benchmarks but cannot cover every enterprise graph. Local model constraints may reduce generation quality relative to paid frontier models, but they match industry governance and cost constraints.
+Execution validity does not guarantee semantic correctness; this motivates the judge gate and post-hoc human audit calibration. LLM judges can inherit model biases and may over-accept plausible but wrong queries, although the completed 80-row audit found no false accepts in the labeled sample. FinBench, SNB, and ICIJ are representative public workloads but cannot cover every enterprise graph; the strongest validation would still come from a real tenant graph under the same audit protocol.
 
 ## Ethics And Governance
 

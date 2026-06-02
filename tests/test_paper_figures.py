@@ -130,6 +130,72 @@ def test_render_ablation_quality_figure_writes_pdf(tmp_path: Path):
     assert output.stat().st_size > 1000
 
 
+def test_render_ablation_comparison_figure_writes_pdf(tmp_path: Path):
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    from pipecypher.paper_style import apply_paper_style
+    from scripts.render_paper_figures import render_ablation_comparison_figure
+
+    apply_paper_style(plt)
+    report = {
+        "cells": [
+            {
+                "graph": "finbench",
+                "variant": "reverse_only",
+                "accept_rate": {"mean": 0.98},
+                "target_coverage": {"mean": 1.0},
+            },
+            {
+                "graph": "snb",
+                "variant": "full_pipe_cypher",
+                "accept_rate": {"mean": 0.99},
+                "target_coverage": {"mean": 1.0},
+            },
+        ]
+    }
+    output = tmp_path / "ablation_comparison.pdf"
+
+    render_ablation_comparison_figure(report, output, plt)
+
+    assert output.exists()
+    assert output.stat().st_size > 1000
+
+
+def test_render_icij_onboarding_figure_writes_pdf(tmp_path: Path):
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    from pipecypher.paper_style import apply_paper_style
+    from scripts.render_paper_figures import render_icij_onboarding_figure
+
+    apply_paper_style(plt)
+    summary = {
+        "expected_categories": ["simple_retrieval", "ranking_topk"],
+        "target_per_category": 100,
+        "category_coverage": {
+            "simple_retrieval": {"accepted": 100},
+            "ranking_topk": {"accepted": 100},
+        },
+        "failure_by_category": {
+            "ranking_topk": {
+                "slot bindings unavailable": 57,
+                "slot bindings exhausted": 13,
+            }
+        },
+    }
+    output = tmp_path / "icij_onboarding.pdf"
+
+    render_icij_onboarding_figure(summary, output, plt)
+
+    assert output.exists()
+    assert output.stat().st_size > 1000
+
+
 def test_paper_style_sets_pdf_font_embedding():
     import matplotlib
 

@@ -12,9 +12,9 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 PAPER_ROOT = REPO_ROOT / "paper_emnlp2026_industry"
 
 FORBIDDEN_PAPER_EVIDENCE_PATTERNS = {
-    "smoke evidence": re.compile(r"\bsmoke\b", re.IGNORECASE),
-    "mini evidence": re.compile(r"\bmini\b", re.IGNORECASE),
-    "midscale evidence": re.compile(r"\bmidscale\b", re.IGNORECASE),
+    "smoke evidence": re.compile(r"(?:^|[^A-Za-z])smoke(?:$|[^A-Za-z])", re.IGNORECASE),
+    "mini evidence": re.compile(r"(?:^|[^A-Za-z])mini(?:$|[^A-Za-z])", re.IGNORECASE),
+    "midscale evidence": re.compile(r"(?:^|[^A-Za-z])midscale(?:$|[^A-Za-z])", re.IGNORECASE),
     "target-five evidence": re.compile(r"\btarget[-_\s]?five\b|\btarget5\b|\btarget[-_\s]?5\b", re.IGNORECASE),
     "target-25 evidence": re.compile(r"\btarget[-_\s]?25\b|\bablation25\b", re.IGNORECASE),
     "deprecated smoke table": re.compile(r"\btables_smoke\b", re.IGNORECASE),

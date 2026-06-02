@@ -10,6 +10,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
+from pipecypher.ablation_suite import variant_label
 from pipecypher.paper_style import GRAPH_COLORS, METRIC_COLORS, PALETTE, apply_paper_style, style_axis
 
 
@@ -36,6 +37,14 @@ def main() -> None:
         "--downstream-errors",
         default="experiments/snapshots/20260601_live_full_qwen9b/downstream_error_report.json",
     )
+    parser.add_argument(
+        "--ablation-comparison",
+        default="experiments/snapshots/ablation_suite_comparison.json",
+    )
+    parser.add_argument(
+        "--icij-onboarding",
+        default="experiments/snapshots/20260602_icij_target100_schema_templates_v3/onboarding_summary.json",
+    )
     parser.add_argument("--output-dir", default="paper_emnlp2026_industry/figures")
     args = parser.parse_args()
 
@@ -56,6 +65,8 @@ def main() -> None:
     )
     failure_taxonomy = json.loads(Path(args.failure_taxonomy).read_text(encoding="utf-8"))
     downstream_errors = json.loads(Path(args.downstream_errors).read_text(encoding="utf-8"))
+    ablation_comparison = json.loads(Path(args.ablation_comparison).read_text(encoding="utf-8"))
+    icij_onboarding = json.loads(Path(args.icij_onboarding).read_text(encoding="utf-8"))
 
     render_diversity_figure(diversity_report, out / "diversity_diagnostics.pdf", plt)
     render_full_distribution_figure(benchmark_stats, out / "full_export_distribution.pdf", plt)
@@ -77,6 +88,16 @@ def main() -> None:
         out / "downstream_error_taxonomy.pdf",
         plt,
     )
+    render_ablation_comparison_figure(
+        ablation_comparison,
+        out / "ablation_suite_comparison.pdf",
+        plt,
+    )
+    render_icij_onboarding_figure(
+        icij_onboarding,
+        out / "icij_onboarding_audit.pdf",
+        plt,
+    )
     print(f"wrote {out / 'diversity_diagnostics.pdf'}")
     print(f"wrote {out / 'full_export_distribution.pdf'}")
     print(f"wrote {out / 'downstream_breakdown.pdf'}")
@@ -85,6 +106,8 @@ def main() -> None:
     if failure_taxonomy.get("empty_result_diagnostic_counts"):
         print(f"wrote {out / 'empty_result_diagnostics.pdf'}")
     print(f"wrote {out / 'downstream_error_taxonomy.pdf'}")
+    print(f"wrote {out / 'ablation_suite_comparison.pdf'}")
+    print(f"wrote {out / 'icij_onboarding_audit.pdf'}")
 
 
 def render_diversity_figure(report: dict, output: Path, plt) -> None:
@@ -358,6 +381,120 @@ def render_downstream_error_figure(report: dict, output: Path, plt) -> None:
     plt.close(fig)
 
 
+def render_ablation_comparison_figure(report: dict, output: Path, plt) -> None:
+    cells = [
+        cell
+        for cell in report.get("cells", [])
+        if str(cell.get("variant")) != "unconstrained_local_llm"
+    ]
+    graphs = ["finbench", "snb"]
+    variants = [
+        "reverse_only",
+        "validators_repair",
+        "ablation_retrieval_topk_0",
+        "ablation_rewrite_false",
+        "ablation_judge_false",
+        "full_pipe_cypher",
+    ]
+    by_cell = {(cell.get("graph"), cell.get("variant")): cell for cell in cells}
+    x_positions = list(range(len(variants)))
+    width = 0.34
+
+    fig, axes = plt.subplots(2, 1, figsize=(9.2, 5.3), sharex=True)
+    for graph_idx, graph in enumerate(graphs):
+        offsets = [x + (graph_idx - 0.5) * width for x in x_positions]
+        acceptance = [
+            float(by_cell.get((graph, variant), {}).get("accept_rate", {}).get("mean", 0.0))
+            for variant in variants
+        ]
+        target_coverage = [
+            float(by_cell.get((graph, variant), {}).get("target_coverage", {}).get("mean", 0.0))
+            for variant in variants
+        ]
+        axes[0].bar(
+            offsets,
+            acceptance,
+            width,
+            color=GRAPH_COLORS.get(graph, PALETTE["slate"]),
+            label=_graph_name(graph),
+        )
+        axes[1].bar(
+            offsets,
+            target_coverage,
+            width,
+            color=GRAPH_COLORS.get(graph, PALETTE["slate"]),
+            label=_graph_name(graph),
+        )
+
+    axes[0].set_ylim(0.9, 1.01)
+    axes[0].set_ylabel("Acceptance mean")
+    axes[0].set_title("Three-suite ablation stability")
+    axes[0].legend(frameon=False, ncols=2, loc="lower right")
+    style_axis(axes[0], grid_axis="y")
+    axes[1].set_ylim(0.9, 1.01)
+    axes[1].set_ylabel("Target coverage mean")
+    axes[1].set_xticks(x_positions)
+    axes[1].set_xticklabels([variant_label(variant) for variant in variants], rotation=25, ha="right")
+    style_axis(axes[1], grid_axis="y")
+    fig.text(
+        0.01,
+        0.01,
+        "Unconstrained LLM omitted: all three suites produced zero accepted examples.",
+        fontsize=7.5,
+        color=PALETTE["slate"],
+    )
+    fig.tight_layout(rect=(0, 0.03, 1, 1))
+    fig.savefig(output)
+    plt.close(fig)
+
+
+def render_icij_onboarding_figure(summary: dict, output: Path, plt) -> None:
+    coverage = summary.get("category_coverage", {})
+    categories = list(summary.get("expected_categories", []))
+    accepted = [int(coverage.get(category, {}).get("accepted", 0)) for category in categories]
+    target = int(summary.get("target_per_category", 0))
+    failure_counts: dict[str, int] = {}
+    for counts in summary.get("failure_by_category", {}).values():
+        for reason, count in counts.items():
+            failure_counts[str(reason)] = failure_counts.get(str(reason), 0) + int(count)
+    failure_items = sorted(failure_counts.items(), key=lambda item: (-item[1], item[0]))
+
+    fig, axes = plt.subplots(1, 2, figsize=(9.2, 3.4), gridspec_kw={"width_ratios": [2.1, 1]})
+    x_positions = list(range(len(categories)))
+    axes[0].bar(x_positions, accepted, color=PALETTE["blue"])
+    axes[0].axhline(target, color=PALETTE["red"], linestyle="--", linewidth=1.0, label="Target")
+    axes[0].set_title("ICIJ accepted examples by category")
+    axes[0].set_ylabel("Accepted examples")
+    axes[0].set_ylim(0, max(target * 1.18, max(accepted) * 1.12 if accepted else 1))
+    axes[0].set_xticks(x_positions)
+    axes[0].set_xticklabels([_short_category(label) for label in categories], rotation=32, ha="right", fontsize=8)
+    axes[0].legend(frameon=False, loc="upper left")
+    style_axis(axes[0], grid_axis="y")
+    for idx, value in enumerate(accepted):
+        axes[0].text(idx, value + max(target * 0.025, 1), str(value), ha="center", va="bottom", fontsize=7)
+
+    names = [name.replace("slot bindings ", "bindings\n") for name, _ in failure_items]
+    values = [value for _, value in failure_items]
+    failure_palette = [PALETTE["orange"], PALETTE["violet"], PALETTE["green"], PALETTE["red"]]
+    axes[1].barh(
+        range(len(values)),
+        values,
+        color=[failure_palette[idx % len(failure_palette)] for idx in range(len(values))],
+    )
+    axes[1].set_yticks(range(len(values)))
+    axes[1].set_yticklabels(names, fontsize=8)
+    axes[1].invert_yaxis()
+    axes[1].set_xlabel("Rejected")
+    axes[1].set_title("Remaining sparse-binding failures")
+    style_axis(axes[1], grid_axis="x")
+    for idx, value in enumerate(values):
+        axes[1].text(value + max(values) * 0.03, idx, str(value), va="center", fontsize=8)
+    axes[1].set_xlim(0, max(values) * 1.22 if values else 1)
+    fig.tight_layout()
+    fig.savefig(output)
+    plt.close(fig)
+
+
 def _short_category(label: str) -> str:
     return {
         "boolean_existence": "Boolean",
@@ -369,6 +506,10 @@ def _short_category(label: str) -> str:
         "simple_aggregation": "Simple agg.",
         "simple_retrieval": "Simple ret.",
     }.get(label, label.replace("_", " "))
+
+
+def _graph_name(graph: str) -> str:
+    return {"finbench": "FinBench", "snb": "SNB"}.get(graph, graph)
 
 
 if __name__ == "__main__":

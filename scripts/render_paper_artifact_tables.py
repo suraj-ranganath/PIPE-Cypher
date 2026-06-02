@@ -18,6 +18,7 @@ from pipecypher.paper_tables import (
     render_effort_automation_table,
     render_full_artifact_distribution_table,
     render_graph_statistics_table,
+    render_icij_onboarding_table,
     render_prompt_refinement_table,
     render_validator_cascade_table,
 )
@@ -44,6 +45,10 @@ def main() -> None:
         "--failure-taxonomy",
         default="experiments/snapshots/20260601_live_full_qwen9b/failure_taxonomy.json",
     )
+    parser.add_argument(
+        "--icij-onboarding",
+        default="experiments/snapshots/20260602_icij_target100_schema_templates_v3/onboarding_summary.json",
+    )
     parser.add_argument("--paper-dir", default="paper_emnlp2026_industry")
     args = parser.parse_args()
 
@@ -54,6 +59,7 @@ def main() -> None:
     evaluation = _read_json(args.evaluation_summary)
     downstream_errors = _read_json(args.downstream_errors)
     failure_taxonomy = _read_json(args.failure_taxonomy)
+    icij_onboarding = _read_json(args.icij_onboarding)
 
     outputs = {
         "tables_benchmark_export.tex": render_benchmark_export_table(stats, manifest),
@@ -63,6 +69,7 @@ def main() -> None:
             downstream_errors
         ),
         "tables_graph_statistics.tex": render_graph_statistics_table(_graph_statistics_rows()),
+        "tables_icij_onboarding.tex": render_icij_onboarding_table(icij_onboarding),
         "tables_category_crosswalk.tex": render_category_crosswalk_table(),
         "tables_validator_cascade.tex": render_validator_cascade_table(stats, failure_taxonomy),
         "tables_prompt_refinement.tex": render_prompt_refinement_table(),

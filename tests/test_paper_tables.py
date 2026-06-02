@@ -10,6 +10,7 @@ from pipecypher.paper_tables import (
     render_effort_automation_table,
     render_full_artifact_distribution_table,
     render_graph_statistics_table,
+    render_icij_onboarding_table,
     render_judge_audit_coverage_table,
     render_prompt_refinement_table,
     render_validator_cascade_table,
@@ -205,6 +206,35 @@ def test_render_graph_statistics_table_marks_pending_counts_with_dash():
 
     assert "FinBench & 10,006 & 57,622 & 5 & 9 & reported" in text
     assert "ICIJ & -- & -- & 5 & 14 & onboarding only" in text
+
+
+def test_render_icij_onboarding_table_reports_sanitized_audit_summary():
+    text = render_icij_onboarding_table(
+        {
+            "metadata": {
+                "graph_nodes": "2016523",
+                "graph_relationships": "3339267",
+                "graph_labels": "5",
+                "graph_relationship_types": "14",
+            },
+            "records": 983,
+            "accepted": 800,
+            "accept_rate": 800 / 983,
+            "categories_at_target": 8,
+            "expected_categories": ["simple_retrieval"] * 8,
+            "audit": {"ready_for_paper_promotion": True},
+            "legacy_inferred_schema_template_accepts_by_category": {
+                "complex_aggregation": 97,
+                "ranking_topk": 98,
+            },
+        }
+    )
+
+    assert "2,016,523 / 3,339,267" in text
+    assert "983 / 800" in text
+    assert "ready" in text
+    assert "complex agg. 97" in text
+    assert r"\label{tab:icij_onboarding}" in text
 
 
 def test_render_validator_cascade_table_reports_full_run_gates():
