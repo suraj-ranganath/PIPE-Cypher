@@ -28,9 +28,9 @@ This section maps the main paper claims to the strongest current evidence and to
 \textit{Status.} Supported by live downstream evaluation against FinBench/SNB databases, with bootstrap uncertainty computed from row-level outputs.\par
 \textit{Risk.} Only one downstream model has been evaluated so far.
 \item \textbf{Claim 6.} Automated LLM-judge review can replace human-in-the-loop generation gates while still exposing judge risk.\par
-\textit{Evidence.} The pipeline uses deterministic validation plus LLM-judge review as the generation gate. A post-hoc 80-row judge audit packet preserves 40 judge accepts, 40 judge rejects, both graphs, and all eight categories, and the analyzer reports agreement, precision/recall, specificity, balanced accuracy, and Cohen's kappa once human labels are filled.\par
+\textit{Evidence.} The pipeline uses deterministic validation plus LLM-judge review as the generation gate. A post-hoc 80-row judge audit packet preserves 40 judge accepts, 40 judge rejects, both graphs, and all eight categories. The analyzer reports agreement, precision/recall, specificity, balanced accuracy, and Cohen's kappa only after the packet is completely human-labeled; partial labels are not treated as paper-ready calibration.\par
 \textit{Key artifacts.} code: judge.py; code: calibration.py; code: judge\_audit\_packet.py; snapshot: judge audit packet v2; +2 more\par
-\textit{Status.} Pipeline gate is implemented; audit packet coverage is supported.\par
+\textit{Status.} Pipeline gate is implemented; audit packet coverage is supported; judge-human agreement remains unreported until all audit rows are labeled.\par
 \textit{Risk.} Judge-human agreement is not yet known because human labels are still blank.
 \item \textbf{Claim 7.} The intended 35B local generation/judge path is staged but not currently runnable under observed shared-GPU constraints.\par
 \textit{Evidence.} Qwen3.5-35B-A3B is staged on ds-serv6, but the capacity checker reports 68,573 MiB of weights, four required A5000 GPUs under the conservative vLLM budget, and only one safe GPU in the latest snapshot.\par

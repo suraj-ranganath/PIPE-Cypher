@@ -62,7 +62,7 @@ claims:
     risk: "Only one downstream model has been evaluated so far."
 
   - claim: "Automated LLM-judge review can replace human-in-the-loop generation gates while still exposing judge risk."
-    evidence: "The pipeline uses deterministic validation plus LLM-judge review as the generation gate. A post-hoc 80-row judge audit packet preserves 40 judge accepts, 40 judge rejects, both graphs, and all eight categories, and the analyzer reports agreement, precision/recall, specificity, balanced accuracy, and Cohen's kappa once human labels are filled."
+    evidence: "The pipeline uses deterministic validation plus LLM-judge review as the generation gate. A post-hoc 80-row judge audit packet preserves 40 judge accepts, 40 judge rejects, both graphs, and all eight categories. The analyzer reports agreement, precision/recall, specificity, balanced accuracy, and Cohen's kappa only after the packet is completely human-labeled; partial labels are not treated as paper-ready calibration."
     artifacts:
       - "pipecypher/judge.py"
       - "pipecypher/calibration.py"
@@ -70,7 +70,7 @@ claims:
       - "experiments/snapshots/20260601_live_full_qwen9b/judge_audit_packet_v2.json"
       - "knowledge_base/judge_audit_protocol.md"
       - "paper_emnlp2026_industry/tables_judge_audit_coverage.tex"
-    status: "Pipeline gate is implemented; audit packet coverage is supported."
+    status: "Pipeline gate is implemented; audit packet coverage is supported; judge-human agreement remains unreported until all audit rows are labeled."
     risk: "Judge-human agreement is not yet known because human labels are still blank."
 
   - claim: "The intended 35B local generation/judge path is staged but not currently runnable under observed shared-GPU constraints."

@@ -84,13 +84,17 @@ By default, audit sampling is stratified by graph profile, category, and judge
 accept/reject outcome when those fields are present. Use `--no-stratify` only
 for legacy global accept/reject sampling.
 
-Analyze label coverage and calibration metrics after filling `human_accept`:
+Analyze label coverage and calibration metrics after filling every `human_accept`:
 
 ```bash
 python scripts/analyze_judge_audit.py \
   --audit artifacts/audits/20260601_full_qwen9b_judge_audit_v2.csv \
-  --require-labels
+  --require-complete-labels
 ```
+
+Use `--require-labels` only for local diagnostics that need at least one
+completed row. Paper-facing calibration must require complete labels unless an
+exclusion rule is documented before analysis.
 
 Render a local browser packet for human calibration labeling:
 

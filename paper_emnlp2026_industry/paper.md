@@ -143,7 +143,7 @@ PIPE-Cypher provides a practical path for enterprises to create private, executa
 
 ## Limitations
 
-Execution validity does not guarantee semantic correctness; this motivates the judge gate and human audit calibration. LLM judges can inherit model biases and may over-accept plausible but wrong queries. FinBench and SNB are representative benchmarks but cannot cover every enterprise graph. Local model constraints may reduce generation quality relative to paid frontier models, but they match industry governance and cost constraints.
+Execution validity does not guarantee semantic correctness; this motivates the judge gate and post-hoc human audit calibration. LLM judges can inherit model biases and may over-accept plausible but wrong queries, so PIPE-Cypher treats judge-human agreement as unreported until the frozen audit packet has complete human labels. FinBench and SNB are representative benchmarks but cannot cover every enterprise graph. Local model constraints may reduce generation quality relative to paid frontier models, but they match industry governance and cost constraints.
 
 ## Ethics And Governance
 

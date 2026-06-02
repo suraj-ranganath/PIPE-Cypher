@@ -83,7 +83,7 @@ PIPE-Cypher is intended to be rerun when an enterprise graph changes. The genera
 PIPE-Cypher provides a practical path for enterprises to create private, executable, balanced NL-to-Cypher benchmarks. The pipeline combines schema introspection, constrained generation, deterministic validation, execution feedback, diversity control, and automated judge review.
 
 \section*{Limitations}
-Execution validity does not guarantee semantic correctness. LLM judges can over-accept plausible but wrong examples, so the final study includes a small human audit for calibration. Generated artifacts may contain private schema details or sampled values, so organizations should apply normal data governance controls.
+Execution validity does not guarantee semantic correctness. LLM judges can over-accept plausible but wrong examples, so PIPE-Cypher releases a frozen post-hoc audit packet and requires complete human labels before reporting judge-human agreement. Generated artifacts may contain private schema details or sampled values, so organizations should apply normal data governance controls.
 
 \section*{Ethics Statement}
 PIPE-Cypher is designed for private benchmark generation under local-model deployment constraints. Organizations using it should restrict benchmark artifacts to authorized users, review sampled values for sensitive content, and document whether judge calibration relied on human annotators.
