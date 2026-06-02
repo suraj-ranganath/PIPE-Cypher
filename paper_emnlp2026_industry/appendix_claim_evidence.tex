@@ -34,7 +34,7 @@ This section maps the main paper claims to the strongest current evidence and to
 \textit{Risk.} Judge-human agreement is not yet known because human labels are still blank.
 \item \textbf{Claim 7.} The intended 35B local generation/judge path is staged but not currently runnable under observed shared-GPU constraints.\par
 \textit{Evidence.} Qwen3.5-35B-A3B is staged on ds-serv6, but the capacity checker reports 68,573 MiB of weights, four required A5000 GPUs under the conservative vLLM budget, and only one safe GPU in the latest snapshot.\par
-\textit{Key artifacts.} script: check vllm capacity; research note: model availability; research note: qwen35b capacity snapshot 20260601; snapshot: qwen35b capacity 20260601 latest\par
+\textit{Key artifacts.} script: check vllm capacity; script: render vllm capacity snapshot; research note: model availability; research note: qwen35b capacity snapshot 20260601; +1 more\par
 \textit{Status.} Documented blocker; current paper results are explicitly reported as Qwen3.5-9B fallback evidence.\par
 \textit{Risk.} A later 35B run may change yield, diversity, judge behavior, and downstream conclusions.
 \end{enumerate}
