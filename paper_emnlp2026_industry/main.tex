@@ -101,6 +101,7 @@ PIPE-Cypher is designed for private benchmark generation under local-model deplo
 \input{tables_ablation_quality}
 \input{tables_judge_audit_coverage}
 \input{tables_downstream_uncertainty}
+\input{tables_downstream_error_taxonomy}
 \input{appendix_claim_evidence}
 \input{appendix_prompt_contracts}
 \input{appendix_example_cards}
@@ -145,6 +146,13 @@ PIPE-Cypher is designed for private benchmark generation under local-model deplo
 \includegraphics[width=\columnwidth]{figures/downstream_uncertainty.pdf}
 \caption{Bootstrap uncertainty for downstream Qwen3.5-9B Text2Cypher evaluation by workload category. Error bars show 95\% row-level bootstrap intervals over the full exported test split.}
 \label{fig:downstream_uncertainty}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/downstream_error_taxonomy.pdf}
+\caption{Downstream Text2Cypher failure taxonomy for the local Qwen3.5-9B baseline on the full test split. Exact matches are excluded so the chart exposes whether misses come from invalid Cypher, failed execution, or semantically wrong executable queries.}
+\label{fig:downstream_error_taxonomy}
 \end{figure}
 
 \begin{figure}[t]

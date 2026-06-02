@@ -135,6 +135,14 @@ Finally, we ran a downstream Text2Cypher evaluation using local Qwen3.5-9B on th
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | Live full test | 296 | 0.959 | 0.905 | 0.622 | 0.189 | 0.189 |
 
+The downstream error taxonomy makes the discriminative signal more concrete:
+the 296-row full test split contains 56 exact-answer matches and 240 incorrect
+rows. Incorrect rows are dominated by answer mismatches (128), followed by
+execution failures (72), schema-invalid predictions (28), and parse-invalid
+predictions (12). This separates invalid-Cypher failures from executable but
+semantically wrong Cypher, which is the distinction an enterprise benchmark
+needs to expose.
+
 ## 7 Industry Use
 
 PIPE-Cypher is intended to be rerun when an enterprise graph changes. The generated artifact records the schema snapshot, graph profile, model identifier, validation gates, execution samples, judge scores, difficulty features, and source run for every example. Long-running jobs can be monitored from JSONL records and recovered with category-specific top-up runs that reject questions accepted in earlier runs. This design supports private benchmark refreshes without exposing schemas or values to paid APIs, while still leaving audit hooks for data owners to sample accepted and rejected examples.

@@ -12,6 +12,7 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from pipecypher.paper_tables import (
     render_benchmark_export_table,
+    render_downstream_error_table,
     render_downstream_table,
     render_full_artifact_distribution_table,
 )
@@ -29,6 +30,10 @@ def main() -> None:
         "--evaluation-summary",
         default="artifacts/evaluations/20260601_full_qwen9b_test_summary.json",
     )
+    parser.add_argument(
+        "--downstream-errors",
+        default="experiments/snapshots/20260601_live_full_qwen9b/downstream_error_report.json",
+    )
     parser.add_argument("--paper-dir", default="paper_emnlp2026_industry")
     args = parser.parse_args()
 
@@ -37,11 +42,15 @@ def main() -> None:
     stats = _read_json(benchmark_dir / "stats.json")
     manifest = _read_json(benchmark_dir / "manifest.json")
     evaluation = _read_json(args.evaluation_summary)
+    downstream_errors = _read_json(args.downstream_errors)
 
     outputs = {
         "tables_benchmark_export.tex": render_benchmark_export_table(stats, manifest),
         "tables_full_artifact_distribution.tex": render_full_artifact_distribution_table(stats),
         "tables_downstream_evaluation.tex": render_downstream_table(evaluation),
+        "tables_downstream_error_taxonomy.tex": render_downstream_error_table(
+            downstream_errors
+        ),
     }
     paper_dir.mkdir(parents=True, exist_ok=True)
     for name, text in outputs.items():

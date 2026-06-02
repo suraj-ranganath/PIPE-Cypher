@@ -4,6 +4,7 @@ from pipecypher.paper_tables import (
     render_ablation_quality_table,
     render_ablation_table,
     render_benchmark_export_table,
+    render_downstream_error_table,
     render_downstream_table,
     render_full_artifact_distribution_table,
     render_judge_audit_coverage_table,
@@ -65,6 +66,26 @@ def test_render_downstream_table_uses_overall_metrics():
     )
 
     assert "Live full test & 296 & 0.959 & 0.905 & 0.622 & 0.189 & 0.189" in text
+
+
+def test_render_downstream_error_table_reports_incorrect_shares():
+    text = render_downstream_error_table(
+        {
+            "incorrect": 10,
+            "bucket_labels": {
+                "answer_mismatch": "Answer mismatch",
+                "execution_failed": "Execution failed",
+            },
+            "error_bucket_counts": {
+                "answer_mismatch": 7,
+                "execution_failed": 3,
+            },
+        }
+    )
+
+    assert "Answer mismatch & 7 & 0.700" in text
+    assert "Execution failed & 3 & 0.300" in text
+    assert r"\label{tab:downstream_error_taxonomy}" in text
 
 
 def test_render_ablation_table_orders_and_counts_targets():

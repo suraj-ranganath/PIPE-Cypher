@@ -5,7 +5,7 @@ Status: goal is not complete yet.
 ## Evidence Already Present
 
 - Clean repo scaffold with package, configs, scripts, tests, docs, experiment matrix, and paper directory.
-- Deterministic tests pass: `186 passed`.
+- Deterministic tests pass: `191 passed`.
 - Offline smoke runs prove the CLI path, built-in FinBench and SNB reference schemas, deterministic validation, contextual return warnings, mock execution, deterministic judge, JSONL logging, strategy tags, and summary metrics.
 - LDBC FinBench SF0.1 has been generated on `ds-serv6`, transformed to snapshot CSVs, and loaded into a user-space Neo4j Community 5.26 smoke database.
 - The loaded FinBench smoke graph contains 10,006 nodes and 57,622 relationships.
@@ -37,6 +37,7 @@ Status: goal is not complete yet.
 - `artifacts/benchmarks/20260601_live_midscale` exports 80 accepted examples with stable IDs, train/dev/test JSONL splits, stats, a manifest hash, and ten accepted examples in every planned category across FinBench+SNB.
 - The EMNLP draft compiles with `pdflatex`/`bibtex`; generated PDF: `paper_emnlp2026_industry/main.pdf`.
 - Downstream Text2Cypher artifacts are recorded in `knowledge_base/downstream_evaluation.md`; local Qwen3.5-9B reached 0.189 execution accuracy and answer F1 on the 296-example full exported test split, with 0.622 execution success. Bootstrap uncertainty artifacts now report 95% intervals of [0.145, 0.233] for execution accuracy and [0.564, 0.676] for execution success.
+- Downstream error analysis now exists at `experiments/snapshots/20260601_live_full_qwen9b/downstream_error_report.json`, with appendix artifacts `paper_emnlp2026_industry/tables_downstream_error_taxonomy.tex` and `paper_emnlp2026_industry/figures/downstream_error_taxonomy.pdf`. It classifies the 240 incorrect downstream Qwen3.5-9B rows into answer mismatches, execution failures, schema-invalid predictions, and parse-invalid predictions.
 - `knowledge_base/model_availability.md` records that `Qwen/Qwen3.5-35B-A3B` exists remotely and has now been staged under `/home/suraj/pipecypher-models/Qwen3.5-35B-A3B`; `Qwen/Qwen3.5-9B` and `BAAI/bge-m3` are cached.
 - `scripts/check_vllm_capacity.py` and `pipecypher/gpu_capacity.py` estimate whether a staged model can be served with currently safe GPUs; the script now supports `--remote` for local-to-`ds-serv6` checks. The latest June 2, 2026 01:02 UTC 35B check found 68,573 MiB of safetensor weights, four required A5000 GPUs under the conservative vLLM budget, and only GPU 3 safely free; details are in `knowledge_base/qwen35b_capacity_snapshot_20260601.md`, with tracked JSON evidence at `experiments/snapshots/qwen35b_capacity_20260601_latest.json`.
 - `scripts/render_vllm_capacity_snapshot.py` renders the captured capacity JSON into the reviewer-facing capacity note, so future 35B feasibility rechecks can update Markdown evidence without hand-maintained GPU tables.

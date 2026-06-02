@@ -1,0 +1,18 @@
+\begin{table}[t]
+\centering
+\small
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lrr}
+\toprule
+Downstream outcome & Count & Share of incorrect \\
+\midrule
+Answer mismatch & 128 & 0.533 \\
+Execution failed & 72 & 0.300 \\
+Schema invalid & 28 & 0.117 \\
+Parse invalid & 12 & 0.050 \\
+\bottomrule
+\end{tabular}
+}
+\caption{Downstream Text2Cypher failure taxonomy for local Qwen3.5-9B on the full exported test split. Shares exclude exact-answer matches.}
+\label{tab:downstream_error_taxonomy}
+\end{table}

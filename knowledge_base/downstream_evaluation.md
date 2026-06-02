@@ -35,6 +35,22 @@ experiments/snapshots/20260601_live_full_qwen9b/downstream_uncertainty.md
 paper_emnlp2026_industry/tables_downstream_uncertainty.tex
 ```
 
+Downstream failure analysis over the same 296 row-level records is tracked in:
+
+```text
+experiments/snapshots/20260601_live_full_qwen9b/downstream_error_report.json
+paper_emnlp2026_industry/tables_downstream_error_taxonomy.tex
+paper_emnlp2026_industry/figures/downstream_error_taxonomy.pdf
+```
+
+The error taxonomy reports 56 exact-answer matches and 240 incorrect rows. The
+incorrect rows are dominated by executable answer mismatches (128 rows, 53.3%
+of incorrect rows), followed by execution failures (72 rows, 30.0%), schema
+invalid predictions (28 rows, 11.7%), and parse-invalid predictions (12 rows,
+5.0%). This is important for the paper: the full benchmark distinguishes cases
+where the downstream model cannot form valid Cypher from cases where it forms
+valid executable Cypher that answers the wrong operational question.
+
 Overall 95% percentile intervals from 2,000 fixed-seed resamples:
 
 | Metric | Point | 95% CI | SE |

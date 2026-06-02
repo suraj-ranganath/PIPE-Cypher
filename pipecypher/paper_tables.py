@@ -98,6 +98,40 @@ def render_downstream_table(summary: dict[str, Any]) -> str:
     )
 
 
+def render_downstream_error_table(report: dict[str, Any]) -> str:
+    labels = report.get("bucket_labels", {})
+    incorrect = max(int(report.get("incorrect", 0)), 1)
+    rows = [
+        r"\begin{tabular}{lrr}",
+        r"\toprule",
+        r"Downstream outcome & Count & Share of incorrect \\",
+        r"\midrule",
+    ]
+    error_counts = sorted(
+        report.get("error_bucket_counts", {}).items(),
+        key=lambda item: (-int(item[1]), item[0]),
+    )
+    for key, count in error_counts:
+        if not count:
+            continue
+        rows.append(
+            "{label} & {count} & {share} \\\\".format(
+                label=_escape_latex(labels.get(key, key.replace("_", " ").title())),
+                count=_fmt_int(count),
+                share=_fmt_float(int(count) / incorrect),
+            )
+        )
+    rows.extend([r"\bottomrule", r"\end{tabular}"])
+    return _table(
+        body="\n".join(rows),
+        caption=(
+            "Downstream Text2Cypher failure taxonomy for local Qwen3.5-9B on the "
+            "full exported test split. Shares exclude exact-answer matches."
+        ),
+        label="tab:downstream_error_taxonomy",
+    )
+
+
 def render_diversity_table(report: dict[str, Any]) -> str:
     text = report["question_text"]
     templates = report["query_templates"]

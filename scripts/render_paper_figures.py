@@ -32,6 +32,10 @@ def main() -> None:
         "--failure-taxonomy",
         default="experiments/snapshots/20260601_live_full_qwen9b/failure_taxonomy.json",
     )
+    parser.add_argument(
+        "--downstream-errors",
+        default="experiments/snapshots/20260601_live_full_qwen9b/downstream_error_report.json",
+    )
     parser.add_argument("--output-dir", default="paper_emnlp2026_industry/figures")
     args = parser.parse_args()
 
@@ -51,6 +55,7 @@ def main() -> None:
         Path(args.downstream_uncertainty).read_text(encoding="utf-8")
     )
     failure_taxonomy = json.loads(Path(args.failure_taxonomy).read_text(encoding="utf-8"))
+    downstream_errors = json.loads(Path(args.downstream_errors).read_text(encoding="utf-8"))
 
     render_diversity_figure(diversity_report, out / "diversity_diagnostics.pdf", plt)
     render_full_distribution_figure(benchmark_stats, out / "full_export_distribution.pdf", plt)
@@ -61,11 +66,17 @@ def main() -> None:
         plt,
     )
     render_failure_taxonomy_figure(failure_taxonomy, out / "failure_taxonomy.pdf", plt)
+    render_downstream_error_figure(
+        downstream_errors,
+        out / "downstream_error_taxonomy.pdf",
+        plt,
+    )
     print(f"wrote {out / 'diversity_diagnostics.pdf'}")
     print(f"wrote {out / 'full_export_distribution.pdf'}")
     print(f"wrote {out / 'downstream_breakdown.pdf'}")
     print(f"wrote {out / 'downstream_uncertainty.pdf'}")
     print(f"wrote {out / 'failure_taxonomy.pdf'}")
+    print(f"wrote {out / 'downstream_error_taxonomy.pdf'}")
 
 
 def render_diversity_figure(report: dict, output: Path, plt) -> None:
@@ -250,6 +261,47 @@ def render_failure_taxonomy_figure(report: dict, output: Path, plt) -> None:
             bar.get_width() + max(values) * 0.015,
             bar.get_y() + bar.get_height() / 2,
             f"{value} ({value / total_rejected:.1%})",
+            va="center",
+            fontsize=8,
+        )
+    ax.set_xlim(0, max(values) * 1.22 if values else 1)
+    fig.tight_layout()
+    fig.savefig(output)
+    plt.close(fig)
+
+
+def render_downstream_error_figure(report: dict, output: Path, plt) -> None:
+    labels = report.get("bucket_labels", {})
+    counts = sorted(
+        report.get("error_bucket_counts", {}).items(),
+        key=lambda item: (-int(item[1]), item[0]),
+    )
+    names = [labels.get(key, key.replace("_", " ").title()) for key, _ in counts]
+    values = [int(value) for _, value in counts]
+    incorrect = max(int(report.get("incorrect", 0)), 1)
+    palette = [
+        PALETTE["orange"],
+        PALETTE["blue"],
+        PALETTE["violet"],
+        PALETTE["green"],
+        PALETTE["red"],
+        PALETTE["slate"],
+    ]
+    colors = [palette[idx % len(palette)] for idx in range(len(names))]
+
+    fig, ax = plt.subplots(figsize=(7.4, 3.0))
+    bars = ax.barh(range(len(names)), values, color=colors)
+    ax.set_yticks(range(len(names)))
+    ax.set_yticklabels(names, fontsize=8)
+    ax.invert_yaxis()
+    ax.set_xlabel("Rows")
+    ax.set_title("Downstream Text2Cypher failure taxonomy")
+    style_axis(ax, grid_axis="x")
+    for bar, value in zip(bars, values, strict=True):
+        ax.text(
+            bar.get_width() + max(values) * 0.015,
+            bar.get_y() + bar.get_height() / 2,
+            f"{value} ({value / incorrect:.1%})",
             va="center",
             fontsize=8,
         )

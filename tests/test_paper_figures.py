@@ -52,6 +52,35 @@ def test_render_downstream_uncertainty_figure_writes_pdf(tmp_path: Path):
     assert output.stat().st_size > 1000
 
 
+def test_render_downstream_error_figure_writes_pdf(tmp_path: Path):
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    from pipecypher.paper_style import apply_paper_style
+    from scripts.render_paper_figures import render_downstream_error_figure
+
+    apply_paper_style(plt)
+    report = {
+        "incorrect": 10,
+        "bucket_labels": {
+            "answer_mismatch": "Answer mismatch",
+            "execution_failed": "Execution failed",
+        },
+        "error_bucket_counts": {
+            "answer_mismatch": 7,
+            "execution_failed": 3,
+        },
+    }
+    output = tmp_path / "downstream_errors.pdf"
+
+    render_downstream_error_figure(report, output, plt)
+
+    assert output.exists()
+    assert output.stat().st_size > 1000
+
+
 def test_render_ablation_quality_figure_writes_pdf(tmp_path: Path):
     import matplotlib
 
