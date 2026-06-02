@@ -12,6 +12,8 @@
 \definecolor{pipePaleRed}{HTML}{F8EAE8}
 \definecolor{pipePalePurple}{HTML}{F0EDF8}
 \definecolor{pipePaleGray}{HTML}{F3F5F7}
+\providecommand{\pipefigitem}[1]{\raisebox{0.18ex}{\tiny$\bullet$}\hspace{0.24em}#1\\}
+\providecommand{\pipefiglastitem}[1]{\raisebox{0.18ex}{\tiny$\bullet$}\hspace{0.24em}#1}
 
 \begin{tikzpicture}[
   font=\sffamily,
@@ -108,71 +110,71 @@
 % Detailed stage contents.
 \node[detail, below=0.18cm of schema] (schemaDetails) {
   \textbf{Artifacts}\\
-  labels / rel types\\
-  properties\\
-  directions\\
-  categorical values\\
-  schema fingerprint
+  \pipefigitem{labels / rel types}
+  \pipefigitem{properties}
+  \pipefigitem{directions}
+  \pipefigitem{categorical values}
+  \pipefiglastitem{schema fingerprint}
 };
 \node[detail, below=0.18cm of plan] (planDetails) {
   \textbf{Controls}\\
-  graph targets\\
-  category targets\\
-  difficulty buckets\\
-  diversity caps\\
-  attempt budget
+  \pipefigitem{graph targets}
+  \pipefigitem{category targets}
+  \pipefigitem{difficulty buckets}
+  \pipefigitem{diversity caps}
+  \pipefiglastitem{attempt budget}
 };
 \node[detail, below=0.18cm of ground] (groundDetails) {
   \textbf{Grounding}\\
-  reverse bindings\\
-  entity/value slots\\
-  exact literal policy\\
-  placeholder examples
+  \pipefigitem{reverse bindings}
+  \pipefigitem{entity/value slots}
+  \pipefigitem{exact literal policy}
+  \pipefiglastitem{placeholder examples}
 };
 \node[detail, below=0.18cm of generate] (genDetails) {
   \textbf{Local model}\\
-  Qwen3.5-9B endpoint\\
-  schema-only prompts\\
-  BalkanID constraints\\
-  local generation only
+  \pipefigitem{Qwen3.5-9B endpoint}
+  \pipefigitem{schema-only prompts}
+  \pipefigitem{BalkanID constraints}
+  \pipefiglastitem{local generation only}
 };
 \node[detail, below=0.18cm of govern] (govDetails) {
   \textbf{Deterministic gates}\\
-  read-only safety\\
-  parser/AST features\\
-  schema vocabulary\\
-  direction/value checks
+  \pipefigitem{read-only safety}
+  \pipefigitem{parser/AST features}
+  \pipefigitem{schema vocabulary}
+  \pipefiglastitem{direction/value checks}
 };
 \node[detail, below=0.18cm of execute] (execDetails) {
   \textbf{Live Cypher run}\\
-  syntax/runtime checks\\
-  result samples\\
-  non-empty gate\\
-  empty-result diagnosis
+  \pipefigitem{syntax/runtime checks}
+  \pipefigitem{result samples}
+  \pipefigitem{non-empty gate}
+  \pipefiglastitem{empty-result diagnosis}
 };
 \node[detail, below=0.18cm of judge] (judgeDetails) {
   \textbf{Quality review}\\
-  schema slice + sample\\
-  local LLM-judge JSON\\
-  ambiguity/alignment\\
-  human-audit\\
-  calibration
+  \pipefigitem{schema slice + sample}
+  \pipefigitem{local LLM-judge JSON}
+  \pipefigitem{ambiguity/alignment}
+  \pipefigitem{human-audit}
+  \pipefiglastitem{calibration}
 };
 
 % Inputs and policies.
 \node[sidebox, above=0.78cm of schema] (inputs) {
   \textbf{Enterprise inputs}\\
-  private property graph\\
-  read-only Cypher endpoint\\
-  domain terminology\\
-  local model endpoint
+  \pipefigitem{private property graph}
+  \pipefigitem{read-only Cypher endpoint}
+  \pipefigitem{domain terminology}
+  \pipefiglastitem{local model endpoint}
 };
 \node[sidebox, above=0.78cm of ground] (policy) {
   \textbf{Privacy policy}\\
-  value sampling bounds\\
-  sensitive-property omit list\\
-  redaction rules\\
-  export visibility level
+  \pipefigitem{value sampling bounds}
+  \pipefigitem{sensitive-property omit list}
+  \pipefigitem{redaction rules}
+  \pipefiglastitem{export visibility level}
 };
 \draw[softarrow] (inputs.south) -- (schema.north);
 \draw[softarrow] (policy.south west) -- (schema.north east);
@@ -189,7 +191,9 @@
 % Governance internals.
 \node[contextbox, above=1.26cm of govern] (rewrite) {
   \textbf{Repair and rewrite}\\
-  add \texttt{RETURN DISTINCT}; normalize projections; reject risky \texttt{CALL}, \texttt{UNION}, writes, reserved variables, or parser-risky cases
+  \pipefigitem{add \texttt{RETURN DISTINCT}}
+  \pipefigitem{normalize projections}
+  \pipefiglastitem{reject risky \texttt{CALL}, \texttt{UNION}, writes, reserved variables, or parser-risky cases}
 };
 \draw[softarrow] (govern.north) -- (rewrite.south);
 \draw[softarrow] (rewrite.east) to[out=0,in=135] (execute.north west);
@@ -197,37 +201,41 @@
 % Export artifacts.
 \node[artifact, right=0.62cm of judge] (export) {
   \textbf{Benchmark package}\\
-  NL-Cypher JSONL\\
-  train/dev/test splits\\
-  result samples\\
-  difficulty features\\
-  benchmark card\\
-  refresh manifest\\
-  redacted review export
+  \pipefigitem{NL-Cypher JSONL}
+  \pipefigitem{train/dev/test splits}
+  \pipefigitem{result samples}
+  \pipefigitem{difficulty features}
+  \pipefigitem{benchmark card}
+  \pipefigitem{refresh manifest}
+  \pipefiglastitem{redacted review export}
 };
 \draw[arrow] (judge) -- (export);
 
 % Rejection and audit ledger.
-\node[loopbox, below=2.05cm of govern] (ledger) {
+\node[loopbox, below=2.58cm of govern] (ledger) {
   \textbf{Rejected-candidate ledger}\\
-  validation issues\\
-  judge failures\\
-  duplicate/diversity blocks\\
-  repair decisions\\
-  empty-result classes\\
-  prompt profile / run ID
+  \pipefigitem{validation issues}
+  \pipefigitem{judge failures}
+  \pipefigitem{duplicate/diversity blocks}
+  \pipefigitem{repair decisions}
+  \pipefigitem{empty-result classes}
+  \pipefiglastitem{prompt profile / run ID}
 };
-\node[loopbox, below=2.05cm of plan] (topup) {
+\node[loopbox, below=2.58cm of plan] (topup) {
   \textbf{Top-up and refresh controller}\\
-  rebalances missing cells\\
-  graph/category/difficulty\\
-  estimates capacity\\
-  starts scaled runs\\
-  from logged gaps
+  \pipefigitem{rebalances missing cells}
+  \pipefigitem{graph/category/difficulty}
+  \pipefigitem{estimates capacity}
+  \pipefigitem{starts scaled runs}
+  \pipefiglastitem{from logged gaps}
 };
 \draw[rejectarrow] (execDetails.south) to[out=-90,in=70] (ledger.north east);
 \draw[softarrow] (ledger.west) -- (topup.east);
-\draw[softarrow] (topup.north) -- (plan.south);
+\coordinate (topupReturnX) at ($(schemaDetails.east)!0.5!(planDetails.west)$);
+\draw[softarrow]
+  (topup.north west) -- (topupReturnX |- topup.north west)
+  -- (topupReturnX |- plan.south west)
+  -- (plan.south west);
 
 % Group labels.
 \begin{scope}[on background layer]
