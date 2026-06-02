@@ -6,6 +6,7 @@ PIPE-Cypher is an industry-track research codebase for automatic benchmark gener
 
 - Use Cypher/property-graph language in the paper and docs. Neo4j is the experimental backend, not the conceptual contribution.
 - Do not use paid generation APIs for dataset generation. Use local models on `suraj@ds-serv6.ucsd.edu`.
+- Do not use vendor/API-hosted models for downstream evaluation or ablations either. Closed or hosted GPT/Gemini-style entries from public Text2Cypher benchmarks may be cited or discussed as prior results, but PIPE-Cypher experiments should run local weights only. Local vLLM/OpenAI-compatible HTTP endpoints are allowed only when they serve local model weights on project-controlled GPUs.
 - Reported generation/judge model: `Qwen/Qwen3.5-9B` served locally with vLLM or another local OpenAI-compatible endpoint. Do not frame the 9B study as fallback evidence or make the inability to run larger models a manuscript limitation unless the project owner explicitly reopens that comparison.
 - For Qwen/vLLM, keep reasoning traces out of generated artifacts: use `reasoning_effort=none`, `include_reasoning=false`, `chat_template_kwargs.enable_thinking=false`, and strip residual `</think>` preambles before JSON parsing.
 - Default embedding model: BGE-M3 or another local embedding model.
