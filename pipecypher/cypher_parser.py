@@ -48,6 +48,9 @@ class RelationshipObservation:
 class CypherAnalysis:
     cleaned_cypher: str
     projection_items: tuple[ProjectionItem, ...] = ()
+    order_by_items: tuple[str, ...] = ()
+    skip_value: str | None = None
+    limit_value: str | None = None
     variable_labels: dict[str, str] = field(default_factory=dict)
     relationships: tuple[RelationshipObservation, ...] = ()
     risky_features: tuple[str, ...] = ()
@@ -64,6 +67,9 @@ class CypherAnalysis:
         return {
             "return_items": [item.expression for item in self.projection_items],
             "return_aliases": [item.alias for item in self.projection_items if item.alias],
+            "order_by_items": list(self.order_by_items),
+            "skip_value": self.skip_value,
+            "limit_value": self.limit_value,
             "variable_labels": dict(self.variable_labels),
             "relationship_observations": [rel.to_dict() for rel in self.relationships],
             "risky_features": list(self.risky_features),
@@ -111,12 +117,92 @@ def _split_projection_items(projection: str) -> list[str]:
     return items
 
 
+@dataclass(frozen=True)
+class ClauseSpan:
+    name: str
+    start: int
+    content_start: int
+
+
+CLAUSE_PATTERNS = (
+    ("OPTIONAL MATCH", re.compile(r"(?is)OPTIONAL\s+MATCH\b")),
+    ("ORDER BY", re.compile(r"(?is)ORDER\s+BY\b")),
+    ("MATCH", re.compile(r"(?is)MATCH\b")),
+    ("WHERE", re.compile(r"(?is)WHERE\b")),
+    ("WITH", re.compile(r"(?is)WITH\b")),
+    ("RETURN", re.compile(r"(?is)RETURN\b")),
+    ("SKIP", re.compile(r"(?is)SKIP\b")),
+    ("LIMIT", re.compile(r"(?is)LIMIT\b")),
+    ("UNION", re.compile(r"(?is)UNION\b")),
+    ("CALL", re.compile(r"(?is)CALL\b")),
+)
+
+
+def _is_identifier_char(char: str) -> bool:
+    return char.isalnum() or char == "_"
+
+
+def _top_level_clauses(query: str) -> tuple[ClauseSpan, ...]:
+    clauses: list[ClauseSpan] = []
+    depth = 0
+    quote: str | None = None
+    escape = False
+    index = 0
+    while index < len(query):
+        char = query[index]
+        if quote:
+            if escape:
+                escape = False
+            elif char == "\\":
+                escape = True
+            elif char == quote:
+                quote = None
+            index += 1
+            continue
+        if char in {"'", '"'}:
+            quote = char
+            index += 1
+            continue
+        if char in "([{":
+            depth += 1
+            index += 1
+            continue
+        if char in ")]}":
+            if depth > 0:
+                depth -= 1
+            index += 1
+            continue
+        if depth == 0 and (index == 0 or not _is_identifier_char(query[index - 1])):
+            for name, pattern in CLAUSE_PATTERNS:
+                match = pattern.match(query, index)
+                if match:
+                    clauses.append(ClauseSpan(name, index, match.end()))
+                    index = match.end()
+                    break
+            else:
+                index += 1
+        else:
+            index += 1
+    return tuple(clauses)
+
+
+def _clause_content(query: str, clause_name: str) -> str | None:
+    clauses = _top_level_clauses(query)
+    for idx, clause in enumerate(clauses):
+        if clause.name != clause_name:
+            continue
+        end = clauses[idx + 1].start if idx + 1 < len(clauses) else len(query)
+        content = query[clause.content_start:end].strip()
+        return content or None
+    return None
+
+
 def _return_projection(query: str) -> str:
-    match = re.search(
-        r"(?i)\bRETURN\s+(?:DISTINCT\s+)?(.+?)(?:\bORDER\s+BY\b|\bSKIP\b|\bLIMIT\b|$)",
-        query,
-    )
-    return match.group(1).strip() if match else ""
+    projection = _clause_content(query, "RETURN")
+    if not projection:
+        return ""
+    projection = re.sub(r"(?is)^DISTINCT\b", "", projection, count=1).strip()
+    return projection
 
 
 def _projection_items(query: str) -> tuple[ProjectionItem, ...]:
@@ -129,6 +215,13 @@ def _projection_items(query: str) -> tuple[ProjectionItem, ...]:
         else:
             items.append(ProjectionItem(item))
     return tuple(items)
+
+
+def _order_by_items(query: str) -> tuple[str, ...]:
+    content = _clause_content(query, "ORDER BY")
+    if not content:
+        return ()
+    return tuple(_split_projection_items(content))
 
 
 def _variable_labels(query: str) -> dict[str, str]:
@@ -226,6 +319,9 @@ def analyze_cypher(query: str) -> CypherAnalysis:
     return CypherAnalysis(
         cleaned_cypher=cleaned,
         projection_items=_projection_items(cleaned),
+        order_by_items=_order_by_items(cleaned),
+        skip_value=_clause_content(cleaned, "SKIP"),
+        limit_value=_clause_content(cleaned, "LIMIT"),
         variable_labels=_variable_labels(cleaned),
         relationships=_relationship_observations(cleaned),
         risky_features=risky_features,

@@ -13,6 +13,8 @@ def test_analyze_cypher_extracts_return_aliases_and_relationships():
     assert analysis.rewrite_safe
     assert analysis.variable_labels == {"p": "Person", "a": "Account"}
     assert [item.alias for item in analysis.projection_items] == ["PersonName", "AccountId"]
+    assert analysis.order_by_items == ("PersonName",)
+    assert analysis.limit_value == "10"
     assert analysis.relationships[0].start_label == "Person"
     assert analysis.relationships[0].rel_type == "OWN_ACCOUNT"
     assert analysis.relationships[0].end_label == "Account"
@@ -64,3 +66,30 @@ def test_structural_features_include_parser_aware_projection_metadata():
             "direction": "outgoing",
         }
     ]
+
+
+def test_structural_features_extract_order_skip_limit_items():
+    features = structural_features(
+        "MATCH (a:Account) "
+        "RETURN DISTINCT a.accountId AS id "
+        "ORDER BY id DESC, a.accountType ASC SKIP 5 LIMIT 10"
+    )
+
+    assert features["ordering"]
+    assert features["skip"]
+    assert features["limit"]
+    assert features["order_by_items"] == ["id DESC", "a.accountType ASC"]
+    assert features["skip_value"] == "5"
+    assert features["limit_value"] == "10"
+
+
+def test_clause_extraction_ignores_order_and_limit_inside_string_literals():
+    analysis = analyze_cypher(
+        "MATCH (a:Account) "
+        "RETURN DISTINCT 'ORDER BY x LIMIT 1' AS text, a.accountId AS id "
+        "ORDER BY id LIMIT 3"
+    )
+
+    assert [item.alias for item in analysis.projection_items] == ["text", "id"]
+    assert analysis.order_by_items == ("id",)
+    assert analysis.limit_value == "3"
