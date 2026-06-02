@@ -442,7 +442,7 @@ def render_prompt_refinement_table() -> str:
         ("Instructions", "Exact values, datatype rules, no nested aggregations.", "Targets MTQ-style prompt refinements."),
         ("Examples", "Placeholderized retrieved NL-Cypher pairs.", "Tests whether examples help without extra governance."),
         ("Examples + instructions", "Few-shot plus explicit rules.", "Closest controlled analogue to MTQ Table 5."),
-        ("Full governed", "BalkanID-derived hints, AST-safe rewrites, judge gate.", "PIPE-Cypher production setting."),
+        ("Full governed", "production-derived Cypher hints, AST-safe rewrites, judge gate.", "PIPE-Cypher production setting."),
     ]
     body = [
         r"\begin{tabular}{lll}",

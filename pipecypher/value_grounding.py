@@ -103,10 +103,11 @@ def normalize_value_text(text: str) -> str:
 
 
 class ValueGrounder:
-    """Dependency-light value grounding inspired by BalkanID's annotation layer.
+    """Dependency-light value grounding inspired by a cypher example reference annotation layer.
 
-    BalkanID uses tenant dictionaries, typo correction, and entity-ruler patterns
-    before prompting for Cypher. PIPE-Cypher keeps the same design principle but
+    The cypher example reference uses tenant dictionaries, typo correction, and
+    entity-ruler patterns before prompting for Cypher. PIPE-Cypher keeps the same
+    design principle but
     avoids spaCy/SymSpell dependencies so deterministic tests and CPU-only smoke
     runs remain runnable.
     """

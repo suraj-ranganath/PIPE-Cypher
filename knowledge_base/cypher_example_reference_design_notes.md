@@ -1,10 +1,10 @@
-# BalkanID Cypher Design Notes To Transfer
+# Cypher Example Reference Design Notes To Transfer
 
-Source inspected: `/Users/suraj/Documents/Archive/BalkanID/Dev/copilot-api`.
+Source inspected: private cypher example reference archive.
 
 ## Prompt-Level Constraints
 
-The BalkanID Cypher prompt contains several production lessons that should remain central in PIPE-Cypher:
+The cypher example reference prompt contains several production lessons that should remain central in PIPE-Cypher:
 
 - Use only schema-provided relationship types and properties.
 - Preserve relationship directions and use comma-separated `MATCH` patterns when necessary rather than reversing edges.
@@ -18,7 +18,7 @@ The BalkanID Cypher prompt contains several production lessons that should remai
 
 ## Rewrite And Validation Ideas
 
-BalkanID's `AlterCypherQuery` and listeners motivate PIPE-Cypher's deterministic gate:
+The cypher example reference alteration and listener design motivates PIPE-Cypher's deterministic gate:
 
 - reject unsafe/reserved variable names such as `index`, `constraint`, `create`, `drop`, `exists`, and `remove`;
 - skip risky parser transformations for complex features such as `CASE`, `UNION`, `CALL`, `WHERE EXISTS`, `UNWIND`;
@@ -36,17 +36,17 @@ Implemented transfer in PIPE-Cypher:
 
 - `pipecypher.cypher_parser.analyze_cypher` provides a dependency-free Cypher structure summary for logging, validation, and paper diagnostics. It extracts return projection items and aliases, top-level `ORDER BY` items, `SKIP` and `LIMIT` expressions, variable-to-label mappings, relationship observations with direction, `WHERE` counts, risky rewrite constructs, and explicit rewrite skip reasons. This gives PIPE-Cypher an AST-style governance surface even when the optional ANTLR runtime is unavailable.
 - `pipecypher.validator.normalize_cypher` strips fences, normalizes whitespace, normalizes `COALESCE(...)`, and enforces `RETURN DISTINCT`.
-- `pipecypher.validator.normalize_cypher` now follows the BalkanID conservative alteration policy: if the analyzer sees reserved variables, multiple `WHERE` clauses, or risky constructs such as `CASE`, `UNION`, `CALL`, `WHERE EXISTS`, `WHERE NOT EXISTS`, or `UNWIND`, it skips automatic rewrites and validation emits auditable warnings rather than silently editing parser-risky Cypher.
+- `pipecypher.validator.normalize_cypher` now follows the cypher example reference conservative alteration policy: if the analyzer sees reserved variables, multiple `WHERE` clauses, or risky constructs such as `CASE`, `UNION`, `CALL`, `WHERE EXISTS`, `WHERE NOT EXISTS`, or `UNWIND`, it skips automatic rewrites and validation emits auditable warnings rather than silently editing parser-risky Cypher.
 - `pipecypher.validator.validate_cypher` rejects write/admin tokens, unsafe reserved variable names, unknown labels, missing or unknown relationship types, unknown properties, reversed relationship directions, and undirected relationship patterns. It now interprets incoming Cypher arrows such as `(:A)<-[:R]-(:B)` as the directed edge `(:B)-[:R]->(:A)` before checking the observed schema direction, closing a common gap in string-only direction checks.
-- `pipecypher.validator.categorical_property_issues` turns BalkanID's categorical-value prompt rule into a deterministic schema gate: if a schema provides values such as `Account.accountType: checking, savings`, generated node maps and `WHERE` predicates using other string literals are rejected.
+- `pipecypher.validator.categorical_property_issues` turns the cypher example reference categorical-value prompt rule into a deterministic schema gate: if a schema provides values such as `Account.accountType: checking, savings`, generated node maps and `WHERE` predicates using other string literals are rejected.
 - `pipecypher.question_constraints.apply_question_constraints` turns the quoted-exact-match prompt rule into an executable gate.
-- `pipecypher.retrieval.placeholderize_example` adapts BalkanID's example-ingestion pattern: retrieved few-shot examples keep their Cypher structure but replace graph-specific values with typed placeholders such as `{{PERSONNAME_1}}`. This reduces tenant-value leakage and discourages the generator from copying memorized concrete values.
-- `pipecypher.value_grounding.ValueGrounder` adapts BalkanID's fuzzy annotation layer without its production-only dependencies. It builds schema/value dictionaries from categorical properties and reverse-bound slot hints, normalizes punctuation, possessives, plurals, abbreviations, synonyms, name partials, and small typos, and emits typed prompt annotations such as `(Person.personName: Alice Zhang)` while preserving the original question text.
-- `pipecypher.validator.contextual_return_issues` warns when returned FinBench identifiers or names lack useful enterprise context columns, mirroring BalkanID's table-display return enrichment pattern without making parser-risky rewrites. It now uses the shared `analyze_cypher` return projection instead of a separate regex splitter, so clause words inside string literals do not hide returned variables or properties from governance checks.
-- `pipecypher.cypher_parser.OptionalCypherParser` can use the BalkanID ANTLR parser when its local runtime dependencies are available, but keeps offline tests independent of that archive.
+- `pipecypher.retrieval.placeholderize_example` adapts the cypher example reference example-ingestion pattern: retrieved few-shot examples keep their Cypher structure but replace graph-specific values with typed placeholders such as `{{PERSONNAME_1}}`. This reduces tenant-value leakage and discourages the generator from copying memorized concrete values.
+- `pipecypher.value_grounding.ValueGrounder` adapts the cypher example reference fuzzy annotation layer without its production-only dependencies. It builds schema/value dictionaries from categorical properties and reverse-bound slot hints, normalizes punctuation, possessives, plurals, abbreviations, synonyms, name partials, and small typos, and emits typed prompt annotations such as `(Person.personName: Alice Zhang)` while preserving the original question text.
+- `pipecypher.validator.contextual_return_issues` warns when returned FinBench identifiers or names lack useful enterprise context columns, mirroring the cypher example reference table-display return enrichment pattern without making parser-risky rewrites. It now uses the shared `analyze_cypher` return projection instead of a separate regex splitter, so clause words inside string literals do not hide returned variables or properties from governance checks.
+- `pipecypher.cypher_parser.OptionalCypherParser` can use the cypher example reference ANTLR parser when its local runtime dependencies are available, but keeps offline tests independent of that archive.
 
 ## Benchmark Implication
 
 PIPE-Cypher should not simply ask an LLM to write Cypher. It should test whether generated examples follow the sort of constraints deployed systems need: schema discipline, directionality, safe execution, exact matching, contextual return fields, and robust handling of domain synonyms.
 
-For the paper, the deeper innovation story should frame these as "parser-aware Cypher governance" rather than only prompt engineering. The BalkanID archive shows why deployed text-to-Cypher systems need a layered approach: constrained prompting, grammar/AST parsing, conservative skip rules for high-risk constructs, deterministic rewrites, display-column enrichment, and explicit explanation of any alteration. PIPE-Cypher adapts the parts that are benchmark-safe: validation, normalization, exact-match checks, relationship-direction discipline, contextual return diagnostics, structure extraction, and rewrite skip auditing. Future work can port more listener-based AST rewrites into PIPE-Cypher once the ANTLR runtime is packaged cleanly.
+For the paper, the deeper innovation story should frame these as "parser-aware Cypher governance" rather than only prompt engineering. The cypher example reference archive shows why deployed text-to-Cypher systems need a layered approach: constrained prompting, grammar/AST parsing, conservative skip rules for high-risk constructs, deterministic rewrites, display-column enrichment, and explicit explanation of any alteration. PIPE-Cypher adapts the parts that are benchmark-safe: validation, normalization, exact-match checks, relationship-direction discipline, contextual return diagnostics, structure extraction, and rewrite skip auditing. Future work can port more listener-based AST rewrites into PIPE-Cypher once the ANTLR runtime is packaged cleanly.

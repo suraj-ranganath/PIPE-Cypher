@@ -16,7 +16,7 @@ baselines:
   - name: unconstrained_local_llm
     description: Question-to-Cypher generation with schema text but no deterministic validation, rewrite, retrieval, or judge gate.
   - name: reverse_only
-    description: PIPE-KG-style reverse grounding ported to Cypher without BalkanID-inspired rewrites.
+    description: PIPE-KG-style reverse grounding ported to Cypher without cypher example reference rewrites.
   - name: validators_repair
     description: Deterministic read-only/schema/parse/execution validation plus repair, no LLM judge.
   - name: full_pipe_cypher

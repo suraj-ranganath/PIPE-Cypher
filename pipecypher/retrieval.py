@@ -76,7 +76,7 @@ def _replace_values(text: str, mapping: dict[str, str]) -> str:
 def placeholderize_example(example: dict[str, Any]) -> dict[str, Any]:
     """Return a retrieval-safe example with graph-specific values replaced.
 
-    This mirrors the BalkanID pattern of adding examples with tenant-specific
+    This mirrors the cypher example reference pattern of adding examples with tenant-specific
     values replaced by typed placeholders. The goal is to preserve query shape
     while reducing value leakage and memorized entity reuse in few-shot prompts.
     """

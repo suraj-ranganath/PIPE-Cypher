@@ -8,9 +8,7 @@ from pathlib import Path
 from typing import Any
 
 
-DEFAULT_BALKANID_ROOT = (
-    "/Users/suraj/Documents/Archive/BalkanID/Dev/copilot-api"
-)
+DEFAULT_CYPHER_EXAMPLE_REFERENCE_ROOT = ""
 
 RISKY_REWRITE_FEATURES = (
     "CASE",
@@ -304,7 +302,7 @@ def _reserved_variable_skip_reasons(query: str) -> list[str]:
 def analyze_cypher(query: str) -> CypherAnalysis:
     """Extract a conservative, JSON-friendly Cypher structure summary.
 
-    This is intentionally dependency-free. When the optional BalkanID ANTLR grammar is
+    This is intentionally dependency-free. When the optional cypher example reference ANTLR grammar is
     available, `OptionalCypherParser` still provides parse errors; this analyzer provides
     stable offline structure and rewrite-safety metadata for tests, logs, and paper tables.
     """
@@ -333,14 +331,18 @@ def analyze_cypher(query: str) -> CypherAnalysis:
 
 
 class OptionalCypherParser:
-    """Optional adapter around the BalkanID ANTLR Cypher grammar.
+    """Optional adapter around the cypher example reference ANTLR Cypher grammar.
 
     The parser is treated as an enhancement, not a hard dependency, so deterministic tests
-    and docs can run without antlr4 or the archived BalkanID project on the import path.
+    and docs can run without antlr4 or the archived cypher example reference on the import path.
     """
 
     def __init__(self, root: str | None = None) -> None:
-        self.root = Path(root or os.environ.get("PIPE_CYPHER_BALKANID_ROOT", DEFAULT_BALKANID_ROOT))
+        configured_root = root or os.environ.get(
+            "PIPE_CYPHER_EXAMPLE_REFERENCE_ROOT",
+            DEFAULT_CYPHER_EXAMPLE_REFERENCE_ROOT,
+        )
+        self.root = Path(configured_root) if configured_root else None
         self.available = False
         self._lexer = None
         self._parser = None
@@ -354,8 +356,11 @@ class OptionalCypherParser:
         return self._load_error
 
     def _load(self) -> None:
+        if self.root is None:
+            self._load_error = "cypher example reference root not configured"
+            return
         if not self.root.exists():
-            self._load_error = f"BalkanID root not found: {self.root}"
+            self._load_error = f"cypher example reference root not found: {self.root}"
             return
         if str(self.root) not in sys.path:
             sys.path.append(str(self.root))

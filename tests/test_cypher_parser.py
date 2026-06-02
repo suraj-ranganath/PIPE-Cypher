@@ -21,7 +21,7 @@ def test_analyze_cypher_extracts_return_aliases_and_relationships():
     assert analysis.relationships[0].direction == "outgoing"
 
 
-def test_analyze_cypher_marks_balkanid_risky_rewrite_constructs():
+def test_analyze_cypher_marks_cypher_example_reference_risky_rewrite_constructs():
     analysis = analyze_cypher(
         "MATCH (p:Person) WHERE EXISTS { MATCH (p)-[:OWN_ACCOUNT]->(:Account) } "
         "RETURN p.personName AS PersonName "

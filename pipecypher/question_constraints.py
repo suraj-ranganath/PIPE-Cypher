@@ -12,7 +12,7 @@ def quoted_values(question: str) -> list[str]:
 def apply_question_constraints(validation: ValidationResult, question: str) -> ValidationResult:
     """Apply NL-question-specific Cypher constraints.
 
-    BalkanID production prompts distinguish quoted exact values from fuzzy text.
+    The cypher example reference prompts distinguish quoted exact values from fuzzy text.
     This gate makes that rule executable: values quoted in the user question must
     appear as literals and must not be used with `CONTAINS`.
     """
@@ -42,4 +42,3 @@ def apply_question_constraints(validation: ValidationResult, question: str) -> V
                 )
             )
     return validation
-

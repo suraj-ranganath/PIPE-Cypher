@@ -8,7 +8,7 @@ from pipecypher.value_grounding import (
 )
 
 
-def test_normalize_value_text_handles_balkanid_style_surface_variants():
+def test_normalize_value_text_handles_cypher_example_reference_surface_variants():
     assert normalize_value_text("Engineering - Platform") == "engineering platform"
     assert normalize_value_text("Risk & Compliance") == "risk and compliance"
     assert normalize_value_text("Pranit's") == "pranit"

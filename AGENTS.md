@@ -12,8 +12,8 @@ PIPE-Cypher is an industry-track research codebase for automatic benchmark gener
 - Primary graph workload: LDBC FinBench, because it targets financial fraud and risk-control scenarios. Secondary generality workload: LDBC SNB.
 - Third-graph onboarding candidate: ICIJ Offshore Leaks. It is a public finance/compliance property graph with a downloadable Neo4j dump and CSV package, and should be used to test arbitrary-schema onboarding beyond LDBC. Do not promote ICIJ numbers into the paper until the graph is loaded live, the run is complete, and the same paper-readiness audit standards are met.
 - The pipeline must support arbitrary enterprise property-graph onboarding beyond FinBench/SNB. FinBench and SNB are study workloads, not hard-coded assumptions.
-- Preserve the BalkanID Cypher work as a first-class design source. Reuse its ideas for constrained prompting, relationship direction discipline, read-only query safety, `RETURN DISTINCT`, exact matching for quoted values, required contextual return columns, synonym normalization, categorical-property constraints, and post-generation rewrites.
-- Treat BalkanID's parser/listener and query-alteration design as an innovation source, not just an implementation detail. When practical, prefer grammar/AST-aware validation and conservative rewrites over brittle string edits; when parser risk is high, skip rewrites and log why.
+- Preserve the private cypher example reference as a first-class design source. Reuse its ideas for constrained prompting, relationship direction discipline, read-only query safety, `RETURN DISTINCT`, exact matching for quoted values, required contextual return columns, synonym normalization, categorical-property constraints, and post-generation rewrites.
+- Treat the cypher example reference parser/listener and query-alteration design as an innovation source, not just an implementation detail. When practical, prefer grammar/AST-aware validation and conservative rewrites over brittle string edits; when parser risk is high, skip rewrites and log why.
 - Human review is not a generation gate. Use deterministic validation plus LLM-judge review. A small human audit may be used only to calibrate judge reliability for the paper.
 - Large-scale evaluation is a core requirement. Keep target-100, repeated target-50-or-larger, full held-out downstream, and graph/category/difficulty-stratified runs moving when `ds-serv6` has capacity; do not stop because a smaller suite already passed.
 - Latest owner directive: do more large-scale evaluation and ablations whenever feasible, because reviewer confidence depends on scale, repeated evidence, and reliable slice-level results. Keep queueing or launching defensible scale increments while compute is available.
@@ -89,9 +89,9 @@ High-value ideas to adapt:
 
 Do not copy Mind the Query's Gemini/manual-review setup. PIPE-Cypher must remain local-model, privacy-aware, AST/governance-oriented, and automated-judge-first. Do not commit full PDF text or page screenshots; commit only sanitized analysis, tables, and comparisons.
 
-## BalkanID Design Mining Mandate
+## Cypher Example Reference Design Mining Mandate
 
-Treat `/Users/suraj/Documents/Archive/BalkanID/Dev/copilot-api` as a primary design source. Re-inspect it before major Cypher changes and record transferable ideas in `knowledge_base/balkanid_cypher_design_notes.md`.
+Treat the private cypher example reference archive as a primary design source. Re-inspect it before major Cypher changes and record transferable ideas in `knowledge_base/cypher_example_reference_design_notes.md`.
 
 High-value ideas to adapt where practical:
 

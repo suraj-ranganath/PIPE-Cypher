@@ -8,7 +8,7 @@ The target paper is EMNLP Industry Track. The system is framed around property g
 
 - Cypher client and schema introspection for Neo4j-compatible backends.
 - Schema-aware validation for labels, explicit relationship types, Cypher arrow direction, undirected-pattern rejection, properties, categorical property values, and read-only safety.
-- BalkanID-inspired query normalization and constraint prompts.
+- cypher example reference query normalization and constraint prompts.
 - Contextual return-column warnings for industry-useful result surfaces.
 - Generic unlabeled node-scan warnings for diagnosing weak local-model generations.
 - Category and difficulty metadata for benchmark generation.
