@@ -175,12 +175,12 @@ Implementation plan:
 
    python scripts/inspect_schema.py \
      --config configs/icij_offshoreleaks_smoke.yaml \
-     --output configs/schema_icij_offshoreleaks.json
+     --output configs/schema_icij_offshoreleaks_live.json
    ```
 
-4. Run `configs/icij_offshoreleaks_smoke.yaml` first, then materialize a
-   target-25 or larger onboarding suite only after the graph-backed dry pass has
-   accepted examples in every category.
+4. Run `configs/icij_offshoreleaks_smoke.yaml` first. After a graph-backed dry
+   pass accepts examples in every category, queue the target-100 live onboarding
+   run in `configs/icij_offshoreleaks_full.yaml`.
 
 Source and schema details are tracked in
 `knowledge_base/icij_offshoreleaks_graph_plan.md`.

@@ -128,11 +128,19 @@ Introspect the live schema and then run a small dry pass:
 ```bash
 python scripts/inspect_schema.py \
   --config configs/icij_offshoreleaks_smoke.yaml \
-  --output configs/schema_icij_offshoreleaks.json
+  --output configs/schema_icij_offshoreleaks_live.json
 
 python scripts/run_pipeline.py \
   --config configs/icij_offshoreleaks_smoke.yaml \
   --run-name live_icij_qwen9b_onboarding
+```
+
+After the smoke run accepts all categories, use the larger live configuration:
+
+```bash
+python scripts/run_pipeline.py \
+  --config configs/icij_offshoreleaks_full.yaml \
+  --run-name live_icij_qwen9b_target100
 ```
 
 The ICIJ graph contains low-cardinality free-text properties such as notes and
