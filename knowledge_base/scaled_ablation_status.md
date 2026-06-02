@@ -149,12 +149,12 @@ Runtime metadata:
 - remote root: `/home/suraj/PIPE-Cypher-150f596-target100-exact`
 - log: `/home/suraj/PIPE-Cypher-150f596-target100-exact/logs/20260601_ablation100_qwen9b.log`
 
-Monitor snapshot recorded during this update:
+Monitor snapshot recorded during the June 2, 2026 00:38 UTC update:
 
 - the tmux session is running;
 - 4/14 graph/variant cells have been observed;
 - 3/14 graph/variant cells are complete;
-- FinBench `ablation_retrieval_topk_0` was active at 18/800 target records in that snapshot;
+- FinBench `ablation_retrieval_topk_0` was active at 360/800 target records in that snapshot;
 - completed cells are FinBench `unconstrained_local_llm`, `reverse_only`, and `validators_repair`.
 
 Remote validation before launch:
