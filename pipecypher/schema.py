@@ -5,7 +5,13 @@ from pathlib import Path
 from typing import Any
 
 from .cypher_client import Neo4jCypherClient
-from .models import NodeProperty, RelationshipPattern, RelationshipProperty, SchemaSummary
+from .models import (
+    NodeProperty,
+    RelationshipPattern,
+    RelationshipProperty,
+    SchemaSummary,
+    _normalize_schema_type,
+)
 
 
 NODE_PROPERTIES_QUERY = """
@@ -70,7 +76,7 @@ def introspect_schema(
     if rel_prop_result.success:
         rel_properties = [
             RelationshipProperty(
-                type=str(row.get("type")),
+                type=_normalize_schema_type(str(row.get("type"))),
                 property=str(row.get("property")),
                 value_type=str(row.get("value_type", "ANY")),
             )
@@ -87,7 +93,7 @@ def introspect_schema(
         relationships = [
             RelationshipPattern(
                 start_label=str(row.get("start_label")),
-                type=str(row.get("rel_type")),
+                type=_normalize_schema_type(str(row.get("rel_type"))),
                 end_label=str(row.get("end_label")),
                 count=int(row["c"]) if row.get("c") is not None else None,
             )

@@ -413,3 +413,47 @@ def test_queue_report_marks_already_collected_suite_without_collection_action():
     assert collected["collection_command"] == ""
     assert "state=complete_collected configured_status=complete_collected_paper_ready" in text
     assert "collection_command=not_applicable" in text
+
+
+def test_queue_report_marks_retired_suite_without_collection_action():
+    retired = build_progress_report(
+        [
+            {
+                "run": "20260601_ablation100_qwen9b_finbench_ablation_retrieval_topk_0",
+                "records": 1213,
+                "summary_present": False,
+            }
+        ],
+        run_prefix="20260601_ablation100_qwen9b",
+        target_per_category=100,
+        category_count=8,
+        expected_graphs=["finbench"],
+        expected_variants=["ablation_retrieval_topk_0"],
+        session="target100",
+        session_running=False,
+    )
+    retired.update(
+        {
+            "name": "target100",
+            "remote_root": "/remote/target100",
+            "configured_status": "retired_over_target_old_revision",
+            "generation_model": "Qwen/Qwen3.5-9B",
+            "judge_model": "Qwen/Qwen3.5-9B",
+            "run_seed": "",
+            "code_revision": "oldrev",
+            "notes": "superseded by patched rerun",
+        }
+    )
+    retired["suite_state"] = infer_suite_state(retired)
+    retired["next_action"] = infer_next_action(retired)
+    retired["collection_command"] = build_collection_command(retired)
+
+    report = build_queue_report([retired])
+    text = format_queue_text(report)
+
+    assert report["retired_suites"] == 1
+    assert retired["suite_state"] == "retired"
+    assert retired["next_action"] == "no_action_required_retired"
+    assert retired["collection_command"] == ""
+    assert "state=retired configured_status=retired_over_target_old_revision" in text
+    assert "collection_command=not_applicable" in text

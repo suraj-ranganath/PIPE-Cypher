@@ -21,8 +21,8 @@ suites:
     generation_model: Qwen/Qwen3.5-9B
     judge_model: Qwen/Qwen3.5-9B
     code_revision: 150f596f68dd530869efb497250610a40d3570ee
-    status: running
-    notes: Restarted from an exact-tmux-wait checkout after the prior queued session was blocked by tmux prefix matching against the seeded target-50 repeat.
+    status: retired_over_target_old_revision
+    notes: Retired on June 2, 2026 after FinBench no-retrieval exceeded the target record count without a summary and showed old judge false-rejection patterns; superseded by the post-patch target-100 suite.
   - name: target50_qwen9b_seed17_repeat
     run_prefix: 20260601_ablation50_qwen9b_seed17
     target_per_category: 50
@@ -34,8 +34,8 @@ suites:
     judge_model: Qwen/Qwen3.5-9B
     run_seed: 17
     code_revision: e9301cc08afaea5668291aee7bdbc26c9f1e7296
-    status: queued_waiting_for_target100
-    notes: Seeded target-50 repeat queued behind target-100 to add repeated-run evidence for reviewer-facing reliability without competing with active suites.
+    status: retired_superseded_by_postpatch_seed17
+    notes: Retired before generation on June 2, 2026 because it used a pre-patch revision; replaced by the post-patch seeded target-50 repeat queued behind the patched target-100 suite.
   - name: target100_qwen9b_postpatch
     run_prefix: 20260602_ablation100_qwen9b_postpatch
     target_per_category: 100
@@ -46,5 +46,18 @@ suites:
     generation_model: Qwen/Qwen3.5-9B
     judge_model: Qwen/Qwen3.5-9B
     code_revision: f079ff596bcb5be17c251dad991c5e7972e5497b
-    status: queued_waiting_for_seed17_repeat
-    notes: Post-patch target-100 suite queued behind the seeded repeat; uses relationship-property validation and the judge prompt fix that prevents categorical constraints from being applied to observed execution-result values.
+    status: running
+    notes: Post-patch target-100 suite launched after retiring the old over-target target-100 and pre-patch seeded repeat; uses relationship-property validation and the judge prompt fix that prevents categorical constraints from being applied to observed execution-result values.
+  - name: target50_qwen9b_seed17_postpatch
+    run_prefix: 20260602_ablation50_qwen9b_seed17_postpatch
+    target_per_category: 50
+    category_count: 8
+    host: suraj@ds-serv6.ucsd.edu
+    remote_root: /home/suraj/PIPE-Cypher-f079ff5-target100-postpatch
+    session: pipecypher_ablation50_qwen9b_seed17_postpatch
+    generation_model: Qwen/Qwen3.5-9B
+    judge_model: Qwen/Qwen3.5-9B
+    run_seed: 17
+    code_revision: f079ff596bcb5be17c251dad991c5e7972e5497b
+    status: queued_waiting_for_postpatch_target100
+    notes: Post-patch seeded target-50 repeat queued behind the patched target-100 suite to preserve repeated-seed variance evidence on the corrected validator/judge revision.

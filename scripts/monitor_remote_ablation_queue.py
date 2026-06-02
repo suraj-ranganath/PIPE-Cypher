@@ -107,6 +107,8 @@ def monitor_suite_from_config(suite: dict[str, Any], *, dry_run: bool = False) -
 
 
 def infer_suite_state(report: dict[str, Any]) -> str:
+    if is_configured_retired(report):
+        return "retired"
     if report["completed_cells"] == report["expected_cells"] and report["expected_cells"]:
         if is_configured_collected(report):
             return "complete_collected"
@@ -122,6 +124,8 @@ def infer_suite_state(report: dict[str, Any]) -> str:
 
 def infer_next_action(report: dict[str, Any]) -> str:
     state = report["suite_state"]
+    if state == "retired":
+        return "no_action_required_retired"
     if state == "complete_collected":
         return "no_action_required_already_collected"
     if state == "complete":
@@ -142,8 +146,13 @@ def is_configured_collected(report: dict[str, Any]) -> bool:
     return "collected" in configured_status or "paper_ready" in configured_status
 
 
+def is_configured_retired(report: dict[str, Any]) -> bool:
+    configured_status = str(report.get("configured_status", "")).lower()
+    return "retired" in configured_status or "superseded" in configured_status
+
+
 def build_collection_command(report: dict[str, Any]) -> str:
-    if report.get("next_action") == "no_action_required_already_collected":
+    if str(report.get("next_action", "")).startswith("no_action_required"):
         return ""
     parts = [
         "python",
@@ -171,6 +180,7 @@ def build_queue_report(reports: list[dict[str, Any]]) -> dict[str, Any]:
         "queued_or_waiting_suites": sum(
             1 for report in reports if report["suite_state"] == "queued_or_waiting"
         ),
+        "retired_suites": sum(1 for report in reports if report["suite_state"] == "retired"),
         "reports": reports,
     }
 
@@ -179,7 +189,9 @@ def format_queue_text(queue_report: dict[str, Any]) -> str:
     lines = [
         "remote_ablation_queue",
         "suites={suite_count} complete={complete_suites} running={running_suites} "
-        "queued_or_waiting={queued_or_waiting_suites}".format(**queue_report),
+        "queued_or_waiting={queued_or_waiting_suites} retired={retired_suites}".format(
+            **queue_report
+        ),
         "",
     ]
     for report in queue_report["reports"]:

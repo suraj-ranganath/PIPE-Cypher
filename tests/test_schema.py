@@ -11,6 +11,28 @@ def test_schema_round_trip_dict():
     assert loaded.has_relationship("Person", "OWN_ACCOUNT", "Account")
 
 
+def test_schema_loading_normalizes_neo4j_relationship_type_metadata():
+    schema = SchemaSummary.from_dict(
+        {
+            "relationship_properties": [
+                {"type": ":`TRANSFER_TO`", "property": "amount", "value_type": "Double"}
+            ],
+            "relationships": [
+                {
+                    "start_label": "Account",
+                    "type": ":`TRANSFER_TO`",
+                    "end_label": "Account",
+                    "count": 7,
+                }
+            ],
+            "graph_name": "finbench",
+        }
+    )
+
+    assert "amount" in schema.properties_for_relationship("TRANSFER_TO")
+    assert schema.has_relationship("Account", "TRANSFER_TO", "Account")
+
+
 def test_schema_prompt_contains_relationships_and_properties():
     prompt = finbench_reference_schema().to_prompt()
     assert "(:Person)-[:OWN_ACCOUNT]->(:Account)" in prompt
@@ -39,7 +61,16 @@ class FakeSchemaClient:
                 ],
             )
         if "db.schema.relTypeProperties" in query:
-            return ExecutionResult(success=True, rows=[])
+            return ExecutionResult(
+                success=True,
+                rows=[
+                    {
+                        "type": ":`OWN_ACCOUNT`",
+                        "property": "createTime",
+                        "value_type": "DateTime",
+                    }
+                ],
+            )
         if "MATCH (a)-[r]->(b)" in query:
             return ExecutionResult(
                 success=True,
@@ -85,3 +116,4 @@ def test_schema_introspection_discovers_bounded_categorical_values():
     }
     assert "Account.accountId" not in schema.categorical_properties
     assert schema.has_relationship("Person", "OWN_ACCOUNT", "Account")
+    assert "createTime" in schema.properties_for_relationship("OWN_ACCOUNT")

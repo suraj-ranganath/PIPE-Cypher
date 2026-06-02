@@ -14,6 +14,7 @@ PIPE-Cypher is an industry-track research codebase for automatic benchmark gener
 - Treat BalkanID's parser/listener and query-alteration design as an innovation source, not just an implementation detail. When practical, prefer grammar/AST-aware validation and conservative rewrites over brittle string edits; when parser risk is high, skip rewrites and log why.
 - Human review is not a generation gate. Use deterministic validation plus LLM-judge review. A small human audit may be used only to calibrate judge reliability for the paper.
 - Large-scale evaluation is a core requirement. Keep target-100, repeated target-50-or-larger, full held-out downstream, and graph/category/difficulty-stratified runs moving when `ds-serv6` has capacity; do not stop because a smaller suite already passed.
+- Latest owner directive: do more large-scale evaluation and ablations whenever feasible, because reviewer confidence depends on scale, repeated evidence, and reliable slice-level results. Keep queueing or launching defensible scale increments while compute is available.
 
 ## Engineering Rules
 

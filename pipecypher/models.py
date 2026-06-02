@@ -119,13 +119,36 @@ class SchemaSummary:
         return cls(
             node_properties=[NodeProperty(**x) for x in data.get("node_properties", [])],
             relationship_properties=[
-                RelationshipProperty(**x) for x in data.get("relationship_properties", [])
+                RelationshipProperty(
+                    type=_normalize_schema_type(str(x.get("type", ""))),
+                    property=x["property"],
+                    value_type=x.get("value_type", "ANY"),
+                )
+                for x in data.get("relationship_properties", [])
             ],
-            relationships=[RelationshipPattern(**x) for x in data.get("relationships", [])],
+            relationships=[
+                RelationshipPattern(
+                    start_label=x["start_label"],
+                    type=_normalize_schema_type(str(x.get("type", ""))),
+                    end_label=x["end_label"],
+                    count=x.get("count"),
+                )
+                for x in data.get("relationships", [])
+            ],
             categorical_properties=data.get("categorical_properties", {}),
             graph_name=data.get("graph_name", "unknown"),
             source=data.get("source", "file"),
         )
+
+
+def _normalize_schema_type(value: str) -> str:
+    """Normalize Neo4j metadata identifiers such as :`TRANSFER_TO`."""
+    normalized = value.strip()
+    if normalized.startswith(":"):
+        normalized = normalized[1:].strip()
+    if normalized.startswith("`") and normalized.endswith("`") and len(normalized) >= 2:
+        normalized = normalized[1:-1]
+    return normalized
 
 
 @dataclass
