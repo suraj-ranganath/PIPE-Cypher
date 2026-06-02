@@ -54,13 +54,15 @@ def schema_derived_templates(
     for categories such as top-k and anti-join.
     """
 
-    if category not in {"ranking_topk", "negation_difference"}:
+    if category not in {"complex_aggregation", "ranking_topk", "negation_difference"}:
         return []
 
     rels = _rank_relationships(schema.relationships)
     templates: list[TemplateCandidate] = []
     for rel in rels:
-        if category == "ranking_topk":
+        if category == "complex_aggregation":
+            templates.extend(_aggregation_templates_for_relationship(schema, rel))
+        elif category == "ranking_topk":
             templates.extend(_ranking_templates_for_relationship(schema, rel))
         else:
             templates.extend(_negation_templates_for_relationship(schema, rel))
@@ -108,6 +110,22 @@ def reverse_cypher_for_schema_template(template: TemplateCandidate, limit: int =
             f"MATCH (e:{end}) "
             f"WHERE e.{prop} IS NOT NULL AND NOT (:{start})-[:{rel_type}]->(e) "
             f"RETURN DISTINCT e.{prop} AS {slot} LIMIT {limit}"
+        )
+    if kind == "count_outgoing_scoped":
+        return (
+            f"MATCH (s:{start})-[:{rel_type}]->(e:{end}) "
+            f"WHERE s.{prop} IS NOT NULL "
+            f"WITH s.{prop} AS {slot}, COUNT(DISTINCT e) AS support "
+            "WHERE support > 0 "
+            f"RETURN DISTINCT {slot} LIMIT {limit}"
+        )
+    if kind == "count_incoming_scoped":
+        return (
+            f"MATCH (s:{start})-[:{rel_type}]->(e:{end}) "
+            f"WHERE e.{prop} IS NOT NULL "
+            f"WITH e.{prop} AS {slot}, COUNT(DISTINCT s) AS support "
+            "WHERE support > 0 "
+            f"RETURN DISTINCT {slot} LIMIT {limit}"
         )
     return None
 
@@ -183,7 +201,93 @@ def cypher_for_schema_template(
             f"WHERE NOT (:{start})-[:{rel_type}]->(e) "
             f"RETURN DISTINCT {_projection(schema, end, 'e', 'Target')} LIMIT {limit}"
         )
+    if kind == "count_outgoing":
+        return (
+            f"MATCH (s:{start})-[:{rel_type}]->(e:{end}) "
+            f"RETURN DISTINCT COUNT(DISTINCT e) AS {_alias_part(end)}Count"
+        )
+    if kind == "count_incoming":
+        return (
+            f"MATCH (s:{start})-[:{rel_type}]->(e:{end}) "
+            f"RETURN DISTINCT COUNT(DISTINCT s) AS {_alias_part(start)}Count"
+        )
+    if kind == "count_outgoing_scoped":
+        return (
+            f"MATCH (s:{start} {{{prop}: {value}}})-[:{rel_type}]->(e:{end}) "
+            f"RETURN DISTINCT COUNT(DISTINCT e) AS {_alias_part(end)}Count"
+        )
+    if kind == "count_incoming_scoped":
+        return (
+            f"MATCH (s:{start})-[:{rel_type}]->(e:{end} {{{prop}: {value}}}) "
+            f"RETURN DISTINCT COUNT(DISTINCT s) AS {_alias_part(start)}Count"
+        )
     return None
+
+
+def _aggregation_templates_for_relationship(
+    schema: SchemaSummary,
+    rel: RelationshipPattern,
+) -> list[TemplateCandidate]:
+    start_text = _label_phrase(rel.start_label)
+    end_text = _label_phrase(rel.end_label)
+    rel_text = rel.type
+    templates = [
+        TemplateCandidate(
+            category="complex_aggregation",
+            template=(
+                f"How many distinct {end_text} records are linked from {start_text} "
+                f"records through :{rel_text}?"
+            ),
+            rationale="Schema-derived relationship-count aggregation.",
+            metadata=_metadata("count_outgoing", rel),
+        ),
+        TemplateCandidate(
+            category="complex_aggregation",
+            template=(
+                f"How many distinct {start_text} records link to {end_text} "
+                f"records through :{rel_text}?"
+            ),
+            rationale="Schema-derived inverse relationship-count aggregation.",
+            metadata=_metadata("count_incoming", rel),
+        ),
+    ]
+    for prop in _slot_properties(schema, rel.start_label)[:3]:
+        templates.append(
+            TemplateCandidate(
+                category="complex_aggregation",
+                template=(
+                    f"How many distinct {end_text} records are linked from {start_text} "
+                    f"records with {prop} '{{startValue}}' through :{rel_text}?"
+                ),
+                slots={"startValue": f"{rel.start_label}.{prop}"},
+                rationale="Schema-derived scoped relationship-count aggregation.",
+                metadata=_metadata(
+                    "count_outgoing_scoped",
+                    rel,
+                    slot="startValue",
+                    slot_property=prop,
+                ),
+            )
+        )
+    for prop in _slot_properties(schema, rel.end_label)[:2]:
+        templates.append(
+            TemplateCandidate(
+                category="complex_aggregation",
+                template=(
+                    f"How many distinct {start_text} records link to {end_text} "
+                    f"records with {prop} '{{targetValue}}' through :{rel_text}?"
+                ),
+                slots={"targetValue": f"{rel.end_label}.{prop}"},
+                rationale="Schema-derived scoped inverse relationship-count aggregation.",
+                metadata=_metadata(
+                    "count_incoming_scoped",
+                    rel,
+                    slot="targetValue",
+                    slot_property=prop,
+                ),
+            )
+        )
+    return templates
 
 
 def _ranking_templates_for_relationship(

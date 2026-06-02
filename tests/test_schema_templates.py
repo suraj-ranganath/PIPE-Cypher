@@ -56,6 +56,34 @@ def test_schema_derived_ranking_templates_are_renderable_and_valid():
     assert f"{{{scoped.metadata['slot_property']}: '{value}'}}" in cypher
 
 
+def test_schema_derived_aggregation_templates_are_renderable_and_valid():
+    schema = _enterprise_schema()
+    templates = schema_derived_templates(schema, "complex_aggregation", max_templates=20)
+
+    assert any(item.metadata.get("schema_template_kind") == "count_outgoing" for item in templates)
+    scoped = next(
+        item
+        for item in templates
+        if item.metadata.get("schema_template_kind") == "count_outgoing_scoped"
+    )
+    value = "OPEN" if scoped.metadata["slot_property"] == "status" else "US"
+
+    reverse = default_reverse_cypher_for_template(scoped, limit=9)
+    cypher = default_cypher_for_template(
+        scoped,
+        schema=schema,
+        bindings={"startValue": value},
+        limit=9,
+    )
+
+    assert reverse is not None
+    assert "support > 0" in reverse
+    assert "COUNT(DISTINCT" in cypher
+    result = validate_cypher(cypher, schema)
+    assert result.ok, [issue.code for issue in result.issues]
+    assert f"{{{scoped.metadata['slot_property']}: '{value}'}}" in cypher
+
+
 def test_schema_derived_negation_reverse_is_outcome_aware():
     schema = _enterprise_schema()
     templates = schema_derived_templates(schema, "negation_difference", max_templates=20)
@@ -86,11 +114,15 @@ def test_schema_derived_negation_reverse_is_outcome_aware():
 def test_icij_live_schema_gets_extra_schema_templates_for_sparse_categories():
     schema = load_schema("configs/schema_icij_offshoreleaks_live.json")
 
+    aggregation = schema_derived_templates(schema, "complex_aggregation", max_templates=48)
     ranking = schema_derived_templates(schema, "ranking_topk", max_templates=48)
     negation = schema_derived_templates(schema, "negation_difference", max_templates=48)
 
+    assert len(aggregation) >= 24
     assert len(ranking) >= 24
     assert len(negation) >= 24
+    assert any(template.slots for template in aggregation)
     assert any(template.slots for template in ranking)
     assert any(template.slots for template in negation)
+    assert any("registered_address" in template.template for template in aggregation)
     assert any("registered_address" in template.template for template in negation)
