@@ -1,10 +1,15 @@
 import csv
+import subprocess
+import sys
 from pathlib import Path
 
 from pipecypher.calibration import (
+    analyze_annotation_sheets,
     analyze_audit_csv,
+    disagreement_rows,
     sample_for_audit,
     summarize_audit_csv,
+    write_disagreement_csv,
     write_audit_csv,
 )
 
@@ -134,3 +139,119 @@ def test_summarize_audit_csv_reports_label_coverage(tmp_path: Path):
     assert coverage.judge_rejects == 1
     assert coverage.by_graph == {"finbench": 1, "snb": 1}
     assert coverage.by_category == {"negation": 1, "simple": 1}
+
+
+def _write_annotation_sheet(path: Path, labels: dict[str, str]) -> None:
+    fields = [
+        "review_order",
+        "id",
+        "graph_profile",
+        "judge_accept",
+        "human_accept",
+        "category",
+        "difficulty",
+        "primary_strategy",
+        "question",
+        "cypher",
+        "judge_failure_reason",
+        "human_notes",
+    ]
+    with path.open("w", encoding="utf-8", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=fields)
+        writer.writeheader()
+        for order, (row_id, label) in enumerate(labels.items()):
+            writer.writerow(
+                {
+                    "review_order": order,
+                    "id": row_id,
+                    "graph_profile": "finbench",
+                    "judge_accept": "true",
+                    "human_accept": label,
+                    "category": "simple",
+                    "difficulty": "easy",
+                    "primary_strategy": "single_hop",
+                    "question": f"Question {row_id}?",
+                    "cypher": "MATCH (n) RETURN n",
+                    "judge_failure_reason": "",
+                    "human_notes": f"note {row_id}" if label else "",
+                }
+            )
+
+
+def test_analyze_annotation_sheets_reports_agreement_and_disagreements(tmp_path: Path):
+    annotator_a = tmp_path / "a.csv"
+    annotator_b = tmp_path / "b.csv"
+    _write_annotation_sheet(annotator_a, {"0": "true", "1": "false", "2": "true"})
+    _write_annotation_sheet(annotator_b, {"0": "true", "1": "true", "2": "true"})
+
+    metrics = analyze_annotation_sheets(annotator_a, annotator_b)
+    rows = disagreement_rows(annotator_a, annotator_b)
+
+    assert metrics.total_ids == 3
+    assert metrics.comparable_rows == 3
+    assert metrics.both_accept == 2
+    assert metrics.a_accept_b_reject == 0
+    assert metrics.a_reject_b_accept == 1
+    assert metrics.agreement_rate == 2 / 3
+    assert rows == [
+        {
+            "id": "1",
+            "annotator_a_accept": "false",
+            "annotator_a_notes": "note 1",
+            "annotator_b_accept": "true",
+            "annotator_b_notes": "note 1",
+            "graph_profile": "finbench",
+            "judge_accept": "true",
+            "category": "simple",
+            "difficulty": "easy",
+            "question": "Question 1?",
+            "cypher": "MATCH (n) RETURN n",
+            "judge_failure_reason": "",
+        }
+    ]
+
+
+def test_analyze_annotation_sheets_tracks_incomplete_labels(tmp_path: Path):
+    annotator_a = tmp_path / "a.csv"
+    annotator_b = tmp_path / "b.csv"
+    _write_annotation_sheet(annotator_a, {"0": "true", "1": ""})
+    _write_annotation_sheet(annotator_b, {"0": "true", "2": "false"})
+
+    metrics = analyze_annotation_sheets(annotator_a, annotator_b)
+
+    assert metrics.total_ids == 3
+    assert metrics.comparable_rows == 1
+    assert metrics.missing_in_a == 1
+    assert metrics.missing_in_b == 1
+    assert metrics.unlabeled_in_a == 0
+    assert metrics.unlabeled_in_b == 0
+
+
+def test_write_disagreement_csv_and_cli_require_complete_labels(tmp_path: Path):
+    annotator_a = tmp_path / "a.csv"
+    annotator_b = tmp_path / "b.csv"
+    disagreements = tmp_path / "disagreements.csv"
+    _write_annotation_sheet(annotator_a, {"0": "true", "1": ""})
+    _write_annotation_sheet(annotator_b, {"0": "false", "1": "true"})
+
+    write_disagreement_csv(disagreement_rows(annotator_a, annotator_b), disagreements)
+    result = subprocess.run(
+        [
+            sys.executable,
+            "scripts/analyze_judge_annotation_sheets.py",
+            "--annotator-a",
+            str(annotator_a),
+            "--annotator-b",
+            str(annotator_b),
+            "--require-complete-labels",
+        ],
+        cwd=Path(__file__).resolve().parents[1],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+
+    assert disagreements.exists()
+    assert "annotator_a_accept" in disagreements.read_text(encoding="utf-8")
+    assert result.returncode != 0
+    assert "unlabeled_in_a=1" in result.stderr

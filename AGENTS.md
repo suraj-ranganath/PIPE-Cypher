@@ -98,6 +98,7 @@ The main paper should stay tight, but the appendix can be long. Use the appendix
 
 ## Large-Scale Experiment Standard
 
+- Current owner directive: keep running larger evaluation and ablation jobs while `ds-serv6` capacity permits. The paper should not read like a small prototype; it should report research-quality, scaled, reviewer-defensible results with enough examples, ablation cells, repeated seeds, downstream cases, and slice-level analyses to make the conclusions reliable.
 - Bias toward larger runs whenever compute is available. The reviewer-facing study should use the full 3,000-example benchmark, both FinBench and SNB, target-50-or-larger ablation cells at minimum, downstream test evaluation over the full held-out split, judge calibration, and graph/category/difficulty stratification.
 - Treat target-25 ablations as interim scaled checkpoints and target-five runs as engineering checks. They can guide implementation, debugging, and appendix planning, but they must not anchor paper claims.
 - For final ablation claims, prefer target-100 per category, repeated target-50 suites, or another scale-equivalent design when `ds-serv6` capacity allows. If the project stops at target-50 because of real compute, storage, or time limits, document that constraint and avoid overstating fine-grained differences.

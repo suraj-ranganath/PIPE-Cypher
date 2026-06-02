@@ -37,12 +37,145 @@ class AuditCoverage:
     by_strategy: dict[str, int]
 
 
+@dataclass
+class AnnotationAgreementMetrics:
+    total_ids: int
+    comparable_rows: int
+    agreement_rate: float
+    cohen_kappa: float
+    both_accept: int
+    both_reject: int
+    a_accept_b_reject: int
+    a_reject_b_accept: int
+    missing_in_a: int
+    missing_in_b: int
+    unlabeled_in_a: int
+    unlabeled_in_b: int
+    duplicate_ids_a: list[str]
+    duplicate_ids_b: list[str]
+
+
 def load_records(path: str | Path) -> list[dict[str, Any]]:
     rows = []
     for line in Path(path).read_text(encoding="utf-8").splitlines():
         if line.strip():
             rows.append(json.loads(line))
     return rows
+
+
+def analyze_annotation_sheets(
+    annotator_a: str | Path,
+    annotator_b: str | Path,
+) -> AnnotationAgreementMetrics:
+    rows_a, duplicates_a = _load_annotation_sheet(annotator_a)
+    rows_b, duplicates_b = _load_annotation_sheet(annotator_b)
+    all_ids = set(rows_a) | set(rows_b)
+    comparable: list[tuple[bool, bool]] = []
+    missing_in_a = 0
+    missing_in_b = 0
+    unlabeled_in_a = 0
+    unlabeled_in_b = 0
+    for row_id in sorted(all_ids):
+        row_a = rows_a.get(row_id)
+        row_b = rows_b.get(row_id)
+        if row_a is None:
+            missing_in_a += 1
+            continue
+        if row_b is None:
+            missing_in_b += 1
+            continue
+        label_a = _parse_bool(row_a.get("human_accept", ""))
+        label_b = _parse_bool(row_b.get("human_accept", ""))
+        if label_a is None:
+            unlabeled_in_a += 1
+        if label_b is None:
+            unlabeled_in_b += 1
+        if label_a is not None and label_b is not None:
+            comparable.append((label_a, label_b))
+
+    both_accept = sum(1 for a, b in comparable if a and b)
+    both_reject = sum(1 for a, b in comparable if not a and not b)
+    a_accept_b_reject = sum(1 for a, b in comparable if a and not b)
+    a_reject_b_accept = sum(1 for a, b in comparable if not a and b)
+    agreements = both_accept + both_reject
+    comparable_count = len(comparable)
+    agreement_rate = agreements / comparable_count if comparable_count else 0.0
+    cohen_kappa = _cohen_kappa_from_pairs(comparable)
+    return AnnotationAgreementMetrics(
+        total_ids=len(all_ids),
+        comparable_rows=comparable_count,
+        agreement_rate=agreement_rate,
+        cohen_kappa=cohen_kappa,
+        both_accept=both_accept,
+        both_reject=both_reject,
+        a_accept_b_reject=a_accept_b_reject,
+        a_reject_b_accept=a_reject_b_accept,
+        missing_in_a=missing_in_a,
+        missing_in_b=missing_in_b,
+        unlabeled_in_a=unlabeled_in_a,
+        unlabeled_in_b=unlabeled_in_b,
+        duplicate_ids_a=duplicates_a,
+        duplicate_ids_b=duplicates_b,
+    )
+
+
+def disagreement_rows(
+    annotator_a: str | Path,
+    annotator_b: str | Path,
+) -> list[dict[str, str]]:
+    rows_a, _ = _load_annotation_sheet(annotator_a)
+    rows_b, _ = _load_annotation_sheet(annotator_b)
+    disagreements: list[dict[str, str]] = []
+    for row_id in sorted(set(rows_a) & set(rows_b)):
+        row_a = rows_a[row_id]
+        row_b = rows_b[row_id]
+        label_a = _parse_bool(row_a.get("human_accept", ""))
+        label_b = _parse_bool(row_b.get("human_accept", ""))
+        if label_a is None or label_b is None or label_a == label_b:
+            continue
+        disagreements.append(
+            {
+                "id": row_id,
+                "annotator_a_accept": str(label_a).lower(),
+                "annotator_a_notes": row_a.get("human_notes", ""),
+                "annotator_b_accept": str(label_b).lower(),
+                "annotator_b_notes": row_b.get("human_notes", ""),
+                "graph_profile": row_a.get("graph_profile", row_b.get("graph_profile", "")),
+                "judge_accept": row_a.get("judge_accept", row_b.get("judge_accept", "")),
+                "category": row_a.get("category", row_b.get("category", "")),
+                "difficulty": row_a.get("difficulty", row_b.get("difficulty", "")),
+                "question": row_a.get("question", row_b.get("question", "")),
+                "cypher": row_a.get("cypher", row_b.get("cypher", "")),
+                "judge_failure_reason": row_a.get(
+                    "judge_failure_reason",
+                    row_b.get("judge_failure_reason", ""),
+                ),
+            }
+        )
+    return disagreements
+
+
+def write_disagreement_csv(rows: list[dict[str, str]], path: str | Path) -> None:
+    out = Path(path)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    fields = [
+        "id",
+        "annotator_a_accept",
+        "annotator_a_notes",
+        "annotator_b_accept",
+        "annotator_b_notes",
+        "graph_profile",
+        "judge_accept",
+        "category",
+        "difficulty",
+        "question",
+        "cypher",
+        "judge_failure_reason",
+    ]
+    with out.open("w", encoding="utf-8", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=fields)
+        writer.writeheader()
+        writer.writerows(rows)
 
 
 def sample_for_audit(
@@ -209,6 +342,39 @@ def _parse_bool(value: str) -> bool | None:
     if text in {"false", "0", "no", "n", "reject", "rejected"}:
         return False
     return None
+
+
+def _load_annotation_sheet(path: str | Path) -> tuple[dict[str, dict[str, str]], list[str]]:
+    rows: dict[str, dict[str, str]] = {}
+    duplicates: list[str] = []
+    with Path(path).open("r", encoding="utf-8", newline="") as f:
+        reader = csv.DictReader(f)
+        for row_number, row in enumerate(reader):
+            row_id = str(row.get("id") or row_number)
+            if row_id in rows:
+                duplicates.append(row_id)
+                continue
+            rows[row_id] = row
+    return rows, duplicates
+
+
+def _cohen_kappa_from_pairs(pairs: list[tuple[bool, bool]]) -> float:
+    total = len(pairs)
+    if total == 0:
+        return 0.0
+    agreements = sum(1 for left, right in pairs if left == right)
+    left_accepts = sum(1 for left, _ in pairs if left)
+    right_accepts = sum(1 for _, right in pairs if right)
+    left_rejects = total - left_accepts
+    right_rejects = total - right_accepts
+    observed = agreements / total
+    expected = (
+        (left_accepts / total) * (right_accepts / total)
+        + (left_rejects / total) * (right_rejects / total)
+    )
+    if expected >= 1.0:
+        return 1.0
+    return (observed - expected) / (1 - expected)
 
 
 def analyze_audit_csv(path: str | Path) -> CalibrationMetrics:

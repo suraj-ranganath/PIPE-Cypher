@@ -1,0 +1,18 @@
+{
+  "agreement": {
+    "a_accept_b_reject": 0,
+    "a_reject_b_accept": 0,
+    "agreement_rate": 0.0,
+    "both_accept": 0,
+    "both_reject": 0,
+    "cohen_kappa": 0.0,
+    "comparable_rows": 0,
+    "duplicate_ids_a": [],
+    "duplicate_ids_b": [],
+    "missing_in_a": 0,
+    "missing_in_b": 0,
+    "total_ids": 80,
+    "unlabeled_in_a": 80,
+    "unlabeled_in_b": 80
+  }
+}

@@ -54,6 +54,12 @@ columns plus a final adjudicated label column. These files live under ignored
 `artifacts/`; the tracked manifest records hashes and row counts without
 committing raw enterprise values.
 
+The repository also provides an independent-sheet agreement analyzer. Before
+adjudication, run it on the two annotator sheets to report comparable rows,
+agreement rate, Cohen's kappa, accept/reject disagreement counts, missing IDs,
+duplicate IDs, and unlabeled rows. This protects the paper from accidentally
+reporting adjudicated labels as independent agreement.
+
 Minimum acceptable paper evidence:
 
 - all 80 rows labeled, or an explicit reason and coverage table if any row is
@@ -117,6 +123,27 @@ python scripts/create_judge_annotation_sheets.py \
 
 Use `--blind-judge` only for a separately reported blinded audit variant; the
 default sheet includes `judge_accept`, matching the current protocol.
+
+Before labels are filled, this command should report 80 shared IDs, 0
+comparable rows, and 80 unlabeled rows per annotator:
+
+```bash
+python scripts/analyze_judge_annotation_sheets.py \
+  --annotator-a artifacts/audits/20260601_full_qwen9b_judge_audit_v2_annotation/20260601_full_qwen9b_judge_audit_v2_annotator_a.csv \
+  --annotator-b artifacts/audits/20260601_full_qwen9b_judge_audit_v2_annotation/20260601_full_qwen9b_judge_audit_v2_annotator_b.csv \
+  --output-json experiments/snapshots/20260601_live_full_qwen9b/judge_annotation_agreement_unlabeled.json
+```
+
+After both independent sheets are labeled, require complete labels and export
+disagreements for adjudication:
+
+```bash
+python scripts/analyze_judge_annotation_sheets.py \
+  --annotator-a artifacts/audits/20260601_full_qwen9b_judge_audit_v2_annotation/20260601_full_qwen9b_judge_audit_v2_annotator_a.csv \
+  --annotator-b artifacts/audits/20260601_full_qwen9b_judge_audit_v2_annotation/20260601_full_qwen9b_judge_audit_v2_annotator_b.csv \
+  --require-complete-labels \
+  --output-disagreements-csv artifacts/audits/20260601_full_qwen9b_judge_audit_v2_annotation/disagreements.csv
+```
 
 After labels are filled, require labels and save the output:
 
