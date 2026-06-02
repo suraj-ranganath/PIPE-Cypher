@@ -57,7 +57,6 @@ def main() -> None:
     failure_taxonomy = json.loads(Path(args.failure_taxonomy).read_text(encoding="utf-8"))
     downstream_errors = json.loads(Path(args.downstream_errors).read_text(encoding="utf-8"))
 
-    render_pipeline_overview_figure(out / "pipeline_overview.pdf", plt)
     render_diversity_figure(diversity_report, out / "diversity_diagnostics.pdf", plt)
     render_full_distribution_figure(benchmark_stats, out / "full_export_distribution.pdf", plt)
     render_downstream_figure(downstream_summary, out / "downstream_breakdown.pdf", plt)
@@ -78,7 +77,6 @@ def main() -> None:
         out / "downstream_error_taxonomy.pdf",
         plt,
     )
-    print(f"wrote {out / 'pipeline_overview.pdf'}")
     print(f"wrote {out / 'diversity_diagnostics.pdf'}")
     print(f"wrote {out / 'full_export_distribution.pdf'}")
     print(f"wrote {out / 'downstream_breakdown.pdf'}")
@@ -87,80 +85,6 @@ def main() -> None:
     if failure_taxonomy.get("empty_result_diagnostic_counts"):
         print(f"wrote {out / 'empty_result_diagnostics.pdf'}")
     print(f"wrote {out / 'downstream_error_taxonomy.pdf'}")
-
-
-def render_pipeline_overview_figure(output: Path, plt) -> None:
-    stages = [
-        ("Schema +\nprivacy policy", "introspect, sample,\nredact values"),
-        ("Reverse\n grounding", "bind slots with\nlive Cypher"),
-        ("Constrained\n generation", "local Qwen,\nprofiled prompts"),
-        ("AST governance\n+ rewrite", "read-only, schema,\ndirection, DISTINCT"),
-        ("Execution\n diagnostics", "run, repair,\nempty-result audit"),
-        ("LLM judge\n+ calibration", "local judge,\nhuman audit sample"),
-        ("Benchmark\n export/refresh", "splits, card,\nredacted artifacts"),
-    ]
-    fig, ax = plt.subplots(figsize=(9.4, 2.7))
-    ax.axis("off")
-    colors = [
-        PALETTE["blue"],
-        PALETTE["green"],
-        PALETTE["orange"],
-        PALETTE["violet"],
-        PALETTE["red"],
-        PALETTE["slate"],
-        PALETTE["ink"],
-    ]
-    x_positions = [idx / (len(stages) - 1) for idx in range(len(stages))]
-    for idx, ((title, subtitle), x_pos) in enumerate(zip(stages, x_positions, strict=True)):
-        ax.text(
-            x_pos,
-            0.62,
-            title,
-            ha="center",
-            va="center",
-            fontsize=9,
-            fontweight="bold",
-            color="white",
-            bbox={
-                "boxstyle": "round,pad=0.35,rounding_size=0.04",
-                "facecolor": colors[idx],
-                "edgecolor": "none",
-            },
-            transform=ax.transAxes,
-        )
-        ax.text(
-            x_pos,
-            0.22,
-            subtitle,
-            ha="center",
-            va="center",
-            fontsize=7.5,
-            color=PALETTE["slate"],
-            transform=ax.transAxes,
-        )
-        if idx + 1 < len(stages):
-            ax.annotate(
-                "",
-                xy=(x_positions[idx + 1] - 0.07, 0.62),
-                xytext=(x_pos + 0.07, 0.62),
-                arrowprops={"arrowstyle": "->", "color": PALETTE["slate"], "lw": 1.1},
-                xycoords=ax.transAxes,
-                textcoords=ax.transAxes,
-            )
-    ax.text(
-        0.5,
-        0.94,
-        "PIPE-Cypher generates private, executable NL-to-Cypher benchmarks as graphs evolve",
-        ha="center",
-        va="center",
-        fontsize=10,
-        fontweight="bold",
-        color=PALETTE["slate"],
-        transform=ax.transAxes,
-    )
-    fig.tight_layout()
-    fig.savefig(output)
-    plt.close(fig)
 
 
 def render_diversity_figure(report: dict, output: Path, plt) -> None:

@@ -1,0 +1,276 @@
+\definecolor{pipeBlue}{HTML}{2F5F98}
+\definecolor{pipeTeal}{HTML}{00856F}
+\definecolor{pipeGold}{HTML}{B87A00}
+\definecolor{pipeRed}{HTML}{B5524A}
+\definecolor{pipePurple}{HTML}{6B5CA5}
+\definecolor{pipeInk}{HTML}{243040}
+\definecolor{pipeSlate}{HTML}{5A6778}
+\definecolor{pipeLine}{HTML}{AAB4C0}
+\definecolor{pipePaleBlue}{HTML}{EAF1F8}
+\definecolor{pipePaleTeal}{HTML}{E8F5F1}
+\definecolor{pipePaleGold}{HTML}{FBF2DA}
+\definecolor{pipePaleRed}{HTML}{F8EAE8}
+\definecolor{pipePalePurple}{HTML}{F0EDF8}
+\definecolor{pipePaleGray}{HTML}{F3F5F7}
+
+\begin{tikzpicture}[
+  font=\sffamily,
+  >=Latex,
+  stage/.style={
+    rounded corners=2pt,
+    draw=pipeInk,
+    line width=0.55pt,
+    minimum height=0.92cm,
+    text width=2.18cm,
+    align=center,
+    inner sep=4pt,
+    font=\sffamily\scriptsize\bfseries
+  },
+  detail/.style={
+    rounded corners=1.5pt,
+    draw=pipeLine,
+    line width=0.35pt,
+    fill=white,
+    text width=2.18cm,
+    align=left,
+    inner sep=3pt,
+    font=\sffamily\tiny
+  },
+  sidebox/.style={
+    rounded corners=2pt,
+    draw=pipeLine,
+    line width=0.45pt,
+    fill=pipePaleGray,
+    text width=2.15cm,
+    align=left,
+    inner sep=4pt,
+    font=\sffamily\tiny
+  },
+  loopbox/.style={
+    rounded corners=2pt,
+    draw=pipeSlate,
+    line width=0.45pt,
+    fill=white,
+    text width=3.05cm,
+    align=left,
+    inner sep=4pt,
+    font=\sffamily\tiny
+  },
+  contextbox/.style={
+    rounded corners=2pt,
+    draw=pipeSlate,
+    line width=0.45pt,
+    fill=white,
+    text width=2.33cm,
+    align=left,
+    inner sep=4pt,
+    font=\sffamily\tiny
+  },
+  artifact/.style={
+    rounded corners=2pt,
+    draw=pipeTeal,
+    line width=0.55pt,
+    fill=pipePaleTeal,
+    text width=2.45cm,
+    align=left,
+    inner sep=4pt,
+    font=\sffamily\tiny
+  },
+  arrow/.style={->, line width=0.75pt, draw=pipeInk},
+  softarrow/.style={->, line width=0.55pt, draw=pipeSlate},
+  rejectarrow/.style={->, line width=0.6pt, draw=pipeRed, dashed},
+  refresharrow/.style={->, line width=0.65pt, draw=pipeTeal, dashed}
+]
+
+% Main pipeline.
+\node[stage, fill=pipePaleBlue] (schema) at (0,0)
+  {1. Schema and\\value profiling};
+\node[stage, fill=pipePaleGold, right=0.55cm of schema] (plan)
+  {2. Workload\\planning};
+\node[stage, fill=pipePaleTeal, right=0.55cm of plan] (ground)
+  {3. Reverse\\grounding};
+\node[stage, fill=pipePalePurple, right=0.55cm of ground] (generate)
+  {4. Constrained\\generation};
+\node[stage, fill=pipePaleRed, right=0.55cm of generate] (govern)
+  {5. Cypher\\governance};
+\node[stage, fill=pipePaleBlue, right=0.55cm of govern] (execute)
+  {6. Execution\\validation};
+\node[stage, fill=pipePaleTeal, right=0.55cm of execute] (judge)
+  {7. Judge, audit,\\and export};
+
+\draw[arrow] (schema) -- (plan);
+\draw[arrow] (plan) -- (ground);
+\draw[arrow] (ground) -- (generate);
+\draw[arrow] (generate) -- (govern);
+\draw[arrow] (govern) -- (execute);
+\draw[arrow] (execute) -- (judge);
+
+% Detailed stage contents.
+\node[detail, below=0.18cm of schema] (schemaDetails) {
+  \textbf{Artifacts}\\
+  labels, relationship types\\
+  properties and directions\\
+  categorical values\\
+  schema fingerprint
+};
+\node[detail, below=0.18cm of plan] (planDetails) {
+  \textbf{Controls}\\
+  graph/category targets\\
+  difficulty buckets\\
+  diversity caps\\
+  attempt budget
+};
+\node[detail, below=0.18cm of ground] (groundDetails) {
+  \textbf{Grounding}\\
+  reverse Cypher bindings\\
+  entity/value slots\\
+  exact literal policy\\
+  placeholder examples
+};
+\node[detail, below=0.18cm of generate] (genDetails) {
+  \textbf{Local model}\\
+  Qwen3.5-9B endpoint\\
+  schema-only prompt rules\\
+  BalkanID constraints\\
+  no paid generation APIs
+};
+\node[detail, below=0.18cm of govern] (govDetails) {
+  \textbf{Deterministic gates}\\
+  read-only safety\\
+  parser/AST features\\
+  labels, rels, properties\\
+  direction and value checks
+};
+\node[detail, below=0.18cm of execute] (execDetails) {
+  \textbf{Live Cypher run}\\
+  syntax and runtime checks\\
+  result sample capture\\
+  non-empty gate\\
+  empty-result diagnosis
+};
+\node[detail, below=0.18cm of judge] (judgeDetails) {
+  \textbf{Quality review}\\
+  schema slice + result sample\\
+  local LLM-judge JSON\\
+  ambiguity and alignment\\
+  calibrated human audit
+};
+
+% Inputs and policies.
+\node[sidebox, above=0.78cm of schema] (inputs) {
+  \textbf{Enterprise inputs}\\
+  private property graph\\
+  read-only Cypher endpoint\\
+  domain terminology\\
+  local model endpoint
+};
+\node[sidebox, above=0.78cm of ground] (policy) {
+  \textbf{Privacy policy}\\
+  value sampling bounds\\
+  sensitive-property omit list\\
+  redaction rules\\
+  export visibility level
+};
+\draw[softarrow] (inputs.south) -- (schema.north);
+\draw[softarrow] (policy.south west) -- (schema.north east);
+\draw[softarrow] (policy.south) -- (ground.north);
+
+% Retrieval and examples.
+\node[contextbox, above=0.78cm of generate] (retrieval) {
+  \textbf{Retrieval memory}\\
+  accepted examples with tenant values replaced by typed placeholders; nearest examples feed few-shot prompts without leaking raw values
+};
+\draw[softarrow] (ground.north east) to[out=35,in=180] (retrieval.west);
+\draw[softarrow] (retrieval.south) -- (generate.north);
+
+% Governance internals.
+\node[contextbox, above=1.26cm of govern] (rewrite) {
+  \textbf{Repair and rewrite}\\
+  add \texttt{RETURN DISTINCT}; normalize projections; reject risky \texttt{CALL}, \texttt{UNION}, writes, reserved variables, or parser-risky cases
+};
+\draw[softarrow] (govern.north) -- (rewrite.south);
+\draw[softarrow] (rewrite.east) to[out=0,in=135] (execute.north west);
+
+% Export artifacts.
+\node[artifact, right=0.62cm of judge] (export) {
+  \textbf{Benchmark package}\\
+  NL-Cypher JSONL\\
+  train/dev/test splits\\
+  result samples\\
+  difficulty features\\
+  benchmark card\\
+  redacted review export
+};
+\draw[arrow] (judge) -- (export);
+
+% Rejection and audit ledger.
+\node[loopbox, below=1.62cm of govern] (ledger) {
+  \textbf{Rejected-candidate ledger}\\
+  validation issues, judge failures, duplicate/diversity blocks, repair decisions, empty-result classes, prompt profile, run ID, model ID
+};
+\node[loopbox, below=1.62cm of plan] (topup) {
+  \textbf{Top-up and refresh controller}\\
+  rebalances missing graph/category/difficulty cells; estimates capacity; starts scaled or repeated-seed runs from logged gaps
+};
+\draw[rejectarrow] (govern.south) -- (ledger.north);
+\draw[rejectarrow] (execute.south) -- (ledger.north east);
+\draw[rejectarrow] (judge.south) to[out=-115,in=15] (ledger.east);
+\draw[softarrow] (ledger.west) -- (topup.east);
+\draw[softarrow] (topup.north) -- (plan.south);
+
+% Accepted feedback and refresh loop.
+\draw[refresharrow]
+  (export.north) -- ++(0,3.05)
+  node[
+    pos=0.38,
+    above right,
+    fill=white,
+    inner sep=1pt,
+    font=\sffamily\tiny,
+    text=pipeTeal
+  ]
+  {schema/value refresh loop}
+  -| (inputs.north east);
+\draw[refresharrow]
+  (export.north west) -- ++(0,2.72)
+  node[
+    pos=0.35,
+    above left,
+    fill=white,
+    inner sep=1pt,
+    font=\sffamily\tiny,
+    text=pipeTeal
+  ]
+  {accepted examples refresh retrieval}
+  -| (retrieval.north east);
+
+% Group labels.
+\begin{scope}[on background layer]
+  \node[
+    rounded corners=3pt,
+    draw=pipeLine,
+    fill=pipePaleGray,
+    fit=(schema) (plan) (ground) (generate) (govern) (execute) (judge)
+      (schemaDetails) (planDetails) (groundDetails) (genDetails) (govDetails) (execDetails) (judgeDetails),
+    inner xsep=6pt,
+    inner ysep=7pt
+  ] (mainfit) {};
+  \node[
+    rounded corners=3pt,
+    draw=pipeLine,
+    fill=white,
+    fit=(inputs) (policy) (retrieval) (rewrite),
+    inner xsep=6pt,
+    inner ysep=7pt
+  ] (supportfit) {};
+  \node[
+    rounded corners=3pt,
+    draw=pipeLine,
+    fill=white,
+    fit=(topup) (ledger),
+    inner xsep=6pt,
+    inner ysep=7pt
+  ] (feedbackfit) {};
+\end{scope}
+
+\end{tikzpicture}
