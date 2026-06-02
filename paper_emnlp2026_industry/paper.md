@@ -127,6 +127,8 @@ The accepted full-run records were exported into a benchmark package with stable
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | Live full benchmark | 3,000 | 2,000 | 1,000 | 2,408 | 296 | 296 |
 
+Diversity diagnostics treat value grounding as a first-class signal. The full export uses 1,115 unique grounded entity values, has a unique grounded-value ratio of 0.373, and exactly quotes grounded values in 82.6% of examples with entity bindings. The appendix reports these aggregate metrics without listing raw values, which keeps concentration visible without making the diagnostic itself a value leak.
+
 Finally, we ran a downstream Text2Cypher evaluation using local Qwen3.5-9B on the exported full test split. The model saw schema text and the natural-language question, generated Cypher, and was evaluated by live execution against the corresponding FinBench or SNB database.
 
 | Split | Examples | Parse | Schema | Exec. success | Exec. acc. | Answer F1 |

@@ -69,17 +69,20 @@ def main() -> None:
 
 
 def render_diversity_figure(report: dict, output: Path, plt) -> None:
+    value_grounding = report["value_grounding"]
     values = {
         "Category\nbalance": report["distributions"]["category"]["normalized_entropy"],
         "Graph-category\nbalance": report["distributions"]["graph_category"]["normalized_entropy"],
         "Difficulty\nbalance": report["distributions"]["difficulty"]["normalized_entropy"],
         "Distinct-2\nquestions": report["question_text"]["distinct_2"],
         "Query-signature\nratio": report["query_templates"]["unique_signature_ratio"],
+        "Grounded-value\nratio": value_grounding["unique_entity_value_ratio"],
+        "Exact quoted\nvalues": value_grounding["entity_values_exact_quoted_rate"],
         "Label\ncoverage": report["schema_coverage"]["labels"]["coverage"],
         "Rel-type\ncoverage": report["schema_coverage"]["relationship_types"]["coverage"],
         "Property\ncoverage": report["schema_coverage"]["properties"]["coverage"],
     }
-    fig, ax = plt.subplots(figsize=(8.2, 3.2))
+    fig, ax = plt.subplots(figsize=(9.2, 3.2))
     bars = ax.bar(range(len(values)), list(values.values()), color=PALETTE["blue"])
     ax.set_ylim(0, 1.05)
     ax.set_ylabel("Normalized score")

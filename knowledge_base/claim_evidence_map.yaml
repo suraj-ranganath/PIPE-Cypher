@@ -40,7 +40,7 @@ claims:
     risk: "A single target-50 suite is the minimum publishable ablation scale, not the strongest possible evidence. If target-100 or repeated-seed runs complete, final claims should use those sensitivity results instead of relying only on target-50."
 
   - claim: "The benchmark controls category and difficulty balance while exposing residual diversity limits."
-    evidence: "The full export has perfect category balance, planned 2:1 FinBench/SNB graph mix, and a near-even easy/medium split. Diversity diagnostics report Distinct-n, sampled self-BLEU-2, query-signature diversity, normalized entropy, schema coverage, and structural feature rates, making template concentration visible instead of hidden."
+    evidence: "The full export has perfect category balance, planned 2:1 FinBench/SNB graph mix, and a near-even easy/medium split. Diversity diagnostics report Distinct-n, sampled self-BLEU-2, query-signature diversity, normalized entropy, schema coverage, structural feature rates, and aggregate value-grounding diagnostics. The full export uses 1,115 unique grounded entity values and exactly quotes grounded values in 82.6% of examples with entity bindings, making template and value concentration visible instead of hidden."
     artifacts:
       - "experiments/snapshots/20260601_live_full_qwen9b/diversity_report.json"
       - "paper_emnlp2026_industry/tables_diversity.tex"

@@ -68,7 +68,7 @@ The accepted full-run records were exported into a benchmark package with stable
 \input{tables_benchmark_export}
 \input{tables_full_artifact_distribution}
 
-We report diversity as a diagnostic, not only as a design target. The full export has perfect category balance and near-perfect difficulty balance, but the Qwen3.5-9B fallback run still has low query-signature diversity because seeded graph-grounded templates are doing substantial work. This is useful evidence for industry deployment: the artifact is balanced and executable, while the appendix makes template concentration visible rather than hiding it.
+We report diversity as a diagnostic, not only as a design target. The full export has perfect category balance and near-perfect difficulty balance, uses 1,115 unique grounded entity values, and exactly quotes grounded values in 82.6\% of examples with entity bindings. The Qwen3.5-9B fallback run still has low query-signature diversity because seeded graph-grounded templates are doing substantial work. This is useful evidence for industry deployment: the artifact is balanced and executable, while the appendix makes template and value concentration visible rather than hiding it.
 
 The full-run failure taxonomy is concentrated in diversity/duplicate controls during recovery and empty execution results; only 2/4,777 candidates were schema-invalid after deterministic Cypher governance.
 

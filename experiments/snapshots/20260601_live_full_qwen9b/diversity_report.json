@@ -158,6 +158,19 @@
         "optional_match_rate": 0.0,
         "ordering_rate": 0.125,
         "path_pattern_rate": 0.125
+      },
+      "value_grounding": {
+        "entity_values_exact_quoted_rate": 1.0,
+        "examples_with_entity_values_rate": 0.998,
+        "examples_with_quoted_literals_rate": 0.998,
+        "top_entity_value_share": 0.004008016032064128,
+        "top_quoted_literal_share": 0.004008016032064128,
+        "total_entity_mentions": 1996,
+        "total_quoted_literal_mentions": 1996,
+        "unique_entity_value_ratio": 0.3076152304609218,
+        "unique_entity_values": 614,
+        "unique_quoted_literal_ratio": 0.3076152304609218,
+        "unique_quoted_literals": 614
       }
     },
     "snb": {
@@ -324,6 +337,19 @@
         "optional_match_rate": 0.125,
         "ordering_rate": 0.125,
         "path_pattern_rate": 0.125
+      },
+      "value_grounding": {
+        "entity_values_exact_quoted_rate": 0.477432296890672,
+        "examples_with_entity_values_rate": 0.997,
+        "examples_with_quoted_literals_rate": 0.476,
+        "top_entity_value_share": 0.0050150451354062184,
+        "top_quoted_literal_share": 0.0063025210084033615,
+        "total_entity_mentions": 997,
+        "total_quoted_literal_mentions": 476,
+        "unique_entity_value_ratio": 0.5025075225677031,
+        "unique_entity_values": 501,
+        "unique_quoted_literal_ratio": 0.6995798319327731,
+        "unique_quoted_literals": 333
       }
     }
   },
@@ -521,5 +547,18 @@
     "optional_match_rate": 0.041666666666666664,
     "ordering_rate": 0.125,
     "path_pattern_rate": 0.125
+  },
+  "value_grounding": {
+    "entity_values_exact_quoted_rate": 0.8259271633812229,
+    "examples_with_entity_values_rate": 0.9976666666666667,
+    "examples_with_quoted_literals_rate": 0.824,
+    "top_entity_value_share": 0.0026729034413631807,
+    "top_quoted_literal_share": 0.003236245954692557,
+    "total_entity_mentions": 2993,
+    "total_quoted_literal_mentions": 2472,
+    "unique_entity_value_ratio": 0.37253591713999334,
+    "unique_entity_values": 1115,
+    "unique_quoted_literal_ratio": 0.3830906148867314,
+    "unique_quoted_literals": 947
   }
 }

@@ -99,6 +99,7 @@ def benchmark_diversity_report(
             ),
             "properties": _coverage(properties, schema_inventory.get("properties", set())),
         },
+        "value_grounding": value_grounding_summary(examples),
         "distributions": {
             "category": distribution_metrics(category_counts),
             "graph_category": distribution_metrics(graph_category_counts),
@@ -127,6 +128,40 @@ def benchmark_diversity_report(
             for graph, rows in _group_by_graph(examples).items()
         }
     return report
+
+
+def value_grounding_summary(examples: list[dict[str, Any]]) -> dict[str, Any]:
+    """Aggregate graph-bound value diversity without exposing raw values."""
+
+    entity_values = [_normalize_value(value) for value in _flatten_entity_values(examples)]
+    entity_values = [value for value in entity_values if value]
+    quoted_literals = [_normalize_value(value) for value in _extract_quoted_literals(examples)]
+    quoted_literals = [value for value in quoted_literals if value]
+    examples_with_entities = [
+        row
+        for row in examples
+        if any(_normalize_value(value) for value in row.get("entity_values", []))
+    ]
+    exact_matched = sum(
+        1
+        for row in examples_with_entities
+        if _entity_values_are_quoted(row)
+    )
+    return {
+        "total_entity_mentions": len(entity_values),
+        "unique_entity_values": len(set(entity_values)),
+        "unique_entity_value_ratio": _unique_ratio(entity_values),
+        "top_entity_value_share": _top_share(entity_values),
+        "examples_with_entity_values_rate": len(examples_with_entities) / len(examples),
+        "entity_values_exact_quoted_rate": (
+            exact_matched / len(examples_with_entities) if examples_with_entities else 0.0
+        ),
+        "total_quoted_literal_mentions": len(quoted_literals),
+        "unique_quoted_literals": len(set(quoted_literals)),
+        "unique_quoted_literal_ratio": _unique_ratio(quoted_literals),
+        "top_quoted_literal_share": _top_share(quoted_literals),
+        "examples_with_quoted_literals_rate": _examples_with_quoted_literals_rate(examples),
+    }
 
 
 def distribution_metrics(counts: Counter[str]) -> dict[str, Any]:
@@ -266,6 +301,21 @@ def _extract_properties(examples: list[dict[str, Any]]) -> list[str]:
     return properties
 
 
+def _flatten_entity_values(examples: list[dict[str, Any]]) -> list[str]:
+    values: list[str] = []
+    for row in examples:
+        values.extend(str(value) for value in row.get("entity_values", []))
+    return values
+
+
+def _extract_quoted_literals(examples: list[dict[str, Any]]) -> list[str]:
+    values: list[str] = []
+    for row in examples:
+        cypher = str(row.get("normalized_cypher") or row.get("cypher", ""))
+        values.extend(_unquote(match.group(0)) for match in QUOTED_LITERAL_RE.finditer(cypher))
+    return values
+
+
 def _flatten_feature(examples: list[dict[str, Any]], key: str) -> list[str]:
     values: list[str] = []
     for row in examples:
@@ -295,7 +345,46 @@ def _normalize_text(text: str) -> str:
     return " ".join(tokenize(text))
 
 
+def _normalize_value(value: Any) -> str:
+    return " ".join(str(value).strip().casefold().split())
+
+
+def _unquote(value: str) -> str:
+    if len(value) >= 2 and value[0] == value[-1] and value[0] in {"'", '"'}:
+        return value[1:-1].replace("\\'", "'").replace('\\"', '"')
+    return value
+
+
 def _top_share(values: list[str]) -> float:
     if not values:
         return 0.0
     return max(Counter(values).values()) / len(values)
+
+
+def _unique_ratio(values: list[str]) -> float:
+    return len(set(values)) / len(values) if values else 0.0
+
+
+def _entity_values_are_quoted(row: dict[str, Any]) -> bool:
+    entity_values = {
+        _normalize_value(value)
+        for value in row.get("entity_values", [])
+        if _normalize_value(value)
+    }
+    if not entity_values:
+        return False
+    cypher = str(row.get("normalized_cypher") or row.get("cypher", ""))
+    quoted_values = {
+        _normalize_value(_unquote(match.group(0)))
+        for match in QUOTED_LITERAL_RE.finditer(cypher)
+    }
+    return entity_values.issubset(quoted_values)
+
+
+def _examples_with_quoted_literals_rate(examples: list[dict[str, Any]]) -> float:
+    count = 0
+    for row in examples:
+        cypher = str(row.get("normalized_cypher") or row.get("cypher", ""))
+        if QUOTED_LITERAL_RE.search(cypher):
+            count += 1
+    return count / len(examples) if examples else 0.0

@@ -4,21 +4,26 @@ from pipecypher.diversity_metrics import (
     distinct_n,
     distribution_metrics,
     self_bleu,
+    value_grounding_summary,
 )
 from pipecypher.paper_tables import render_diversity_table
 
 
-def _example(question: str, category: str = "simple_retrieval") -> dict:
+def _example(question: str, category: str = "simple_retrieval", entity: str = "Alice") -> dict:
     return {
         "id": question,
         "graph_profile": "finbench",
         "category": category,
         "difficulty": "easy",
         "question": question,
-        "cypher": "MATCH (p:Person {personName: 'Alice'}) RETURN DISTINCT p.personName AS Name",
-        "normalized_cypher": (
-            "MATCH (p:Person {personName: 'Alice'}) RETURN DISTINCT p.personName AS Name"
+        "cypher": (
+            f"MATCH (p:Person {{personName: '{entity}'}}) "
+            "RETURN DISTINCT p.personName AS Name"
         ),
+        "normalized_cypher": (
+            f"MATCH (p:Person {{personName: '{entity}'}}) RETURN DISTINCT p.personName AS Name"
+        ),
+        "entity_values": [entity],
         "structural_features": {
             "labels": ["Person"],
             "relationship_types": ["OWN_ACCOUNT"],
@@ -59,9 +64,9 @@ def test_canonical_query_signature_masks_literals_and_variables():
 
 def test_benchmark_diversity_report_and_table_render():
     examples = [
-        _example("Which accounts are owned by Alice?"),
-        _example("Which accounts are owned by Bob?"),
-        _example("How many transfers did Alice send?", "simple_aggregation"),
+        _example("Which accounts are owned by Alice?", entity="Alice"),
+        _example("Which accounts are owned by Bob?", entity="Bob"),
+        _example("How many transfers did Alice send?", "simple_aggregation", entity="Alice"),
     ]
 
     report = benchmark_diversity_report(
@@ -77,4 +82,27 @@ def test_benchmark_diversity_report_and_table_render():
 
     assert report["n"] == 3
     assert report["schema_coverage"]["labels"]["coverage"] == 0.5
+    assert report["value_grounding"]["unique_entity_values"] == 2
+    assert report["value_grounding"]["entity_values_exact_quoted_rate"] == 1.0
     assert "Distinct-1" in table
+    assert "Grounded values exactly quoted" in table
+
+
+def test_value_grounding_summary_is_aggregate_only():
+    report = value_grounding_summary(
+        [
+            _example("Show Alice.", entity="Alice"),
+            _example("Show Alice again.", entity="Alice"),
+            {
+                **_example("Show missing literal.", entity="Mallory"),
+                "cypher": "MATCH (p:Person) RETURN DISTINCT p.personName AS Name",
+                "normalized_cypher": "MATCH (p:Person) RETURN DISTINCT p.personName AS Name",
+            },
+        ]
+    )
+
+    assert report["total_entity_mentions"] == 3
+    assert report["unique_entity_values"] == 2
+    assert report["top_entity_value_share"] == 2 / 3
+    assert report["entity_values_exact_quoted_rate"] == 2 / 3
+    assert "Alice" not in str(report)

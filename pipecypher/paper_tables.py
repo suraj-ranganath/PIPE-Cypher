@@ -104,6 +104,7 @@ def render_diversity_table(report: dict[str, Any]) -> str:
     coverage = report["schema_coverage"]
     distributions = report["distributions"]
     structural = report["structural_features"]
+    values = report["value_grounding"]
     rows = [
         r"\begin{tabular}{lr}",
         r"\toprule",
@@ -120,6 +121,10 @@ def render_diversity_table(report: dict[str, Any]) -> str:
         f"Label coverage & {_fmt_float(coverage['labels']['coverage'])} \\\\",
         f"Relationship-type coverage & {_fmt_float(coverage['relationship_types']['coverage'])} \\\\",
         f"Property-name coverage & {_fmt_float(coverage['properties']['coverage'])} \\\\",
+        f"Unique grounded-value ratio & "
+        f"{_fmt_float(values['unique_entity_value_ratio'])} \\\\",
+        f"Grounded values exactly quoted & "
+        f"{_fmt_float(values['entity_values_exact_quoted_rate'])} \\\\",
         f"Aggregation / negation / ordering rates & "
         f"{_fmt_float(structural['aggregation_rate'])} / "
         f"{_fmt_float(structural['negation_rate'])} / "
@@ -131,7 +136,8 @@ def render_diversity_table(report: dict[str, Any]) -> str:
         body="\n".join(rows),
         caption=(
             "Diversity diagnostics for the full exported benchmark. Distinct-n follows "
-            "text-generation usage; self-BLEU is lower when questions are less redundant."
+            "text-generation usage; self-BLEU is lower when questions are less redundant; "
+            "grounded-value metrics are aggregate-only and do not list raw values."
         ),
         label="tab:diversity_metrics",
     )
