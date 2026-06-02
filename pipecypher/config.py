@@ -77,6 +77,16 @@ class PrivacyConfig:
     redact_numeric_literals: bool = False
     value_sampling_mode: str = "bounded"
     categorical_max_values: int = 12
+    categorical_max_value_chars: int = 80
+    categorical_omitted_properties: list[str] = field(
+        default_factory=lambda: [
+            "*.address",
+            "*.comments",
+            "*.note",
+            "*.notes",
+            "*.original_address",
+        ]
+    )
     placeholder_prefix: str = "VALUE"
 
 

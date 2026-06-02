@@ -33,6 +33,7 @@ class ValueSamplingPolicy:
 
     mode: str = "bounded"
     max_values_per_property: int = 12
+    max_value_chars: int = 80
     omitted_properties: tuple[str, ...] = field(default_factory=tuple)
     hash_values: bool = False
     hash_salt: str = ""
@@ -127,9 +128,17 @@ def sample_categorical_values(
     """Apply an enterprise value-sampling policy to a property value list."""
 
     active_policy = policy or ValueSamplingPolicy()
-    if property_key in active_policy.omitted_properties or active_policy.mode == "none":
+    if _property_is_omitted(property_key, active_policy.omitted_properties) or active_policy.mode == "none":
         return []
-    unique_values = sorted({str(value) for value in values if value is not None})
+    unique_values = sorted(
+        {
+            text
+            for value in values
+            if value is not None
+            for text in [str(value)]
+            if _value_within_char_limit(text, active_policy.max_value_chars)
+        }
+    )
     if not unique_values:
         return []
     if active_policy.mode == "bounded" and len(unique_values) > active_policy.max_values_per_property:
@@ -140,6 +149,22 @@ def sample_categorical_values(
     if active_policy.mode != "bounded":
         raise ValueError(f"unsupported value sampling mode: {active_policy.mode}")
     return sampled
+
+
+def _property_is_omitted(property_key: str, omitted_properties: tuple[str, ...]) -> bool:
+    label, _, prop = property_key.partition(".")
+    for pattern in omitted_properties:
+        if pattern == property_key or pattern == prop:
+            return True
+        if pattern.startswith("*.") and pattern[2:] == prop:
+            return True
+        if pattern.endswith(".*") and pattern[:-2] == label:
+            return True
+    return False
+
+
+def _value_within_char_limit(value: str, max_chars: int) -> bool:
+    return max_chars <= 0 or len(value) <= max_chars
 
 
 def _redact_cypher_literals(text: str, state: "_RedactionState") -> tuple[str, list[str]]:

@@ -12,6 +12,7 @@ from .models import (
     SchemaSummary,
     _normalize_schema_type,
 )
+from .privacy import ValueSamplingPolicy, sample_categorical_values
 
 
 NODE_PROPERTIES_QUERY = """
@@ -42,6 +43,7 @@ LIMIT $limit
 CATEGORICAL_VALUE_QUERY_TEMPLATE = """
 MATCH (n:`{label}`)
 WHERE n.`{property}` IS NOT NULL
+  AND size(toString(n.`{property}`)) <= $max_value_chars
 WITH DISTINCT n.`{property}` AS value
 ORDER BY value
 LIMIT $limit
@@ -55,6 +57,8 @@ def introspect_schema(
     graph_name: str,
     relationship_limit: int = 500,
     categorical_max_values: int = 12,
+    categorical_max_value_chars: int = 80,
+    categorical_omitted_properties: list[str] | tuple[str, ...] = (),
 ) -> SchemaSummary:
     node_properties = []
     rel_properties = []
@@ -105,6 +109,8 @@ def introspect_schema(
         client,
         node_properties=node_properties,
         max_values=categorical_max_values,
+        max_value_chars=categorical_max_value_chars,
+        omitted_properties=tuple(categorical_omitted_properties),
     )
 
     return SchemaSummary(
@@ -122,21 +128,30 @@ def infer_categorical_properties(
     *,
     node_properties: list[NodeProperty],
     max_values: int = 12,
+    max_value_chars: int = 80,
+    omitted_properties: tuple[str, ...] = (),
 ) -> dict[str, list[str]]:
     if max_values <= 0:
         return {}
 
     categorical: dict[str, list[str]] = {}
+    policy = ValueSamplingPolicy(
+        mode="bounded",
+        max_values_per_property=max_values,
+        max_value_chars=max_value_chars,
+        omitted_properties=omitted_properties,
+    )
     for prop in node_properties:
         if not _is_categorical_candidate_type(prop.type):
             continue
+        property_key = f"{prop.label}.{prop.property}"
         query = CATEGORICAL_VALUE_QUERY_TEMPLATE.format(
             label=_escape_cypher_identifier(prop.label),
             property=_escape_cypher_identifier(prop.property),
         )
         result = client.run(
             query,
-            params={"limit": max_values + 1},
+            params={"limit": max_values + 1, "max_value_chars": max_value_chars},
             read_only=False,
             limit_rows=1,
         )
@@ -144,9 +159,9 @@ def infer_categorical_properties(
             continue
         row = result.rows[0]
         values = [str(value) for value in row.get("values", []) if isinstance(value, str)]
-        distinct_count = int(row.get("distinct_count", len(values)) or 0)
-        if values and distinct_count <= max_values:
-            categorical[f"{prop.label}.{prop.property}"] = sorted(values)
+        sampled = sample_categorical_values(property_key, values, policy=policy)
+        if sampled:
+            categorical[property_key] = sampled
     return categorical
 
 

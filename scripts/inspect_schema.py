@@ -29,6 +29,15 @@ def main() -> None:
             "use 0 to disable. Defaults to privacy.categorical_max_values from the config."
         ),
     )
+    parser.add_argument(
+        "--categorical-max-value-chars",
+        type=int,
+        default=None,
+        help=(
+            "Maximum string length allowed in schema categorical value samples. "
+            "Defaults to privacy.categorical_max_value_chars from the config."
+        ),
+    )
     args = parser.parse_args()
 
     cfg = load_config(args.config)
@@ -36,6 +45,11 @@ def main() -> None:
         args.categorical_max_values
         if args.categorical_max_values is not None
         else cfg.privacy.categorical_max_values
+    )
+    categorical_max_value_chars = (
+        args.categorical_max_value_chars
+        if args.categorical_max_value_chars is not None
+        else cfg.privacy.categorical_max_value_chars
     )
     if args.reference_only:
         schema = reference_schema(cfg.generation.graph_profile)
@@ -51,6 +65,8 @@ def main() -> None:
             client,
             graph_name=cfg.generation.graph_profile,
             categorical_max_values=categorical_max_values,
+            categorical_max_value_chars=categorical_max_value_chars,
+            categorical_omitted_properties=cfg.privacy.categorical_omitted_properties,
         )
         client.close()
 

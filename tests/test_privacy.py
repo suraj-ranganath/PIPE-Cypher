@@ -58,6 +58,22 @@ def test_value_sampling_policy_omits_high_cardinality_values():
     assert sampled == []
 
 
+def test_value_sampling_policy_omits_long_and_wildcard_blocked_values():
+    blocked = sample_categorical_values(
+        "Entity.note",
+        ["manual review"],
+        policy=ValueSamplingPolicy(max_values_per_property=4, omitted_properties=("*.note",)),
+    )
+    too_long = sample_categorical_values(
+        "Entity.status",
+        ["x" * 100],
+        policy=ValueSamplingPolicy(max_values_per_property=4, max_value_chars=20),
+    )
+
+    assert blocked == []
+    assert too_long == []
+
+
 def test_value_sampling_policy_hashes_allowed_values():
     sampled = sample_categorical_values(
         "Account.accountType",

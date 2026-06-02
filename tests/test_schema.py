@@ -56,6 +56,8 @@ class FakeSchemaClient:
                 rows=[
                     {"label": "Account", "property": "accountType", "type": "String"},
                     {"label": "Account", "property": "accountId", "type": "String"},
+                    {"label": "Account", "property": "description", "type": "String"},
+                    {"label": "Account", "property": "note", "type": "String"},
                     {"label": "Account", "property": "isBlocked", "type": "Boolean"},
                     {"label": "Person", "property": "email", "type": "String[]"},
                 ],
@@ -99,6 +101,16 @@ class FakeSchemaClient:
                     }
                 ],
             )
+        if "MATCH (n:`Account`)" in query and "n.`description`" in query:
+            return ExecutionResult(
+                success=True,
+                rows=[{"values": ["x" * 100], "distinct_count": 1}],
+            )
+        if "MATCH (n:`Account`)" in query and "n.`note`" in query:
+            return ExecutionResult(
+                success=True,
+                rows=[{"values": ["manual review"], "distinct_count": 1}],
+            )
         if "MATCH (n:`Person`)" in query:
             raise AssertionError("list-valued string properties should not be scanned")
         raise AssertionError(f"unexpected query: {query}")
@@ -109,11 +121,15 @@ def test_schema_introspection_discovers_bounded_categorical_values():
         FakeSchemaClient(),
         graph_name="fake_finbench",
         categorical_max_values=4,
+        categorical_max_value_chars=20,
+        categorical_omitted_properties=("*.note",),
     )
 
     assert schema.categorical_properties == {
         "Account.accountType": ["checking", "savings"]
     }
     assert "Account.accountId" not in schema.categorical_properties
+    assert "Account.description" not in schema.categorical_properties
+    assert "Account.note" not in schema.categorical_properties
     assert schema.has_relationship("Person", "OWN_ACCOUNT", "Account")
     assert "createTime" in schema.properties_for_relationship("OWN_ACCOUNT")

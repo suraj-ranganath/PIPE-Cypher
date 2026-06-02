@@ -12,6 +12,8 @@ Start from `configs/enterprise_template.yaml` and update:
 - `neo4j.uri`, `neo4j.user`, `neo4j.password`, `neo4j.database`: the read-only graph endpoint.
 - `models.llm_base_url`, `models.generation_model`, `models.judge_model`: the local OpenAI-compatible endpoint and model ID.
 - `privacy.categorical_max_values`: the maximum distinct string values to expose as categorical constraints during schema introspection.
+- `privacy.categorical_max_value_chars`: the maximum length of any sampled categorical string. Keep this low enough to prevent long free-text fields from entering prompts.
+- `privacy.categorical_omitted_properties`: exact or wildcard property patterns, such as `*.note` and `*.address`, that should never expose values during schema introspection.
 - `generation.target_per_category`: the desired scale after a small dry run.
 
 ## 2. Serve A Local Model Endpoint
@@ -37,7 +39,7 @@ python scripts/check_llm_endpoint.py \
 
 ## 3. Introspect The Enterprise Schema
 
-Run schema introspection with the enterprise config. The inspector uses `privacy.categorical_max_values` unless overridden on the command line.
+Run schema introspection with the enterprise config. The inspector uses `privacy.categorical_max_values`, `privacy.categorical_max_value_chars`, and `privacy.categorical_omitted_properties` unless overridden on the command line.
 
 ```bash
 python scripts/inspect_schema.py \

@@ -135,6 +135,11 @@ python scripts/run_pipeline.py \
   --run-name live_icij_qwen9b_onboarding
 ```
 
+The ICIJ graph contains low-cardinality free-text properties such as notes and
+addresses. Keep `privacy.categorical_max_value_chars` and
+`privacy.categorical_omitted_properties` enabled during live introspection so
+these values do not enter schema prompts or paper-facing artifacts.
+
 ## Paper Use
 
 The defensible paper story is:

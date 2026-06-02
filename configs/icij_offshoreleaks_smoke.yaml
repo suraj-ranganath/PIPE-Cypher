@@ -55,6 +55,13 @@ privacy:
   redact_numeric_literals: false
   value_sampling_mode: bounded
   categorical_max_values: 20
+  categorical_max_value_chars: 80
+  categorical_omitted_properties:
+    - "*.address"
+    - "*.comments"
+    - "*.note"
+    - "*.notes"
+    - "*.original_address"
   placeholder_prefix: VALUE
 
 paths:
