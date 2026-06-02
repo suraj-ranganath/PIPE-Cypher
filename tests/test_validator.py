@@ -73,6 +73,41 @@ def test_schema_validation_rejects_untyped_relationship_patterns():
     assert any(issue.code == "missing_relationship_type" for issue in result.issues)
 
 
+def test_schema_validation_accepts_known_relationship_property_reference():
+    schema = finbench_reference_schema()
+    query = (
+        "MATCH (:Account)-[t:TRANSFER_TO]->(:Account) "
+        "RETURN DISTINCT SUM(t.amount) AS TotalAmount"
+    )
+    result = validate_cypher(query, schema)
+
+    assert result.ok
+
+
+def test_schema_validation_rejects_unknown_relationship_property_reference():
+    schema = finbench_reference_schema()
+    query = (
+        "MATCH (:Account)-[t:TRANSFER_TO]->(:Account) "
+        "RETURN DISTINCT SUM(t.feeAmount) AS TotalFees"
+    )
+    result = validate_cypher(query, schema)
+
+    assert not result.ok
+    assert any(issue.code == "unknown_relationship_property" for issue in result.issues)
+
+
+def test_schema_validation_rejects_unknown_relationship_property_map_key():
+    schema = finbench_reference_schema()
+    query = (
+        "MATCH (:Account)-[t:TRANSFER_TO {feeAmount: 100.0}]->(:Account) "
+        "RETURN DISTINCT t.amount AS Amount"
+    )
+    result = validate_cypher(query, schema)
+
+    assert not result.ok
+    assert any(issue.code == "unknown_relationship_property" for issue in result.issues)
+
+
 def test_categorical_property_values_are_enforced_in_where_clauses():
     schema = finbench_reference_schema()
     query = "MATCH (a:Account) WHERE a.accountType = 'brokerage' RETURN a.accountId AS AccountId"

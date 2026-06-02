@@ -105,6 +105,7 @@ def prompt_contracts() -> list[PromptContract]:
                 "Inputs include question, Cypher, schema slice, execution rows, "
                 "and validation summary",
                 "Strict JSON scores for ambiguity, semantic alignment, schema use, and difficulty",
+                "Categorical values constrain query literals, not observed result-row values",
                 "Pass only useful, unambiguous enterprise benchmark examples",
             ),
             prompt_text=JUDGE_PROMPT,

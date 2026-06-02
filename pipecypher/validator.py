@@ -110,6 +110,32 @@ def _relationship_fragments(query: str) -> list[tuple[str | None, str | None, st
     return fragments
 
 
+def _relationship_fragments_with_properties(
+    query: str,
+) -> list[tuple[str | None, str | None, str | None, str]]:
+    pattern = re.compile(
+        r"(?P<left_arrow><)?-\[\s*(?P<var>[A-Za-z_][A-Za-z0-9_]*)?"
+        r"\s*(?::(?P<rel>[A-Za-z_][A-Za-z0-9_]*))?"
+        r"(?:\*[^]\s{}]*)?(?:\s*\{(?P<props>[^}]*)\})?\s*\]-(?P<right_arrow>>)?"
+    )
+    fragments: list[tuple[str | None, str | None, str | None, str]] = []
+    for match in pattern.finditer(query):
+        left_arrow = bool(match.group("left_arrow"))
+        right_arrow = bool(match.group("right_arrow"))
+        if left_arrow and right_arrow:
+            direction = "bidirectional"
+        elif left_arrow:
+            direction = "incoming"
+        elif right_arrow:
+            direction = "outgoing"
+        else:
+            direction = "undirected"
+        fragments.append(
+            (match.group("var"), match.group("rel"), match.group("props"), direction)
+        )
+    return fragments
+
+
 def _relationship_patterns(query: str) -> list[tuple[str | None, str | None]]:
     return [(var, rel_type) for var, rel_type, _ in _relationship_fragments(query)]
 
@@ -305,6 +331,14 @@ def variable_label_map(query: str) -> dict[str, str]:
     return mapping
 
 
+def variable_relationship_map(query: str) -> dict[str, str]:
+    mapping = {}
+    for var, rel_type, _ in _relationship_fragments(query):
+        if var and rel_type:
+            mapping[var] = rel_type
+    return mapping
+
+
 def structural_features(query: str) -> dict[str, Any]:
     upper = query.upper()
     analysis = analyze_cypher(query)
@@ -428,6 +462,7 @@ def validate_cypher(
         labels = schema.labels
         rel_types = schema.relationship_types
         var_to_label = variable_label_map(normalized)
+        var_to_relationship = variable_relationship_map(normalized)
         for _, label, prop_map in _node_patterns(normalized):
             if label and labels and label not in labels:
                 schema_valid = False
@@ -474,6 +509,20 @@ def validate_cypher(
                 issues.append(
                     ValidationIssue("error", "unknown_relationship", f"Unknown relationship :{rel_type}")
                 )
+        for _, rel_type, prop_map, _ in _relationship_fragments_with_properties(normalized):
+            if not rel_type or not prop_map:
+                continue
+            allowed = schema.properties_for_relationship(rel_type)
+            for prop in _property_names(prop_map):
+                if (allowed or schema.relationship_properties) and prop not in allowed:
+                    schema_valid = False
+                    issues.append(
+                        ValidationIssue(
+                            "error",
+                            "unknown_relationship_property",
+                            f"Unknown property :{rel_type}.{prop}",
+                        )
+                    )
         for start, rel_type, end, direction in _relationship_triples(normalized):
             if direction in {"undirected", "bidirectional"}:
                 continue
@@ -495,6 +544,18 @@ def validate_cypher(
         for var, prop in re.findall(r"\b([A-Za-z_][A-Za-z0-9_]*)\.([A-Za-z_][A-Za-z0-9_]*)\b", normalized):
             label = var_to_label.get(var)
             if not label:
+                rel_type = var_to_relationship.get(var)
+                if rel_type:
+                    allowed = schema.properties_for_relationship(rel_type)
+                    if (allowed or schema.relationship_properties) and prop not in allowed:
+                        schema_valid = False
+                        issues.append(
+                            ValidationIssue(
+                                "error",
+                                "unknown_relationship_property",
+                                f"Unknown property :{rel_type}.{prop}",
+                            )
+                        )
                 continue
             allowed = schema.properties_for_label(label)
             if allowed and prop not in allowed:

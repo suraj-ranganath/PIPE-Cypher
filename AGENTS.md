@@ -13,6 +13,7 @@ PIPE-Cypher is an industry-track research codebase for automatic benchmark gener
 - Preserve the BalkanID Cypher work as a first-class design source. Reuse its ideas for constrained prompting, relationship direction discipline, read-only query safety, `RETURN DISTINCT`, exact matching for quoted values, required contextual return columns, synonym normalization, categorical-property constraints, and post-generation rewrites.
 - Treat BalkanID's parser/listener and query-alteration design as an innovation source, not just an implementation detail. When practical, prefer grammar/AST-aware validation and conservative rewrites over brittle string edits; when parser risk is high, skip rewrites and log why.
 - Human review is not a generation gate. Use deterministic validation plus LLM-judge review. A small human audit may be used only to calibrate judge reliability for the paper.
+- Large-scale evaluation is a core requirement. Keep target-100, repeated target-50-or-larger, full held-out downstream, and graph/category/difficulty-stratified runs moving when `ds-serv6` has capacity; do not stop because a smaller suite already passed.
 
 ## Engineering Rules
 
@@ -82,6 +83,7 @@ The main paper should stay tight, but the appendix can be long. Use the appendix
 - EMNLP 2026 Industry Track page accounting: the counted main paper is at most 6 pages, and the `Conclusion` must end by the end of page 6. The `Limitations` section, ethical considerations, references, acknowledgements in the final version, and appendices do not count toward this limit.
 - Keep a dedicated section titled `Limitations` before references; papers without it can be desk rejected. Put appendices after the bibliography, and use them heavily but only for material that supports the main paper.
 - Do not report smoke tests, tiny probes, or engineering-only checks as paper evidence. Smoke and mini runs are useful for development logs and reproducibility notes, but not for main-paper or appendix result tables/figures.
+- Do not put smoke-run or engineering sanity-check evidence into paper tables, figures, or appendix result sections. Every reported result must come from a completed, audited, research-quality run with enough scale for reviewer scrutiny.
 - Keep `tests/test_paper_reporting_guards.py` green. It prevents smoke, mini, midscale, target-five, and target-25 diagnostic artifacts from reappearing in manuscript, table, appendix, or paper-figure surfaces.
 - Every experiment reported in the paper or appendix must be research-quality and reviewer-defensible: scaled enough to be reliable, run on the intended live graph workloads, backed by explicit configs/run directories/logs/model IDs/commit or code revision, and accompanied by failure analysis rather than only cherry-picked successes.
 - Treat target-five or similarly tiny ablations as engineering sanity checks unless explicitly framed outside the paper. Publishable ablation claims should come from larger target-per-category runs, preferably on both FinBench and SNB when the claim is not graph-specific.

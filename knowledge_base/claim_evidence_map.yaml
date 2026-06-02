@@ -10,7 +10,7 @@ claims:
     risk: "Generation quality may change with the target 35B model or with private enterprise schemas beyond FinBench/SNB."
 
   - claim: "Cypher-specific governance makes generated benchmark candidates safer and more auditable than prompt-only generation."
-    evidence: "The pipeline validates read-only safety, schema-visible labels/properties/relationships, observed relationship direction, categorical values, contextual return columns, parser-style structure, execution success, and LLM-judge review. In the full run, only 2 of 4,777 candidates were schema-invalid after deterministic governance, and all 3,000 exported examples passed the deterministic and judge gates."
+    evidence: "The pipeline validates read-only safety, schema-visible labels, node and relationship properties, relationships, observed relationship direction, categorical values, contextual return columns, parser-style structure, execution success, and LLM-judge review. In the full run, only 2 of 4,777 candidates were schema-invalid after deterministic governance, and all 3,000 exported examples passed the deterministic and judge gates."
     artifacts:
       - "pipecypher/validator.py"
       - "pipecypher/cypher_parser.py"

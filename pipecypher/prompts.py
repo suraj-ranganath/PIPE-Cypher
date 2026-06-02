@@ -137,4 +137,7 @@ Return strict JSON with:
 - failure_reason: short string, empty if pass is true
 
 Pass only if the question is unambiguous, the Cypher answers it, the schema use is valid, and the result would be useful in an enterprise benchmark.
+- Categorical property values in the schema constrain literal values written in the Cypher query.
+- Do not reject because the execution sample returns a value that is absent from the categorical-value list; result rows are observed graph outputs.
+- If deterministic validation says schema use is valid, lower schema_use_score only when the Cypher itself uses nonexistent schema elements, invalid relationship directions, or invalid literal values.
 """.strip()

@@ -8,7 +8,7 @@ This section maps the main paper claims to the strongest current evidence and to
 \textit{Status.} Supported by live 9B fallback evidence; 35B target run is blocked by current GPU capacity.\par
 \textit{Risk.} Generation quality may change with the target 35B model or with private enterprise schemas beyond FinBench/SNB.
 \item \textbf{Claim 2.} Cypher-specific governance makes generated benchmark candidates safer and more auditable than prompt-only generation.\par
-\textit{Evidence.} The pipeline validates read-only safety, schema-visible labels/properties/relationships, observed relationship direction, categorical values, contextual return columns, parser-style structure, execution success, and LLM-judge review. In the full run, only 2 of 4,777 candidates were schema-invalid after deterministic governance, and all 3,000 exported examples passed the deterministic and judge gates.\par
+\textit{Evidence.} The pipeline validates read-only safety, schema-visible labels, node and relationship properties, relationships, observed relationship direction, categorical values, contextual return columns, parser-style structure, execution success, and LLM-judge review. In the full run, only 2 of 4,777 candidates were schema-invalid after deterministic governance, and all 3,000 exported examples passed the deterministic and judge gates.\par
 \textit{Key artifacts.} code: validator.py; code: cypher\_parser.py; code: question\_constraints.py; snapshot: failure taxonomy; +1 more\par
 \textit{Status.} Supported by code, tests, and full-run failure taxonomy.\par
 \textit{Risk.} Semantic correctness still depends on execution evidence and judge review; human audit labels are pending.

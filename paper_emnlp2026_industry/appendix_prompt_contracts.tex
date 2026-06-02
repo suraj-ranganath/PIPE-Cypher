@@ -10,8 +10,8 @@ PIPE-Cypher treats prompts as versioned implementation artifacts. The list summa
 \textit{Contract.} Only schema-visible constructs and observed directions; RETURN DISTINCT for set returns and exact equality for quoted values; Context columns, categorical hints, placeholderized retrieval, and no writes
 \item \textbf{Repair.} Stage: Validation feedback. SHA-256: \texttt{56c419}.\par
 \textit{Contract.} Preserve question intent while fixing validation or execution issues; Keep query read-only and schema-grounded; Return only corrected Cypher
-\item \textbf{LLM judge.} Stage: Quality gate. SHA-256: \texttt{073938}.\par
-\textit{Contract.} Inputs include question, Cypher, schema slice, execution rows, and validation summary; Strict JSON scores for ambiguity, semantic alignment, schema use, and difficulty; Pass only useful, unambiguous enterprise benchmark examples
+\item \textbf{LLM judge.} Stage: Quality gate. SHA-256: \texttt{421c7b}.\par
+\textit{Contract.} Inputs include question, Cypher, schema slice, execution rows, and validation summary; Strict JSON scores for ambiguity, semantic alignment, schema use, and difficulty; Categorical values constrain query literals, not observed result-row values; Pass only useful, unambiguous enterprise benchmark examples
 \item \textbf{Downstream Text2Cypher.} Stage: Model evaluation. SHA-256: \texttt{4c07ff}.\par
 \textit{Contract.} Read-only Cypher only; Schema-visible constructs and exact direction preservation; RETURN DISTINCT, count/ranking rules, and no explanations
 \end{enumerate}

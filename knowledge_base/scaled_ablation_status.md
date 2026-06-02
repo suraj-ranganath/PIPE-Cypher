@@ -149,13 +149,23 @@ Runtime metadata:
 - remote root: `/home/suraj/PIPE-Cypher-150f596-target100-exact`
 - log: `/home/suraj/PIPE-Cypher-150f596-target100-exact/logs/20260601_ablation100_qwen9b.log`
 
-Monitor snapshot recorded during the June 2, 2026 01:37 UTC update:
+Monitor snapshot recorded during the June 2, 2026 01:45 UTC update:
 
 - the tmux session is running;
 - 4/14 graph/variant cells have been observed;
 - 3/14 graph/variant cells are complete;
-- FinBench `ablation_retrieval_topk_0` had 889/800 target records but no run summary yet, so the cell was still treated as active/incomplete;
+- FinBench `ablation_retrieval_topk_0` had 1,039/800 target records but no run summary yet, so the cell was still treated as active/incomplete;
 - completed cells are FinBench `unconstrained_local_llm`, `reverse_only`, and `validators_repair`.
+
+Diagnostic note from the same update: the active no-retrieval cell was showing
+low judge yield after crossing the record target. Local follow-up tightened two
+quality-control issues for future runs: relationship-variable properties such as
+`t.amount` are now deterministically validated against relationship-property
+schema, and the judge prompt now states that categorical schema values constrain
+Cypher literals rather than observed execution-result rows. The running
+target-100 suite remains on recorded revision
+`150f596f68dd530869efb497250610a40d3570ee`; do not mix its partial outputs with
+post-patch evidence unless a fresh patched suite is launched and audited.
 
 Remote validation before launch:
 
