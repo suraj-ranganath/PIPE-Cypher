@@ -4,6 +4,7 @@ import random
 from collections import Counter
 from dataclasses import dataclass
 from datetime import date, datetime
+import json
 from pathlib import Path
 from typing import Any
 
@@ -26,6 +27,7 @@ from .prompts import (
 )
 from .question_constraints import apply_question_constraints
 from .retrieval import ExampleStore
+from .schema_templates import SCHEMA_TEMPLATE_KIND, schema_derived_templates
 from .value_grounding import ValueGrounder
 from .validator import validate_cypher
 
@@ -62,6 +64,7 @@ class PipeCypherPipeline:
         self.structural_diversity = StructuralDiversityTracker()
         self.slot_binding_offsets: Counter[str] = Counter()
         self.accepted_question_keys: set[tuple[str, str]] = set(seen_question_keys or set())
+        self.exhausted_slot_templates: set[str] = set()
         self.rng = random.Random(config.generation.random_seed)
 
     def _validate_cypher(self, cypher: str) -> ValidationResult:
@@ -74,9 +77,10 @@ class PipeCypherPipeline:
     def generate_templates(self, category: str) -> list[TemplateCandidate]:
         n = self.config.generation.template_candidates
         seeded = [template for template in default_templates(self.config.generation.graph_profile) if template.category == category]
+        derived = schema_derived_templates(self.schema, category, max_templates=max(n * 4, 24))
         source = self.config.generation.template_source.lower()
         if source == "default":
-            return seeded[:n] or seeded
+            return self._dedupe_templates([*seeded, *derived])[: max(n, len(seeded), len(derived))]
 
         prompt = TEMPLATE_GENERATION_PROMPT.format(
             schema=self.schema.to_prompt(),
@@ -101,12 +105,14 @@ class PipeCypherPipeline:
                 if isinstance(item, dict) and item.get("template")
             ]
             if source == "mixed":
-                return self._dedupe_templates([*seeded, *generated])[: max(n, len(seeded))]
+                return self._dedupe_templates([*seeded, *derived, *generated])[
+                    : max(n, len(seeded), len(derived))
+                ]
             return generated
         except Exception:
             if not self.config.generation.allow_seed_template_fallback:
                 return []
-            return seeded
+            return self._dedupe_templates([*seeded, *derived])[: max(n, len(seeded), len(derived))]
 
     @staticmethod
     def _dedupe_templates(templates: list[TemplateCandidate]) -> list[TemplateCandidate]:
@@ -214,7 +220,12 @@ class PipeCypherPipeline:
         if bindings:
             return bindings, used_reverse
         fallback = self._generic_slot_lookup_query(template)
-        if fallback and fallback != used_reverse:
+        if (
+            fallback
+            and fallback != used_reverse
+            and self._template_identity(template) not in self.exhausted_slot_templates
+            and not template.metadata.get(SCHEMA_TEMPLATE_KIND)
+        ):
             return self._try_bind_slots(template, fallback)
         return {}, used_reverse
 
@@ -244,6 +255,7 @@ class PipeCypherPipeline:
                 self.slot_binding_offsets[key] = offset + step + 1
                 return row, validation.normalized_cypher
         self.slot_binding_offsets[key] = offset + len(rows)
+        self.exhausted_slot_templates.add(self._template_identity(template))
         return {}, validation.normalized_cypher
 
     @staticmethod
@@ -318,6 +330,7 @@ class PipeCypherPipeline:
                 fallback_template,
                 limit=self.config.generation.generated_query_limit,
                 bindings=bindings,
+                schema=self.schema,
             )
         return cypher, retrieved
 
@@ -392,6 +405,22 @@ class PipeCypherPipeline:
 
     def run_candidate(self, template: TemplateCandidate) -> GenerationRecord:
         bindings, reverse_cypher = self.bind_slots(template)
+        if template.slots and not bindings and self._template_identity(template) in self.exhausted_slot_templates:
+            validation = self._validate_cypher("RETURN DISTINCT 1 AS SlotBindingsExhausted")
+            return GenerationRecord(
+                question=template.template,
+                cypher=validation.normalized_cypher,
+                category=template.category,
+                graph_profile=self.config.generation.graph_profile,
+                accepted=False,
+                validation=validation,
+                execution=ExecutionResult(success=False, error="slot bindings exhausted"),
+                judge=JudgeResult.failed("slot bindings exhausted"),
+                retrieved_examples=[],
+                entity_values=[],
+                reverse_cypher=reverse_cypher,
+                model=getattr(self.llm, "model", self.config.models.generation_model),
+            )
         question, entity_hints = self.fill_template(template, bindings)
         cypher, retrieved = self.generate_cypher(
             question=question,
@@ -410,6 +439,7 @@ class PipeCypherPipeline:
                 template,
                 limit=self.config.generation.generated_query_limit,
                 bindings=bindings,
+                schema=self.schema,
             )
             if fallback_cypher != "MATCH (n) RETURN DISTINCT n LIMIT 1":
                 (
@@ -470,8 +500,20 @@ class PipeCypherPipeline:
 
     def _can_produce_new_question(self, category: str, template: TemplateCandidate) -> bool:
         if template.slots:
-            return True
+            return self._template_identity(template) not in self.exhausted_slot_templates
         return self._question_key(category, template.template) not in self.accepted_question_keys
+
+    @staticmethod
+    def _template_identity(template: TemplateCandidate) -> str:
+        return json.dumps(
+            {
+                "category": template.category,
+                "template": template.template,
+                "metadata": template.metadata,
+            },
+            sort_keys=True,
+            default=str,
+        )
 
     def run(self, output_path: str | Path) -> PipelineResult:
         out = Path(output_path)
@@ -492,7 +534,9 @@ class PipeCypherPipeline:
                     template = templates[attempts - 1]
                 else:
                     reusable = [template for template in templates if self._can_produce_new_question(category, template)]
-                    template = self.rng.choice(reusable or templates)
+                    if not reusable:
+                        break
+                    template = self.rng.choice(reusable)
                 if self.structural_diversity.seen(category, template.template) and attempts <= len(templates):
                     continue
                 record = self.run_candidate(template)

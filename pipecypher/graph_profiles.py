@@ -7,6 +7,7 @@ from .finbench_import import (
     RELATIONSHIP_SPECS,
 )
 from .models import NodeProperty, RelationshipPattern, RelationshipProperty, SchemaSummary, TemplateCandidate
+from .schema_templates import cypher_for_schema_template, reverse_cypher_for_schema_template
 
 
 def _finbench_node_properties() -> list[NodeProperty]:
@@ -651,6 +652,10 @@ def _binding(bindings: dict[str, object] | None, slot: str, fallback: str) -> st
 
 
 def default_reverse_cypher_for_template(template: TemplateCandidate, limit: int = 50) -> str | None:
+    schema_reverse = reverse_cypher_for_schema_template(template, limit=limit)
+    if schema_reverse:
+        return schema_reverse
+
     text = template.template
     if not template.slots:
         return None
@@ -839,7 +844,18 @@ def default_cypher_for_template(
     template: TemplateCandidate,
     limit: int = 50,
     bindings: dict[str, object] | None = None,
+    schema: SchemaSummary | None = None,
 ) -> str:
+    if schema is not None:
+        schema_cypher = cypher_for_schema_template(
+            template,
+            schema,
+            limit=limit,
+            bindings=bindings,
+        )
+        if schema_cypher:
+            return schema_cypher
+
     text = template.template
     if "How many accounts are owned by person" in text:
         person_name = _binding(bindings, "personName", "personName")

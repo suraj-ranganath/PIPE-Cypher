@@ -249,3 +249,4 @@ class TemplateCandidate:
     category: str
     slots: dict[str, str] = field(default_factory=dict)
     rationale: str = ""
+    metadata: dict[str, Any] = field(default_factory=dict)

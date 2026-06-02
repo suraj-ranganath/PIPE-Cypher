@@ -3,6 +3,7 @@ from pathlib import Path
 from pipecypher.config import RunConfig
 from pipecypher.cypher_client import SmokeCypherClient
 from pipecypher.graph_profiles import finbench_reference_schema
+from pipecypher.schema import load_schema
 from pipecypher.judge import DeterministicJudge
 from pipecypher.llm import NullLLM
 from pipecypher.pipeline import PipeCypherPipeline
@@ -126,7 +127,7 @@ def test_pipeline_random_seed_makes_template_reuse_deterministic(tmp_path: Path)
     assert run_with_seed(17) == run_with_seed(17)
 
 
-def test_pipeline_rejects_duplicate_accepted_questions(tmp_path: Path):
+def test_pipeline_stops_after_no_slot_templates_are_exhausted(tmp_path: Path):
     cfg = RunConfig()
     cfg.generation.categories = ["ranking_topk"]
     cfg.generation.target_per_category = 2
@@ -166,7 +167,7 @@ def test_pipeline_rejects_duplicate_accepted_questions(tmp_path: Path):
     result = pipeline.run(tmp_path / "records.jsonl")
 
     assert sum(1 for record in result.records if record.accepted) == 1
-    assert any(record.judge.failure_reason == "duplicate accepted question" for record in result.records)
+    assert len(result.records) == 1
 
 
 def test_pipeline_rejects_seen_questions_from_previous_runs(tmp_path: Path):
@@ -238,6 +239,95 @@ def test_pipeline_marks_accepted_no_slot_templates_as_exhausted():
 
     assert not pipeline._can_produce_new_question(no_slot.category, no_slot)
     assert pipeline._can_produce_new_question(slotted.category, slotted)
+
+
+def test_pipeline_includes_schema_derived_templates_for_enterprise_onboarding():
+    cfg = RunConfig()
+    cfg.generation.graph_profile = "icij_offshoreleaks"
+    cfg.generation.categories = ["ranking_topk"]
+    cfg.generation.template_source = "default"
+    cfg.generation.template_candidates = 4
+    schema = load_schema("configs/schema_icij_offshoreleaks_live.json")
+    pipeline = PipeCypherPipeline(
+        config=cfg,
+        schema=schema,
+        client=SmokeCypherClient(),
+        llm=NullLLM(),
+        judge=DeterministicJudge(),
+    )
+
+    templates = pipeline.generate_templates("ranking_topk")
+
+    assert any(template.metadata.get("schema_template_kind") for template in templates)
+    assert any(template.slots for template in templates)
+    assert len(templates) > len(
+        [
+            template
+            for template in templates
+            if template.template in {"Which jurisdictions have the most offshore entities?", "Which officers are connected to the most offshore entities?"}
+        ]
+    )
+
+
+def test_pipeline_marks_exhausted_schema_slot_template_without_generic_fallback(tmp_path: Path):
+    from pipecypher.models import (
+        ExecutionResult,
+        NodeProperty,
+        RelationshipPattern,
+        SchemaSummary,
+        TemplateCandidate,
+    )
+    from pipecypher.schema_templates import SCHEMA_TEMPLATE_KIND
+
+    class OneBindingClient:
+        def run(self, query, params=None, *, read_only=True, limit_rows=None):
+            if "RETURN DISTINCT s.status AS startValue" in query:
+                return ExecutionResult(success=True, rows=[{"startValue": "OPEN"}])
+            return ExecutionResult(success=True, rows=[{"ok": 1}])
+
+    schema = SchemaSummary(
+        node_properties=[
+            NodeProperty("Case", "caseId", "STRING"),
+            NodeProperty("Case", "status", "STRING"),
+        ],
+        relationships=[RelationshipPattern("Case", "RELATED_TO", "Case", 1)],
+        categorical_properties={"Case.status": ["OPEN"]},
+    )
+    cfg = RunConfig()
+    cfg.generation.categories = ["negation_difference"]
+    cfg.generation.target_per_category = 2
+    cfg.generation.max_entity_pct = 1.0
+    template = TemplateCandidate(
+        category="negation_difference",
+        template="Which case records with status '{startValue}' have no outgoing :RELATED_TO relationship to case records?",
+        slots={"startValue": "Case.status"},
+        metadata={
+            SCHEMA_TEMPLATE_KIND: "negation_outgoing_scoped",
+            "start_label": "Case",
+            "end_label": "Case",
+            "relationship_type": "RELATED_TO",
+            "slot": "startValue",
+            "slot_property": "status",
+        },
+    )
+    pipeline = PipeCypherPipeline(
+        config=cfg,
+        schema=schema,
+        client=OneBindingClient(),
+        llm=NullLLM(),
+        judge=DeterministicJudge(),
+    )
+
+    def fake_generate_templates(category):
+        return [template]
+
+    pipeline.generate_templates = fake_generate_templates
+
+    result = pipeline.run(tmp_path / "records.jsonl")
+
+    assert sum(record.accepted for record in result.records) == 1
+    assert any(record.judge.failure_reason == "slot bindings exhausted" for record in result.records)
+    assert pipeline._template_identity(template) in pipeline.exhausted_slot_templates
 
 
 def test_pipeline_attaches_empty_result_diagnostic(tmp_path: Path):
