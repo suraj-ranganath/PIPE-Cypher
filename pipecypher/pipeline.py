@@ -405,8 +405,20 @@ class PipeCypherPipeline:
 
     def run_candidate(self, template: TemplateCandidate) -> GenerationRecord:
         bindings, reverse_cypher = self.bind_slots(template)
-        if template.slots and not bindings and self._template_identity(template) in self.exhausted_slot_templates:
+        if (
+            template.slots
+            and not bindings
+            and (
+                self._template_identity(template) in self.exhausted_slot_templates
+                or template.metadata.get(SCHEMA_TEMPLATE_KIND)
+            )
+        ):
             validation = self._validate_cypher("RETURN DISTINCT 1 AS SlotBindingsExhausted")
+            reason = (
+                "slot bindings exhausted"
+                if self._template_identity(template) in self.exhausted_slot_templates
+                else "slot bindings unavailable"
+            )
             return GenerationRecord(
                 question=template.template,
                 cypher=validation.normalized_cypher,
@@ -414,8 +426,8 @@ class PipeCypherPipeline:
                 graph_profile=self.config.generation.graph_profile,
                 accepted=False,
                 validation=validation,
-                execution=ExecutionResult(success=False, error="slot bindings exhausted"),
-                judge=JudgeResult.failed("slot bindings exhausted"),
+                execution=ExecutionResult(success=False, error=reason),
+                judge=JudgeResult.failed(reason),
                 retrieved_examples=[],
                 entity_values=[],
                 reverse_cypher=reverse_cypher,

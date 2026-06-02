@@ -330,6 +330,63 @@ def test_pipeline_marks_exhausted_schema_slot_template_without_generic_fallback(
     assert pipeline._template_identity(template) in pipeline.exhausted_slot_templates
 
 
+def test_pipeline_skips_schema_slot_template_when_no_bindings_exist(tmp_path: Path):
+    from pipecypher.models import (
+        ExecutionResult,
+        NodeProperty,
+        RelationshipPattern,
+        SchemaSummary,
+        TemplateCandidate,
+    )
+    from pipecypher.schema_templates import SCHEMA_TEMPLATE_KIND
+
+    class EmptyBindingClient:
+        def run(self, query, params=None, *, read_only=True, limit_rows=None):
+            if "RETURN DISTINCT s.status AS startValue" in query:
+                return ExecutionResult(success=True, rows=[])
+            return ExecutionResult(success=True, rows=[{"ok": 1}])
+
+    schema = SchemaSummary(
+        node_properties=[
+            NodeProperty("Case", "caseId", "STRING"),
+            NodeProperty("Case", "status", "STRING"),
+        ],
+        relationships=[RelationshipPattern("Case", "RELATED_TO", "Case", 1)],
+        categorical_properties={"Case.status": ["OPEN"]},
+    )
+    cfg = RunConfig()
+    cfg.generation.categories = ["complex_aggregation"]
+    cfg.generation.target_per_category = 1
+    template = TemplateCandidate(
+        category="complex_aggregation",
+        template="How many distinct case records are linked from case records with status '{startValue}' through :RELATED_TO?",
+        slots={"startValue": "Case.status"},
+        metadata={
+            SCHEMA_TEMPLATE_KIND: "count_outgoing_scoped",
+            "start_label": "Case",
+            "end_label": "Case",
+            "relationship_type": "RELATED_TO",
+            "slot": "startValue",
+            "slot_property": "status",
+        },
+    )
+    pipeline = PipeCypherPipeline(
+        config=cfg,
+        schema=schema,
+        client=EmptyBindingClient(),
+        llm=NullLLM(),
+        judge=DeterministicJudge(),
+    )
+
+    pipeline.generate_templates = lambda category: [template]
+
+    result = pipeline.run(tmp_path / "records.jsonl")
+
+    assert not any(record.accepted for record in result.records)
+    assert result.records[0].judge.failure_reason == "slot bindings unavailable"
+    assert "startValue" not in result.records[0].cypher
+
+
 def test_pipeline_attaches_empty_result_diagnostic(tmp_path: Path):
     class EmptyClient:
         def run(self, query, params=None, *, read_only=True, limit_rows=None):
