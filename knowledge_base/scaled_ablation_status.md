@@ -4,8 +4,8 @@ Date: June 2, 2026.
 
 ## Current Corrected Catfix Suites
 
-Status: running on `ds-serv6` from remote root
-`/home/suraj/PIPE-Cypher-4df5175-catfix`.
+Status: complete, collected locally, and paper-readiness audited from remote
+root `/home/suraj/PIPE-Cypher-4df5175-catfix`.
 
 Reason for relaunch: the previous schemafix target-100 and seeded target-50
 suites exposed stale FinBench categorical metadata. The loaded graph contains
@@ -29,7 +29,7 @@ Corrective revision:
   confirmed `Account.accountType = 'merchant account'` is schema-valid and
   `Company.business` is no longer a closed categorical property.
 
-Active corrected sessions:
+Completed corrected suites:
 
 - `pipecypher_ablation100_qwen9b_catfix`
   - run prefix: `20260602_ablation100_qwen9b_catfix`
@@ -39,22 +39,44 @@ Active corrected sessions:
   - variants: `unconstrained_local_llm`, `reverse_only`,
     `validators_repair`, `ablation_retrieval_topk_0`,
     `ablation_rewrite_false`, `ablation_judge_false`, `full_pipe_cypher`
+  - outcome: 14/14 graph/variant cells finished, 9,600 accepted examples
+    from 9,868 records, and every non-empty cell reached all 8 category
+    targets.
+  - local artifacts:
+    `experiments/snapshots/20260602_ablation100_qwen9b_catfix/`
+  - paper-readiness audit: `paper_ready=true`
 - `pipecypher_ablation50_qwen9b_seed17_catfix`
   - run prefix: `20260602_ablation50_qwen9b_seed17_catfix`
   - target per category: 50
   - run seed: 17
   - endpoint: `http://localhost:8001/v1` on the GPU-3 Qwen3.5-9B vLLM server
   - graphs and variants match the target-100 suite.
+  - outcome: 14/14 graph/variant cells finished, 4,800 accepted examples
+    from 4,821 records, and every non-empty cell reached all 8 category
+    targets.
+  - local artifacts:
+    `experiments/snapshots/20260602_ablation50_qwen9b_seed17_catfix/`
+  - paper-readiness audit: `paper_ready=true`
 
-Queued third-graph run:
+Completed third-graph onboarding run:
 
 - `pipecypher_icij_target100_after_seed17_catfix` waits for
   `pipecypher_ablation50_qwen9b_seed17_catfix`, then runs
   `configs/icij_offshoreleaks_full.yaml` with run name
   `20260602_icij_target100_qwen9b_catfix_live` against the ICIJ Neo4j instance
   on bolt `7689`.
+  - outcome: 681 accepted examples from 1,400 records.
+  - category counts: `simple_retrieval=100`, `complex_retrieval=100`,
+    `simple_aggregation=100`, `complex_aggregation=100`,
+    `boolean_existence=100`, `path_temporal=100`,
+    `negation_difference=79`, `ranking_topk=2`.
+  - research-use note: useful onboarding evidence and failure-analysis signal,
+    but not paper-ready because two categories did not reach target.
+    Dominant failures were duplicate accepted questions and empty execution
+    results. Do not promote ICIJ numbers into the manuscript until a top-up or
+    corrected ICIJ run passes the same readiness standard as FinBench/SNB.
 
-Collection commands after completion:
+Collection commands used:
 
 ```bash
 python scripts/collect_remote_ablation_suite.py \
@@ -62,18 +84,19 @@ python scripts/collect_remote_ablation_suite.py \
   --run-prefix 20260602_ablation100_qwen9b_catfix \
   --target-per-category 100 \
   --wait-session pipecypher_ablation100_qwen9b_catfix \
-  --poll-seconds 60
+  --poll-seconds 5
 
 python scripts/collect_remote_ablation_suite.py \
   --remote-root /home/suraj/PIPE-Cypher-4df5175-catfix \
   --run-prefix 20260602_ablation50_qwen9b_seed17_catfix \
   --target-per-category 50 \
   --wait-session pipecypher_ablation50_qwen9b_seed17_catfix \
-  --poll-seconds 60
+  --poll-seconds 5
 ```
 
-The retired schemafix suites should not be promoted into manuscript or appendix
-tables. They are retained only as internal failure-analysis evidence.
+The retired schemafix suites and incomplete ICIJ run should not be promoted
+into manuscript or appendix result tables. They are retained only as internal
+failure-analysis and onboarding evidence.
 
 ## Target-25 Suite
 
@@ -226,13 +249,11 @@ failed or weak cells are visible rather than silently omitted.
 
 ## Target-100 Schemafix Suite
 
-Status: running on `ds-serv6` in tmux session
-`pipecypher_ablation100_qwen9b_schemafix`.
+Status: retired. This suite was superseded by
+`20260602_ablation100_qwen9b_catfix`.
 
-Research-use note: this is the current preferred target-100 ablation suite for
-reviewer-facing reliability. It should be collected only after the tmux session
-exits, then audited with the paper-readiness guard before any result is reported
-in the manuscript or appendix.
+Research-use note: do not report this suite. It is retained only as internal
+failure-analysis evidence for the stale-categorical-metadata judge issue.
 
 Runtime metadata:
 
@@ -275,7 +296,7 @@ JUDGE_MODEL=Qwen/Qwen3.5-9B \
 bash scripts/launch_live_ablation_suite_tmux.sh
 ```
 
-After it completes, collect from the staged remote root:
+Historical collection command, not for use unless debugging archived artifacts:
 
 ```bash
 python scripts/collect_remote_ablation_suite.py \
@@ -288,13 +309,11 @@ python scripts/collect_remote_ablation_suite.py \
 
 ## Target-50 Schemafix Seeded Repeat
 
-Status: queued on `ds-serv6` in tmux session
-`pipecypher_ablation50_qwen9b_seed17_schemafix`. The session waits for
-`pipecypher_ablation100_qwen9b_schemafix` to exit before it starts generation.
+Status: retired. This suite was superseded by
+`20260602_ablation50_qwen9b_seed17_catfix`.
 
-Research-use note: this repeated-seed target-50 suite is intended to provide
-variance/sensitivity evidence on the corrected schema-normalized revision. It
-should not be reported until collected and audited.
+Research-use note: do not report this suite. The collected catfix seed-17
+target-50 suite is the valid repeated-seed evidence.
 
 Runtime metadata:
 
@@ -324,7 +343,7 @@ JUDGE_MODEL=Qwen/Qwen3.5-9B \
 bash scripts/launch_live_ablation_suite_tmux.sh
 ```
 
-After it completes, collect from the staged remote root:
+Historical collection command, not for use unless debugging archived artifacts:
 
 ```bash
 python scripts/collect_remote_ablation_suite.py \
@@ -337,15 +356,15 @@ python scripts/collect_remote_ablation_suite.py \
 
 ## Target-Size And Seed Sensitivity Comparison
 
-After target-100 or the seeded target-50 repeat has completed, been collected,
-and passed its paper-readiness audit, compare it against the collected
-target-50 suite before writing variance or sensitivity claims:
+The corrected target-100 and seeded target-50 repeat have completed, been
+collected, and passed paper-readiness audit. Compare them against the collected
+June 1 target-50 suite before writing variance or sensitivity claims:
 
 ```bash
 python scripts/compare_ablation_suites.py \
   experiments/snapshots/20260601_ablation50_qwen9b/ablation_suite_summary.json \
-  experiments/snapshots/20260602_ablation100_qwen9b_schemafix/ablation_suite_summary.json \
-  experiments/snapshots/20260602_ablation50_qwen9b_seed17_schemafix/ablation_suite_summary.json \
+  experiments/snapshots/20260602_ablation100_qwen9b_catfix/ablation_suite_summary.json \
+  experiments/snapshots/20260602_ablation50_qwen9b_seed17_catfix/ablation_suite_summary.json \
   --output-json experiments/snapshots/ablation_suite_comparison.json \
   --output-md experiments/snapshots/ablation_suite_comparison.md \
   --output-csv experiments/snapshots/ablation_suite_comparison.csv \
@@ -360,10 +379,9 @@ evidence; use `--allow-diagnostic-tex` only for internal layout checks.
 
 ## Prompt-Factorial Suite Inspired By Mind The Query
 
-Status: planned, not yet launched. This suite should wait until the active
-schemafix target-100 and seeded target-50 repeat have either completed or been
-retired, because those runs remain higher-priority evidence for the main
-ablation story.
+Status: planned, not yet launched. This suite can now be launched from the
+catfix or newer checkout, because the higher-priority target-100 and seeded
+target-50 runs have completed.
 
 Purpose: mirror the EMNLP Industry 2025 Mind the Query prompt-setting analysis
 without copying its Gemini/manual-review setup. PIPE-Cypher variants are:
@@ -388,7 +406,7 @@ python scripts/estimate_run_capacity.py --config configs/snb_full.yaml --target-
 PROMPT_VARIANTS="prompt_profile_schema_only prompt_profile_instructions_only prompt_profile_examples_only prompt_profile_examples_plus_instructions prompt_profile_full_pipe_cypher_governed"
 CODE_REVISION=$(git rev-parse HEAD) \
 SESSION=pipecypher_prompt_factorial50_qwen9b \
-WAIT_FOR_SESSION=pipecypher_ablation50_qwen9b_seed17_schemafix \
+WAIT_FOR_SESSION= \
 TARGET_PER_CATEGORY=50 \
 RUN_PREFIX=20260602_prompt_factorial50_qwen9b \
 VARIANT_SET="${PROMPT_VARIANTS}" \
@@ -410,7 +428,7 @@ Collect only after completion and paper-readiness audit:
 
 ```bash
 python scripts/collect_remote_ablation_suite.py \
-  --remote-root /home/suraj/PIPE-Cypher-389e7e0-schemafix \
+  --remote-root /home/suraj/PIPE-Cypher-4df5175-catfix \
   --run-prefix 20260602_prompt_factorial50_qwen9b \
   --target-per-category 50 \
   --wait-session pipecypher_prompt_factorial50_qwen9b \
@@ -423,12 +441,12 @@ python scripts/collect_remote_ablation_suite.py \
 ssh suraj@ds-serv6.ucsd.edu
 
 tmux has-session -t =pipecypher_ablation50_qwen9b && echo target50_running || echo target50_done
-tmux has-session -t =pipecypher_ablation100_qwen9b_schemafix && echo target100_schemafix_running || echo target100_schemafix_done
-tmux has-session -t =pipecypher_ablation50_qwen9b_seed17_schemafix && echo target50_seed17_schemafix_running_or_waiting || echo target50_seed17_schemafix_done
+tmux has-session -t =pipecypher_ablation100_qwen9b_catfix && echo target100_catfix_running || echo target100_catfix_done
+tmux has-session -t =pipecypher_ablation50_qwen9b_seed17_catfix && echo target50_seed17_catfix_running_or_waiting || echo target50_seed17_catfix_done
 
-tail -f /home/suraj/PIPE-Cypher-389e7e0-schemafix/logs/20260602_ablation100_qwen9b_schemafix.log
-tmux capture-pane -pt pipecypher_ablation100_qwen9b_schemafix -S -20
-tmux capture-pane -pt pipecypher_ablation50_qwen9b_seed17_schemafix -S -20
+tail -f /home/suraj/PIPE-Cypher-4df5175-catfix/logs/20260602_ablation100_qwen9b_catfix.log
+tmux capture-pane -pt pipecypher_ablation100_qwen9b_catfix -S -20
+tmux capture-pane -pt pipecypher_ablation50_qwen9b_seed17_catfix -S -20
 ```
 
 From the local repo, use the read-only remote monitor without fetching partial
@@ -448,8 +466,8 @@ For focused target-100 inspection:
 
 ```bash
 python scripts/monitor_remote_ablation_suite.py \
-  --remote-root /home/suraj/PIPE-Cypher-389e7e0-schemafix \
-  --run-prefix 20260602_ablation100_qwen9b_schemafix \
+  --remote-root /home/suraj/PIPE-Cypher-4df5175-catfix \
+  --run-prefix 20260602_ablation100_qwen9b_catfix \
   --target-per-category 100 \
-  --session pipecypher_ablation100_qwen9b_schemafix
+  --session pipecypher_ablation100_qwen9b_catfix
 ```

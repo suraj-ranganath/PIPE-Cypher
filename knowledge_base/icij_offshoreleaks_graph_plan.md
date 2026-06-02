@@ -143,16 +143,33 @@ python scripts/run_pipeline.py \
   --run-name live_icij_qwen9b_target100
 ```
 
-Current queued live run as of June 2, 2026:
+Completed live run as of June 2, 2026:
 
 ```text
 remote root: /home/suraj/PIPE-Cypher-4df5175-catfix
 session: pipecypher_icij_target100_after_seed17_catfix
-waits for: pipecypher_ablation50_qwen9b_seed17_catfix
 endpoint: http://localhost:8001/v1
 run name: 20260602_icij_target100_qwen9b_catfix_live
 code revision: 4df5175396352e7ad695f6ad1c8ce14c493d6955
 ```
+
+Outcome:
+
+- records: 1,400
+- accepted: 681
+- categories at target: 6/8
+- accepted category counts: `simple_retrieval=100`,
+  `complex_retrieval=100`, `simple_aggregation=100`,
+  `complex_aggregation=100`, `boolean_existence=100`,
+  `path_temporal=100`, `negation_difference=79`, `ranking_topk=2`
+- dominant failure reasons: duplicate accepted questions and empty execution
+  results.
+
+Research-use note: this run confirms that the public ICIJ graph is loaded and
+the generic onboarding path can generate accepted examples across most
+categories, but it is not paper-ready. Do not promote ICIJ numbers into the
+paper or appendix result tables until a top-up or corrected run reaches the
+target categories and passes the same readiness audit used for FinBench/SNB.
 
 The ICIJ graph contains low-cardinality free-text properties such as notes and
 addresses. Keep `privacy.categorical_max_value_chars` and

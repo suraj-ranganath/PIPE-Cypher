@@ -1,0 +1,15 @@
+setting,graph,run,records,accepted,accept_rate,categories_at_target,category_count,finished,read_only_rate,syntax_valid_rate,schema_valid_rate,execution_success_rate,judge_pass_rate
+Unconstrained LLM,finbench,20260602_081452_20260602_ablation100_qwen9b_catfix_finbench_unconstrained_local_llm,0,0,0.000000,0,8,true,0.000000,0.000000,0.000000,0.000000,0.000000
+Reverse-only,finbench,20260602_081453_20260602_ablation100_qwen9b_catfix_finbench_reverse_only,815,800,0.981595,8,8,true,1.000000,1.000000,0.981595,0.981595,0.981595
+Validators+repair,finbench,20260602_081531_20260602_ablation100_qwen9b_catfix_finbench_validators_repair,833,800,0.960384,8,8,true,1.000000,1.000000,1.000000,1.000000,0.960384
+No retrieval,finbench,20260602_081724_20260602_ablation100_qwen9b_catfix_finbench_ablation_retrieval_topk_0,819,800,0.976801,8,8,true,1.000000,1.000000,1.000000,1.000000,0.976801
+No rewrite,finbench,20260602_085052_20260602_ablation100_qwen9b_catfix_finbench_ablation_rewrite_false,826,800,0.968523,8,8,true,1.000000,1.000000,1.000000,1.000000,0.968523
+No LLM judge,finbench,20260602_092549_20260602_ablation100_qwen9b_catfix_finbench_ablation_judge_false,812,800,0.985222,8,8,true,1.000000,1.000000,1.000000,1.000000,0.985222
+Full PIPE-Cypher,finbench,20260602_092703_20260602_ablation100_qwen9b_catfix_finbench_full_pipe_cypher,824,800,0.970874,8,8,true,1.000000,1.000000,1.000000,1.000000,0.970874
+Unconstrained LLM,snb,20260602_100133_20260602_ablation100_qwen9b_catfix_snb_unconstrained_local_llm,0,0,0.000000,0,8,true,0.000000,0.000000,0.000000,0.000000,0.000000
+Reverse-only,snb,20260602_100133_20260602_ablation100_qwen9b_catfix_snb_reverse_only,820,800,0.975610,8,8,true,1.000000,1.000000,0.997561,0.997561,0.975610
+Validators+repair,snb,20260602_100206_20260602_ablation100_qwen9b_catfix_snb_validators_repair,824,800,0.970874,8,8,true,1.000000,1.000000,0.997573,0.997573,0.970874
+No retrieval,snb,20260602_100239_20260602_ablation100_qwen9b_catfix_snb_ablation_retrieval_topk_0,809,800,0.988875,8,8,true,1.000000,1.000000,0.997528,0.997528,0.988875
+No rewrite,snb,20260602_103304_20260602_ablation100_qwen9b_catfix_snb_ablation_rewrite_false,834,800,0.959233,8,8,true,1.000000,1.000000,0.997602,0.997602,0.959233
+No LLM judge,snb,20260602_110508_20260602_ablation100_qwen9b_catfix_snb_ablation_judge_false,828,800,0.966184,8,8,true,1.000000,1.000000,0.997585,0.997585,0.966184
+Full PIPE-Cypher,snb,20260602_110543_20260602_ablation100_qwen9b_catfix_snb_full_pipe_cypher,824,800,0.970874,8,8,true,1.000000,1.000000,0.997573,0.997573,0.970874

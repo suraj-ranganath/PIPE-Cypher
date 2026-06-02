@@ -1,0 +1,822 @@
+{
+  "all_runs_finished": true,
+  "category_count": 8,
+  "expected_graphs": [
+    "finbench",
+    "snb"
+  ],
+  "expected_variants": [
+    "unconstrained_local_llm",
+    "reverse_only",
+    "validators_repair",
+    "ablation_retrieval_topk_0",
+    "ablation_rewrite_false",
+    "ablation_judge_false",
+    "full_pipe_cypher"
+  ],
+  "incomplete": [],
+  "metadata": {
+    "code_revision": "4df5175396352e7ad695f6ad1c8ce14c493d6955",
+    "generation_model": "Qwen/Qwen3.5-9B",
+    "judge_model": "Qwen/Qwen3.5-9B",
+    "log_file": "logs/20260602_ablation100_qwen9b_catfix.log",
+    "run_prefix": "20260602_ablation100_qwen9b_catfix"
+  },
+  "missing": [],
+  "research_status": "candidate paper evidence after claim/evidence audit",
+  "run_count": 14,
+  "runs": [
+    {
+      "accept_rate": 0.0,
+      "accepted": 0,
+      "accepted_by_category": {},
+      "by_category": {},
+      "categories_at_target": 0,
+      "category_count": 8,
+      "difficulty": {},
+      "gate_rates": {},
+      "gates": {},
+      "graph": "finbench",
+      "issues": {},
+      "primary_strategy": {},
+      "records": 0,
+      "records_path": "artifacts/runs/20260602_081452_20260602_ablation100_qwen9b_catfix_finbench_unconstrained_local_llm/records.jsonl",
+      "run": "20260602_081452_20260602_ablation100_qwen9b_catfix_finbench_unconstrained_local_llm",
+      "summary_present": true,
+      "variant": "unconstrained_local_llm",
+      "variant_label": "Unconstrained LLM"
+    },
+    {
+      "accept_rate": 0.9815950920245399,
+      "accepted": 800,
+      "accepted_by_category": {
+        "boolean_existence": 100,
+        "complex_aggregation": 100,
+        "complex_retrieval": 100,
+        "negation_difference": 100,
+        "path_temporal": 100,
+        "ranking_topk": 100,
+        "simple_aggregation": 100,
+        "simple_retrieval": 100
+      },
+      "by_category": {
+        "boolean_existence": 100,
+        "complex_aggregation": 100,
+        "complex_retrieval": 100,
+        "negation_difference": 100,
+        "path_temporal": 100,
+        "ranking_topk": 115,
+        "simple_aggregation": 100,
+        "simple_retrieval": 100
+      },
+      "categories_at_target": 8,
+      "category_count": 8,
+      "difficulty": {
+        "easy": 342,
+        "medium": 473
+      },
+      "gate_rates": {
+        "execution_success": 0.9815950920245399,
+        "judge_pass": 0.9815950920245399,
+        "read_only": 1.0,
+        "schema_valid": 0.9815950920245399,
+        "syntax_valid": 1.0
+      },
+      "gates": {
+        "execution_success": 800,
+        "judge_pass": 800,
+        "read_only": 815,
+        "schema_valid": 800,
+        "syntax_valid": 815
+      },
+      "graph": "finbench",
+      "issues": {
+        "invalid_categorical_value": 15,
+        "missing_context_column": 70,
+        "quoted_value_not_literal": 8
+      },
+      "primary_strategy": {
+        "aggregation": 300,
+        "join_heavy": 100,
+        "negation": 100,
+        "order_rank": 115,
+        "path": 100,
+        "single_hop": 100
+      },
+      "records": 815,
+      "records_path": "artifacts/runs/20260602_081453_20260602_ablation100_qwen9b_catfix_finbench_reverse_only/records.jsonl",
+      "run": "20260602_081453_20260602_ablation100_qwen9b_catfix_finbench_reverse_only",
+      "summary_present": true,
+      "variant": "reverse_only",
+      "variant_label": "Reverse-only"
+    },
+    {
+      "accept_rate": 0.9603841536614646,
+      "accepted": 800,
+      "accepted_by_category": {
+        "boolean_existence": 100,
+        "complex_aggregation": 100,
+        "complex_retrieval": 100,
+        "negation_difference": 100,
+        "path_temporal": 100,
+        "ranking_topk": 100,
+        "simple_aggregation": 100,
+        "simple_retrieval": 100
+      },
+      "by_category": {
+        "boolean_existence": 100,
+        "complex_aggregation": 100,
+        "complex_retrieval": 100,
+        "negation_difference": 100,
+        "path_temporal": 100,
+        "ranking_topk": 133,
+        "simple_aggregation": 100,
+        "simple_retrieval": 100
+      },
+      "categories_at_target": 8,
+      "category_count": 8,
+      "difficulty": {
+        "easy": 352,
+        "medium": 481
+      },
+      "gate_rates": {
+        "execution_success": 1.0,
+        "judge_pass": 0.9603841536614646,
+        "read_only": 1.0,
+        "schema_valid": 1.0,
+        "syntax_valid": 1.0
+      },
+      "gates": {
+        "execution_success": 833,
+        "judge_pass": 800,
+        "read_only": 833,
+        "schema_valid": 833,
+        "syntax_valid": 833
+      },
+      "graph": "finbench",
+      "issues": {
+        "missing_context_column": 64,
+        "quoted_value_not_literal": 41
+      },
+      "primary_strategy": {
+        "aggregation": 300,
+        "join_heavy": 100,
+        "negation": 100,
+        "order_rank": 133,
+        "path": 100,
+        "single_hop": 100
+      },
+      "records": 833,
+      "records_path": "artifacts/runs/20260602_081531_20260602_ablation100_qwen9b_catfix_finbench_validators_repair/records.jsonl",
+      "run": "20260602_081531_20260602_ablation100_qwen9b_catfix_finbench_validators_repair",
+      "summary_present": true,
+      "variant": "validators_repair",
+      "variant_label": "Validators+repair"
+    },
+    {
+      "accept_rate": 0.9768009768009768,
+      "accepted": 800,
+      "accepted_by_category": {
+        "boolean_existence": 100,
+        "complex_aggregation": 100,
+        "complex_retrieval": 100,
+        "negation_difference": 100,
+        "path_temporal": 100,
+        "ranking_topk": 100,
+        "simple_aggregation": 100,
+        "simple_retrieval": 100
+      },
+      "by_category": {
+        "boolean_existence": 101,
+        "complex_aggregation": 100,
+        "complex_retrieval": 100,
+        "negation_difference": 101,
+        "path_temporal": 101,
+        "ranking_topk": 114,
+        "simple_aggregation": 101,
+        "simple_retrieval": 101
+      },
+      "categories_at_target": 8,
+      "category_count": 8,
+      "difficulty": {
+        "easy": 355,
+        "medium": 464
+      },
+      "gate_rates": {
+        "execution_success": 1.0,
+        "judge_pass": 0.9768009768009768,
+        "read_only": 1.0,
+        "schema_valid": 1.0,
+        "syntax_valid": 1.0
+      },
+      "gates": {
+        "execution_success": 819,
+        "judge_pass": 800,
+        "read_only": 819,
+        "schema_valid": 819,
+        "syntax_valid": 819
+      },
+      "graph": "finbench",
+      "issues": {
+        "missing_context_column": 90,
+        "quoted_value_not_literal": 21
+      },
+      "primary_strategy": {
+        "aggregation": 302,
+        "join_heavy": 100,
+        "negation": 101,
+        "order_rank": 114,
+        "path": 101,
+        "single_hop": 101
+      },
+      "records": 819,
+      "records_path": "artifacts/runs/20260602_081724_20260602_ablation100_qwen9b_catfix_finbench_ablation_retrieval_topk_0/records.jsonl",
+      "run": "20260602_081724_20260602_ablation100_qwen9b_catfix_finbench_ablation_retrieval_topk_0",
+      "summary_present": true,
+      "variant": "ablation_retrieval_topk_0",
+      "variant_label": "No retrieval"
+    },
+    {
+      "accept_rate": 0.9685230024213075,
+      "accepted": 800,
+      "accepted_by_category": {
+        "boolean_existence": 100,
+        "complex_aggregation": 100,
+        "complex_retrieval": 100,
+        "negation_difference": 100,
+        "path_temporal": 100,
+        "ranking_topk": 100,
+        "simple_aggregation": 100,
+        "simple_retrieval": 100
+      },
+      "by_category": {
+        "boolean_existence": 101,
+        "complex_aggregation": 100,
+        "complex_retrieval": 100,
+        "negation_difference": 101,
+        "path_temporal": 101,
+        "ranking_topk": 121,
+        "simple_aggregation": 101,
+        "simple_retrieval": 101
+      },
+      "categories_at_target": 8,
+      "category_count": 8,
+      "difficulty": {
+        "easy": 352,
+        "medium": 474
+      },
+      "gate_rates": {
+        "execution_success": 1.0,
+        "judge_pass": 0.9685230024213075,
+        "read_only": 1.0,
+        "schema_valid": 1.0,
+        "syntax_valid": 1.0
+      },
+      "gates": {
+        "execution_success": 826,
+        "judge_pass": 800,
+        "read_only": 826,
+        "schema_valid": 826,
+        "syntax_valid": 826
+      },
+      "graph": "finbench",
+      "issues": {
+        "missing_context_column": 86,
+        "quoted_value_not_literal": 28
+      },
+      "primary_strategy": {
+        "aggregation": 302,
+        "join_heavy": 100,
+        "negation": 101,
+        "order_rank": 121,
+        "path": 101,
+        "single_hop": 101
+      },
+      "records": 826,
+      "records_path": "artifacts/runs/20260602_085052_20260602_ablation100_qwen9b_catfix_finbench_ablation_rewrite_false/records.jsonl",
+      "run": "20260602_085052_20260602_ablation100_qwen9b_catfix_finbench_ablation_rewrite_false",
+      "summary_present": true,
+      "variant": "ablation_rewrite_false",
+      "variant_label": "No rewrite"
+    },
+    {
+      "accept_rate": 0.9852216748768473,
+      "accepted": 800,
+      "accepted_by_category": {
+        "boolean_existence": 100,
+        "complex_aggregation": 100,
+        "complex_retrieval": 100,
+        "negation_difference": 100,
+        "path_temporal": 100,
+        "ranking_topk": 100,
+        "simple_aggregation": 100,
+        "simple_retrieval": 100
+      },
+      "by_category": {
+        "boolean_existence": 100,
+        "complex_aggregation": 100,
+        "complex_retrieval": 100,
+        "negation_difference": 100,
+        "path_temporal": 100,
+        "ranking_topk": 112,
+        "simple_aggregation": 100,
+        "simple_retrieval": 100
+      },
+      "categories_at_target": 8,
+      "category_count": 8,
+      "difficulty": {
+        "easy": 355,
+        "medium": 457
+      },
+      "gate_rates": {
+        "execution_success": 1.0,
+        "judge_pass": 0.9852216748768473,
+        "read_only": 1.0,
+        "schema_valid": 1.0,
+        "syntax_valid": 1.0
+      },
+      "gates": {
+        "execution_success": 812,
+        "judge_pass": 800,
+        "read_only": 812,
+        "schema_valid": 812,
+        "syntax_valid": 812
+      },
+      "graph": "finbench",
+      "issues": {
+        "missing_context_column": 80,
+        "quoted_value_not_literal": 21
+      },
+      "primary_strategy": {
+        "aggregation": 300,
+        "join_heavy": 100,
+        "negation": 100,
+        "order_rank": 112,
+        "path": 100,
+        "single_hop": 100
+      },
+      "records": 812,
+      "records_path": "artifacts/runs/20260602_092549_20260602_ablation100_qwen9b_catfix_finbench_ablation_judge_false/records.jsonl",
+      "run": "20260602_092549_20260602_ablation100_qwen9b_catfix_finbench_ablation_judge_false",
+      "summary_present": true,
+      "variant": "ablation_judge_false",
+      "variant_label": "No LLM judge"
+    },
+    {
+      "accept_rate": 0.970873786407767,
+      "accepted": 800,
+      "accepted_by_category": {
+        "boolean_existence": 100,
+        "complex_aggregation": 100,
+        "complex_retrieval": 100,
+        "negation_difference": 100,
+        "path_temporal": 100,
+        "ranking_topk": 100,
+        "simple_aggregation": 100,
+        "simple_retrieval": 100
+      },
+      "by_category": {
+        "boolean_existence": 101,
+        "complex_aggregation": 100,
+        "complex_retrieval": 100,
+        "negation_difference": 102,
+        "path_temporal": 101,
+        "ranking_topk": 118,
+        "simple_aggregation": 101,
+        "simple_retrieval": 101
+      },
+      "categories_at_target": 8,
+      "category_count": 8,
+      "difficulty": {
+        "easy": 350,
+        "medium": 474
+      },
+      "gate_rates": {
+        "execution_success": 1.0,
+        "judge_pass": 0.970873786407767,
+        "read_only": 1.0,
+        "schema_valid": 1.0,
+        "syntax_valid": 1.0
+      },
+      "gates": {
+        "execution_success": 824,
+        "judge_pass": 800,
+        "read_only": 824,
+        "schema_valid": 824,
+        "syntax_valid": 824
+      },
+      "graph": "finbench",
+      "issues": {
+        "missing_context_column": 75,
+        "quoted_value_not_literal": 26
+      },
+      "primary_strategy": {
+        "aggregation": 302,
+        "join_heavy": 100,
+        "negation": 102,
+        "order_rank": 118,
+        "path": 101,
+        "single_hop": 101
+      },
+      "records": 824,
+      "records_path": "artifacts/runs/20260602_092703_20260602_ablation100_qwen9b_catfix_finbench_full_pipe_cypher/records.jsonl",
+      "run": "20260602_092703_20260602_ablation100_qwen9b_catfix_finbench_full_pipe_cypher",
+      "summary_present": true,
+      "variant": "full_pipe_cypher",
+      "variant_label": "Full PIPE-Cypher"
+    },
+    {
+      "accept_rate": 0.0,
+      "accepted": 0,
+      "accepted_by_category": {},
+      "by_category": {},
+      "categories_at_target": 0,
+      "category_count": 8,
+      "difficulty": {},
+      "gate_rates": {},
+      "gates": {},
+      "graph": "snb",
+      "issues": {},
+      "primary_strategy": {},
+      "records": 0,
+      "records_path": "artifacts/runs/20260602_100133_20260602_ablation100_qwen9b_catfix_snb_unconstrained_local_llm/records.jsonl",
+      "run": "20260602_100133_20260602_ablation100_qwen9b_catfix_snb_unconstrained_local_llm",
+      "summary_present": true,
+      "variant": "unconstrained_local_llm",
+      "variant_label": "Unconstrained LLM"
+    },
+    {
+      "accept_rate": 0.975609756097561,
+      "accepted": 800,
+      "accepted_by_category": {
+        "boolean_existence": 100,
+        "complex_aggregation": 100,
+        "complex_retrieval": 100,
+        "negation_difference": 100,
+        "path_temporal": 100,
+        "ranking_topk": 100,
+        "simple_aggregation": 100,
+        "simple_retrieval": 100
+      },
+      "by_category": {
+        "boolean_existence": 100,
+        "complex_aggregation": 100,
+        "complex_retrieval": 101,
+        "negation_difference": 112,
+        "path_temporal": 100,
+        "ranking_topk": 106,
+        "simple_aggregation": 101,
+        "simple_retrieval": 100
+      },
+      "categories_at_target": 8,
+      "category_count": 8,
+      "difficulty": {
+        "easy": 402,
+        "medium": 418
+      },
+      "gate_rates": {
+        "execution_success": 0.9975609756097561,
+        "judge_pass": 0.975609756097561,
+        "read_only": 1.0,
+        "schema_valid": 0.9975609756097561,
+        "syntax_valid": 1.0
+      },
+      "gates": {
+        "execution_success": 818,
+        "judge_pass": 800,
+        "read_only": 820,
+        "schema_valid": 818,
+        "syntax_valid": 820
+      },
+      "graph": "snb",
+      "issues": {
+        "unknown_property": 2
+      },
+      "primary_strategy": {
+        "aggregation": 301,
+        "join_heavy": 101,
+        "negation": 112,
+        "order_rank": 106,
+        "path": 100,
+        "single_hop": 100
+      },
+      "records": 820,
+      "records_path": "artifacts/runs/20260602_100133_20260602_ablation100_qwen9b_catfix_snb_reverse_only/records.jsonl",
+      "run": "20260602_100133_20260602_ablation100_qwen9b_catfix_snb_reverse_only",
+      "summary_present": true,
+      "variant": "reverse_only",
+      "variant_label": "Reverse-only"
+    },
+    {
+      "accept_rate": 0.970873786407767,
+      "accepted": 800,
+      "accepted_by_category": {
+        "boolean_existence": 100,
+        "complex_aggregation": 100,
+        "complex_retrieval": 100,
+        "negation_difference": 100,
+        "path_temporal": 100,
+        "ranking_topk": 100,
+        "simple_aggregation": 100,
+        "simple_retrieval": 100
+      },
+      "by_category": {
+        "boolean_existence": 100,
+        "complex_aggregation": 100,
+        "complex_retrieval": 101,
+        "negation_difference": 116,
+        "path_temporal": 100,
+        "ranking_topk": 106,
+        "simple_aggregation": 101,
+        "simple_retrieval": 100
+      },
+      "categories_at_target": 8,
+      "category_count": 8,
+      "difficulty": {
+        "easy": 402,
+        "medium": 422
+      },
+      "gate_rates": {
+        "execution_success": 0.9975728155339806,
+        "judge_pass": 0.970873786407767,
+        "read_only": 1.0,
+        "schema_valid": 0.9975728155339806,
+        "syntax_valid": 1.0
+      },
+      "gates": {
+        "execution_success": 822,
+        "judge_pass": 800,
+        "read_only": 824,
+        "schema_valid": 822,
+        "syntax_valid": 824
+      },
+      "graph": "snb",
+      "issues": {
+        "unknown_property": 2
+      },
+      "primary_strategy": {
+        "aggregation": 301,
+        "join_heavy": 101,
+        "negation": 116,
+        "order_rank": 106,
+        "path": 100,
+        "single_hop": 100
+      },
+      "records": 824,
+      "records_path": "artifacts/runs/20260602_100206_20260602_ablation100_qwen9b_catfix_snb_validators_repair/records.jsonl",
+      "run": "20260602_100206_20260602_ablation100_qwen9b_catfix_snb_validators_repair",
+      "summary_present": true,
+      "variant": "validators_repair",
+      "variant_label": "Validators+repair"
+    },
+    {
+      "accept_rate": 0.9888751545117429,
+      "accepted": 800,
+      "accepted_by_category": {
+        "boolean_existence": 100,
+        "complex_aggregation": 100,
+        "complex_retrieval": 100,
+        "negation_difference": 100,
+        "path_temporal": 100,
+        "ranking_topk": 100,
+        "simple_aggregation": 100,
+        "simple_retrieval": 100
+      },
+      "by_category": {
+        "boolean_existence": 100,
+        "complex_aggregation": 100,
+        "complex_retrieval": 101,
+        "negation_difference": 101,
+        "path_temporal": 100,
+        "ranking_topk": 106,
+        "simple_aggregation": 101,
+        "simple_retrieval": 100
+      },
+      "categories_at_target": 8,
+      "category_count": 8,
+      "difficulty": {
+        "easy": 402,
+        "medium": 407
+      },
+      "gate_rates": {
+        "execution_success": 0.9975278121137207,
+        "judge_pass": 0.9888751545117429,
+        "read_only": 1.0,
+        "schema_valid": 0.9975278121137207,
+        "syntax_valid": 1.0
+      },
+      "gates": {
+        "execution_success": 807,
+        "judge_pass": 800,
+        "read_only": 809,
+        "schema_valid": 807,
+        "syntax_valid": 809
+      },
+      "graph": "snb",
+      "issues": {
+        "unknown_property": 2
+      },
+      "primary_strategy": {
+        "aggregation": 301,
+        "join_heavy": 101,
+        "negation": 101,
+        "order_rank": 106,
+        "path": 100,
+        "single_hop": 100
+      },
+      "records": 809,
+      "records_path": "artifacts/runs/20260602_100239_20260602_ablation100_qwen9b_catfix_snb_ablation_retrieval_topk_0/records.jsonl",
+      "run": "20260602_100239_20260602_ablation100_qwen9b_catfix_snb_ablation_retrieval_topk_0",
+      "summary_present": true,
+      "variant": "ablation_retrieval_topk_0",
+      "variant_label": "No retrieval"
+    },
+    {
+      "accept_rate": 0.9592326139088729,
+      "accepted": 800,
+      "accepted_by_category": {
+        "boolean_existence": 100,
+        "complex_aggregation": 100,
+        "complex_retrieval": 100,
+        "negation_difference": 100,
+        "path_temporal": 100,
+        "ranking_topk": 100,
+        "simple_aggregation": 100,
+        "simple_retrieval": 100
+      },
+      "by_category": {
+        "boolean_existence": 100,
+        "complex_aggregation": 100,
+        "complex_retrieval": 101,
+        "negation_difference": 126,
+        "path_temporal": 100,
+        "ranking_topk": 106,
+        "simple_aggregation": 101,
+        "simple_retrieval": 100
+      },
+      "categories_at_target": 8,
+      "category_count": 8,
+      "difficulty": {
+        "easy": 402,
+        "medium": 432
+      },
+      "gate_rates": {
+        "execution_success": 0.9976019184652278,
+        "judge_pass": 0.9592326139088729,
+        "read_only": 1.0,
+        "schema_valid": 0.9976019184652278,
+        "syntax_valid": 1.0
+      },
+      "gates": {
+        "execution_success": 832,
+        "judge_pass": 800,
+        "read_only": 834,
+        "schema_valid": 832,
+        "syntax_valid": 834
+      },
+      "graph": "snb",
+      "issues": {
+        "unknown_property": 2
+      },
+      "primary_strategy": {
+        "aggregation": 301,
+        "join_heavy": 101,
+        "negation": 126,
+        "order_rank": 106,
+        "path": 100,
+        "single_hop": 100
+      },
+      "records": 834,
+      "records_path": "artifacts/runs/20260602_103304_20260602_ablation100_qwen9b_catfix_snb_ablation_rewrite_false/records.jsonl",
+      "run": "20260602_103304_20260602_ablation100_qwen9b_catfix_snb_ablation_rewrite_false",
+      "summary_present": true,
+      "variant": "ablation_rewrite_false",
+      "variant_label": "No rewrite"
+    },
+    {
+      "accept_rate": 0.966183574879227,
+      "accepted": 800,
+      "accepted_by_category": {
+        "boolean_existence": 100,
+        "complex_aggregation": 100,
+        "complex_retrieval": 100,
+        "negation_difference": 100,
+        "path_temporal": 100,
+        "ranking_topk": 100,
+        "simple_aggregation": 100,
+        "simple_retrieval": 100
+      },
+      "by_category": {
+        "boolean_existence": 100,
+        "complex_aggregation": 100,
+        "complex_retrieval": 101,
+        "negation_difference": 120,
+        "path_temporal": 100,
+        "ranking_topk": 106,
+        "simple_aggregation": 101,
+        "simple_retrieval": 100
+      },
+      "categories_at_target": 8,
+      "category_count": 8,
+      "difficulty": {
+        "easy": 402,
+        "medium": 426
+      },
+      "gate_rates": {
+        "execution_success": 0.9975845410628019,
+        "judge_pass": 0.966183574879227,
+        "read_only": 1.0,
+        "schema_valid": 0.9975845410628019,
+        "syntax_valid": 1.0
+      },
+      "gates": {
+        "execution_success": 826,
+        "judge_pass": 800,
+        "read_only": 828,
+        "schema_valid": 826,
+        "syntax_valid": 828
+      },
+      "graph": "snb",
+      "issues": {
+        "unknown_property": 2
+      },
+      "primary_strategy": {
+        "aggregation": 301,
+        "join_heavy": 101,
+        "negation": 120,
+        "order_rank": 106,
+        "path": 100,
+        "single_hop": 100
+      },
+      "records": 828,
+      "records_path": "artifacts/runs/20260602_110508_20260602_ablation100_qwen9b_catfix_snb_ablation_judge_false/records.jsonl",
+      "run": "20260602_110508_20260602_ablation100_qwen9b_catfix_snb_ablation_judge_false",
+      "summary_present": true,
+      "variant": "ablation_judge_false",
+      "variant_label": "No LLM judge"
+    },
+    {
+      "accept_rate": 0.970873786407767,
+      "accepted": 800,
+      "accepted_by_category": {
+        "boolean_existence": 100,
+        "complex_aggregation": 100,
+        "complex_retrieval": 100,
+        "negation_difference": 100,
+        "path_temporal": 100,
+        "ranking_topk": 100,
+        "simple_aggregation": 100,
+        "simple_retrieval": 100
+      },
+      "by_category": {
+        "boolean_existence": 100,
+        "complex_aggregation": 100,
+        "complex_retrieval": 101,
+        "negation_difference": 116,
+        "path_temporal": 100,
+        "ranking_topk": 106,
+        "simple_aggregation": 101,
+        "simple_retrieval": 100
+      },
+      "categories_at_target": 8,
+      "category_count": 8,
+      "difficulty": {
+        "easy": 402,
+        "medium": 422
+      },
+      "gate_rates": {
+        "execution_success": 0.9975728155339806,
+        "judge_pass": 0.970873786407767,
+        "read_only": 1.0,
+        "schema_valid": 0.9975728155339806,
+        "syntax_valid": 1.0
+      },
+      "gates": {
+        "execution_success": 822,
+        "judge_pass": 800,
+        "read_only": 824,
+        "schema_valid": 822,
+        "syntax_valid": 824
+      },
+      "graph": "snb",
+      "issues": {
+        "unknown_property": 2
+      },
+      "primary_strategy": {
+        "aggregation": 301,
+        "join_heavy": 101,
+        "negation": 116,
+        "order_rank": 106,
+        "path": 100,
+        "single_hop": 100
+      },
+      "records": 824,
+      "records_path": "artifacts/runs/20260602_110543_20260602_ablation100_qwen9b_catfix_snb_full_pipe_cypher/records.jsonl",
+      "run": "20260602_110543_20260602_ablation100_qwen9b_catfix_snb_full_pipe_cypher",
+      "summary_present": true,
+      "variant": "full_pipe_cypher",
+      "variant_label": "Full PIPE-Cypher"
+    }
+  ],
+  "target_per_category": 100
+}

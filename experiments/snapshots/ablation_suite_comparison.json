@@ -1,0 +1,1352 @@
+{
+  "cells": [
+    {
+      "accept_rate": {
+        "max": 1.0,
+        "mean": 0.9942426364302709,
+        "min": 0.9852216748768473,
+        "stdev": 0.007911259521137056
+      },
+      "accepted": {
+        "max": 800.0,
+        "mean": 533.3333333333334,
+        "min": 400.0,
+        "stdev": 230.9401076758503
+      },
+      "categories_at_target": {
+        "max": 8.0,
+        "mean": 8.0,
+        "min": 8.0,
+        "stdev": 0.0
+      },
+      "category_target_share": {
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "stdev": 0.0
+      },
+      "compared_suite_count": 3,
+      "gate_rates": {
+        "execution_success": {
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "stdev": 0.0
+        },
+        "judge_pass": {
+          "max": 1.0,
+          "mean": 0.9942426364302709,
+          "min": 0.9852216748768473,
+          "stdev": 0.007911259521137056
+        },
+        "read_only": {
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "stdev": 0.0
+        },
+        "schema_valid": {
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "stdev": 0.0
+        },
+        "syntax_valid": {
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "stdev": 0.0
+        }
+      },
+      "graph": "finbench",
+      "missing_suite_count": 0,
+      "missing_suite_prefixes": [],
+      "records": {
+        "max": 812.0,
+        "mean": 537.6666666666666,
+        "min": 400.0,
+        "stdev": 237.58016191031888
+      },
+      "records_per_target": {
+        "max": 1.015,
+        "mean": 1.0058333333333334,
+        "min": 1.0,
+        "stdev": 0.008036375634160752
+      },
+      "run_prefixes": [
+        "20260601_ablation50_qwen9b",
+        "20260602_ablation100_qwen9b_catfix",
+        "20260602_ablation50_qwen9b_seed17_catfix"
+      ],
+      "suite_count": 3,
+      "target_coverage": {
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "stdev": 0.0
+      },
+      "targets": [
+        50,
+        100
+      ],
+      "variant": "ablation_judge_false",
+      "variant_label": "No LLM judge"
+    },
+    {
+      "accept_rate": {
+        "max": 0.9925558312655087,
+        "mean": 0.967252580155806,
+        "min": 0.9324009324009324,
+        "stdev": 0.031193458821073126
+      },
+      "accepted": {
+        "max": 800.0,
+        "mean": 533.3333333333334,
+        "min": 400.0,
+        "stdev": 230.9401076758503
+      },
+      "categories_at_target": {
+        "max": 8.0,
+        "mean": 8.0,
+        "min": 8.0,
+        "stdev": 0.0
+      },
+      "category_target_share": {
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "stdev": 0.0
+      },
+      "compared_suite_count": 3,
+      "gate_rates": {
+        "execution_success": {
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "stdev": 0.0
+        },
+        "judge_pass": {
+          "max": 0.9925558312655087,
+          "mean": 0.967252580155806,
+          "min": 0.9324009324009324,
+          "stdev": 0.031193458821073126
+        },
+        "read_only": {
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "stdev": 0.0
+        },
+        "schema_valid": {
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "stdev": 0.0
+        },
+        "syntax_valid": {
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "stdev": 0.0
+        }
+      },
+      "graph": "finbench",
+      "missing_suite_count": 0,
+      "missing_suite_prefixes": [],
+      "records": {
+        "max": 819.0,
+        "mean": 550.3333333333334,
+        "min": 403.0,
+        "stdev": 233.03504743564503
+      },
+      "records_per_target": {
+        "max": 1.0725,
+        "mean": 1.0345833333333332,
+        "min": 1.0075,
+        "stdev": 0.03382707249132465
+      },
+      "run_prefixes": [
+        "20260601_ablation50_qwen9b",
+        "20260602_ablation100_qwen9b_catfix",
+        "20260602_ablation50_qwen9b_seed17_catfix"
+      ],
+      "suite_count": 3,
+      "target_coverage": {
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "stdev": 0.0
+      },
+      "targets": [
+        50,
+        100
+      ],
+      "variant": "ablation_retrieval_topk_0",
+      "variant_label": "No retrieval"
+    },
+    {
+      "accept_rate": {
+        "max": 0.9925558312655087,
+        "mean": 0.9689017704093957,
+        "min": 0.9456264775413712,
+        "stdev": 0.02346696953449477
+      },
+      "accepted": {
+        "max": 800.0,
+        "mean": 533.3333333333334,
+        "min": 400.0,
+        "stdev": 230.9401076758503
+      },
+      "categories_at_target": {
+        "max": 8.0,
+        "mean": 8.0,
+        "min": 8.0,
+        "stdev": 0.0
+      },
+      "category_target_share": {
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "stdev": 0.0
+      },
+      "compared_suite_count": 3,
+      "gate_rates": {
+        "execution_success": {
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "stdev": 0.0
+        },
+        "judge_pass": {
+          "max": 0.9925558312655087,
+          "mean": 0.9689017704093957,
+          "min": 0.9456264775413712,
+          "stdev": 0.02346696953449477
+        },
+        "read_only": {
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "stdev": 0.0
+        },
+        "schema_valid": {
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "stdev": 0.0
+        },
+        "syntax_valid": {
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "stdev": 0.0
+        }
+      },
+      "graph": "finbench",
+      "missing_suite_count": 0,
+      "missing_suite_prefixes": [],
+      "records": {
+        "max": 826.0,
+        "mean": 550.6666666666666,
+        "min": 403.0,
+        "stdev": 238.65526043507472
+      },
+      "records_per_target": {
+        "max": 1.0575,
+        "mean": 1.0325,
+        "min": 1.0075,
+        "stdev": 0.025000000000000022
+      },
+      "run_prefixes": [
+        "20260601_ablation50_qwen9b",
+        "20260602_ablation100_qwen9b_catfix",
+        "20260602_ablation50_qwen9b_seed17_catfix"
+      ],
+      "suite_count": 3,
+      "target_coverage": {
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "stdev": 0.0
+      },
+      "targets": [
+        50,
+        100
+      ],
+      "variant": "ablation_rewrite_false",
+      "variant_label": "No rewrite"
+    },
+    {
+      "accept_rate": {
+        "max": 0.9925558312655087,
+        "mean": 0.9749893597372458,
+        "min": 0.9615384615384616,
+        "stdev": 0.015912974708357425
+      },
+      "accepted": {
+        "max": 800.0,
+        "mean": 533.3333333333334,
+        "min": 400.0,
+        "stdev": 230.9401076758503
+      },
+      "categories_at_target": {
+        "max": 8.0,
+        "mean": 8.0,
+        "min": 8.0,
+        "stdev": 0.0
+      },
+      "category_target_share": {
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "stdev": 0.0
+      },
+      "compared_suite_count": 3,
+      "gate_rates": {
+        "execution_success": {
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "stdev": 0.0
+        },
+        "judge_pass": {
+          "max": 0.9925558312655087,
+          "mean": 0.9749893597372458,
+          "min": 0.9615384615384616,
+          "stdev": 0.015912974708357425
+        },
+        "read_only": {
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "stdev": 0.0
+        },
+        "schema_valid": {
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "stdev": 0.0
+        },
+        "syntax_valid": {
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "stdev": 0.0
+        }
+      },
+      "graph": "finbench",
+      "missing_suite_count": 0,
+      "missing_suite_prefixes": [],
+      "records": {
+        "max": 824.0,
+        "mean": 547.6666666666666,
+        "min": 403.0,
+        "stdev": 239.399944305201
+      },
+      "records_per_target": {
+        "max": 1.04,
+        "mean": 1.0258333333333334,
+        "min": 1.0075,
+        "stdev": 0.016645820296198467
+      },
+      "run_prefixes": [
+        "20260601_ablation50_qwen9b",
+        "20260602_ablation100_qwen9b_catfix",
+        "20260602_ablation50_qwen9b_seed17_catfix"
+      ],
+      "suite_count": 3,
+      "target_coverage": {
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "stdev": 0.0
+      },
+      "targets": [
+        50,
+        100
+      ],
+      "variant": "full_pipe_cypher",
+      "variant_label": "Full PIPE-Cypher"
+    },
+    {
+      "accept_rate": {
+        "max": 1.0,
+        "mean": 0.9938650306748467,
+        "min": 0.9815950920245399,
+        "stdev": 0.010626078574042195
+      },
+      "accepted": {
+        "max": 800.0,
+        "mean": 533.3333333333334,
+        "min": 400.0,
+        "stdev": 230.9401076758503
+      },
+      "categories_at_target": {
+        "max": 8.0,
+        "mean": 8.0,
+        "min": 8.0,
+        "stdev": 0.0
+      },
+      "category_target_share": {
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "stdev": 0.0
+      },
+      "compared_suite_count": 3,
+      "gate_rates": {
+        "execution_success": {
+          "max": 1.0,
+          "mean": 0.9938650306748467,
+          "min": 0.9815950920245399,
+          "stdev": 0.010626078574042195
+        },
+        "judge_pass": {
+          "max": 1.0,
+          "mean": 0.9938650306748467,
+          "min": 0.9815950920245399,
+          "stdev": 0.010626078574042195
+        },
+        "read_only": {
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "stdev": 0.0
+        },
+        "schema_valid": {
+          "max": 1.0,
+          "mean": 0.9938650306748467,
+          "min": 0.9815950920245399,
+          "stdev": 0.010626078574042195
+        },
+        "syntax_valid": {
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "stdev": 0.0
+        }
+      },
+      "graph": "finbench",
+      "missing_suite_count": 0,
+      "missing_suite_prefixes": [],
+      "records": {
+        "max": 815.0,
+        "mean": 538.3333333333334,
+        "min": 400.0,
+        "stdev": 239.6003617136947
+      },
+      "records_per_target": {
+        "max": 1.01875,
+        "mean": 1.0062499999999999,
+        "min": 1.0,
+        "stdev": 0.01082531754730551
+      },
+      "run_prefixes": [
+        "20260601_ablation50_qwen9b",
+        "20260602_ablation100_qwen9b_catfix",
+        "20260602_ablation50_qwen9b_seed17_catfix"
+      ],
+      "suite_count": 3,
+      "target_coverage": {
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "stdev": 0.0
+      },
+      "targets": [
+        50,
+        100
+      ],
+      "variant": "reverse_only",
+      "variant_label": "Reverse-only"
+    },
+    {
+      "accept_rate": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "stdev": 0.0
+      },
+      "accepted": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "stdev": 0.0
+      },
+      "categories_at_target": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "stdev": 0.0
+      },
+      "category_target_share": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "stdev": 0.0
+      },
+      "compared_suite_count": 3,
+      "gate_rates": {
+        "execution_success": {
+          "max": 0.0,
+          "mean": 0.0,
+          "min": 0.0,
+          "stdev": 0.0
+        },
+        "judge_pass": {
+          "max": 0.0,
+          "mean": 0.0,
+          "min": 0.0,
+          "stdev": 0.0
+        },
+        "read_only": {
+          "max": 0.0,
+          "mean": 0.0,
+          "min": 0.0,
+          "stdev": 0.0
+        },
+        "schema_valid": {
+          "max": 0.0,
+          "mean": 0.0,
+          "min": 0.0,
+          "stdev": 0.0
+        },
+        "syntax_valid": {
+          "max": 0.0,
+          "mean": 0.0,
+          "min": 0.0,
+          "stdev": 0.0
+        }
+      },
+      "graph": "finbench",
+      "missing_suite_count": 0,
+      "missing_suite_prefixes": [],
+      "records": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "stdev": 0.0
+      },
+      "records_per_target": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "stdev": 0.0
+      },
+      "run_prefixes": [
+        "20260601_ablation50_qwen9b",
+        "20260602_ablation100_qwen9b_catfix",
+        "20260602_ablation50_qwen9b_seed17_catfix"
+      ],
+      "suite_count": 3,
+      "target_coverage": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "stdev": 0.0
+      },
+      "targets": [
+        50,
+        100
+      ],
+      "variant": "unconstrained_local_llm",
+      "variant_label": "Unconstrained LLM"
+    },
+    {
+      "accept_rate": {
+        "max": 1.0,
+        "mean": 0.9867947178871548,
+        "min": 0.9603841536614646,
+        "stdev": 0.022872219547728282
+      },
+      "accepted": {
+        "max": 800.0,
+        "mean": 533.3333333333334,
+        "min": 400.0,
+        "stdev": 230.9401076758503
+      },
+      "categories_at_target": {
+        "max": 8.0,
+        "mean": 8.0,
+        "min": 8.0,
+        "stdev": 0.0
+      },
+      "category_target_share": {
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "stdev": 0.0
+      },
+      "compared_suite_count": 3,
+      "gate_rates": {
+        "execution_success": {
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "stdev": 0.0
+        },
+        "judge_pass": {
+          "max": 1.0,
+          "mean": 0.9867947178871548,
+          "min": 0.9603841536614646,
+          "stdev": 0.022872219547728282
+        },
+        "read_only": {
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "stdev": 0.0
+        },
+        "schema_valid": {
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "stdev": 0.0
+        },
+        "syntax_valid": {
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "stdev": 0.0
+        }
+      },
+      "graph": "finbench",
+      "missing_suite_count": 0,
+      "missing_suite_prefixes": [],
+      "records": {
+        "max": 833.0,
+        "mean": 544.3333333333334,
+        "min": 400.0,
+        "stdev": 249.99266655910796
+      },
+      "records_per_target": {
+        "max": 1.04125,
+        "mean": 1.01375,
+        "min": 1.0,
+        "stdev": 0.023815698604072066
+      },
+      "run_prefixes": [
+        "20260601_ablation50_qwen9b",
+        "20260602_ablation100_qwen9b_catfix",
+        "20260602_ablation50_qwen9b_seed17_catfix"
+      ],
+      "suite_count": 3,
+      "target_coverage": {
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "stdev": 0.0
+      },
+      "targets": [
+        50,
+        100
+      ],
+      "variant": "validators_repair",
+      "variant_label": "Validators+repair"
+    },
+    {
+      "accept_rate": {
+        "max": 0.9950248756218906,
+        "mean": 0.9821433751259883,
+        "min": 0.966183574879227,
+        "stdev": 0.01466499587962081
+      },
+      "accepted": {
+        "max": 800.0,
+        "mean": 533.3333333333334,
+        "min": 400.0,
+        "stdev": 230.9401076758503
+      },
+      "categories_at_target": {
+        "max": 8.0,
+        "mean": 8.0,
+        "min": 8.0,
+        "stdev": 0.0
+      },
+      "category_target_share": {
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "stdev": 0.0
+      },
+      "compared_suite_count": 3,
+      "gate_rates": {
+        "execution_success": {
+          "max": 0.9975845410628019,
+          "mean": 0.9958944361034362,
+          "min": 0.9950248756218906,
+          "stdev": 0.0014638789985548803
+        },
+        "judge_pass": {
+          "max": 0.9950248756218906,
+          "mean": 0.9821433751259883,
+          "min": 0.966183574879227,
+          "stdev": 0.01466499587962081
+        },
+        "read_only": {
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "stdev": 0.0
+        },
+        "schema_valid": {
+          "max": 0.9975845410628019,
+          "mean": 0.9958944361034362,
+          "min": 0.9950248756218906,
+          "stdev": 0.0014638789985548803
+        },
+        "syntax_valid": {
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "stdev": 0.0
+        }
+      },
+      "graph": "snb",
+      "missing_suite_count": 0,
+      "missing_suite_prefixes": [],
+      "records": {
+        "max": 828.0,
+        "mean": 545.3333333333334,
+        "min": 402.0,
+        "stdev": 244.8046840510478
+      },
+      "records_per_target": {
+        "max": 1.035,
+        "mean": 1.0183333333333333,
+        "min": 1.005,
+        "stdev": 0.01527525231651948
+      },
+      "run_prefixes": [
+        "20260601_ablation50_qwen9b",
+        "20260602_ablation100_qwen9b_catfix",
+        "20260602_ablation50_qwen9b_seed17_catfix"
+      ],
+      "suite_count": 3,
+      "target_coverage": {
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "stdev": 0.0
+      },
+      "targets": [
+        50,
+        100
+      ],
+      "variant": "ablation_judge_false",
+      "variant_label": "No LLM judge"
+    },
+    {
+      "accept_rate": {
+        "max": 0.9950248756218906,
+        "mean": 0.9929749685851746,
+        "min": 0.9888751545117429,
+        "stdev": 0.003550543138384879
+      },
+      "accepted": {
+        "max": 800.0,
+        "mean": 533.3333333333334,
+        "min": 400.0,
+        "stdev": 230.9401076758503
+      },
+      "categories_at_target": {
+        "max": 8.0,
+        "mean": 8.0,
+        "min": 8.0,
+        "stdev": 0.0
+      },
+      "category_target_share": {
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "stdev": 0.0
+      },
+      "compared_suite_count": 3,
+      "gate_rates": {
+        "execution_success": {
+          "max": 0.9975278121137207,
+          "mean": 0.9958591877858339,
+          "min": 0.9950248756218906,
+          "stdev": 0.0014450710573226386
+        },
+        "judge_pass": {
+          "max": 0.9950248756218906,
+          "mean": 0.9929749685851746,
+          "min": 0.9888751545117429,
+          "stdev": 0.003550543138384879
+        },
+        "read_only": {
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "stdev": 0.0
+        },
+        "schema_valid": {
+          "max": 0.9975278121137207,
+          "mean": 0.9958591877858339,
+          "min": 0.9950248756218906,
+          "stdev": 0.0014450710573226386
+        },
+        "syntax_valid": {
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "stdev": 0.0
+        }
+      },
+      "graph": "snb",
+      "missing_suite_count": 0,
+      "missing_suite_prefixes": [],
+      "records": {
+        "max": 809.0,
+        "mean": 537.6666666666666,
+        "min": 402.0,
+        "stdev": 234.9815595601777
+      },
+      "records_per_target": {
+        "max": 1.01125,
+        "mean": 1.0070833333333333,
+        "min": 1.005,
+        "stdev": 0.0036084391824352125
+      },
+      "run_prefixes": [
+        "20260601_ablation50_qwen9b",
+        "20260602_ablation100_qwen9b_catfix",
+        "20260602_ablation50_qwen9b_seed17_catfix"
+      ],
+      "suite_count": 3,
+      "target_coverage": {
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "stdev": 0.0
+      },
+      "targets": [
+        50,
+        100
+      ],
+      "variant": "ablation_retrieval_topk_0",
+      "variant_label": "No retrieval"
+    },
+    {
+      "accept_rate": {
+        "max": 0.9950248756218906,
+        "mean": 0.9830941217175514,
+        "min": 0.9592326139088729,
+        "stdev": 0.02066467193491627
+      },
+      "accepted": {
+        "max": 800.0,
+        "mean": 533.3333333333334,
+        "min": 400.0,
+        "stdev": 230.9401076758503
+      },
+      "categories_at_target": {
+        "max": 8.0,
+        "mean": 8.0,
+        "min": 8.0,
+        "stdev": 0.0
+      },
+      "category_target_share": {
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "stdev": 0.0
+      },
+      "compared_suite_count": 3,
+      "gate_rates": {
+        "execution_success": {
+          "max": 0.9976019184652278,
+          "mean": 0.9958838899030029,
+          "min": 0.9950248756218906,
+          "stdev": 0.0014878563793139672
+        },
+        "judge_pass": {
+          "max": 0.9950248756218906,
+          "mean": 0.9830941217175514,
+          "min": 0.9592326139088729,
+          "stdev": 0.02066467193491627
+        },
+        "read_only": {
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "stdev": 0.0
+        },
+        "schema_valid": {
+          "max": 0.9976019184652278,
+          "mean": 0.9958838899030029,
+          "min": 0.9950248756218906,
+          "stdev": 0.0014878563793139672
+        },
+        "syntax_valid": {
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "stdev": 0.0
+        }
+      },
+      "graph": "snb",
+      "missing_suite_count": 0,
+      "missing_suite_prefixes": [],
+      "records": {
+        "max": 834.0,
+        "mean": 546.0,
+        "min": 402.0,
+        "stdev": 249.41531628991834
+      },
+      "records_per_target": {
+        "max": 1.0425,
+        "mean": 1.0174999999999998,
+        "min": 1.005,
+        "stdev": 0.02165063509461102
+      },
+      "run_prefixes": [
+        "20260601_ablation50_qwen9b",
+        "20260602_ablation100_qwen9b_catfix",
+        "20260602_ablation50_qwen9b_seed17_catfix"
+      ],
+      "suite_count": 3,
+      "target_coverage": {
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "stdev": 0.0
+      },
+      "targets": [
+        50,
+        100
+      ],
+      "variant": "ablation_rewrite_false",
+      "variant_label": "No rewrite"
+    },
+    {
+      "accept_rate": {
+        "max": 0.9950248756218906,
+        "mean": 0.9869745125505162,
+        "min": 0.970873786407767,
+        "stdev": 0.013943637858996908
+      },
+      "accepted": {
+        "max": 800.0,
+        "mean": 533.3333333333334,
+        "min": 400.0,
+        "stdev": 230.9401076758503
+      },
+      "categories_at_target": {
+        "max": 8.0,
+        "mean": 8.0,
+        "min": 8.0,
+        "stdev": 0.0
+      },
+      "category_target_share": {
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "stdev": 0.0
+      },
+      "compared_suite_count": 3,
+      "gate_rates": {
+        "execution_success": {
+          "max": 0.9975728155339806,
+          "mean": 0.9958741889259205,
+          "min": 0.9950248756218906,
+          "stdev": 0.0014710537941241607
+        },
+        "judge_pass": {
+          "max": 0.9950248756218906,
+          "mean": 0.9869745125505162,
+          "min": 0.970873786407767,
+          "stdev": 0.013943637858996908
+        },
+        "read_only": {
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "stdev": 0.0
+        },
+        "schema_valid": {
+          "max": 0.9975728155339806,
+          "mean": 0.9958741889259205,
+          "min": 0.9950248756218906,
+          "stdev": 0.0014710537941241607
+        },
+        "syntax_valid": {
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "stdev": 0.0
+        }
+      },
+      "graph": "snb",
+      "missing_suite_count": 0,
+      "missing_suite_prefixes": [],
+      "records": {
+        "max": 824.0,
+        "mean": 542.6666666666666,
+        "min": 402.0,
+        "stdev": 243.64181359802208
+      },
+      "records_per_target": {
+        "max": 1.03,
+        "mean": 1.0133333333333334,
+        "min": 1.005,
+        "stdev": 0.014433756729740722
+      },
+      "run_prefixes": [
+        "20260601_ablation50_qwen9b",
+        "20260602_ablation100_qwen9b_catfix",
+        "20260602_ablation50_qwen9b_seed17_catfix"
+      ],
+      "suite_count": 3,
+      "target_coverage": {
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "stdev": 0.0
+      },
+      "targets": [
+        50,
+        100
+      ],
+      "variant": "full_pipe_cypher",
+      "variant_label": "Full PIPE-Cypher"
+    },
+    {
+      "accept_rate": {
+        "max": 0.9950248756218906,
+        "mean": 0.9885531691137807,
+        "min": 0.975609756097561,
+        "stdev": 0.011209324483720463
+      },
+      "accepted": {
+        "max": 800.0,
+        "mean": 533.3333333333334,
+        "min": 400.0,
+        "stdev": 230.9401076758503
+      },
+      "categories_at_target": {
+        "max": 8.0,
+        "mean": 8.0,
+        "min": 8.0,
+        "stdev": 0.0
+      },
+      "category_target_share": {
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "stdev": 0.0
+      },
+      "compared_suite_count": 3,
+      "gate_rates": {
+        "execution_success": {
+          "max": 0.9975609756097561,
+          "mean": 0.9958702422845125,
+          "min": 0.9950248756218906,
+          "stdev": 0.0014642180106859677
+        },
+        "judge_pass": {
+          "max": 0.9950248756218906,
+          "mean": 0.9885531691137807,
+          "min": 0.975609756097561,
+          "stdev": 0.011209324483720463
+        },
+        "read_only": {
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "stdev": 0.0
+        },
+        "schema_valid": {
+          "max": 0.9975609756097561,
+          "mean": 0.9958702422845125,
+          "min": 0.9950248756218906,
+          "stdev": 0.0014642180106859677
+        },
+        "syntax_valid": {
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "stdev": 0.0
+        }
+      },
+      "graph": "snb",
+      "missing_suite_count": 0,
+      "missing_suite_prefixes": [],
+      "records": {
+        "max": 820.0,
+        "mean": 541.3333333333334,
+        "min": 402.0,
+        "stdev": 241.33241252126356
+      },
+      "records_per_target": {
+        "max": 1.025,
+        "mean": 1.0116666666666665,
+        "min": 1.005,
+        "stdev": 0.011547005383792525
+      },
+      "run_prefixes": [
+        "20260601_ablation50_qwen9b",
+        "20260602_ablation100_qwen9b_catfix",
+        "20260602_ablation50_qwen9b_seed17_catfix"
+      ],
+      "suite_count": 3,
+      "target_coverage": {
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "stdev": 0.0
+      },
+      "targets": [
+        50,
+        100
+      ],
+      "variant": "reverse_only",
+      "variant_label": "Reverse-only"
+    },
+    {
+      "accept_rate": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "stdev": 0.0
+      },
+      "accepted": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "stdev": 0.0
+      },
+      "categories_at_target": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "stdev": 0.0
+      },
+      "category_target_share": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "stdev": 0.0
+      },
+      "compared_suite_count": 3,
+      "gate_rates": {
+        "execution_success": {
+          "max": 0.0,
+          "mean": 0.0,
+          "min": 0.0,
+          "stdev": 0.0
+        },
+        "judge_pass": {
+          "max": 0.0,
+          "mean": 0.0,
+          "min": 0.0,
+          "stdev": 0.0
+        },
+        "read_only": {
+          "max": 0.0,
+          "mean": 0.0,
+          "min": 0.0,
+          "stdev": 0.0
+        },
+        "schema_valid": {
+          "max": 0.0,
+          "mean": 0.0,
+          "min": 0.0,
+          "stdev": 0.0
+        },
+        "syntax_valid": {
+          "max": 0.0,
+          "mean": 0.0,
+          "min": 0.0,
+          "stdev": 0.0
+        }
+      },
+      "graph": "snb",
+      "missing_suite_count": 0,
+      "missing_suite_prefixes": [],
+      "records": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "stdev": 0.0
+      },
+      "records_per_target": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "stdev": 0.0
+      },
+      "run_prefixes": [
+        "20260601_ablation50_qwen9b",
+        "20260602_ablation100_qwen9b_catfix",
+        "20260602_ablation50_qwen9b_seed17_catfix"
+      ],
+      "suite_count": 3,
+      "target_coverage": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "stdev": 0.0
+      },
+      "targets": [
+        50,
+        100
+      ],
+      "variant": "unconstrained_local_llm",
+      "variant_label": "Unconstrained LLM"
+    },
+    {
+      "accept_rate": {
+        "max": 0.9950248756218906,
+        "mean": 0.9869745125505162,
+        "min": 0.970873786407767,
+        "stdev": 0.013943637858996908
+      },
+      "accepted": {
+        "max": 800.0,
+        "mean": 533.3333333333334,
+        "min": 400.0,
+        "stdev": 230.9401076758503
+      },
+      "categories_at_target": {
+        "max": 8.0,
+        "mean": 8.0,
+        "min": 8.0,
+        "stdev": 0.0
+      },
+      "category_target_share": {
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "stdev": 0.0
+      },
+      "compared_suite_count": 3,
+      "gate_rates": {
+        "execution_success": {
+          "max": 0.9975728155339806,
+          "mean": 0.9958741889259205,
+          "min": 0.9950248756218906,
+          "stdev": 0.0014710537941241607
+        },
+        "judge_pass": {
+          "max": 0.9950248756218906,
+          "mean": 0.9869745125505162,
+          "min": 0.970873786407767,
+          "stdev": 0.013943637858996908
+        },
+        "read_only": {
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "stdev": 0.0
+        },
+        "schema_valid": {
+          "max": 0.9975728155339806,
+          "mean": 0.9958741889259205,
+          "min": 0.9950248756218906,
+          "stdev": 0.0014710537941241607
+        },
+        "syntax_valid": {
+          "max": 1.0,
+          "mean": 1.0,
+          "min": 1.0,
+          "stdev": 0.0
+        }
+      },
+      "graph": "snb",
+      "missing_suite_count": 0,
+      "missing_suite_prefixes": [],
+      "records": {
+        "max": 824.0,
+        "mean": 542.6666666666666,
+        "min": 402.0,
+        "stdev": 243.64181359802208
+      },
+      "records_per_target": {
+        "max": 1.03,
+        "mean": 1.0133333333333334,
+        "min": 1.005,
+        "stdev": 0.014433756729740722
+      },
+      "run_prefixes": [
+        "20260601_ablation50_qwen9b",
+        "20260602_ablation100_qwen9b_catfix",
+        "20260602_ablation50_qwen9b_seed17_catfix"
+      ],
+      "suite_count": 3,
+      "target_coverage": {
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "stdev": 0.0
+      },
+      "targets": [
+        50,
+        100
+      ],
+      "variant": "validators_repair",
+      "variant_label": "Validators+repair"
+    }
+  ],
+  "complete_suite_count": 3,
+  "evidence_ready_suite_count": 3,
+  "reporting_note": "Use this comparison only after each contributing suite has its own collection manifest and paper-readiness audit. Target-normalized coverage is the primary scale-comparison metric; raw accepted counts are expected to grow when target_per_category grows. Partial or target-25 suites are diagnostic inputs, not paper evidence.",
+  "suite_count": 3,
+  "suites": [
+    {
+      "all_runs_finished": true,
+      "audit_path": "experiments/snapshots/20260601_ablation50_qwen9b/ablation_suite_audit.json",
+      "category_count": 8,
+      "code_revision": "b5d4898e4a5f5043c33114a7746e319590f38de1",
+      "collection_manifest_path": "experiments/snapshots/20260601_ablation50_qwen9b/collection_manifest.json",
+      "collection_manifest_present": true,
+      "evidence_ready": true,
+      "generation_model": "Qwen/Qwen3.5-9B",
+      "judge_model": "Qwen/Qwen3.5-9B",
+      "paper_ready_audit": true,
+      "path": "experiments/snapshots/20260601_ablation50_qwen9b/ablation_suite_summary.json",
+      "research_status": "candidate paper evidence after claim/evidence audit",
+      "run_prefix": "20260601_ablation50_qwen9b",
+      "run_seed": "",
+      "target_per_category": 50,
+      "target_records": 400
+    },
+    {
+      "all_runs_finished": true,
+      "audit_path": "experiments/snapshots/20260602_ablation100_qwen9b_catfix/ablation_suite_audit.json",
+      "category_count": 8,
+      "code_revision": "4df5175396352e7ad695f6ad1c8ce14c493d6955",
+      "collection_manifest_path": "experiments/snapshots/20260602_ablation100_qwen9b_catfix/collection_manifest.json",
+      "collection_manifest_present": true,
+      "evidence_ready": true,
+      "generation_model": "Qwen/Qwen3.5-9B",
+      "judge_model": "Qwen/Qwen3.5-9B",
+      "paper_ready_audit": true,
+      "path": "experiments/snapshots/20260602_ablation100_qwen9b_catfix/ablation_suite_summary.json",
+      "research_status": "candidate paper evidence after claim/evidence audit",
+      "run_prefix": "20260602_ablation100_qwen9b_catfix",
+      "run_seed": "",
+      "target_per_category": 100,
+      "target_records": 800
+    },
+    {
+      "all_runs_finished": true,
+      "audit_path": "experiments/snapshots/20260602_ablation50_qwen9b_seed17_catfix/ablation_suite_audit.json",
+      "category_count": 8,
+      "code_revision": "4df5175396352e7ad695f6ad1c8ce14c493d6955",
+      "collection_manifest_path": "experiments/snapshots/20260602_ablation50_qwen9b_seed17_catfix/collection_manifest.json",
+      "collection_manifest_present": true,
+      "evidence_ready": true,
+      "generation_model": "Qwen/Qwen3.5-9B",
+      "judge_model": "Qwen/Qwen3.5-9B",
+      "paper_ready_audit": true,
+      "path": "experiments/snapshots/20260602_ablation50_qwen9b_seed17_catfix/ablation_suite_summary.json",
+      "research_status": "candidate paper evidence after claim/evidence audit",
+      "run_prefix": "20260602_ablation50_qwen9b_seed17_catfix",
+      "run_seed": "17",
+      "target_per_category": 50,
+      "target_records": 400
+    }
+  ]
+}

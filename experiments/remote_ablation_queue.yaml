@@ -97,8 +97,13 @@ suites:
     judge_model: Qwen/Qwen3.5-9B
     endpoint: http://localhost:8000/v1
     code_revision: 4df5175396352e7ad695f6ad1c8ce14c493d6955
-    status: running
-    notes: Corrected target-100 suite launched on June 2, 2026 after refreshing FinBench categorical values, removing high-cardinality Company.business as a closed categorical constraint, and adding a narrow LLM-judge guard for result-row categorical false rejections.
+    status: complete_collected_paper_ready
+    notes: >-
+      Corrected target-100 suite completed on June 2, 2026 and was collected
+      locally under experiments/snapshots/20260602_ablation100_qwen9b_catfix.
+      Paper-readiness audit passed: 14/14 cells complete, 9,600 accepted
+      examples from 9,868 records, and all non-empty cells reached all 8
+      category targets.
   - name: target50_qwen9b_seed17_catfix
     run_prefix: 20260602_ablation50_qwen9b_seed17_catfix
     target_per_category: 50
@@ -111,5 +116,11 @@ suites:
     run_seed: 17
     endpoint: http://localhost:8001/v1
     code_revision: 4df5175396352e7ad695f6ad1c8ce14c493d6955
-    status: running
-    notes: Corrected repeated-seed target-50 suite launched in parallel with target-100 on a separate Qwen3.5-9B endpoint. ICIJ target-100 onboarding is queued behind this session so GPU 3 is reused after the repeat completes.
+    status: complete_collected_paper_ready
+    notes: >-
+      Corrected repeated-seed target-50 suite completed on June 2, 2026 and was
+      collected locally under
+      experiments/snapshots/20260602_ablation50_qwen9b_seed17_catfix.
+      Paper-readiness audit passed: 14/14 cells complete, 4,800 accepted
+      examples from 4,821 records, and all non-empty cells reached all 8
+      category targets.
