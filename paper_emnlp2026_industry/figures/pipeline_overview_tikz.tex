@@ -78,7 +78,6 @@
   },
   arrow/.style={->, line width=0.75pt, draw=pipeInk},
   softarrow/.style={->, line width=0.55pt, draw=pipeSlate},
-  rejectline/.style={line width=0.6pt, draw=pipeRed, dashed},
   rejectarrow/.style={->, line width=0.6pt, draw=pipeRed, dashed},
   refresharrow/.style={->, line width=0.65pt, draw=pipeTeal, dashed}
 ]
@@ -109,21 +108,23 @@
 % Detailed stage contents.
 \node[detail, below=0.18cm of schema] (schemaDetails) {
   \textbf{Artifacts}\\
-  labels, relationship types\\
-  properties and directions\\
+  labels / rel types\\
+  properties\\
+  directions\\
   categorical values\\
   schema fingerprint
 };
 \node[detail, below=0.18cm of plan] (planDetails) {
   \textbf{Controls}\\
-  graph/category targets\\
+  graph targets\\
+  category targets\\
   difficulty buckets\\
   diversity caps\\
   attempt budget
 };
 \node[detail, below=0.18cm of ground] (groundDetails) {
   \textbf{Grounding}\\
-  reverse Cypher bindings\\
+  reverse bindings\\
   entity/value slots\\
   exact literal policy\\
   placeholder examples
@@ -131,30 +132,31 @@
 \node[detail, below=0.18cm of generate] (genDetails) {
   \textbf{Local model}\\
   Qwen3.5-9B endpoint\\
-  schema-only prompt rules\\
+  schema-only prompts\\
   BalkanID constraints\\
-  no paid generation APIs
+  local generation only
 };
 \node[detail, below=0.18cm of govern] (govDetails) {
   \textbf{Deterministic gates}\\
   read-only safety\\
   parser/AST features\\
-  labels, rels, properties\\
-  direction and value checks
+  schema vocabulary\\
+  direction/value checks
 };
 \node[detail, below=0.18cm of execute] (execDetails) {
   \textbf{Live Cypher run}\\
-  syntax and runtime checks\\
-  result sample capture\\
+  syntax/runtime checks\\
+  result samples\\
   non-empty gate\\
   empty-result diagnosis
 };
 \node[detail, below=0.18cm of judge] (judgeDetails) {
   \textbf{Quality review}\\
-  schema slice + result sample\\
+  schema slice + sample\\
   local LLM-judge JSON\\
-  ambiguity and alignment\\
-  calibrated human audit
+  ambiguity/alignment\\
+  human-audit\\
+  calibration
 };
 
 % Inputs and policies.
@@ -200,6 +202,7 @@
   result samples\\
   difficulty features\\
   benchmark card\\
+  refresh manifest\\
   redacted review export
 };
 \draw[arrow] (judge) -- (export);
@@ -207,49 +210,24 @@
 % Rejection and audit ledger.
 \node[loopbox, below=2.05cm of govern] (ledger) {
   \textbf{Rejected-candidate ledger}\\
-  validation issues, judge failures, duplicate/diversity blocks, repair decisions, empty-result classes, prompt profile, run ID, model ID
+  validation issues\\
+  judge failures\\
+  duplicate/diversity blocks\\
+  repair decisions\\
+  empty-result classes\\
+  prompt profile / run ID
 };
 \node[loopbox, below=2.05cm of plan] (topup) {
   \textbf{Top-up and refresh controller}\\
-  rebalances missing graph/category/difficulty cells; estimates capacity; starts scaled or repeated-seed runs from logged gaps
+  rebalances missing cells\\
+  graph/category/difficulty\\
+  estimates capacity\\
+  starts scaled runs\\
+  from logged gaps
 };
-\coordinate (rejectBusY) at ($(ledger.north)+(0,0.08)$);
-\coordinate (rejectBusGov) at (govDetails.south |- rejectBusY);
-\coordinate (rejectBusExec) at (execDetails.south |- rejectBusY);
-\coordinate (rejectBusJudge) at (judgeDetails.south |- rejectBusY);
-\draw[rejectline] (govDetails.south) -- (rejectBusGov);
-\draw[rejectline] (execDetails.south) -- (rejectBusExec);
-\draw[rejectline] (judgeDetails.south) -- (rejectBusJudge);
-\draw[rejectline] (rejectBusGov) -- (rejectBusJudge);
-\draw[rejectarrow] (rejectBusExec) to[out=-95,in=35] (ledger.north east);
+\draw[rejectarrow] (execDetails.south) to[out=-90,in=70] (ledger.north east);
 \draw[softarrow] (ledger.west) -- (topup.east);
 \draw[softarrow] (topup.north) -- (plan.south);
-
-% Accepted feedback and refresh loop.
-\draw[refresharrow]
-  (export.north) -- ++(0,3.05)
-  node[
-    pos=0.38,
-    above right,
-    fill=white,
-    inner sep=1pt,
-    font=\sffamily\tiny,
-    text=pipeTeal
-  ]
-  {schema/value refresh loop}
-  -| (inputs.north east);
-\draw[refresharrow]
-  (export.north west) -- ++(0,2.72)
-  node[
-    pos=0.35,
-    above left,
-    fill=white,
-    inner sep=1pt,
-    font=\sffamily\tiny,
-    text=pipeTeal
-  ]
-  {accepted examples refresh retrieval}
-  -| (retrieval.north east);
 
 % Group labels.
 \begin{scope}[on background layer]
@@ -262,22 +240,6 @@
     inner xsep=6pt,
     inner ysep=7pt
   ] (mainfit) {};
-  \node[
-    rounded corners=3pt,
-    draw=pipeLine,
-    fill=white,
-    fit=(inputs) (policy) (retrieval) (rewrite),
-    inner xsep=6pt,
-    inner ysep=7pt
-  ] (supportfit) {};
-  \node[
-    rounded corners=3pt,
-    draw=pipeLine,
-    fill=white,
-    fit=(topup) (ledger),
-    inner xsep=6pt,
-    inner ysep=7pt
-  ] (feedbackfit) {};
 \end{scope}
 
 \end{tikzpicture}
