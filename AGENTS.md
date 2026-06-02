@@ -73,6 +73,22 @@ High-value adaptations for PIPE-Cypher:
 
 Do not make Hugging Face Hub upload, paid APIs, document summarization, or text citation scoring core PIPE-Cypher defaults. Enterprise deployments should default to local models, local artifacts, read-only graph credentials, and redacted exports.
 
+## Mind The Query Transfer Mandate
+
+Treat Mind the Query (Chauhan et al., EMNLP Industry 2025) as the closest venue-aligned Text2Cypher dataset/pipeline reference. Use it as a reviewer-facing checklist, not as a design to copy. Keep the analysis note in `knowledge_base/mind_the_query_analysis.md` current when borrowing ideas.
+
+High-value ideas to adapt:
+
+- report graph statistics and category distributions with enough detail for grounded execution;
+- keep a category crosswalk against SR/CR/SA/CA/EQ while emphasizing PIPE-Cypher's additional enterprise categories: boolean existence, negation/difference, path/temporal transaction, and ranking/top-k;
+- report a validator cascade analogous to schema/runtime/value validation, expanded with read-only safety, direction validation, categorical values, execution, non-empty checks, repair/rewrite, and LLM-judge review;
+- run a prompt-factorial ablation inspired by their zero-shot/few-shot/instruction/few-shot-plus-instruction study, using `schema_only`, `instructions_only`, `examples_only`, `examples_plus_instructions`, and `full_pipe_cypher_governed`;
+- report downstream zero-shot vs retrieval few-shot evaluation on the same held-out split when a complete, audited run is available;
+- include an effort/automation comparison that makes PIPE-Cypher's local-model automation and calibration-only human audit concrete;
+- include failure examples and empty-result diagnostics that explain structure hallucination, unsupported Cypher functions, over-restrictive predicates, literal misses, and empty-but-logically-plausible queries.
+
+Do not copy Mind the Query's Gemini/manual-review setup. PIPE-Cypher must remain local-model, privacy-aware, AST/governance-oriented, and automated-judge-first. Do not commit full PDF text or page screenshots; commit only sanitized analysis, tables, and comparisons.
+
 ## BalkanID Design Mining Mandate
 
 Treat `/Users/suraj/Documents/Archive/BalkanID/Dev/copilot-api` as a primary design source. Re-inspect it before major Cypher changes and record transferable ideas in `knowledge_base/balkanid_cypher_design_notes.md`.

@@ -34,6 +34,13 @@ For generated benchmark quality, PIPE-Cypher combines text-generation diversity 
 \section{Method}
 PIPE-Cypher has six stages: schema profiling, template generation, reverse Cypher grounding, constrained Cypher generation and repair, deterministic validation and execution, and LLM-judge review. Deterministic checks enforce read-only safety, syntax shape, schema-visible labels and properties, explicit relationship types, observed relationship directions, schema-provided categorical values, and non-empty execution where required. A lightweight Cypher analyzer extracts return aliases, variables, labels, relationship observations, risky constructs, and rewrite skip reasons so normalization is auditable rather than a silent string edit. The direction gate interprets both outgoing and incoming Cypher arrow syntax before schema checking, and rejects undirected relationship patterns so directionality is an executable constraint rather than only a prompt instruction.
 
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/pipeline_overview.pdf}
+\caption{PIPE-Cypher benchmark generation pipeline. The key industry additions beyond static Text2Cypher dataset construction are privacy/value policies, reverse grounding, Cypher governance, execution diagnostics, local judge calibration, and benchmark export/refresh.}
+\label{fig:pipeline_overview}
+\end{figure}
+
 \input{tables_method}
 
 \section{Implementation}
@@ -44,6 +51,8 @@ All reported generation, judging, and downstream evaluation runs use a local Qwe
 The built-in FinBench profile is grounded in the public datagen snapshot export and includes typed node and relationship properties. Live schema inspection also records low-cardinality string values as categorical constraints for prompting and validation. The generated Neo4j import script uses uniqueness constraints for nodes and creates, rather than merges, transaction relationships so repeated account-to-account events are preserved. The SNB reference profile is grounded in the official Neo4j/Cypher headers and read-query files.
 
 For generation, PIPE-Cypher uses seeded workload templates with deterministic reverse-binding queries and a mixed mode that prepends proven workload seeds to LLM-proposed templates. Every run records accepted and rejected candidates for yield analysis. Retrieved few-shot examples replace graph-specific values with typed placeholders, preserving query structure while reducing tenant-value leakage and memorized entity reuse. A dependency-light value grounder adds typed prompt annotations for categorical values and reverse-bound entities, covering punctuation variants, possessives, plurals, synonyms, name partials, and small typos.
+
+Inspired by Mind the Query's prompt-setting analysis, the implementation exposes prompt profiles for schema-only, instructions-only, examples-only, examples-plus-instructions, and full governed PIPE-Cypher generation. These profiles are configured as ablation variants and must pass the same target-size and paper-readiness standards before any result is reported.
 
 For LLM-judge review, the implementation slices schema context to the labels, relationship types, and properties used by the candidate query. This preserves validation against the full schema while keeping local 9B prompts within context limits on larger schemas.
 
@@ -56,7 +65,7 @@ For arbitrary enterprise onboarding, PIPE-Cypher includes a deployment template 
 \input{tables_seed_capacity}
 
 \section{Experiments}
-The generated benchmark contains 3,000 accepted examples: 2,000 from LDBC FinBench and 1,000 from LDBC SNB. Categories include simple retrieval, complex retrieval, simple aggregation, complex aggregation, boolean existence, negation/difference, path/temporal transaction, and ranking/top-k.
+The generated benchmark contains 3,000 accepted examples: 2,000 from LDBC FinBench and 1,000 from LDBC SNB. Categories include simple retrieval, complex retrieval, simple aggregation, complex aggregation, boolean existence, negation/difference, path/temporal transaction, and ranking/top-k. Appendix Table~\ref{tab:graph_statistics} reports graph statistics and the current ICIJ onboarding status.
 
 Downstream Text2Cypher evaluation uses execution accuracy and answer-set precision/recall/F1 as primary correctness metrics. The benchmark evaluator also supports supplementary reference-based text metrics over serialized answer sets and query strings, including ROUGE, BLEU, METEOR, BERTScore, FrugalScore, cosine similarity, Jaro-Winkler similarity, and exact match; Appendix Table~\ref{tab:supported_text_metrics} lists the supported metrics and citations. We treat these as debugging and near-match diagnostics rather than substitutes for executable correctness.
 
@@ -102,8 +111,13 @@ PIPE-Cypher is designed for private benchmark generation under local-model deplo
 
 \section{Additional Results}
 
+\input{tables_graph_statistics}
 \input{tables_diversity}
 \input{tables_failure_taxonomy}
+\input{tables_category_crosswalk}
+\input{tables_validator_cascade}
+\input{tables_prompt_refinement}
+\input{tables_effort_automation}
 \input{tables_ablation_results}
 \input{tables_ablation_quality}
 \input{tables_judge_audit_coverage}

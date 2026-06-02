@@ -31,6 +31,12 @@ ablations:
   graph_mix:
     - finbench_only
     - finbench_plus_snb
+  prompt_profile:
+    - schema_only
+    - instructions_only
+    - examples_only
+    - examples_plus_instructions
+    - full_pipe_cypher_governed
 
 metrics:
   generation_quality:

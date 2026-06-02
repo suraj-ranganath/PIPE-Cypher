@@ -227,6 +227,7 @@ class GenerationRecord:
     retrieved_examples: list[dict[str, Any]] = field(default_factory=list)
     entity_values: list[str] = field(default_factory=list)
     reverse_cypher: str | None = None
+    empty_result_diagnostic: dict[str, Any] | None = None
     repair_attempts: int = 0
     model: str | None = None
     created_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())

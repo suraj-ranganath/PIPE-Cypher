@@ -69,6 +69,8 @@ def apply_variant(base: dict[str, Any], variant: dict[str, Any]) -> dict[str, An
         generation["graph_mix"] = variant["graph_mix"]
     if "target_per_category" in variant:
         generation["target_per_category"] = int(variant["target_per_category"])
+    if "prompt_profile" in variant:
+        generation["prompt_profile"] = str(variant["prompt_profile"])
     return cfg
 
 
@@ -89,6 +91,14 @@ def build_experiment_variants(matrix: dict[str, Any]) -> list[dict[str, Any]]:
         variants.append({"name": f"ablation_model_{safe_model}", "baseline": "full_pipe_cypher", "generation_model": model})
     for value in ablations.get("graph_mix", []):
         variants.append({"name": f"ablation_graph_mix_{value}", "baseline": "full_pipe_cypher", "graph_mix": value})
+    for profile in ablations.get("prompt_profile", []):
+        variants.append(
+            {
+                "name": f"prompt_profile_{profile}",
+                "baseline": "full_pipe_cypher",
+                "prompt_profile": profile,
+            }
+        )
     return variants
 
 

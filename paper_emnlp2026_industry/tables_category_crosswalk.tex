@@ -1,0 +1,22 @@
+\begin{table}[t]
+\centering
+\small
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lll}
+\toprule
+PIPE-Cypher category & Closest MTQ category & Added enterprise distinction \\
+\midrule
+Simple retrieval & SR & Direct node/edge lookup with exact filters. \\
+Complex retrieval & CR & Multi-hop or multi-pattern retrieval. \\
+Simple aggregation & SA & Single aggregation such as count/min/max/average. \\
+Complex aggregation & CA & Grouped or multi-stage aggregation over graph neighborhoods. \\
+Boolean existence & EQ & Precise yes/no or existence answer. \\
+Negation/difference & CR & Absence, anti-join, or difference query. \\
+Path/temporal transaction & CR/CA & Temporal or path-oriented transaction neighborhood. \\
+Ranking/top-k & SA/CA & Ordered top-k query with explicit limit. \\
+\bottomrule
+\end{tabular}
+}
+\caption{Category crosswalk to Mind the Query. PIPE-Cypher keeps the familiar retrieval/aggregation/evaluation-query structure while adding enterprise workloads such as negation, temporal paths, and ranking.}
+\label{tab:category_crosswalk}
+\end{table}

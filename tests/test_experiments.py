@@ -26,6 +26,7 @@ def test_build_experiment_variants_includes_baseline():
             "rewrite": [False],
             "generation_model": ["Qwen/Test"],
             "graph_mix": ["finbench_plus_snb"],
+            "prompt_profile": ["schema_only"],
         },
     }
     names = {variant["name"] for variant in build_experiment_variants(matrix)}
@@ -35,6 +36,7 @@ def test_build_experiment_variants_includes_baseline():
     assert "ablation_rewrite_false" in names
     assert "ablation_model_Qwen_Test" in names
     assert "ablation_graph_mix_finbench_plus_snb" in names
+    assert "prompt_profile_schema_only" in names
 
 
 def test_apply_variant_disables_judge_for_validators_repair():
@@ -70,6 +72,19 @@ def test_apply_variant_can_disable_rewrite_for_ablation():
     updated = apply_variant(cfg, {"baseline": "full_pipe_cypher", "rewrite": False})
     assert updated["generation"]["normalize_cypher"] is False
     assert updated["judge"]["enabled"] is True
+
+
+def test_apply_variant_sets_prompt_profile_for_prompt_factorial_ablation():
+    cfg = {"generation": {"prompt_profile": "full_pipe_cypher_governed"}, "judge": {"enabled": True}}
+    updated = apply_variant(
+        cfg,
+        {
+            "baseline": "full_pipe_cypher",
+            "prompt_profile": "examples_plus_instructions",
+        },
+    )
+
+    assert updated["generation"]["prompt_profile"] == "examples_plus_instructions"
 
 
 def test_graph_mix_variants_are_filtered_by_graph_profile():

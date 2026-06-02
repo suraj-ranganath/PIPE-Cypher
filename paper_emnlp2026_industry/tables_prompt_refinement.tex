@@ -1,0 +1,19 @@
+\begin{table}[t]
+\centering
+\small
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lll}
+\toprule
+Profile & Added constraint & Intended evidence \\
+\midrule
+Schema-only & Use only visible schema. & Baseline for schema-grounded prompting. \\
+Instructions & Exact values, datatype rules, no nested aggregations. & Targets MTQ-style prompt refinements. \\
+Examples & Placeholderized retrieved NL-Cypher pairs. & Tests whether examples help without extra governance. \\
+Examples + instructions & Few-shot plus explicit rules. & Closest controlled analogue to MTQ Table 5. \\
+Full governed & BalkanID-derived hints, AST-safe rewrites, judge gate. & PIPE-Cypher production setting. \\
+\bottomrule
+\end{tabular}
+}
+\caption{Prompt-profile plan inspired by Mind the Query's prompt-variant analysis. Only completed, audited target-50-or-larger results should be promoted into results tables.}
+\label{tab:prompt_refinement_plan}
+\end{table}

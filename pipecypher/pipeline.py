@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import json
 import random
 from collections import Counter
 from dataclasses import dataclass
@@ -11,18 +10,19 @@ from typing import Any
 from .config import RunConfig
 from .cypher_client import Neo4jCypherClient, NullCypherClient
 from .diversity import EntityDiversityTracker, StructuralDiversityTracker
+from .empty_result_diagnostics import diagnose_empty_result
 from .graph_profiles import default_cypher_for_template, default_reverse_cypher_for_template, default_templates
 from .io import append_jsonl
 from .judge import DeterministicJudge, LLMJudge
 from .llm import NullLLM, OpenAICompatibleLLM
 from .models import ExecutionResult, GenerationRecord, JudgeResult, SchemaSummary, TemplateCandidate, ValidationResult
 from .prompts import (
-    CYPHER_GENERATION_PROMPT,
     REPAIR_PROMPT,
     REVERSE_CYPHER_PROMPT,
     SYSTEM_CYPHER_ENGINEER,
     SYSTEM_JSON_ENGINEER,
     TEMPLATE_GENERATION_PROMPT,
+    render_cypher_generation_prompt,
 )
 from .question_constraints import apply_question_constraints
 from .retrieval import ExampleStore
@@ -299,11 +299,12 @@ class PipeCypherPipeline:
             category=category,
         )
         prompt_entity_hints = self._entity_prompt_hints(question, entity_hints)
-        prompt = CYPHER_GENERATION_PROMPT.format(
+        prompt = render_cypher_generation_prompt(
+            profile_name=self.config.generation.prompt_profile,
             schema=self.schema.to_prompt(),
             question=question,
             examples=self.examples.format_examples(retrieved),
-            entity_hints=json.dumps(prompt_entity_hints, ensure_ascii=False),
+            entity_hints=prompt_entity_hints,
         )
         try:
             cypher = self.llm.chat(
@@ -429,6 +430,22 @@ class PipeCypherPipeline:
                     judge_result = candidate_judge
                     repair_attempts = candidate_repairs
                     accepted = True
+        empty_result_diagnostic = None
+        if (
+            self.config.generation.empty_result_diagnostics
+            and not accepted
+            and validation.ok
+            and execution.success
+            and not execution.rows
+        ):
+            diagnostic = diagnose_empty_result(
+                cypher=validation.normalized_cypher,
+                validation=validation,
+                execution=execution,
+                client=self.client,
+            )
+            if diagnostic is not None:
+                empty_result_diagnostic = diagnostic.to_dict()
         entity_values = [value.split(" | ", 1)[0] for value in entity_hints.values()]
         return GenerationRecord(
             question=question,
@@ -442,6 +459,7 @@ class PipeCypherPipeline:
             retrieved_examples=retrieved,
             entity_values=entity_values,
             reverse_cypher=reverse_cypher,
+            empty_result_diagnostic=empty_result_diagnostic,
             repair_attempts=repair_attempts,
             model=getattr(self.llm, "model", self.config.models.generation_model),
         )

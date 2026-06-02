@@ -18,6 +18,14 @@ DEFAULT_VARIANTS = [
     "ablation_judge_false",
     "full_pipe_cypher",
 ]
+PROMPT_FACTORIAL_VARIANTS = [
+    "prompt_profile_schema_only",
+    "prompt_profile_instructions_only",
+    "prompt_profile_examples_only",
+    "prompt_profile_examples_plus_instructions",
+    "prompt_profile_full_pipe_cypher_governed",
+]
+KNOWN_VARIANTS = [*DEFAULT_VARIANTS, *PROMPT_FACTORIAL_VARIANTS]
 DEFAULT_PAPER_TARGET_PER_CATEGORY = 50
 DEFAULT_REQUIRED_METADATA = (
     "run_prefix",
@@ -35,6 +43,11 @@ _VARIANT_LABELS = {
     "ablation_rewrite_false": "No rewrite",
     "ablation_judge_false": "No LLM judge",
     "full_pipe_cypher": "Full PIPE-Cypher",
+    "prompt_profile_schema_only": "Schema only",
+    "prompt_profile_instructions_only": "Instructions only",
+    "prompt_profile_examples_only": "Examples only",
+    "prompt_profile_examples_plus_instructions": "Examples + instructions",
+    "prompt_profile_full_pipe_cypher_governed": "Full governed PIPE-Cypher",
 }
 
 
@@ -414,7 +427,7 @@ def infer_graph(run: str) -> str:
 
 def infer_variant(run: str) -> str:
     lowered = run.lower()
-    for variant in DEFAULT_VARIANTS:
+    for variant in KNOWN_VARIANTS:
         if variant in lowered:
             return variant
     return "unknown"
@@ -426,7 +439,7 @@ def variant_label(variant: str) -> str:
 
 def _suite_sort_key(run: dict[str, Any]) -> tuple[int, int, str]:
     graph_order = {graph: idx for idx, graph in enumerate(DEFAULT_GRAPHS)}
-    variant_order = {variant: idx for idx, variant in enumerate(DEFAULT_VARIANTS)}
+    variant_order = {variant: idx for idx, variant in enumerate(KNOWN_VARIANTS)}
     return (
         graph_order.get(str(run.get("graph")), len(graph_order)),
         variant_order.get(str(run.get("variant")), len(variant_order)),

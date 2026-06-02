@@ -120,6 +120,11 @@ def _summary(records: list[dict[str, Any]], *, top_n: int) -> dict[str, Any]:
     judge_reason_counts = Counter(
         bucket for row in records if (bucket := judge_reason_bucket(row))
     )
+    empty_result_diagnostic_counts = Counter(
+        str((row.get("empty_result_diagnostic") or {}).get("classification") or "")
+        for row in records
+        if row.get("empty_result_diagnostic")
+    )
     return {
         "total": total,
         "accepted": accepted,
@@ -132,6 +137,9 @@ def _summary(records: list[dict[str, Any]], *, top_n: int) -> dict[str, Any]:
         },
         "top_validation_issues": dict(validation_issue_counts.most_common(top_n)),
         "top_judge_reason_buckets": dict(judge_reason_counts.most_common(top_n)),
+        "empty_result_diagnostic_counts": dict(
+            empty_result_diagnostic_counts.most_common(top_n)
+        ),
     }
 
 

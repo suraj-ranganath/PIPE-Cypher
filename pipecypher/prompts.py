@@ -1,5 +1,10 @@
 from __future__ import annotations
 
+import json
+from typing import Any
+
+from .prompt_profiles import get_prompt_profile
+
 
 SYSTEM_CYPHER_ENGINEER = """You are an expert Cypher benchmark engineer. Return only the requested artifact. No markdown, apologies, or explanations."""
 
@@ -86,6 +91,80 @@ Instructions:
 
 Return only Cypher.
 """.strip()
+
+_MINIMAL_CYPHER_GENERATION_PROMPT = """
+Task:
+Generate a read-only Cypher statement for the natural-language question.
+
+Graph schema:
+{schema}
+
+Question:
+{question}
+
+{examples_block}{entity_hint_block}{instructions_block}
+Return only Cypher.
+""".strip()
+
+_STANDARD_CYPHER_INSTRUCTIONS = """
+Instructions:
+- Use only the provided labels, relationship types, properties, categorical values, and relationship directions.
+- Do not invent labels, relationship types, or properties.
+- Return only one Cypher statement.
+- Do not include explanations, apologies, comments, markdown, or new lines.
+- All set-returning RETURN clauses must use RETURN DISTINCT.
+- Include nodes or properties explicitly requested by the question in the RETURN clause.
+- Use exact matching for quoted strings in the question; do not use CONTAINS for quoted values.
+- Prefer explicit relationship directions from the schema.
+- For counts, use COUNT(DISTINCT variable).
+- For top-k or ranking, use ORDER BY plus LIMIT.
+- For yes/no questions, return a boolean expression with a clear alias.
+- Avoid CALL, UNION, and write clauses.
+""".strip()
+
+
+def render_cypher_generation_prompt(
+    *,
+    profile_name: str,
+    schema: str,
+    question: str,
+    examples: str,
+    entity_hints: dict[str, Any],
+) -> str:
+    """Render a generation prompt for a Mind-the-Query-style prompt-profile study."""
+
+    profile = get_prompt_profile(profile_name)
+    if profile.governed:
+        return CYPHER_GENERATION_PROMPT.format(
+            schema=schema,
+            question=question,
+            examples=examples,
+            entity_hints=json.dumps(entity_hints, ensure_ascii=False),
+        )
+
+    examples_block = ""
+    if profile.include_examples:
+        examples_block = f"Retrieved examples:\n{examples}\n\n"
+
+    entity_hint_block = ""
+    if profile.include_entity_hints:
+        entity_hint_block = (
+            "Entity hints:\n"
+            + json.dumps(entity_hints, ensure_ascii=False)
+            + "\n\n"
+        )
+
+    instructions_block = ""
+    if profile.include_instructions:
+        instructions_block = _STANDARD_CYPHER_INSTRUCTIONS + "\n\n"
+
+    return _MINIMAL_CYPHER_GENERATION_PROMPT.format(
+        schema=schema,
+        question=question,
+        examples_block=examples_block,
+        entity_hint_block=entity_hint_block,
+        instructions_block=instructions_block,
+    )
 
 REPAIR_PROMPT = """
 Graph schema:

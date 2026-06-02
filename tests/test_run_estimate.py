@@ -57,3 +57,22 @@ def test_estimate_run_capacity_cli_json_smoke(capsys):
     )
     captured = capsys.readouterr()
     assert '"target_examples"' in captured.out
+
+
+def test_estimate_run_capacity_cli_target_override(capsys):
+    assert (
+        estimate_run_capacity_main(
+            [
+                "--config",
+                "configs/local_smoke.yaml",
+                "--target-per-category",
+                "3",
+                "--format",
+                "json",
+            ]
+        )
+        == 0
+    )
+    captured = capsys.readouterr()
+    assert '"target": 3' in captured.out
+    assert '"target_examples": 12' in captured.out

@@ -238,3 +238,36 @@ def test_pipeline_marks_accepted_no_slot_templates_as_exhausted():
 
     assert not pipeline._can_produce_new_question(no_slot.category, no_slot)
     assert pipeline._can_produce_new_question(slotted.category, slotted)
+
+
+def test_pipeline_attaches_empty_result_diagnostic(tmp_path: Path):
+    class EmptyClient:
+        def run(self, query, params=None, *, read_only=True, limit_rows=None):
+            from pipecypher.models import ExecutionResult
+            from pipecypher.validator import assert_read_only
+
+            if read_only:
+                assert_read_only(query)
+            if "_prefix_count" in query:
+                return ExecutionResult(success=True, rows=[{"_prefix_count": 0}])
+            return ExecutionResult(success=True, rows=[])
+
+    cfg = RunConfig()
+    cfg.generation.categories = ["simple_retrieval"]
+    cfg.generation.target_per_category = 1
+    cfg.generation.template_source = "default"
+    cfg.generation.deterministic_cypher_fallback = False
+    cfg.generation.repair_attempts = 0
+    cfg.generation.empty_result_diagnostics = True
+    pipeline = PipeCypherPipeline(
+        config=cfg,
+        schema=finbench_reference_schema(),
+        client=EmptyClient(),
+        llm=NullLLM(),
+        judge=DeterministicJudge(),
+    )
+
+    result = pipeline.run(tmp_path / "records.jsonl")
+
+    diagnostics = [record.empty_result_diagnostic for record in result.records]
+    assert any(diagnostic and diagnostic["classification"] for diagnostic in diagnostics)

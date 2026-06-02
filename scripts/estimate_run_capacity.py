@@ -19,6 +19,11 @@ def main(argv: list[str] | None = None) -> int:
         description="Estimate candidate attempts, LLM calls, and rough token load for a run config"
     )
     parser.add_argument("--config", required=True)
+    parser.add_argument(
+        "--target-per-category",
+        type=int,
+        help="Optional launch-scale override for generation.target_per_category.",
+    )
     parser.add_argument("--assumed-accept-rate", type=float, default=0.25)
     parser.add_argument(
         "--llm-calls-per-minute",
@@ -29,6 +34,10 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     config = load_config(args.config, strict=True, validate=True)
+    if args.target_per_category is not None:
+        if args.target_per_category <= 0:
+            raise SystemExit("--target-per-category must be > 0")
+        config.generation.target_per_category = args.target_per_category
     estimate = estimate_run_capacity(
         config,
         assumed_accept_rate=args.assumed_accept_rate,

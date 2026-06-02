@@ -9,6 +9,7 @@ from typing import Any
 import yaml
 
 from .models import DEFAULT_CATEGORIES
+from .prompt_profiles import allowed_prompt_profiles
 
 
 @dataclass
@@ -43,6 +44,7 @@ class GenerationConfig:
     random_seed: int | None = None
     template_candidates: int = 4
     template_source: str = "llm"
+    prompt_profile: str = "full_pipe_cypher_governed"
     allow_seed_template_fallback: bool = True
     retrieval_top_k: int = 3
     normalize_cypher: bool = True
@@ -50,6 +52,7 @@ class GenerationConfig:
     deterministic_cypher_fallback: bool = True
     max_entity_pct: float = 0.15
     require_non_empty: bool = True
+    empty_result_diagnostics: bool = True
     generated_query_limit: int = 50
 
 
@@ -192,6 +195,11 @@ def validate_config(config: RunConfig, *, check_paths: bool = False) -> list[str
         errors.append("generation.target_per_category must be > 0")
     if generation.template_candidates <= 0:
         errors.append("generation.template_candidates must be > 0")
+    if generation.prompt_profile not in allowed_prompt_profiles():
+        errors.append(
+            "generation.prompt_profile must be one of: "
+            + ", ".join(sorted(allowed_prompt_profiles()))
+        )
     if generation.retrieval_top_k < 0:
         errors.append("generation.retrieval_top_k must be >= 0")
     if generation.repair_attempts < 0:

@@ -12,10 +12,16 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from pipecypher.paper_tables import (
     render_benchmark_export_table,
+    render_category_crosswalk_table,
     render_downstream_error_table,
     render_downstream_table,
+    render_effort_automation_table,
     render_full_artifact_distribution_table,
+    render_graph_statistics_table,
+    render_prompt_refinement_table,
+    render_validator_cascade_table,
 )
+from pipecypher.schema import load_schema
 
 
 def main() -> None:
@@ -34,6 +40,10 @@ def main() -> None:
         "--downstream-errors",
         default="experiments/snapshots/20260601_live_full_qwen9b/downstream_error_report.json",
     )
+    parser.add_argument(
+        "--failure-taxonomy",
+        default="experiments/snapshots/20260601_live_full_qwen9b/failure_taxonomy.json",
+    )
     parser.add_argument("--paper-dir", default="paper_emnlp2026_industry")
     args = parser.parse_args()
 
@@ -43,6 +53,7 @@ def main() -> None:
     manifest = _read_json(benchmark_dir / "manifest.json")
     evaluation = _read_json(args.evaluation_summary)
     downstream_errors = _read_json(args.downstream_errors)
+    failure_taxonomy = _read_json(args.failure_taxonomy)
 
     outputs = {
         "tables_benchmark_export.tex": render_benchmark_export_table(stats, manifest),
@@ -51,6 +62,11 @@ def main() -> None:
         "tables_downstream_error_taxonomy.tex": render_downstream_error_table(
             downstream_errors
         ),
+        "tables_graph_statistics.tex": render_graph_statistics_table(_graph_statistics_rows()),
+        "tables_category_crosswalk.tex": render_category_crosswalk_table(),
+        "tables_validator_cascade.tex": render_validator_cascade_table(stats, failure_taxonomy),
+        "tables_prompt_refinement.tex": render_prompt_refinement_table(),
+        "tables_effort_automation.tex": render_effort_automation_table(),
     }
     paper_dir.mkdir(parents=True, exist_ok=True)
     for name, text in outputs.items():
@@ -61,6 +77,34 @@ def main() -> None:
 
 def _read_json(path: str | Path):
     return json.loads(Path(path).read_text(encoding="utf-8"))
+
+
+def _graph_statistics_rows() -> list[dict[str, object]]:
+    rows = []
+    for item in [
+        ("FinBench", "configs/schema_finbench.json", 10006, 57622, "reported"),
+        ("SNB", "configs/schema_snb.json", 34735, 70842, "reported"),
+        (
+            "ICIJ Offshore Leaks",
+            "configs/schema_icij_offshoreleaks_live.json",
+            None,
+            None,
+            "onboarding only",
+        ),
+    ]:
+        name, schema_path, nodes, relationships, status = item
+        schema = load_schema(schema_path)
+        rows.append(
+            {
+                "graph": name,
+                "nodes": nodes,
+                "relationships": relationships,
+                "labels": len(schema.labels),
+                "relationship_types": len(schema.relationship_types),
+                "status": status,
+            }
+        )
+    return rows
 
 
 if __name__ == "__main__":

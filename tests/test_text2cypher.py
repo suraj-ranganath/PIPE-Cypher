@@ -37,6 +37,24 @@ def test_build_prompt_includes_schema_and_rules():
     assert "Alice" in prompt
 
 
+def test_build_prompt_includes_few_shot_examples_when_supplied():
+    prompt = build_text2cypher_prompt(
+        question="List blocked accounts.",
+        schema=finbench_reference_schema(),
+        schema_max_items=20,
+        few_shot_examples=[
+            {
+                "question": "Which accounts does person 'Alice' own?",
+                "cypher": "MATCH (p:Person {personName: 'Alice'})-[:OWN_ACCOUNT]->(a:Account) RETURN DISTINCT a.accountId AS AccountId",
+            }
+        ],
+    )
+
+    assert "Examples:" in prompt
+    assert "Which accounts does person" in prompt
+    assert "OWN_ACCOUNT" in prompt
+
+
 def test_choose_few_shots_prefers_same_graph_and_category():
     current = {"id": "c", "graph_profile": "finbench", "category": "ranking_topk"}
     examples = [

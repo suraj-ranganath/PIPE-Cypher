@@ -285,6 +285,65 @@ examples. The LaTeX output is guarded and refuses to render unless at least two
 suites have sibling `ablation_suite_audit.json` and `collection_manifest.json`
 evidence; use `--allow-diagnostic-tex` only for internal layout checks.
 
+## Prompt-Factorial Suite Inspired By Mind The Query
+
+Status: planned, not yet launched. This suite should wait until the active
+schemafix target-100 and seeded target-50 repeat have either completed or been
+retired, because those runs remain higher-priority evidence for the main
+ablation story.
+
+Purpose: mirror the EMNLP Industry 2025 Mind the Query prompt-setting analysis
+without copying its Gemini/manual-review setup. PIPE-Cypher variants are:
+
+- `prompt_profile_schema_only`
+- `prompt_profile_instructions_only`
+- `prompt_profile_examples_only`
+- `prompt_profile_examples_plus_instructions`
+- `prompt_profile_full_pipe_cypher_governed`
+
+Minimum research-quality target: 50 accepted examples per category over both
+FinBench and SNB. Prefer target-100 if GPU capacity allows after the active
+runs complete.
+
+Launch from a schemafix or newer checkout after strict config validation:
+
+```bash
+python scripts/validate_config.py configs/finbench_full.yaml configs/snb_full.yaml
+python scripts/estimate_run_capacity.py --config configs/finbench_full.yaml --target-per-category 50
+python scripts/estimate_run_capacity.py --config configs/snb_full.yaml --target-per-category 50
+
+PROMPT_VARIANTS="prompt_profile_schema_only prompt_profile_instructions_only prompt_profile_examples_only prompt_profile_examples_plus_instructions prompt_profile_full_pipe_cypher_governed"
+CODE_REVISION=$(git rev-parse HEAD) \
+SESSION=pipecypher_prompt_factorial50_qwen9b \
+WAIT_FOR_SESSION=pipecypher_ablation50_qwen9b_seed17_schemafix \
+TARGET_PER_CATEGORY=50 \
+RUN_PREFIX=20260602_prompt_factorial50_qwen9b \
+VARIANT_SET="${PROMPT_VARIANTS}" \
+PYTHON_BIN=/home/suraj/pipecypher-tools/runtime-venv/bin/python \
+GENERATION_MODEL=Qwen/Qwen3.5-9B \
+JUDGE_MODEL=Qwen/Qwen3.5-9B \
+bash scripts/launch_live_ablation_suite_tmux.sh
+```
+
+Direct non-tmux wrapper for local or already-open remote shells:
+
+```bash
+TARGET_PER_CATEGORY=50 \
+RUN_PREFIX=20260602_prompt_factorial50_qwen9b \
+bash scripts/run_live_prompt_factorial_ablation.sh
+```
+
+Collect only after completion and paper-readiness audit:
+
+```bash
+python scripts/collect_remote_ablation_suite.py \
+  --remote-root /home/suraj/PIPE-Cypher-389e7e0-schemafix \
+  --run-prefix 20260602_prompt_factorial50_qwen9b \
+  --target-per-category 50 \
+  --wait-session pipecypher_prompt_factorial50_qwen9b \
+  --poll-seconds 60
+```
+
 ## Monitoring Commands
 
 ```bash

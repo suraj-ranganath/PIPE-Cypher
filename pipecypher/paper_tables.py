@@ -332,6 +332,176 @@ def render_judge_audit_coverage_table(snapshot: dict[str, Any]) -> str:
     )
 
 
+def render_graph_statistics_table(rows: list[dict[str, Any]]) -> str:
+    body = [
+        r"\begin{tabular}{lrrrrl}",
+        r"\toprule",
+        r"Graph & Nodes & Relationships & Labels & Rel. types & Paper status \\",
+        r"\midrule",
+    ]
+    for row in rows:
+        body.append(
+            "{graph} & {nodes} & {relationships} & {labels} & {rel_types} & {status} \\\\".format(
+                graph=_escape_latex(str(row["graph"])),
+                nodes=_fmt_count_or_dash(row["nodes"]),
+                relationships=_fmt_count_or_dash(row["relationships"]),
+                labels=_fmt_int(row["labels"]),
+                rel_types=_fmt_int(row["relationship_types"]),
+                status=_escape_latex(str(row["status"])),
+            )
+        )
+    body.extend([r"\bottomrule", r"\end{tabular}"])
+    return _table(
+        body="\n".join(body),
+        caption=(
+            "Study graph statistics. ICIJ is listed as an onboarding workload only "
+            "until its live generation run passes the same audit standard as FinBench and SNB."
+        ),
+        label="tab:graph_statistics",
+    )
+
+
+def render_category_crosswalk_table() -> str:
+    rows = [
+        ("Simple retrieval", "SR", "Direct node/edge lookup with exact filters."),
+        ("Complex retrieval", "CR", "Multi-hop or multi-pattern retrieval."),
+        ("Simple aggregation", "SA", "Single aggregation such as count/min/max/average."),
+        ("Complex aggregation", "CA", "Grouped or multi-stage aggregation over graph neighborhoods."),
+        ("Boolean existence", "EQ", "Precise yes/no or existence answer."),
+        ("Negation/difference", "CR", "Absence, anti-join, or difference query."),
+        ("Path/temporal transaction", "CR/CA", "Temporal or path-oriented transaction neighborhood."),
+        ("Ranking/top-k", "SA/CA", "Ordered top-k query with explicit limit."),
+    ]
+    body = [
+        r"\begin{tabular}{lll}",
+        r"\toprule",
+        r"PIPE-Cypher category & Closest MTQ category & Added enterprise distinction \\",
+        r"\midrule",
+    ]
+    for category, mtq, note in rows:
+        body.append(
+            "{category} & {mtq} & {note} \\\\".format(
+                category=_escape_latex(category),
+                mtq=_escape_latex(mtq),
+                note=_escape_latex(note),
+            )
+        )
+    body.extend([r"\bottomrule", r"\end{tabular}"])
+    return _table(
+        body="\n".join(body),
+        caption=(
+            "Category crosswalk to Mind the Query. PIPE-Cypher keeps the familiar "
+            "retrieval/aggregation/evaluation-query structure while adding enterprise "
+            "workloads such as negation, temporal paths, and ranking."
+        ),
+        label="tab:category_crosswalk",
+    )
+
+
+def render_validator_cascade_table(stats: dict[str, Any], failure_report: dict[str, Any]) -> str:
+    total = int(stats.get("total", 0))
+    gates = stats.get("gate_counts", {})
+    rejected = int(failure_report.get("rejected", 0))
+    rows = [
+        ("Export accepted", total, total),
+        ("Read-only safety", gates.get("read_only", 0), total),
+        ("Syntax validity", gates.get("syntax_valid", 0), total),
+        ("Schema/value validity", gates.get("schema_valid", 0), total),
+        ("Execution success", gates.get("execution_success", 0), total),
+        ("LLM judge pass", gates.get("judge_pass", 0), total),
+        ("Rejected candidates logged", rejected, rejected + total if rejected else total),
+    ]
+    body = [
+        r"\begin{tabular}{lrr}",
+        r"\toprule",
+        r"Gate or ledger & Count & Denominator \\",
+        r"\midrule",
+    ]
+    for gate, count, denominator in rows:
+        body.append(
+            "{gate} & {count} & {denom} \\\\".format(
+                gate=_escape_latex(gate),
+                count=_fmt_int(count),
+                denom=_fmt_int(denominator),
+            )
+        )
+    body.extend([r"\bottomrule", r"\end{tabular}"])
+    return _table(
+        body="\n".join(body),
+        caption=(
+            "PIPE-Cypher validation cascade for the full export and its logged "
+            "candidate ledger. Unlike Mind the Query, human review is calibration-only."
+        ),
+        label="tab:validator_cascade",
+    )
+
+
+def render_prompt_refinement_table() -> str:
+    rows = [
+        ("Schema-only", "Use only visible schema.", "Baseline for schema-grounded prompting."),
+        ("Instructions", "Exact values, datatype rules, no nested aggregations.", "Targets MTQ-style prompt refinements."),
+        ("Examples", "Placeholderized retrieved NL-Cypher pairs.", "Tests whether examples help without extra governance."),
+        ("Examples + instructions", "Few-shot plus explicit rules.", "Closest controlled analogue to MTQ Table 5."),
+        ("Full governed", "BalkanID-derived hints, AST-safe rewrites, judge gate.", "PIPE-Cypher production setting."),
+    ]
+    body = [
+        r"\begin{tabular}{lll}",
+        r"\toprule",
+        r"Profile & Added constraint & Intended evidence \\",
+        r"\midrule",
+    ]
+    for profile, constraint, evidence in rows:
+        body.append(
+            "{profile} & {constraint} & {evidence} \\\\".format(
+                profile=_escape_latex(profile),
+                constraint=_escape_latex(constraint),
+                evidence=_escape_latex(evidence),
+            )
+        )
+    body.extend([r"\bottomrule", r"\end{tabular}"])
+    return _table(
+        body="\n".join(body),
+        caption=(
+            "Prompt-profile plan inspired by Mind the Query's prompt-variant analysis. "
+            "Only completed, audited target-50-or-larger results should be promoted into results tables."
+        ),
+        label="tab:prompt_refinement_plan",
+    )
+
+
+def render_effort_automation_table() -> str:
+    rows = [
+        ("Generation review gate", "Manual logical review", "Deterministic gates + local LLM judge"),
+        ("Human effort", "Reported 1,400 person-hours", "80-row post-hoc judge calibration audit"),
+        ("Private values", "Public benchmark values", "Configurable sampling and redacted export"),
+        ("Refresh", "Static dataset release", "Rerunnable private benchmark factory"),
+        ("Model endpoint", "Gemini for generation", "Local Qwen3.5-9B endpoint"),
+    ]
+    body = [
+        r"\begin{tabular}{lll}",
+        r"\toprule",
+        r"Dimension & Mind the Query & PIPE-Cypher \\",
+        r"\midrule",
+    ]
+    for dimension, mtq, pipe in rows:
+        body.append(
+            "{dimension} & {mtq} & {pipe} \\\\".format(
+                dimension=_escape_latex(dimension),
+                mtq=_escape_latex(mtq),
+                pipe=_escape_latex(pipe),
+            )
+        )
+    body.extend([r"\bottomrule", r"\end{tabular}"])
+    return _table(
+        body="\n".join(body),
+        caption=(
+            "Industry deployment contrast with Mind the Query. PIPE-Cypher focuses on "
+            "private refreshable benchmark generation rather than a one-time public dataset."
+        ),
+        label="tab:effort_automation",
+    )
+
+
 def _table(*, body: str, caption: str, label: str) -> str:
     return "\n".join(
         [
@@ -358,6 +528,12 @@ def _uniform_count(counts: dict[str, Any], *, prefix: str) -> int:
 
 def _fmt_int(value: Any) -> str:
     return f"{int(value):,}"
+
+
+def _fmt_count_or_dash(value: Any) -> str:
+    if value is None or str(value).strip().lower() in {"", "pending", "unknown"}:
+        return "--"
+    return _fmt_int(value)
 
 
 def _fmt_float(value: Any) -> str:
@@ -391,6 +567,11 @@ def _ablation_label(run: str) -> str:
         ("ablation_rewrite_false", "No rewrite"),
         ("ablation_judge_false", "No LLM judge"),
         ("full_pipe_cypher", "Full PIPE-Cypher"),
+        ("prompt_profile_schema_only", "Schema only"),
+        ("prompt_profile_instructions_only", "Instructions only"),
+        ("prompt_profile_examples_only", "Examples only"),
+        ("prompt_profile_examples_plus_instructions", "Examples + instructions"),
+        ("prompt_profile_full_pipe_cypher_governed", "Full governed PIPE-Cypher"),
     ]
     for needle, label in labels:
         if needle in run:
@@ -409,6 +590,11 @@ def _ablation_sort_key(summary: dict[str, Any]) -> int:
         "ablation_rewrite_false",
         "ablation_judge_false",
         "full_pipe_cypher",
+        "prompt_profile_schema_only",
+        "prompt_profile_instructions_only",
+        "prompt_profile_examples_only",
+        "prompt_profile_examples_plus_instructions",
+        "prompt_profile_full_pipe_cypher_governed",
     ]
     for idx, needle in enumerate(order):
         if needle in run:

@@ -1,13 +1,18 @@
 from __future__ import annotations
 
 from pipecypher.paper_tables import (
+    render_category_crosswalk_table,
     render_ablation_quality_table,
     render_ablation_table,
     render_benchmark_export_table,
     render_downstream_error_table,
     render_downstream_table,
+    render_effort_automation_table,
     render_full_artifact_distribution_table,
+    render_graph_statistics_table,
     render_judge_audit_coverage_table,
+    render_prompt_refinement_table,
+    render_validator_cascade_table,
 )
 
 
@@ -174,3 +179,46 @@ def test_render_judge_audit_coverage_table_reports_packet_balance():
     assert "Judge accept / reject & 40 / 40" in text
     assert "FinBench / SNB rows & 48 / 32" in text
     assert "Labeled rows & 0" in text
+
+
+def test_render_graph_statistics_table_marks_pending_counts_with_dash():
+    text = render_graph_statistics_table(
+        [
+            {
+                "graph": "FinBench",
+                "nodes": 10006,
+                "relationships": 57622,
+                "labels": 5,
+                "relationship_types": 9,
+                "status": "reported",
+            },
+            {
+                "graph": "ICIJ",
+                "nodes": None,
+                "relationships": None,
+                "labels": 5,
+                "relationship_types": 14,
+                "status": "onboarding only",
+            },
+        ]
+    )
+
+    assert "FinBench & 10,006 & 57,622 & 5 & 9 & reported" in text
+    assert "ICIJ & -- & -- & 5 & 14 & onboarding only" in text
+
+
+def test_render_validator_cascade_table_reports_full_run_gates():
+    text = render_validator_cascade_table(
+        _stats(),
+        {"rejected": 1777},
+    )
+
+    assert "Read-only safety & 3,000 & 3,000" in text
+    assert "Rejected candidates logged & 1,777 & 4,777" in text
+    assert r"\label{tab:validator_cascade}" in text
+
+
+def test_render_category_crosswalk_prompt_and_effort_tables():
+    assert "Boolean existence" in render_category_crosswalk_table()
+    assert "Full governed" in render_prompt_refinement_table()
+    assert "80-row post-hoc judge calibration audit" in render_effort_automation_table()
