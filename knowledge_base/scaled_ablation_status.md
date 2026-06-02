@@ -2,6 +2,79 @@
 
 Date: June 2, 2026.
 
+## Current Corrected Catfix Suites
+
+Status: running on `ds-serv6` from remote root
+`/home/suraj/PIPE-Cypher-4df5175-catfix`.
+
+Reason for relaunch: the previous schemafix target-100 and seeded target-50
+suites exposed stale FinBench categorical metadata. The loaded graph contains
+13 `Account.accountType` values such as `merchant account`, `corporate
+account`, and `prepaid card`, while the older schema snapshot listed unrelated
+placeholder values. Qwen judge calls sometimes treated observed result-row
+values as invalid query literals, causing false rejections in retrieval cells.
+
+Corrective revision:
+
+- code revision: `4df5175396352e7ad695f6ad1c8ce14c493d6955`
+- commit summary: refreshed FinBench categorical metadata, removed
+  high-cardinality `Company.business` from closed categorical constraints,
+  added a narrow LLM-judge guard for categorical result-value false rejections,
+  and made the ablation tmux launcher pass explicit endpoint overrides.
+- local verification: `python -m pytest` completed with `246 passed`;
+  `python scripts/validate_config.py --check-paths configs/finbench_full.yaml
+  configs/snb_full.yaml configs/icij_offshoreleaks_full.yaml` passed.
+- remote verification: compile/config checks passed under
+  `/home/suraj/pipecypher-tools/runtime-venv/bin/python`; direct validation
+  confirmed `Account.accountType = 'merchant account'` is schema-valid and
+  `Company.business` is no longer a closed categorical property.
+
+Active corrected sessions:
+
+- `pipecypher_ablation100_qwen9b_catfix`
+  - run prefix: `20260602_ablation100_qwen9b_catfix`
+  - target per category: 100
+  - endpoint: `http://localhost:8000/v1` on the GPU-2 Qwen3.5-9B vLLM server
+  - graphs: FinBench and SNB
+  - variants: `unconstrained_local_llm`, `reverse_only`,
+    `validators_repair`, `ablation_retrieval_topk_0`,
+    `ablation_rewrite_false`, `ablation_judge_false`, `full_pipe_cypher`
+- `pipecypher_ablation50_qwen9b_seed17_catfix`
+  - run prefix: `20260602_ablation50_qwen9b_seed17_catfix`
+  - target per category: 50
+  - run seed: 17
+  - endpoint: `http://localhost:8001/v1` on the GPU-3 Qwen3.5-9B vLLM server
+  - graphs and variants match the target-100 suite.
+
+Queued third-graph run:
+
+- `pipecypher_icij_target100_after_seed17_catfix` waits for
+  `pipecypher_ablation50_qwen9b_seed17_catfix`, then runs
+  `configs/icij_offshoreleaks_full.yaml` with run name
+  `20260602_icij_target100_qwen9b_catfix_live` against the ICIJ Neo4j instance
+  on bolt `7689`.
+
+Collection commands after completion:
+
+```bash
+python scripts/collect_remote_ablation_suite.py \
+  --remote-root /home/suraj/PIPE-Cypher-4df5175-catfix \
+  --run-prefix 20260602_ablation100_qwen9b_catfix \
+  --target-per-category 100 \
+  --wait-session pipecypher_ablation100_qwen9b_catfix \
+  --poll-seconds 60
+
+python scripts/collect_remote_ablation_suite.py \
+  --remote-root /home/suraj/PIPE-Cypher-4df5175-catfix \
+  --run-prefix 20260602_ablation50_qwen9b_seed17_catfix \
+  --target-per-category 50 \
+  --wait-session pipecypher_ablation50_qwen9b_seed17_catfix \
+  --poll-seconds 60
+```
+
+The retired schemafix suites should not be promoted into manuscript or appendix
+tables. They are retained only as internal failure-analysis evidence.
+
 ## Target-25 Suite
 
 Status: complete on `ds-serv6`; local audit artifacts are tracked under `experiments/snapshots/20260601_ablation25_qwen9b_retry1/`.

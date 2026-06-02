@@ -143,6 +143,17 @@ python scripts/run_pipeline.py \
   --run-name live_icij_qwen9b_target100
 ```
 
+Current queued live run as of June 2, 2026:
+
+```text
+remote root: /home/suraj/PIPE-Cypher-4df5175-catfix
+session: pipecypher_icij_target100_after_seed17_catfix
+waits for: pipecypher_ablation50_qwen9b_seed17_catfix
+endpoint: http://localhost:8001/v1
+run name: 20260602_icij_target100_qwen9b_catfix_live
+code revision: 4df5175396352e7ad695f6ad1c8ce14c493d6955
+```
+
 The ICIJ graph contains low-cardinality free-text properties such as notes and
 addresses. Keep `privacy.categorical_max_value_chars` and
 `privacy.categorical_omitted_properties` enabled during live introspection so

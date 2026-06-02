@@ -71,8 +71,8 @@ suites:
     generation_model: Qwen/Qwen3.5-9B
     judge_model: Qwen/Qwen3.5-9B
     code_revision: 389e7e09af06bbdcc48c6a4bc80f8f2c7af3b944
-    status: running
-    notes: Schema-normalized target-100 suite launched on June 2, 2026 after remote validation confirmed TRANSFER_TO.amount is accepted from configs/schema_finbench.json; this is the current preferred large-scale ablation run.
+    status: retired_categorical_metadata_judge_value_bug
+    notes: Retired on June 2, 2026 after live FinBench retrieval cells showed judge false rejections caused by stale FinBench categorical metadata, especially Account.accountType result values such as merchant/corporate/prepaid account types being treated as invalid schema values. Superseded by the catfix target-100 suite at revision 4df5175.
   - name: target50_qwen9b_seed17_schemafix
     run_prefix: 20260602_ablation50_qwen9b_seed17_schemafix
     target_per_category: 50
@@ -84,5 +84,32 @@ suites:
     judge_model: Qwen/Qwen3.5-9B
     run_seed: 17
     code_revision: 389e7e09af06bbdcc48c6a4bc80f8f2c7af3b944
-    status: queued_waiting_for_schemafix_target100
-    notes: Schema-normalized seeded target-50 repeat queued behind the schemafix target-100 suite to provide repeated-seed variance evidence after the corrected large-scale run.
+    status: retired_categorical_metadata_judge_value_bug
+    notes: Retired on June 2, 2026 after it started in parallel and hit the same stale FinBench categorical metadata / judge result-value false rejection pattern as the target-100 schemafix suite. Superseded by the catfix seeded target-50 repeat at revision 4df5175.
+  - name: target100_qwen9b_catfix
+    run_prefix: 20260602_ablation100_qwen9b_catfix
+    target_per_category: 100
+    category_count: 8
+    host: suraj@ds-serv6.ucsd.edu
+    remote_root: /home/suraj/PIPE-Cypher-4df5175-catfix
+    session: pipecypher_ablation100_qwen9b_catfix
+    generation_model: Qwen/Qwen3.5-9B
+    judge_model: Qwen/Qwen3.5-9B
+    endpoint: http://localhost:8000/v1
+    code_revision: 4df5175396352e7ad695f6ad1c8ce14c493d6955
+    status: running
+    notes: Corrected target-100 suite launched on June 2, 2026 after refreshing FinBench categorical values, removing high-cardinality Company.business as a closed categorical constraint, and adding a narrow LLM-judge guard for result-row categorical false rejections.
+  - name: target50_qwen9b_seed17_catfix
+    run_prefix: 20260602_ablation50_qwen9b_seed17_catfix
+    target_per_category: 50
+    category_count: 8
+    host: suraj@ds-serv6.ucsd.edu
+    remote_root: /home/suraj/PIPE-Cypher-4df5175-catfix
+    session: pipecypher_ablation50_qwen9b_seed17_catfix
+    generation_model: Qwen/Qwen3.5-9B
+    judge_model: Qwen/Qwen3.5-9B
+    run_seed: 17
+    endpoint: http://localhost:8001/v1
+    code_revision: 4df5175396352e7ad695f6ad1c8ce14c493d6955
+    status: running
+    notes: Corrected repeated-seed target-50 suite launched in parallel with target-100 on a separate Qwen3.5-9B endpoint. ICIJ target-100 onboarding is queued behind this session so GPU 3 is reused after the repeat completes.
