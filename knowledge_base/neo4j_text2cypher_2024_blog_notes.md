@@ -21,5 +21,9 @@ Captured locally on 2026-06-02 for visual analysis only. Full-page and extracted
 ## Runnable Model Split
 
 - Blog-reported best models on same-distribution evaluation: `Finetuned'24-OpenAI/GPT-4o`, `Finetuned'24-OpenAI/GPT-4o-mini`, and `Finetuned'24-GoogleAIStudio/Gemini-1.5-Flash-001`. These are closed/vendor fine-tunes and should not be used for PIPE-Cypher reported experiments under the local/no-paid-API constraint.
-- Public local candidates to run in PIPE-Cypher transfer experiments: `tomasonjo/text2cypher-demo-16bit`, `neo4j/text-to-cypher-Gemma-3-4B-Instruct-2025.04.0`, `ragraph-ai/stable-cypher-instruct-3b`, and, if the PEFT/base-model setup is available, `neo4j/text2cypher-gemma-2-9b-it-finetuned-2024v1`.
+- Public local candidates already used or attempted in PIPE-Cypher transfer experiments: `tomasonjo/text2cypher-demo-16bit`, `neo4j/text-to-cypher-Gemma-3-4B-Instruct-2025.04.0`, `ragraph-ai/stable-cypher-instruct-3b`, and, if the PEFT/base-model setup is available, `neo4j/text2cypher-gemma-2-9b-it-finetuned-2024v1`.
 - The Neo4j 2024 Gemma2 model is a PEFT adapter; it is not a plain vLLM full checkpoint in the current server environment. Treat it as blocked unless `google/gemma-2-9b-it` access and a PEFT/LoRA serving path are verified.
+
+## Current-Family Policy
+
+The blog chart is a 2024 snapshot and should be treated as historical context. New PIPE-Cypher model-family benchmarks should use the latest local-weight checkpoint that is runnable under project constraints, not the exact chart entry, unless a historical baseline has already been launched. Candidate families to prefer for future local-only sweeps include Gemma 3 IT over Gemma 2, Qwen3-Coder over older code baselines, and current Llama instruct checkpoints when license access and 24 GB GPU memory permit.
