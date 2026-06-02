@@ -226,34 +226,14 @@ def categorical_property_issues(
     return issues
 
 
-def _split_projection_items(projection: str) -> list[str]:
+def _return_projection_items(query: str) -> list[str]:
     items: list[str] = []
-    current: list[str] = []
-    depth = 0
-    for char in projection:
-        if char in "([{":
-            depth += 1
-        elif char in ")]}" and depth > 0:
-            depth -= 1
-        if char == "," and depth == 0:
-            item = "".join(current).strip()
-            if item:
-                items.append(item)
-            current = []
+    for item in analyze_cypher(query).projection_items:
+        if item.alias:
+            items.append(f"{item.expression} AS {item.alias}")
         else:
-            current.append(char)
-    item = "".join(current).strip()
-    if item:
-        items.append(item)
+            items.append(item.expression)
     return items
-
-
-def _return_projection(query: str) -> str:
-    match = re.search(
-        r"(?i)\bRETURN\s+(?:DISTINCT\s+)?(.+?)(?:\bORDER\s+BY\b|\bSKIP\b|\bLIMIT\b|$)",
-        query,
-    )
-    return match.group(1).strip() if match else ""
 
 
 def _exact_variable_returned(items: Iterable[str], var: str) -> bool:
@@ -261,13 +241,17 @@ def _exact_variable_returned(items: Iterable[str], var: str) -> bool:
 
 
 def contextual_return_issues(query: str, var_to_label: dict[str, str]) -> list[ValidationIssue]:
-    projection = _return_projection(query)
-    if not projection:
+    analysis = analyze_cypher(query)
+    if not analysis.projection_items:
         return []
-    items = _split_projection_items(projection)
     returned_props_by_var: dict[str, set[str]] = {}
-    for var, prop in re.findall(r"\b([A-Za-z_][A-Za-z0-9_]*)\.([A-Za-z_][A-Za-z0-9_]*)\b", projection):
-        returned_props_by_var.setdefault(var, set()).add(prop)
+    items = _return_projection_items(query)
+    for item in analysis.projection_items:
+        for var, prop in re.findall(
+            r"\b([A-Za-z_][A-Za-z0-9_]*)\.([A-Za-z_][A-Za-z0-9_]*)\b",
+            item.expression,
+        ):
+            returned_props_by_var.setdefault(var, set()).add(prop)
 
     issues: list[ValidationIssue] = []
     for var, props in returned_props_by_var.items():
@@ -298,10 +282,9 @@ def generic_node_scan_issues(query: str) -> list[ValidationIssue]:
     if any(label or prop_map for _, label, prop_map in nodes):
         return []
 
-    projection = _return_projection(query)
-    if not projection:
+    items = _return_projection_items(query)
+    if not items:
         return []
-    items = _split_projection_items(projection)
     node_vars = [var for var, _, _ in nodes if var]
     if len(node_vars) == 1 and _exact_variable_returned(items, node_vars[0]):
         return [

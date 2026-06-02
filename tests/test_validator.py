@@ -112,7 +112,28 @@ def test_contextual_return_columns_are_warned_not_blocked():
     assert any(issue.code == "missing_context_column" for issue in result.warnings)
 
 
+def test_contextual_return_columns_ignore_clause_words_inside_string_literals():
+    schema = finbench_reference_schema()
+    query = (
+        "MATCH (a:Account) "
+        "RETURN DISTINCT 'ORDER BY account LIMIT 1' AS Marker, a.accountId AS AccountId "
+        "ORDER BY AccountId LIMIT 10"
+    )
+    result = validate_cypher(query, schema)
+
+    assert result.ok
+    assert any(issue.code == "missing_context_column" for issue in result.warnings)
+
+
 def test_generic_node_scan_is_warned_for_analysis():
     result = validate_cypher("MATCH (n) RETURN n LIMIT 1", finbench_reference_schema())
+    assert result.ok
+    assert any(issue.code == "generic_node_scan" for issue in result.warnings)
+
+
+def test_generic_node_scan_uses_parser_aware_return_items():
+    query = "MATCH (n) RETURN DISTINCT 'LIMIT 1' AS Marker, n LIMIT 1"
+    result = validate_cypher(query, finbench_reference_schema())
+
     assert result.ok
     assert any(issue.code == "generic_node_scan" for issue in result.warnings)
