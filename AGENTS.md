@@ -31,6 +31,7 @@ PIPE-Cypher is an industry-track research codebase for automatic benchmark gener
 - Measure benchmark diversity explicitly. Report lexical diversity, query-template/signature diversity, schema coverage, structural feature coverage, difficulty balance, and graph/category balance.
 - When adding Cypher transformations, prefer parser/listener/token-span logic where practical. String rewrites must be conservative, covered by tests, and logged with before/after Cypher plus the reason for applying or skipping the rewrite.
 - Preserve deterministic tests for the AST, validator, diversity, judge, and reporting layers. GPU-dependent behavior should have smokeable local stubs or fixtures.
+- Before launching long YAML-driven GPU jobs, run strict config validation. Unknown or misspelled config keys must be treated as launch blockers, because silent YAML mistakes can invalidate multi-hour ablations.
 
 ## Required Research Skills And Workflow
 
@@ -52,8 +53,25 @@ PIPE-Cypher should make a defensible research contribution beyond porting PIPE-K
 - Automated quality gates: deterministic validators plus local LLM judge, with a post-hoc human audit only for judge calibration and failure analysis.
 - Benchmark refresh story: show how an enterprise can regenerate or update a private benchmark as schemas, categorical values, and graph contents evolve.
 - Enterprise deployment story: maintain a clean guide for connecting a company's own graph, read-only credentials, schema introspection, local model endpoint, privacy/value policy, dry run, scaled run, audit, and redacted export.
+- Benchmark-factory reliability inspired by YourBench: strict config validation, pre-run capacity/token/request estimation, stage-level inference accounting, benchmark-card generation, provenance-rich exports, and schema-validated benchmark rows. Adapt these ideas to property-graph execution; do not copy document-ingestion or citation-QA mechanics directly.
 
 Each novelty claim in the paper should map to code, an ablation, a table/figure, or a documented blocked experiment.
+
+## YourBench Transfer Mandate
+
+Treat `huggingface/yourbench` as a useful reference for dynamic benchmark-generation operations, not for Cypher methodology. Its transferable strengths are strict YAML validation, explicit pipeline stages, estimate-before-run tooling, multi-model stage assignment, custom output schemas, quality filtering, dataset-card/export discipline, and provenance-heavy logs. Record adaptations in `knowledge_base/yourbench_transfer_notes.md`.
+
+High-value adaptations for PIPE-Cypher:
+
+- fail fast on unknown config keys before expensive `ds-serv6` jobs;
+- estimate candidate attempts, generation calls, judge calls, prompt/token load, endpoint usage, and expected wall-clock before target-50, target-100, or full runs;
+- keep stage-level ledgers with request IDs, retries, model IDs, run IDs, graph backend, code revision, latency, and token/use counts when available;
+- generate redacted benchmark cards with graph profile, schema fingerprint, privacy/value policy, model endpoint, quality-gate rates, diversity metrics, judge calibration, and intended evaluation protocol;
+- validate accepted-example and export rows against a stable schema contract;
+- adapt single-hop/multi-hop/cross-document thinking into single-relation, multi-hop, cross-neighborhood, temporal-path, negation, and ranking query sampling;
+- consider graph-grounding diagnostics analogous to citation support: literal-result overlap, return-context coverage, schema-mention coverage, and value-placeholder coverage.
+
+Do not make Hugging Face Hub upload, paid APIs, document summarization, or text citation scoring core PIPE-Cypher defaults. Enterprise deployments should default to local models, local artifacts, read-only graph credentials, and redacted exports.
 
 ## BalkanID Design Mining Mandate
 

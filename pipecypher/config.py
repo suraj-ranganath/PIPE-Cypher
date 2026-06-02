@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 import os
-from dataclasses import dataclass, field
+from collections.abc import Mapping
+from dataclasses import dataclass, field, fields, is_dataclass
 from pathlib import Path
 from typing import Any
 
@@ -100,6 +101,34 @@ class RunConfig:
     privacy: PrivacyConfig = field(default_factory=PrivacyConfig)
 
 
+class ConfigValidationError(ValueError):
+    """Raised when a run configuration is unsafe or malformed."""
+
+
+def collect_unknown_config_keys(
+    values: Mapping[str, Any],
+    template: Any | None = None,
+    prefix: str = "",
+) -> list[str]:
+    """Return dotted YAML paths that do not correspond to RunConfig fields."""
+    if template is None:
+        template = RunConfig()
+    if not is_dataclass(template):
+        return []
+
+    known_fields = {field.name: field for field in fields(template)}
+    unknown: list[str] = []
+    for key, value in values.items():
+        path = f"{prefix}.{key}" if prefix else str(key)
+        if key not in known_fields:
+            unknown.append(path)
+            continue
+        current = getattr(template, key)
+        if is_dataclass(current) and isinstance(value, Mapping):
+            unknown.extend(collect_unknown_config_keys(value, current, path))
+    return unknown
+
+
 def _merge_dataclass(obj: Any, values: dict[str, Any]) -> Any:
     for key, value in values.items():
         if not hasattr(obj, key):
@@ -132,11 +161,89 @@ def _apply_env(config: RunConfig) -> RunConfig:
     return config
 
 
-def load_config(path: str | os.PathLike[str] | None = None) -> RunConfig:
+def validate_config(config: RunConfig, *, check_paths: bool = False) -> list[str]:
+    """Validate run-level config invariants that are easy to mistype before long jobs."""
+    errors: list[str] = []
+    models = config.models
+    neo4j = config.neo4j
+    generation = config.generation
+    judge = config.judge
+    privacy = config.privacy
+    paths = config.paths
+
+    if models.request_timeout_sec <= 0:
+        errors.append("models.request_timeout_sec must be > 0")
+    if models.temperature < 0:
+        errors.append("models.temperature must be >= 0")
+    if models.max_tokens <= 0:
+        errors.append("models.max_tokens must be > 0")
+
+    if neo4j.query_timeout_sec <= 0:
+        errors.append("neo4j.query_timeout_sec must be > 0")
+
+    if not generation.categories:
+        errors.append("generation.categories must contain at least one category")
+    unknown_categories = sorted(set(generation.categories) - set(DEFAULT_CATEGORIES))
+    if unknown_categories:
+        errors.append(
+            "generation.categories contains unknown values: " + ", ".join(unknown_categories)
+        )
+    if generation.target_per_category <= 0:
+        errors.append("generation.target_per_category must be > 0")
+    if generation.template_candidates <= 0:
+        errors.append("generation.template_candidates must be > 0")
+    if generation.retrieval_top_k < 0:
+        errors.append("generation.retrieval_top_k must be >= 0")
+    if generation.repair_attempts < 0:
+        errors.append("generation.repair_attempts must be >= 0")
+    if generation.generated_query_limit <= 0:
+        errors.append("generation.generated_query_limit must be > 0")
+    if not 0 < generation.max_entity_pct <= 1:
+        errors.append("generation.max_entity_pct must be in (0, 1]")
+
+    if not 0 <= judge.min_semantic_alignment <= 1:
+        errors.append("judge.min_semantic_alignment must be in [0, 1]")
+    if not 0 <= judge.min_schema_use <= 1:
+        errors.append("judge.min_schema_use must be in [0, 1]")
+    if not 0 <= judge.max_ambiguity <= 1:
+        errors.append("judge.max_ambiguity must be in [0, 1]")
+
+    if privacy.categorical_max_values < 0:
+        errors.append("privacy.categorical_max_values must be >= 0")
+    if privacy.categorical_max_value_chars <= 0:
+        errors.append("privacy.categorical_max_value_chars must be > 0")
+    if not privacy.placeholder_prefix.strip():
+        errors.append("privacy.placeholder_prefix must not be blank")
+
+    if check_paths:
+        if paths.schema_path and not Path(paths.schema_path).exists():
+            errors.append(f"paths.schema_path does not exist: {paths.schema_path}")
+        if paths.seed_examples_path and not Path(paths.seed_examples_path).exists():
+            errors.append(f"paths.seed_examples_path does not exist: {paths.seed_examples_path}")
+
+    return errors
+
+
+def load_config(
+    path: str | os.PathLike[str] | None = None,
+    *,
+    strict: bool = False,
+    validate: bool = False,
+    check_paths: bool = False,
+) -> RunConfig:
     config = RunConfig()
     if path:
         data = yaml.safe_load(Path(path).read_text(encoding="utf-8")) or {}
         if not isinstance(data, dict):
             raise ValueError("Config YAML must be a mapping")
+        if strict:
+            unknown = collect_unknown_config_keys(data)
+            if unknown:
+                raise ConfigValidationError("Unknown config keys: " + ", ".join(unknown))
         _merge_dataclass(config, data)
-    return _apply_env(config)
+    config = _apply_env(config)
+    if validate:
+        errors = validate_config(config, check_paths=check_paths)
+        if errors:
+            raise ConfigValidationError("; ".join(errors))
+    return config
