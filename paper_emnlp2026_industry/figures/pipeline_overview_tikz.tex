@@ -78,6 +78,7 @@
   },
   arrow/.style={->, line width=0.75pt, draw=pipeInk},
   softarrow/.style={->, line width=0.55pt, draw=pipeSlate},
+  rejectline/.style={line width=0.6pt, draw=pipeRed, dashed},
   rejectarrow/.style={->, line width=0.6pt, draw=pipeRed, dashed},
   refresharrow/.style={->, line width=0.65pt, draw=pipeTeal, dashed}
 ]
@@ -204,17 +205,23 @@
 \draw[arrow] (judge) -- (export);
 
 % Rejection and audit ledger.
-\node[loopbox, below=1.62cm of govern] (ledger) {
+\node[loopbox, below=2.05cm of govern] (ledger) {
   \textbf{Rejected-candidate ledger}\\
   validation issues, judge failures, duplicate/diversity blocks, repair decisions, empty-result classes, prompt profile, run ID, model ID
 };
-\node[loopbox, below=1.62cm of plan] (topup) {
+\node[loopbox, below=2.05cm of plan] (topup) {
   \textbf{Top-up and refresh controller}\\
   rebalances missing graph/category/difficulty cells; estimates capacity; starts scaled or repeated-seed runs from logged gaps
 };
-\draw[rejectarrow] (govern.south) -- (ledger.north);
-\draw[rejectarrow] (execute.south) -- (ledger.north east);
-\draw[rejectarrow] (judge.south) to[out=-115,in=15] (ledger.east);
+\coordinate (rejectBusY) at ($(ledger.north)+(0,0.08)$);
+\coordinate (rejectBusGov) at (govDetails.south |- rejectBusY);
+\coordinate (rejectBusExec) at (execDetails.south |- rejectBusY);
+\coordinate (rejectBusJudge) at (judgeDetails.south |- rejectBusY);
+\draw[rejectline] (govDetails.south) -- (rejectBusGov);
+\draw[rejectline] (execDetails.south) -- (rejectBusExec);
+\draw[rejectline] (judgeDetails.south) -- (rejectBusJudge);
+\draw[rejectline] (rejectBusGov) -- (rejectBusJudge);
+\draw[rejectarrow] (rejectBusExec) to[out=-95,in=35] (ledger.north east);
 \draw[softarrow] (ledger.west) -- (topup.east);
 \draw[softarrow] (topup.north) -- (plan.south);
 
