@@ -71,10 +71,16 @@ server.memory.pagecache.size=${PAGECACHE}
 db.tx_log.rotation.retention_policy=1 files
 EOF
 
-DUMP_DIR="$(dirname "${DUMP_FILE}")"
+LOAD_DUMP_DIR="${RUN_ROOT}/load_dumps"
+mkdir -p "${LOAD_DUMP_DIR}"
+LOAD_DUMP_FILE="${LOAD_DUMP_DIR}/${DATABASE}.dump"
+if [[ "$(readlink -f "${DUMP_FILE}")" != "$(readlink -f "${LOAD_DUMP_FILE}" 2>/dev/null || true)" ]]; then
+  ln -sf "${DUMP_FILE}" "${LOAD_DUMP_FILE}"
+fi
+
 JAVA_HOME="${JRE_HOME}" PATH="${JRE_HOME}/bin:${PATH}" NEO4J_CONF="${CONF_DIR}" \
   "${NEO4J_HOME}/bin/neo4j-admin" database load "${DATABASE}" \
-  --from-path="${DUMP_DIR}" \
+  --from-path="${LOAD_DUMP_DIR}" \
   --overwrite-destination=true
 
 echo "loaded database=${DATABASE}"

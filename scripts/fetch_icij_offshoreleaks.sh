@@ -7,6 +7,7 @@ SUMMARY_DIR="${SUMMARY_DIR:-${RUN_ROOT}/summary}"
 CSV_URL="${CSV_URL:-https://offshoreleaks-data.icij.org/offshoreleaks/csv/full-oldb.LATEST.zip}"
 DUMP_URL="${DUMP_URL:-https://offshoreleaks-data.icij.org/offshoreleaks/neo4j/icij-offshoreleaks-5.13.0.dump}"
 FETCH_DUMP="${FETCH_DUMP:-true}"
+PYTHON_BIN="${PYTHON_BIN:-python3}"
 
 mkdir -p "${DOWNLOAD_DIR}" "${SUMMARY_DIR}"
 
@@ -25,7 +26,7 @@ if [[ "${FETCH_DUMP}" == "true" ]]; then
   download_to "${DUMP_URL}" "${DOWNLOAD_DIR}/icij-offshoreleaks-5.13.0.dump"
 fi
 
-python - "${CSV_ZIP}" "${SUMMARY_DIR}/icij_offshoreleaks_summary.json" <<'PY'
+"${PYTHON_BIN}" - "${CSV_ZIP}" "${SUMMARY_DIR}/icij_offshoreleaks_summary.json" <<'PY'
 import csv
 import json
 import sys
