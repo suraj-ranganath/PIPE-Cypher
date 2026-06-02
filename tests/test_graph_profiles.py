@@ -1,4 +1,9 @@
-from pipecypher.graph_profiles import default_cypher_for_template, default_reverse_cypher_for_template, default_templates
+from pipecypher.graph_profiles import (
+    default_cypher_for_template,
+    default_reverse_cypher_for_template,
+    default_templates,
+    icij_offshoreleaks_reference_schema,
+)
 
 
 def test_default_reverse_binds_finbench_person_slot():
@@ -377,3 +382,88 @@ def test_default_finbench_extra_slotted_ranking_templates():
     assert "src.accountType AS accountType" in type_reverse
     assert "{accountType: 'checking'}" in type_cypher
     assert "ORDER BY totalAmount DESC" in type_cypher
+
+
+def test_icij_reference_schema_exposes_enterprise_compliance_graph_shape():
+    schema = icij_offshoreleaks_reference_schema()
+
+    assert {"Entity", "Officer", "Intermediary", "Address", "Other"}.issubset(schema.labels)
+    assert {"officer_of", "registered_address", "intermediary_of"}.issubset(
+        schema.relationship_types
+    )
+    assert schema.has_relationship("Officer", "officer_of", "Entity")
+    assert schema.has_relationship("Entity", "registered_address", "Address")
+    assert "name" in schema.properties_for_label("Officer")
+    assert "jurisdiction" in schema.properties_for_label("Entity")
+    assert "start_date" in schema.properties_for_relationship("officer_of")
+
+
+def test_default_icij_covers_all_planned_categories():
+    categories = {item.category for item in default_templates("icij_offshoreleaks")}
+
+    assert {
+        "simple_retrieval",
+        "complex_retrieval",
+        "simple_aggregation",
+        "complex_aggregation",
+        "boolean_existence",
+        "negation_difference",
+        "path_temporal",
+        "ranking_topk",
+    }.issubset(categories)
+
+
+def test_default_icij_slotted_templates_use_exact_literals_and_context_returns():
+    simple = next(
+        item
+        for item in default_templates("icij_offshoreleaks")
+        if item.category == "simple_retrieval"
+    )
+    path = next(
+        item
+        for item in default_templates("icij_offshoreleaks")
+        if item.category == "path_temporal"
+    )
+
+    simple_reverse = default_reverse_cypher_for_template(simple, limit=5)
+    simple_cypher = default_cypher_for_template(
+        simple,
+        limit=5,
+        bindings={"officerName": "KIM SOO IN"},
+    )
+    path_reverse = default_reverse_cypher_for_template(path, limit=5)
+    path_cypher = default_cypher_for_template(
+        path,
+        limit=5,
+        bindings={"officerName": "KIM SOO IN"},
+    )
+
+    assert simple_reverse is not None
+    assert "o.name AS officerName" in simple_reverse
+    assert "{name: 'KIM SOO IN'}" in simple_cypher
+    assert "EntityName" in simple_cypher
+    assert "Jurisdiction" in simple_cypher
+    assert "RETURN DISTINCT" in simple_cypher
+    assert path_reverse is not None
+    assert "officer_of" in path_reverse
+    assert "ConnectionStartDate" in path_cypher
+    assert "dst <> src" in path_cypher
+
+
+def test_default_icij_jurisdiction_fallback_respects_categorical_values():
+    aggregation = next(
+        item
+        for item in default_templates("icij_offshoreleaks")
+        if item.category == "complex_aggregation"
+    )
+    negation = next(
+        item
+        for item in default_templates("icij_offshoreleaks")
+        if item.category == "negation_difference"
+    )
+
+    aggregation_cypher = default_cypher_for_template(aggregation, limit=5, bindings={})
+    negation_cypher = default_cypher_for_template(negation, limit=5, bindings={})
+
+    assert "{jurisdiction: 'BVI'}" in aggregation_cypher
+    assert "{jurisdiction: 'BVI'}" in negation_cypher

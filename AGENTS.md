@@ -10,6 +10,7 @@ PIPE-Cypher is an industry-track research codebase for automatic benchmark gener
 - For Qwen/vLLM, keep reasoning traces out of generated artifacts: use `reasoning_effort=none`, `include_reasoning=false`, `chat_template_kwargs.enable_thinking=false`, and strip residual `</think>` preambles before JSON parsing.
 - Default embedding model: BGE-M3 or another local embedding model.
 - Primary graph workload: LDBC FinBench, because it targets financial fraud and risk-control scenarios. Secondary generality workload: LDBC SNB.
+- Third-graph onboarding candidate: ICIJ Offshore Leaks. It is a public finance/compliance property graph with a downloadable Neo4j dump and CSV package, and should be used to test arbitrary-schema onboarding beyond LDBC. Do not promote ICIJ numbers into the paper until the graph is loaded live, the run is complete, and the same paper-readiness audit standards are met.
 - The pipeline must support arbitrary enterprise property-graph onboarding beyond FinBench/SNB. FinBench and SNB are study workloads, not hard-coded assumptions.
 - Preserve the BalkanID Cypher work as a first-class design source. Reuse its ideas for constrained prompting, relationship direction discipline, read-only query safety, `RETURN DISTINCT`, exact matching for quoted values, required contextual return columns, synonym normalization, categorical-property constraints, and post-generation rewrites.
 - Treat BalkanID's parser/listener and query-alteration design as an innovation source, not just an implementation detail. When practical, prefer grammar/AST-aware validation and conservative rewrites over brittle string edits; when parser risk is high, skip rewrites and log why.
@@ -72,6 +73,7 @@ The core contribution is an enterprise benchmark-generation pipeline, not anothe
 
 - private enterprise schemas and values;
 - arbitrary enterprise schema onboarding beyond the two LDBC study workloads;
+- additional public enterprise-style graph onboarding evidence, especially ICIJ Offshore Leaks for finance/compliance, when completed under research-quality audit rules;
 - repeatable benchmark refresh as graphs evolve;
 - configurable privacy redaction and value-sampling policies;
 - constrained Cypher generation and repair;

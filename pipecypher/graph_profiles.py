@@ -154,13 +154,256 @@ def snb_reference_schema() -> SchemaSummary:
     )
 
 
+ICIJ_REL_TYPES = [
+    "officer_of",
+    "registered_address",
+    "intermediary_of",
+    "same_name_as",
+    "similar",
+    "same_company_as",
+    "connected_to",
+    "same_as",
+    "same_id_as",
+    "underlying",
+    "similar_company_as",
+    "probably_same_officer_as",
+    "same_address_as",
+    "same_intermediary_as",
+]
+
+
+def icij_offshoreleaks_reference_schema() -> SchemaSummary:
+    """ICIJ Offshore Leaks public property-graph schema for onboarding studies.
+
+    The profile is derived from the March 31, 2025 CSV package headers and
+    relationship type counts. Live runs should still introspect the loaded dump
+    because ICIJ periodically refreshes the package.
+    """
+
+    node_properties = [
+        *[
+            NodeProperty("Entity", prop, "STRING")
+            for prop in [
+                "node_id",
+                "name",
+                "original_name",
+                "former_name",
+                "jurisdiction",
+                "jurisdiction_description",
+                "company_type",
+                "address",
+                "internal_id",
+                "incorporation_date",
+                "inactivation_date",
+                "struck_off_date",
+                "dorm_date",
+                "status",
+                "service_provider",
+                "ibcRUC",
+                "country_codes",
+                "countries",
+                "sourceID",
+                "valid_until",
+                "note",
+            ]
+        ],
+        *[
+            NodeProperty("Officer", prop, "STRING")
+            for prop in [
+                "node_id",
+                "name",
+                "countries",
+                "country_codes",
+                "sourceID",
+                "valid_until",
+                "note",
+            ]
+        ],
+        *[
+            NodeProperty("Intermediary", prop, "STRING")
+            for prop in [
+                "node_id",
+                "name",
+                "status",
+                "internal_id",
+                "address",
+                "countries",
+                "country_codes",
+                "sourceID",
+                "valid_until",
+                "note",
+            ]
+        ],
+        *[
+            NodeProperty("Address", prop, "STRING")
+            for prop in [
+                "node_id",
+                "address",
+                "name",
+                "countries",
+                "country_codes",
+                "sourceID",
+                "valid_until",
+                "note",
+            ]
+        ],
+        *[
+            NodeProperty("Other", prop, "STRING")
+            for prop in [
+                "node_id",
+                "name",
+                "type",
+                "incorporation_date",
+                "struck_off_date",
+                "closed_date",
+                "jurisdiction",
+                "jurisdiction_description",
+                "countries",
+                "country_codes",
+                "sourceID",
+                "valid_until",
+                "note",
+            ]
+        ],
+    ]
+    relationship_properties = [
+        RelationshipProperty(rel_type, prop, "STRING")
+        for rel_type in ICIJ_REL_TYPES
+        for prop in ["link", "status", "start_date", "end_date", "sourceID"]
+    ]
+    relationships = [
+        RelationshipPattern("Officer", "officer_of", "Entity", 1711446),
+        RelationshipPattern("Intermediary", "officer_of", "Entity", 7183),
+        RelationshipPattern("Officer", "officer_of", "Other", 1718),
+        RelationshipPattern("Officer", "officer_of", "Officer", 6),
+        RelationshipPattern("Entity", "officer_of", "Entity", 3),
+        RelationshipPattern("Officer", "registered_address", "Address", 484957),
+        RelationshipPattern("Entity", "registered_address", "Address", 336951),
+        RelationshipPattern("Intermediary", "registered_address", "Address", 9303),
+        RelationshipPattern("Other", "registered_address", "Address", 888),
+        RelationshipPattern("Entity", "registered_address", "Entity", 622),
+        RelationshipPattern("Intermediary", "intermediary_of", "Entity", 590096),
+        RelationshipPattern("Officer", "intermediary_of", "Entity", 8450),
+        RelationshipPattern("Officer", "same_name_as", "Officer", 97774),
+        RelationshipPattern("Entity", "same_name_as", "Entity", 4121),
+        RelationshipPattern("Entity", "same_name_as", "Officer", 631),
+        RelationshipPattern("Entity", "same_name_as", "Other", 552),
+        RelationshipPattern("Intermediary", "same_name_as", "Officer", 494),
+        RelationshipPattern("Officer", "similar", "Officer", 46398),
+        RelationshipPattern("Officer", "similar", "Intermediary", 304),
+        RelationshipPattern("Intermediary", "similar", "Officer", 43),
+        RelationshipPattern("Intermediary", "similar", "Intermediary", 16),
+        RelationshipPattern("Entity", "same_company_as", "Entity", 15523),
+        RelationshipPattern("Other", "connected_to", "Entity", 10822),
+        RelationshipPattern("Officer", "connected_to", "Entity", 1099),
+        RelationshipPattern("Intermediary", "connected_to", "Entity", 224),
+        RelationshipPattern("Entity", "same_as", "Entity", 3146),
+        RelationshipPattern("Address", "same_as", "Address", 960),
+        RelationshipPattern("Intermediary", "same_as", "Officer", 166),
+        RelationshipPattern("Officer", "same_id_as", "Officer", 3120),
+        RelationshipPattern("Officer", "underlying", "Officer", 1238),
+        RelationshipPattern("Other", "underlying", "Entity", 70),
+        RelationshipPattern("Entity", "similar_company_as", "Entity", 203),
+        RelationshipPattern("Officer", "probably_same_officer_as", "Officer", 132),
+        RelationshipPattern("Address", "same_address_as", "Address", 5),
+        RelationshipPattern("Intermediary", "same_intermediary_as", "Intermediary", 4),
+    ]
+    return SchemaSummary(
+        node_properties=node_properties,
+        relationship_properties=relationship_properties,
+        relationships=relationships,
+        categorical_properties={
+            "Entity.sourceID": [
+                "Offshore Leaks",
+                "Panama Papers",
+                "Bahamas Leaks",
+                "Paradise Papers",
+                "Pandora Papers",
+            ],
+            "Entity.jurisdiction": ["BVI", "PAN", "SAM", "BAH", "SEY"],
+            "Intermediary.status": ["ACTIVE", "SUSPENDED", "INACTIVE"],
+        },
+        graph_name="icij_offshoreleaks_reference",
+        source="icij_csv_20250331_headers_and_relationship_counts",
+    )
+
+
+def _is_icij_profile(profile: str) -> bool:
+    return profile.lower() in {
+        "icij",
+        "icij_offshoreleaks",
+        "offshoreleaks",
+        "offshore_leaks",
+        "icij_offshore_leaks",
+    }
+
+
 def reference_schema(profile: str) -> SchemaSummary:
+    if _is_icij_profile(profile):
+        return icij_offshoreleaks_reference_schema()
     if profile.lower() in {"snb", "ldbc_snb"}:
         return snb_reference_schema()
     return finbench_reference_schema()
 
 
 def default_templates(profile: str) -> list[TemplateCandidate]:
+    if _is_icij_profile(profile):
+        return [
+            TemplateCandidate(
+                category="simple_retrieval",
+                template="Which offshore entities is officer '{officerName}' connected to?",
+                slots={"officerName": "Officer.name"},
+                rationale="Basic KYC-style lookup from a named officer to offshore entities.",
+            ),
+            TemplateCandidate(
+                category="complex_retrieval",
+                template="Which officers share a registered address with offshore entity '{entityName}'?",
+                slots={"entityName": "Entity.name"},
+                rationale="Multi-hop address-sharing lookup for investigative graph review.",
+            ),
+            TemplateCandidate(
+                category="simple_aggregation",
+                template="How many offshore entities are connected to officer '{officerName}'?",
+                slots={"officerName": "Officer.name"},
+                rationale="Count of distinct entities linked to a named officer.",
+            ),
+            TemplateCandidate(
+                category="complex_aggregation",
+                template="How many distinct officers are connected to entities in jurisdiction '{jurisdiction}'?",
+                slots={"jurisdiction": "Entity.jurisdiction"},
+                rationale="Jurisdiction-scoped aggregation across officer-entity links.",
+            ),
+            TemplateCandidate(
+                category="boolean_existence",
+                template="Does offshore entity '{entityName}' have a registered address?",
+                slots={"entityName": "Entity.name"},
+                rationale="Boolean due-diligence check for address evidence.",
+            ),
+            TemplateCandidate(
+                category="negation_difference",
+                template="Which offshore entities in jurisdiction '{jurisdiction}' do not have a registered address?",
+                slots={"jurisdiction": "Entity.jurisdiction"},
+                rationale="Anti-join over entity registration-address coverage.",
+            ),
+            TemplateCandidate(
+                category="path_temporal",
+                template="Which officers share offshore entities with officer '{officerName}', and when did each connection start?",
+                slots={"officerName": "Officer.name"},
+                rationale="Two-hop officer-entity-officer pattern with relationship dates.",
+            ),
+            TemplateCandidate(
+                category="ranking_topk",
+                template="Which jurisdictions have the most offshore entities?",
+                slots={},
+                rationale="Top-k jurisdiction concentration query.",
+            ),
+            TemplateCandidate(
+                category="ranking_topk",
+                template="Which officers are connected to the most offshore entities?",
+                slots={},
+                rationale="Top-k officer-entity linkage query.",
+            ),
+        ]
     if profile.lower() in {"snb", "ldbc_snb"}:
         return [
             TemplateCandidate(
@@ -521,6 +764,44 @@ def default_reverse_cypher_for_template(template: TemplateCandidate, limit: int 
             "MATCH (:Post)-[:HAS_TAG]->(tag:Tag) "
             f"RETURN DISTINCT tag.name AS tagName LIMIT {limit}"
         )
+    if "offshore entities is officer" in text:
+        return (
+            "MATCH (o:Officer)-[:officer_of]->(:Entity) "
+            f"RETURN DISTINCT o.name AS officerName LIMIT {limit}"
+        )
+    if "share a registered address with offshore entity" in text:
+        return (
+            "MATCH (:Officer)-[:registered_address]->(addr:Address)<-[:registered_address]-(e:Entity) "
+            f"RETURN DISTINCT e.name AS entityName LIMIT {limit}"
+        )
+    if "How many offshore entities are connected to officer" in text:
+        return (
+            "MATCH (o:Officer)-[:officer_of]->(:Entity) "
+            f"RETURN DISTINCT o.name AS officerName LIMIT {limit}"
+        )
+    if "distinct officers are connected to entities in jurisdiction" in text:
+        return (
+            "MATCH (:Officer)-[:officer_of]->(e:Entity) "
+            "WHERE e.jurisdiction IS NOT NULL "
+            f"RETURN DISTINCT e.jurisdiction AS jurisdiction LIMIT {limit}"
+        )
+    if "Does offshore entity" in text and "registered address" in text:
+        return (
+            "MATCH (e:Entity)-[:registered_address]->(:Address) "
+            f"RETURN DISTINCT e.name AS entityName LIMIT {limit}"
+        )
+    if "do not have a registered address" in text:
+        return (
+            "MATCH (e:Entity) "
+            "WHERE e.jurisdiction IS NOT NULL AND NOT (e)-[:registered_address]->(:Address) "
+            f"RETURN DISTINCT e.jurisdiction AS jurisdiction LIMIT {limit}"
+        )
+    if "share offshore entities with officer" in text:
+        return (
+            "MATCH (src:Officer)-[:officer_of]->(:Entity)<-[:officer_of]-(dst:Officer) "
+            "WHERE src.name IS NOT NULL AND dst <> src "
+            f"RETURN DISTINCT src.name AS officerName LIMIT {limit}"
+        )
     return None
 
 
@@ -771,5 +1052,70 @@ def default_cypher_for_template(
             "MATCH (forum:Forum)-[:HAS_MEMBER]->(p:Person), "
             f"(forum)-[:CONTAINER_OF]->(post:Post)-[:HAS_TAG]->(tag:Tag {{name: {tag_name}}}) "
             f"RETURN DISTINCT p.id AS PersonId LIMIT {limit}"
+        )
+    if "Which offshore entities is officer" in text:
+        officer_name = _binding(bindings, "officerName", "officerName")
+        return (
+            f"MATCH (o:Officer {{name: {officer_name}}})-[r:officer_of]->(e:Entity) "
+            "RETURN DISTINCT e.node_id AS EntityId, e.name AS EntityName, "
+            f"e.jurisdiction AS Jurisdiction, r.link AS Link LIMIT {limit}"
+        )
+    if "share a registered address with offshore entity" in text:
+        entity_name = _binding(bindings, "entityName", "entityName")
+        return (
+            f"MATCH (e:Entity {{name: {entity_name}}})-[:registered_address]->(addr:Address)<-[:registered_address]-(o:Officer) "
+            "RETURN DISTINCT o.node_id AS OfficerId, o.name AS OfficerName, "
+            f"addr.address AS RegisteredAddress LIMIT {limit}"
+        )
+    if "How many offshore entities are connected to officer" in text:
+        officer_name = _binding(bindings, "officerName", "officerName")
+        return (
+            f"MATCH (o:Officer {{name: {officer_name}}})-[:officer_of]->(e:Entity) "
+            "RETURN DISTINCT COUNT(DISTINCT e) AS OffshoreEntityCount"
+        )
+    if "distinct officers are connected to entities in jurisdiction" in text:
+        jurisdiction = _binding(bindings, "jurisdiction", "BVI")
+        return (
+            f"MATCH (o:Officer)-[:officer_of]->(e:Entity {{jurisdiction: {jurisdiction}}}) "
+            "RETURN DISTINCT COUNT(DISTINCT o) AS OfficerCount"
+        )
+    if "Does offshore entity" in text and "registered address" in text:
+        entity_name = _binding(bindings, "entityName", "entityName")
+        return (
+            f"MATCH (e:Entity {{name: {entity_name}}}) "
+            "OPTIONAL MATCH (e)-[:registered_address]->(addr:Address) "
+            "RETURN DISTINCT COUNT(addr) > 0 AS HasRegisteredAddress"
+        )
+    if "do not have a registered address" in text:
+        jurisdiction = _binding(bindings, "jurisdiction", "BVI")
+        return (
+            f"MATCH (e:Entity {{jurisdiction: {jurisdiction}}}) "
+            "WHERE NOT (e)-[:registered_address]->(:Address) "
+            "RETURN DISTINCT e.node_id AS EntityId, e.name AS EntityName, "
+            f"e.jurisdiction AS Jurisdiction LIMIT {limit}"
+        )
+    if "share offshore entities with officer" in text:
+        officer_name = _binding(bindings, "officerName", "officerName")
+        return (
+            f"MATCH (src:Officer {{name: {officer_name}}})-[srcRel:officer_of]->(entity:Entity)<-[dstRel:officer_of]-(dst:Officer) "
+            "WHERE dst <> src "
+            "RETURN DISTINCT dst.node_id AS OfficerId, dst.name AS OfficerName, "
+            "entity.name AS SharedEntityName, dstRel.start_date AS ConnectionStartDate "
+            f"LIMIT {limit}"
+        )
+    if "jurisdictions have the most offshore entities" in text:
+        return (
+            "MATCH (e:Entity) "
+            "WHERE e.jurisdiction IS NOT NULL "
+            "WITH e.jurisdiction AS jurisdiction, COUNT(DISTINCT e) AS entityCount "
+            "RETURN DISTINCT jurisdiction, entityCount "
+            "ORDER BY entityCount DESC LIMIT 10"
+        )
+    if "officers are connected to the most offshore entities" in text:
+        return (
+            "MATCH (o:Officer)-[:officer_of]->(e:Entity) "
+            "WITH o, COUNT(DISTINCT e) AS entityCount "
+            "RETURN DISTINCT o.node_id AS OfficerId, o.name AS OfficerName, entityCount "
+            "ORDER BY entityCount DESC LIMIT 10"
         )
     return "MATCH (n) RETURN DISTINCT n LIMIT 1"

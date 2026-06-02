@@ -127,6 +127,64 @@ Implementation plan:
 
 5. For larger runs, generate a manageable SNB scale factor or use the pre-generated `social_network-csv_composite-longdateformatter-sf*` datasets expected by the Cypher implementation.
 
+## Third-Graph Onboarding Candidate: ICIJ Offshore Leaks
+
+Rationale: ICIJ Offshore Leaks is a public real-world finance/compliance graph
+with officers, offshore entities, intermediaries, addresses, source datasets,
+relationship dates, and entity-resolution-style links. It is not a private
+enterprise schema, but it is a stronger proxy for KYC/AML and investigative
+industry settings than another synthetic benchmark. Use it to demonstrate
+arbitrary-schema onboarding beyond FinBench/SNB once a live run has been loaded
+and audited.
+
+Implementation plan:
+
+1. Fetch the current public data package and Neo4j dump:
+
+   ```bash
+   RUN_ROOT=/home/suraj/pipecypher-icij-offshoreleaks \
+   FETCH_DUMP=true \
+   scripts/fetch_icij_offshoreleaks.sh
+   ```
+
+2. Load the Neo4j dump into a separate Neo4j instance so FinBench/SNB runs are
+   not disturbed:
+
+   ```bash
+   RUN_ROOT=/home/suraj/pipecypher-neo4j-icij \
+   DOWNLOAD_DIR=/home/suraj/pipecypher-icij-offshoreleaks/downloads \
+   SESSION=pipecypher_neo4j_icij \
+   BOLT_PORT=7689 \
+   HTTP_PORT=7476 \
+   AUTH_ENABLED=false \
+   scripts/load_icij_neo4j_dump.sh
+   ```
+
+3. Start the ICIJ backend on port 7689 and introspect the live schema:
+
+   ```bash
+   RUN_ROOT=/home/suraj/pipecypher-neo4j-icij \
+   SESSION=pipecypher_neo4j_icij \
+   BOLT_PORT=7689 \
+   HTTP_PORT=7476 \
+   AUTH_ENABLED=false \
+   HEAP_INITIAL=6G \
+   HEAP_MAX=12G \
+   PAGECACHE=8G \
+   scripts/start_neo4j_community.sh
+
+   python scripts/inspect_schema.py \
+     --config configs/icij_offshoreleaks_smoke.yaml \
+     --output configs/schema_icij_offshoreleaks.json
+   ```
+
+4. Run `configs/icij_offshoreleaks_smoke.yaml` first, then materialize a
+   target-25 or larger onboarding suite only after the graph-backed dry pass has
+   accepted examples in every category.
+
+Source and schema details are tracked in
+`knowledge_base/icij_offshoreleaks_graph_plan.md`.
+
 ## Storage And Compute
 
 Known `ds-serv6` state on June 1, 2026:
