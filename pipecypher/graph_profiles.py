@@ -767,7 +767,9 @@ def default_reverse_cypher_for_template(template: TemplateCandidate, limit: int 
     if "offshore entities is officer" in text:
         return (
             "MATCH (o:Officer)-[:officer_of]->(:Entity) "
-            f"RETURN DISTINCT o.name AS officerName LIMIT {limit}"
+            "WITH trim(o.name) AS officerName "
+            "WHERE officerName <> '' "
+            f"RETURN DISTINCT officerName LIMIT {limit}"
         )
     if "share a registered address with offshore entity" in text:
         return (
@@ -777,7 +779,9 @@ def default_reverse_cypher_for_template(template: TemplateCandidate, limit: int 
     if "How many offshore entities are connected to officer" in text:
         return (
             "MATCH (o:Officer)-[:officer_of]->(:Entity) "
-            f"RETURN DISTINCT o.name AS officerName LIMIT {limit}"
+            "WITH trim(o.name) AS officerName "
+            "WHERE officerName <> '' "
+            f"RETURN DISTINCT officerName LIMIT {limit}"
         )
     if "distinct officers are connected to entities in jurisdiction" in text:
         return (
@@ -800,7 +804,9 @@ def default_reverse_cypher_for_template(template: TemplateCandidate, limit: int 
         return (
             "MATCH (src:Officer)-[:officer_of]->(:Entity)<-[:officer_of]-(dst:Officer) "
             "WHERE src.name IS NOT NULL AND dst <> src "
-            f"RETURN DISTINCT src.name AS officerName LIMIT {limit}"
+            "WITH trim(src.name) AS officerName "
+            "WHERE officerName <> '' "
+            f"RETURN DISTINCT officerName LIMIT {limit}"
         )
     return None
 
@@ -1056,7 +1062,8 @@ def default_cypher_for_template(
     if "Which offshore entities is officer" in text:
         officer_name = _binding(bindings, "officerName", "officerName")
         return (
-            f"MATCH (o:Officer {{name: {officer_name}}})-[r:officer_of]->(e:Entity) "
+            "MATCH (o:Officer)-[r:officer_of]->(e:Entity) "
+            f"WHERE trim(o.name) = {officer_name} "
             "RETURN DISTINCT e.node_id AS EntityId, e.name AS EntityName, "
             f"e.jurisdiction AS Jurisdiction, r.link AS Link LIMIT {limit}"
         )
@@ -1070,7 +1077,8 @@ def default_cypher_for_template(
     if "How many offshore entities are connected to officer" in text:
         officer_name = _binding(bindings, "officerName", "officerName")
         return (
-            f"MATCH (o:Officer {{name: {officer_name}}})-[:officer_of]->(e:Entity) "
+            "MATCH (o:Officer)-[:officer_of]->(e:Entity) "
+            f"WHERE trim(o.name) = {officer_name} "
             "RETURN DISTINCT COUNT(DISTINCT e) AS OffshoreEntityCount"
         )
     if "distinct officers are connected to entities in jurisdiction" in text:
@@ -1097,8 +1105,8 @@ def default_cypher_for_template(
     if "share offshore entities with officer" in text:
         officer_name = _binding(bindings, "officerName", "officerName")
         return (
-            f"MATCH (src:Officer {{name: {officer_name}}})-[srcRel:officer_of]->(entity:Entity)<-[dstRel:officer_of]-(dst:Officer) "
-            "WHERE dst <> src "
+            "MATCH (src:Officer)-[srcRel:officer_of]->(entity:Entity)<-[dstRel:officer_of]-(dst:Officer) "
+            f"WHERE trim(src.name) = {officer_name} AND dst <> src "
             "RETURN DISTINCT dst.node_id AS OfficerId, dst.name AS OfficerName, "
             "entity.name AS SharedEntityName, dstRel.start_date AS ConnectionStartDate "
             f"LIMIT {limit}"

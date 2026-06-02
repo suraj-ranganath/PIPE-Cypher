@@ -439,13 +439,15 @@ def test_default_icij_slotted_templates_use_exact_literals_and_context_returns()
     )
 
     assert simple_reverse is not None
-    assert "o.name AS officerName" in simple_reverse
-    assert "{name: 'KIM SOO IN'}" in simple_cypher
+    assert "trim(o.name) AS officerName" in simple_reverse
+    assert "trim(o.name) = 'KIM SOO IN'" in simple_cypher
     assert "EntityName" in simple_cypher
     assert "Jurisdiction" in simple_cypher
     assert "RETURN DISTINCT" in simple_cypher
     assert path_reverse is not None
     assert "officer_of" in path_reverse
+    assert "trim(src.name) AS officerName" in path_reverse
+    assert "trim(src.name) = 'KIM SOO IN'" in path_cypher
     assert "ConnectionStartDate" in path_cypher
     assert "dst <> src" in path_cypher
 
