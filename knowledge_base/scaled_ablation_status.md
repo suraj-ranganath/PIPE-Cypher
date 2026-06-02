@@ -149,12 +149,12 @@ Runtime metadata:
 - remote root: `/home/suraj/PIPE-Cypher-150f596-target100-exact`
 - log: `/home/suraj/PIPE-Cypher-150f596-target100-exact/logs/20260601_ablation100_qwen9b.log`
 
-Monitor snapshot recorded during the June 2, 2026 01:45 UTC update:
+Monitor snapshot recorded during the June 2, 2026 01:51 UTC update:
 
 - the tmux session is running;
 - 4/14 graph/variant cells have been observed;
 - 3/14 graph/variant cells are complete;
-- FinBench `ablation_retrieval_topk_0` had 1,039/800 target records but no run summary yet, so the cell was still treated as active/incomplete;
+- FinBench `ablation_retrieval_topk_0` had 1,147/800 target records but no run summary yet, so the cell was still treated as active/incomplete;
 - completed cells are FinBench `unconstrained_local_llm`, `reverse_only`, and `validators_repair`.
 
 Diagnostic note from the same update: the active no-retrieval cell was showing
@@ -256,6 +256,65 @@ python scripts/collect_remote_ablation_suite.py \
   --run-prefix 20260601_ablation50_qwen9b_seed17 \
   --target-per-category 50 \
   --wait-session pipecypher_ablation50_qwen9b_seed17 \
+  --poll-seconds 60
+```
+
+## Target-100 Post-Patch Suite
+
+Status: queued on `ds-serv6` in tmux session
+`pipecypher_ablation100_qwen9b_postpatch`. The session waits for
+`pipecypher_ablation50_qwen9b_seed17` to exit before starting, so it will run
+after the current target-100 suite and the seeded target-50 repeat.
+
+Research-use note: this suite is the clean large-scale follow-up for revision
+`f079ff596bcb5be17c251dad991c5e7972e5497b`, which adds deterministic
+relationship-property validation and tightens the judge prompt so categorical
+schema values constrain Cypher literals rather than live execution-result rows.
+Use it only after collection and paper-readiness audit; until then it is a
+queued reliability follow-up, not paper evidence.
+
+Runtime metadata:
+
+- run prefix: `20260602_ablation100_qwen9b_postpatch`
+- target per category: 100
+- generation model: `Qwen/Qwen3.5-9B`
+- judge model: `Qwen/Qwen3.5-9B`
+- recorded code revision: `f079ff596bcb5be17c251dad991c5e7972e5497b`
+- remote root: `/home/suraj/PIPE-Cypher-f079ff5-target100-postpatch`
+- log: `/home/suraj/PIPE-Cypher-f079ff5-target100-postpatch/logs/20260602_ablation100_qwen9b_postpatch.log`
+- wait dependency: `pipecypher_ablation50_qwen9b_seed17`
+
+Remote validation before launch:
+
+```bash
+cd /home/suraj/PIPE-Cypher-f079ff5-target100-postpatch
+/home/suraj/pipecypher-tools/runtime-venv/bin/python -m compileall -q pipecypher scripts
+/home/suraj/pipecypher-tools/runtime-venv/bin/python -c "import pipecypher; from pipecypher.validator import validate_cypher; print('import_ok')"
+```
+
+Launch command:
+
+```bash
+cd /home/suraj/PIPE-Cypher-f079ff5-target100-postpatch
+CODE_REVISION=f079ff596bcb5be17c251dad991c5e7972e5497b \
+SESSION=pipecypher_ablation100_qwen9b_postpatch \
+WAIT_FOR_SESSION=pipecypher_ablation50_qwen9b_seed17 \
+TARGET_PER_CATEGORY=100 \
+RUN_PREFIX=20260602_ablation100_qwen9b_postpatch \
+PYTHON_BIN=/home/suraj/pipecypher-tools/runtime-venv/bin/python \
+GENERATION_MODEL=Qwen/Qwen3.5-9B \
+JUDGE_MODEL=Qwen/Qwen3.5-9B \
+bash scripts/launch_live_ablation_suite_tmux.sh
+```
+
+After it completes, collect from the staged remote root:
+
+```bash
+python scripts/collect_remote_ablation_suite.py \
+  --remote-root /home/suraj/PIPE-Cypher-f079ff5-target100-postpatch \
+  --run-prefix 20260602_ablation100_qwen9b_postpatch \
+  --target-per-category 100 \
+  --wait-session pipecypher_ablation100_qwen9b_postpatch \
   --poll-seconds 60
 ```
 

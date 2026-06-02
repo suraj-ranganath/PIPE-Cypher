@@ -36,3 +36,15 @@ suites:
     code_revision: e9301cc08afaea5668291aee7bdbc26c9f1e7296
     status: queued_waiting_for_target100
     notes: Seeded target-50 repeat queued behind target-100 to add repeated-run evidence for reviewer-facing reliability without competing with active suites.
+  - name: target100_qwen9b_postpatch
+    run_prefix: 20260602_ablation100_qwen9b_postpatch
+    target_per_category: 100
+    category_count: 8
+    host: suraj@ds-serv6.ucsd.edu
+    remote_root: /home/suraj/PIPE-Cypher-f079ff5-target100-postpatch
+    session: pipecypher_ablation100_qwen9b_postpatch
+    generation_model: Qwen/Qwen3.5-9B
+    judge_model: Qwen/Qwen3.5-9B
+    code_revision: f079ff596bcb5be17c251dad991c5e7972e5497b
+    status: queued_waiting_for_seed17_repeat
+    notes: Post-patch target-100 suite queued behind the seeded repeat; uses relationship-property validation and the judge prompt fix that prevents categorical constraints from being applied to observed execution-result values.
