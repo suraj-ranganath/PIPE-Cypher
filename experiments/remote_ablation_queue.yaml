@@ -22,7 +22,7 @@ suites:
     judge_model: Qwen/Qwen3.5-9B
     code_revision: 150f596f68dd530869efb497250610a40d3570ee
     status: retired_over_target_old_revision
-    notes: Retired on June 2, 2026 after FinBench no-retrieval exceeded the target record count without a summary and showed old judge false-rejection patterns; superseded by the post-patch target-100 suite.
+    notes: Retired on June 2, 2026 after FinBench no-retrieval exceeded the target record count without a summary and showed old judge false-rejection patterns; superseded by the schemafix target-100 suite.
   - name: target50_qwen9b_seed17_repeat
     run_prefix: 20260601_ablation50_qwen9b_seed17
     target_per_category: 50
@@ -35,7 +35,7 @@ suites:
     run_seed: 17
     code_revision: e9301cc08afaea5668291aee7bdbc26c9f1e7296
     status: retired_superseded_by_postpatch_seed17
-    notes: Retired before generation on June 2, 2026 because it used a pre-patch revision; replaced by the post-patch seeded target-50 repeat queued behind the patched target-100 suite.
+    notes: Retired before generation on June 2, 2026 because it used a pre-patch revision; replaced by the schemafix seeded target-50 repeat queued behind the schemafix target-100 suite.
   - name: target100_qwen9b_postpatch
     run_prefix: 20260602_ablation100_qwen9b_postpatch
     target_per_category: 100
@@ -46,8 +46,8 @@ suites:
     generation_model: Qwen/Qwen3.5-9B
     judge_model: Qwen/Qwen3.5-9B
     code_revision: f079ff596bcb5be17c251dad991c5e7972e5497b
-    status: running
-    notes: Post-patch target-100 suite launched after retiring the old over-target target-100 and pre-patch seeded repeat; uses relationship-property validation and the judge prompt fix that prevents categorical constraints from being applied to observed execution-result values.
+    status: retired_schema_metadata_normalization_bug
+    notes: Retired on June 2, 2026 after the patched relationship-property validator exposed that Neo4j metadata relationship types such as :`TRANSFER_TO` were not normalized on schema load, causing valid TRANSFER_TO.amount templates to be rejected; superseded by the schemafix target-100 suite.
   - name: target50_qwen9b_seed17_postpatch
     run_prefix: 20260602_ablation50_qwen9b_seed17_postpatch
     target_per_category: 50
@@ -59,5 +59,30 @@ suites:
     judge_model: Qwen/Qwen3.5-9B
     run_seed: 17
     code_revision: f079ff596bcb5be17c251dad991c5e7972e5497b
-    status: queued_waiting_for_postpatch_target100
-    notes: Post-patch seeded target-50 repeat queued behind the patched target-100 suite to preserve repeated-seed variance evidence on the corrected validator/judge revision.
+    status: retired_superseded_by_schemafix_seed17
+    notes: Retired before generation on June 2, 2026 because it queued behind the schema-metadata-normalization-bug target-100 suite; replaced by the schemafix seeded target-50 repeat.
+  - name: target100_qwen9b_schemafix
+    run_prefix: 20260602_ablation100_qwen9b_schemafix
+    target_per_category: 100
+    category_count: 8
+    host: suraj@ds-serv6.ucsd.edu
+    remote_root: /home/suraj/PIPE-Cypher-389e7e0-schemafix
+    session: pipecypher_ablation100_qwen9b_schemafix
+    generation_model: Qwen/Qwen3.5-9B
+    judge_model: Qwen/Qwen3.5-9B
+    code_revision: 389e7e09af06bbdcc48c6a4bc80f8f2c7af3b944
+    status: running
+    notes: Schema-normalized target-100 suite launched on June 2, 2026 after remote validation confirmed TRANSFER_TO.amount is accepted from configs/schema_finbench.json; this is the current preferred large-scale ablation run.
+  - name: target50_qwen9b_seed17_schemafix
+    run_prefix: 20260602_ablation50_qwen9b_seed17_schemafix
+    target_per_category: 50
+    category_count: 8
+    host: suraj@ds-serv6.ucsd.edu
+    remote_root: /home/suraj/PIPE-Cypher-389e7e0-schemafix
+    session: pipecypher_ablation50_qwen9b_seed17_schemafix
+    generation_model: Qwen/Qwen3.5-9B
+    judge_model: Qwen/Qwen3.5-9B
+    run_seed: 17
+    code_revision: 389e7e09af06bbdcc48c6a4bc80f8f2c7af3b944
+    status: queued_waiting_for_schemafix_target100
+    notes: Schema-normalized seeded target-50 repeat queued behind the schemafix target-100 suite to provide repeated-seed variance evidence after the corrected large-scale run.
