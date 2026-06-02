@@ -92,6 +92,9 @@ def build_progress_report(
                 "variant_label": variant_label(variant),
                 "record_target": target_records,
                 "record_progress": min(records / target_records, 1.0) if target_records else 0.0,
+                "over_target_without_summary": bool(
+                    target_records and records >= target_records and not row["summary_present"]
+                ),
             }
         )
     seen = {(row["graph"], row["variant"]) for row in enriched}
@@ -103,6 +106,7 @@ def build_progress_report(
     ]
     completed = [row for row in enriched if row["summary_present"]]
     active = [row for row in enriched if not row["summary_present"]]
+    over_target_incomplete = [row for row in active if row["over_target_without_summary"]]
     return {
         "run_prefix": run_prefix,
         "target_per_category": target_per_category,
@@ -111,6 +115,20 @@ def build_progress_report(
         "observed_cells": len(enriched),
         "completed_cells": len(completed),
         "active_or_incomplete_cells": len(active),
+        "over_target_incomplete_cells": len(over_target_incomplete),
+        "over_target_incomplete": [
+            {
+                "graph": row["graph"],
+                "variant": row["variant"],
+                "records": row["records"],
+                "record_target": row["record_target"],
+                "run": row["run"],
+            }
+            for row in sorted(
+                over_target_incomplete,
+                key=lambda item: (item["graph"], item["variant"], item["run"]),
+            )
+        ],
         "session": session,
         "session_running": session_running,
         "rows": sorted(enriched, key=lambda row: (row["graph"], row["variant"], row["run"])),
@@ -138,6 +156,9 @@ def format_progress_text(report: dict) -> str:
         ]
     )
     for row in report["rows"]:
+        summary = "yes" if row["summary_present"] else "no"
+        if row.get("over_target_without_summary"):
+            summary = "no-over-target"
         lines.append(
             "| {graph} | {variant} | {records} | {target} | {progress:.3f} | {summary} | `{run}` |".format(
                 graph=row["graph"],
@@ -145,10 +166,22 @@ def format_progress_text(report: dict) -> str:
                 records=row["records"],
                 target=row["record_target"],
                 progress=row["record_progress"],
-                summary="yes" if row["summary_present"] else "no",
+                summary=summary,
                 run=row["run"],
             )
         )
+    if report.get("over_target_incomplete"):
+        lines.extend(["", "Over-target incomplete cells:"])
+        for item in report["over_target_incomplete"]:
+            lines.append(
+                "- {graph} / {variant}: {records}/{target} records without summary (`{run}`)".format(
+                    graph=item["graph"],
+                    variant=variant_label(str(item["variant"])),
+                    records=item["records"],
+                    target=item["record_target"],
+                    run=item["run"],
+                )
+            )
     if report["missing"]:
         lines.extend(["", "Missing cells:"])
         for item in report["missing"]:
@@ -183,4 +216,3 @@ def _remote_status(*, host: str, remote_root: str, run_prefix: str, dry_run: boo
 
 if __name__ == "__main__":
     main()
-

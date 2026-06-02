@@ -149,12 +149,13 @@ Runtime metadata:
 - remote root: `/home/suraj/PIPE-Cypher-150f596-target100-exact`
 - log: `/home/suraj/PIPE-Cypher-150f596-target100-exact/logs/20260601_ablation100_qwen9b.log`
 
-Monitor snapshot recorded during the June 2, 2026 01:51 UTC update:
+Monitor snapshot recorded during the June 2, 2026 01:53 UTC update:
 
 - the tmux session is running;
 - 4/14 graph/variant cells have been observed;
 - 3/14 graph/variant cells are complete;
-- FinBench `ablation_retrieval_topk_0` had 1,147/800 target records but no run summary yet, so the cell was still treated as active/incomplete;
+- FinBench `ablation_retrieval_topk_0` had 1,182/800 target records but no run summary yet, so the cell was still treated as active/incomplete and over target;
+- the queue monitor reports `next_action=investigate_over_target_incomplete_cell` for this suite;
 - completed cells are FinBench `unconstrained_local_llm`, `reverse_only`, and `validators_repair`.
 
 Diagnostic note from the same update: the active no-retrieval cell was showing
@@ -362,11 +363,11 @@ tmux capture-pane -pt pipecypher_ablation50_qwen9b_seed17 -S -20
 
 From the local repo, use the read-only remote monitor without fetching partial
 artifacts. The queue monitor covers the completed target-50 suite, the active
-target-100 suite, and the queued seeded target-50 repeat, including their
-different remote roots. It also prints
-`next_action` and a safe `collection_command` with `--wait-session` for active
-or waiting suites. Already collected paper-ready suites report
-`collection_command=not_applicable`:
+target-100 suite, the queued seeded target-50 repeat, and the queued post-patch
+target-100 suite, including their different remote roots. It also prints
+`next_action`, over-target incomplete cell diagnostics, and a safe
+`collection_command` with `--wait-session` for active or waiting suites.
+Already collected paper-ready suites report `collection_command=not_applicable`:
 
 ```bash
 python scripts/monitor_remote_ablation_queue.py \

@@ -127,6 +127,8 @@ def infer_next_action(report: dict[str, Any]) -> str:
     if state == "complete":
         return "collect_and_run_readiness_audit"
     if state == "running":
+        if report.get("over_target_incomplete_cells"):
+            return "investigate_over_target_incomplete_cell"
         return "wait_for_active_session_then_collect"
     if state == "queued_or_waiting":
         return "wait_for_dependency_or_session_start"

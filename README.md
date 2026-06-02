@@ -352,8 +352,13 @@ python scripts/compare_ablation_suites.py \
 
 To monitor the completed target-50 suite, active target-100 suite, and any
 queued repeated-seed suites in one read-only command, including each suite's
-`next_action` and safe `collection_command`. Already collected paper-ready
-suites report `collection_command=not_applicable` so they are not fetched twice:
+`next_action`, over-target incomplete cell diagnostics, and safe
+`collection_command`. Already collected paper-ready suites report
+`collection_command=not_applicable` so they are not fetched twice. If a live
+cell has more records than its planned target but no `summary.txt`, the monitor
+marks it `no-over-target` and reports
+`next_action=investigate_over_target_incomplete_cell` rather than treating it as
+collectible:
 
 ```bash
 python scripts/monitor_remote_ablation_queue.py \

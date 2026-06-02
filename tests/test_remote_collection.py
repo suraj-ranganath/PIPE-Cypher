@@ -208,6 +208,40 @@ def test_build_progress_report_marks_missing_and_active_cells():
     assert "| snb | Full PIPE-Cypher | 17 | 400 | 0.043 | no |" in text
 
 
+def test_build_progress_report_flags_over_target_incomplete_cells():
+    report = build_progress_report(
+        [
+            {
+                "run": "20260601_ablation100_qwen9b_finbench_ablation_retrieval_topk_0",
+                "records": 1170,
+                "summary_present": False,
+            }
+        ],
+        run_prefix="20260601_ablation100_qwen9b",
+        target_per_category=100,
+        category_count=8,
+        expected_graphs=["finbench"],
+        expected_variants=["ablation_retrieval_topk_0"],
+        session="target100",
+        session_running=True,
+    )
+    text = format_progress_text(report)
+
+    assert report["active_or_incomplete_cells"] == 1
+    assert report["over_target_incomplete_cells"] == 1
+    assert report["over_target_incomplete"] == [
+        {
+            "graph": "finbench",
+            "variant": "ablation_retrieval_topk_0",
+            "records": 1170,
+            "record_target": 800,
+            "run": "20260601_ablation100_qwen9b_finbench_ablation_retrieval_topk_0",
+        }
+    ]
+    assert "| finbench | No retrieval | 1170 | 800 | 1.000 | no-over-target |" in text
+    assert "Over-target incomplete cells:" in text
+
+
 def test_load_queue_config_validates_required_fields(tmp_path: Path):
     queue = tmp_path / "queue.yaml"
     queue.write_text(
@@ -310,6 +344,31 @@ def test_queue_report_marks_queued_and_running_suites():
     assert "next_action=wait_for_dependency_or_session_start" in text
     assert "collection_command=python scripts/collect_remote_ablation_suite.py" in text
     assert "remote_root=/remote/target50" in text
+
+
+def test_queue_next_action_investigates_over_target_incomplete_suite():
+    running = build_progress_report(
+        [
+            {
+                "run": "20260601_ablation100_qwen9b_finbench_ablation_retrieval_topk_0",
+                "records": 1170,
+                "summary_present": False,
+            }
+        ],
+        run_prefix="20260601_ablation100_qwen9b",
+        target_per_category=100,
+        category_count=8,
+        expected_graphs=["finbench"],
+        expected_variants=["ablation_retrieval_topk_0"],
+        session="target100",
+        session_running=True,
+    )
+
+    running["suite_state"] = infer_suite_state(running)
+    running["next_action"] = infer_next_action(running)
+
+    assert running["suite_state"] == "running"
+    assert running["next_action"] == "investigate_over_target_incomplete_cell"
 
 
 def test_queue_report_marks_already_collected_suite_without_collection_action():
