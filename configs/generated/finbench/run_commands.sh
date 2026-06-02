@@ -13,6 +13,5 @@ python scripts/run_pipeline.py --config configs/generated/finbench/ablation_judg
 python scripts/run_pipeline.py --config configs/generated/finbench/ablation_rewrite_false.yaml --run-name ablation_rewrite_false
 python scripts/run_pipeline.py --config configs/generated/finbench/ablation_rewrite_true.yaml --run-name ablation_rewrite_true
 python scripts/run_pipeline.py --config configs/generated/finbench/ablation_model_Qwen_Qwen3.5-9B.yaml --run-name ablation_model_Qwen_Qwen3.5-9B
-python scripts/run_pipeline.py --config configs/generated/finbench/ablation_model_Qwen_Qwen3.5-35B-A3B.yaml --run-name ablation_model_Qwen_Qwen3.5-35B-A3B
 python scripts/run_pipeline.py --config configs/generated/finbench/ablation_graph_mix_finbench_only.yaml --run-name ablation_graph_mix_finbench_only
 python scripts/run_pipeline.py --config configs/generated/finbench/ablation_graph_mix_finbench_plus_snb.yaml --run-name ablation_graph_mix_finbench_plus_snb

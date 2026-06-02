@@ -77,16 +77,16 @@ For repeated suites, set `RUN_SEED` and include the seed in the run prefix. The
 pipeline records the seed in per-run summaries and suite metadata, so appendix
 variance or sensitivity claims can point to reproducible repeated-seed runs.
 
-Current large-scale follow-up: `20260601_ablation100_qwen9b` is running on
-`ds-serv6` in tmux session `pipecypher_ablation100_qwen9b`, staged from commit
-`150f596f68dd530869efb497250610a40d3570ee` under
-`/home/suraj/PIPE-Cypher-150f596-target100-exact`. This is not paper evidence
+Current large-scale follow-up: `20260602_ablation100_qwen9b_schemafix` is running on
+`ds-serv6` in tmux session `pipecypher_ablation100_qwen9b_schemafix`, staged from commit
+`389e7e09af06bbdcc48c6a4bc80f8f2c7af3b944` under
+`/home/suraj/PIPE-Cypher-389e7e0-schemafix`. This is not paper evidence
 until it completes, is collected, and passes the paper-readiness audit.
 
-Additional repeated-run follow-up: `20260601_ablation50_qwen9b_seed17` is queued
-in tmux session `pipecypher_ablation50_qwen9b_seed17`, staged from commit
-`e9301cc08afaea5668291aee7bdbc26c9f1e7296` under
-`/home/suraj/PIPE-Cypher-e9301cc-target50-seed17`. It waits for target-100 to
+Additional repeated-run follow-up: `20260602_ablation50_qwen9b_seed17_schemafix` is queued
+in tmux session `pipecypher_ablation50_qwen9b_seed17_schemafix`, staged from commit
+`389e7e09af06bbdcc48c6a4bc80f8f2c7af3b944` under
+`/home/suraj/PIPE-Cypher-389e7e0-schemafix`. It waits for target-100 to
 finish and records `RUN_SEED=17` for repeated-seed sensitivity evidence. This is
 also not paper evidence until collected and audited.
 
@@ -124,10 +124,10 @@ For the target-100 suite, collect from the staged remote root after it exits:
 
 ```bash
 python scripts/collect_remote_ablation_suite.py \
-  --remote-root /home/suraj/PIPE-Cypher-150f596-target100-exact \
-  --run-prefix 20260601_ablation100_qwen9b \
+  --remote-root /home/suraj/PIPE-Cypher-389e7e0-schemafix \
+  --run-prefix 20260602_ablation100_qwen9b_schemafix \
   --target-per-category 100 \
-  --wait-session pipecypher_ablation100_qwen9b \
+  --wait-session pipecypher_ablation100_qwen9b_schemafix \
   --poll-seconds 60
 ```
 

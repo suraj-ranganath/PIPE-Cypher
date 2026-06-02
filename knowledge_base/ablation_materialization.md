@@ -32,7 +32,7 @@ The generated configs cover:
 - retrieval ablations: `retrieval_top_k` in `{0, 2, 4}`;
 - judge ablations: judge disabled/enabled;
 - rewrite ablations: `generation.normalize_cypher` disabled/enabled;
-- model ablations: `Qwen/Qwen3.5-9B` and `Qwen/Qwen3.5-35B-A3B`;
+- model ablations: current reported runs standardize on `Qwen/Qwen3.5-9B`; do not queue larger-model comparisons unless the owner explicitly reopens that study;
 - graph-mix ablations: FinBench-only and FinBench+SNB.
 
 Each generated config targets one graph profile. `finbench_only` is emitted only under `configs/generated/finbench`; `finbench_plus_snb` is emitted under both graph directories and should be exported as a combined benchmark after both graph runs complete.

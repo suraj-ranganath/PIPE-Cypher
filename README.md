@@ -19,6 +19,7 @@ The target paper is EMNLP Industry Track. The system is framed around property g
 - Deterministic seeded templates and graph-backed slot binding for reproducible live smoke runs.
 - Deterministic Cypher fallback that instantiates seed queries with bound graph values when an LLM proposal fails.
 - LLM-judge schema slicing so local Qwen smoke models judge candidates without needing the full live schema in context.
+- Enterprise onboarding template, deployment guide, configurable value-sampling policy, and redacted benchmark export tooling.
 - Pipeline runner scripts, configs, experiment matrix, paper outline, and literature notes.
 
 ## Quick Start
@@ -107,6 +108,25 @@ python scripts/render_judge_audit_packet.py \
 ```
 
 The labeling rubric is in `knowledge_base/judge_audit_protocol.md`.
+
+Enterprise onboarding and redacted exports:
+
+```bash
+python scripts/inspect_schema.py \
+  --config configs/enterprise_template.yaml \
+  --output configs/schema_enterprise_private.json
+
+python scripts/run_pipeline.py \
+  --config configs/enterprise_template.yaml \
+  --run-name enterprise_dry_run
+
+python scripts/redact_benchmark_export.py \
+  --input artifacts/benchmarks/enterprise_target50_raw \
+  --output artifacts/benchmarks/enterprise_target50_redacted \
+  --hash-placeholders
+```
+
+The full company deployment flow is documented in `knowledge_base/enterprise_deployment_guide.md`.
 
 Render appendix prompt contracts and representative accepted examples:
 
@@ -269,15 +289,14 @@ JUDGE_MODEL=Qwen/Qwen3.5-9B \
 For stronger reviewer-facing evidence, keep a target-100 suite running or queued
 after target-50 completes. If the active remote root is not a Git checkout, stage
 a separate code snapshot and collect from that root later. The current
-target-100 run uses the exact-session-wait checkout below:
+target-100 run is the schema-normalized suite below:
 
 ```bash
-cd /home/suraj/PIPE-Cypher-150f596-target100-exact
-CODE_REVISION=150f596f68dd530869efb497250610a40d3570ee \
-SESSION=pipecypher_ablation100_qwen9b \
-WAIT_FOR_SESSION=pipecypher_ablation50_qwen9b \
+cd /home/suraj/PIPE-Cypher-389e7e0-schemafix
+CODE_REVISION=389e7e09af06bbdcc48c6a4bc80f8f2c7af3b944 \
+SESSION=pipecypher_ablation100_qwen9b_schemafix \
 TARGET_PER_CATEGORY=100 \
-RUN_PREFIX=20260601_ablation100_qwen9b \
+RUN_PREFIX=20260602_ablation100_qwen9b_schemafix \
 PYTHON_BIN=/home/suraj/pipecypher-tools/runtime-venv/bin/python \
 GENERATION_MODEL=Qwen/Qwen3.5-9B \
 JUDGE_MODEL=Qwen/Qwen3.5-9B \
@@ -288,12 +307,12 @@ To queue a repeated target-50 suite behind a completed target-100 suite from a
 fresh staged checkout:
 
 ```bash
-cd /home/suraj/PIPE-Cypher-<commit>-target50-seed17
-CODE_REVISION=<commit> \
-SESSION=pipecypher_ablation50_qwen9b_seed17 \
-WAIT_FOR_SESSION=pipecypher_ablation100_qwen9b \
+cd /home/suraj/PIPE-Cypher-389e7e0-schemafix
+CODE_REVISION=389e7e09af06bbdcc48c6a4bc80f8f2c7af3b944 \
+SESSION=pipecypher_ablation50_qwen9b_seed17_schemafix \
+WAIT_FOR_SESSION=pipecypher_ablation100_qwen9b_schemafix \
 TARGET_PER_CATEGORY=50 \
-RUN_PREFIX=20260601_ablation50_qwen9b_seed17 \
+RUN_PREFIX=20260602_ablation50_qwen9b_seed17_schemafix \
 RUN_SEED=17 \
 PYTHON_BIN=/home/suraj/pipecypher-tools/runtime-venv/bin/python \
 GENERATION_MODEL=Qwen/Qwen3.5-9B \
@@ -329,10 +348,10 @@ For the staged target-100 run, use the staged remote root when collecting:
 
 ```bash
 python scripts/collect_remote_ablation_suite.py \
-  --remote-root /home/suraj/PIPE-Cypher-150f596-target100-exact \
-  --run-prefix 20260601_ablation100_qwen9b \
+  --remote-root /home/suraj/PIPE-Cypher-389e7e0-schemafix \
+  --run-prefix 20260602_ablation100_qwen9b_schemafix \
   --target-per-category 100 \
-  --wait-session pipecypher_ablation100_qwen9b \
+  --wait-session pipecypher_ablation100_qwen9b_schemafix \
   --poll-seconds 60
 ```
 
@@ -343,8 +362,8 @@ summary JSON files:
 ```bash
 python scripts/compare_ablation_suites.py \
   experiments/snapshots/20260601_ablation50_qwen9b/ablation_suite_summary.json \
-  experiments/snapshots/20260601_ablation100_qwen9b/ablation_suite_summary.json \
-  experiments/snapshots/20260601_ablation50_qwen9b_seed17/ablation_suite_summary.json \
+  experiments/snapshots/20260602_ablation100_qwen9b_schemafix/ablation_suite_summary.json \
+  experiments/snapshots/20260602_ablation50_qwen9b_seed17_schemafix/ablation_suite_summary.json \
   --output-json experiments/snapshots/ablation_suite_comparison.json \
   --output-md experiments/snapshots/ablation_suite_comparison.md \
   --output-csv experiments/snapshots/ablation_suite_comparison.csv
@@ -378,28 +397,12 @@ Check local model/cache availability on `ds-serv6`:
 
 ```bash
 python scripts/check_model_availability.py \
-  --model Qwen/Qwen3.5-35B-A3B \
   --model Qwen/Qwen3.5-9B \
   --model BAAI/bge-m3 \
   --remote
 ```
 
-The June 1, 2026 check found `Qwen/Qwen3.5-35B-A3B` available remotely; it has since been staged under `/home/suraj/pipecypher-models/Qwen3.5-35B-A3B`. `Qwen/Qwen3.5-9B` and `BAAI/bge-m3` are cached.
-
-Before serving the staged 35B target, check whether enough GPUs are safely free:
-
-```bash
-python scripts/check_vllm_capacity.py \
-  --model-dir /home/suraj/pipecypher-models/Qwen3.5-35B-A3B \
-  --gpu-memory-utilization 0.90 \
-  --reserve-mib 2048 \
-  --remote \
-  --format json
-```
-
-This command exits with status 2 when serving is not currently feasible. The latest tracked snapshot is `experiments/snapshots/qwen35b_capacity_20260602_latest.json`: the staged 35B weights require four A5000 GPUs under this vLLM budget, while only GPU 3 is safely free. The full live benchmark therefore uses the documented 9B fallback.
-
-Launch a detached full-generation fallback run with the currently served 9B endpoint:
+Launch a detached full-generation run with the served 9B endpoint:
 
 ```bash
 SESSION=pipecypher_full_qwen9b \

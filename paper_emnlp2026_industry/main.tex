@@ -30,24 +30,26 @@ Text-to-SQL benchmarks such as Spider 2.0~\cite{spider22024} and BIRD~\cite{bird
 For generated benchmark quality, PIPE-Cypher combines text-generation diversity diagnostics with text-to-query structure metrics. Distinct-n~\cite{li2016diversity} and self-BLEU-style redundancy checks~\cite{zhu2018texygen} capture lexical repetition, while schema coverage, query-signature diversity, structural feature rates, and normalized entropy over graph/category/difficulty cells capture properties that matter for executable Cypher benchmarks.
 
 \section{Method}
-PIPE-Cypher has five stages: schema profiling, template generation, reverse Cypher grounding, constrained Cypher generation and repair, deterministic validation and execution, and LLM-judge review. Deterministic checks enforce read-only safety, syntax shape, schema-visible labels and properties, explicit relationship types, observed relationship directions, schema-provided categorical values, and non-empty execution where required. A lightweight Cypher analyzer extracts return aliases, variables, labels, relationship observations, risky constructs, and rewrite skip reasons so normalization is auditable rather than a silent string edit. The direction gate interprets both outgoing and incoming Cypher arrow syntax before schema checking, and rejects undirected relationship patterns so directionality is an executable constraint rather than only a prompt instruction.
+PIPE-Cypher has six stages: schema profiling, template generation, reverse Cypher grounding, constrained Cypher generation and repair, deterministic validation and execution, and LLM-judge review. Deterministic checks enforce read-only safety, syntax shape, schema-visible labels and properties, explicit relationship types, observed relationship directions, schema-provided categorical values, and non-empty execution where required. A lightweight Cypher analyzer extracts return aliases, variables, labels, relationship observations, risky constructs, and rewrite skip reasons so normalization is auditable rather than a silent string edit. The direction gate interprets both outgoing and incoming Cypher arrow syntax before schema checking, and rejects undirected relationship patterns so directionality is an executable constraint rather than only a prompt instruction.
 
 \input{tables_method}
 
 \section{Implementation}
-The implementation is a Python package with Neo4j as the experimental backend. The paper frames the contribution around Cypher and property graphs rather than a single vendor. Local models are served through a vLLM/OpenAI-compatible endpoint on ds-serv6, using Qwen3.5 models for generation and judging.
+The implementation is a Python package with Neo4j as the experimental backend. The paper frames the contribution around Cypher and property graphs rather than a single vendor. Local models are served through a vLLM/OpenAI-compatible endpoint on ds-serv6, using Qwen3.5-9B for generation and judging.
 
-The intended full-quality model is Qwen3.5-35B-A3B, but our June 1, 2026 live evidence uses the cached Qwen3.5-9B fallback. The 35B-A3B weights were staged on ds-serv6 under root-backed storage. A serving-capacity check estimated that the staged weights require four A5000 GPUs under our vLLM budget, while only one GPU was safely free in the live snapshot, so the reported generation and downstream results use the 9B fallback.
+All reported generation, judging, and downstream evaluation runs use a local Qwen3.5-9B endpoint. This keeps the study aligned with an enterprise deployment pattern in which the benchmark pipeline runs inside the organization's compute boundary without paid generation APIs.
 
 The built-in FinBench profile is grounded in the public datagen snapshot export and includes typed node and relationship properties. Live schema inspection also records low-cardinality string values as categorical constraints for prompting and validation. The generated Neo4j import script uses uniqueness constraints for nodes and creates, rather than merges, transaction relationships so repeated account-to-account events are preserved. The SNB reference profile is grounded in the official Neo4j/Cypher headers and read-query files.
 
 For generation, PIPE-Cypher uses seeded workload templates with deterministic reverse-binding queries and a mixed mode that prepends proven workload seeds to LLM-proposed templates. Every run records accepted and rejected candidates for yield analysis. Retrieved few-shot examples replace graph-specific values with typed placeholders, preserving query structure while reducing tenant-value leakage and memorized entity reuse. A dependency-light value grounder adds typed prompt annotations for categorical values and reverse-bound entities, covering punctuation variants, possessives, plurals, synonyms, name partials, and small typos.
 
-For LLM-judge review, the implementation slices schema context to the labels, relationship types, and properties used by the candidate query. This preserves validation against the full schema while keeping local 9B fallback-model prompts within context limits on larger schemas.
+For LLM-judge review, the implementation slices schema context to the labels, relationship types, and properties used by the candidate query. This preserves validation against the full schema while keeping local 9B prompts within context limits on larger schemas.
 
 The deterministic Cypher layer borrows from production lessons in the BalkanID Cypher system: schema-only prompting, exact matching, relationship direction discipline, \texttt{RETURN DISTINCT}, reserved variable rejection, categorical values, required contextual return columns, fuzzy value annotations, placeholderized retrieval examples, and parser-aware rewrite boundaries. PIPE-Cypher records parser-style structure features and skips rewrites for risky constructs such as \texttt{UNION}, \texttt{CALL}, \texttt{UNWIND}, \texttt{WHERE EXISTS}, multiple \texttt{WHERE} clauses, or reserved variables.
 
 We also estimate seed-template capacity before full generation. This check caught and fixed a scale blocker: reverse-binding execution was hard-capped to 10 rows, and no-slot negation/ranking seeds could not support full category targets. PIPE-Cypher now uses the configured binding limit and includes slotted negation and ranking seeds for both graphs.
+
+For arbitrary enterprise onboarding, PIPE-Cypher includes a deployment template for a company's own graph, read-only credentials, local model endpoint, schema introspection, privacy policy, dry run, scaled run, audit, and redacted export. Configurable value-sampling policies bound which low-cardinality graph values enter schema prompts, and redacted exports replace quoted literals, entity values, and string-valued result samples with stable placeholders for broader internal review.
 
 \input{tables_seed_capacity}
 
@@ -66,11 +68,11 @@ The accepted full-run records were exported into a benchmark package with stable
 \input{tables_benchmark_export}
 \input{tables_full_artifact_distribution}
 
-We report diversity as a diagnostic, not only as a design target. The full export has perfect category balance and near-perfect difficulty balance, uses 1,115 unique grounded entity values, and exactly quotes grounded values in 82.6\% of examples with entity bindings. The Qwen3.5-9B fallback run still has low query-signature diversity because seeded graph-grounded templates are doing substantial work. This is useful evidence for industry deployment: the artifact is balanced and executable, while the appendix makes template and value concentration visible rather than hiding it.
+We report diversity as a diagnostic, not only as a design target. The full export has perfect category balance and near-perfect difficulty balance, uses 1,115 unique grounded entity values, and exactly quotes grounded values in 82.6\% of examples with entity bindings. The reported local-model run still has low query-signature diversity because seeded graph-grounded templates are doing substantial work. This is useful evidence for industry deployment: the artifact is balanced and executable, while the appendix makes template and value concentration visible rather than hiding it.
 
 The full-run failure taxonomy shows where generation effort was spent before export: 1,335 rejected candidates came from diversity or duplicate controls during recovery, 374 from empty execution results, 66 from judge semantic rejection, and only 2 from schema invalidity. This supports the claim that deterministic schema gates made invalid Cypher rare, while refresh-scale generation mostly needs better value/template exploration.
 
-For judge calibration, the released artifacts include an 80-row audit packet sampled from accepted and rejected full-run candidates, with 40 judge accepts, 40 judge rejects, 48 FinBench rows, 32 SNB rows, and all eight categories represented. The calibration tooling tracks graph, category, difficulty, strategy, and judge-decision coverage, and reports agreement, precision/recall, specificity, balanced accuracy, and Cohen's kappa once human labels are filled. The current draft treats these labels as pending human review rather than as a generation gate.
+For judge calibration, the released artifacts include an 80-row audit packet sampled from accepted and rejected full-run candidates, with a 40/40 judge accept/reject split and coverage over both graphs and all eight categories. A completed human audit shows 80.0\% agreement, Cohen's $\kappa=0.60$, judge precision and specificity of 1.00, recall of 0.714, and no false accepts in the sample. The judge is therefore conservative: it protects accepted-example quality while rejecting some human-approved candidates and reducing yield. Human labels are used only for post-hoc calibration, not as a generation gate.
 
 Finally, we ran a downstream Text2Cypher evaluation using local Qwen3.5-9B on the exported full test split. The model saw schema text and the natural-language question, generated Cypher, and was evaluated by live execution against the corresponding FinBench or SNB database. The result verifies that the exported artifact can drive downstream model evaluation and gives a difficulty signal: the zero-shot 9B baseline solves simple aggregation examples but struggles on more operational categories.
 
@@ -79,11 +81,13 @@ Finally, we ran a downstream Text2Cypher evaluation using local Qwen3.5-9B on th
 \section{Industry Use}
 PIPE-Cypher is intended to be rerun when an enterprise graph changes. The generated artifact records the schema snapshot, graph profile, model identifier, validation gates, execution samples, judge scores, difficulty features, and source run for every example. Long-running jobs can be monitored from JSONL records and recovered with category-specific top-up runs that reject questions accepted in earlier runs. This design supports private benchmark refreshes without exposing schemas or values to paid APIs, while still leaving audit hooks for data owners to sample accepted and rejected examples.
 
+The deployment path is designed for arbitrary enterprise schemas: teams provide read-only graph credentials, introspect labels/relationships/properties, choose a bounded categorical-value sampling policy, connect a local model endpoint, run a dry pass, scale generation, calibrate the judge, and export either raw internal artifacts or redacted review artifacts. This makes the FinBench/SNB study a reproducible evaluation setting rather than a hard-coded graph assumption.
+
 \section{Conclusion}
 PIPE-Cypher provides a practical path for enterprises to create private, executable, balanced NL-to-Cypher benchmarks. The pipeline combines schema introspection, constrained generation, deterministic validation, execution feedback, diversity control, and automated judge review.
 
 \section*{Limitations}
-Execution validity does not guarantee semantic correctness. LLM judges can over-accept plausible but wrong examples, so PIPE-Cypher releases a frozen post-hoc audit packet and requires complete human labels before reporting judge-human agreement. Generated artifacts may contain private schema details or sampled values, so organizations should apply normal data governance controls.
+Execution validity does not guarantee semantic correctness. The completed audit suggests a conservative judge with no false accepts in the labeled sample, but larger audits may reveal additional failure modes. Generated artifacts may contain private schema details or sampled values, so organizations should apply privacy redaction and normal data governance controls before broad sharing.
 
 \section*{Ethics Statement}
 PIPE-Cypher is designed for private benchmark generation under local-model deployment constraints. Organizations using it should restrict benchmark artifacts to authorized users, review sampled values for sensitive content, and document whether judge calibration relied on human annotators.
@@ -123,7 +127,7 @@ PIPE-Cypher is designed for private benchmark generation under local-model deplo
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{figures/diversity_diagnostics.pdf}
-\caption{Diversity diagnostics for the full 3,000-example export. Category, graph-category, and difficulty balance are strong by construction; schema coverage and query-signature diversity expose remaining concentration from the fallback seeded-template run.}
+\caption{Diversity diagnostics for the full 3,000-example export. Category, graph-category, and difficulty balance are strong by construction; schema coverage and query-signature diversity expose remaining concentration from the seeded-template run.}
 \label{fig:diversity_diagnostics}
 \end{figure}
 

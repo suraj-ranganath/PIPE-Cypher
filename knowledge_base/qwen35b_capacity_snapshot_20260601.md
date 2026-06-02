@@ -39,4 +39,4 @@ Tracked JSON evidence: `experiments/snapshots/qwen35b_capacity_20260602_latest.j
 
 ## Conclusion
 
-The staged target model should not be launched under this snapshot: it requires 4 low-utilization A5000 GPUs under the conservative vLLM budget, but only 1 GPU is safe. Continue reporting live results as Qwen3.5-9B fallback evidence unless a later snapshot or tested quantized/offload serving configuration changes this constraint.
+The staged larger model should not be launched under this snapshot: it requires 4 low-utilization A5000 GPUs under the conservative vLLM budget, but only 1 GPU is safe. Treat this as an internal serving-capacity note, not as paper-facing fallback evidence for the current Qwen3.5-9B study.

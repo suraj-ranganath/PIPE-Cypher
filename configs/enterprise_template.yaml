@@ -3,7 +3,7 @@ models:
   judge_model: Qwen/Qwen3.5-9B
   embedding_model: BAAI/bge-m3
   llm_base_url: http://localhost:8000/v1
-  request_timeout_sec: 180
+  request_timeout_sec: 120
   temperature: 0.2
   max_tokens: 1024
   reasoning_effort: none
@@ -14,12 +14,12 @@ models:
 neo4j:
   uri: bolt://localhost:7687
   user: neo4j
-  password: password
+  password: CHANGE_ME
   database: neo4j
-  query_timeout_sec: 90
+  query_timeout_sec: 60
 
 generation:
-  graph_profile: finbench
+  graph_profile: enterprise_private
   categories:
     - simple_retrieval
     - complex_retrieval
@@ -29,24 +29,32 @@ generation:
     - negation_difference
     - path_temporal
     - ranking_topk
-  target_per_category: 250
-  template_candidates: 12
+  target_per_category: 50
   template_source: mixed
-  retrieval_top_k: 4
-  repair_attempts: 2
+  retrieval_top_k: 3
+  normalize_cypher: true
+  repair_attempts: 1
   deterministic_cypher_fallback: true
-  max_entity_pct: 0.08
   require_non_empty: true
-  generated_query_limit: 300
+  generated_query_limit: 50
 
 judge:
   enabled: true
   deterministic_fallback: true
-  min_semantic_alignment: 0.78
-  min_schema_use: 0.85
-  max_ambiguity: 0.30
+  min_semantic_alignment: 0.75
+  min_schema_use: 0.8
+  max_ambiguity: 0.35
+
+privacy:
+  redact_questions: true
+  redact_cypher_literals: true
+  redact_entity_values: true
+  redact_result_samples: true
+  redact_numeric_literals: false
+  value_sampling_mode: bounded
+  categorical_max_values: 12
+  placeholder_prefix: VALUE
 
 paths:
   artifact_dir: artifacts
-  schema_path: configs/schema_finbench.json
-  seed_examples_path:
+  schema_path: configs/schema_enterprise_private.json

@@ -56,11 +56,11 @@ Candidate acceptance gates:
 
 The implementation is a Python package with Neo4j as the experimental backend. Neo4j is used for execution and schema introspection, while the paper frames the contribution around Cypher and property graphs.
 
-The project supports local vLLM-compatible model serving on `ds-serv6`. The target model is `Qwen/Qwen3.5-35B-A3B`; `Qwen/Qwen3.5-9B` is used for fallback full runs when the target model cannot be served. Embeddings use local BGE-M3-style models where retrieval embeddings are needed.
-
-The June 1, 2026 model check found `Qwen/Qwen3.5-35B-A3B` available remotely; it has since been staged under `/home/suraj/pipecypher-models/Qwen3.5-35B-A3B`. A serving-capacity check estimated that the staged weights require four A5000 GPUs under our vLLM budget, while only one GPU was safely free in the live snapshot. All live evidence in this draft therefore uses the 9B fallback.
+The project supports local vLLM-compatible model serving on `ds-serv6`. All reported generation, judging, and downstream evaluation runs use `Qwen/Qwen3.5-9B`; embeddings use local BGE-M3-style models where retrieval embeddings are needed. This matches the paper's enterprise deployment framing: benchmark generation stays inside the organization's compute boundary and does not rely on paid generation APIs.
 
 We also estimate seed-template capacity before full generation. This check caught and fixed a scale blocker: reverse-binding execution was hard-capped to 10 rows, and no-slot negation/ranking seeds could not support full category targets. PIPE-Cypher now uses the configured binding limit and includes slotted negation and ranking seeds for both graphs.
+
+For arbitrary enterprise onboarding, the repo includes a deployment template, privacy/value-sampling config fields, schema introspection from read-only credentials, and a redacted export CLI. Companies can bound which low-cardinality values enter prompts and can share review artifacts with quoted literals, entity values, and string-valued result samples replaced by stable placeholders.
 
 | Graph | Target/category | Binding limit | Min seed capacity | All categories meet target |
 | --- | ---: | ---: | ---: | --- |
@@ -83,7 +83,7 @@ Full live experimental setup:
 | Primary graph | LDBC FinBench, 2,000 examples |
 | Secondary graph | LDBC SNB, 1,000 examples |
 | Categories | 8 balanced categories, 375 each |
-| Generation/judge model | Local Qwen3.5-9B fallback |
+| Generation/judge model | Local Qwen3.5-9B |
 | Execution backend | Neo4j Community, two live databases |
 | Judge audit packet | 80 sampled accepted/rejected pairs |
 

@@ -28,7 +28,6 @@ ablations:
   judge: [false, true]
   generation_model:
     - Qwen/Qwen3.5-9B
-    - Qwen/Qwen3.5-35B-A3B
   graph_mix:
     - finbench_only
     - finbench_plus_snb
@@ -56,4 +55,3 @@ metrics:
     - parse_valid_rate
     - schema_valid_rate
     - difficulty_breakdown
-

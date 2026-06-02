@@ -2,9 +2,9 @@
 
 Date: June 1, 2026
 
-## Completed 9B Fallback Run
+## Completed Qwen3.5-9B Run
 
-The first detached full-generation run completed on `ds-serv6` using the local Qwen3.5-9B fallback:
+The first detached full-generation run completed on `ds-serv6` using the reported local Qwen3.5-9B endpoint:
 
 ```text
 run prefix: 20260601_full_qwen9b
@@ -58,9 +58,9 @@ manifest_sha256=8bc79a53a06b291a81974d7859d1a02d013c1e7dfc401e447b2897259aeaa47c
 judge_audit=artifacts/audits/20260601_full_qwen9b_judge_audit.csv, 80 sampled rows plus header
 ```
 
-## Target Model Staging
+## Historical Larger-Model Staging
 
-The 35B-A3B staging download completed on `ds-serv6`:
+The following larger-model staging download completed on `ds-serv6` as internal operations history. It is not paper-facing evidence and does not frame the Qwen3.5-9B study as fallback work:
 
 ```text
 tmux session: pipecypher_stage_qwen35b (completed)

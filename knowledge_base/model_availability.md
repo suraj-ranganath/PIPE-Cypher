@@ -6,7 +6,6 @@ Command run on `ds-serv6`:
 
 ```bash
 /home/suraj/pipecypher-tools/runtime-venv/bin/python scripts/check_model_availability.py \
-  --model Qwen/Qwen3.5-35B-A3B \
   --model Qwen/Qwen3.5-9B \
   --model BAAI/bge-m3 \
   --remote \
@@ -18,38 +17,30 @@ Result:
 
 | Model | Cached | Snapshots | Remote | Gated/private | Safetensors |
 | --- | ---: | ---: | --- | --- | ---: |
-| `Qwen/Qwen3.5-35B-A3B` | no | 0 | yes |  | 14 |
 | `Qwen/Qwen3.5-9B` | yes | 1 | yes |  | 4 |
 | `BAAI/bge-m3` | yes | 2 | yes |  | 0 |
 
 Interpretation:
 
-- `Qwen/Qwen3.5-35B-A3B` remains the target generation/judge model for full-quality experiments. It is not in the default Hugging Face cache, but it has now been staged under `/home/suraj/pipecypher-models/Qwen3.5-35B-A3B`.
-- `Qwen/Qwen3.5-9B` is the current local fallback model and has been used for live engineering checks, the full 3,000-example fallback benchmark, and downstream Text2Cypher evaluation so far.
+- `Qwen/Qwen3.5-9B` is the current reported local generation/judge model and has been used for live engineering checks, the full 3,000-example benchmark, target-size ablations, and downstream Text2Cypher evaluation.
 - `BAAI/bge-m3` is cached for local retrieval/embedding work.
 - `/data` currently has only about 1.1T free, while `/` has about 11T free. Stage large model weights under home/root-backed storage unless `/data` is cleaned.
 
-The full-generation runner supports either target or fallback models through environment overrides:
+The full-generation runner uses model IDs from environment overrides:
 
 ```bash
-# Fallback full run using the currently served 9B endpoint.
 SESSION=pipecypher_full_qwen9b \
 RUN_PREFIX=20260601_full_qwen9b \
 GENERATION_MODEL=Qwen/Qwen3.5-9B \
 JUDGE_MODEL=Qwen/Qwen3.5-9B \
 scripts/launch_live_full_generation_tmux.sh
-
-# Target full run after serving/staging Qwen3.5-35B-A3B.
-SESSION=pipecypher_full_qwen35b \
-RUN_PREFIX=20260601_full_qwen35b \
-GENERATION_MODEL=Qwen/Qwen3.5-35B-A3B \
-JUDGE_MODEL=Qwen/Qwen3.5-35B-A3B \
-scripts/launch_live_full_generation_tmux.sh
 ```
 
-## Staging 35B-A3B
+## Historical Larger-Model Staging
 
-A dry-run check on June 1, 2026 showed 14 safetensor shards totaling roughly 72GB, which fits the root-backed storage plan. Stage the target model in a detached remote session with:
+Historical Qwen3.5-35B-A3B staging notes are retained for internal operations only. They are not paper-facing evidence and should not frame the current Qwen3.5-9B study as fallback work.
+
+A dry-run check on June 1, 2026 showed 14 safetensor shards totaling roughly 72GB, which fits the root-backed storage plan. The historical staging command was:
 
 ```bash
 cd /home/suraj/PIPE-Cypher
@@ -75,7 +66,7 @@ latest observed disk usage: 67G
 staged files: 14 safetensor shards plus tokenizer/config files
 ```
 
-Serve the staged local path while preserving the canonical model name expected by configs:
+The staged local path could be served while preserving the canonical model name expected by older configs:
 
 ```bash
 MODEL=/home/suraj/pipecypher-models/Qwen3.5-35B-A3B \
@@ -93,7 +84,7 @@ Choose GPU IDs only after checking `nvidia-smi`; the command above is a template
 
 ## Serving Feasibility Snapshot
 
-Before launching a 35B vLLM endpoint, check current GPU capacity:
+Before launching a larger vLLM endpoint, check current GPU capacity:
 
 ```bash
 python scripts/check_vllm_capacity.py \
@@ -114,7 +105,7 @@ Safe GPUs: 1 (GPU 3)
 Feasible now: no
 ```
 
-The live GPU snapshot had GPU 2 occupied by the active Qwen3.5-9B vLLM ablation endpoint, GPUs 0/1/4/5/6/7 occupied by other long-running jobs or high utilization, and only GPU 3 safely free. Even stopping the 9B endpoint would leave too few safe GPUs under the conservative four-GPU requirement. This is the concrete blocker for 35B serving in the current run; the 9B fallback results are therefore the reported live results.
+The live GPU snapshot had GPU 2 occupied by the active Qwen3.5-9B vLLM ablation endpoint, GPUs 0/1/4/5/6/7 occupied by other long-running jobs or high utilization, and only GPU 3 safely free. Treat this as an internal serving-capacity note, not as manuscript fallback framing.
 
 The detailed snapshot is recorded in `knowledge_base/qwen35b_capacity_snapshot_20260601.md`, with the latest remote JSON evidence in `experiments/snapshots/qwen35b_capacity_20260602_latest.json`. Regenerate the Markdown note from captured JSON with:
 

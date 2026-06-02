@@ -1,0 +1,50 @@
+{
+  "coverage": {
+    "by_category": {
+      "boolean_existence": 13,
+      "complex_aggregation": 6,
+      "complex_retrieval": 7,
+      "negation_difference": 21,
+      "path_temporal": 6,
+      "ranking_topk": 14,
+      "simple_aggregation": 7,
+      "simple_retrieval": 6
+    },
+    "by_difficulty": {
+      "easy": 26,
+      "medium": 54
+    },
+    "by_graph": {
+      "finbench": 48,
+      "snb": 32
+    },
+    "by_strategy": {
+      "aggregation": 26,
+      "join_heavy": 7,
+      "negation": 21,
+      "order_rank": 14,
+      "path": 6,
+      "single_hop": 6
+    },
+    "judge_accepts": 40,
+    "judge_rejects": 40,
+    "labeled_rows": 80,
+    "total_rows": 80,
+    "unlabeled_rows": 0
+  },
+  "metrics": {
+    "agreement_rate": 0.8,
+    "balanced_accuracy": 0.8571428571428572,
+    "cohen_kappa": 0.6000000000000001,
+    "false_accepts": 0,
+    "false_rejects": 16,
+    "judge_negative_predictive_value": 0.6,
+    "judge_precision": 1.0,
+    "judge_recall": 0.7142857142857143,
+    "judge_specificity": 1.0,
+    "total_labeled": 80,
+    "true_accepts": 40,
+    "true_rejects": 24
+  },
+  "notes": "Sanitized summary of the filled June 2026 judge audit CSV. Raw value-bearing rows are not tracked in git."
+}

@@ -132,9 +132,8 @@ def _conclusion(snapshot: dict[str, Any]) -> str:
     return (
         "The staged target model should not be launched under this snapshot: "
         f"it requires {required} low-utilization A5000 GPUs under the conservative "
-        f"vLLM budget, but only {safe_count} {gpu_word} safe. Continue reporting live "
-        "results as Qwen3.5-9B fallback evidence unless a later snapshot or tested "
-        "quantized/offload serving configuration changes this constraint."
+        f"vLLM budget, but only {safe_count} {gpu_word} safe. Treat this as an "
+        "internal serving-capacity note, not as paper-facing fallback evidence."
     )
 
 

@@ -10,11 +10,14 @@ Rows & 80 \\
 Judge accept / reject & 40 / 40 \\
 FinBench / SNB rows & 48 / 32 \\
 Easy / medium rows & 26 / 54 \\
-Labeled rows & 0 \\
-Calibration status & unlabeled \\
+Labeled rows & 80 \\
+Agreement / Cohen's $\kappa$ & 0.800 / 0.600 \\
+Judge precision / recall & 1.000 / 0.714 \\
+Judge specificity & 1.000 \\
+False accepts / false rejects & 0 / 16 \\
 \bottomrule
 \end{tabular}
 }
-\caption{Post-hoc judge calibration packet coverage. Human labels are pending until the packet is complete and are not used as a generation gate.}
+\caption{Post-hoc judge calibration from the completed 80-row human audit. Labels are used only to calibrate the automated judge, not as a generation gate.}
 \label{tab:judge_audit_coverage}
 \end{table}

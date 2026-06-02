@@ -6,10 +6,11 @@ PIPE-Cypher is an industry-track research codebase for automatic benchmark gener
 
 - Use Cypher/property-graph language in the paper and docs. Neo4j is the experimental backend, not the conceptual contribution.
 - Do not use paid generation APIs for dataset generation. Use local models on `suraj@ds-serv6.ucsd.edu`.
-- Default generation/judge model: `Qwen/Qwen3.5-35B-A3B` served locally with vLLM when it fits. Smoke-test fallback: `Qwen/Qwen3.5-9B`.
+- Reported generation/judge model: `Qwen/Qwen3.5-9B` served locally with vLLM or another local OpenAI-compatible endpoint. Do not frame the 9B study as fallback evidence or make the inability to run larger models a manuscript limitation unless the project owner explicitly reopens that comparison.
 - For Qwen/vLLM, keep reasoning traces out of generated artifacts: use `reasoning_effort=none`, `include_reasoning=false`, `chat_template_kwargs.enable_thinking=false`, and strip residual `</think>` preambles before JSON parsing.
 - Default embedding model: BGE-M3 or another local embedding model.
 - Primary graph workload: LDBC FinBench, because it targets financial fraud and risk-control scenarios. Secondary generality workload: LDBC SNB.
+- The pipeline must support arbitrary enterprise property-graph onboarding beyond FinBench/SNB. FinBench and SNB are study workloads, not hard-coded assumptions.
 - Preserve the BalkanID Cypher work as a first-class design source. Reuse its ideas for constrained prompting, relationship direction discipline, read-only query safety, `RETURN DISTINCT`, exact matching for quoted values, required contextual return columns, synonym normalization, categorical-property constraints, and post-generation rewrites.
 - Treat BalkanID's parser/listener and query-alteration design as an innovation source, not just an implementation detail. When practical, prefer grammar/AST-aware validation and conservative rewrites over brittle string edits; when parser risk is high, skip rewrites and log why.
 - Human review is not a generation gate. Use deterministic validation plus LLM-judge review. A small human audit may be used only to calibrate judge reliability for the paper.
@@ -21,6 +22,7 @@ PIPE-Cypher is an industry-track research codebase for automatic benchmark gener
 - Keep the pipeline runnable without GPU access for deterministic tests.
 - Treat generated Cypher as unsafe until it passes read-only, schema, syntax, execution, and judge checks.
 - Prefer schema-derived constraints over prompt-only instructions.
+- Provide configurable privacy redaction and value-sampling policies for enterprise users. Raw internal artifacts may contain schema names, values, questions, Cypher literals, and result samples; anything intended for broad review, appendix material, or external sharing must either be sanitized or clearly marked as private/internal.
 - Log every accepted and rejected candidate with enough metadata to reproduce failure analysis.
 - Do not silently weaken validation to improve yield; add explicit ablations if a check is optional.
 - Measure benchmark diversity explicitly. Report lexical diversity, query-template/signature diversity, schema coverage, structural feature coverage, difficulty balance, and graph/category balance.
@@ -46,6 +48,7 @@ PIPE-Cypher should make a defensible research contribution beyond porting PIPE-K
 - Diversity and difficulty control: balanced category sampling, structural feature coverage, template/signature diversity, schema coverage, value/entity coverage, lexical diversity, self-similarity diagnostics, and per-difficulty downstream evaluation.
 - Automated quality gates: deterministic validators plus local LLM judge, with a post-hoc human audit only for judge calibration and failure analysis.
 - Benchmark refresh story: show how an enterprise can regenerate or update a private benchmark as schemas, categorical values, and graph contents evolve.
+- Enterprise deployment story: maintain a clean guide for connecting a company's own graph, read-only credentials, schema introspection, local model endpoint, privacy/value policy, dry run, scaled run, audit, and redacted export.
 
 Each novelty claim in the paper should map to code, an ablation, a table/figure, or a documented blocked experiment.
 
@@ -68,7 +71,9 @@ High-value ideas to adapt where practical:
 The core contribution is an enterprise benchmark-generation pipeline, not another static Text2Cypher dataset. The paper should emphasize:
 
 - private enterprise schemas and values;
+- arbitrary enterprise schema onboarding beyond the two LDBC study workloads;
 - repeatable benchmark refresh as graphs evolve;
+- configurable privacy redaction and value-sampling policies;
 - constrained Cypher generation and repair;
 - automated quality gates with judge calibration;
 - balanced difficulty and workload diversity;
@@ -93,11 +98,12 @@ The main paper should stay tight, but the appendix can be long. Use the appendix
 - The project owner explicitly wants more large-scale evaluation and ablations, not merely a minimally complete paper. While the goal is active, keep using available `ds-serv6` capacity to finish, repeat, or broaden research-quality runs that strengthen reviewer confidence.
 - Continue pursuing larger evaluation and ablation runs while compute is available. Do not stop at the first complete suite if a target-100, repeated target-50, larger refreshed export, or broader downstream-model evaluation is feasible within `ds-serv6` constraints.
 - Report uncertainty where possible: repeated seeds, bootstrap confidence intervals, paired comparisons on the same held-out examples, per-graph/per-category/per-difficulty variance, or clear sensitivity analyses. If a run is too expensive to repeat, say so explicitly and avoid treating a single aggregate as settled fact.
-- Do not overclaim from fallback-model or partial-run evidence. If Qwen3.5-35B-A3B cannot be served, state that explicitly and report Qwen3.5-9B results as a documented local-model fallback rather than as the intended strongest configuration.
+- Do not overclaim from partial-run evidence. The manuscript's local-model study should report Qwen3.5-9B as the standard deployed endpoint for this paper, not as a fallback from an unavailable larger model.
 - Keep main-paper claims compact and evidence-backed. Use the appendix aggressively for scaled experiment matrices, ablation plots, judge calibration, failure taxonomy, qualitative examples, prompt variants, parser/rewrite case studies, downstream per-difficulty breakdowns, and graph-specific details.
 - The paper should compare or position against verified prior work such as Text-to-Cypher benchmarks, SyntheT2C, Spider 2.0, BIRD, AutoQuery-style generation pipelines, LDBC FinBench, LDBC SNB, and relevant Text-to-SQL synthetic benchmark methods found during literature review.
 - Report metrics that reviewers can audit: generation yield, syntax validity, schema validity, read-only safety, execution success, non-empty result rate, repair success, judge pass rate, judge-human agreement, diversity metrics, difficulty balance, downstream execution accuracy, answer F1, parse validity, schema validity, and per-category/per-difficulty performance.
 - Every figure and table should answer a paper question: why the benchmark matters, what the pipeline changes, which gates improve quality, how diversity/difficulty are controlled, where failures occur, and whether downstream evaluation becomes more discriminative.
+- The completed 80-row human judge audit from June 2026 is usable calibration evidence: report the filled-audit agreement metrics only from sanitized summaries, not raw value-bearing CSV rows. The observed judge behavior is precision-oriented: 80.0% agreement, Cohen's kappa 0.60, judge precision/specificity 1.00, judge recall 0.714, and zero false accepts in the labeled sample. Frame this as a conservative generation gate that protects accepted benchmark quality while reducing yield.
 
 ## Large-Scale Experiment Standard
 

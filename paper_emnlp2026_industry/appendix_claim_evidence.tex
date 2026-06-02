@@ -3,15 +3,15 @@
 This section maps the main paper claims to the strongest current evidence and to the remaining risks. This is intended as a reviewer-facing audit surface: claims with pending evidence remain marked as such rather than being folded into the main results.
 \begin{enumerate}
 \item \textbf{Claim 1.} PIPE-Cypher can generate a private, executable NL-to-Cypher benchmark over enterprise-style property graphs using local models.\par
-\textit{Evidence.} The full Qwen3.5-9B fallback run exported 3,000 accepted examples: 2,000 FinBench and 1,000 SNB, with 375 examples in every planned workload category and all accepted examples passing read-only, syntax, schema, execution, non-empty-result, and judge gates.\par
+\textit{Evidence.} The full local Qwen3.5-9B run exported 3,000 accepted examples: 2,000 FinBench and 1,000 SNB, with 375 examples in every planned workload category and all accepted examples passing read-only, syntax, schema, execution, non-empty-result, and judge gates.\par
 \textit{Key artifacts.} benchmark export; manifest snapshot; paper table: benchmark export; paper table: full results\par
-\textit{Status.} Supported by live 9B fallback evidence; 35B target run is blocked by current GPU capacity.\par
-\textit{Risk.} Generation quality may change with the target 35B model or with private enterprise schemas beyond FinBench/SNB.
+\textit{Status.} Supported by live local-model evidence.\par
+\textit{Risk.} Generation quality may change with private enterprise schemas beyond FinBench/SNB.
 \item \textbf{Claim 2.} Cypher-specific governance makes generated benchmark candidates safer and more auditable than prompt-only generation.\par
 \textit{Evidence.} The pipeline validates read-only safety, schema-visible labels, node and relationship properties, relationships, observed relationship direction, categorical values, contextual return columns, parser-style structure, execution success, and LLM-judge review. In the full run, only 2 of 4,777 candidates were schema-invalid after deterministic governance, and all 3,000 exported examples passed the deterministic and judge gates.\par
 \textit{Key artifacts.} code: validator.py; code: cypher\_parser.py; code: question\_constraints.py; snapshot: failure taxonomy; +1 more\par
 \textit{Status.} Supported by code, tests, and full-run failure taxonomy.\par
-\textit{Risk.} Semantic correctness still depends on execution evidence and judge review; human audit labels are pending.
+\textit{Risk.} Semantic correctness still depends on execution evidence and judge review; the completed 80-row audit is a calibration sample rather than an exhaustive proof.
 \item \textbf{Claim 3.} Reverse grounding and structured workload seeds are designed to improve reliability under local-model constraints.\par
 \textit{Evidence.} The target-50 FinBench/SNB ablation suite completed 14/14 graph/variant cells, reached every category target for all non-empty/non-unconstrained runs, and passed the paper-readiness audit with logs, model IDs, code revision, run summaries, and gate-rate availability. Appendix-only tables plus yield and gate-rate figures report the audited target-50 evidence while the target-100 follow-up and seeded target-50 repeat continue for stronger final reliability and variance claims.\par
 \textit{Key artifacts.} script: run live ablation suite; script: monitor remote ablation suite; script: monitor remote ablation queue; script: collect remote ablation suite; +9 more\par
@@ -21,20 +21,20 @@ This section maps the main paper claims to the strongest current evidence and to
 \textit{Evidence.} The full export has perfect category balance, planned 2:1 FinBench/SNB graph mix, and a near-even easy/medium split. Diversity diagnostics report Distinct-n, sampled self-BLEU-2, query-signature diversity, normalized entropy, schema coverage, structural feature rates, and aggregate value-grounding diagnostics. The full export uses 1,115 unique grounded entity values and exactly quotes grounded values in 82.6\% of examples with entity bindings, making template and value concentration visible instead of hidden.\par
 \textit{Key artifacts.} snapshot: diversity report; paper table: diversity; paper figure: diversity diagnostics; paper figure: full export distribution\par
 \textit{Status.} Supported by full-export statistics and diversity diagnostics.\par
-\textit{Risk.} Low query-signature diversity in the 9B fallback run remains a limitation and ablation target.
+\textit{Risk.} Low query-signature diversity in the reported local-model run remains a limitation and ablation target.
 \item \textbf{Claim 5.} The generated benchmark is useful for downstream Text2Cypher evaluation.\par
 \textit{Evidence.} A zero-shot local Qwen3.5-9B downstream evaluation over the 296-example full test split reports parse validity, schema validity, execution success, execution accuracy, answer F1, per-category breakdowns, fixed-seed bootstrap uncertainty intervals, and a row-level error taxonomy. The model reaches 0.189 execution accuracy with a 95\% bootstrap interval of [0.145, 0.233] and 0.622 execution success with interval [0.564, 0.676]. The error taxonomy classifies 240 incorrect rows into answer mismatches, execution failures, schema invalid predictions, and parse-invalid predictions, showing the benchmark can discriminate easy aggregation from harder operational categories and can explain model failure modes.\par
 \textit{Key artifacts.} downstream summary; snapshot: downstream uncertainty; snapshot: downstream error report; research note: downstream evaluation; +6 more\par
 \textit{Status.} Supported by live downstream evaluation against FinBench/SNB databases, with bootstrap uncertainty computed from row-level outputs.\par
 \textit{Risk.} Only one downstream model has been evaluated so far.
 \item \textbf{Claim 6.} Automated LLM-judge review can replace human-in-the-loop generation gates while still exposing judge risk.\par
-\textit{Evidence.} The pipeline uses deterministic validation plus LLM-judge review as the generation gate. A post-hoc 80-row judge audit packet preserves 40 judge accepts, 40 judge rejects, both graphs, and all eight categories. Deterministic sidecar generation now creates two independent annotator sheets plus an adjudication template, with a tracked hash manifest that does not commit raw value-bearing sheets. The analyzer reports agreement, precision/recall, specificity, balanced accuracy, and Cohen's kappa only after the packet is completely human-labeled; partial labels are not treated as paper-ready calibration.\par
+\textit{Evidence.} The pipeline uses deterministic validation plus LLM-judge review as the generation gate. A post-hoc 80-row judge audit packet preserves 40 judge accepts, 40 judge rejects, both graphs, and all eight categories. The completed human audit reports 80.0\% agreement, Cohen's kappa 0.60, balanced accuracy 0.857, judge precision 1.00, judge specificity 1.00, judge recall 0.714, zero false accepts, and 16 false rejects. The analyzer requires complete labels for paper-facing calibration, and the tracked summary avoids committing raw value-bearing audit rows.\par
 \textit{Key artifacts.} code: judge.py; code: calibration.py; code: judge\_audit\_packet.py; script: create judge annotation sheets; +6 more\par
-\textit{Status.} Pipeline gate is implemented; audit packet coverage is supported; judge-human agreement remains unreported until all audit rows are labeled.\par
-\textit{Risk.} Judge-human agreement is not yet known because human labels are still blank.
-\item \textbf{Claim 7.} The intended 35B local generation/judge path is staged but not currently runnable under observed shared-GPU constraints.\par
-\textit{Evidence.} Qwen3.5-35B-A3B is staged on ds-serv6, but the capacity checker reports 68,573 MiB of weights, four required A5000 GPUs under the conservative vLLM budget, and only one safe GPU in the latest snapshot.\par
-\textit{Key artifacts.} script: check vllm capacity; script: render vllm capacity snapshot; research note: model availability; research note: qwen35b capacity snapshot 20260601; +1 more\par
-\textit{Status.} Documented blocker; current paper results are explicitly reported as Qwen3.5-9B fallback evidence.\par
-\textit{Risk.} A later 35B run may change yield, diversity, judge behavior, and downstream conclusions.
+\textit{Status.} Supported by completed human audit summary.\par
+\textit{Risk.} The judge appears conservative on this sample; larger audits or different enterprise schemas may reveal false accepts.
+\item \textbf{Claim 7.} PIPE-Cypher supports arbitrary enterprise schema onboarding with configurable privacy redaction and value-sampling policies.\par
+\textit{Evidence.} The repo includes an enterprise deployment guide, an enterprise template config, privacy config fields, schema introspection that reads the categorical-value threshold from config, deterministic redaction helpers, and a redacted benchmark export CLI. The redaction policy replaces quoted Cypher literals, question mentions, entity values, and string-valued result samples with stable placeholders while preserving query structure and gate metadata.\par
+\textit{Key artifacts.} research note: enterprise deployment guide; enterprise\_template.yaml; code: privacy.py; script: redact benchmark export; +2 more\par
+\textit{Status.} Supported by docs, config, code, and deterministic tests.\par
+\textit{Risk.} The strongest industry validation would still come from running the pipeline on a real or anonymized enterprise graph beyond LDBC.
 \end{enumerate}

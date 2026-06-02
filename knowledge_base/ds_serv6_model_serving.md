@@ -28,7 +28,7 @@ Additional June 1, 2026 checks:
 - `~/miniforge3` exists.
 - Conda env `pipe-rdf-arr` has `vllm`, `torch`, `transformers`, and `huggingface_hub`.
 - Cached local models include `Qwen/Qwen3.5-9B`, `Qwen/Qwen3.5-4B`, `Qwen/Qwen3.5-2B`, `Qwen/Qwen3.5-0.8B`, and `BAAI/bge-m3`.
-- `Qwen/Qwen3.5-35B-A3B` exists in Hugging Face metadata and has now been staged under `/home/suraj/pipecypher-models/Qwen3.5-35B-A3B`; current live runs still use `Qwen/Qwen3.5-9B` unless a separate 35B endpoint is started.
+- `Qwen/Qwen3.5-9B` and `BAAI/bge-m3` are the standard local model/cache targets for the current reported study. Historical larger-model staging notes are internal operations history, not paper-facing fallback evidence.
 
 ## Suggested Setup
 
@@ -42,14 +42,6 @@ cd /path/to/PIPE-Cypher
 # Existing env verified on June 1, 2026:
 CONDA_ENV=pipe-rdf-arr CUDA_VISIBLE_DEVICES=2,3 bash scripts/serve_qwen_vllm.sh Qwen/Qwen3.5-9B
 ```
-
-For the target model:
-
-```bash
-CONDA_ENV=pipe-rdf-arr CUDA_VISIBLE_DEVICES=2,3 bash scripts/serve_qwen_vllm.sh Qwen/Qwen3.5-35B-A3B
-```
-
-If the 35B-A3B model does not fit on two A5000s, try more GPUs or use the 9B model for generation and judge smoke experiments while recording the limitation.
 
 From the local workstation, after syncing this repo to `/home/suraj/PIPE-Cypher` on `ds-serv6`, the helper script can start vLLM in tmux:
 
@@ -122,7 +114,7 @@ That run accepted 4/4 examples with LLM-judge review over the loaded SNB Cypher 
 
 ## Full Generation Launch
 
-Full 3,000-example generation can be launched in a detached tmux session. Use the fallback command while only the 9B model is served:
+Full 3,000-example generation can be launched in a detached tmux session with the standard 9B endpoint:
 
 ```bash
 SESSION=pipecypher_full_qwen9b \
@@ -132,7 +124,7 @@ JUDGE_MODEL=Qwen/Qwen3.5-9B \
 scripts/launch_live_full_generation_tmux.sh
 ```
 
-Observed June 1, 2026 fallback launch:
+Observed June 1, 2026 launch:
 
 ```text
 started session=pipecypher_full_qwen9b run_prefix=20260601_full_qwen9b generation_model=Qwen/Qwen3.5-9B log=logs/20260601_full_qwen9b_full_generation.log
@@ -149,39 +141,4 @@ python scripts/monitor_generation_run.py artifacts/runs/<run_dir>/records.jsonl 
 
 The current live status and follow-up export command are recorded in `knowledge_base/full_run_status.md`.
 
-After staging and serving `Qwen/Qwen3.5-35B-A3B`, launch the target run by setting `GENERATION_MODEL` and `JUDGE_MODEL` to `Qwen/Qwen3.5-35B-A3B`.
-
-The 35B-A3B staging helper is:
-
-```bash
-MODEL=Qwen/Qwen3.5-35B-A3B \
-LOCAL_DIR=/home/suraj/pipecypher-models/Qwen3.5-35B-A3B \
-bash scripts/stage_qwen35b_model.sh
-```
-
-The June 1, 2026 staging session completed successfully with 14 safetensor shards plus tokenizer/config files in `/home/suraj/pipecypher-models/Qwen3.5-35B-A3B` (67G observed). To serve the staged local path under the canonical model name used by the configs:
-
-```bash
-MODEL=/home/suraj/pipecypher-models/Qwen3.5-35B-A3B \
-SERVED_MODEL_NAME=Qwen/Qwen3.5-35B-A3B \
-CUDA_VISIBLE_DEVICES=<free_gpu_ids> \
-TENSOR_PARALLEL_SIZE=<number_of_gpu_ids> \
-MAX_MODEL_LEN=4096 \
-GPU_MEMORY_UTILIZATION=0.90 \
-CONDA_ENV=pipe-rdf-arr \
-EXTRA_VLLM_ARGS='--no-enable-flashinfer-autotune --enforce-eager --max-num-seqs 1 --max-num-batched-tokens 4096' \
-scripts/launch_ds_serv6_vllm.sh
-```
-
-Check feasibility before launching:
-
-```bash
-python scripts/check_vllm_capacity.py \
-  --model-dir /home/suraj/pipecypher-models/Qwen3.5-35B-A3B \
-  --gpu-memory-utilization 0.90 \
-  --reserve-mib 2048 \
-  --remote \
-  --format json
-```
-
-The latest June 2, 2026 02:11 UTC remote snapshot reported 68,573 MiB of safetensor weights, four required A5000 GPUs under the conservative serving budget, and only GPU 3 safely free. The command exits with status 2 while `feasible=false`. Do not launch the 35B endpoint until at least four low-utilization GPUs are available, or update the serving plan with a tested quantized/CPU-offload configuration. The full capacity table is in `knowledge_base/qwen35b_capacity_snapshot_20260601.md`, the tracked JSON evidence is `experiments/snapshots/qwen35b_capacity_20260602_latest.json`, and `scripts/render_vllm_capacity_snapshot.py` regenerates the Markdown note from captured JSON.
+Historical larger-model staging and capacity notes remain in `knowledge_base/qwen35b_capacity_snapshot_20260601.md` and `experiments/snapshots/qwen35b_capacity_20260602_latest.json` for internal operations only. They should not be used as manuscript evidence or as fallback framing for the current Qwen3.5-9B study.

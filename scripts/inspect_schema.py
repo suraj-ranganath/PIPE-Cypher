@@ -23,12 +23,20 @@ def main() -> None:
     parser.add_argument(
         "--categorical-max-values",
         type=int,
-        default=12,
-        help="Infer string properties with at most this many distinct values as categorical; use 0 to disable.",
+        default=None,
+        help=(
+            "Infer string properties with at most this many distinct values as categorical; "
+            "use 0 to disable. Defaults to privacy.categorical_max_values from the config."
+        ),
     )
     args = parser.parse_args()
 
     cfg = load_config(args.config)
+    categorical_max_values = (
+        args.categorical_max_values
+        if args.categorical_max_values is not None
+        else cfg.privacy.categorical_max_values
+    )
     if args.reference_only:
         schema = reference_schema(cfg.generation.graph_profile)
     else:
@@ -42,7 +50,7 @@ def main() -> None:
         schema = introspect_schema(
             client,
             graph_name=cfg.generation.graph_profile,
-            categorical_max_values=args.categorical_max_values,
+            categorical_max_values=categorical_max_values,
         )
         client.close()
 

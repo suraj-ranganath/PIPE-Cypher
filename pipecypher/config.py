@@ -69,12 +69,25 @@ class PathConfig:
 
 
 @dataclass
+class PrivacyConfig:
+    redact_questions: bool = True
+    redact_cypher_literals: bool = True
+    redact_entity_values: bool = True
+    redact_result_samples: bool = True
+    redact_numeric_literals: bool = False
+    value_sampling_mode: str = "bounded"
+    categorical_max_values: int = 12
+    placeholder_prefix: str = "VALUE"
+
+
+@dataclass
 class RunConfig:
     models: ModelConfig = field(default_factory=ModelConfig)
     neo4j: Neo4jConfig = field(default_factory=Neo4jConfig)
     generation: GenerationConfig = field(default_factory=GenerationConfig)
     judge: JudgeConfig = field(default_factory=JudgeConfig)
     paths: PathConfig = field(default_factory=PathConfig)
+    privacy: PrivacyConfig = field(default_factory=PrivacyConfig)
 
 
 def _merge_dataclass(obj: Any, values: dict[str, Any]) -> Any:
