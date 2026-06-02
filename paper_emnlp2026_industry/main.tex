@@ -114,6 +114,13 @@ PIPE-Cypher is designed for private benchmark generation under local-model deplo
 
 \begin{figure}[t]
 \centering
+\includegraphics[width=\columnwidth]{figures/ablation_quality_target50.pdf}
+\caption{Gate-rate heatmap for the audited target-50 ablation suite. Deterministic read-only and syntax gates are saturated, while schema, execution, and judge rates expose the remaining quality differences across graph and pipeline variants.}
+\label{fig:ablation_quality_target50}
+\end{figure}
+
+\begin{figure}[t]
+\centering
 \includegraphics[width=\columnwidth]{figures/diversity_diagnostics.pdf}
 \caption{Diversity diagnostics for the full 3,000-example export. Category, graph-category, and difficulty balance are strong by construction; schema coverage and query-signature diversity expose remaining concentration from the fallback seeded-template run.}
 \label{fig:diversity_diagnostics}

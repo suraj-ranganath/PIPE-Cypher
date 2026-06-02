@@ -17,6 +17,7 @@ from pipecypher.ablation_suite import (
     audit_ablation_suite_for_paper,
     variant_label,
 )
+from pipecypher.paper_style import GRAPH_COLORS, PALETTE, apply_paper_style, style_axis
 
 
 def main() -> None:
@@ -25,6 +26,10 @@ def main() -> None:
     )
     parser.add_argument("--suite-summary", required=True)
     parser.add_argument("--output", required=True)
+    parser.add_argument(
+        "--quality-output",
+        help="Optional output PDF for a gate-rate heatmap over the same audited suite.",
+    )
     parser.add_argument("--min-paper-target", type=int, default=DEFAULT_PAPER_TARGET_PER_CATEGORY)
     parser.add_argument(
         "--allow-incomplete",
@@ -51,10 +56,17 @@ def main() -> None:
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
+    apply_paper_style(plt)
+
     output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)
     render_ablation_suite_figure(summary, output, plt)
     print(f"wrote {output}")
+    if args.quality_output:
+        quality_output = Path(args.quality_output)
+        quality_output.parent.mkdir(parents=True, exist_ok=True)
+        render_ablation_quality_figure(summary, quality_output, plt)
+        print(f"wrote {quality_output}")
 
 
 def render_ablation_suite_figure(summary: dict, output: Path, plt) -> None:
@@ -65,7 +77,6 @@ def render_ablation_suite_figure(summary: dict, output: Path, plt) -> None:
     by_cell = {(run["graph"], run["variant"]): run for run in summary.get("runs", [])}
     x_positions = list(range(len(variants)))
     width = 0.34 if len(graphs) > 1 else 0.55
-    palette = {"finbench": "#2563eb", "snb": "#f97316"}
 
     fig, axes = plt.subplots(2, 1, figsize=(9.2, 5.2), sharex=True)
     for graph_idx, graph in enumerate(graphs):
@@ -83,14 +94,14 @@ def render_ablation_suite_figure(summary: dict, output: Path, plt) -> None:
             acceptance,
             width,
             label=_graph_label(graph),
-            color=palette.get(graph, "#64748b"),
+            color=GRAPH_COLORS.get(graph, PALETTE["slate"]),
         )
         axes[1].bar(
             offsets,
             target_share,
             width,
             label=_graph_label(graph),
-            color=palette.get(graph, "#64748b"),
+            color=GRAPH_COLORS.get(graph, PALETTE["slate"]),
         )
 
     axes[0].set_ylim(0, 1.05)
@@ -98,12 +109,12 @@ def render_ablation_suite_figure(summary: dict, output: Path, plt) -> None:
     axes[0].set_title(
         f"Target-{summary.get('target_per_category')} ablation yield by graph"
     )
-    axes[0].grid(axis="y", linestyle=":", linewidth=0.6, alpha=0.7)
+    style_axis(axes[0], grid_axis="y")
     axes[0].legend(frameon=False, ncols=max(1, len(graphs)), loc="upper right")
 
     axes[1].set_ylim(0, 1.05)
     axes[1].set_ylabel("Categories at target")
-    axes[1].grid(axis="y", linestyle=":", linewidth=0.6, alpha=0.7)
+    style_axis(axes[1], grid_axis="y")
     axes[1].set_xticks(x_positions)
     axes[1].set_xticklabels([variant_label(variant) for variant in variants], rotation=25, ha="right")
 
@@ -111,6 +122,64 @@ def render_ablation_suite_figure(summary: dict, output: Path, plt) -> None:
         for container in axis.containers:
             axis.bar_label(container, fmt="%.2f", fontsize=7, padding=2)
 
+    fig.tight_layout()
+    fig.savefig(output)
+    plt.close(fig)
+
+
+def render_ablation_quality_figure(summary: dict, output: Path, plt) -> None:
+    from matplotlib.colors import LinearSegmentedColormap
+
+    graphs = [graph for graph in DEFAULT_GRAPHS if graph in summary.get("expected_graphs", [])]
+    variants = [
+        variant for variant in DEFAULT_VARIANTS if variant in summary.get("expected_variants", [])
+    ]
+    by_cell = {(run["graph"], run["variant"]): run for run in summary.get("runs", [])}
+    metrics = [
+        ("read_only", "Read-only"),
+        ("syntax_valid", "Syntax"),
+        ("schema_valid", "Schema"),
+        ("execution_success", "Exec."),
+        ("judge_pass", "Judge"),
+    ]
+    rows: list[tuple[str, dict]] = []
+    for graph in graphs:
+        for variant in variants:
+            run = by_cell.get((graph, variant), {})
+            if int(run.get("records", 0)) <= 0:
+                continue
+            rows.append((f"{_graph_label(graph)} / {variant_label(variant)}", run))
+
+    matrix = [
+        [float(run.get("gate_rates", {}).get(metric, 0.0)) for metric, _ in metrics]
+        for _, run in rows
+    ]
+    cmap = LinearSegmentedColormap.from_list(
+        "pipecypher_quality",
+        ["#fee2e2", "#fef3c7", "#d1fae5", PALETTE["blue"]],
+    )
+    fig_height = max(4.2, 0.33 * len(rows) + 1.2)
+    fig, ax = plt.subplots(figsize=(8.2, fig_height))
+    image = ax.imshow(matrix, vmin=0.85, vmax=1.0, cmap=cmap, aspect="auto")
+    ax.set_title(f"Target-{summary.get('target_per_category')} ablation gate rates")
+    ax.set_xticks(range(len(metrics)))
+    ax.set_xticklabels([label for _, label in metrics], rotation=0)
+    ax.set_yticks(range(len(rows)))
+    ax.set_yticklabels([label for label, _ in rows], fontsize=7.5)
+    ax.tick_params(axis="both", length=0)
+    for row_idx, row in enumerate(matrix):
+        for col_idx, value in enumerate(row):
+            ax.text(
+                col_idx,
+                row_idx,
+                f"{value:.3f}" if value < 0.9995 else "1.000",
+                ha="center",
+                va="center",
+                fontsize=7,
+                color=PALETTE["ink"] if value < 0.985 else PALETTE["paper"],
+            )
+    colorbar = fig.colorbar(image, ax=ax, fraction=0.035, pad=0.02)
+    colorbar.set_label("Gate pass rate")
     fig.tight_layout()
     fig.savefig(output)
     plt.close(fig)

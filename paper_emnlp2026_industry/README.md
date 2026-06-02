@@ -13,7 +13,7 @@ Files:
 - `references.bib`: working references.
 - `tables_*.tex`: current method, experiment, full-generation, export, diversity, failure-taxonomy, judge-audit, distribution, downstream evaluation, and downstream uncertainty tables.
 - `appendix_claim_evidence.tex`, `appendix_prompt_contracts.tex`, and `appendix_example_cards.tex`: generated appendix material for claim/evidence traceability, prompt contracts, and representative accepted benchmark examples.
-- `figures/*.pdf`: appendix-ready diversity, failure-taxonomy, export-distribution, downstream-evaluation, and downstream-uncertainty figures.
+- `figures/*.pdf`: appendix-ready ablation, diversity, failure-taxonomy, export-distribution, downstream-evaluation, and downstream-uncertainty figures.
 - `main.pdf`: compiled local draft when LaTeX is available.
 
 Citation provenance is tracked in `../knowledge_base/citation_verification.md`; no placeholder citations are currently present in `references.bib`.
@@ -167,14 +167,15 @@ python scripts/summarize_live_ablation_suite.py \
   --metadata log_file=logs/20260601_ablation50_qwen9b.log
 ```
 
-The matching ablation figure is also generated separately, not by the default
+The matching ablation figures are also generated separately, not by the default
 paper-figure script, so partial ablation evidence is not accidentally pulled
 into the manuscript:
 
 ```bash
 python scripts/render_ablation_suite_figure.py \
   --suite-summary experiments/snapshots/20260601_ablation50_qwen9b/ablation_suite_summary.json \
-  --output paper_emnlp2026_industry/figures/ablation_suite_target50.pdf
+  --output paper_emnlp2026_industry/figures/ablation_suite_target50.pdf \
+  --quality-output paper_emnlp2026_industry/figures/ablation_quality_target50.pdf
 ```
 
 For target-size or repeated-seed sensitivity, compare collected suite summaries

@@ -5,7 +5,7 @@ Status: goal is not complete yet.
 ## Evidence Already Present
 
 - Clean repo scaffold with package, configs, scripts, tests, docs, experiment matrix, and paper directory.
-- Deterministic tests pass: `169 passed`.
+- Deterministic tests pass: `174 passed`.
 - Offline smoke runs prove the CLI path, built-in FinBench and SNB reference schemas, deterministic validation, contextual return warnings, mock execution, deterministic judge, JSONL logging, strategy tags, and summary metrics.
 - LDBC FinBench SF0.1 has been generated on `ds-serv6`, transformed to snapshot CSVs, and loaded into a user-space Neo4j Community 5.26 smoke database.
 - The loaded FinBench smoke graph contains 10,006 nodes and 57,622 relationships.
@@ -54,6 +54,7 @@ Status: goal is not complete yet.
 - The full Qwen3.5-9B fallback benchmark is exported at `artifacts/benchmarks/20260601_live_full_qwen9b` with exactly 3,000 accepted examples, 2,000 FinBench examples, 1,000 SNB examples, 375 examples per category, 2,408/296/296 train/dev/test splits, and manifest hash `8bc79a53a06b291a81974d7859d1a02d013c1e7dfc401e447b2897259aeaa47c`.
 - A tracked lightweight full-export snapshot now exists at `experiments/snapshots/20260601_live_full_qwen9b` with the export manifest hash, file-level SHA-256 checksums, aggregate stats, and 16 representative examples selected by stable ID, one for each FinBench/SNB graph-category cell.
 - Diversity diagnostics now exist at `experiments/snapshots/20260601_live_full_qwen9b/diversity_report.json`, with Distinct-n, sampled self-BLEU-2, query-signature diversity, normalized entropy, schema coverage, and structural feature rates. The paper appendix includes `paper_emnlp2026_industry/tables_diversity.tex` plus `figures/diversity_diagnostics.pdf`, `figures/full_export_distribution.pdf`, and `figures/downstream_breakdown.pdf`.
+- Paper figure scripts now apply a shared accessible plotting theme via `pipecypher.paper_style`, and the appendix includes `paper_emnlp2026_industry/figures/ablation_quality_target50.pdf` as a guarded heatmap of read-only, syntax, schema, execution, and judge pass rates over the audited target-50 ablation suite.
 - Full-run failure taxonomy now exists at `experiments/snapshots/20260601_live_full_qwen9b/failure_taxonomy.json`, with a rendered appendix table and figure in `paper_emnlp2026_industry/tables_failure_taxonomy.tex` and `figures/failure_taxonomy.pdf`. Across 4,777 candidates, 3,000 were accepted and 1,777 were rejected; rejected candidates were dominated by diversity/duplicate control during recovery (1,335), empty execution results (374), judge semantic rejects (66), and schema invalidity (2).
 - The final full export has 3,000/3,000 accepted examples passing read-only, syntax, schema, execution, and judge gates; the judge audit packet is `artifacts/audits/20260601_full_qwen9b_judge_audit.csv` with 80 sampled rows plus header.
 - `scripts/render_paper_artifact_tables.py` regenerates paper tables for benchmark export, distribution/gate summary, and downstream Text2Cypher results directly from `stats.json`, `manifest.json`, and the evaluation summary.

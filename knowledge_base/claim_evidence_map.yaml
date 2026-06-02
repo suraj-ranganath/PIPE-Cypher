@@ -21,7 +21,7 @@ claims:
     risk: "Semantic correctness still depends on execution evidence and judge review; human audit labels are pending."
 
   - claim: "Reverse grounding and structured workload seeds are designed to improve reliability under local-model constraints."
-    evidence: "The target-50 FinBench/SNB ablation suite completed 14/14 graph/variant cells, reached every category target for all non-empty/non-unconstrained runs, and passed the paper-readiness audit with logs, model IDs, code revision, run summaries, and gate-rate availability. Appendix-only tables and a figure report the audited target-50 evidence while the target-100 follow-up and seeded target-50 repeat continue for stronger final reliability and variance claims."
+    evidence: "The target-50 FinBench/SNB ablation suite completed 14/14 graph/variant cells, reached every category target for all non-empty/non-unconstrained runs, and passed the paper-readiness audit with logs, model IDs, code revision, run summaries, and gate-rate availability. Appendix-only tables plus yield and gate-rate figures report the audited target-50 evidence while the target-100 follow-up and seeded target-50 repeat continue for stronger final reliability and variance claims."
     artifacts:
       - "scripts/run_live_ablation_suite.sh"
       - "scripts/monitor_remote_ablation_suite.py"
@@ -35,6 +35,7 @@ claims:
       - "paper_emnlp2026_industry/tables_ablation_results.tex"
       - "paper_emnlp2026_industry/tables_ablation_quality.tex"
       - "paper_emnlp2026_industry/figures/ablation_suite_target50.pdf"
+      - "paper_emnlp2026_industry/figures/ablation_quality_target50.pdf"
     status: "Supported by audited target-50 appendix evidence; target-100 and seeded target-50 repeat runs are still pending for stronger final reliability claims."
     risk: "A single target-50 suite is the minimum publishable ablation scale, not the strongest possible evidence. If target-100 or repeated-seed runs complete, final claims should use those sensitivity results instead of relying only on target-50."
 

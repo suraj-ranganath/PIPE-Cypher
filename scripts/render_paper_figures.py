@@ -10,6 +10,9 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
+from pipecypher.paper_style import GRAPH_COLORS, METRIC_COLORS, PALETTE, apply_paper_style, style_axis
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Render appendix-ready PIPE-Cypher paper figures.")
     parser.add_argument("--diversity-report", required=True)
@@ -36,6 +39,8 @@ def main() -> None:
 
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
+
+    apply_paper_style(plt)
 
     out = Path(args.output_dir)
     out.mkdir(parents=True, exist_ok=True)
@@ -75,13 +80,13 @@ def render_diversity_figure(report: dict, output: Path, plt) -> None:
         "Property\ncoverage": report["schema_coverage"]["properties"]["coverage"],
     }
     fig, ax = plt.subplots(figsize=(8.2, 3.2))
-    bars = ax.bar(range(len(values)), list(values.values()), color="#3b82f6")
+    bars = ax.bar(range(len(values)), list(values.values()), color=PALETTE["blue"])
     ax.set_ylim(0, 1.05)
     ax.set_ylabel("Normalized score")
     ax.set_title("Full benchmark diversity diagnostics")
     ax.set_xticks(range(len(values)))
     ax.set_xticklabels(list(values.keys()), rotation=0, ha="center", fontsize=8)
-    ax.grid(axis="y", linestyle=":", linewidth=0.6, alpha=0.7)
+    style_axis(ax, grid_axis="y")
     for bar in bars:
         height = bar.get_height()
         ax.text(
@@ -108,21 +113,25 @@ def render_full_distribution_figure(stats: dict, output: Path, plt) -> None:
 
     fig, axes = plt.subplots(1, 2, figsize=(9.2, 3.4), gridspec_kw={"width_ratios": [3, 1]})
     x_positions = range(len(categories))
-    axes[0].bar(x_positions, finbench, label="FinBench", color="#2563eb")
-    axes[0].bar(x_positions, snb, bottom=finbench, label="SNB", color="#f97316")
+    axes[0].bar(x_positions, finbench, label="FinBench", color=GRAPH_COLORS["finbench"])
+    axes[0].bar(x_positions, snb, bottom=finbench, label="SNB", color=GRAPH_COLORS["snb"])
     axes[0].set_title("Full export category balance")
     axes[0].set_ylabel("Accepted examples")
     axes[0].set_xticks(list(x_positions))
     axes[0].set_xticklabels([_short_category(label) for label in categories], rotation=28, ha="right", fontsize=8)
     axes[0].legend(frameon=False, ncols=2, loc="upper left")
-    axes[0].grid(axis="y", linestyle=":", linewidth=0.6, alpha=0.7)
+    style_axis(axes[0], grid_axis="y")
 
     diff_labels = list(difficulties)
     diff_values = [difficulties[label] for label in diff_labels]
-    axes[1].bar(diff_labels, diff_values, color=["#10b981", "#8b5cf6", "#ef4444"][: len(diff_labels)])
+    axes[1].bar(
+        diff_labels,
+        diff_values,
+        color=[PALETTE["green"], PALETTE["violet"], PALETTE["red"]][: len(diff_labels)],
+    )
     axes[1].set_title("Difficulty")
     axes[1].set_ylim(0, max(diff_values) * 1.2 if diff_values else 1)
-    axes[1].grid(axis="y", linestyle=":", linewidth=0.6, alpha=0.7)
+    style_axis(axes[1], grid_axis="y")
     for idx, value in enumerate(diff_values):
         axes[1].text(idx, value + 20, str(value), ha="center", va="bottom", fontsize=8)
 
@@ -134,9 +143,9 @@ def render_full_distribution_figure(stats: dict, output: Path, plt) -> None:
 def render_downstream_figure(summary: dict, output: Path, plt) -> None:
     categories = list(sorted(summary["by_category"]))
     metrics = [
-        ("execution_accuracy", "Exec. accuracy", "#2563eb"),
-        ("execution_success", "Exec. success", "#f97316"),
-        ("schema_valid", "Schema valid", "#10b981"),
+        ("execution_accuracy", "Exec. accuracy", METRIC_COLORS["execution_accuracy"]),
+        ("execution_success", "Exec. success", METRIC_COLORS["execution_success"]),
+        ("schema_valid", "Schema valid", METRIC_COLORS["schema_valid"]),
     ]
     x_positions = list(range(len(categories)))
     width = 0.25
@@ -152,7 +161,7 @@ def render_downstream_figure(summary: dict, output: Path, plt) -> None:
     ax.set_xticks(x_positions)
     ax.set_xticklabels([_short_category(label) for label in categories], rotation=28, ha="right", fontsize=8)
     ax.legend(frameon=False, ncols=3, loc="upper left")
-    ax.grid(axis="y", linestyle=":", linewidth=0.6, alpha=0.7)
+    style_axis(ax, grid_axis="y")
     fig.tight_layout()
     fig.savefig(output)
     plt.close(fig)
@@ -162,8 +171,8 @@ def render_downstream_uncertainty_figure(report: dict, output: Path, plt) -> Non
     category_groups = report["groups"]["category"]
     categories = list(sorted(category_groups))
     metrics = [
-        ("execution_accuracy", "Execution accuracy", "#2563eb"),
-        ("execution_success", "Execution success", "#f97316"),
+        ("execution_accuracy", "Execution accuracy", METRIC_COLORS["execution_accuracy"]),
+        ("execution_success", "Execution success", METRIC_COLORS["execution_success"]),
     ]
     fig, axes = plt.subplots(1, 2, figsize=(9.4, 3.6), sharey=True)
     x_positions = list(range(len(categories)))
@@ -197,8 +206,8 @@ def render_downstream_uncertainty_figure(report: dict, output: Path, plt) -> Non
             ha="right",
             fontsize=8,
         )
-        ax.grid(axis="y", linestyle=":", linewidth=0.6, alpha=0.7)
-        ax.axhline(0.0, color="#64748b", linewidth=0.7)
+        style_axis(ax, grid_axis="y")
+        ax.axhline(0.0, color=PALETTE["slate"], linewidth=0.7)
     axes[0].set_ylabel(f"Rate with {confidence}% bootstrap CI")
     fig.suptitle("Downstream Qwen3.5-9B uncertainty by workload category", y=1.02)
     fig.tight_layout()
@@ -215,7 +224,14 @@ def render_failure_taxonomy_figure(report: dict, output: Path, plt) -> None:
     names = [labels.get(key, key.replace("_", " ").title()) for key, _ in counts]
     values = [int(value) for _, value in counts]
     total_rejected = max(int(report.get("rejected", 0)), 1)
-    palette = ["#2563eb", "#f97316", "#10b981", "#8b5cf6", "#ef4444", "#64748b"]
+    palette = [
+        PALETTE["blue"],
+        PALETTE["orange"],
+        PALETTE["green"],
+        PALETTE["violet"],
+        PALETTE["red"],
+        PALETTE["slate"],
+    ]
     colors = [palette[idx % len(palette)] for idx in range(len(names))]
 
     fig, ax = plt.subplots(figsize=(7.4, 3.0))
@@ -225,7 +241,7 @@ def render_failure_taxonomy_figure(report: dict, output: Path, plt) -> None:
     ax.invert_yaxis()
     ax.set_xlabel("Rejected candidates")
     ax.set_title("Full-run rejection taxonomy before export")
-    ax.grid(axis="x", linestyle=":", linewidth=0.6, alpha=0.7)
+    style_axis(ax, grid_axis="x")
     for bar, value in zip(bars, values, strict=True):
         ax.text(
             bar.get_width() + max(values) * 0.015,
