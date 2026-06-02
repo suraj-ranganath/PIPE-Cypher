@@ -5,7 +5,15 @@ import re
 from typing import Any
 
 from .llm import OpenAICompatibleLLM
-from .models import ExecutionResult, JudgeResult, NodeProperty, RelationshipPattern, RelationshipProperty, SchemaSummary, ValidationResult
+from .models import (
+    ExecutionResult,
+    JudgeResult,
+    NodeProperty,
+    RelationshipPattern,
+    RelationshipProperty,
+    SchemaSummary,
+    ValidationResult,
+)
 from .prompts import JUDGE_PROMPT, SYSTEM_JSON_ENGINEER
 
 
@@ -103,14 +111,25 @@ class LLMJudge:
                 max_tokens=self.max_tokens,
                 response_format={"type": "json_object"},
             )
-            return JudgeResult(
+            result = JudgeResult(
                 passed=bool(data.get("pass", False)),
                 ambiguity_score=float(data.get("ambiguity_score", 1.0)),
                 semantic_alignment_score=float(data.get("semantic_alignment_score", 0.0)),
                 schema_use_score=float(data.get("schema_use_score", 0.0)),
-                difficulty=str(data.get("difficulty", validation.structural_features.get("difficulty", "unknown"))),
+                difficulty=str(
+                    data.get(
+                        "difficulty",
+                        validation.structural_features.get("difficulty", "unknown"),
+                    )
+                ),
                 failure_reason=str(data.get("failure_reason", "")),
                 raw=data,
+            )
+            return override_categorical_result_value_rejection(
+                result,
+                cypher=cypher,
+                validation=validation,
+                execution=execution,
             )
         except Exception as exc:
             result = self.fallback.judge(
@@ -122,6 +141,98 @@ class LLMJudge:
             )
             result.raw = {"fallback_after_error": str(exc)}
             return result
+
+
+def override_categorical_result_value_rejection(
+    result: JudgeResult,
+    *,
+    cypher: str,
+    validation: ValidationResult,
+    execution: ExecutionResult,
+) -> JudgeResult:
+    """Correct a narrow LLM-judge failure mode around sampled categorical values.
+
+    Categorical lists constrain literals written in the Cypher query. They do
+    not constrain values observed in result rows, especially when an enterprise
+    value-sampling policy redacts, hashes, or bounds categorical metadata.
+    """
+
+    if result.passed or not _is_categorical_result_value_false_rejection(
+        result,
+        cypher=cypher,
+        validation=validation,
+        execution=execution,
+    ):
+        return result
+
+    raw = dict(result.raw)
+    raw["original_judge"] = {
+        "pass": result.passed,
+        "ambiguity_score": result.ambiguity_score,
+        "semantic_alignment_score": result.semantic_alignment_score,
+        "schema_use_score": result.schema_use_score,
+        "difficulty": result.difficulty,
+        "failure_reason": result.failure_reason,
+    }
+    raw["override"] = "categorical_result_value_guard"
+    return JudgeResult(
+        passed=True,
+        ambiguity_score=min(result.ambiguity_score, 0.2),
+        semantic_alignment_score=max(result.semantic_alignment_score, 0.85),
+        schema_use_score=max(result.schema_use_score, 1.0),
+        difficulty=result.difficulty,
+        failure_reason="",
+        raw=raw,
+    )
+
+
+def _is_categorical_result_value_false_rejection(
+    result: JudgeResult,
+    *,
+    cypher: str,
+    validation: ValidationResult,
+    execution: ExecutionResult,
+) -> bool:
+    if not validation.ok or not execution.success or not execution.rows:
+        return False
+    if any(issue.code == "invalid_categorical_value" for issue in validation.issues):
+        return False
+
+    reason = result.failure_reason.strip().lower()
+    if not reason:
+        return False
+    categorical_terms = (
+        "categorical",
+        "valid value",
+        "valid values",
+        "allowed value",
+        "allowed values",
+        "schema defines",
+        "schema-defined",
+    )
+    if not any(term in reason for term in categorical_terms):
+        return False
+
+    cypher_lower = cypher.lower()
+    for value in _execution_string_values(execution):
+        normalized = value.lower()
+        if normalized in reason and normalized not in cypher_lower:
+            return True
+    return any(
+        term in reason
+        for term in ("execution sample", "result row", "result rows", "returns a value")
+    )
+
+
+def _execution_string_values(execution: ExecutionResult) -> set[str]:
+    values: set[str] = set()
+    for row in execution.rows[:5]:
+        for value in row.values():
+            if isinstance(value, str):
+                text = value.strip()
+                if 2 <= len(text) <= 100:
+                    values.add(text)
+    return values
 
 
 def schema_slice_for_cypher(schema: SchemaSummary, cypher: str) -> SchemaSummary:

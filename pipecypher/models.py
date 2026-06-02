@@ -106,7 +106,11 @@ class SchemaSummary:
                 for prop in rel_props[:max_items]
             )
         if self.categorical_properties:
-            parts.append("Categorical property values:")
+            parts.append(
+                "Categorical property values "
+                "(closed lists for Cypher literal filters; result rows may contain "
+                "additional sampled or redacted values):"
+            )
             for key, values in sorted(self.categorical_properties.items()):
                 parts.append(f"- {key}: {', '.join(values[:20])}")
         return "\n".join(parts)

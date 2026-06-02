@@ -120,7 +120,7 @@ def test_schema_validation_rejects_unknown_relationship_property_map_key():
 
 def test_categorical_property_values_are_enforced_in_where_clauses():
     schema = finbench_reference_schema()
-    query = "MATCH (a:Account) WHERE a.accountType = 'brokerage' RETURN a.accountId AS AccountId"
+    query = "MATCH (a:Account) WHERE a.accountType = 'not an account type' RETURN a.accountId AS AccountId"
     result = validate_cypher(query, schema)
     assert not result.ok
     assert any(issue.code == "invalid_categorical_value" for issue in result.issues)
@@ -128,14 +128,17 @@ def test_categorical_property_values_are_enforced_in_where_clauses():
 
 def test_categorical_property_values_accept_known_literals():
     schema = finbench_reference_schema()
-    query = "MATCH (a:Account) WHERE a.accountType IN ['checking', 'savings'] RETURN a.accountId AS AccountId"
+    query = (
+        "MATCH (a:Account) WHERE a.accountType IN ['brokerage account', 'merchant account'] "
+        "RETURN a.accountId AS AccountId"
+    )
     result = validate_cypher(query, schema)
     assert result.ok
 
 
 def test_categorical_property_values_are_enforced_in_node_maps():
     schema = finbench_reference_schema()
-    query = "MATCH (c:Company {business: 'hospitality'}) RETURN c.companyName AS CompanyName"
+    query = "MATCH (m:Medium {mediumType: 'fax'}) RETURN m.mediumId AS MediumId"
     result = validate_cypher(query, schema)
     assert not result.ok
     assert any(issue.code == "invalid_categorical_value" for issue in result.issues)

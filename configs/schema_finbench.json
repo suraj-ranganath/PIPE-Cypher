@@ -1,22 +1,31 @@
 {
   "categorical_properties": {
     "Account.accountType": [
-      "debit",
-      "credit",
-      "checking",
-      "savings"
-    ],
-    "Company.business": [
-      "finance",
-      "retail",
-      "technology",
-      "services"
+      "brokerage account",
+      "certificate of deposit",
+      "corporate account",
+      "credit card",
+      "custodial account",
+      "debit card",
+      "escrow account",
+      "foreign currency",
+      "internet account",
+      "merchant account",
+      "prepaid card",
+      "retirement account",
+      "trust account"
     ],
     "Medium.mediumType": [
-      "email",
-      "phone",
-      "device",
-      "ip"
+      "ATM",
+      "IPv4",
+      "IPv6",
+      "MAC",
+      "NFC",
+      "PHONE",
+      "POS",
+      "QRCode",
+      "RFID",
+      "WIFI"
     ]
   },
   "graph_name": "finbench",
