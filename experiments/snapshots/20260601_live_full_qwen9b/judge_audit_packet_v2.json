@@ -36,6 +36,7 @@
   },
   "html_packet": "artifacts/audits/20260601_full_qwen9b_judge_audit_v2.html",
   "label_completion_rate": 0.0,
+  "label_status": "unlabeled",
   "metrics": {
     "agreement_rate": 0.0,
     "balanced_accuracy": 0.0,
@@ -50,5 +51,6 @@
     "true_accepts": 0,
     "true_rejects": 0
   },
+  "partial_labels_present": false,
   "ready_for_calibration": false
 }

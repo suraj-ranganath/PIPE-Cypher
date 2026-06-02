@@ -256,6 +256,7 @@ def render_judge_audit_coverage_table(snapshot: dict[str, Any]) -> str:
     coverage = snapshot["coverage"]
     graph = coverage.get("by_graph", {})
     difficulty = coverage.get("by_difficulty", {})
+    label_status = str(snapshot.get("label_status", "unknown")).replace("_", " ")
     rows = [
         r"\begin{tabular}{lr}",
         r"\toprule",
@@ -277,6 +278,7 @@ def render_judge_audit_coverage_table(snapshot: dict[str, Any]) -> str:
         "Labeled rows & {labeled} \\\\".format(
             labeled=_fmt_int(coverage.get("labeled_rows", 0)),
         ),
+        f"Calibration status & {_escape_latex(label_status)} \\\\",
         r"\bottomrule",
         r"\end{tabular}",
     ]
@@ -284,7 +286,7 @@ def render_judge_audit_coverage_table(snapshot: dict[str, Any]) -> str:
         body="\n".join(rows),
         caption=(
             "Post-hoc judge calibration packet coverage. Human labels are pending "
-            "and are not used as a generation gate."
+            "until the packet is complete and are not used as a generation gate."
         ),
         label="tab:judge_audit_coverage",
     )

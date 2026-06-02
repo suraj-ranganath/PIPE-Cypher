@@ -21,13 +21,23 @@ def audit_packet_snapshot(path: str | Path, *, html_path: str | Path | None = No
     audit_path = Path(path)
     coverage = summarize_audit_csv(audit_path)
     metrics = analyze_audit_csv(audit_path)
+    if coverage.total_rows == 0:
+        label_status = "empty"
+    elif coverage.labeled_rows == 0:
+        label_status = "unlabeled"
+    elif coverage.unlabeled_rows == 0:
+        label_status = "complete"
+    else:
+        label_status = "partial"
     snapshot = {
         "audit_csv": str(audit_path),
         "audit_sha256": _sha256(audit_path),
         "html_packet": str(html_path) if html_path else "",
         "coverage": asdict(coverage),
         "metrics": asdict(metrics),
-        "ready_for_calibration": metrics.total_labeled > 0,
+        "ready_for_calibration": coverage.total_rows > 0 and coverage.unlabeled_rows == 0,
+        "label_status": label_status,
+        "partial_labels_present": metrics.total_labeled > 0 and coverage.unlabeled_rows > 0,
         "label_completion_rate": (
             coverage.labeled_rows / coverage.total_rows if coverage.total_rows else 0.0
         ),
@@ -78,7 +88,7 @@ def render_audit_html(path: str | Path, *, title: str = "PIPE-Cypher Judge Audit
   <header>
     <h1>{_e(title)}</h1>
     <p>This packet calibrates the LLM judge after generation. Human labels are not a generation gate.</p>
-    <p class="warning">Fill every row, then use the download button. Copy the downloaded <code>human_accept</code> and <code>human_notes</code> columns back into the audit CSV before running <code>scripts/analyze_judge_audit.py --require-labels</code>.</p>
+    <p class="warning">Fill every row, then use the download button. Copy the downloaded <code>human_accept</code> and <code>human_notes</code> columns back into the audit CSV before running <code>scripts/analyze_judge_audit.py --require-complete-labels</code>.</p>
     <div class="summary">
       <div class="metric"><span>Total rows</span><strong>{snapshot["coverage"]["total_rows"]}</strong></div>
       <div class="metric"><span>Judge accepts</span><strong>{snapshot["coverage"]["judge_accepts"]}</strong></div>

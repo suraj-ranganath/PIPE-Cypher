@@ -22,6 +22,11 @@ def main() -> None:
         action="store_true",
         help="Exit non-zero if the audit CSV has no completed human labels.",
     )
+    parser.add_argument(
+        "--require-complete-labels",
+        action="store_true",
+        help="Exit non-zero unless every audit row has a completed human label.",
+    )
     args = parser.parse_args()
     metrics = analyze_audit_csv(args.audit)
     coverage = summarize_audit_csv(args.audit)
@@ -36,7 +41,12 @@ def main() -> None:
         )
     )
     if args.require_labels and metrics.total_labeled == 0:
-        raise SystemExit(2)
+        raise SystemExit("judge audit has no completed human labels")
+    if args.require_complete_labels and (coverage.total_rows == 0 or coverage.unlabeled_rows > 0):
+        raise SystemExit(
+            "judge audit is not fully labeled: "
+            f"{coverage.labeled_rows}/{coverage.total_rows} rows labeled"
+        )
 
 
 if __name__ == "__main__":

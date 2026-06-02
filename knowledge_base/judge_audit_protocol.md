@@ -101,8 +101,12 @@ After labels are filled, require labels and save the output:
 ```bash
 python scripts/analyze_judge_audit.py \
   --audit artifacts/audits/20260601_full_qwen9b_judge_audit_v2.csv \
-  --require-labels \
+  --require-complete-labels \
   > artifacts/audits/20260601_full_qwen9b_judge_audit_v2_metrics.json
 ```
+
+Use `--require-labels` only for diagnostics that need at least one completed
+row. Paper-facing calibration must use `--require-complete-labels` unless an
+exclusion rule is documented before analysis.
 
 Report coverage by graph/category/difficulty plus `total_labeled`, agreement rate, judge precision, judge recall, judge specificity, negative predictive value, balanced accuracy, Cohen's kappa, false accepts, and false rejects in the paper. The strongest paper claim is not that the judge is perfect, but that the pipeline is automated and the post-hoc audit makes judge risk visible.

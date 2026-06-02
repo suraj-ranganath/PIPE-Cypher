@@ -5,7 +5,7 @@ Status: goal is not complete yet.
 ## Evidence Already Present
 
 - Clean repo scaffold with package, configs, scripts, tests, docs, experiment matrix, and paper directory.
-- Deterministic tests pass: `162 passed`.
+- Deterministic tests pass: `169 passed`.
 - Offline smoke runs prove the CLI path, built-in FinBench and SNB reference schemas, deterministic validation, contextual return warnings, mock execution, deterministic judge, JSONL logging, strategy tags, and summary metrics.
 - LDBC FinBench SF0.1 has been generated on `ds-serv6`, transformed to snapshot CSVs, and loaded into a user-space Neo4j Community 5.26 smoke database.
 - The loaded FinBench smoke graph contains 10,006 nodes and 57,622 relationships.
@@ -62,7 +62,7 @@ Status: goal is not complete yet.
 - `scripts/render_appendix_material.py` regenerates appendix claim/evidence traceability, prompt-contract, and representative-example material from tracked code prompt constants, `knowledge_base/claim_evidence_map.yaml`, and `experiments/snapshots/20260601_live_full_qwen9b/sample_examples.json`; outputs are `paper_emnlp2026_industry/appendix_claim_evidence.tex`, `paper_emnlp2026_industry/appendix_prompt_contracts.tex`, and `paper_emnlp2026_industry/appendix_example_cards.tex`. Prompt contracts and representative examples now render as breakable appendix lists rather than dense floats/tables, and example Cypher is display-wrapped without splitting quoted values.
 - `AGENTS.md` now explicitly treats large-scale follow-up as an active research obligation: future agents should keep monitoring queued `ds-serv6` target-100/repeated-seed/downstream work, collect only completed suites, make weak or failed cells visible, and use the appendix for full scale, uncertainty, and slice-aware reliability evidence.
 - `knowledge_base/citation_verification.md` records the verified source for every paper bibliography entry used by the EMNLP/arXiv draft; no unverified placeholder citations remain in `paper_emnlp2026_industry/references.bib`.
-- `knowledge_base/judge_audit_protocol.md` defines the human calibration labeling rubric. `scripts/sample_judge_audit.py` now preserves judge accept/reject balance before graph/category stratification; `scripts/analyze_judge_audit.py` reports graph/category/difficulty coverage, agreement, precision/recall/specificity, negative predictive value, balanced accuracy, Cohen's kappa, and exits non-zero with `--require-labels` when no labels are complete.
+- `knowledge_base/judge_audit_protocol.md` defines the human calibration labeling rubric. `scripts/sample_judge_audit.py` now preserves judge accept/reject balance before graph/category stratification; `scripts/analyze_judge_audit.py` reports graph/category/difficulty coverage, agreement, precision/recall/specificity, negative predictive value, balanced accuracy, Cohen's kappa, exits non-zero with `--require-labels` when no labels are complete, and exits non-zero with `--require-complete-labels` unless every audit row has a human label.
 - The current full-run judge audit packet is `artifacts/audits/20260601_full_qwen9b_judge_audit_v2.csv`, with a tracked coverage/hash snapshot at `experiments/snapshots/20260601_live_full_qwen9b/judge_audit_packet_v2.json` and an ignored local HTML labeling packet at `artifacts/audits/20260601_full_qwen9b_judge_audit_v2.html`. It contains 80 rows, 40 judge accepts, 40 judge rejects, 48 FinBench rows, 32 SNB rows, all eight categories, and 0 completed human labels.
 - Benchmark export now deduplicates accepted examples by graph, category, and normalized question text before assigning stable example IDs, preventing equivalent recovery-run duplicates from entering the released benchmark.
 - Schema-driven value grounding now exists in `pipecypher.value_grounding` and is injected into generation prompt hints. It adapts BalkanID-style fuzzy annotations with deterministic handling for categorical values, reverse-bound entities, punctuation variants, possessives, plurals, synonyms, name partials, and small typos, without adding spaCy/SymSpell runtime dependencies.
@@ -101,6 +101,6 @@ Status: goal is not complete yet.
 
 ## Smallest Next Step
 
-1. Fill human labels for `artifacts/audits/20260601_full_qwen9b_judge_audit_v2.csv`, then run `scripts/analyze_judge_audit.py --require-labels`.
+1. Fill human labels for every row in `artifacts/audits/20260601_full_qwen9b_judge_audit_v2.csv`, then run `scripts/analyze_judge_audit.py --require-complete-labels`.
 2. Start and smoke-check a `Qwen/Qwen3.5-35B-A3B` vLLM endpoint from `/home/suraj/pipecypher-models/Qwen3.5-35B-A3B`, or explicitly finalize the study as a 9B fallback study.
 3. Monitor the running target-100 ablation suite and queued seeded target-50 repeat, copy completed summary artifacts only after each session exits, and then compare target-size/repeated-seed sensitivity before deciding which ablation claims belong in the main paper versus appendix.
