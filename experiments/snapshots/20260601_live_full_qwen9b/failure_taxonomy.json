@@ -27,6 +27,7 @@
         "accepted": 375,
         "judge_reject": 60
       },
+      "empty_result_diagnostic_counts": {},
       "rejected": 60,
       "rejection_bucket_counts": {
         "judge_reject": 60
@@ -47,6 +48,7 @@
         "accepted": 375,
         "judge_reject": 1
       },
+      "empty_result_diagnostic_counts": {},
       "rejected": 1,
       "rejection_bucket_counts": {
         "judge_reject": 1
@@ -67,6 +69,7 @@
         "judge_reject": 1,
         "schema_invalid": 1
       },
+      "empty_result_diagnostic_counts": {},
       "rejected": 2,
       "rejection_bucket_counts": {
         "judge_reject": 1,
@@ -90,6 +93,7 @@
         "diversity_control": 775,
         "empty_result": 368
       },
+      "empty_result_diagnostic_counts": {},
       "rejected": 1143,
       "rejection_bucket_counts": {
         "diversity_control": 775,
@@ -111,6 +115,7 @@
         "accepted": 375,
         "judge_reject": 1
       },
+      "empty_result_diagnostic_counts": {},
       "rejected": 1,
       "rejection_bucket_counts": {
         "judge_reject": 1
@@ -132,6 +137,7 @@
         "empty_result": 6,
         "judge_reject": 1
       },
+      "empty_result_diagnostic_counts": {},
       "rejected": 567,
       "rejection_bucket_counts": {
         "diversity_control": 560,
@@ -156,6 +162,7 @@
         "judge_reject": 1,
         "schema_invalid": 1
       },
+      "empty_result_diagnostic_counts": {},
       "rejected": 2,
       "rejection_bucket_counts": {
         "judge_reject": 1,
@@ -178,6 +185,7 @@
         "accepted": 375,
         "judge_reject": 1
       },
+      "empty_result_diagnostic_counts": {},
       "rejected": 1,
       "rejection_bucket_counts": {
         "judge_reject": 1
@@ -201,6 +209,7 @@
         "empty_result": 4,
         "judge_reject": 66
       },
+      "empty_result_diagnostic_counts": {},
       "rejected": 1404,
       "rejection_bucket_counts": {
         "diversity_control": 1334,
@@ -229,6 +238,7 @@
         "empty_result": 370,
         "schema_invalid": 2
       },
+      "empty_result_diagnostic_counts": {},
       "rejected": 373,
       "rejection_bucket_counts": {
         "diversity_control": 1,
@@ -246,6 +256,7 @@
       "total": 1373
     }
   },
+  "empty_result_diagnostic_counts": {},
   "judge_reason_labels": {
     "ambiguity": "Ambiguity",
     "diversity_control": "Diversity/duplicate control",

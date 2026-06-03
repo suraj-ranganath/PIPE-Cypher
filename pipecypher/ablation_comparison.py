@@ -190,7 +190,7 @@ def format_ablation_suite_comparison_csv(report: dict[str, Any]) -> str:
 
 def format_ablation_suite_comparison_tex(report: dict[str, Any]) -> str:
     rows = [
-        r"\begin{table*}[t]",
+        r"\begin{table}[H]",
         r"\centering",
         r"\small",
         r"\begin{tabular}{llrrrrrr}",
@@ -200,6 +200,8 @@ def format_ablation_suite_comparison_tex(report: dict[str, Any]) -> str:
     ]
     for cell in report["cells"]:
         if cell["suite_count"] == 0:
+            continue
+        if cell["variant"] == "unconstrained_local_llm":
             continue
         rows.append(
             "{label} & {graph} & {suite_count}/{compared} & {target_cov} & {acceptance} & {cat_target} & {exec_success} & {judge} \\\\".format(
@@ -222,10 +224,13 @@ def format_ablation_suite_comparison_tex(report: dict[str, Any]) -> str:
                 r"\caption{Target-size and repeated-seed ablation sensitivity. "
                 r"Target coverage normalizes accepted examples by each suite's "
                 r"planned graph/category target, so target-50 and target-100 suites "
-                r"can be compared without treating larger raw counts as quality gains.}"
+                r"can be compared without treating larger raw counts as quality gains. "
+                r"Unconstrained local generation is excluded from this stability table "
+                r"and reported separately as the attempt-logged stress baseline in "
+                r"Table~\ref{tab:ablation_results}.}"
             ),
             r"\label{tab:ablation_suite_comparison}",
-            r"\end{table*}",
+            r"\end{table}",
         ]
     )
     return "\n".join(rows) + "\n"

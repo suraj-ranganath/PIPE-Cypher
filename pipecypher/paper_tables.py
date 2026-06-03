@@ -609,10 +609,18 @@ def render_effort_automation_table() -> str:
     )
 
 
+_MAIN_BODY_TABLE_LABELS = {
+    "tab:benchmark_export",
+    "tab:full_artifact_distribution",
+    "tab:downstream_evaluation",
+}
+
+
 def _table(*, body: str, caption: str, label: str) -> str:
+    placement = "t" if label in _MAIN_BODY_TABLE_LABELS else "H"
     return "\n".join(
         [
-            r"\begin{table}[t]",
+            rf"\begin{{table}}[{placement}]",
             r"\centering",
             r"\small",
             r"\resizebox{\columnwidth}{!}{%",

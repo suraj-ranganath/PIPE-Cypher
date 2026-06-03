@@ -123,7 +123,7 @@ def strategy_report(
 
 def render_strategy_table(report: dict[str, Any]) -> str:
     rows = [
-        r"\begin{table}[t]",
+        r"\begin{table}[H]",
         r"\centering",
         r"\small",
         r"\resizebox{\columnwidth}{!}{%",

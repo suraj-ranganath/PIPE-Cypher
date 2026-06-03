@@ -65,6 +65,7 @@ def test_compare_ablation_suites_preserves_seed_metadata_and_cell_variation(tmp_
     assert "target_coverage_mean" in csv_text
     assert "full_pipe_cypher" in csv_text
     assert r"\label{tab:ablation_suite_comparison}" in tex
+    assert r"\begin{table}[H]" in tex
     assert r"Full PIPE-Cypher & FinBench & 2/2" in tex
 
 
@@ -99,6 +100,47 @@ def test_compare_ablation_suites_reports_missing_cells_and_missing_evidence(tmp_
     assert cell["compared_suite_count"] == 2
     assert cell["missing_suite_count"] == 1
     assert cell["missing_suite_prefixes"] == ["suite_b"]
+
+
+def test_tex_comparison_omits_unconstrained_stress_baseline_rows(tmp_path: Path):
+    first = _write_summary(
+        tmp_path / "suite_a" / "ablation_suite_summary.json",
+        run_prefix="suite_a",
+        run_seed="",
+        accepted=400,
+        accept_rate=0.8,
+        execution_rate=0.9,
+        judge_rate=0.85,
+    )
+    summary = json.loads(first.read_text(encoding="utf-8"))
+    summary["expected_variants"].append("unconstrained_local_llm")
+    summary["runs"].append(
+        {
+            "graph": "finbench",
+            "variant": "unconstrained_local_llm",
+            "variant_label": "Unconstrained LLM",
+            "records": 422,
+            "accepted": 200,
+            "accept_rate": 0.474,
+            "categories_at_target": 2,
+            "gate_rates": {
+                "read_only": 1.0,
+                "syntax_valid": 0.9,
+                "schema_valid": 0.8,
+                "execution_success": 0.7,
+                "judge_pass": 0.6,
+            },
+        }
+    )
+    first.write_text(json.dumps(summary), encoding="utf-8")
+
+    report = compare_ablation_suites([first])
+    markdown = format_ablation_suite_comparison_markdown(report)
+    tex = format_ablation_suite_comparison_tex(report)
+
+    assert "Unconstrained LLM" in markdown
+    assert "Unconstrained LLM" not in tex
+    assert "attempt-logged stress baseline" in tex
 
 
 def _write_summary(
