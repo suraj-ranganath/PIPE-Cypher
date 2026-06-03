@@ -1,0 +1,24 @@
+\begin{table*}[t]
+\centering
+\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llrrrr}
+\toprule
+Model & Tuning & Zero acc. & Few-shot acc. & $\Delta$ & Few schema \\
+\midrule
+Qwen3.5-9B & general instruction & 0.189 & 0.997 & 0.807 & 1.000 \\
+Qwen2.5-Coder-7B-Instruct & code instruction & 0.291 & 0.993 & 0.703 & 1.000 \\
+Gemma-2-9B-IT & general instruction & 0.152 & 0.993 & 0.841 & 1.000 \\
+tomasonjo/text2cypher-demo-16bit & Text2Cypher fine-tuned & 0.166 & 0.976 & 0.811 & 1.000 \\
+neo4j/Gemma-3-4B Text2Cypher & Text2Cypher fine-tuned & 0.000 & 0.912 & 0.912 & 0.997 \\
+Azzedde/llama3.1-8b-text2cypher & Text2Cypher fine-tuned & 0.155 & 0.976 & 0.821 & 0.997 \\
+neo4j/Gemma-2-9B Text2Cypher LoRA & Text2Cypher LoRA & 0.199 & 0.993 & 0.794 & 0.997 \\
+aigentx/Llama-3.1-8B Cypher LoRA & Cypher LoRA & 0.074 & 0.730 & 0.655 & 0.912 \\
+aigentx/Llama-3.1-8B Cypher mixed LoRA & Cypher mixed LoRA & 0.111 & 0.983 & 0.872 & 0.990 \\
+ragraph-ai/stable-cypher-instruct-3b & Cypher instruction & 0.155 & 0.838 & 0.682 & 0.976 \\
+\bottomrule
+\end{tabular}
+}
+\caption{Local-model downstream Text2Cypher transfer stress test on the same full held-out PIPE-Cypher test split. The table reports only runs with completed zero-shot and retrieval few-shot summaries.}
+\label{tab:downstream_model_transfer}
+\end{table*}

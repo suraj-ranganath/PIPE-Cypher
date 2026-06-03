@@ -1,0 +1,278 @@
+{
+  "best_few_shot_exec_accuracy": {
+    "execution_accuracy": 0.9966216216216216,
+    "model": "Qwen3.5-9B",
+    "run_id": "20260602_downstream_qwen35_9b_zero_fewshot"
+  },
+  "best_zero_shot_exec_accuracy": {
+    "execution_accuracy": 0.2905405405405405,
+    "model": "Qwen2.5-Coder-7B-Instruct",
+    "run_id": "20260602_downstream_qwen25_coder7b_zero_fewshot"
+  },
+  "complete_count": 10,
+  "complete_runs": [
+    {
+      "complete": true,
+      "few_shot": {
+        "answer_f1": 0.9966216216216216,
+        "execution_accuracy": 0.9966216216216216,
+        "execution_success": 1.0,
+        "n": 296,
+        "parse_valid": 1.0,
+        "schema_valid": 1.0
+      },
+      "local_weights": true,
+      "missing": [],
+      "model": "Qwen3.5-9B",
+      "model_family": "Qwen",
+      "path": "artifacts/evaluations/20260602_downstream_qwen35_9b_zero_fewshot",
+      "run_id": "20260602_downstream_qwen35_9b_zero_fewshot",
+      "tuning": "general instruction",
+      "zero_shot": {
+        "answer_f1": 0.1891891891891892,
+        "execution_accuracy": 0.1891891891891892,
+        "execution_success": 0.6081081081081081,
+        "n": 296,
+        "parse_valid": 0.9628378378378378,
+        "schema_valid": 0.9087837837837838
+      }
+    },
+    {
+      "complete": true,
+      "few_shot": {
+        "answer_f1": 0.9961895034569455,
+        "execution_accuracy": 0.9932432432432432,
+        "execution_success": 1.0,
+        "n": 296,
+        "parse_valid": 1.0,
+        "schema_valid": 1.0
+      },
+      "local_weights": true,
+      "missing": [],
+      "model": "Qwen2.5-Coder-7B-Instruct",
+      "model_family": "Qwen-Coder",
+      "path": "artifacts/evaluations/20260602_downstream_qwen25_coder7b_zero_fewshot",
+      "run_id": "20260602_downstream_qwen25_coder7b_zero_fewshot",
+      "tuning": "code instruction",
+      "zero_shot": {
+        "answer_f1": 0.2905405405405405,
+        "execution_accuracy": 0.2905405405405405,
+        "execution_success": 0.6655405405405406,
+        "n": 296,
+        "parse_valid": 1.0,
+        "schema_valid": 0.7094594594594594
+      }
+    },
+    {
+      "complete": true,
+      "few_shot": {
+        "answer_f1": 0.9932432432432432,
+        "execution_accuracy": 0.9932432432432432,
+        "execution_success": 1.0,
+        "n": 296,
+        "parse_valid": 1.0,
+        "schema_valid": 1.0
+      },
+      "local_weights": true,
+      "missing": [],
+      "model": "Gemma-2-9B-IT",
+      "model_family": "Gemma",
+      "path": "artifacts/evaluations/20260602_downstream_google_gemma2_9b_it_zero_fewshot",
+      "run_id": "20260602_downstream_google_gemma2_9b_it_zero_fewshot",
+      "tuning": "general instruction",
+      "zero_shot": {
+        "answer_f1": 0.15202702702702703,
+        "execution_accuracy": 0.15202702702702703,
+        "execution_success": 0.5743243243243243,
+        "n": 296,
+        "parse_valid": 0.9966216216216216,
+        "schema_valid": 0.7162162162162162
+      }
+    },
+    {
+      "complete": true,
+      "few_shot": {
+        "answer_f1": 0.9792976115650536,
+        "execution_accuracy": 0.9763513513513513,
+        "execution_success": 1.0,
+        "n": 296,
+        "parse_valid": 1.0,
+        "schema_valid": 1.0
+      },
+      "local_weights": true,
+      "missing": [],
+      "model": "tomasonjo/text2cypher-demo-16bit",
+      "model_family": "Llama 3.1",
+      "path": "artifacts/evaluations/20260602_downstream_tomasonjo_text2cypher8b_zero_fewshot",
+      "run_id": "20260602_downstream_tomasonjo_text2cypher8b_zero_fewshot",
+      "tuning": "Text2Cypher fine-tuned",
+      "zero_shot": {
+        "answer_f1": 0.16554054054054054,
+        "execution_accuracy": 0.16554054054054054,
+        "execution_success": 0.5945945945945946,
+        "n": 296,
+        "parse_valid": 1.0,
+        "schema_valid": 0.75
+      }
+    },
+    {
+      "complete": true,
+      "few_shot": {
+        "answer_f1": 0.9121621621621622,
+        "execution_accuracy": 0.9121621621621622,
+        "execution_success": 0.9121621621621622,
+        "n": 296,
+        "parse_valid": 1.0,
+        "schema_valid": 0.9966216216216216
+      },
+      "local_weights": true,
+      "missing": [],
+      "model": "neo4j/Gemma-3-4B Text2Cypher",
+      "model_family": "Gemma 3",
+      "path": "artifacts/evaluations/20260602_downstream_neo4j_gemma3_4b_zero_fewshot",
+      "run_id": "20260602_downstream_neo4j_gemma3_4b_zero_fewshot",
+      "tuning": "Text2Cypher fine-tuned",
+      "zero_shot": {
+        "answer_f1": 0.0,
+        "execution_accuracy": 0.0,
+        "execution_success": 0.0,
+        "n": 296,
+        "parse_valid": 1.0,
+        "schema_valid": 0.706081081081081
+      }
+    },
+    {
+      "complete": true,
+      "few_shot": {
+        "answer_f1": 0.9792976115650536,
+        "execution_accuracy": 0.9763513513513513,
+        "execution_success": 0.9966216216216216,
+        "n": 296,
+        "parse_valid": 1.0,
+        "schema_valid": 0.9966216216216216
+      },
+      "local_weights": true,
+      "missing": [],
+      "model": "Azzedde/llama3.1-8b-text2cypher",
+      "model_family": "Llama 3.1",
+      "path": "artifacts/evaluations/20260602_downstream_azzedde_llama31_text2cypher_zero_fewshot",
+      "run_id": "20260602_downstream_azzedde_llama31_text2cypher_zero_fewshot",
+      "tuning": "Text2Cypher fine-tuned",
+      "zero_shot": {
+        "answer_f1": 0.1554054054054054,
+        "execution_accuracy": 0.1554054054054054,
+        "execution_success": 0.652027027027027,
+        "n": 296,
+        "parse_valid": 1.0,
+        "schema_valid": 0.8074324324324325
+      }
+    },
+    {
+      "complete": true,
+      "few_shot": {
+        "answer_f1": 0.9961895034569455,
+        "execution_accuracy": 0.9932432432432432,
+        "execution_success": 0.9966216216216216,
+        "n": 296,
+        "parse_valid": 1.0,
+        "schema_valid": 0.9966216216216216
+      },
+      "local_weights": true,
+      "missing": [],
+      "model": "neo4j/Gemma-2-9B Text2Cypher LoRA",
+      "model_family": "Gemma 2",
+      "path": "artifacts/evaluations/20260602_downstream_neo4j_gemma2_text2cypher_lora_zero_fewshot",
+      "run_id": "20260602_downstream_neo4j_gemma2_text2cypher_lora_zero_fewshot",
+      "tuning": "Text2Cypher LoRA",
+      "zero_shot": {
+        "answer_f1": 0.19932432432432431,
+        "execution_accuracy": 0.19932432432432431,
+        "execution_success": 0.7162162162162162,
+        "n": 296,
+        "parse_valid": 1.0,
+        "schema_valid": 0.8209459459459459
+      }
+    },
+    {
+      "complete": true,
+      "few_shot": {
+        "answer_f1": 0.7693866800385003,
+        "execution_accuracy": 0.7297297297297297,
+        "execution_success": 0.777027027027027,
+        "n": 296,
+        "parse_valid": 1.0,
+        "schema_valid": 0.9121621621621622
+      },
+      "local_weights": true,
+      "missing": [],
+      "model": "aigentx/Llama-3.1-8B Cypher LoRA",
+      "model_family": "Llama 3.1",
+      "path": "artifacts/evaluations/20260602_downstream_aigentx_llama31_cypher_lora_zero_fewshot",
+      "run_id": "20260602_downstream_aigentx_llama31_cypher_lora_zero_fewshot",
+      "tuning": "Cypher LoRA",
+      "zero_shot": {
+        "answer_f1": 0.07432432432432433,
+        "execution_accuracy": 0.07432432432432433,
+        "execution_success": 0.08445945945945946,
+        "n": 296,
+        "parse_valid": 1.0,
+        "schema_valid": 0.19932432432432431
+      }
+    },
+    {
+      "complete": true,
+      "few_shot": {
+        "answer_f1": 0.9831081081081081,
+        "execution_accuracy": 0.9831081081081081,
+        "execution_success": 0.9898648648648649,
+        "n": 296,
+        "parse_valid": 1.0,
+        "schema_valid": 0.9898648648648649
+      },
+      "local_weights": true,
+      "missing": [],
+      "model": "aigentx/Llama-3.1-8B Cypher mixed LoRA",
+      "model_family": "Llama 3.1",
+      "path": "artifacts/evaluations/20260603_downstream_aigentx_llama31_cypher_mixed_lora_zero_fewshot",
+      "run_id": "20260603_downstream_aigentx_llama31_cypher_mixed_lora_zero_fewshot",
+      "tuning": "Cypher mixed LoRA",
+      "zero_shot": {
+        "answer_f1": 0.11148648648648649,
+        "execution_accuracy": 0.11148648648648649,
+        "execution_success": 0.5101351351351351,
+        "n": 296,
+        "parse_valid": 1.0,
+        "schema_valid": 0.7905405405405406
+      }
+    },
+    {
+      "complete": true,
+      "few_shot": {
+        "answer_f1": 0.8378378378378378,
+        "execution_accuracy": 0.8378378378378378,
+        "execution_success": 0.9121621621621622,
+        "n": 296,
+        "parse_valid": 1.0,
+        "schema_valid": 0.9763513513513513
+      },
+      "local_weights": true,
+      "missing": [],
+      "model": "ragraph-ai/stable-cypher-instruct-3b",
+      "model_family": "StableLM",
+      "path": "artifacts/evaluations/20260602_downstream_stable_cypher_instruct3b_transformers_zero_fewshot",
+      "run_id": "20260602_downstream_stable_cypher_instruct3b_transformers_zero_fewshot",
+      "tuning": "Cypher instruction",
+      "zero_shot": {
+        "answer_f1": 0.1554054054054054,
+        "execution_accuracy": 0.1554054054054054,
+        "execution_success": 0.6418918918918919,
+        "n": 296,
+        "parse_valid": 1.0,
+        "schema_valid": 0.7804054054054054
+      }
+    }
+  ],
+  "incomplete_count": 0,
+  "incomplete_runs": [],
+  "runs_examined": 10
+}

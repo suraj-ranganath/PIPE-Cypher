@@ -1,0 +1,52 @@
+{
+  "20260602_downstream_qwen35_9b_zero_fewshot": {
+    "model": "Qwen3.5-9B",
+    "model_family": "Qwen",
+    "tuning": "general instruction"
+  },
+  "20260602_downstream_qwen25_coder7b_zero_fewshot": {
+    "model": "Qwen2.5-Coder-7B-Instruct",
+    "model_family": "Qwen-Coder",
+    "tuning": "code instruction"
+  },
+  "20260602_downstream_google_gemma2_9b_it_zero_fewshot": {
+    "model": "Gemma-2-9B-IT",
+    "model_family": "Gemma",
+    "tuning": "general instruction"
+  },
+  "20260602_downstream_tomasonjo_text2cypher8b_zero_fewshot": {
+    "model": "tomasonjo/text2cypher-demo-16bit",
+    "model_family": "Llama 3.1",
+    "tuning": "Text2Cypher fine-tuned"
+  },
+  "20260602_downstream_neo4j_gemma3_4b_zero_fewshot": {
+    "model": "neo4j/Gemma-3-4B Text2Cypher",
+    "model_family": "Gemma 3",
+    "tuning": "Text2Cypher fine-tuned"
+  },
+  "20260602_downstream_azzedde_llama31_text2cypher_zero_fewshot": {
+    "model": "Azzedde/llama3.1-8b-text2cypher",
+    "model_family": "Llama 3.1",
+    "tuning": "Text2Cypher fine-tuned"
+  },
+  "20260602_downstream_neo4j_gemma2_text2cypher_lora_zero_fewshot": {
+    "model": "neo4j/Gemma-2-9B Text2Cypher LoRA",
+    "model_family": "Gemma 2",
+    "tuning": "Text2Cypher LoRA"
+  },
+  "20260602_downstream_aigentx_llama31_cypher_lora_zero_fewshot": {
+    "model": "aigentx/Llama-3.1-8B Cypher LoRA",
+    "model_family": "Llama 3.1",
+    "tuning": "Cypher LoRA"
+  },
+  "20260603_downstream_aigentx_llama31_cypher_mixed_lora_zero_fewshot": {
+    "model": "aigentx/Llama-3.1-8B Cypher mixed LoRA",
+    "model_family": "Llama 3.1",
+    "tuning": "Cypher mixed LoRA"
+  },
+  "20260602_downstream_stable_cypher_instruct3b_transformers_zero_fewshot": {
+    "model": "ragraph-ai/stable-cypher-instruct-3b",
+    "model_family": "StableLM",
+    "tuning": "Cypher instruction"
+  }
+}

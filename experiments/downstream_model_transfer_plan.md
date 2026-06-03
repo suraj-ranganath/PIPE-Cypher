@@ -4,30 +4,32 @@ This experiment tests whether public or general Text2Cypher capability transfers
 
 ## Motivation
 
-The completed Qwen3.5-9B downstream run shows high parse/schema validity but low exact execution accuracy on the PIPE-Cypher held-out split. This is a useful benchmark signal, not a weak method result: the benchmark exposes when a model can write plausible Cypher but cannot answer the graph-specific operational question.
+The completed downstream runs show high parse/schema validity but low zero-shot exact execution accuracy on the PIPE-Cypher held-out split. This is a useful benchmark signal, not a weak method result: the benchmark exposes when a model can write plausible Cypher but cannot answer the graph-specific operational question.
 
-A stronger paper result would evaluate multiple local models on the same fixed held-out split and report whether models tuned on public Text2Cypher resources transfer to FinBench/SNB-style enterprise workloads. If transfer is limited, PIPE-Cypher becomes useful not only for evaluation, but also for generating private training and refresh data for tenant-specific Text2Cypher systems.
+A 10-model local transfer suite now evaluates multiple local models on the same fixed held-out split and reports whether models tuned on public Text2Cypher resources transfer to FinBench/SNB-style enterprise workloads. Transfer is limited in zero-shot mode, while retrieval few-shot prompting with PIPE-Cypher training examples sharply improves execution accuracy. This supports the paper framing that PIPE-Cypher is useful not only for evaluation, but also for generating private examples for retrieval and future tenant-specific training.
 
-## Completed Anchor
+## Completed Suite
 
 - Benchmark package: `artifacts/benchmarks/20260601_live_full_qwen9b`
 - Split: `test`
 - Examples: 296
-- Completed endpoint/model: `Qwen/Qwen3.5-9B`
-- Execution accuracy: 0.189
-- Parse validity: 0.959
-- Schema validity: 0.905
-- Execution success: 0.622
+- Completed local-model runs: 10
+- Zero-shot execution accuracy range: 0.000 to 0.291
+- Retrieval few-shot execution accuracy range: 0.730 to 0.997
+- Summary snapshot: `experiments/snapshots/20260603_downstream_model_transfer/model_transfer_summary.json`
+- Markdown summary: `experiments/snapshots/20260603_downstream_model_transfer/model_transfer_summary.md`
+- Appendix table: `paper_emnlp2026_industry/tables_downstream_model_transfer.tex`
 - Error analysis: `experiments/snapshots/20260601_live_full_qwen9b/downstream_error_report.json`
 - Strategy analysis: `experiments/snapshots/20260601_live_full_qwen9b/strategy_diagnostics.json`
 
-## Candidate Model Families
+## Completed Model Families
 
 Use local OpenAI-compatible endpoints only. Do not use paid APIs for paper-reported generation or evaluation.
 
-1. General instruction local model: current `Qwen/Qwen3.5-9B` anchor.
-2. Code-tuned local model: a Qwen-Coder, DeepSeek-Coder, CodeLlama, or comparable local code model that fits available GPUs.
-3. Text2Cypher-finetuned local model: candidate Hugging Face models include `neo4j/text2cypher-gemma-2-9b-it-finetuned-2024v1`, `neo4j/text-to-cypher-Gemma-3-4B-Instruct-2025.04.0`, `neo4j/text-to-cypher-Gemma-3-27B-Instruct-2025.04.0` if compute permits, or `ragraph-ai/stable-cypher-instruct-3b`.
+1. General instruction local models: `Qwen/Qwen3.5-9B`, `google/gemma-2-9b-it`.
+2. Code-tuned local model: `Qwen/Qwen2.5-Coder-7B-Instruct`.
+3. Text2Cypher/Cypher-tuned local models: `tomasonjo/text2cypher-demo-16bit`, `neo4j/text-to-cypher-Gemma-3-4B-Instruct-2025.04.0`, `Azzedde/llama3.1-8b-text2cypher`, `neo4j/text2cypher-gemma-2-9b-it-finetuned-2024v1`, `aigentx/llama-3.1-8b-instruct-cypher`, `aigentx/llama-3.1-8b-instruct-cypher-mixed-samples`, and `ragraph-ai/stable-cypher-instruct-3b`.
+4. Active add-on runs as of June 3, 2026: `projectwilsen/llama3.1-8b-text2cypher-neo4j-live` and `Saiprasanth15/llama3.1-8b-text2cypher-neo4j-live`.
 
 The Neo4j Text2Cypher 2024 benchmark report found that public fine-tuned and closed foundational models can perform differently under translation vs execution evaluation, and Hugging Face currently lists multiple Cypher-tagged fine-tuned models. PIPE-Cypher should use this as motivation for a transfer test, not as a substitute for running our own enterprise-style held-out split.
 
@@ -42,7 +44,7 @@ RUN_PREFIX="20260602_downstream_<model_slug>" \
 bash scripts/run_downstream_zero_fewshot_eval.sh
 ```
 
-Report both zero-shot and retrieval few-shot if both complete. If only one can be completed before submission, prefer zero-shot for the clean transfer claim and keep few-shot as an appendix extension.
+Report both zero-shot and retrieval few-shot only when both complete. Partial active runs remain operational status, not paper evidence.
 
 ## Required Reporting
 
@@ -61,6 +63,6 @@ Every model result promoted into the paper or appendix must have:
 
 ## Paper Claim Rules
 
-- Current completed claim: PIPE-Cypher produces a hard, discriminative downstream benchmark because a local model can generate mostly valid-looking Cypher while still failing exact execution on many enterprise-style slices.
-- Claim after multi-model completion: public/general Text2Cypher performance does or does not transfer to PIPE-Cypher enterprise-style graphs, backed by paired model comparisons.
+- Current completed claim: PIPE-Cypher produces a hard, discriminative downstream benchmark because local models, including Text2Cypher-tuned models, can generate mostly valid-looking Cypher while still failing exact execution on many enterprise-style slices.
+- Current completed transfer claim: public/general Text2Cypher capability does not automatically transfer zero-shot to PIPE-Cypher enterprise-style graphs, but PIPE-Cypher examples substantially improve retrieval few-shot execution accuracy on the same held-out split.
 - Claim after tenant-specific fine-tuning: PIPE-Cypher-generated examples improve a model on the target graph without exposing tenant data externally, backed by train/dev/test separation and before/after execution accuracy.
