@@ -54,6 +54,7 @@ def test_render_full_artifact_distribution_table_summarizes_gates():
 
     assert "2 balanced categories" in text
     assert "1,521 easy / 1,479 medium" in text
+    assert "Used labels / rel. types" in text
     assert "3,000/3,000" in text
 
 

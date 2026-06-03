@@ -189,6 +189,144 @@ def render_fewshot_control_latex(report: dict[str, Any]) -> str:
     return "\n".join(rows) + "\n"
 
 
+def build_fewshot_control_uncertainty_report(
+    report: dict[str, Any],
+    *,
+    iterations: int = 10000,
+    seed: int = 13,
+    confidence_level: float = 0.95,
+) -> dict[str, Any]:
+    if iterations <= 0:
+        raise ValueError("iterations must be positive")
+    if not 0.0 < confidence_level < 1.0:
+        raise ValueError("confidence_level must be between 0 and 1")
+
+    models = [model for model in report.get("models", []) if model.get("complete")]
+    rows = []
+    for mode, label in (
+        ("ordered", "Ordered same-category"),
+        ("scored_no_signature", "Scored no-signature"),
+        ("random_mean", "Random same-category mean"),
+    ):
+        values: list[float] = []
+        deltas: list[float] = []
+        improved = 0
+        for model in models:
+            zero = float(model["zero_shot"]["execution_accuracy"])
+            value = _control_accuracy_for_uncertainty(model, mode)
+            if value is None:
+                continue
+            value = float(value)
+            values.append(value)
+            delta = value - zero
+            deltas.append(delta)
+            if delta > 0.0:
+                improved += 1
+        interval = _bootstrap_mean_interval(
+            deltas,
+            iterations=iterations,
+            seed=_derived_int_seed(seed, mode),
+            confidence_level=confidence_level,
+        )
+        rows.append(
+            {
+                "mode": mode,
+                "label": label,
+                "models": len(deltas),
+                "mean_accuracy": _mean(values),
+                "mean_delta": _mean(deltas),
+                "delta_ci_lower": interval["lower"],
+                "delta_ci_upper": interval["upper"],
+                "delta_standard_error": interval["standard_error"],
+                "improved_models": improved,
+            }
+        )
+    return {
+        "method": "model_level_paired_bootstrap",
+        "iterations": iterations,
+        "seed": seed,
+        "confidence_level": confidence_level,
+        "zero_shot_mean_accuracy": report.get("aggregate", {}).get(
+            "mean_zero_execution_accuracy", 0.0
+        ),
+        "rows": rows,
+    }
+
+
+def render_fewshot_control_uncertainty_markdown(report: dict[str, Any]) -> str:
+    confidence = int(round(float(report.get("confidence_level", 0.95)) * 100))
+    lines = [
+        "# Few-Shot Control Uncertainty",
+        "",
+        (
+            f"Method: model-level paired bootstrap over downstream checkpoints "
+            f"with {report['iterations']:,} resamples and {confidence}% percentile intervals."
+        ),
+        "",
+        f"Zero-shot mean execution accuracy: {_fmt_float(report['zero_shot_mean_accuracy'])}",
+        "",
+        "| Control | Mean acc. | Delta vs zero | Delta CI | Improved models |",
+        "|---|---:|---:|---:|---:|",
+    ]
+    for row in report["rows"]:
+        lines.append(
+            "| {label} | {mean_acc} | {delta} | [{lower}, {upper}] | {improved}/{models} |".format(
+                label=row["label"],
+                mean_acc=_fmt_float(row["mean_accuracy"]),
+                delta=_fmt_float(row["mean_delta"]),
+                lower=_fmt_float(row["delta_ci_lower"]),
+                upper=_fmt_float(row["delta_ci_upper"]),
+                improved=row["improved_models"],
+                models=row["models"],
+            )
+        )
+    lines.append("")
+    return "\n".join(lines)
+
+
+def render_fewshot_control_uncertainty_latex(report: dict[str, Any]) -> str:
+    confidence = int(round(float(report.get("confidence_level", 0.95)) * 100))
+    rows = [
+        r"\begin{table}[t]",
+        r"\centering",
+        r"\small",
+        r"\resizebox{\columnwidth}{!}{%",
+        r"\begin{tabular}{lrrrr}",
+        r"\toprule",
+        f"Control & Mean acc. & $\\Delta$ vs zero & {confidence}\\% $\\Delta$ CI & Models improved \\\\",
+        r"\midrule",
+    ]
+    for row in report["rows"]:
+        rows.append(
+            "{label} & {mean_acc} & {delta} & [{lower}, {upper}] & {improved}/{models} \\\\".format(
+                label=_escape_latex(row["label"]),
+                mean_acc=_fmt_float(row["mean_accuracy"]),
+                delta=_fmt_float(row["mean_delta"]),
+                lower=_fmt_float(row["delta_ci_lower"]),
+                upper=_fmt_float(row["delta_ci_upper"]),
+                improved=row["improved_models"],
+                models=row["models"],
+            )
+        )
+    rows.extend(
+        [
+            r"\bottomrule",
+            r"\end{tabular}",
+            r"}",
+            (
+                r"\caption{Model-level paired bootstrap uncertainty for downstream "
+                r"few-shot controls. The unit of resampling is the local checkpoint, "
+                r"not an individual question, so the interval is a conservative check "
+                r"on whether gains are broad across model families. Zero-shot mean "
+                f"execution accuracy is {_fmt_float(report['zero_shot_mean_accuracy'])}.}}"
+            ),
+            r"\label{tab:downstream_fewshot_control_uncertainty}",
+            r"\end{table}",
+        ]
+    )
+    return "\n".join(rows) + "\n"
+
+
 def render_model_transfer_markdown(report: dict[str, Any]) -> str:
     rows = [
         "# Downstream Model Transfer Summary",
@@ -393,6 +531,61 @@ def _mean(values: list[float]) -> float:
     return sum(values) / len(values) if values else 0.0
 
 
+def _quantile(values: list[float], q: float) -> float:
+    if not values:
+        return 0.0
+    if q <= 0.0:
+        return float(values[0])
+    if q >= 1.0:
+        return float(values[-1])
+    position = q * (len(values) - 1)
+    lower = math.floor(position)
+    upper = math.ceil(position)
+    if lower == upper:
+        return float(values[lower])
+    fraction = position - lower
+    return float(values[lower] * (1.0 - fraction) + values[upper] * fraction)
+
+
+def _std(values: list[float]) -> float:
+    if len(values) <= 1:
+        return 0.0
+    mean = _mean(values)
+    return math.sqrt(sum((value - mean) ** 2 for value in values) / (len(values) - 1))
+
+
+def _derived_int_seed(seed: int, *parts: str) -> int:
+    import hashlib
+
+    digest = hashlib.sha256("|".join([str(seed), *parts]).encode("utf-8")).hexdigest()
+    return int(digest[:12], 16)
+
+
+def _bootstrap_mean_interval(
+    values: list[float],
+    *,
+    iterations: int,
+    seed: int,
+    confidence_level: float,
+) -> dict[str, float]:
+    if not values:
+        return {"lower": 0.0, "upper": 0.0, "standard_error": 0.0}
+    import random
+
+    rng = random.Random(seed)
+    n = len(values)
+    estimates = []
+    for _ in range(iterations):
+        estimates.append(sum(values[rng.randrange(n)] for _ in range(n)) / n)
+    estimates.sort()
+    alpha = 1.0 - confidence_level
+    return {
+        "lower": _quantile(estimates, alpha / 2.0),
+        "upper": _quantile(estimates, 1.0 - alpha / 2.0),
+        "standard_error": _std(estimates),
+    }
+
+
 def _best_control(model: dict[str, Any]) -> dict[str, Any]:
     candidates = []
     for key in ("ordered", "scored_no_signature"):
@@ -415,6 +608,12 @@ def _metric(model: dict[str, Any], mode: str, metric: str) -> float | None:
     if mode in model.get("controls", {}):
         return float(model["controls"][mode][metric])
     return None
+
+
+def _control_accuracy_for_uncertainty(model: dict[str, Any], mode: str) -> float | None:
+    if mode == "random_mean":
+        return model.get("random", {}).get("mean", {}).get("execution_accuracy")
+    return _metric(model, mode, "execution_accuracy")
 
 
 def _control_markdown_row(model: dict[str, Any]) -> str:

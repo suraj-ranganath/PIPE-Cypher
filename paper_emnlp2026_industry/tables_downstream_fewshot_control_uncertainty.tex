@@ -1,0 +1,17 @@
+\begin{table}[t]
+\centering
+\small
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lrrrr}
+\toprule
+Control & Mean acc. & $\Delta$ vs zero & 95\% $\Delta$ CI & Models improved \\
+\midrule
+Ordered same-category & 0.380 & 0.241 & [0.014, 0.489] & 5/12 \\
+Scored no-signature & 0.245 & 0.106 & [-0.041, 0.266] & 5/12 \\
+Random same-category mean & 0.378 & 0.239 & [0.013, 0.477] & 5/12 \\
+\bottomrule
+\end{tabular}
+}
+\caption{Model-level paired bootstrap uncertainty for downstream few-shot controls. The unit of resampling is the local checkpoint, not an individual question, so the interval is a conservative check on whether gains are broad across model families. Zero-shot mean execution accuracy is 0.139.}
+\label{tab:downstream_fewshot_control_uncertainty}
+\end{table}

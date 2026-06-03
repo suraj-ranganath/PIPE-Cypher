@@ -58,7 +58,7 @@ def render_full_artifact_distribution_table(stats: dict[str, Any]) -> str:
                     easy=_fmt_int(difficulty.get("easy", 0)),
                     medium=_fmt_int(difficulty.get("medium", 0)),
                 ),
-                "Unique labels / rel. types & {labels} / {rels} \\\\".format(
+                "Used labels / rel. types & {labels} / {rels} \\\\".format(
                     labels=len(stats.get("unique_labels", [])),
                     rels=len(stats.get("unique_relationship_types", [])),
                 ),

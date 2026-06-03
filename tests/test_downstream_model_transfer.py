@@ -3,9 +3,14 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
+
 from pipecypher.downstream_model_transfer import (
+    build_fewshot_control_uncertainty_report,
     build_fewshot_control_report,
     build_model_transfer_report,
+    render_fewshot_control_uncertainty_latex,
+    render_fewshot_control_uncertainty_markdown,
     render_fewshot_control_latex,
     render_fewshot_control_markdown,
     render_model_transfer_latex,
@@ -148,6 +153,65 @@ def test_fewshot_control_report_uses_control_metadata_when_zero_metadata_missing
     assert model["model"] == "neo4j/Gemma-2-9B Text2Cypher LoRA"
     assert model["model_family"] == "Gemma"
     assert model["tuning"] == "Text2Cypher LoRA"
+
+
+def test_fewshot_control_uncertainty_reports_model_level_deltas(tmp_path: Path):
+    zero_a = tmp_path / "20260602_downstream_model_a_zero_fewshot"
+    zero_b = tmp_path / "20260602_downstream_model_b_zero_fewshot"
+    zero_a.mkdir()
+    zero_b.mkdir()
+    _write_summary(zero_a / "zero_shot_summary.json", execution_accuracy=0.2, schema_valid=0.8)
+    _write_summary(zero_b / "zero_shot_summary.json", execution_accuracy=0.4, schema_valid=0.9)
+
+    control_dirs = []
+    for slug, values in {
+        "model_a": {
+            "ordered_logged": 0.8,
+            "scored_no_signature": 0.6,
+            "random_seed13": 0.7,
+            "random_seed17": 0.9,
+            "random_seed23": 0.8,
+        },
+        "model_b": {
+            "ordered_logged": 0.3,
+            "scored_no_signature": 0.2,
+            "random_seed13": 0.3,
+            "random_seed17": 0.3,
+            "random_seed23": 0.3,
+        },
+    }.items():
+        for suffix, value in values.items():
+            path = tmp_path / f"20260603_control_{slug}_{suffix}"
+            path.mkdir()
+            _write_summary(path / "few_shot_summary.json", execution_accuracy=value, schema_valid=1.0)
+            control_dirs.append(path)
+
+    report = build_fewshot_control_report(
+        zero_shot_dirs=[zero_a, zero_b],
+        control_dirs=control_dirs,
+        metadata={
+            zero_a.name: {"model": "model_a", "tuning": "base"},
+            zero_b.name: {"model": "model_b", "tuning": "base"},
+        },
+    )
+    uncertainty = build_fewshot_control_uncertainty_report(
+        report,
+        iterations=100,
+        seed=7,
+    )
+
+    assert uncertainty["method"] == "model_level_paired_bootstrap"
+    assert uncertainty["zero_shot_mean_accuracy"] == pytest.approx(0.3)
+    ordered = uncertainty["rows"][0]
+    assert ordered["mean_accuracy"] == pytest.approx(0.55)
+    assert ordered["mean_delta"] == pytest.approx(0.25)
+    assert ordered["improved_models"] == 1
+
+    markdown = render_fewshot_control_uncertainty_markdown(uncertainty)
+    assert "model-level paired bootstrap" in markdown
+    latex = render_fewshot_control_uncertainty_latex(uncertainty)
+    assert r"\label{tab:downstream_fewshot_control_uncertainty}" in latex
+    assert "Models improved" in latex
 
 
 def _write_summary(path: Path, *, execution_accuracy: float, schema_valid: float) -> None:
