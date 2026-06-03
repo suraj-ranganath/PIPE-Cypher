@@ -16,6 +16,7 @@ from .prompts import (
     REPAIR_PROMPT,
     REVERSE_CYPHER_PROMPT,
     TEMPLATE_GENERATION_PROMPT,
+    SYSTEM_JSON_ENGINEER,
 )
 from .text2cypher import TEXT2CYPHER_PROMPT, TEXT2CYPHER_SYSTEM
 
@@ -151,6 +152,24 @@ def render_prompt_contracts_tex() -> str:
     rows.extend(
         [
             r"\end{enumerate}",
+            r"\subsection{LLM Judge Prompt Used in Reported Runs}",
+            (
+                "The local LLM judge receives a JSON-only system instruction and "
+                "the following user prompt template after schema slicing, execution "
+                "sampling, and deterministic validation. The placeholders are filled "
+                "with the candidate question, Cypher, schema slice, execution rows, "
+                "and validation summary for each reviewed example."
+            ),
+            r"\begingroup",
+            r"\footnotesize",
+            r"\begin{verbatim}",
+            "System prompt:",
+            *_verbatim_lines(SYSTEM_JSON_ENGINEER),
+            "",
+            "User prompt template:",
+            *_verbatim_lines(JUDGE_PROMPT),
+            r"\end{verbatim}",
+            r"\endgroup",
         ]
     )
     return "\n".join(rows) + "\n"
@@ -347,6 +366,24 @@ def _wrap_code(value: str, *, width: int) -> str:
     if not lines:
         return ""
     return "\\\\\n".join(_escape_latex(line) for line in lines)
+
+
+def _verbatim_lines(value: str, *, width: int = 76) -> list[str]:
+    lines: list[str] = []
+    for source_line in value.strip().splitlines():
+        if not source_line.strip():
+            lines.append("")
+            continue
+        lines.extend(
+            textwrap.wrap(
+                source_line,
+                width=width,
+                break_long_words=False,
+                break_on_hyphens=False,
+            )
+            or [""]
+        )
+    return lines
 
 
 def _display_cypher(value: str) -> str:

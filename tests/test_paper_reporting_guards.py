@@ -67,6 +67,37 @@ def test_paper_reporting_filenames_do_not_include_diagnostic_runs():
     assert offenders == []
 
 
+def test_appendix_result_tables_use_fixed_placement():
+    appendix_table_names = {
+        "tables_ablation_results.tex",
+        "tables_ablation_quality.tex",
+        "tables_ablation_comparison.tex",
+        "tables_failure_taxonomy.tex",
+        "tables_graph_statistics.tex",
+        "tables_icij_onboarding.tex",
+        "tables_category_crosswalk.tex",
+        "tables_downstream_fewshot_controls.tex",
+        "tables_downstream_fewshot_control_uncertainty.tex",
+        "tables_fewshot_leakage_controls.tex",
+        "tables_downstream_error_taxonomy.tex",
+        "tables_supported_text_metrics.tex",
+        "tables_diversity.tex",
+        "tables_strategy_diagnostics.tex",
+        "tables_validator_cascade.tex",
+        "tables_prompt_refinement.tex",
+        "tables_effort_automation.tex",
+        "tables_judge_audit_coverage.tex",
+    }
+    offenders: list[str] = []
+    for name in appendix_table_names:
+        path = PAPER_ROOT / name
+        text = path.read_text(encoding="utf-8")
+        if r"\begin{table*}" in text or r"\begin{table}[t]" in text:
+            offenders.append(name)
+
+    assert offenders == []
+
+
 def test_legacy_paper_ablation_renderer_refuses_sub50_targets_by_default():
     with pytest.raises(SystemExit, match="refusing to render paper ablation table below"):
         validate_paper_target(25, allow_diagnostic_target=False)

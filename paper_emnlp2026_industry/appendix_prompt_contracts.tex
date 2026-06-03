@@ -15,3 +15,50 @@ PIPE-Cypher treats prompts as versioned implementation artifacts. The list summa
 \item \textbf{Downstream Text2Cypher.} Stage: Model evaluation. SHA-256: \texttt{4c07ff}.\par
 \textit{Contract.} Read-only Cypher only; Schema-visible constructs and exact direction preservation; RETURN DISTINCT, count/ranking rules, and no explanations
 \end{enumerate}
+\subsection{LLM Judge Prompt Used in Reported Runs}
+The local LLM judge receives a JSON-only system instruction and the following user prompt template after schema slicing, execution sampling, and deterministic validation. The placeholders are filled with the candidate question, Cypher, schema slice, execution rows, and validation summary for each reviewed example.
+\begingroup
+\footnotesize
+\begin{verbatim}
+System prompt:
+You are an expert benchmark engineer. Return strict JSON only. No markdown
+or extra text.
+
+User prompt template:
+You are judging whether an NL-to-Cypher benchmark example is acceptable for
+an enterprise benchmark.
+
+Graph schema:
+{schema}
+
+Question:
+{question}
+
+Cypher:
+{cypher}
+
+Execution sample:
+{rows}
+
+Validation summary:
+{validation}
+
+Return strict JSON with:
+- pass: boolean
+- ambiguity_score: number from 0 to 1, lower is better
+- semantic_alignment_score: number from 0 to 1
+- schema_use_score: number from 0 to 1
+- difficulty: one of easy, medium, hard
+- failure_reason: short string, empty if pass is true
+
+Pass only if the question is unambiguous, the Cypher answers it, the schema
+use is valid, and the result would be useful in an enterprise benchmark.
+- Categorical property values in the schema constrain literal values written
+in the Cypher query.
+- Do not reject because the execution sample returns a value that is absent
+from the categorical-value list; result rows are observed graph outputs.
+- If deterministic validation says schema use is valid, lower
+schema_use_score only when the Cypher itself uses nonexistent schema
+elements, invalid relationship directions, or invalid literal values.
+\end{verbatim}
+\endgroup

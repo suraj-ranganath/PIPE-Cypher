@@ -8,6 +8,7 @@
 \usepackage{xcolor}
 \usepackage{tikz}
 \usepackage{placeins}
+\usepackage{float}
 \usetikzlibrary{arrows.meta,backgrounds,calc,fit,positioning}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -124,45 +125,60 @@ PIPE-Cypher is designed for private benchmark generation under local-model deplo
 
 \bibliography{references}
 
+\clearpage
+\onecolumn
 \appendix
 
 \section{Governed Generation Evidence}
 
-The strongest ablation result is not that every optional component independently increases yield; it is that once reverse grounding and deterministic Cypher governance are in place, the benchmark factory reliably fills every planned graph/category cell at target scale. Figure~\ref{fig:ablation_suite_target100_main} gives the full stress-baseline evidence behind the compact RQ2 discussion in the main paper. The unconstrained local-generation rows are intentionally shown as a stress baseline: they demonstrate why executable gates and category control are necessary for enterprise benchmark generation.
+The appendix is organized as a claim-evidence trace. Each table or figure appears next to the paragraph that interprets it so the reader does not need to reconstruct the argument from a block of floats. The first claim is reliability: once reverse grounding and deterministic Cypher governance are in place, PIPE-Cypher fills every planned graph/category cell at target scale.
 
-\begin{figure*}[t]
+\subsection{Target-100 Stress Baseline}
+
+Figure~\ref{fig:ablation_suite_target100_main} and Table~\ref{tab:ablation_results} are the detailed evidence behind the compact RQ2 discussion. The unconstrained rows are intentionally shown as a stress baseline: plausible raw local-model generations do not produce balanced, executable benchmark coverage. The governed variants, in contrast, fill every target cell on both graphs.
+
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.82\textwidth]{figures/ablation_suite_target100.pdf}
 \caption{Target-100 ablation yield on FinBench and SNB. Unconstrained local generation is reported as a stress baseline with explicit attempt accounting; the execution-grounded governed variants reach all eight workload-category targets on both graphs. The takeaway is reliability of the grounded governance core, not that every optional module is needed for yield.}
 \label{fig:ablation_suite_target100_main}
-\end{figure*}
+\end{figure}
 
 \input{tables_ablation_results}
+
+\subsection{Gate-Level Quality}
+
+Yield alone is not the main result; a benchmark factory must explain which gates are doing useful work. Table~\ref{tab:ablation_quality} and Figure~\ref{fig:ablation_quality_target100} therefore report read-only, syntax, schema, execution, and judge/post-hoc rates for the same target-100 suite. The quality story is that read-only and syntax checks are saturated after governance, while execution and semantic judging expose the remaining differences.
+
 \input{tables_ablation_quality}
 
-\begin{figure}[t]
+\begin{figure}[H]
 \centering
 \includegraphics[width=\columnwidth]{figures/ablation_quality_target100.pdf}
 \caption{Gate-rate heatmap for the audited target-100 ablation suite. Deterministic read-only and syntax gates are saturated; execution and judge rates expose the remaining quality differences across graph and pipeline variants.}
 \label{fig:ablation_quality_target100}
 \end{figure}
 
+\subsection{Repeated-Suite Stability}
+
 The same conclusion holds across target sizes and seeds. The repeated-suite comparison normalizes by each suite's planned target, so the table and figure show stability rather than rewarding larger raw counts. Full PIPE-Cypher and the governed ablations reach complete target coverage on both graphs, supporting the claim that the system behaves like a repeatable benchmark factory rather than a one-off generation script.
 
 \input{tables_ablation_comparison}
 
-\begin{figure}[t]
+\begin{figure}[H]
 \centering
 \includegraphics[width=\columnwidth]{figures/ablation_suite_comparison.pdf}
 \caption{Three-suite ablation stability over the original target-50 suite, corrected target-100 suite, and seed-17 target-50 repeat. Target-normalized coverage stays at 1.000 for all non-unconstrained cells.}
 \label{fig:ablation_suite_comparison}
 \end{figure}
 
+\subsection{Rejected Candidate Taxonomy}
+
 The rejection taxonomy explains where the remaining work occurs. After deterministic Cypher governance, schema-invalid candidates are rare; most rejected candidates are duplicate/diversity blocks from recovery or empty-result candidates caught before export. This is the behavior an enterprise deployment wants: invalid or brittle examples remain in the ledger, not in the benchmark.
 
 \input{tables_failure_taxonomy}
 
-\begin{figure}[t]
+\begin{figure}[H]
 \centering
 \includegraphics[width=\columnwidth]{figures/failure_taxonomy.pdf}
 \caption{Full-run rejection taxonomy before benchmark export. Most rejected candidates come from duplicate/diversity control during category recovery and from empty execution results; schema-invalid Cypher is rare after deterministic governance.}
@@ -173,24 +189,39 @@ The rejection taxonomy explains where the remaining work occurs. After determini
 
 \section{Benchmark Artifact and Third-Graph Onboarding}
 
-The exported artifact is designed to make scale and balance visible. Figure~\ref{fig:full_export_distribution} shows the planned 2:1 FinBench/SNB mix, exact category balance, and near-even difficulty split; Tables~\ref{tab:graph_statistics}--\ref{tab:icij_onboarding} then show that the same machinery also onboards ICIJ Offshore Leaks, a larger public finance/compliance graph outside the two LDBC study workloads.
+\subsection{Export Balance}
 
-\begin{figure}[t]
+The exported artifact is designed to make scale and balance visible. Figure~\ref{fig:full_export_distribution} shows the planned 2:1 FinBench/SNB mix, exact category balance, and near-even difficulty split. This is the artifact-level evidence for the paper's core claim: PIPE-Cypher produces a benchmark that is balanced by design rather than sampled opportunistically.
+
+\begin{figure}[H]
 \centering
 \includegraphics[width=\columnwidth]{figures/full_export_distribution.pdf}
 \caption{Full 3,000-example export distribution. The benchmark preserves the planned 2:1 FinBench/SNB graph mix while balancing all eight Cypher workload categories and maintaining a near-even easy/medium difficulty split.}
 \label{fig:full_export_distribution}
 \end{figure}
 
+\subsection{Graph Scale and Schema Variety}
+
+Table~\ref{tab:graph_statistics} anchors the study graphs before introducing the third-graph onboarding audit. FinBench and SNB are the controlled LDBC study workloads; ICIJ is the public finance/compliance graph used to test whether the same onboarding machinery works outside the two original schemas.
+
 \input{tables_graph_statistics}
+
+\subsection{ICIJ Onboarding}
+
+Table~\ref{tab:icij_onboarding} and Figure~\ref{fig:icij_onboarding_audit} report the third-graph result. ICIJ matters because it forced schema-derived sparse-category augmentation rather than relying on preauthored FinBench/SNB templates. The run reaches all eight category targets while preserving the same validation and audit standards.
+
 \input{tables_icij_onboarding}
 
-\begin{figure}[t]
+\begin{figure}[H]
 \centering
 \includegraphics[width=\columnwidth]{figures/icij_onboarding_audit.pdf}
 \caption{ICIJ Offshore Leaks onboarding audit. Schema-derived sparse-category templates recover balanced target-100 coverage on a public finance/compliance graph beyond the two LDBC workloads.}
 \label{fig:icij_onboarding_audit}
 \end{figure}
+
+\subsection{Category Crosswalk}
+
+Table~\ref{tab:category_crosswalk} connects PIPE-Cypher's eight categories to the simpler retrieval/aggregation/evaluation-query taxonomy used in Mind the Query. The purpose is to make comparison easy while showing the extra enterprise workload classes: negation, temporal/path reasoning, and ranking/top-k.
 
 \input{tables_category_crosswalk}
 
@@ -198,11 +229,13 @@ The exported artifact is designed to make scale and balance visible. Figure~\ref
 
 \section{Downstream Transfer and Example-Bank Utility}
 
+\subsection{Transfer Controls}
+
 The downstream experiment is a benchmark-utility stress test. A useful enterprise benchmark should not merely reward syntactically valid Cypher; it should reveal when a model produces a query that parses, mentions plausible schema elements, and even executes, but answers the wrong operational question. The Qwen3.5-9B result has that shape: parse validity is 0.959 and schema validity is 0.905, while exact execution accuracy is only 0.189 on the full held-out split. This gap is evidence that PIPE-Cypher is measuring semantic graph-query competence rather than only query formatting.
 
 The multi-model transfer suite compares local general instruction, code-tuned, Cypher instruction, and Text2Cypher-finetuned models while keeping the schema prompt, evaluation backend, split, and execution metrics fixed. Figure~\ref{fig:downstream_fewshot_controls} is the key result: zero-shot transfer is weak, but accepted graph-specific examples become a high-value private question-answer bank. Demonstration-bank controls close much of the gap for compatible model families such as Qwen, Qwen-Coder, stable-cypher, and one Gemma Text2Cypher LoRA, while still revealing brittle public fine-tuned checkpoints.
 
-\begin{figure}[t]
+\begin{figure}[H]
 \centering
 \includegraphics[width=\columnwidth]{figures/downstream_fewshot_controls.pdf}
 \caption{Execution accuracy for the 12 local downstream models under zero-shot and few-shot control modes. The heatmap highlights both findings: schema-specific examples can sharply help compatible models, and several public fine-tuned checkpoints still fail under enterprise-style Cypher prompting.}
@@ -210,19 +243,29 @@ The multi-model transfer suite compares local general instruction, code-tuned, C
 \end{figure}
 
 \input{tables_downstream_fewshot_controls}
+
+Table~\ref{tab:downstream_fewshot_control_uncertainty} reports checkpoint-level uncertainty for the same controls. The interval is deliberately conservative because the unit is model checkpoint rather than question row; it supports the narrower claim that example-bank gains are model-family dependent, not universal.
+
 \input{tables_downstream_fewshot_control_uncertainty}
+
+Table~\ref{tab:fewshot_leakage_controls} is placed with the transfer result because it defines the correct interpretation: ordered and random same-category demonstrations are useful example-bank conditions, while the scored no-signature condition is the stricter leakage-aware control.
+
 \input{tables_fewshot_leakage_controls}
+
+\subsection{Downstream Failure Modes and Supplementary Metrics}
 
 The failure taxonomy is included next to the transfer results because it explains why the benchmark is useful operationally. Incorrect rows are not all the same: some outputs fail to parse, some mention invalid schema, some fail at execution time, and many execute but answer the wrong question. That separation is what lets a benchmark owner decide whether to improve schema retrieval, prompt constraints, value grounding, or tenant-specific adaptation.
 
 \input{tables_downstream_error_taxonomy}
 
-\begin{figure}[t]
+\begin{figure}[H]
 \centering
 \includegraphics[width=\columnwidth]{figures/downstream_error_taxonomy.pdf}
 \caption{Downstream Text2Cypher failure taxonomy for the local Qwen3.5-9B baseline on the full test split. Exact matches are excluded so the chart exposes whether misses come from invalid Cypher, failed execution, or semantically wrong executable queries.}
 \label{fig:downstream_error_taxonomy}
 \end{figure}
+
+Table~\ref{tab:supported_text_metrics} is not a headline result. It documents evaluator support for reference-based text metrics that are useful when debugging answer rendering or near-match behavior. The paper's correctness claims remain grounded in execution accuracy and answer-set F1.
 
 \input{tables_supported_text_metrics}
 
@@ -230,34 +273,38 @@ The failure taxonomy is included next to the transfer results because it explain
 
 \section{Diversity and Cypher Strategy Audit}
 
+\subsection{Diversity Diagnostics}
+
 PIPE-Cypher does not ask reviewers to trust a single aggregate acceptance rate. It reports diversity and strategy diagnostics so an enterprise can see whether its benchmark is balanced, what structural operators it exercises, and where residual concentration remains. Figure~\ref{fig:diversity_diagnostics} keeps the useful diversity view: category, graph-category, and difficulty balance are strong by construction; schema and value coverage are visible audit quantities rather than hidden assumptions.
 
 \input{tables_diversity}
 
-\begin{figure}[t]
+\begin{figure}[H]
 \centering
 \includegraphics[width=\columnwidth]{figures/diversity_diagnostics.pdf}
 \caption{Diversity diagnostics for the full 3,000-example export. Category, graph-category, and difficulty balance are strong by construction; schema coverage and query-signature diversity expose remaining concentration from the seeded-template run.}
 \label{fig:diversity_diagnostics}
 \end{figure}
 
+\subsection{Cypher Strategy Coverage}
+
 Strategy diagnostics complement category balance. Two questions can share a category while exercising different Cypher behavior; conversely, a category-balanced dataset can still miss joins, paths, negation, ranking, or bounded-result patterns. The strategy matrix and downstream strategy outcomes make the benchmark's discriminative structure legible.
 
 \input{tables_strategy_diagnostics}
 
-\begin{figure*}[t]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.92\textwidth]{figures/strategy_coverage.pdf}
 \caption{Cypher strategy coverage by workload category. Category balancing does not by itself guarantee operator coverage; the strategy matrix shows where the benchmark exercises single-hop retrieval, joins, aggregation, ordering, negation, path patterns, optional matches, and bounded-result queries.}
 \label{fig:strategy_coverage}
-\end{figure*}
+\end{figure}
 
-\begin{figure*}[t]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.88\textwidth]{figures/strategy_downstream_errors.pdf}
 \caption{Downstream outcomes by gold Cypher strategy on the full held-out test split. The local Qwen3.5-9B baseline fails differently across strategies: aggregation mixes exact matches with execution failures, while join-heavy, negation, path, and ranking examples are dominated by semantically wrong executable queries or execution failures.}
 \label{fig:strategy_downstream_errors}
-\end{figure*}
+\end{figure}
 
 \FloatBarrier
 
@@ -265,8 +312,23 @@ Strategy diagnostics complement category balance. Two questions can share a cate
 
 The following tables collect implementation details that support the paper's industry claims: the validator cascade, prompt-profile controls, automation/effort contrast, and the completed post-hoc judge audit. These tables are placed here rather than near unrelated result plots because they explain how PIPE-Cypher can be deployed as a governed local workflow instead of a manual dataset-writing exercise.
 
+\subsection{Validation Cascade}
+
+Table~\ref{tab:validator_cascade} lists the deterministic and judge gates in execution order. It is the operational view of how an enterprise deployment keeps unsafe, schema-invalid, empty, or semantically weak examples out of exported benchmarks.
+
 \input{tables_validator_cascade}
+
+\subsection{Prompt Profiles and Contracts}
+
+Table~\ref{tab:prompt_refinement_plan} documents the prompt-profile factors used for ablation planning. The full prompt contracts, including the exact LLM-judge system and user prompt template used in reported runs, follow immediately after the table.
+
 \input{tables_prompt_refinement}
+\input{appendix_prompt_contracts}
+
+\subsection{Automation and Calibration}
+
+Table~\ref{tab:effort_automation} explains the industry deployment contrast with Mind the Query, and Table~\ref{tab:judge_audit_coverage} reports the completed human calibration packet. The important claim is not that human review disappeared from science; it is that human labels are post-hoc calibration evidence rather than a required production gate.
+
 \input{tables_effort_automation}
 \input{tables_judge_audit_coverage}
 
@@ -275,7 +337,6 @@ The following tables collect implementation details that support the paper's ind
 \input{appendix_claim_evidence}
 \FloatBarrier
 \clearpage
-\input{appendix_prompt_contracts}
 \input{appendix_example_cards}
 
 \end{document}
