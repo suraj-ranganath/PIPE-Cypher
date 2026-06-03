@@ -141,6 +141,10 @@ def clean_predicted_cypher(text: str) -> str:
     for prefix in ("Cypher:", "Query:", "Answer:"):
         if cleaned.lower().startswith(prefix.lower()):
             cleaned = cleaned[len(prefix) :].strip()
+    for marker in ("Cypher query:", "Cypher:", "Query:", "Response:", "Answer:"):
+        index = cleaned.lower().find(marker.lower())
+        if index >= 0:
+            cleaned = cleaned[index + len(marker) :].strip()
     if "\n" in cleaned:
         lines = [line.strip() for line in cleaned.splitlines() if line.strip()]
         cypher_lines = [

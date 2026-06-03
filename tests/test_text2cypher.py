@@ -26,6 +26,15 @@ def test_clean_predicted_cypher_strips_fences_prefix_and_semicolon():
     )
 
 
+def test_clean_predicted_cypher_strips_inline_response_marker():
+    assert (
+        clean_predicted_cypher(
+            "- Do not include markdown or explanations.\n\nResponse: MATCH (n) RETURN n;"
+        )
+        == "MATCH (n) RETURN n"
+    )
+
+
 def test_build_prompt_includes_schema_and_rules():
     prompt = build_text2cypher_prompt(
         question="Which accounts are owned by person 'Alice'?",
