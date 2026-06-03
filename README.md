@@ -340,8 +340,10 @@ complete:
 
 ```bash
 python scripts/render_ablation_suite_figure.py \
-  --suite-summary experiments/snapshots/20260601_ablation50_qwen9b/ablation_suite_summary.json \
-  --output paper_emnlp2026_industry/figures/ablation_suite_target50.pdf
+  --suite-summary experiments/snapshots/20260602_ablation100_qwen9b_catfix/ablation_suite_summary.json \
+  --stress-baseline-summary experiments/snapshots/20260603_unconstrained_attempts_qwen9b_stress_baseline/ablation_suite_summary.json \
+  --output paper_emnlp2026_industry/figures/ablation_suite_target100.pdf \
+  --quality-output paper_emnlp2026_industry/figures/ablation_quality_target100.pdf
 ```
 
 For the staged target-100 run, use the staged remote root when collecting:

@@ -23,6 +23,13 @@ Files:
 - `figures/*.pdf`: appendix-ready ablation, diversity, failure-taxonomy, export-distribution, downstream-evaluation, and downstream-uncertainty figures.
 - `main.pdf`: compiled local draft when LaTeX is available.
 
+Figure style: all matplotlib figures should import `pipecypher.paper_style`
+and use its muted blue/teal/gold/red/purple palette, graph colors, metric
+colors, and shared sequential/quality colormaps. Figure 1's TikZ colors are
+kept in the same palette. Avoid one-off default colormaps or bright ad hoc
+colors; regenerate vector PDFs after style changes and visually inspect the
+first six pages plus appendix figure pages before submission.
+
 Citation provenance is tracked in `../knowledge_base/citation_verification.md`; no placeholder citations are currently present in `references.bib`.
 
 Regenerate artifact-derived result tables with:
@@ -180,9 +187,10 @@ into the manuscript:
 
 ```bash
 python scripts/render_ablation_suite_figure.py \
-  --suite-summary experiments/snapshots/20260601_ablation50_qwen9b/ablation_suite_summary.json \
-  --output paper_emnlp2026_industry/figures/ablation_suite_target50.pdf \
-  --quality-output paper_emnlp2026_industry/figures/ablation_quality_target50.pdf
+  --suite-summary experiments/snapshots/20260602_ablation100_qwen9b_catfix/ablation_suite_summary.json \
+  --stress-baseline-summary experiments/snapshots/20260603_unconstrained_attempts_qwen9b_stress_baseline/ablation_suite_summary.json \
+  --output paper_emnlp2026_industry/figures/ablation_suite_target100.pdf \
+  --quality-output paper_emnlp2026_industry/figures/ablation_quality_target100.pdf
 ```
 
 For target-size or repeated-seed sensitivity, compare collected suite summaries

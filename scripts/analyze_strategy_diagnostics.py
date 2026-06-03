@@ -10,7 +10,13 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from pipecypher.paper_style import PALETTE, apply_paper_style, style_axis
+from pipecypher.paper_style import (
+    PALETTE,
+    apply_paper_style,
+    categorical_colors,
+    sequential_cmap,
+    style_axis,
+)
 from pipecypher.strategy_analysis import (
     ERROR_BUCKET_ORDER,
     load_jsonl,
@@ -83,7 +89,7 @@ def render_strategy_coverage_figure(report: dict, output: Path, plt) -> None:
     ]
 
     fig, ax = plt.subplots(figsize=(9.2, 4.2))
-    image = ax.imshow(matrix, vmin=0.0, vmax=1.0, cmap="Blues", aspect="auto")
+    image = ax.imshow(matrix, vmin=0.0, vmax=1.0, cmap=sequential_cmap(), aspect="auto")
     ax.set_xticks(range(len(strategies)))
     ax.set_xticklabels([_strategy_label(strategy) for strategy in strategies], rotation=35, ha="right")
     ax.set_yticks(range(len(categories)))
@@ -111,12 +117,13 @@ def render_strategy_downstream_error_figure(report: dict, output: Path, plt) -> 
     ]
     buckets = [bucket for bucket in ERROR_BUCKET_ORDER if any(downstream[s]["error_bucket_counts"].get(bucket, 0) for s in strategies)]
     colors = {
-        "exact": PALETTE["green"],
-        "answer_mismatch": PALETTE["orange"],
+        "exact": PALETTE["teal"],
+        "answer_mismatch": PALETTE["gold"],
         "execution_failed": PALETTE["blue"],
-        "schema_invalid": PALETTE["violet"],
+        "schema_invalid": PALETTE["purple"],
         "parse_invalid": PALETTE["red"],
     }
+    fallback_colors = categorical_colors(len(buckets))
 
     fig, ax = plt.subplots(figsize=(8.8, 3.8))
     x_positions = list(range(len(strategies)))
@@ -127,7 +134,7 @@ def render_strategy_downstream_error_figure(report: dict, output: Path, plt) -> 
             x_positions,
             values,
             bottom=bottoms,
-            color=colors.get(bucket, PALETTE["slate"]),
+            color=colors.get(bucket, fallback_colors[buckets.index(bucket)]),
             label=_bucket_label(bucket),
         )
         bottoms = [bottom + value for bottom, value in zip(bottoms, values, strict=True)]

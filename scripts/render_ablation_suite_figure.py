@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import json
 import sys
 from pathlib import Path
@@ -17,7 +18,7 @@ from pipecypher.ablation_suite import (
     audit_ablation_suite_for_paper,
     variant_label,
 )
-from pipecypher.paper_style import GRAPH_COLORS, PALETTE, apply_paper_style, style_axis
+from pipecypher.paper_style import GRAPH_COLORS, PALETTE, apply_paper_style, quality_cmap, style_axis
 
 
 def main() -> None:
@@ -25,6 +26,15 @@ def main() -> None:
         description="Render an appendix-ready figure from a completed ablation suite summary."
     )
     parser.add_argument("--suite-summary", required=True)
+    parser.add_argument(
+        "--stress-baseline-summary",
+        default="",
+        help=(
+            "Optional corrected unconstrained stress-baseline summary. When provided, "
+            "unconstrained cells in --suite-summary are replaced by graph-matched "
+            "attempt-logged stress-baseline cells before paper-readiness auditing."
+        ),
+    )
     parser.add_argument("--output", required=True)
     parser.add_argument(
         "--quality-output",
@@ -39,6 +49,9 @@ def main() -> None:
     args = parser.parse_args()
 
     summary = json.loads(Path(args.suite_summary).read_text(encoding="utf-8"))
+    if args.stress_baseline_summary:
+        stress_summary = json.loads(Path(args.stress_baseline_summary).read_text(encoding="utf-8"))
+        summary = merge_unconstrained_stress_baseline(summary, stress_summary)
     audit = audit_ablation_suite_for_paper(
         summary,
         min_target_per_category=args.min_paper_target,
@@ -67,6 +80,40 @@ def main() -> None:
         quality_output.parent.mkdir(parents=True, exist_ok=True)
         render_ablation_quality_figure(summary, quality_output, plt)
         print(f"wrote {quality_output}")
+
+
+def merge_unconstrained_stress_baseline(summary: dict, stress_summary: dict) -> dict:
+    merged = copy.deepcopy(summary)
+    replacement_by_graph = {
+        str(run.get("graph")): run
+        for run in stress_summary.get("runs", [])
+        if str(run.get("variant")) == "unconstrained_local_llm"
+        and bool(run.get("summary_present"))
+        and int(run.get("candidate_attempts", 0)) > 0
+    }
+    if not replacement_by_graph:
+        raise SystemExit("stress baseline summary does not contain attempt-logged unconstrained runs")
+
+    replaced_graphs: set[str] = set()
+    runs = []
+    for run in merged.get("runs", []):
+        if str(run.get("variant")) == "unconstrained_local_llm":
+            graph = str(run.get("graph"))
+            replacement = replacement_by_graph.get(graph)
+            if replacement is None:
+                raise SystemExit(f"missing corrected unconstrained stress baseline for graph={graph}")
+            runs.append(copy.deepcopy(replacement))
+            replaced_graphs.add(graph)
+        else:
+            runs.append(run)
+    merged["runs"] = runs
+    metadata = dict(merged.get("metadata", {}))
+    metadata["unconstrained_stress_baseline_source"] = str(
+        stress_summary.get("metadata", {}).get("run_prefix", "attempt_logged_stress_baseline")
+    )
+    metadata["unconstrained_stress_baseline_graphs"] = ",".join(sorted(replaced_graphs))
+    merged["metadata"] = metadata
+    return merged
 
 
 def render_ablation_suite_figure(summary: dict, output: Path, plt) -> None:
@@ -129,8 +176,6 @@ def render_ablation_suite_figure(summary: dict, output: Path, plt) -> None:
 
 
 def render_ablation_quality_figure(summary: dict, output: Path, plt) -> None:
-    from matplotlib.colors import LinearSegmentedColormap
-
     graphs = [graph for graph in DEFAULT_GRAPHS if graph in summary.get("expected_graphs", [])]
     variants = [
         variant for variant in DEFAULT_VARIANTS if variant in summary.get("expected_variants", [])
@@ -155,13 +200,9 @@ def render_ablation_quality_figure(summary: dict, output: Path, plt) -> None:
         [float(run.get("gate_rates", {}).get(metric, 0.0)) for metric, _ in metrics]
         for _, run in rows
     ]
-    cmap = LinearSegmentedColormap.from_list(
-        "pipecypher_quality",
-        ["#fee2e2", "#fef3c7", "#d1fae5", PALETTE["blue"]],
-    )
     fig_height = max(4.2, 0.33 * len(rows) + 1.2)
     fig, ax = plt.subplots(figsize=(8.2, fig_height))
-    image = ax.imshow(matrix, vmin=0.85, vmax=1.0, cmap=cmap, aspect="auto")
+    image = ax.imshow(matrix, vmin=0.85, vmax=1.0, cmap=quality_cmap(), aspect="auto")
     ax.set_title(f"Target-{summary.get('target_per_category')} ablation gate rates")
     ax.set_xticks(range(len(metrics)))
     ax.set_xticklabels([label for _, label in metrics], rotation=0)

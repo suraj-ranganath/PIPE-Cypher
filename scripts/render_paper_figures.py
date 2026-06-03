@@ -11,7 +11,15 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from pipecypher.ablation_suite import variant_label
-from pipecypher.paper_style import GRAPH_COLORS, METRIC_COLORS, PALETTE, apply_paper_style, style_axis
+from pipecypher.paper_style import (
+    GRAPH_COLORS,
+    METRIC_COLORS,
+    PALETTE,
+    apply_paper_style,
+    categorical_colors,
+    sequential_cmap,
+    style_axis,
+)
 
 
 def main() -> None:
@@ -144,7 +152,11 @@ def render_diversity_figure(report: dict, output: Path, plt) -> None:
         "Property\ncoverage": report["schema_coverage"]["properties"]["coverage"],
     }
     fig, ax = plt.subplots(figsize=(9.2, 3.2))
-    bars = ax.bar(range(len(values)), list(values.values()), color=PALETTE["blue"])
+    bars = ax.bar(
+        range(len(values)),
+        list(values.values()),
+        color=categorical_colors(len(values)),
+    )
     ax.set_ylim(0, 1.05)
     ax.set_ylabel("Normalized score")
     ax.set_title("Full benchmark diversity diagnostics")
@@ -172,7 +184,7 @@ def render_query_signature_concentration_figure(report: dict, output: Path, plt)
     shares = [float(row.get("share", 0.0)) for row in rows]
     fig, ax = plt.subplots(figsize=(6.8, 3.0))
     positions = list(range(len(labels)))
-    bars = ax.barh(positions, shares, color=PALETTE["orange"])
+    bars = ax.barh(positions, shares, color=PALETTE["gold"])
     ax.set_yticks(positions)
     ax.set_yticklabels(labels, fontsize=8)
     ax.invert_yaxis()
@@ -222,7 +234,7 @@ def render_downstream_fewshot_control_figure(report: dict, output: Path, plt) ->
         )
 
     fig, ax = plt.subplots(figsize=(7.2, 4.4))
-    image = ax.imshow(matrix, cmap="YlGnBu", vmin=0.0, vmax=1.0, aspect="auto")
+    image = ax.imshow(matrix, cmap=sequential_cmap(), vmin=0.0, vmax=1.0, aspect="auto")
     ax.set_title("Downstream execution accuracy under few-shot controls")
     ax.set_xticks(range(len(mode_labels)))
     ax.set_xticklabels(mode_labels)
@@ -272,7 +284,7 @@ def render_full_distribution_figure(stats: dict, output: Path, plt) -> None:
     axes[1].bar(
         diff_labels,
         diff_values,
-        color=[PALETTE["green"], PALETTE["violet"], PALETTE["red"]][: len(diff_labels)],
+        color=[PALETTE["teal"], PALETTE["purple"], PALETTE["red"]][: len(diff_labels)],
     )
     axes[1].set_title("Difficulty")
     axes[1].set_ylim(0, max(diff_values) * 1.2 if diff_values else 1)
@@ -369,15 +381,7 @@ def render_failure_taxonomy_figure(report: dict, output: Path, plt) -> None:
     names = [labels.get(key, key.replace("_", " ").title()) for key, _ in counts]
     values = [int(value) for _, value in counts]
     total_rejected = max(int(report.get("rejected", 0)), 1)
-    palette = [
-        PALETTE["blue"],
-        PALETTE["orange"],
-        PALETTE["green"],
-        PALETTE["violet"],
-        PALETTE["red"],
-        PALETTE["slate"],
-    ]
-    colors = [palette[idx % len(palette)] for idx in range(len(names))]
+    colors = categorical_colors(len(names))
 
     fig, ax = plt.subplots(figsize=(7.4, 3.0))
     bars = ax.barh(range(len(names)), values, color=colors)
@@ -409,14 +413,7 @@ def render_empty_result_diagnostic_figure(report: dict, output: Path, plt) -> No
     names = [key.replace("_", " ").title() for key, _ in counts]
     values = [int(value) for _, value in counts]
     total = max(sum(values), 1)
-    colors = [
-        PALETTE["blue"],
-        PALETTE["orange"],
-        PALETTE["green"],
-        PALETTE["violet"],
-        PALETTE["red"],
-        PALETTE["slate"],
-    ][: len(values)]
+    colors = categorical_colors(len(values))
 
     fig, ax = plt.subplots(figsize=(7.4, 2.8))
     bars = ax.barh(range(len(names)), values, color=colors)
@@ -449,15 +446,7 @@ def render_downstream_error_figure(report: dict, output: Path, plt) -> None:
     names = [labels.get(key, key.replace("_", " ").title()) for key, _ in counts]
     values = [int(value) for _, value in counts]
     incorrect = max(int(report.get("incorrect", 0)), 1)
-    palette = [
-        PALETTE["orange"],
-        PALETTE["blue"],
-        PALETTE["violet"],
-        PALETTE["green"],
-        PALETTE["red"],
-        PALETTE["slate"],
-    ]
-    colors = [palette[idx % len(palette)] for idx in range(len(names))]
+    colors = categorical_colors(len(names), offset=1)
 
     fig, ax = plt.subplots(figsize=(7.4, 3.0))
     bars = ax.barh(range(len(names)), values, color=colors)
@@ -575,7 +564,7 @@ def render_icij_onboarding_figure(summary: dict, output: Path, plt) -> None:
 
     names = [name.replace("slot bindings ", "bindings\n") for name, _ in failure_items]
     values = [value for _, value in failure_items]
-    failure_palette = [PALETTE["orange"], PALETTE["violet"], PALETTE["green"], PALETTE["red"]]
+    failure_palette = categorical_colors(max(len(values), 1), offset=1)
     axes[1].barh(
         range(len(values)),
         values,
