@@ -20,6 +20,23 @@ def test_validate_page_budget_accepts_current_emnlp_accounting():
             "Ethics Statement": [4],
             "References": [4],
             "Additional Results": [5],
+            "Governed Generation Evidence": [],
+        },
+        max_counted_page=6,
+    )
+
+    assert failures == []
+
+
+def test_validate_page_budget_accepts_reorganized_appendix_title():
+    failures = validate_page_budget(
+        {
+            "Conclusion": [6],
+            "Limitations": [6],
+            "Ethics Statement": [6],
+            "References": [7],
+            "Additional Results": [],
+            "Governed Generation Evidence": [8],
         },
         max_counted_page=6,
     )
@@ -35,6 +52,7 @@ def test_validate_page_budget_rejects_late_conclusion_and_bad_ordering():
             "Ethics Statement": [6],
             "References": [5],
             "Additional Results": [4],
+            "Governed Generation Evidence": [],
         },
         max_counted_page=6,
     )
@@ -42,7 +60,7 @@ def test_validate_page_budget_rejects_late_conclusion_and_bad_ordering():
     assert "Conclusion starts on page 7, after counted page 6" in failures
     assert "Limitations appears before Conclusion" in failures
     assert "References appears before Limitations" in failures
-    assert "Appendix appears before References" in failures
+    assert "Appendix Additional Results appears before References" in failures
 
 
 def test_current_acl_pdf_satisfies_emnlp_page_budget():

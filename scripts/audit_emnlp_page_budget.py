@@ -12,7 +12,8 @@ from typing import Iterable
 
 
 COUNTED_BODY_MARKERS = ("Conclusion",)
-EXCLUDED_SECTION_MARKERS = ("Limitations", "Ethics Statement", "References", "Additional Results")
+APPENDIX_SECTION_MARKERS = ("Additional Results", "Governed Generation Evidence")
+EXCLUDED_SECTION_MARKERS = ("Limitations", "Ethics Statement", "References") + APPENDIX_SECTION_MARKERS
 A4_WIDTH_PT = 595.276
 A4_HEIGHT_PT = 841.89
 A4_TOLERANCE_PT = 2.0
@@ -24,7 +25,9 @@ FORBIDDEN_TEXT_PATTERNS = {
     ),
     "stale TODO wording": re.compile(r"\bTODO\b|should be promoted", re.IGNORECASE),
     "diagnostic run evidence": re.compile(
-        r"\bsmoke\b|\bmini\b|\bmidscale\b|\btarget[-_\s]?25\b|\bablation25\b",
+        r"\bsmoke\b|"
+        r"\bmini(?:\s+(?:run|suite|result|results|table|artifact|evidence)|[-_](?:run|suite|result|results|table|artifact|evidence))\b|"
+        r"\bmidscale\b|\btarget[-_\s]?25\b|\bablation25\b",
         re.IGNORECASE,
     ),
 }
@@ -165,7 +168,9 @@ def validate_page_budget(
     conclusion_page = _first_page(marker_pages, "Conclusion")
     limitations_page = _first_page(marker_pages, "Limitations")
     references_page = _first_page(marker_pages, "References")
-    appendix_page = _first_page(marker_pages, "Additional Results")
+    appendix_marker, appendix_page = _first_available_marker_page(
+        marker_pages, APPENDIX_SECTION_MARKERS
+    )
 
     if conclusion_page is None:
         failures.append("missing Conclusion marker")
@@ -185,9 +190,10 @@ def validate_page_budget(
         failures.append("References appears before Limitations")
 
     if appendix_page is None:
-        failures.append("missing appendix Additional Results marker")
+        expected = " or ".join(APPENDIX_SECTION_MARKERS)
+        failures.append(f"missing appendix marker ({expected})")
     elif references_page is not None and appendix_page < references_page:
-        failures.append("Appendix appears before References")
+        failures.append(f"Appendix {appendix_marker} appears before References")
 
     return failures
 
@@ -227,6 +233,21 @@ def format_page_budget_audit(audit: PageBudgetAudit) -> str:
 def _first_page(marker_pages: dict[str, list[int]], marker: str) -> int | None:
     pages = marker_pages.get(marker, [])
     return min(pages) if pages else None
+
+
+def _first_available_marker_page(
+    marker_pages: dict[str, list[int]], markers: Iterable[str]
+) -> tuple[str | None, int | None]:
+    first_marker: str | None = None
+    first_page: int | None = None
+    for marker in markers:
+        page = _first_page(marker_pages, marker)
+        if page is None:
+            continue
+        if first_page is None or page < first_page:
+            first_marker = marker
+            first_page = page
+    return first_marker, first_page
 
 
 def _reader(pdf: Path):
