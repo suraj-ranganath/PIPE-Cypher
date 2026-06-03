@@ -3,6 +3,8 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
+import subprocess
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -11,6 +13,21 @@ from typing import Iterable
 
 COUNTED_BODY_MARKERS = ("Conclusion",)
 EXCLUDED_SECTION_MARKERS = ("Limitations", "Ethics Statement", "References", "Additional Results")
+A4_WIDTH_PT = 595.276
+A4_HEIGHT_PT = 841.89
+A4_TOLERANCE_PT = 2.0
+FORBIDDEN_TEXT_PATTERNS = {
+    "remote host leakage": re.compile(r"\bds-serv6\b", re.IGNORECASE),
+    "local path leakage": re.compile(r"/Users/suraj|/home/suraj", re.IGNORECASE),
+    "non-anonymized repository link": re.compile(
+        r"github\.com/suraj-ranganath/PIPE-Cypher", re.IGNORECASE
+    ),
+    "stale TODO wording": re.compile(r"\bTODO\b|should be promoted", re.IGNORECASE),
+    "diagnostic run evidence": re.compile(
+        r"\bsmoke\b|\bmini\b|\bmidscale\b|\btarget[-_\s]?25\b|\bablation25\b",
+        re.IGNORECASE,
+    ),
+}
 
 
 @dataclass(frozen=True)
@@ -19,6 +36,10 @@ class PageBudgetAudit:
     max_counted_page: int
     page_count: int
     marker_pages: dict[str, list[int]]
+    page_size_ok: bool
+    page_sizes: list[tuple[float, float]]
+    fonts_embedded_ok: bool | None
+    forbidden_text_hits: list[str]
     pass_: bool
     failures: list[str]
 
@@ -28,6 +49,10 @@ class PageBudgetAudit:
             "max_counted_page": self.max_counted_page,
             "page_count": self.page_count,
             "marker_pages": self.marker_pages,
+            "page_size_ok": self.page_size_ok,
+            "page_sizes": self.page_sizes,
+            "fonts_embedded_ok": self.fonts_embedded_ok,
+            "forbidden_text_hits": self.forbidden_text_hits,
             "pass": self.pass_,
             "failures": self.failures,
         }
@@ -58,12 +83,26 @@ def main() -> None:
 def audit_page_budget(pdf: Path, *, max_counted_page: int = 6) -> PageBudgetAudit:
     marker_pages = extract_marker_pages(pdf, COUNTED_BODY_MARKERS + EXCLUDED_SECTION_MARKERS)
     page_count = _page_count(pdf)
+    page_sizes = extract_page_sizes(pdf)
+    page_size_ok = all(_is_a4_size(width, height) for width, height in page_sizes)
+    fonts_embedded_ok = fonts_are_embedded(pdf)
+    forbidden_text_hits = forbidden_text_matches(pdf)
     failures = validate_page_budget(marker_pages, max_counted_page=max_counted_page)
+    if not page_size_ok:
+        failures.append("one or more pages are not A4-sized")
+    if fonts_embedded_ok is False:
+        failures.append("one or more fonts are not embedded")
+    if forbidden_text_hits:
+        failures.append("forbidden or non-anonymized text appears in PDF")
     return PageBudgetAudit(
         pdf=str(pdf),
         max_counted_page=max_counted_page,
         page_count=page_count,
         marker_pages=marker_pages,
+        page_size_ok=page_size_ok,
+        page_sizes=page_sizes,
+        fonts_embedded_ok=fonts_embedded_ok,
+        forbidden_text_hits=forbidden_text_hits,
         pass_=not failures,
         failures=failures,
     )
@@ -78,6 +117,43 @@ def extract_marker_pages(pdf: Path, markers: Iterable[str]) -> dict[str, list[in
             if marker in text:
                 marker_pages[marker].append(page_number)
     return marker_pages
+
+
+def extract_page_sizes(pdf: Path) -> list[tuple[float, float]]:
+    reader = _reader(pdf)
+    sizes: list[tuple[float, float]] = []
+    for page in reader.pages:
+        box = page.mediabox
+        sizes.append((float(box.width), float(box.height)))
+    return sizes
+
+
+def fonts_are_embedded(pdf: Path) -> bool | None:
+    try:
+        output = subprocess.check_output(
+            ["pdffonts", str(pdf)],
+            text=True,
+            stderr=subprocess.STDOUT,
+        )
+    except (FileNotFoundError, subprocess.CalledProcessError):
+        return None
+    lines = output.splitlines()[2:]
+    embedded_values = []
+    for line in lines:
+        parts = line.split()
+        if len(parts) >= 7:
+            embedded_values.append(parts[4].lower())
+    return all(value == "yes" for value in embedded_values) if embedded_values else None
+
+
+def forbidden_text_matches(pdf: Path) -> list[str]:
+    reader = _reader(pdf)
+    text = "\n".join(page.extract_text() or "" for page in reader.pages)
+    hits = []
+    for label, pattern in FORBIDDEN_TEXT_PATTERNS.items():
+        if pattern.search(text):
+            hits.append(label)
+    return hits
 
 
 def validate_page_budget(
@@ -123,6 +199,16 @@ def format_page_budget_audit(audit: PageBudgetAudit) -> str:
         f"- PDF: `{audit.pdf}`",
         f"- PDF pages: {audit.page_count}",
         f"- Counted-body page limit: {audit.max_counted_page}",
+        f"- A4 page size: {'pass' if audit.page_size_ok else 'fail'}",
+        "- Embedded fonts: "
+        + (
+            "pass"
+            if audit.fonts_embedded_ok is True
+            else "not checked"
+            if audit.fonts_embedded_ok is None
+            else "fail"
+        ),
+        f"- Forbidden text: {'none' if not audit.forbidden_text_hits else ', '.join(audit.forbidden_text_hits)}",
         f"- Status: {'pass' if audit.pass_ else 'fail'}",
         "",
         "| Marker | Pages |",
@@ -153,6 +239,13 @@ def _reader(pdf: Path):
 
 def _page_count(pdf: Path) -> int:
     return len(_reader(pdf).pages)
+
+
+def _is_a4_size(width: float, height: float) -> bool:
+    return (
+        abs(width - A4_WIDTH_PT) <= A4_TOLERANCE_PT
+        and abs(height - A4_HEIGHT_PT) <= A4_TOLERANCE_PT
+    )
 
 
 if __name__ == "__main__":

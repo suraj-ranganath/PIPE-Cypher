@@ -16,6 +16,7 @@ from pipecypher.diversity_metrics import (
     load_schema_inventory,
 )
 from pipecypher.paper_tables import render_diversity_table
+from pipecypher.paper_tables import render_query_signature_concentration_table
 
 
 def main() -> None:
@@ -36,6 +37,7 @@ def main() -> None:
     parser.add_argument("--self-bleu-sample-size", type=int, default=200)
     parser.add_argument("--output-json", required=True)
     parser.add_argument("--output-tex", default="")
+    parser.add_argument("--output-signature-tex", default="")
     args = parser.parse_args()
 
     examples = load_benchmark_examples(args.benchmark)
@@ -58,6 +60,14 @@ def main() -> None:
         output_tex = Path(args.output_tex)
         output_tex.parent.mkdir(parents=True, exist_ok=True)
         output_tex.write_text(render_diversity_table(report), encoding="utf-8")
+        print(f"wrote {output_tex}")
+    if args.output_signature_tex:
+        output_tex = Path(args.output_signature_tex)
+        output_tex.parent.mkdir(parents=True, exist_ok=True)
+        output_tex.write_text(
+            render_query_signature_concentration_table(report),
+            encoding="utf-8",
+        )
         print(f"wrote {output_tex}")
 
 

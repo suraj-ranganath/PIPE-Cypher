@@ -9,6 +9,7 @@ from pipecypher.calibration import (
     disagreement_rows,
     sample_for_audit,
     summarize_audit_csv,
+    wilson_interval,
     write_disagreement_csv,
     write_audit_csv,
 )
@@ -117,8 +118,17 @@ def test_analyze_audit_csv(tmp_path: Path):
     assert metrics.true_accepts == 1
     assert metrics.true_rejects == 0
     assert metrics.judge_precision == 1.0
+    assert metrics.judge_precision_ci_low < metrics.judge_precision_ci_high
     assert metrics.judge_recall == 0.5
+    assert metrics.false_reject_rate == 0.5
     assert metrics.balanced_accuracy == 0.0
+
+
+def test_wilson_interval_handles_zero_successes_without_zero_uncertainty():
+    low, high = wilson_interval(0, 40)
+
+    assert low == 0.0
+    assert 0.0 < high < 0.1
 
 
 def test_summarize_audit_csv_reports_label_coverage(tmp_path: Path):

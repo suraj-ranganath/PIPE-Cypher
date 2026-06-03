@@ -1,0 +1,66 @@
+{
+  "checks": [
+    {
+      "detail": "all expected graph/variant cells finished",
+      "name": "all_expected_runs_finished",
+      "pass": true
+    },
+    {
+      "detail": "target_per_category=100; required>=50",
+      "name": "target_is_large_enough",
+      "pass": true
+    },
+    {
+      "detail": "0 missing run(s)",
+      "name": "no_missing_runs",
+      "pass": true
+    },
+    {
+      "detail": "0 incomplete run(s)",
+      "name": "no_incomplete_runs",
+      "pass": true
+    },
+    {
+      "detail": "runs=2 expected=2",
+      "name": "expected_cell_count",
+      "pass": true
+    },
+    {
+      "detail": "all runs have inferred graph and variant labels",
+      "name": "known_graphs_and_variants",
+      "pass": true
+    },
+    {
+      "detail": "all required metadata present",
+      "name": "required_metadata_present",
+      "pass": true
+    },
+    {
+      "detail": "summary.txt present for all run directories",
+      "name": "run_summaries_present",
+      "pass": true
+    },
+    {
+      "detail": "all non-unconstrained runs reach every category target",
+      "name": "non_empty_runs_reach_category_targets",
+      "pass": true
+    },
+    {
+      "detail": "all non-empty runs expose read/syntax/schema/execution/judge rates",
+      "name": "core_gate_rates_available",
+      "pass": true
+    }
+  ],
+  "empty_baseline_runs": [],
+  "expected_cells": 2,
+  "failed_checks": [],
+  "min_target_per_category": 50,
+  "paper_ready": true,
+  "run_count": 2,
+  "status": "paper_ready",
+  "target_per_category": 100,
+  "unconstrained_stress_baseline_runs": [
+    "20260603_041459_20260603_unconstrained_attempts_qwen9b_finbench_unconstrained_local_llm",
+    "20260603_041956_20260603_unconstrained_attempts_qwen9b_snb_snb_unconstrained_local_llm"
+  ]
+}

@@ -1,3 +1,5 @@
+import json
+
 from pipecypher.experiments import (
     apply_variant,
     build_experiment_variants,
@@ -244,9 +246,9 @@ def test_summarize_ablation_suite_complete_target25_is_interim(tmp_path):
     assert "| Full PIPE-Cypher | finbench | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 |" in markdown
 
     csv_text = format_ablation_suite_csv(report)
-    assert "setting,graph,run,records,accepted,accept_rate" in csv_text
+    assert "setting,graph,run,candidate_attempts,records,accepted,accept_rate" in csv_text
     assert "Full PIPE-Cypher,finbench" in csv_text
-    assert ",1.000000,1,1,true,1.000000,1.000000,1.000000,1.000000,1.000000" in csv_text
+    assert ",25,25,25,1.000000,1,1,true,1.000000,1.000000,1.000000,1.000000,1.000000" in csv_text
 
     audit = audit_ablation_suite_for_paper(report)
     assert audit["paper_ready"] is False
@@ -281,9 +283,24 @@ def test_ablation_suite_audit_accepts_complete_target50(tmp_path):
             run_dir = tmp_path / f"20260601_{graph}_{variant}"
             if variant == "full_pipe_cypher":
                 write_jsonl(run_dir / "records.jsonl", rows)
+                attempt_summary = {
+                    "candidate_attempts": 50,
+                    "emitted_records": 50,
+                    "pre_record_skips": 0,
+                    "template_generation_empty_categories": 0,
+                }
             else:
                 write_jsonl(run_dir / "records.jsonl", [])
-            (run_dir / "summary.txt").write_text("done\n", encoding="utf-8")
+                attempt_summary = {
+                    "candidate_attempts": 200,
+                    "emitted_records": 0,
+                    "pre_record_skips": 200,
+                    "template_generation_empty_categories": 0,
+                }
+            (run_dir / "summary.txt").write_text(
+                "attempt_summary=" + json.dumps(attempt_summary) + "\n",
+                encoding="utf-8",
+            )
             run_dirs.append(run_dir)
 
     report = summarize_ablation_suite(
@@ -305,3 +322,87 @@ def test_ablation_suite_audit_accepts_complete_target50(tmp_path):
     assert audit["paper_ready"] is True
     assert audit["failed_checks"] == []
     assert len(audit["empty_baseline_runs"]) == 2
+    assert len(audit["unconstrained_stress_baseline_runs"]) == 2
+
+
+def test_ablation_suite_audit_accepts_underfilled_unconstrained_stress_baseline(tmp_path):
+    run_dirs = []
+    full_rows = [
+        {
+            "accepted": True,
+            "category": "simple_retrieval",
+            "validation": {
+                "read_only": True,
+                "syntax_valid": True,
+                "schema_valid": True,
+                "structural_features": {
+                    "difficulty": "easy",
+                    "primary_strategy": "single_hop",
+                },
+            },
+            "execution": {"success": True},
+            "judge": {"passed": True},
+        }
+        for _ in range(50)
+    ]
+    unconstrained_rows = [
+        {
+            "accepted": index < 5,
+            "category": "simple_retrieval",
+            "validation": {
+                "read_only": True,
+                "syntax_valid": True,
+                "schema_valid": index < 5,
+                "structural_features": {
+                    "difficulty": "easy",
+                    "primary_strategy": "single_hop",
+                },
+                "issues": [] if index < 5 else [{"code": "unknown_property"}],
+            },
+            "execution": {"success": index < 5},
+            "judge": {"passed": False},
+        }
+        for index in range(20)
+    ]
+    for graph in ["finbench", "snb"]:
+        for variant, rows, attempts in [
+            ("unconstrained_local_llm", unconstrained_rows, 80),
+            ("full_pipe_cypher", full_rows, 50),
+        ]:
+            run_dir = tmp_path / f"20260601_{graph}_{variant}"
+            write_jsonl(run_dir / "records.jsonl", rows)
+            (run_dir / "summary.txt").write_text(
+                "attempt_summary="
+                + json.dumps(
+                    {
+                        "candidate_attempts": attempts,
+                        "emitted_records": len(rows),
+                        "pre_record_skips": attempts - len(rows),
+                        "template_generation_empty_categories": 0,
+                    }
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            run_dirs.append(run_dir)
+
+    report = summarize_ablation_suite(
+        run_dirs,
+        target_per_category=50,
+        category_count=1,
+        expected_graphs=["finbench", "snb"],
+        expected_variants=["unconstrained_local_llm", "full_pipe_cypher"],
+        metadata={
+            "run_prefix": "20260601_ablation50",
+            "generation_model": "Qwen/Test",
+            "judge_model": "Qwen/Test",
+            "code_revision": "abc123",
+            "log_file": "logs/test.log",
+        },
+    )
+    audit = audit_ablation_suite_for_paper(report)
+
+    assert audit["paper_ready"] is True
+    assert audit["failed_checks"] == []
+    assert len(audit["empty_baseline_runs"]) == 0
+    assert len(audit["unconstrained_stress_baseline_runs"]) == 2

@@ -141,6 +141,15 @@ def summarize_records(rows: list[dict[str, Any]]) -> dict[str, Any]:
         for issue in validation.get("issues", []):
             issue_counts[issue.get("code", "unknown")] += 1
 
+    for gate in [
+        "read_only",
+        "syntax_valid",
+        "schema_valid",
+        "execution_success",
+        "judge_pass",
+    ]:
+        gate_counts[gate] += 0
+
     return {
         "records": total,
         "accepted": accepted,
@@ -159,6 +168,18 @@ def summarize_records_path(path: str | Path) -> dict[str, Any]:
     summary = summarize_records(read_jsonl(records_path))
     summary["run"] = records_path.parent.name
     summary["records_path"] = str(records_path)
+    run_summary = parse_run_summary(records_path.parent / "summary.txt")
+    if run_summary:
+        summary["run_summary"] = run_summary
+    attempt_summary = run_summary.get("attempt_summary")
+    if isinstance(attempt_summary, dict):
+        summary["attempt_summary"] = attempt_summary
+        summary["candidate_attempts"] = int(attempt_summary.get("candidate_attempts", 0))
+        summary["emitted_records"] = int(attempt_summary.get("emitted_records", summary["records"]))
+        summary["pre_record_skips"] = int(attempt_summary.get("pre_record_skips", 0))
+        summary["template_generation_empty_categories"] = int(
+            attempt_summary.get("template_generation_empty_categories", 0)
+        )
     return summary
 
 
@@ -169,11 +190,35 @@ def records_jsonl_path(path: str | Path) -> Path:
     return candidate
 
 
+def parse_run_summary(path: str | Path) -> dict[str, Any]:
+    summary_path = Path(path)
+    if not summary_path.exists():
+        return {}
+    parsed: dict[str, Any] = {}
+    for line in summary_path.read_text(encoding="utf-8").splitlines():
+        if "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        key = key.strip()
+        value = value.strip()
+        if key == "attempt_summary":
+            try:
+                parsed[key] = json.loads(value)
+            except json.JSONDecodeError:
+                parsed[key] = {}
+        else:
+            parsed[key] = value
+    return parsed
+
+
 def format_summary_lines(summary: dict[str, Any]) -> list[str]:
     lines = [
         f"records={summary['records']}",
         f"accepted={summary['accepted']}",
     ]
+    if "candidate_attempts" in summary:
+        lines.append(f"candidate_attempts={summary['candidate_attempts']}")
+        lines.append(f"pre_record_skips={summary.get('pre_record_skips', 0)}")
     if summary["records"]:
         lines.append(f"accept_rate={summary['accept_rate']:.3f}")
     for key in [

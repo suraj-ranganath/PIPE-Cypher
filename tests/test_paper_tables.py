@@ -106,6 +106,7 @@ def test_render_ablation_table_orders_and_counts_targets():
             },
             {
                 "run": "20260601_unconstrained_local_llm_strict",
+                "candidate_attempts": 3200,
                 "records": 0,
                 "accepted": 0,
                 "accept_rate": 0.0,
@@ -116,8 +117,8 @@ def test_render_ablation_table_orders_and_counts_targets():
         category_count=8,
     )
 
-    assert "Unconstrained LLM & FinBench & 0 & 0 & 0.000 & 0/8" in text
-    assert "Full PIPE-Cypher & FinBench & 41 & 40 & 0.976 & 2/8" in text
+    assert "Unconstrained LLM & FinBench & 3,200 & 0 & 0 & 0.000 & 0/8" in text
+    assert "Full PIPE-Cypher & FinBench & 41 & 41 & 40 & 0.976 & 2/8" in text
     assert text.index("Unconstrained LLM") < text.index("Full PIPE-Cypher")
 
 
@@ -137,7 +138,8 @@ def test_render_ablation_table_uses_requested_target_label():
     )
 
     assert "Live target-25 ablation evidence" in text
-    assert "Full PIPE-Cypher & SNB & 201 & 200 & 0.995 & 1/8" in text
+    assert "unconstrained row is a stress baseline" in text
+    assert "Full PIPE-Cypher & SNB & 201 & 201 & 200 & 0.995 & 1/8" in text
 
 
 def test_render_ablation_quality_table_reports_gate_rates():
@@ -158,6 +160,7 @@ def test_render_ablation_quality_table_reports_gate_rates():
         target_per_category=25,
     )
 
+    assert "Judge/post-hoc" in text
     assert "Quality-gate rates for the live target-25 ablation suite" in text
     assert "Full PIPE-Cypher & SNB & 1.000 & 1.000 & 0.995 & 0.985 & 0.975" in text
 
@@ -180,6 +183,39 @@ def test_render_judge_audit_coverage_table_reports_packet_balance():
     assert "Judge accept / reject & 40 / 40" in text
     assert "FinBench / SNB rows & 48 / 32" in text
     assert "Labeled rows & 0" in text
+
+    labeled_text = render_judge_audit_coverage_table(
+        {
+            "coverage": {
+                "total_rows": 80,
+                "judge_accepts": 40,
+                "judge_rejects": 40,
+                "labeled_rows": 80,
+                "by_graph": {"finbench": 48, "snb": 32},
+                "by_difficulty": {"easy": 26, "medium": 54},
+            },
+            "metrics": {
+                "total_labeled": 80,
+                "agreement_rate": 0.8,
+                "cohen_kappa": 0.6,
+                "judge_precision": 1.0,
+                "judge_precision_ci_low": 0.91,
+                "judge_precision_ci_high": 1.0,
+                "judge_recall": 0.714,
+                "judge_recall_ci_low": 0.58,
+                "judge_recall_ci_high": 0.82,
+                "false_accept_rate": 0.0,
+                "false_accept_rate_ci_low": 0.0,
+                "false_accept_rate_ci_high": 0.09,
+                "false_reject_rate": 0.286,
+                "false_reject_rate_ci_low": 0.18,
+                "false_reject_rate_ci_high": 0.42,
+            },
+        }
+    )
+
+    assert "Judge precision (95\\% CI) & 1.000 (0.910--1.000)" in labeled_text
+    assert "False-accept rate (95\\% CI) & 0.000 (0.000--0.090)" in labeled_text
 
 
 def test_render_graph_statistics_table_marks_pending_counts_with_dash():
@@ -250,5 +286,6 @@ def test_render_validator_cascade_table_reports_full_run_gates():
 
 def test_render_category_crosswalk_prompt_and_effort_tables():
     assert "Boolean existence" in render_category_crosswalk_table()
-    assert "Full governed" in render_prompt_refinement_table()
+    assert "Prompt profiles implemented" in render_prompt_refinement_table()
     assert "80-row post-hoc judge calibration audit" in render_effort_automation_table()
+    assert "Gemini in their reported pipeline" in render_effort_automation_table()

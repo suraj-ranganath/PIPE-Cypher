@@ -1,0 +1,1145 @@
+{
+  "aggregate": {
+    "complete_models": 12,
+    "mean_ordered_execution_accuracy": 0.3795045045045045,
+    "mean_random_execution_accuracy": 0.37753378378378377,
+    "mean_scored_execution_accuracy": 0.24465090090090091,
+    "mean_zero_execution_accuracy": 0.13851351351351351,
+    "ordered_improved_models": 5,
+    "random_improved_models": 5,
+    "scored_improved_models": 5
+  },
+  "complete_model_count": 12,
+  "incomplete_model_count": 0,
+  "models": [
+    {
+      "best_control": {
+        "execution_accuracy": 0.7353603603603603,
+        "mode": "random_mean"
+      },
+      "complete": true,
+      "controls": {
+        "ordered": {
+          "answer_f1": 0.7727650584168787,
+          "execution_accuracy": 0.7331081081081081,
+          "execution_success": 0.7804054054054054,
+          "n": 296,
+          "parse_valid": 1.0,
+          "path": "artifacts/evaluations/20260603_control_aigentx_llama31_cypher_lora_ordered_logged",
+          "run_id": "20260603_control_aigentx_llama31_cypher_lora_ordered_logged",
+          "schema_valid": 0.9222972972972973
+        },
+        "random_seed13": {
+          "answer_f1": 0.7646639882468429,
+          "execution_accuracy": 0.722972972972973,
+          "execution_success": 0.7837837837837838,
+          "n": 296,
+          "parse_valid": 1.0,
+          "path": "artifacts/evaluations/20260603_control_aigentx_llama31_cypher_lora_random_seed13",
+          "run_id": "20260603_control_aigentx_llama31_cypher_lora_random_seed13",
+          "schema_valid": 0.9290540540540541
+        },
+        "random_seed17": {
+          "answer_f1": 0.7731563466672222,
+          "execution_accuracy": 0.7432432432432432,
+          "execution_success": 0.7905405405405406,
+          "n": 296,
+          "parse_valid": 1.0,
+          "path": "artifacts/evaluations/20260603_control_aigentx_llama31_cypher_lora_random_seed17",
+          "run_id": "20260603_control_aigentx_llama31_cypher_lora_random_seed17",
+          "schema_valid": 0.9324324324324325
+        },
+        "random_seed23": {
+          "answer_f1": 0.7862678159659752,
+          "execution_accuracy": 0.7398648648648649,
+          "execution_success": 0.8006756756756757,
+          "n": 296,
+          "parse_valid": 1.0,
+          "path": "artifacts/evaluations/20260603_control_aigentx_llama31_cypher_lora_random_seed23",
+          "run_id": "20260603_control_aigentx_llama31_cypher_lora_random_seed23",
+          "schema_valid": 0.9324324324324325
+        },
+        "scored_no_signature": {
+          "answer_f1": 0.35837154576428365,
+          "execution_accuracy": 0.32094594594594594,
+          "execution_success": 0.4222972972972973,
+          "n": 296,
+          "parse_valid": 1.0,
+          "path": "artifacts/evaluations/20260603_control_aigentx_llama31_cypher_lora_scored_no_signature",
+          "run_id": "20260603_control_aigentx_llama31_cypher_lora_scored_no_signature",
+          "schema_valid": 0.5033783783783784
+        }
+      },
+      "missing": [],
+      "model": "aigentx/Llama-3.1-8B Cypher LoRA",
+      "model_family": "Llama",
+      "random": {
+        "mean": {
+          "answer_f1": 0.7746960502933468,
+          "execution_accuracy": 0.7353603603603603,
+          "execution_success": 0.7916666666666666,
+          "parse_valid": 1.0,
+          "schema_valid": 0.9313063063063063
+        },
+        "seeds": [
+          13,
+          17,
+          23
+        ],
+        "std": {
+          "answer_f1": 0.010883903641236117,
+          "execution_accuracy": 0.010859967073190228,
+          "execution_success": 0.008502065805485072,
+          "parse_valid": 0.0,
+          "schema_valid": 0.0019505076661811803
+        }
+      },
+      "slug": "aigentx_llama31_cypher_lora",
+      "tuning": "Cypher LoRA",
+      "zero_shot": {
+        "answer_f1": 0.07432432432432433,
+        "execution_accuracy": 0.07432432432432433,
+        "execution_success": 0.08445945945945946,
+        "n": 296,
+        "parse_valid": 1.0,
+        "schema_valid": 0.19932432432432431
+      },
+      "zero_shot_run_id": "20260602_downstream_aigentx_llama31_cypher_lora_zero_fewshot"
+    },
+    {
+      "best_control": {
+        "execution_accuracy": 0.0,
+        "mode": "ordered"
+      },
+      "complete": true,
+      "controls": {
+        "ordered": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "n": 296,
+          "parse_valid": 0.0,
+          "path": "artifacts/evaluations/20260603_control_aigentx_llama31_cypher_mixed_lora_ordered_logged",
+          "run_id": "20260603_control_aigentx_llama31_cypher_mixed_lora_ordered_logged",
+          "schema_valid": 1.0
+        },
+        "random_seed13": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "n": 296,
+          "parse_valid": 0.0,
+          "path": "artifacts/evaluations/20260603_control_aigentx_llama31_cypher_mixed_lora_random_seed13",
+          "run_id": "20260603_control_aigentx_llama31_cypher_mixed_lora_random_seed13",
+          "schema_valid": 1.0
+        },
+        "random_seed17": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "n": 296,
+          "parse_valid": 0.0,
+          "path": "artifacts/evaluations/20260603_control_aigentx_llama31_cypher_mixed_lora_random_seed17",
+          "run_id": "20260603_control_aigentx_llama31_cypher_mixed_lora_random_seed17",
+          "schema_valid": 1.0
+        },
+        "random_seed23": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "n": 296,
+          "parse_valid": 0.0,
+          "path": "artifacts/evaluations/20260603_control_aigentx_llama31_cypher_mixed_lora_random_seed23",
+          "run_id": "20260603_control_aigentx_llama31_cypher_mixed_lora_random_seed23",
+          "schema_valid": 1.0
+        },
+        "scored_no_signature": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "n": 296,
+          "parse_valid": 0.0,
+          "path": "artifacts/evaluations/20260603_control_aigentx_llama31_cypher_mixed_lora_scored_no_signature",
+          "run_id": "20260603_control_aigentx_llama31_cypher_mixed_lora_scored_no_signature",
+          "schema_valid": 1.0
+        }
+      },
+      "missing": [],
+      "model": "aigentx/Llama-3.1-8B Cypher mixed LoRA",
+      "model_family": "Llama",
+      "random": {
+        "mean": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "parse_valid": 0.0,
+          "schema_valid": 1.0
+        },
+        "seeds": [
+          13,
+          17,
+          23
+        ],
+        "std": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "parse_valid": 0.0,
+          "schema_valid": 0.0
+        }
+      },
+      "slug": "aigentx_llama31_cypher_mixed_lora",
+      "tuning": "Cypher mixed LoRA",
+      "zero_shot": {
+        "answer_f1": 0.11148648648648649,
+        "execution_accuracy": 0.11148648648648649,
+        "execution_success": 0.5101351351351351,
+        "n": 296,
+        "parse_valid": 1.0,
+        "schema_valid": 0.7905405405405406
+      },
+      "zero_shot_run_id": "20260603_downstream_aigentx_llama31_cypher_mixed_lora_zero_fewshot"
+    },
+    {
+      "best_control": {
+        "execution_accuracy": 0.0,
+        "mode": "ordered"
+      },
+      "complete": true,
+      "controls": {
+        "ordered": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "n": 296,
+          "parse_valid": 0.0,
+          "path": "artifacts/evaluations/20260603_control_azzedde_llama31_text2cypher_ordered_logged",
+          "run_id": "20260603_control_azzedde_llama31_text2cypher_ordered_logged",
+          "schema_valid": 1.0
+        },
+        "random_seed13": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "n": 296,
+          "parse_valid": 0.0,
+          "path": "artifacts/evaluations/20260603_control_azzedde_llama31_text2cypher_random_seed13",
+          "run_id": "20260603_control_azzedde_llama31_text2cypher_random_seed13",
+          "schema_valid": 1.0
+        },
+        "random_seed17": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "n": 296,
+          "parse_valid": 0.0,
+          "path": "artifacts/evaluations/20260603_control_azzedde_llama31_text2cypher_random_seed17",
+          "run_id": "20260603_control_azzedde_llama31_text2cypher_random_seed17",
+          "schema_valid": 1.0
+        },
+        "random_seed23": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "n": 296,
+          "parse_valid": 0.0,
+          "path": "artifacts/evaluations/20260603_control_azzedde_llama31_text2cypher_random_seed23",
+          "run_id": "20260603_control_azzedde_llama31_text2cypher_random_seed23",
+          "schema_valid": 1.0
+        },
+        "scored_no_signature": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "n": 296,
+          "parse_valid": 0.0,
+          "path": "artifacts/evaluations/20260603_control_azzedde_llama31_text2cypher_scored_no_signature",
+          "run_id": "20260603_control_azzedde_llama31_text2cypher_scored_no_signature",
+          "schema_valid": 1.0
+        }
+      },
+      "missing": [],
+      "model": "Azzedde/llama3.1-8b-text2cypher",
+      "model_family": "Llama",
+      "random": {
+        "mean": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "parse_valid": 0.0,
+          "schema_valid": 1.0
+        },
+        "seeds": [
+          13,
+          17,
+          23
+        ],
+        "std": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "parse_valid": 0.0,
+          "schema_valid": 0.0
+        }
+      },
+      "slug": "azzedde_llama31_text2cypher",
+      "tuning": "Text2Cypher fine-tuned",
+      "zero_shot": {
+        "answer_f1": 0.1554054054054054,
+        "execution_accuracy": 0.1554054054054054,
+        "execution_success": 0.652027027027027,
+        "n": 296,
+        "parse_valid": 1.0,
+        "schema_valid": 0.8074324324324325
+      },
+      "zero_shot_run_id": "20260602_downstream_azzedde_llama31_text2cypher_zero_fewshot"
+    },
+    {
+      "best_control": {
+        "execution_accuracy": 0.0,
+        "mode": "ordered"
+      },
+      "complete": true,
+      "controls": {
+        "ordered": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "n": 296,
+          "parse_valid": 0.0,
+          "path": "artifacts/evaluations/20260603_control_gemma2_9b_it_ordered_logged",
+          "run_id": "20260603_control_gemma2_9b_it_ordered_logged",
+          "schema_valid": 1.0
+        },
+        "random_seed13": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "n": 296,
+          "parse_valid": 0.0,
+          "path": "artifacts/evaluations/20260603_control_gemma2_9b_it_random_seed13",
+          "run_id": "20260603_control_gemma2_9b_it_random_seed13",
+          "schema_valid": 1.0
+        },
+        "random_seed17": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "n": 296,
+          "parse_valid": 0.0,
+          "path": "artifacts/evaluations/20260603_control_gemma2_9b_it_random_seed17",
+          "run_id": "20260603_control_gemma2_9b_it_random_seed17",
+          "schema_valid": 1.0
+        },
+        "random_seed23": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "n": 296,
+          "parse_valid": 0.0,
+          "path": "artifacts/evaluations/20260603_control_gemma2_9b_it_random_seed23",
+          "run_id": "20260603_control_gemma2_9b_it_random_seed23",
+          "schema_valid": 1.0
+        },
+        "scored_no_signature": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "n": 296,
+          "parse_valid": 0.0,
+          "path": "artifacts/evaluations/20260603_control_gemma2_9b_it_scored_no_signature",
+          "run_id": "20260603_control_gemma2_9b_it_scored_no_signature",
+          "schema_valid": 1.0
+        }
+      },
+      "missing": [],
+      "model": "Gemma-2-9B-IT",
+      "model_family": "Gemma",
+      "random": {
+        "mean": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "parse_valid": 0.0,
+          "schema_valid": 1.0
+        },
+        "seeds": [
+          13,
+          17,
+          23
+        ],
+        "std": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "parse_valid": 0.0,
+          "schema_valid": 0.0
+        }
+      },
+      "slug": "gemma2_9b_it",
+      "tuning": "general instruction",
+      "zero_shot": {
+        "answer_f1": 0.15202702702702703,
+        "execution_accuracy": 0.15202702702702703,
+        "execution_success": 0.5743243243243243,
+        "n": 296,
+        "parse_valid": 0.9966216216216216,
+        "schema_valid": 0.7162162162162162
+      },
+      "zero_shot_run_id": "20260602_downstream_google_gemma2_9b_it_zero_fewshot"
+    },
+    {
+      "best_control": {
+        "execution_accuracy": 0.9932432432432432,
+        "mode": "ordered"
+      },
+      "complete": true,
+      "controls": {
+        "ordered": {
+          "answer_f1": 0.9932432432432432,
+          "execution_accuracy": 0.9932432432432432,
+          "execution_success": 0.9966216216216216,
+          "n": 296,
+          "parse_valid": 1.0,
+          "path": "artifacts/evaluations/20260603_control_neo4j_gemma2_text2cypher_lora_ordered_logged",
+          "run_id": "20260603_control_neo4j_gemma2_text2cypher_lora_ordered_logged",
+          "schema_valid": 0.9966216216216216
+        },
+        "random_seed13": {
+          "answer_f1": 0.9797297297297297,
+          "execution_accuracy": 0.9797297297297297,
+          "execution_success": 0.9966216216216216,
+          "n": 296,
+          "parse_valid": 1.0,
+          "path": "artifacts/evaluations/20260603_control_neo4j_gemma2_text2cypher_lora_random_seed13",
+          "run_id": "20260603_control_neo4j_gemma2_text2cypher_lora_random_seed13",
+          "schema_valid": 0.9966216216216216
+        },
+        "random_seed17": {
+          "answer_f1": 0.9860543683218103,
+          "execution_accuracy": 0.9831081081081081,
+          "execution_success": 0.9966216216216216,
+          "n": 296,
+          "parse_valid": 1.0,
+          "path": "artifacts/evaluations/20260603_control_neo4j_gemma2_text2cypher_lora_random_seed17",
+          "run_id": "20260603_control_neo4j_gemma2_text2cypher_lora_random_seed17",
+          "schema_valid": 0.9966216216216216
+        },
+        "random_seed23": {
+          "answer_f1": 0.9831081081081081,
+          "execution_accuracy": 0.9831081081081081,
+          "execution_success": 0.9966216216216216,
+          "n": 296,
+          "parse_valid": 1.0,
+          "path": "artifacts/evaluations/20260603_control_neo4j_gemma2_text2cypher_lora_random_seed23",
+          "run_id": "20260603_control_neo4j_gemma2_text2cypher_lora_random_seed23",
+          "schema_valid": 0.9966216216216216
+        },
+        "scored_no_signature": {
+          "answer_f1": 0.6969269795356752,
+          "execution_accuracy": 0.6858108108108109,
+          "execution_success": 0.8040540540540541,
+          "n": 296,
+          "parse_valid": 0.9966216216216216,
+          "path": "artifacts/evaluations/20260603_control_neo4j_gemma2_text2cypher_lora_scored_no_signature",
+          "run_id": "20260603_control_neo4j_gemma2_text2cypher_lora_scored_no_signature",
+          "schema_valid": 0.9425675675675675
+        }
+      },
+      "missing": [],
+      "model": "neo4j/Gemma-2-9B Text2Cypher LoRA",
+      "model_family": "Gemma",
+      "random": {
+        "mean": {
+          "answer_f1": 0.9829640687198827,
+          "execution_accuracy": 0.981981981981982,
+          "execution_success": 0.9966216216216216,
+          "parse_valid": 1.0,
+          "schema_valid": 0.9966216216216216
+        },
+        "seeds": [
+          13,
+          17,
+          23
+        ],
+        "std": {
+          "answer_f1": 0.00316477863983074,
+          "execution_accuracy": 0.00195050766618118,
+          "execution_success": 0.0,
+          "parse_valid": 0.0,
+          "schema_valid": 0.0
+        }
+      },
+      "slug": "neo4j_gemma2_text2cypher_lora",
+      "tuning": "Text2Cypher LoRA",
+      "zero_shot": {
+        "answer_f1": 0.19932432432432431,
+        "execution_accuracy": 0.19932432432432431,
+        "execution_success": 0.7162162162162162,
+        "n": 296,
+        "parse_valid": 1.0,
+        "schema_valid": 0.8209459459459459
+      },
+      "zero_shot_run_id": "20260602_downstream_neo4j_gemma2_text2cypher_lora_zero_fewshot"
+    },
+    {
+      "best_control": {
+        "execution_accuracy": 0.0,
+        "mode": "ordered"
+      },
+      "complete": true,
+      "controls": {
+        "ordered": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "n": 296,
+          "parse_valid": 0.0,
+          "path": "artifacts/evaluations/20260603_control_neo4j_gemma3_4b_ordered_logged",
+          "run_id": "20260603_control_neo4j_gemma3_4b_ordered_logged",
+          "schema_valid": 1.0
+        },
+        "random_seed13": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "n": 296,
+          "parse_valid": 0.0,
+          "path": "artifacts/evaluations/20260603_control_neo4j_gemma3_4b_random_seed13",
+          "run_id": "20260603_control_neo4j_gemma3_4b_random_seed13",
+          "schema_valid": 1.0
+        },
+        "random_seed17": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "n": 296,
+          "parse_valid": 0.0,
+          "path": "artifacts/evaluations/20260603_control_neo4j_gemma3_4b_random_seed17",
+          "run_id": "20260603_control_neo4j_gemma3_4b_random_seed17",
+          "schema_valid": 1.0
+        },
+        "random_seed23": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "n": 296,
+          "parse_valid": 0.0,
+          "path": "artifacts/evaluations/20260603_control_neo4j_gemma3_4b_random_seed23",
+          "run_id": "20260603_control_neo4j_gemma3_4b_random_seed23",
+          "schema_valid": 1.0
+        },
+        "scored_no_signature": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "n": 296,
+          "parse_valid": 0.0,
+          "path": "artifacts/evaluations/20260603_control_neo4j_gemma3_4b_scored_no_signature",
+          "run_id": "20260603_control_neo4j_gemma3_4b_scored_no_signature",
+          "schema_valid": 1.0
+        }
+      },
+      "missing": [],
+      "model": "neo4j/Gemma-3-4B Text2Cypher",
+      "model_family": "Gemma",
+      "random": {
+        "mean": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "parse_valid": 0.0,
+          "schema_valid": 1.0
+        },
+        "seeds": [
+          13,
+          17,
+          23
+        ],
+        "std": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "parse_valid": 0.0,
+          "schema_valid": 0.0
+        }
+      },
+      "slug": "neo4j_gemma3_4b",
+      "tuning": "Text2Cypher fine-tuned",
+      "zero_shot": {
+        "answer_f1": 0.0,
+        "execution_accuracy": 0.0,
+        "execution_success": 0.0,
+        "n": 296,
+        "parse_valid": 1.0,
+        "schema_valid": 0.706081081081081
+      },
+      "zero_shot_run_id": "20260602_downstream_neo4j_gemma3_4b_zero_fewshot"
+    },
+    {
+      "best_control": {
+        "execution_accuracy": 0.0,
+        "mode": "ordered"
+      },
+      "complete": true,
+      "controls": {
+        "ordered": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "n": 296,
+          "parse_valid": 0.0,
+          "path": "artifacts/evaluations/20260603_control_projectwilsen_llama31_text2cypher_lora_ordered_logged",
+          "run_id": "20260603_control_projectwilsen_llama31_text2cypher_lora_ordered_logged",
+          "schema_valid": 1.0
+        },
+        "random_seed13": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "n": 296,
+          "parse_valid": 0.0,
+          "path": "artifacts/evaluations/20260603_control_projectwilsen_llama31_text2cypher_lora_random_seed13",
+          "run_id": "20260603_control_projectwilsen_llama31_text2cypher_lora_random_seed13",
+          "schema_valid": 1.0
+        },
+        "random_seed17": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "n": 296,
+          "parse_valid": 0.0,
+          "path": "artifacts/evaluations/20260603_control_projectwilsen_llama31_text2cypher_lora_random_seed17",
+          "run_id": "20260603_control_projectwilsen_llama31_text2cypher_lora_random_seed17",
+          "schema_valid": 1.0
+        },
+        "random_seed23": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "n": 296,
+          "parse_valid": 0.0,
+          "path": "artifacts/evaluations/20260603_control_projectwilsen_llama31_text2cypher_lora_random_seed23",
+          "run_id": "20260603_control_projectwilsen_llama31_text2cypher_lora_random_seed23",
+          "schema_valid": 1.0
+        },
+        "scored_no_signature": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "n": 296,
+          "parse_valid": 0.0,
+          "path": "artifacts/evaluations/20260603_control_projectwilsen_llama31_text2cypher_lora_scored_no_signature",
+          "run_id": "20260603_control_projectwilsen_llama31_text2cypher_lora_scored_no_signature",
+          "schema_valid": 1.0
+        }
+      },
+      "missing": [],
+      "model": "projectwilsen/Llama-3.1-8B Text2Cypher LoRA",
+      "model_family": "Llama",
+      "random": {
+        "mean": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "parse_valid": 0.0,
+          "schema_valid": 1.0
+        },
+        "seeds": [
+          13,
+          17,
+          23
+        ],
+        "std": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "parse_valid": 0.0,
+          "schema_valid": 0.0
+        }
+      },
+      "slug": "projectwilsen_llama31_text2cypher_lora",
+      "tuning": "Text2Cypher LoRA",
+      "zero_shot": {
+        "answer_f1": 0.16891891891891891,
+        "execution_accuracy": 0.16891891891891891,
+        "execution_success": 0.48986486486486486,
+        "n": 296,
+        "parse_valid": 0.9054054054054054,
+        "schema_valid": 0.6385135135135135
+      },
+      "zero_shot_run_id": "20260603_downstream_projectwilsen_llama31_text2cypher_lora_zero_fewshot"
+    },
+    {
+      "best_control": {
+        "execution_accuracy": 0.9932432432432432,
+        "mode": "ordered"
+      },
+      "complete": true,
+      "controls": {
+        "ordered": {
+          "answer_f1": 0.9961895034569455,
+          "execution_accuracy": 0.9932432432432432,
+          "execution_success": 1.0,
+          "n": 296,
+          "parse_valid": 1.0,
+          "path": "artifacts/evaluations/20260603_control_qwen25_coder7b_ordered_logged",
+          "run_id": "20260603_control_qwen25_coder7b_ordered_logged",
+          "schema_valid": 1.0
+        },
+        "random_seed13": {
+          "answer_f1": 0.9826759899434319,
+          "execution_accuracy": 0.9797297297297297,
+          "execution_success": 0.9966216216216216,
+          "n": 296,
+          "parse_valid": 1.0,
+          "path": "artifacts/evaluations/20260603_control_qwen25_coder7b_random_seed13",
+          "run_id": "20260603_control_qwen25_coder7b_random_seed13",
+          "schema_valid": 0.9966216216216216
+        },
+        "random_seed17": {
+          "answer_f1": 0.9826759899434319,
+          "execution_accuracy": 0.9797297297297297,
+          "execution_success": 0.9932432432432432,
+          "n": 296,
+          "parse_valid": 1.0,
+          "path": "artifacts/evaluations/20260603_control_qwen25_coder7b_random_seed17",
+          "run_id": "20260603_control_qwen25_coder7b_random_seed17",
+          "schema_valid": 0.9932432432432432
+        },
+        "random_seed23": {
+          "answer_f1": 0.9826759899434319,
+          "execution_accuracy": 0.9797297297297297,
+          "execution_success": 0.9932432432432432,
+          "n": 296,
+          "parse_valid": 1.0,
+          "path": "artifacts/evaluations/20260603_control_qwen25_coder7b_random_seed23",
+          "run_id": "20260603_control_qwen25_coder7b_random_seed23",
+          "schema_valid": 0.9932432432432432
+        },
+        "scored_no_signature": {
+          "answer_f1": 0.6759306476287609,
+          "execution_accuracy": 0.6756756756756757,
+          "execution_success": 0.8175675675675675,
+          "n": 296,
+          "parse_valid": 1.0,
+          "path": "artifacts/evaluations/20260603_control_qwen25_coder7b_scored_no_signature",
+          "run_id": "20260603_control_qwen25_coder7b_scored_no_signature",
+          "schema_valid": 0.8716216216216216
+        }
+      },
+      "missing": [],
+      "model": "Qwen2.5-Coder-7B-Instruct",
+      "model_family": "Qwen",
+      "random": {
+        "mean": {
+          "answer_f1": 0.982675989943432,
+          "execution_accuracy": 0.9797297297297297,
+          "execution_success": 0.9943693693693693,
+          "parse_valid": 1.0,
+          "schema_valid": 0.9943693693693693
+        },
+        "seeds": [
+          13,
+          17,
+          23
+        ],
+        "std": {
+          "answer_f1": 1.3597399555105182e-16,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.00195050766618118,
+          "parse_valid": 0.0,
+          "schema_valid": 0.00195050766618118
+        }
+      },
+      "slug": "qwen25_coder7b",
+      "tuning": "code instruction",
+      "zero_shot": {
+        "answer_f1": 0.2905405405405405,
+        "execution_accuracy": 0.2905405405405405,
+        "execution_success": 0.6655405405405406,
+        "n": 296,
+        "parse_valid": 1.0,
+        "schema_valid": 0.7094594594594594
+      },
+      "zero_shot_run_id": "20260602_downstream_qwen25_coder7b_zero_fewshot"
+    },
+    {
+      "best_control": {
+        "execution_accuracy": 0.9966216216216216,
+        "mode": "ordered"
+      },
+      "complete": true,
+      "controls": {
+        "ordered": {
+          "answer_f1": 0.9966216216216216,
+          "execution_accuracy": 0.9966216216216216,
+          "execution_success": 1.0,
+          "n": 296,
+          "parse_valid": 1.0,
+          "path": "artifacts/evaluations/20260603_control_qwen35_9b_ordered_logged",
+          "run_id": "20260603_control_qwen35_9b_ordered_logged",
+          "schema_valid": 1.0
+        },
+        "random_seed13": {
+          "answer_f1": 0.9932432432432432,
+          "execution_accuracy": 0.9932432432432432,
+          "execution_success": 1.0,
+          "n": 296,
+          "parse_valid": 1.0,
+          "path": "artifacts/evaluations/20260603_control_qwen35_9b_random_seed13",
+          "run_id": "20260603_control_qwen35_9b_random_seed13",
+          "schema_valid": 1.0
+        },
+        "random_seed17": {
+          "answer_f1": 0.9898648648648649,
+          "execution_accuracy": 0.9898648648648649,
+          "execution_success": 0.9932432432432432,
+          "n": 296,
+          "parse_valid": 1.0,
+          "path": "artifacts/evaluations/20260603_control_qwen35_9b_random_seed17",
+          "run_id": "20260603_control_qwen35_9b_random_seed17",
+          "schema_valid": 1.0
+        },
+        "random_seed23": {
+          "answer_f1": 0.9864864864864865,
+          "execution_accuracy": 0.9864864864864865,
+          "execution_success": 0.9932432432432432,
+          "n": 296,
+          "parse_valid": 1.0,
+          "path": "artifacts/evaluations/20260603_control_qwen35_9b_random_seed23",
+          "run_id": "20260603_control_qwen35_9b_random_seed23",
+          "schema_valid": 1.0
+        },
+        "scored_no_signature": {
+          "answer_f1": 0.8819044934183827,
+          "execution_accuracy": 0.8209459459459459,
+          "execution_success": 0.9358108108108109,
+          "n": 296,
+          "parse_valid": 1.0,
+          "path": "artifacts/evaluations/20260603_control_qwen35_9b_scored_no_signature",
+          "run_id": "20260603_control_qwen35_9b_scored_no_signature",
+          "schema_valid": 0.9493243243243243
+        }
+      },
+      "missing": [],
+      "model": "Qwen3.5-9B",
+      "model_family": "Qwen",
+      "random": {
+        "mean": {
+          "answer_f1": 0.9898648648648649,
+          "execution_accuracy": 0.9898648648648649,
+          "execution_success": 0.9954954954954954,
+          "parse_valid": 1.0,
+          "schema_valid": 1.0
+        },
+        "seeds": [
+          13,
+          17,
+          23
+        ],
+        "std": {
+          "answer_f1": 0.003378378378378344,
+          "execution_accuracy": 0.003378378378378344,
+          "execution_success": 0.0039010153323623606,
+          "parse_valid": 0.0,
+          "schema_valid": 0.0
+        }
+      },
+      "slug": "qwen35_9b",
+      "tuning": "general instruction",
+      "zero_shot": {
+        "answer_f1": 0.1891891891891892,
+        "execution_accuracy": 0.1891891891891892,
+        "execution_success": 0.6081081081081081,
+        "n": 296,
+        "parse_valid": 0.9628378378378378,
+        "schema_valid": 0.9087837837837838
+      },
+      "zero_shot_run_id": "20260602_downstream_qwen35_9b_zero_fewshot"
+    },
+    {
+      "best_control": {
+        "execution_accuracy": 0.0,
+        "mode": "ordered"
+      },
+      "complete": true,
+      "controls": {
+        "ordered": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "n": 296,
+          "parse_valid": 0.0,
+          "path": "artifacts/evaluations/20260603_control_saiprasanth_llama31_text2cypher_lora_ordered_logged",
+          "run_id": "20260603_control_saiprasanth_llama31_text2cypher_lora_ordered_logged",
+          "schema_valid": 1.0
+        },
+        "random_seed13": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "n": 296,
+          "parse_valid": 0.0,
+          "path": "artifacts/evaluations/20260603_control_saiprasanth_llama31_text2cypher_lora_random_seed13",
+          "run_id": "20260603_control_saiprasanth_llama31_text2cypher_lora_random_seed13",
+          "schema_valid": 1.0
+        },
+        "random_seed17": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "n": 296,
+          "parse_valid": 0.0,
+          "path": "artifacts/evaluations/20260603_control_saiprasanth_llama31_text2cypher_lora_random_seed17",
+          "run_id": "20260603_control_saiprasanth_llama31_text2cypher_lora_random_seed17",
+          "schema_valid": 1.0
+        },
+        "random_seed23": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "n": 296,
+          "parse_valid": 0.0,
+          "path": "artifacts/evaluations/20260603_control_saiprasanth_llama31_text2cypher_lora_random_seed23",
+          "run_id": "20260603_control_saiprasanth_llama31_text2cypher_lora_random_seed23",
+          "schema_valid": 1.0
+        },
+        "scored_no_signature": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "n": 296,
+          "parse_valid": 0.0,
+          "path": "artifacts/evaluations/20260603_control_saiprasanth_llama31_text2cypher_lora_scored_no_signature",
+          "run_id": "20260603_control_saiprasanth_llama31_text2cypher_lora_scored_no_signature",
+          "schema_valid": 1.0
+        }
+      },
+      "missing": [],
+      "model": "Saiprasanth15/Llama-3.1-8B Text2Cypher LoRA",
+      "model_family": "Llama",
+      "random": {
+        "mean": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "parse_valid": 0.0,
+          "schema_valid": 1.0
+        },
+        "seeds": [
+          13,
+          17,
+          23
+        ],
+        "std": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "parse_valid": 0.0,
+          "schema_valid": 0.0
+        }
+      },
+      "slug": "saiprasanth_llama31_text2cypher_lora",
+      "tuning": "Text2Cypher LoRA",
+      "zero_shot": {
+        "answer_f1": 0.0,
+        "execution_accuracy": 0.0,
+        "execution_success": 0.11148648648648649,
+        "n": 296,
+        "parse_valid": 1.0,
+        "schema_valid": 0.1858108108108108
+      },
+      "zero_shot_run_id": "20260603_downstream_saiprasanth_llama31_text2cypher_lora_zero_fewshot"
+    },
+    {
+      "best_control": {
+        "execution_accuracy": 0.8434684684684685,
+        "mode": "random_mean"
+      },
+      "complete": true,
+      "controls": {
+        "ordered": {
+          "answer_f1": 0.8378378378378378,
+          "execution_accuracy": 0.8378378378378378,
+          "execution_success": 0.9121621621621622,
+          "n": 296,
+          "parse_valid": 1.0,
+          "path": "artifacts/evaluations/20260603_control_stable_cypher_instruct3b_transformers_ordered_logged",
+          "run_id": "20260603_control_stable_cypher_instruct3b_transformers_ordered_logged",
+          "schema_valid": 0.9763513513513513
+        },
+        "random_seed13": {
+          "answer_f1": 0.8483704292527822,
+          "execution_accuracy": 0.847972972972973,
+          "execution_success": 0.9256756756756757,
+          "n": 296,
+          "parse_valid": 1.0,
+          "path": "artifacts/evaluations/20260603_control_stable_cypher_instruct3b_transformers_random_seed13",
+          "run_id": "20260603_control_stable_cypher_instruct3b_transformers_random_seed13",
+          "schema_valid": 0.9864864864864865
+        },
+        "random_seed17": {
+          "answer_f1": 0.8367230676054206,
+          "execution_accuracy": 0.8344594594594594,
+          "execution_success": 0.9121621621621622,
+          "n": 296,
+          "parse_valid": 1.0,
+          "path": "artifacts/evaluations/20260603_control_stable_cypher_instruct3b_transformers_random_seed17",
+          "run_id": "20260603_control_stable_cypher_instruct3b_transformers_random_seed17",
+          "schema_valid": 0.9864864864864865
+        },
+        "random_seed23": {
+          "answer_f1": 0.847972972972973,
+          "execution_accuracy": 0.847972972972973,
+          "execution_success": 0.9256756756756757,
+          "n": 296,
+          "parse_valid": 1.0,
+          "path": "artifacts/evaluations/20260603_control_stable_cypher_instruct3b_transformers_random_seed23",
+          "run_id": "20260603_control_stable_cypher_instruct3b_transformers_random_seed23",
+          "schema_valid": 0.9932432432432432
+        },
+        "scored_no_signature": {
+          "answer_f1": 0.4504531454531454,
+          "execution_accuracy": 0.43243243243243246,
+          "execution_success": 0.6891891891891891,
+          "n": 296,
+          "parse_valid": 1.0,
+          "path": "artifacts/evaluations/20260603_control_stable_cypher_instruct3b_transformers_scored_no_signature",
+          "run_id": "20260603_control_stable_cypher_instruct3b_transformers_scored_no_signature",
+          "schema_valid": 0.8682432432432432
+        }
+      },
+      "missing": [],
+      "model": "ragraph-ai/stable-cypher-instruct-3b",
+      "model_family": "StableLM",
+      "random": {
+        "mean": {
+          "answer_f1": 0.8443554899437252,
+          "execution_accuracy": 0.8434684684684685,
+          "execution_success": 0.9211711711711712,
+          "parse_valid": 1.0,
+          "schema_valid": 0.9887387387387387
+        },
+        "seeds": [
+          13,
+          17,
+          23
+        ],
+        "std": {
+          "answer_f1": 0.0066128583786649354,
+          "execution_accuracy": 0.00780203066472472,
+          "execution_success": 0.007802030664724657,
+          "parse_valid": 0.0,
+          "schema_valid": 0.0039010153323622964
+        }
+      },
+      "slug": "stable_cypher_instruct3b_transformers",
+      "tuning": "Cypher instruction",
+      "zero_shot": {
+        "answer_f1": 0.1554054054054054,
+        "execution_accuracy": 0.1554054054054054,
+        "execution_success": 0.6418918918918919,
+        "n": 296,
+        "parse_valid": 1.0,
+        "schema_valid": 0.7804054054054054
+      },
+      "zero_shot_run_id": "20260602_downstream_stable_cypher_instruct3b_transformers_zero_fewshot"
+    },
+    {
+      "best_control": {
+        "execution_accuracy": 0.0,
+        "mode": "ordered"
+      },
+      "complete": true,
+      "controls": {
+        "ordered": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "n": 296,
+          "parse_valid": 0.0,
+          "path": "artifacts/evaluations/20260603_control_tomasonjo_text2cypher8b_ordered_logged",
+          "run_id": "20260603_control_tomasonjo_text2cypher8b_ordered_logged",
+          "schema_valid": 1.0
+        },
+        "random_seed13": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "n": 296,
+          "parse_valid": 0.0,
+          "path": "artifacts/evaluations/20260603_control_tomasonjo_text2cypher8b_random_seed13",
+          "run_id": "20260603_control_tomasonjo_text2cypher8b_random_seed13",
+          "schema_valid": 1.0
+        },
+        "random_seed17": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "n": 296,
+          "parse_valid": 0.0,
+          "path": "artifacts/evaluations/20260603_control_tomasonjo_text2cypher8b_random_seed17",
+          "run_id": "20260603_control_tomasonjo_text2cypher8b_random_seed17",
+          "schema_valid": 1.0
+        },
+        "random_seed23": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "n": 296,
+          "parse_valid": 0.0,
+          "path": "artifacts/evaluations/20260603_control_tomasonjo_text2cypher8b_random_seed23",
+          "run_id": "20260603_control_tomasonjo_text2cypher8b_random_seed23",
+          "schema_valid": 1.0
+        },
+        "scored_no_signature": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "n": 296,
+          "parse_valid": 0.0,
+          "path": "artifacts/evaluations/20260603_control_tomasonjo_text2cypher8b_scored_no_signature",
+          "run_id": "20260603_control_tomasonjo_text2cypher8b_scored_no_signature",
+          "schema_valid": 1.0
+        }
+      },
+      "missing": [],
+      "model": "tomasonjo/text2cypher-demo-16bit",
+      "model_family": "unspecified",
+      "random": {
+        "mean": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "parse_valid": 0.0,
+          "schema_valid": 1.0
+        },
+        "seeds": [
+          13,
+          17,
+          23
+        ],
+        "std": {
+          "answer_f1": 0.0,
+          "execution_accuracy": 0.0,
+          "execution_success": 0.0,
+          "parse_valid": 0.0,
+          "schema_valid": 0.0
+        }
+      },
+      "slug": "tomasonjo_text2cypher8b",
+      "tuning": "Text2Cypher fine-tuned",
+      "zero_shot": {
+        "answer_f1": 0.16554054054054054,
+        "execution_accuracy": 0.16554054054054054,
+        "execution_success": 0.5945945945945946,
+        "n": 296,
+        "parse_valid": 1.0,
+        "schema_valid": 0.75
+      },
+      "zero_shot_run_id": "20260602_downstream_tomasonjo_text2cypher8b_zero_fewshot"
+    }
+  ],
+  "models_examined": 12
+}

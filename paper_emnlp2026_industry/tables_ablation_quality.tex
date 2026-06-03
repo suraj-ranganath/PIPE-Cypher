@@ -4,10 +4,10 @@
 \resizebox{\columnwidth}{!}{%
 \begin{tabular}{llrrrrr}
 \toprule
-Setting & Graph & Read-only & Syntax & Schema & Exec. & Judge \\
+Setting & Graph & Read-only & Syntax & Schema & Exec. & Judge/post-hoc \\
 \midrule
-Unconstrained LLM & FinBench & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 \\
-Unconstrained LLM & SNB & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 \\
+Unconstrained LLM & FinBench & 1.000 & 1.000 & 0.806 & 0.723 & 0.557 \\
+Unconstrained LLM & SNB & 1.000 & 0.998 & 0.599 & 0.478 & 0.144 \\
 Reverse-only & FinBench & 1.000 & 1.000 & 0.982 & 0.982 & 0.982 \\
 Reverse-only & SNB & 1.000 & 1.000 & 0.998 & 0.998 & 0.976 \\
 Validators+repair & FinBench & 1.000 & 1.000 & 1.000 & 1.000 & 0.960 \\
@@ -23,6 +23,6 @@ Full PIPE-Cypher & SNB & 1.000 & 1.000 & 0.998 & 0.998 & 0.971 \\
 \bottomrule
 \end{tabular}
 }
-\caption{Quality-gate rates for the live target-100 ablation suite. Rates are computed over all generated records in each graph/setting.}
+\caption{Quality-gate rates for the live target-100 ablation suite. Rates are computed over all generated records in each graph/setting; for no-judge settings, the judge column is a post-hoc scoring diagnostic.}
 \label{tab:ablation_quality}
 \end{table}

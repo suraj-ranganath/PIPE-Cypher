@@ -81,6 +81,72 @@ def test_render_downstream_error_figure_writes_pdf(tmp_path: Path):
     assert output.stat().st_size > 1000
 
 
+def test_render_downstream_fewshot_control_figure_writes_pdf(tmp_path: Path):
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    from pipecypher.paper_style import apply_paper_style
+    from scripts.render_paper_figures import render_downstream_fewshot_control_figure
+
+    apply_paper_style(plt)
+    report = {
+        "models": [
+            {
+                "model": "Qwen3.5-9B",
+                "zero_shot": {"execution_accuracy": 0.2},
+                "controls": {
+                    "ordered": {"execution_accuracy": 0.9},
+                    "scored_no_signature": {"execution_accuracy": 0.7},
+                },
+                "random": {"mean": {"execution_accuracy": 0.8}},
+            },
+            {
+                "model": "Gemma-2-9B-IT",
+                "zero_shot": {"execution_accuracy": 0.1},
+                "controls": {
+                    "ordered": {"execution_accuracy": 0.0},
+                    "scored_no_signature": {"execution_accuracy": 0.0},
+                },
+                "random": {"mean": {"execution_accuracy": 0.0}},
+            },
+        ]
+    }
+    output = tmp_path / "downstream_fewshot_controls.pdf"
+
+    render_downstream_fewshot_control_figure(report, output, plt)
+
+    assert output.exists()
+    assert output.stat().st_size > 1000
+
+
+def test_render_query_signature_concentration_figure_writes_pdf(tmp_path: Path):
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    from pipecypher.paper_style import apply_paper_style
+    from scripts.render_paper_figures import render_query_signature_concentration_figure
+
+    apply_paper_style(plt)
+    report = {
+        "query_templates": {
+            "top_signatures": [
+                {"signature_id": "abc123", "count": 10, "share": 0.10},
+                {"signature_id": "def456", "count": 5, "share": 0.05},
+            ]
+        }
+    }
+    output = tmp_path / "query_signature_concentration.pdf"
+
+    render_query_signature_concentration_figure(report, output, plt)
+
+    assert output.exists()
+    assert output.stat().st_size > 1000
+
+
 def test_render_ablation_quality_figure_writes_pdf(tmp_path: Path):
     import matplotlib
 

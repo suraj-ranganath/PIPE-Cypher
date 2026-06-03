@@ -6,7 +6,7 @@ from pipecypher.diversity_metrics import (
     self_bleu,
     value_grounding_summary,
 )
-from pipecypher.paper_tables import render_diversity_table
+from pipecypher.paper_tables import render_diversity_table, render_query_signature_concentration_table
 
 
 def _example(question: str, category: str = "simple_retrieval", entity: str = "Alice") -> dict:
@@ -81,11 +81,16 @@ def test_benchmark_diversity_report_and_table_render():
     table = render_diversity_table(report)
 
     assert report["n"] == 3
+    assert "simple_retrieval" in report["by_category"]
+    assert report["query_templates"]["top_signatures"][0]["count"] == 3
     assert report["schema_coverage"]["labels"]["coverage"] == 0.5
     assert report["value_grounding"]["unique_entity_values"] == 2
     assert report["value_grounding"]["entity_values_exact_quoted_rate"] == 1.0
     assert "Distinct-1" in table
     assert "Grounded values exactly quoted" in table
+    signature_table = render_query_signature_concentration_table(report)
+    assert r"\label{tab:query_signature_concentration}" in signature_table
+    assert report["query_templates"]["top_signatures"][0]["signature_id"] in signature_table
 
 
 def test_value_grounding_summary_is_aggregate_only():

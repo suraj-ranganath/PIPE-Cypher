@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import math
 import re
+import hashlib
 from collections import Counter
 from pathlib import Path
 from typing import Any
@@ -55,6 +56,7 @@ def benchmark_diversity_report(
     schema_inventory: dict[str, set[str]] | None = None,
     self_bleu_sample_size: int = 200,
     include_by_graph: bool = True,
+    include_by_category: bool = True,
 ) -> dict[str, Any]:
     if not examples:
         raise ValueError("cannot analyze an empty benchmark")
@@ -65,6 +67,7 @@ def benchmark_diversity_report(
         canonical_query_signature(str(row.get("normalized_cypher") or row.get("cypher", "")))
         for row in examples
     ]
+    signature_counts = Counter(signatures)
     labels = _flatten_feature(examples, "labels")
     relationships = _flatten_feature(examples, "relationship_types")
     properties = _extract_properties(examples)
@@ -90,6 +93,7 @@ def benchmark_diversity_report(
             "unique_signature_count": len(set(signatures)),
             "unique_signature_ratio": len(set(signatures)) / len(signatures),
             "top_signature_share": _top_share(signatures),
+            "top_signatures": _top_signature_rows(signature_counts, total=len(signatures)),
         },
         "schema_coverage": {
             "labels": _coverage(labels, schema_inventory.get("labels", set())),
@@ -124,8 +128,20 @@ def benchmark_diversity_report(
                 schema_inventory=schema_inventory,
                 self_bleu_sample_size=self_bleu_sample_size,
                 include_by_graph=False,
+                include_by_category=False,
             )
             for graph, rows in _group_by_graph(examples).items()
+        }
+    if include_by_category:
+        report["by_category"] = {
+            category: benchmark_diversity_report(
+                rows,
+                schema_inventory=schema_inventory,
+                self_bleu_sample_size=self_bleu_sample_size,
+                include_by_graph=False,
+                include_by_category=False,
+            )
+            for category, rows in _group_by_key(examples, "category").items()
         }
     return report
 
@@ -245,6 +261,25 @@ def canonical_query_signature(cypher: str) -> str:
     return " ".join(signature.lower().split())
 
 
+def _top_signature_rows(
+    counts: Counter[str],
+    *,
+    total: int,
+    limit: int = 8,
+) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for signature, count in counts.most_common(limit):
+        rows.append(
+            {
+                "signature_id": hashlib.sha256(signature.encode("utf-8")).hexdigest()[:10],
+                "count": int(count),
+                "share": count / total if total else 0.0,
+                "preview": signature[:140],
+            }
+        )
+    return rows
+
+
 def tokenize(text: str) -> list[str]:
     return [match.group(0).lower() for match in TOKEN_RE.finditer(text)]
 
@@ -330,9 +365,13 @@ def _mean_feature(examples: list[dict[str, Any]], key: str) -> float:
 
 
 def _group_by_graph(examples: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
+    return _group_by_key(examples, "graph_profile")
+
+
+def _group_by_key(examples: list[dict[str, Any]], key: str) -> dict[str, list[dict[str, Any]]]:
     groups: dict[str, list[dict[str, Any]]] = {}
     for row in examples:
-        groups.setdefault(str(row.get("graph_profile")), []).append(row)
+        groups.setdefault(str(row.get(key, "unknown")), []).append(row)
     return groups
 
 

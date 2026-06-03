@@ -40,6 +40,7 @@ def question_key(category: str, question: str) -> tuple[str, str]:
 class PipelineResult:
     records: list[GenerationRecord]
     output_path: Path
+    attempt_summary: dict[str, Any]
 
 
 class PipeCypherPipeline:
@@ -536,24 +537,53 @@ class PipeCypherPipeline:
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text("", encoding="utf-8")
         records: list[GenerationRecord] = []
+        attempt_summary: dict[str, Any] = {
+            "candidate_attempts": 0,
+            "emitted_records": 0,
+            "pre_record_skips": 0,
+            "template_generation_empty_categories": 0,
+            "no_reusable_template_breaks": 0,
+            "template_candidates": 0,
+            "by_category": {},
+        }
         for category in self.config.generation.categories:
             target = self.config.generation.target_per_category
             templates = self.generate_templates(category)
+            category_summary = {
+                "target": target,
+                "template_candidates": len(templates),
+                "candidate_attempts": 0,
+                "emitted_records": 0,
+                "pre_record_skips": 0,
+                "accepted": 0,
+                "no_templates": False,
+                "no_reusable_template_break": False,
+            }
+            attempt_summary["template_candidates"] += len(templates)
             if not templates:
+                category_summary["no_templates"] = True
+                attempt_summary["template_generation_empty_categories"] += 1
+                attempt_summary["by_category"][category] = category_summary
                 continue
             attempts = 0
             accepted = 0
             max_attempts = max(target * 4, len(templates))
             while accepted < target and attempts < max_attempts:
                 attempts += 1
+                category_summary["candidate_attempts"] += 1
+                attempt_summary["candidate_attempts"] += 1
                 if attempts <= len(templates):
                     template = templates[attempts - 1]
                 else:
                     reusable = [template for template in templates if self._can_produce_new_question(category, template)]
                     if not reusable:
+                        category_summary["no_reusable_template_break"] = True
+                        attempt_summary["no_reusable_template_breaks"] += 1
                         break
                     template = self.rng.choice(reusable)
                 if self.structural_diversity.seen(category, template.template) and attempts <= len(templates):
+                    category_summary["pre_record_skips"] += 1
+                    attempt_summary["pre_record_skips"] += 1
                     continue
                 record = self.run_candidate(template)
                 if record.accepted:
@@ -573,7 +603,11 @@ class PipeCypherPipeline:
                         self.entity_diversity.record(category, record.entity_values)
                         self.examples.add(record.question, record.cypher, record.category)
                 records.append(record)
+                category_summary["emitted_records"] += 1
+                attempt_summary["emitted_records"] += 1
                 append_jsonl(out, record.to_dict())
                 if record.accepted:
                     accepted += 1
-        return PipelineResult(records=records, output_path=out)
+                    category_summary["accepted"] += 1
+            attempt_summary["by_category"][category] = category_summary
+        return PipelineResult(records=records, output_path=out, attempt_summary=attempt_summary)

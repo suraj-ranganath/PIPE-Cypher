@@ -1,4 +1,1400 @@
 {
+  "by_category": {
+    "boolean_existence": {
+      "distributions": {
+        "category": {
+          "counts": {
+            "boolean_existence": 375
+          },
+          "effective_count": 1.0,
+          "entropy_bits": -0.0,
+          "normalized_entropy": 1.0,
+          "simpson_diversity": 0.0,
+          "total": 375,
+          "unique": 1
+        },
+        "difficulty": {
+          "counts": {
+            "easy": 158,
+            "medium": 217
+          },
+          "effective_count": 1.9752969012594148,
+          "entropy_bits": 0.9820695169767517,
+          "normalized_entropy": 0.9820695169767517,
+          "simpson_diversity": 0.4876231111111111,
+          "total": 375,
+          "unique": 2
+        },
+        "graph_category": {
+          "counts": {
+            "finbench::boolean_existence": 250,
+            "snb::boolean_existence": 125
+          },
+          "effective_count": 1.88988157484231,
+          "entropy_bits": 0.9182958340544896,
+          "normalized_entropy": 0.9182958340544896,
+          "simpson_diversity": 0.4444444444444444,
+          "total": 375,
+          "unique": 2
+        },
+        "labels": {
+          "counts": {
+            "Account": 250,
+            "Person": 217,
+            "Post": 125
+          },
+          "effective_count": 2.8872182805773536,
+          "entropy_bits": 1.5296801828777087,
+          "normalized_entropy": 0.9651207408261747,
+          "simpson_diversity": 0.6427193663257853,
+          "total": 592,
+          "unique": 3
+        },
+        "primary_strategy": {
+          "counts": {
+            "aggregation": 375
+          },
+          "effective_count": 1.0,
+          "entropy_bits": -0.0,
+          "normalized_entropy": 1.0,
+          "simpson_diversity": 0.0,
+          "total": 375,
+          "unique": 1
+        },
+        "relationship_types": {
+          "counts": {
+            "LIKES": 125,
+            "OWN_ACCOUNT": 92,
+            "TRANSFER_TO": 250
+          },
+          "effective_count": 2.7383014848668426,
+          "entropy_bits": 1.4532812949440777,
+          "normalized_entropy": 0.9169184092890755,
+          "simpson_diversity": 0.602964844627652,
+          "total": 467,
+          "unique": 3
+        }
+      },
+      "n": 375,
+      "query_templates": {
+        "top_signature_share": 0.42133333333333334,
+        "top_signatures": [
+          {
+            "count": 158,
+            "preview": "match (<var>:account {accountid: <str>})-[:transfer_to]->(:account) return distinct count(distinct src) > <num> as hasoutgoingtransfer",
+            "share": 0.42133333333333334,
+            "signature_id": "aa411b54b1"
+          },
+          {
+            "count": 125,
+            "preview": "match (<var>:person {id: <num>}) optional match (p)-[:likes]->(<var>:post) return distinct count(post) > <num> as likesanypost",
+            "share": 0.3333333333333333,
+            "signature_id": "5e8a991890"
+          },
+          {
+            "count": 92,
+            "preview": "match (<var>:person {personname: <str>})-[:own_account]->(:account)-[:transfer_to]->(:account) return distinct count(distinct p) > <num> as ",
+            "share": 0.24533333333333332,
+            "signature_id": "7781643f92"
+          }
+        ],
+        "unique_signature_count": 3,
+        "unique_signature_ratio": 0.008
+      },
+      "question_text": {
+        "distinct_1": 0.12457284871077974,
+        "distinct_2": 0.27285513361462727,
+        "distinct_3": 0.4641555285540705,
+        "self_bleu_2_sampled": 0.8065448300593572,
+        "unique_question_ratio": 1.0
+      },
+      "schema_coverage": {
+        "labels": {
+          "available_count": 17,
+          "coverage": 0.17647058823529413,
+          "used": [
+            "Account",
+            "Person",
+            "Post"
+          ],
+          "used_count": 3
+        },
+        "properties": {
+          "available_count": 54,
+          "coverage": 0.0,
+          "used": [],
+          "used_count": 0
+        },
+        "relationship_types": {
+          "available_count": 24,
+          "coverage": 0.125,
+          "used": [
+            "LIKES",
+            "OWN_ACCOUNT",
+            "TRANSFER_TO"
+          ],
+          "used_count": 3
+        }
+      },
+      "structural_features": {
+        "aggregation_rate": 1.0,
+        "limit_rate": 0.0,
+        "mean_node_patterns": 2.912,
+        "mean_relationship_patterns": 1.2453333333333334,
+        "mean_return_arity": 1.0,
+        "negation_rate": 0.0,
+        "optional_match_rate": 0.3333333333333333,
+        "ordering_rate": 0.0,
+        "path_pattern_rate": 0.0
+      },
+      "value_grounding": {
+        "entity_values_exact_quoted_rate": 0.6666666666666666,
+        "examples_with_entity_values_rate": 1.0,
+        "examples_with_quoted_literals_rate": 0.6666666666666666,
+        "top_entity_value_share": 0.0026666666666666666,
+        "top_quoted_literal_share": 0.004,
+        "total_entity_mentions": 375,
+        "total_quoted_literal_mentions": 250,
+        "unique_entity_value_ratio": 1.0,
+        "unique_entity_values": 375,
+        "unique_quoted_literal_ratio": 1.0,
+        "unique_quoted_literals": 250
+      }
+    },
+    "complex_aggregation": {
+      "distributions": {
+        "category": {
+          "counts": {
+            "complex_aggregation": 375
+          },
+          "effective_count": 1.0,
+          "entropy_bits": -0.0,
+          "normalized_entropy": 1.0,
+          "simpson_diversity": 0.0,
+          "total": 375,
+          "unique": 1
+        },
+        "difficulty": {
+          "counts": {
+            "medium": 375
+          },
+          "effective_count": 1.0,
+          "entropy_bits": -0.0,
+          "normalized_entropy": 1.0,
+          "simpson_diversity": 0.0,
+          "total": 375,
+          "unique": 1
+        },
+        "graph_category": {
+          "counts": {
+            "finbench::complex_aggregation": 250,
+            "snb::complex_aggregation": 125
+          },
+          "effective_count": 1.88988157484231,
+          "entropy_bits": 0.9182958340544896,
+          "normalized_entropy": 0.9182958340544896,
+          "simpson_diversity": 0.4444444444444444,
+          "total": 375,
+          "unique": 2
+        },
+        "labels": {
+          "counts": {
+            "Account": 250,
+            "Forum": 125,
+            "Person": 375,
+            "Post": 125
+          },
+          "effective_count": 3.585988827056953,
+          "entropy_bits": 1.8423709931771084,
+          "normalized_entropy": 0.9211854965885542,
+          "simpson_diversity": 0.6938775510204083,
+          "total": 875,
+          "unique": 4
+        },
+        "primary_strategy": {
+          "counts": {
+            "aggregation": 375
+          },
+          "effective_count": 1.0,
+          "entropy_bits": -0.0,
+          "normalized_entropy": 1.0,
+          "simpson_diversity": 0.0,
+          "total": 375,
+          "unique": 1
+        },
+        "relationship_types": {
+          "counts": {
+            "CONTAINER_OF": 125,
+            "HAS_MEMBER": 125,
+            "OWN_ACCOUNT": 250,
+            "TRANSFER_TO": 250
+          },
+          "effective_count": 3.77976314968462,
+          "entropy_bits": 1.9182958340544896,
+          "normalized_entropy": 0.9591479170272448,
+          "simpson_diversity": 0.7222222222222222,
+          "total": 750,
+          "unique": 4
+        }
+      },
+      "n": 375,
+      "query_templates": {
+        "top_signature_share": 0.6666666666666666,
+        "top_signatures": [
+          {
+            "count": 250,
+            "preview": "match (<var>:person {personname: <str>})-[:own_account]->(<var>:account)-[t:transfer_to]->(:account) return distinct sum(<var>.amount) as to",
+            "share": 0.6666666666666666,
+            "signature_id": "f15b226863"
+          },
+          {
+            "count": 125,
+            "preview": "match (<var>:forum)-[:has_member]->(<var>:person {id: <num>}) match (forum)-[:container_of]->(<var>:post) return distinct count(distinct pos",
+            "share": 0.3333333333333333,
+            "signature_id": "0a61445b9c"
+          }
+        ],
+        "unique_signature_count": 2,
+        "unique_signature_ratio": 0.005333333333333333
+      },
+      "question_text": {
+        "distinct_1": 0.08897027143472641,
+        "distinct_2": 0.09655495664401219,
+        "distinct_3": 0.10560123329907503,
+        "self_bleu_2_sampled": 0.921587473591488,
+        "unique_question_ratio": 1.0
+      },
+      "schema_coverage": {
+        "labels": {
+          "available_count": 17,
+          "coverage": 0.23529411764705882,
+          "used": [
+            "Account",
+            "Forum",
+            "Person",
+            "Post"
+          ],
+          "used_count": 4
+        },
+        "properties": {
+          "available_count": 54,
+          "coverage": 0.018518518518518517,
+          "used": [
+            "amount"
+          ],
+          "used_count": 1
+        },
+        "relationship_types": {
+          "available_count": 24,
+          "coverage": 0.16666666666666666,
+          "used": [
+            "CONTAINER_OF",
+            "HAS_MEMBER",
+            "OWN_ACCOUNT",
+            "TRANSFER_TO"
+          ],
+          "used_count": 4
+        }
+      },
+      "structural_features": {
+        "aggregation_rate": 1.0,
+        "limit_rate": 0.0,
+        "mean_node_patterns": 3.3333333333333335,
+        "mean_relationship_patterns": 2.0,
+        "mean_return_arity": 1.0,
+        "negation_rate": 0.0,
+        "optional_match_rate": 0.0,
+        "ordering_rate": 0.0,
+        "path_pattern_rate": 0.0
+      },
+      "value_grounding": {
+        "entity_values_exact_quoted_rate": 0.6666666666666666,
+        "examples_with_entity_values_rate": 1.0,
+        "examples_with_quoted_literals_rate": 0.6666666666666666,
+        "top_entity_value_share": 0.0026666666666666666,
+        "top_quoted_literal_share": 0.004,
+        "total_entity_mentions": 375,
+        "total_quoted_literal_mentions": 250,
+        "unique_entity_value_ratio": 1.0,
+        "unique_entity_values": 375,
+        "unique_quoted_literal_ratio": 1.0,
+        "unique_quoted_literals": 250
+      }
+    },
+    "complex_retrieval": {
+      "distributions": {
+        "category": {
+          "counts": {
+            "complex_retrieval": 375
+          },
+          "effective_count": 1.0,
+          "entropy_bits": -0.0,
+          "normalized_entropy": 1.0,
+          "simpson_diversity": 0.0,
+          "total": 375,
+          "unique": 1
+        },
+        "difficulty": {
+          "counts": {
+            "easy": 375
+          },
+          "effective_count": 1.0,
+          "entropy_bits": -0.0,
+          "normalized_entropy": 1.0,
+          "simpson_diversity": 0.0,
+          "total": 375,
+          "unique": 1
+        },
+        "graph_category": {
+          "counts": {
+            "finbench::complex_retrieval": 250,
+            "snb::complex_retrieval": 125
+          },
+          "effective_count": 1.88988157484231,
+          "entropy_bits": 0.9182958340544896,
+          "normalized_entropy": 0.9182958340544896,
+          "simpson_diversity": 0.4444444444444444,
+          "total": 375,
+          "unique": 2
+        },
+        "labels": {
+          "counts": {
+            "Account": 250,
+            "Forum": 125,
+            "Person": 375,
+            "Post": 125,
+            "Tag": 125
+          },
+          "effective_count": 4.455659733512512,
+          "entropy_bits": 2.1556390622295662,
+          "normalized_entropy": 0.9283832117695864,
+          "simpson_diversity": 0.75,
+          "total": 1000,
+          "unique": 5
+        },
+        "primary_strategy": {
+          "counts": {
+            "join_heavy": 375
+          },
+          "effective_count": 1.0,
+          "entropy_bits": -0.0,
+          "normalized_entropy": 1.0,
+          "simpson_diversity": 0.0,
+          "total": 375,
+          "unique": 1
+        },
+        "relationship_types": {
+          "counts": {
+            "CONTAINER_OF": 125,
+            "HAS_MEMBER": 125,
+            "HAS_TAG": 125,
+            "OWN_ACCOUNT": 250,
+            "TRANSFER_TO": 250
+          },
+          "effective_count": 4.710650674213246,
+          "entropy_bits": 2.2359263506290326,
+          "normalized_entropy": 0.9629610647945144,
+          "simpson_diversity": 0.7755102040816326,
+          "total": 875,
+          "unique": 5
+        }
+      },
+      "n": 375,
+      "query_templates": {
+        "top_signature_share": 0.6666666666666666,
+        "top_signatures": [
+          {
+            "count": 250,
+            "preview": "match (<var>:person {personname: <str>})-[:own_account]->(<var>:account)-[:transfer_to]->(<var>:account) return distinct <var>.accountid as ",
+            "share": 0.6666666666666666,
+            "signature_id": "375606ce8c"
+          },
+          {
+            "count": 125,
+            "preview": "match (<var>:forum)-[:has_member]->(<var>:person), (forum)-[:container_of]->(<var>:post)-[:has_tag]->(<var>:tag {name: <str>}) return distin",
+            "share": 0.3333333333333333,
+            "signature_id": "a05eba77d4"
+          }
+        ],
+        "unique_signature_count": 2,
+        "unique_signature_ratio": 0.005333333333333333
+      },
+      "question_text": {
+        "distinct_1": 0.11178646934460888,
+        "distinct_2": 0.12466999119976532,
+        "distinct_3": 0.13941990771259063,
+        "self_bleu_2_sampled": 0.899537734204102,
+        "unique_question_ratio": 1.0
+      },
+      "schema_coverage": {
+        "labels": {
+          "available_count": 17,
+          "coverage": 0.29411764705882354,
+          "used": [
+            "Account",
+            "Forum",
+            "Person",
+            "Post",
+            "Tag"
+          ],
+          "used_count": 5
+        },
+        "properties": {
+          "available_count": 54,
+          "coverage": 0.14814814814814814,
+          "used": [
+            "_Eisenhower",
+            "_R",
+            "_Roosevelt",
+            "_Tolkien",
+            "accountId",
+            "accountType",
+            "id",
+            "isBlocked"
+          ],
+          "used_count": 8
+        },
+        "relationship_types": {
+          "available_count": 24,
+          "coverage": 0.20833333333333334,
+          "used": [
+            "CONTAINER_OF",
+            "HAS_MEMBER",
+            "HAS_TAG",
+            "OWN_ACCOUNT",
+            "TRANSFER_TO"
+          ],
+          "used_count": 5
+        }
+      },
+      "structural_features": {
+        "aggregation_rate": 0.0,
+        "limit_rate": 1.0,
+        "mean_node_patterns": 3.6666666666666665,
+        "mean_relationship_patterns": 2.3333333333333335,
+        "mean_return_arity": 2.3333333333333335,
+        "negation_rate": 0.0,
+        "optional_match_rate": 0.0,
+        "ordering_rate": 0.0,
+        "path_pattern_rate": 0.0
+      },
+      "value_grounding": {
+        "entity_values_exact_quoted_rate": 1.0,
+        "examples_with_entity_values_rate": 1.0,
+        "examples_with_quoted_literals_rate": 1.0,
+        "top_entity_value_share": 0.0026666666666666666,
+        "top_quoted_literal_share": 0.0026666666666666666,
+        "total_entity_mentions": 375,
+        "total_quoted_literal_mentions": 375,
+        "unique_entity_value_ratio": 1.0,
+        "unique_entity_values": 375,
+        "unique_quoted_literal_ratio": 1.0,
+        "unique_quoted_literals": 375
+      }
+    },
+    "negation_difference": {
+      "distributions": {
+        "category": {
+          "counts": {
+            "negation_difference": 375
+          },
+          "effective_count": 1.0,
+          "entropy_bits": -0.0,
+          "normalized_entropy": 1.0,
+          "simpson_diversity": 0.0,
+          "total": 375,
+          "unique": 1
+        },
+        "difficulty": {
+          "counts": {
+            "medium": 375
+          },
+          "effective_count": 1.0,
+          "entropy_bits": -0.0,
+          "normalized_entropy": 1.0,
+          "simpson_diversity": 0.0,
+          "total": 375,
+          "unique": 1
+        },
+        "graph_category": {
+          "counts": {
+            "finbench::negation_difference": 250,
+            "snb::negation_difference": 125
+          },
+          "effective_count": 1.88988157484231,
+          "entropy_bits": 0.9182958340544896,
+          "normalized_entropy": 0.9182958340544896,
+          "simpson_diversity": 0.4444444444444444,
+          "total": 375,
+          "unique": 2
+        },
+        "labels": {
+          "counts": {
+            "Account": 250,
+            "Company": 18,
+            "Forum": 104,
+            "Loan": 15,
+            "Person": 357,
+            "Post": 125,
+            "Tag": 31
+          },
+          "effective_count": 4.520606073692259,
+          "entropy_bits": 2.1765162064665624,
+          "normalized_entropy": 0.7752907156004774,
+          "simpson_diversity": 0.7309876543209877,
+          "total": 900,
+          "unique": 7
+        },
+        "primary_strategy": {
+          "counts": {
+            "negation": 375
+          },
+          "effective_count": 1.0,
+          "entropy_bits": -0.0,
+          "normalized_entropy": 1.0,
+          "simpson_diversity": 0.0,
+          "total": 375,
+          "unique": 1
+        },
+        "relationship_types": {
+          "counts": {
+            "APPLY_LOAN": 15,
+            "HAS_MEMBER": 104,
+            "HAS_TAG": 31,
+            "KNOWS": 21,
+            "LIKES": 125,
+            "OWN_ACCOUNT": 250,
+            "TRANSFER_TO": 235
+          },
+          "effective_count": 4.898641698232437,
+          "entropy_bits": 2.2923817723132904,
+          "normalized_entropy": 0.8165628628934197,
+          "simpson_diversity": 0.7609798003478911,
+          "total": 781,
+          "unique": 7
+        }
+      },
+      "n": 375,
+      "query_templates": {
+        "top_signature_share": 0.6026666666666667,
+        "top_signatures": [
+          {
+            "count": 226,
+            "preview": "match (<var>:person {personname: <str>})-[:own_account]->(<var>:account) where not (a)-[:transfer_to]->(:account) return distinct <var>.acco",
+            "share": 0.6026666666666667,
+            "signature_id": "f2374ff7d1"
+          },
+          {
+            "count": 72,
+            "preview": "match (<var>:forum {title: <str>})-[:has_member]->(<var>:person) where not (p)-[:likes]->(:post) return distinct <var>.id as personid, <var>",
+            "share": 0.192,
+            "signature_id": "e5dcc9015f"
+          },
+          {
+            "count": 31,
+            "preview": "match (<var>:forum)-[:has_tag]->(:tag {name: <str>}) match (forum)-[:has_member]->(<var>:person) where not (p)-[:likes]->(:post) return dist",
+            "share": 0.08266666666666667,
+            "signature_id": "17d405a5a4"
+          },
+          {
+            "count": 21,
+            "preview": "match (<var>:person {id: <num>})-[:knows]->(<var>:person) where not (p)-[:likes]->(:post) return distinct <var>.id as personid, <var>.firstn",
+            "share": 0.056,
+            "signature_id": "ad9c639ad8"
+          },
+          {
+            "count": 9,
+            "preview": "match (<var>:company {companyname: <str>})-[:own_account]->(<var>:account) where not (a)-[:transfer_to]->(:account) return distinct <var>.ac",
+            "share": 0.024,
+            "signature_id": "01c6039e26"
+          },
+          {
+            "count": 8,
+            "preview": "match (<var>:company)-[:own_account]->(<var>:account {accountid: <str>}) where not (c)-[:apply_loan]->(:loan) return distinct <var>.companyi",
+            "share": 0.021333333333333333,
+            "signature_id": "5f49e2d549"
+          },
+          {
+            "count": 5,
+            "preview": "match (<var>:person)-[:own_account]->(<var>:account {accountid: <str>}) where not (p)-[:apply_loan]->(:loan) return distinct <var>.personid ",
+            "share": 0.013333333333333334,
+            "signature_id": "63413a0ed1"
+          },
+          {
+            "count": 1,
+            "preview": "match (:forum)-[:has_member]->(<var>:person) where not (p)-[:likes]->(:post) return distinct <var>.id as personid, <var>.firstname as firstn",
+            "share": 0.0026666666666666666,
+            "signature_id": "69077fc3b2"
+          }
+        ],
+        "unique_signature_count": 10,
+        "unique_signature_ratio": 0.02666666666666667
+      },
+      "question_text": {
+        "distinct_1": 0.10754158122579176,
+        "distinct_2": 0.2147483806676632,
+        "distinct_3": 0.3388293487221764,
+        "self_bleu_2_sampled": 0.8594332869012358,
+        "unique_question_ratio": 1.0
+      },
+      "schema_coverage": {
+        "labels": {
+          "available_count": 17,
+          "coverage": 0.4117647058823529,
+          "used": [
+            "Account",
+            "Company",
+            "Forum",
+            "Loan",
+            "Person",
+            "Post",
+            "Tag"
+          ],
+          "used_count": 7
+        },
+        "properties": {
+          "available_count": 54,
+          "coverage": 0.24074074074074073,
+          "used": [
+            "_Bush",
+            "_Grant",
+            "accountId",
+            "accountType",
+            "business",
+            "companyId",
+            "companyName",
+            "firstName",
+            "id",
+            "isBlocked",
+            "lastName",
+            "personId",
+            "personName"
+          ],
+          "used_count": 13
+        },
+        "relationship_types": {
+          "available_count": 24,
+          "coverage": 0.2916666666666667,
+          "used": [
+            "APPLY_LOAN",
+            "HAS_MEMBER",
+            "HAS_TAG",
+            "KNOWS",
+            "LIKES",
+            "OWN_ACCOUNT",
+            "TRANSFER_TO"
+          ],
+          "used_count": 7
+        }
+      },
+      "structural_features": {
+        "aggregation_rate": 0.0,
+        "limit_rate": 1.0,
+        "mean_node_patterns": 4.165333333333334,
+        "mean_relationship_patterns": 2.082666666666667,
+        "mean_return_arity": 2.997333333333333,
+        "negation_rate": 1.0,
+        "optional_match_rate": 0.0,
+        "ordering_rate": 0.0,
+        "path_pattern_rate": 0.0
+      },
+      "value_grounding": {
+        "entity_values_exact_quoted_rate": 0.9435483870967742,
+        "examples_with_entity_values_rate": 0.992,
+        "examples_with_quoted_literals_rate": 0.936,
+        "top_entity_value_share": 0.002688172043010753,
+        "top_quoted_literal_share": 0.002849002849002849,
+        "total_entity_mentions": 372,
+        "total_quoted_literal_mentions": 351,
+        "unique_entity_value_ratio": 1.0,
+        "unique_entity_values": 372,
+        "unique_quoted_literal_ratio": 1.0,
+        "unique_quoted_literals": 351
+      }
+    },
+    "path_temporal": {
+      "distributions": {
+        "category": {
+          "counts": {
+            "path_temporal": 375
+          },
+          "effective_count": 1.0,
+          "entropy_bits": -0.0,
+          "normalized_entropy": 1.0,
+          "simpson_diversity": 0.0,
+          "total": 375,
+          "unique": 1
+        },
+        "difficulty": {
+          "counts": {
+            "easy": 238,
+            "medium": 137
+          },
+          "effective_count": 1.9278881997864472,
+          "entropy_bits": 0.9470213906288893,
+          "normalized_entropy": 0.9470213906288893,
+          "simpson_diversity": 0.4637297777777778,
+          "total": 375,
+          "unique": 2
+        },
+        "graph_category": {
+          "counts": {
+            "finbench::path_temporal": 250,
+            "snb::path_temporal": 125
+          },
+          "effective_count": 1.88988157484231,
+          "entropy_bits": 0.9182958340544896,
+          "normalized_entropy": 0.9182958340544896,
+          "simpson_diversity": 0.4444444444444444,
+          "total": 375,
+          "unique": 2
+        },
+        "labels": {
+          "counts": {
+            "Account": 250,
+            "Person": 262
+          },
+          "effective_count": 1.9994507087353148,
+          "entropy_bits": 0.9996037156868482,
+          "normalized_entropy": 0.9996037156868482,
+          "simpson_diversity": 0.499725341796875,
+          "total": 512,
+          "unique": 2
+        },
+        "primary_strategy": {
+          "counts": {
+            "path": 375
+          },
+          "effective_count": 1.0,
+          "entropy_bits": -0.0,
+          "normalized_entropy": 1.0,
+          "simpson_diversity": 0.0,
+          "total": 375,
+          "unique": 1
+        },
+        "relationship_types": {
+          "counts": {
+            "KNOWS": 125,
+            "OWN_ACCOUNT": 137,
+            "TRANSFER_TO": 250
+          },
+          "effective_count": 2.8491821310919447,
+          "entropy_bits": 1.5105478474338383,
+          "normalized_entropy": 0.9530495811393271,
+          "simpson_diversity": 0.6303787231445312,
+          "total": 512,
+          "unique": 3
+        }
+      },
+      "n": 375,
+      "query_templates": {
+        "top_signature_share": 0.36533333333333334,
+        "top_signatures": [
+          {
+            "count": 137,
+            "preview": "match (<var>:person {personname: <str>})-[:own_account]->(<var>:account)-[:transfer_to*<num>..<num>]->(<var>:account) return distinct <var>.",
+            "share": 0.36533333333333334,
+            "signature_id": "f384aa977a"
+          },
+          {
+            "count": 125,
+            "preview": "match (<var>:person {id: <num>})-[:knows*<num>..<num>]->(<var>:person) return distinct <var>.id as personid, <var>.firstname as firstname, <",
+            "share": 0.3333333333333333,
+            "signature_id": "426f021258"
+          },
+          {
+            "count": 113,
+            "preview": "match (<var>:account {accountid: <str>})-[:transfer_to*<num>..<num>]->(<var>:account) return distinct <var>.accountid as accountid, <var>.ac",
+            "share": 0.30133333333333334,
+            "signature_id": "6923b75ff0"
+          }
+        ],
+        "unique_signature_count": 3,
+        "unique_signature_ratio": 0.008
+      },
+      "question_text": {
+        "distinct_1": 0.08624361158432708,
+        "distinct_2": 0.09488544318444804,
+        "distinct_3": 0.10415610745058287,
+        "self_bleu_2_sampled": 0.9160458115873361,
+        "unique_question_ratio": 1.0
+      },
+      "schema_coverage": {
+        "labels": {
+          "available_count": 17,
+          "coverage": 0.11764705882352941,
+          "used": [
+            "Account",
+            "Person"
+          ],
+          "used_count": 2
+        },
+        "properties": {
+          "available_count": 54,
+          "coverage": 0.1111111111111111,
+          "used": [
+            "accountId",
+            "accountType",
+            "firstName",
+            "id",
+            "isBlocked",
+            "lastName"
+          ],
+          "used_count": 6
+        },
+        "relationship_types": {
+          "available_count": 24,
+          "coverage": 0.125,
+          "used": [
+            "KNOWS",
+            "OWN_ACCOUNT",
+            "TRANSFER_TO"
+          ],
+          "used_count": 3
+        }
+      },
+      "structural_features": {
+        "aggregation_rate": 0.0,
+        "limit_rate": 1.0,
+        "mean_node_patterns": 2.3653333333333335,
+        "mean_relationship_patterns": 1.3653333333333333,
+        "mean_return_arity": 3.0,
+        "negation_rate": 0.0,
+        "optional_match_rate": 0.0,
+        "ordering_rate": 0.0,
+        "path_pattern_rate": 1.0
+      },
+      "value_grounding": {
+        "entity_values_exact_quoted_rate": 0.6666666666666666,
+        "examples_with_entity_values_rate": 1.0,
+        "examples_with_quoted_literals_rate": 0.6666666666666666,
+        "top_entity_value_share": 0.0026666666666666666,
+        "top_quoted_literal_share": 0.004,
+        "total_entity_mentions": 375,
+        "total_quoted_literal_mentions": 250,
+        "unique_entity_value_ratio": 1.0,
+        "unique_entity_values": 375,
+        "unique_quoted_literal_ratio": 1.0,
+        "unique_quoted_literals": 250
+      }
+    },
+    "ranking_topk": {
+      "distributions": {
+        "category": {
+          "counts": {
+            "ranking_topk": 375
+          },
+          "effective_count": 1.0,
+          "entropy_bits": -0.0,
+          "normalized_entropy": 1.0,
+          "simpson_diversity": 0.0,
+          "total": 375,
+          "unique": 1
+        },
+        "difficulty": {
+          "counts": {
+            "medium": 375
+          },
+          "effective_count": 1.0,
+          "entropy_bits": -0.0,
+          "normalized_entropy": 1.0,
+          "simpson_diversity": 0.0,
+          "total": 375,
+          "unique": 1
+        },
+        "graph_category": {
+          "counts": {
+            "finbench::ranking_topk": 250,
+            "snb::ranking_topk": 125
+          },
+          "effective_count": 1.88988157484231,
+          "entropy_bits": 0.9182958340544896,
+          "normalized_entropy": 0.9182958340544896,
+          "simpson_diversity": 0.4444444444444444,
+          "total": 375,
+          "unique": 2
+        },
+        "labels": {
+          "counts": {
+            "Account": 250,
+            "Forum": 124,
+            "Person": 373,
+            "Post": 1,
+            "Tag": 123
+          },
+          "effective_count": 3.6080157595939366,
+          "entropy_bits": 1.8512056402114656,
+          "normalized_entropy": 0.797270873412326,
+          "simpson_diversity": 0.6940120557681433,
+          "total": 871,
+          "unique": 5
+        },
+        "primary_strategy": {
+          "counts": {
+            "order_rank": 375
+          },
+          "effective_count": 1.0,
+          "entropy_bits": -0.0,
+          "normalized_entropy": 1.0,
+          "simpson_diversity": 0.0,
+          "total": 375,
+          "unique": 1
+        },
+        "relationship_types": {
+          "counts": {
+            "HAS_MEMBER": 124,
+            "HAS_TAG": 123,
+            "LIKES": 1,
+            "OWN_ACCOUNT": 248,
+            "TRANSFER_TO": 249,
+            "WITHDRAW_TO": 1
+          },
+          "effective_count": 3.8403769261013956,
+          "entropy_bits": 1.9412479158241436,
+          "normalized_entropy": 0.750977205774773,
+          "simpson_diversity": 0.7232568335860964,
+          "total": 746,
+          "unique": 6
+        }
+      },
+      "n": 375,
+      "query_templates": {
+        "top_signature_share": 0.6613333333333333,
+        "top_signatures": [
+          {
+            "count": 248,
+            "preview": "match (<var>:person {personname: <str>})-[:own_account]->(<var>:account)-[t:transfer_to]->(:account) with src, sum(<var>.amount) as totalamo",
+            "share": 0.6613333333333333,
+            "signature_id": "4a1918b4a5"
+          },
+          {
+            "count": 123,
+            "preview": "match (<var>:forum)-[:has_tag]->(<var>:tag {name: <str>}) match (forum)-[:has_member]->(<var>:person) with forum, count(distinct person) as ",
+            "share": 0.328,
+            "signature_id": "8d924e4f6b"
+          },
+          {
+            "count": 1,
+            "preview": "match (<var>:account)-[t:transfer_to]->(:account) with src, sum(<var>.amount) as totalamount return distinct <var>.accountid as accountid, <",
+            "share": 0.0026666666666666666,
+            "signature_id": "795955ca59"
+          },
+          {
+            "count": 1,
+            "preview": "match (:account)-[w:withdraw_to]->(<var>:account) with dst, sum(<var>.amount) as totalwithdrawn return distinct <var>.accountid as accountid",
+            "share": 0.0026666666666666666,
+            "signature_id": "cefbdbb518"
+          },
+          {
+            "count": 1,
+            "preview": "match (<var>:forum)-[:has_member]->(<var>:person) with forum, count(distinct person) as membercount return distinct <var>.title as forumtitl",
+            "share": 0.0026666666666666666,
+            "signature_id": "bd190a7314"
+          },
+          {
+            "count": 1,
+            "preview": "match (<var>:person)-[:likes]->(<var>:post) with person, count(distinct post) as likedpostcount return distinct <var>.id as personid, <var>.",
+            "share": 0.0026666666666666666,
+            "signature_id": "95e376bbb1"
+          }
+        ],
+        "unique_signature_count": 6,
+        "unique_signature_ratio": 0.016
+      },
+      "question_text": {
+        "distinct_1": 0.08830950378469302,
+        "distinct_2": 0.18100890207715134,
+        "distinct_3": 0.29006490264603096,
+        "self_bleu_2_sampled": 0.8646074718241468,
+        "unique_question_ratio": 1.0
+      },
+      "schema_coverage": {
+        "labels": {
+          "available_count": 17,
+          "coverage": 0.29411764705882354,
+          "used": [
+            "Account",
+            "Forum",
+            "Person",
+            "Post",
+            "Tag"
+          ],
+          "used_count": 5
+        },
+        "properties": {
+          "available_count": 54,
+          "coverage": 0.2037037037037037,
+          "used": [
+            "_Heinlein",
+            "_Kennedy",
+            "_Polk",
+            "accountId",
+            "accountType",
+            "amount",
+            "firstName",
+            "id",
+            "isBlocked",
+            "lastName",
+            "title"
+          ],
+          "used_count": 11
+        },
+        "relationship_types": {
+          "available_count": 24,
+          "coverage": 0.25,
+          "used": [
+            "HAS_MEMBER",
+            "HAS_TAG",
+            "LIKES",
+            "OWN_ACCOUNT",
+            "TRANSFER_TO",
+            "WITHDRAW_TO"
+          ],
+          "used_count": 6
+        }
+      },
+      "structural_features": {
+        "aggregation_rate": 1.0,
+        "limit_rate": 1.0,
+        "mean_node_patterns": 3.3173333333333335,
+        "mean_relationship_patterns": 1.9893333333333334,
+        "mean_return_arity": 3.3386666666666667,
+        "negation_rate": 0.0,
+        "optional_match_rate": 0.0,
+        "ordering_rate": 1.0,
+        "path_pattern_rate": 0.0
+      },
+      "value_grounding": {
+        "entity_values_exact_quoted_rate": 1.0,
+        "examples_with_entity_values_rate": 0.9893333333333333,
+        "examples_with_quoted_literals_rate": 0.9893333333333333,
+        "top_entity_value_share": 0.0026954177897574125,
+        "top_quoted_literal_share": 0.0026954177897574125,
+        "total_entity_mentions": 371,
+        "total_quoted_literal_mentions": 371,
+        "unique_entity_value_ratio": 1.0,
+        "unique_entity_values": 371,
+        "unique_quoted_literal_ratio": 1.0,
+        "unique_quoted_literals": 371
+      }
+    },
+    "simple_aggregation": {
+      "distributions": {
+        "category": {
+          "counts": {
+            "simple_aggregation": 375
+          },
+          "effective_count": 1.0,
+          "entropy_bits": -0.0,
+          "normalized_entropy": 1.0,
+          "simpson_diversity": 0.0,
+          "total": 375,
+          "unique": 1
+        },
+        "difficulty": {
+          "counts": {
+            "easy": 375
+          },
+          "effective_count": 1.0,
+          "entropy_bits": -0.0,
+          "normalized_entropy": 1.0,
+          "simpson_diversity": 0.0,
+          "total": 375,
+          "unique": 1
+        },
+        "graph_category": {
+          "counts": {
+            "finbench::simple_aggregation": 250,
+            "snb::simple_aggregation": 125
+          },
+          "effective_count": 1.88988157484231,
+          "entropy_bits": 0.9182958340544896,
+          "normalized_entropy": 0.9182958340544896,
+          "simpson_diversity": 0.4444444444444444,
+          "total": 375,
+          "unique": 2
+        },
+        "labels": {
+          "counts": {
+            "Account": 250,
+            "Person": 250,
+            "Post": 125,
+            "Tag": 125
+          },
+          "effective_count": 3.77976314968462,
+          "entropy_bits": 1.9182958340544896,
+          "normalized_entropy": 0.9591479170272448,
+          "simpson_diversity": 0.7222222222222222,
+          "total": 750,
+          "unique": 4
+        },
+        "primary_strategy": {
+          "counts": {
+            "aggregation": 375
+          },
+          "effective_count": 1.0,
+          "entropy_bits": -0.0,
+          "normalized_entropy": 1.0,
+          "simpson_diversity": 0.0,
+          "total": 375,
+          "unique": 1
+        },
+        "relationship_types": {
+          "counts": {
+            "HAS_TAG": 125,
+            "OWN_ACCOUNT": 250
+          },
+          "effective_count": 1.88988157484231,
+          "entropy_bits": 0.9182958340544896,
+          "normalized_entropy": 0.9182958340544896,
+          "simpson_diversity": 0.4444444444444444,
+          "total": 375,
+          "unique": 2
+        }
+      },
+      "n": 375,
+      "query_templates": {
+        "top_signature_share": 0.6666666666666666,
+        "top_signatures": [
+          {
+            "count": 250,
+            "preview": "match (<var>:person {personname: <str>})-[:own_account]->(<var>:account) return distinct count(distinct a) as accountcount",
+            "share": 0.6666666666666666,
+            "signature_id": "15552613ff"
+          },
+          {
+            "count": 125,
+            "preview": "match (<var>:post)-[:has_tag]->(<var>:tag {name: <str>}) return distinct count(distinct post) as postcount",
+            "share": 0.3333333333333333,
+            "signature_id": "89ae98026b"
+          }
+        ],
+        "unique_signature_count": 2,
+        "unique_signature_ratio": 0.005333333333333333
+      },
+      "question_text": {
+        "distinct_1": 0.1497844827586207,
+        "distinct_2": 0.1735159817351598,
+        "distinct_3": 0.20501474926253688,
+        "self_bleu_2_sampled": 0.8760432023640705,
+        "unique_question_ratio": 1.0
+      },
+      "schema_coverage": {
+        "labels": {
+          "available_count": 17,
+          "coverage": 0.23529411764705882,
+          "used": [
+            "Account",
+            "Person",
+            "Post",
+            "Tag"
+          ],
+          "used_count": 4
+        },
+        "properties": {
+          "available_count": 54,
+          "coverage": 0.07407407407407407,
+          "used": [
+            "_Eisenhower",
+            "_R",
+            "_Roosevelt",
+            "_Tolkien"
+          ],
+          "used_count": 4
+        },
+        "relationship_types": {
+          "available_count": 24,
+          "coverage": 0.08333333333333333,
+          "used": [
+            "HAS_TAG",
+            "OWN_ACCOUNT"
+          ],
+          "used_count": 2
+        }
+      },
+      "structural_features": {
+        "aggregation_rate": 1.0,
+        "limit_rate": 0.0,
+        "mean_node_patterns": 2.0,
+        "mean_relationship_patterns": 1.0,
+        "mean_return_arity": 1.0,
+        "negation_rate": 0.0,
+        "optional_match_rate": 0.0,
+        "ordering_rate": 0.0,
+        "path_pattern_rate": 0.0
+      },
+      "value_grounding": {
+        "entity_values_exact_quoted_rate": 1.0,
+        "examples_with_entity_values_rate": 1.0,
+        "examples_with_quoted_literals_rate": 1.0,
+        "top_entity_value_share": 0.0026666666666666666,
+        "top_quoted_literal_share": 0.0026666666666666666,
+        "total_entity_mentions": 375,
+        "total_quoted_literal_mentions": 375,
+        "unique_entity_value_ratio": 1.0,
+        "unique_entity_values": 375,
+        "unique_quoted_literal_ratio": 1.0,
+        "unique_quoted_literals": 375
+      }
+    },
+    "simple_retrieval": {
+      "distributions": {
+        "category": {
+          "counts": {
+            "simple_retrieval": 375
+          },
+          "effective_count": 1.0,
+          "entropy_bits": -0.0,
+          "normalized_entropy": 1.0,
+          "simpson_diversity": 0.0,
+          "total": 375,
+          "unique": 1
+        },
+        "difficulty": {
+          "counts": {
+            "easy": 375
+          },
+          "effective_count": 1.0,
+          "entropy_bits": -0.0,
+          "normalized_entropy": 1.0,
+          "simpson_diversity": 0.0,
+          "total": 375,
+          "unique": 1
+        },
+        "graph_category": {
+          "counts": {
+            "finbench::simple_retrieval": 250,
+            "snb::simple_retrieval": 125
+          },
+          "effective_count": 1.88988157484231,
+          "entropy_bits": 0.9182958340544896,
+          "normalized_entropy": 0.9182958340544896,
+          "simpson_diversity": 0.4444444444444444,
+          "total": 375,
+          "unique": 2
+        },
+        "labels": {
+          "counts": {
+            "Account": 250,
+            "Person": 375,
+            "Post": 125
+          },
+          "effective_count": 2.7494592739972052,
+          "entropy_bits": 1.4591479170272448,
+          "normalized_entropy": 0.9206198357143051,
+          "simpson_diversity": 0.6111111111111112,
+          "total": 750,
+          "unique": 3
+        },
+        "primary_strategy": {
+          "counts": {
+            "single_hop": 375
+          },
+          "effective_count": 1.0,
+          "entropy_bits": -0.0,
+          "normalized_entropy": 1.0,
+          "simpson_diversity": 0.0,
+          "total": 375,
+          "unique": 1
+        },
+        "relationship_types": {
+          "counts": {
+            "LIKES": 125,
+            "OWN_ACCOUNT": 250
+          },
+          "effective_count": 1.88988157484231,
+          "entropy_bits": 0.9182958340544896,
+          "normalized_entropy": 0.9182958340544896,
+          "simpson_diversity": 0.4444444444444444,
+          "total": 375,
+          "unique": 2
+        }
+      },
+      "n": 375,
+      "query_templates": {
+        "top_signature_share": 0.6666666666666666,
+        "top_signatures": [
+          {
+            "count": 250,
+            "preview": "match (<var>:person {personname: <str>})-[:own_account]->(<var>:account) return distinct <var>.accountid as accountid, <var>.accounttype as ",
+            "share": 0.6666666666666666,
+            "signature_id": "06f23c9775"
+          },
+          {
+            "count": 125,
+            "preview": "match (<var>:person {id: <num>})-[:likes]->(<var>:post) return distinct <var>.id as postid limit <num>",
+            "share": 0.3333333333333333,
+            "signature_id": "2aaa8aeda3"
+          }
+        ],
+        "unique_signature_count": 2,
+        "unique_signature_ratio": 0.005333333333333333
+      },
+      "question_text": {
+        "distinct_1": 0.1396957123098202,
+        "distinct_2": 0.2097735399284863,
+        "distinct_3": 0.24556489262371614,
+        "self_bleu_2_sampled": 0.859594624799103,
+        "unique_question_ratio": 1.0
+      },
+      "schema_coverage": {
+        "labels": {
+          "available_count": 17,
+          "coverage": 0.17647058823529413,
+          "used": [
+            "Account",
+            "Person",
+            "Post"
+          ],
+          "used_count": 3
+        },
+        "properties": {
+          "available_count": 54,
+          "coverage": 0.07407407407407407,
+          "used": [
+            "accountId",
+            "accountType",
+            "id",
+            "isBlocked"
+          ],
+          "used_count": 4
+        },
+        "relationship_types": {
+          "available_count": 24,
+          "coverage": 0.08333333333333333,
+          "used": [
+            "LIKES",
+            "OWN_ACCOUNT"
+          ],
+          "used_count": 2
+        }
+      },
+      "structural_features": {
+        "aggregation_rate": 0.0,
+        "limit_rate": 1.0,
+        "mean_node_patterns": 2.0,
+        "mean_relationship_patterns": 1.0,
+        "mean_return_arity": 2.3333333333333335,
+        "negation_rate": 0.0,
+        "optional_match_rate": 0.0,
+        "ordering_rate": 0.0,
+        "path_pattern_rate": 0.0
+      },
+      "value_grounding": {
+        "entity_values_exact_quoted_rate": 0.6666666666666666,
+        "examples_with_entity_values_rate": 1.0,
+        "examples_with_quoted_literals_rate": 0.6666666666666666,
+        "top_entity_value_share": 0.0026666666666666666,
+        "top_quoted_literal_share": 0.004,
+        "total_entity_mentions": 375,
+        "total_quoted_literal_mentions": 250,
+        "unique_entity_value_ratio": 1.0,
+        "unique_entity_values": 375,
+        "unique_quoted_literal_ratio": 1.0,
+        "unique_quoted_literals": 250
+      }
+    }
+  },
   "by_graph": {
     "finbench": {
       "distributions": {
@@ -98,6 +1494,56 @@
       "n": 2000,
       "query_templates": {
         "top_signature_share": 0.125,
+        "top_signatures": [
+          {
+            "count": 250,
+            "preview": "match (<var>:person {personname: <str>})-[:own_account]->(<var>:account)-[t:transfer_to]->(:account) return distinct sum(<var>.amount) as to",
+            "share": 0.125,
+            "signature_id": "f15b226863"
+          },
+          {
+            "count": 250,
+            "preview": "match (<var>:person {personname: <str>})-[:own_account]->(<var>:account) return distinct <var>.accountid as accountid, <var>.accounttype as ",
+            "share": 0.125,
+            "signature_id": "06f23c9775"
+          },
+          {
+            "count": 250,
+            "preview": "match (<var>:person {personname: <str>})-[:own_account]->(<var>:account) return distinct count(distinct a) as accountcount",
+            "share": 0.125,
+            "signature_id": "15552613ff"
+          },
+          {
+            "count": 250,
+            "preview": "match (<var>:person {personname: <str>})-[:own_account]->(<var>:account)-[:transfer_to]->(<var>:account) return distinct <var>.accountid as ",
+            "share": 0.125,
+            "signature_id": "375606ce8c"
+          },
+          {
+            "count": 248,
+            "preview": "match (<var>:person {personname: <str>})-[:own_account]->(<var>:account)-[t:transfer_to]->(:account) with src, sum(<var>.amount) as totalamo",
+            "share": 0.124,
+            "signature_id": "4a1918b4a5"
+          },
+          {
+            "count": 226,
+            "preview": "match (<var>:person {personname: <str>})-[:own_account]->(<var>:account) where not (a)-[:transfer_to]->(:account) return distinct <var>.acco",
+            "share": 0.113,
+            "signature_id": "f2374ff7d1"
+          },
+          {
+            "count": 158,
+            "preview": "match (<var>:account {accountid: <str>})-[:transfer_to]->(:account) return distinct count(distinct src) > <num> as hasoutgoingtransfer",
+            "share": 0.079,
+            "signature_id": "aa411b54b1"
+          },
+          {
+            "count": 137,
+            "preview": "match (<var>:person {personname: <str>})-[:own_account]->(<var>:account)-[:transfer_to*<num>..<num>]->(<var>:account) return distinct <var>.",
+            "share": 0.0685,
+            "signature_id": "f384aa977a"
+          }
+        ],
         "unique_signature_count": 17,
         "unique_signature_ratio": 0.0085
       },
@@ -272,6 +1718,56 @@
       "n": 1000,
       "query_templates": {
         "top_signature_share": 0.125,
+        "top_signatures": [
+          {
+            "count": 125,
+            "preview": "match (<var>:person {id: <num>})-[:knows*<num>..<num>]->(<var>:person) return distinct <var>.id as personid, <var>.firstname as firstname, <",
+            "share": 0.125,
+            "signature_id": "426f021258"
+          },
+          {
+            "count": 125,
+            "preview": "match (<var>:forum)-[:has_member]->(<var>:person {id: <num>}) match (forum)-[:container_of]->(<var>:post) return distinct count(distinct pos",
+            "share": 0.125,
+            "signature_id": "0a61445b9c"
+          },
+          {
+            "count": 125,
+            "preview": "match (<var>:post)-[:has_tag]->(<var>:tag {name: <str>}) return distinct count(distinct post) as postcount",
+            "share": 0.125,
+            "signature_id": "89ae98026b"
+          },
+          {
+            "count": 125,
+            "preview": "match (<var>:forum)-[:has_member]->(<var>:person), (forum)-[:container_of]->(<var>:post)-[:has_tag]->(<var>:tag {name: <str>}) return distin",
+            "share": 0.125,
+            "signature_id": "a05eba77d4"
+          },
+          {
+            "count": 125,
+            "preview": "match (<var>:person {id: <num>}) optional match (p)-[:likes]->(<var>:post) return distinct count(post) > <num> as likesanypost",
+            "share": 0.125,
+            "signature_id": "5e8a991890"
+          },
+          {
+            "count": 125,
+            "preview": "match (<var>:person {id: <num>})-[:likes]->(<var>:post) return distinct <var>.id as postid limit <num>",
+            "share": 0.125,
+            "signature_id": "2aaa8aeda3"
+          },
+          {
+            "count": 123,
+            "preview": "match (<var>:forum)-[:has_tag]->(<var>:tag {name: <str>}) match (forum)-[:has_member]->(<var>:person) with forum, count(distinct person) as ",
+            "share": 0.123,
+            "signature_id": "8d924e4f6b"
+          },
+          {
+            "count": 72,
+            "preview": "match (<var>:forum {title: <str>})-[:has_member]->(<var>:person) where not (p)-[:likes]->(:post) return distinct <var>.id as personid, <var>",
+            "share": 0.072,
+            "signature_id": "e5dcc9015f"
+          }
+        ],
         "unique_signature_count": 13,
         "unique_signature_ratio": 0.013
       },
@@ -466,6 +1962,56 @@
   "n": 3000,
   "query_templates": {
     "top_signature_share": 0.08333333333333333,
+    "top_signatures": [
+      {
+        "count": 250,
+        "preview": "match (<var>:person {personname: <str>})-[:own_account]->(<var>:account)-[t:transfer_to]->(:account) return distinct sum(<var>.amount) as to",
+        "share": 0.08333333333333333,
+        "signature_id": "f15b226863"
+      },
+      {
+        "count": 250,
+        "preview": "match (<var>:person {personname: <str>})-[:own_account]->(<var>:account) return distinct <var>.accountid as accountid, <var>.accounttype as ",
+        "share": 0.08333333333333333,
+        "signature_id": "06f23c9775"
+      },
+      {
+        "count": 250,
+        "preview": "match (<var>:person {personname: <str>})-[:own_account]->(<var>:account) return distinct count(distinct a) as accountcount",
+        "share": 0.08333333333333333,
+        "signature_id": "15552613ff"
+      },
+      {
+        "count": 250,
+        "preview": "match (<var>:person {personname: <str>})-[:own_account]->(<var>:account)-[:transfer_to]->(<var>:account) return distinct <var>.accountid as ",
+        "share": 0.08333333333333333,
+        "signature_id": "375606ce8c"
+      },
+      {
+        "count": 248,
+        "preview": "match (<var>:person {personname: <str>})-[:own_account]->(<var>:account)-[t:transfer_to]->(:account) with src, sum(<var>.amount) as totalamo",
+        "share": 0.08266666666666667,
+        "signature_id": "4a1918b4a5"
+      },
+      {
+        "count": 226,
+        "preview": "match (<var>:person {personname: <str>})-[:own_account]->(<var>:account) where not (a)-[:transfer_to]->(:account) return distinct <var>.acco",
+        "share": 0.07533333333333334,
+        "signature_id": "f2374ff7d1"
+      },
+      {
+        "count": 158,
+        "preview": "match (<var>:account {accountid: <str>})-[:transfer_to]->(:account) return distinct count(distinct src) > <num> as hasoutgoingtransfer",
+        "share": 0.05266666666666667,
+        "signature_id": "aa411b54b1"
+      },
+      {
+        "count": 137,
+        "preview": "match (<var>:person {personname: <str>})-[:own_account]->(<var>:account)-[:transfer_to*<num>..<num>]->(<var>:account) return distinct <var>.",
+        "share": 0.04566666666666667,
+        "signature_id": "f384aa977a"
+      }
+    ],
     "unique_signature_count": 30,
     "unique_signature_ratio": 0.01
   },

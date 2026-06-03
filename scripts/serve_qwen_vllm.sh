@@ -9,7 +9,7 @@ CONDA_ENV="${CONDA_ENV:-}"
 CONDA_ROOT="${CONDA_ROOT:-$HOME/miniforge3}"
 GPU_MEMORY_UTILIZATION="${GPU_MEMORY_UTILIZATION:-0.88}"
 MAX_MODEL_LEN="${MAX_MODEL_LEN:-8192}"
-EXTRA_VLLM_ARGS="${EXTRA_VLLM_ARGS:-}"
+EXTRA_VLLM_ARGS="${EXTRA_VLLM_ARGS:---no-enable-flashinfer-autotune}"
 
 if [[ -n "${CONDA_ENV}" ]]; then
   if [[ -f "${CONDA_ROOT}/etc/profile.d/conda.sh" ]]; then

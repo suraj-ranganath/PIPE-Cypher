@@ -24,6 +24,21 @@ FORBIDDEN_PAPER_EVIDENCE_PATTERNS = {
     "deprecated target-25 table": re.compile(r"\btables_ablation25_results\b", re.IGNORECASE),
     "mini benchmark artifact": re.compile(r"\blive_all_category_mini\b", re.IGNORECASE),
     "midscale benchmark artifact": re.compile(r"\blive_midscale\b", re.IGNORECASE),
+    "remote host leakage": re.compile(r"\bds-serv6\b", re.IGNORECASE),
+    "stale prompt-plan wording": re.compile(
+        r"Prompt-profile plan|should be promoted", re.IGNORECASE
+    ),
+    "ambiguous Mind the Query model endpoint": re.compile(
+        r"Model endpoint\s*&\s*Gemini for generation", re.IGNORECASE
+    ),
+    "incorrect downstream Qwen scope": re.compile(
+        r"All reported generation,\s*judging,\s*and downstream evaluation runs use",
+        re.IGNORECASE,
+    ),
+    "unconstrained baseline without attempts": re.compile(
+        r"Unconstrained LLM\s*&\s*(?:FinBench|SNB)\s*&\s*0\s*&\s*0\s*&\s*0\.000",
+        re.IGNORECASE,
+    ),
 }
 
 

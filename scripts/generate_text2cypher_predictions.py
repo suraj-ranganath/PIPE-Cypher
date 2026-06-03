@@ -43,6 +43,19 @@ def main() -> None:
     )
     parser.add_argument("--few-shot", default="", help="Optional JSONL examples, usually train.jsonl")
     parser.add_argument("--few-shot-k", type=int, default=0)
+    parser.add_argument(
+        "--few-shot-mode",
+        choices=["ordered_same_category", "random_same_category", "scored_no_signature"],
+        default="ordered_same_category",
+    )
+    parser.add_argument("--few-shot-seed", type=int, default=13)
+    parser.add_argument("--few-shot-max-question-sim", type=float, default=0.90)
+    parser.add_argument("--few-shot-exclude-signature-match", action="store_true")
+    parser.add_argument(
+        "--few-shot-log",
+        default="",
+        help="Optional JSONL file recording selected few-shot example IDs and overlap diagnostics.",
+    )
     parser.add_argument("--limit", type=int, default=0)
     args = parser.parse_args()
 
@@ -67,11 +80,23 @@ def main() -> None:
     out = Path(args.output)
     if out.exists():
         out.unlink()
+    few_shot_log = Path(args.few_shot_log) if args.few_shot_log else None
+    if few_shot_log:
+        few_shot_log.parent.mkdir(parents=True, exist_ok=True)
+        few_shot_log.write_text("", encoding="utf-8")
     for index, row in enumerate(rows, start=1):
         graph = str(row.get("graph_profile"))
         if graph not in schemas:
             raise SystemExit(f"Missing --schema mapping for graph_profile={graph}")
-        few_shots = choose_few_shots(few_shot_rows, current=row, k=args.few_shot_k)
+        few_shots = choose_few_shots(
+            few_shot_rows,
+            current=row,
+            k=args.few_shot_k,
+            mode=args.few_shot_mode,
+            seed=args.few_shot_seed,
+            max_question_similarity=args.few_shot_max_question_sim,
+            exclude_signature_match=args.few_shot_exclude_signature_match,
+        )
         prediction = predict_text2cypher(
             llm=llm,
             example=row,
@@ -81,7 +106,10 @@ def main() -> None:
             temperature=args.temperature,
             max_tokens=args.max_tokens,
         )
-        append_jsonl(out, prediction_to_dict(prediction))
+        prediction_row = prediction_to_dict(prediction)
+        append_jsonl(out, prediction_row)
+        if few_shot_log and prediction_row.get("few_shot_selection"):
+            append_jsonl(few_shot_log, prediction_row["few_shot_selection"])
         status = "error" if prediction.error else "ok"
         print(f"{index}/{len(rows)} {row.get('id')} {graph} {status}", flush=True)
 

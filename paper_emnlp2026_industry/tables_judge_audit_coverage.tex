@@ -11,13 +11,15 @@ Judge accept / reject & 40 / 40 \\
 FinBench / SNB rows & 48 / 32 \\
 Easy / medium rows & 26 / 54 \\
 Labeled rows & 80 \\
-Agreement / Cohen's $\kappa$ & 0.800 / 0.600 \\
-Judge precision / recall & 1.000 / 0.714 \\
-Judge specificity & 1.000 \\
-False accepts / false rejects & 0 / 16 \\
+Calibration status & complete \\
+Agreement / $\kappa$ & 0.800 / 0.600 \\
+Judge precision (95\% CI) & 1.000 (0.912--1.000) \\
+Judge recall (95\% CI) & 0.714 (0.585--0.816) \\
+False-accept rate (95\% CI) & 0.000 (0.000--0.138) \\
+False-reject rate (95\% CI) & 0.286 (0.184--0.415) \\
 \bottomrule
 \end{tabular}
 }
-\caption{Post-hoc judge calibration from the completed 80-row human audit. Labels are used only to calibrate the automated judge, not as a generation gate.}
+\caption{Post-hoc judge calibration packet coverage and agreement. Human labels calibrate the automated gate after generation and are not used as a generation gate.}
 \label{tab:judge_audit_coverage}
 \end{table}

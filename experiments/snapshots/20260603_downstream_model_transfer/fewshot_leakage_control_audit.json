@@ -1,0 +1,56 @@
+{
+  "high_similarity_threshold": 0.9,
+  "modes": [
+    {
+      "high_similarity_rate": 0.39256756756756755,
+      "max_similarity": 0.9411764705882353,
+      "mean_similarity": 0.8459763498655924,
+      "mode": "ordered",
+      "selection_rows": 296,
+      "signature_match_rate": 0.8878378378378379,
+      "total_selected": 1480
+    },
+    {
+      "high_similarity_rate": 0.0,
+      "max_similarity": 0.8432740427115678,
+      "mean_similarity": 0.5928696278124381,
+      "mode": "scored no-sig",
+      "selection_rows": 296,
+      "signature_match_rate": 0.0,
+      "total_selected": 1480
+    },
+    {
+      "high_similarity_rate": 0.4060810810810811,
+      "max_similarity": 0.9411764705882353,
+      "mean_similarity": 0.8395328088700413,
+      "mode": "random seed 13",
+      "selection_rows": 296,
+      "signature_match_rate": 0.8695945945945946,
+      "total_selected": 1480
+    },
+    {
+      "high_similarity_rate": 0.39864864864864863,
+      "max_similarity": 0.9411764705882353,
+      "mean_similarity": 0.8364977596289039,
+      "mode": "random seed 17",
+      "selection_rows": 296,
+      "signature_match_rate": 0.8722972972972973,
+      "total_selected": 1480
+    },
+    {
+      "high_similarity_rate": 0.4101351351351351,
+      "max_similarity": 0.9411764705882353,
+      "mean_similarity": 0.8441086112695838,
+      "mode": "random seed 23",
+      "selection_rows": 296,
+      "signature_match_rate": 0.8817567567567568,
+      "total_selected": 1480
+    }
+  ],
+  "train_test_overlap": {
+    "exact_question_count": 0,
+    "exact_question_rate": 0.0,
+    "query_signature_count": 295,
+    "query_signature_rate": 0.9966216216216216
+  }
+}

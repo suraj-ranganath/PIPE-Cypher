@@ -6,7 +6,7 @@ This experiment tests whether public or general Text2Cypher capability transfers
 
 The completed downstream runs show high parse/schema validity but low zero-shot exact execution accuracy on the PIPE-Cypher held-out split. This is a useful benchmark signal, not a weak method result: the benchmark exposes when a model can write plausible Cypher but cannot answer the graph-specific operational question.
 
-A 12-model local transfer suite now evaluates multiple local models on the same fixed held-out split and reports whether models tuned on public Text2Cypher resources transfer to FinBench/SNB-style enterprise workloads. Transfer is limited in zero-shot mode, while retrieval few-shot prompting with PIPE-Cypher training examples improves 11/12 completed models. This supports the paper framing that PIPE-Cypher is useful not only for evaluation, but also for generating private examples for retrieval and future tenant-specific training.
+A 12-model local transfer suite now evaluates multiple local models on the same fixed held-out split and reports whether models tuned on public Text2Cypher resources transfer to FinBench/SNB-style enterprise workloads. Transfer is limited in zero-shot mode. Leakage-aware few-shot controls show that schema-specific examples substantially improve compatible model families, while several public fine-tuned checkpoints remain brittle under enterprise-style prompting. This supports the paper framing that PIPE-Cypher is useful not only for evaluation, but also for generating private examples for retrieval and future tenant-specific training.
 
 ## Completed Suite
 
@@ -15,10 +15,14 @@ A 12-model local transfer suite now evaluates multiple local models on the same 
 - Examples: 296
 - Completed local-model runs: 12
 - Zero-shot execution accuracy range: 0.000 to 0.291
-- Retrieval few-shot execution accuracy range: 0.142 to 0.997
-- Summary snapshot: `experiments/snapshots/20260603_downstream_model_transfer/model_transfer_summary.json`
-- Markdown summary: `experiments/snapshots/20260603_downstream_model_transfer/model_transfer_summary.md`
-- Appendix table: `paper_emnlp2026_industry/tables_downstream_model_transfer.tex`
+- Mean zero-shot execution accuracy: 0.139
+- Mean ordered same-category execution accuracy: 0.380
+- Mean random same-category execution accuracy: 0.378
+- Mean scored no-signature execution accuracy: 0.245
+- Models improved under each few-shot control: 5/12
+- Control summary snapshot: `experiments/snapshots/20260603_downstream_model_transfer/fewshot_control_summary.json`
+- Control manifest: `experiments/snapshots/20260603_downstream_model_transfer/downstream_control_manifest.json`
+- Appendix table: `paper_emnlp2026_industry/tables_downstream_fewshot_controls.tex`
 - Error analysis: `experiments/snapshots/20260601_live_full_qwen9b/downstream_error_report.json`
 - Strategy analysis: `experiments/snapshots/20260601_live_full_qwen9b/strategy_diagnostics.json`
 
@@ -44,7 +48,7 @@ RUN_PREFIX="20260602_downstream_<model_slug>" \
 bash scripts/run_downstream_zero_fewshot_eval.sh
 ```
 
-Report both zero-shot and retrieval few-shot only when both complete. Partial active runs remain operational status, not paper evidence.
+Report zero-shot and few-shot controls only when all required prediction, selection, evaluation, summary, metadata, and manifest artifacts are complete. Partial active runs remain operational status, not paper evidence.
 
 ## Required Reporting
 
@@ -64,5 +68,5 @@ Every model result promoted into the paper or appendix must have:
 ## Paper Claim Rules
 
 - Current completed claim: PIPE-Cypher produces a hard, discriminative downstream benchmark because local models, including Text2Cypher-tuned models, can generate mostly valid-looking Cypher while still failing exact execution on many enterprise-style slices.
-- Current completed transfer claim: public/general Text2Cypher capability does not automatically transfer zero-shot to PIPE-Cypher enterprise-style graphs, but PIPE-Cypher examples substantially improve retrieval few-shot execution accuracy for most completed local models on the same held-out split.
+- Current completed transfer claim: public/general Text2Cypher capability does not automatically transfer zero-shot to PIPE-Cypher enterprise-style graphs; PIPE-Cypher examples substantially improve compatible model families under ordered, random, and no-signature controls, while brittle few-shot failures remain visible and should not be hidden.
 - Claim after tenant-specific fine-tuning: PIPE-Cypher-generated examples improve a model on the target graph without exposing tenant data externally, backed by train/dev/test separation and before/after execution accuracy.

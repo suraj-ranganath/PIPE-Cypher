@@ -13,8 +13,14 @@ class CalibrationMetrics:
     total_labeled: int
     agreement_rate: float
     judge_precision: float
+    judge_precision_ci_low: float
+    judge_precision_ci_high: float
     judge_recall: float
+    judge_recall_ci_low: float
+    judge_recall_ci_high: float
     judge_specificity: float
+    judge_specificity_ci_low: float
+    judge_specificity_ci_high: float
     judge_negative_predictive_value: float
     balanced_accuracy: float
     cohen_kappa: float
@@ -22,6 +28,12 @@ class CalibrationMetrics:
     true_rejects: int
     false_accepts: int
     false_rejects: int
+    false_accept_rate: float
+    false_accept_rate_ci_low: float
+    false_accept_rate_ci_high: float
+    false_reject_rate: float
+    false_reject_rate_ci_low: float
+    false_reject_rate_ci_high: float
 
 
 @dataclass
@@ -389,7 +401,32 @@ def analyze_audit_csv(path: str | Path) -> CalibrationMetrics:
             rows.append((judge, human))
     total = len(rows)
     if total == 0:
-        return CalibrationMetrics(0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, 0, 0, 0)
+        return CalibrationMetrics(
+            total_labeled=0,
+            agreement_rate=0.0,
+            judge_precision=0.0,
+            judge_precision_ci_low=0.0,
+            judge_precision_ci_high=0.0,
+            judge_recall=0.0,
+            judge_recall_ci_low=0.0,
+            judge_recall_ci_high=0.0,
+            judge_specificity=0.0,
+            judge_specificity_ci_low=0.0,
+            judge_specificity_ci_high=0.0,
+            judge_negative_predictive_value=0.0,
+            balanced_accuracy=0.0,
+            cohen_kappa=0.0,
+            true_accepts=0,
+            true_rejects=0,
+            false_accepts=0,
+            false_rejects=0,
+            false_accept_rate=0.0,
+            false_accept_rate_ci_low=0.0,
+            false_accept_rate_ci_high=0.0,
+            false_reject_rate=0.0,
+            false_reject_rate_ci_low=0.0,
+            false_reject_rate_ci_high=0.0,
+        )
     agreements = sum(1 for judge, human in rows if judge == human)
     true_accepts = sum(1 for judge, human in rows if judge and human)
     true_rejects = sum(1 for judge, human in rows if not judge and not human)
@@ -403,6 +440,13 @@ def analyze_audit_csv(path: str | Path) -> CalibrationMetrics:
     recall = true_accepts / human_accepts if human_accepts else 0.0
     specificity = true_rejects / human_rejects if human_rejects else 0.0
     negative_predictive_value = true_rejects / judge_rejects if judge_rejects else 0.0
+    false_accept_rate = false_accepts / human_rejects if human_rejects else 0.0
+    false_reject_rate = false_rejects / human_accepts if human_accepts else 0.0
+    precision_ci = wilson_interval(true_accepts, judge_accepts)
+    recall_ci = wilson_interval(true_accepts, human_accepts)
+    specificity_ci = wilson_interval(true_rejects, human_rejects)
+    false_accept_ci = wilson_interval(false_accepts, human_rejects)
+    false_reject_ci = wilson_interval(false_rejects, human_accepts)
     balanced_accuracy = (recall + specificity) / 2 if human_accepts and human_rejects else 0.0
     expected_agreement = (
         (judge_accepts / total) * (human_accepts / total)
@@ -418,8 +462,14 @@ def analyze_audit_csv(path: str | Path) -> CalibrationMetrics:
         total_labeled=total,
         agreement_rate=observed_agreement,
         judge_precision=precision,
+        judge_precision_ci_low=precision_ci[0],
+        judge_precision_ci_high=precision_ci[1],
         judge_recall=recall,
+        judge_recall_ci_low=recall_ci[0],
+        judge_recall_ci_high=recall_ci[1],
         judge_specificity=specificity,
+        judge_specificity_ci_low=specificity_ci[0],
+        judge_specificity_ci_high=specificity_ci[1],
         judge_negative_predictive_value=negative_predictive_value,
         balanced_accuracy=balanced_accuracy,
         cohen_kappa=cohen_kappa,
@@ -427,7 +477,28 @@ def analyze_audit_csv(path: str | Path) -> CalibrationMetrics:
         true_rejects=true_rejects,
         false_accepts=false_accepts,
         false_rejects=false_rejects,
+        false_accept_rate=false_accept_rate,
+        false_accept_rate_ci_low=false_accept_ci[0],
+        false_accept_rate_ci_high=false_accept_ci[1],
+        false_reject_rate=false_reject_rate,
+        false_reject_rate_ci_low=false_reject_ci[0],
+        false_reject_rate_ci_high=false_reject_ci[1],
     )
+
+
+def wilson_interval(successes: int, total: int, *, z: float = 1.959963984540054) -> tuple[float, float]:
+    if total <= 0:
+        return 0.0, 0.0
+    p_hat = successes / total
+    z2 = z * z
+    denominator = 1 + z2 / total
+    center = (p_hat + z2 / (2 * total)) / denominator
+    margin = (
+        z
+        * ((p_hat * (1 - p_hat) / total + z2 / (4 * total * total)) ** 0.5)
+        / denominator
+    )
+    return max(0.0, center - margin), min(1.0, center + margin)
 
 
 def summarize_audit_csv(path: str | Path) -> AuditCoverage:

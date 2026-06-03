@@ -122,17 +122,18 @@ def format_ablation_suite_markdown(report: dict[str, Any]) -> str:
     lines.extend(
         [
             "",
-            "| Setting | Graph | Run | Records | Accepted | Acceptance | Categories at target | Finished |",
-            "| --- | --- | --- | ---: | ---: | ---: | ---: | --- |",
+            "| Setting | Graph | Run | Attempts | Records | Accepted | Acceptance | Categories at target | Finished |",
+            "| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | --- |",
         ]
     )
     for run in report["runs"]:
         lines.append(
-            "| {label} | {graph} | `{run}` | {records} | {accepted} | {rate:.3f} | "
+            "| {label} | {graph} | `{run}` | {attempts} | {records} | {accepted} | {rate:.3f} | "
             "{at_target}/{category_count} | {finished} |".format(
                 label=run["variant_label"],
                 graph=run["graph"],
                 run=run["run"],
+                attempts=run.get("candidate_attempts", run["records"]),
                 records=run["records"],
                 accepted=run["accepted"],
                 rate=run["accept_rate"],
@@ -185,6 +186,7 @@ def format_ablation_suite_csv(report: dict[str, Any]) -> str:
         "setting",
         "graph",
         "run",
+        "candidate_attempts",
         "records",
         "accepted",
         "accept_rate",
@@ -206,6 +208,7 @@ def format_ablation_suite_csv(report: dict[str, Any]) -> str:
                 "setting": run["variant_label"],
                 "graph": run["graph"],
                 "run": run["run"],
+                "candidate_attempts": run.get("candidate_attempts", run["records"]),
                 "records": run["records"],
                 "accepted": run["accepted"],
                 "accept_rate": f"{float(run['accept_rate']):.6f}",
@@ -315,16 +318,16 @@ def audit_ablation_suite_for_paper(
     underfilled = [
         str(run.get("run", ""))
         for run in runs
-        if not _is_expected_empty_baseline(run)
+        if not _is_unconstrained_stress_baseline(run)
         and int(run.get("categories_at_target", 0)) < category_count
     ]
     checks.append(
         _audit_check(
             "non_empty_runs_reach_category_targets",
             not underfilled,
-            "all non-empty/non-unconstrained runs reach every category target"
+            "all non-unconstrained runs reach every category target"
             if not underfilled
-            else f"underfilled non-empty runs: {len(underfilled)}",
+            else f"underfilled non-unconstrained runs: {len(underfilled)}",
         )
     )
 
@@ -353,6 +356,11 @@ def audit_ablation_suite_for_paper(
         "run_count": len(runs),
         "empty_baseline_runs": [
             str(run.get("run", "")) for run in runs if _is_expected_empty_baseline(run)
+        ],
+        "unconstrained_stress_baseline_runs": [
+            str(run.get("run", ""))
+            for run in runs
+            if _is_unconstrained_stress_baseline(run)
         ],
         "failed_checks": [check for check in checks if not bool(check["pass"])],
         "checks": checks,
@@ -396,6 +404,7 @@ def _enrich_summary(
     accepted_by_category = summary.get("accepted_by_category", {})
     gates = summary.get("gates", {})
     records = int(summary.get("records", 0))
+    candidate_attempts = int(summary.get("candidate_attempts", records))
     enriched = dict(summary)
     enriched.update(
         {
@@ -406,6 +415,7 @@ def _enrich_summary(
                 1 for value in accepted_by_category.values() if int(value) >= target_per_category
             ),
             "category_count": category_count,
+            "candidate_attempts": candidate_attempts,
             "summary_present": (records_path.parent / "summary.txt").exists(),
             "gate_rates": {
                 key: (int(value) / records if records else 0.0)
@@ -499,7 +509,19 @@ def _audit_count_detail(name: str, count: int) -> str:
 
 
 def _is_expected_empty_baseline(run: dict[str, Any]) -> bool:
-    return str(run.get("variant")) == "unconstrained_local_llm" and int(run.get("records", 0)) == 0
+    return (
+        str(run.get("variant")) == "unconstrained_local_llm"
+        and int(run.get("records", 0)) == 0
+        and int(run.get("candidate_attempts", 0)) > 0
+    )
+
+
+def _is_unconstrained_stress_baseline(run: dict[str, Any]) -> bool:
+    return (
+        str(run.get("variant")) == "unconstrained_local_llm"
+        and bool(run.get("summary_present"))
+        and int(run.get("candidate_attempts", 0)) > 0
+    )
 
 
 def _has_core_gate_rates(run: dict[str, Any]) -> bool:

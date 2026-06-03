@@ -177,6 +177,34 @@ def render_diversity_table(report: dict[str, Any]) -> str:
     )
 
 
+def render_query_signature_concentration_table(report: dict[str, Any]) -> str:
+    rows = [
+        r"\begin{tabular}{lrrp{0.56\columnwidth}}",
+        r"\toprule",
+        r"Signature ID & Count & Share & Canonical preview \\",
+        r"\midrule",
+    ]
+    for item in report.get("query_templates", {}).get("top_signatures", []):
+        rows.append(
+            "{signature_id} & {count} & {share} & {preview} \\\\".format(
+                signature_id=_escape_latex(str(item.get("signature_id", ""))),
+                count=_fmt_int(item.get("count", 0)),
+                share=_fmt_float(item.get("share", 0.0)),
+                preview=_escape_latex(str(item.get("preview", ""))),
+            )
+        )
+    rows.extend([r"\bottomrule", r"\end{tabular}"])
+    return _table(
+        body="\n".join(rows),
+        caption=(
+            "Top canonical query signatures in the full export. Literals, numbers, "
+            "and variables are normalized before counting, so this table measures "
+            "template concentration rather than raw value reuse."
+        ),
+        label="tab:query_signature_concentration",
+    )
+
+
 def render_ablation_table(
     summaries: list[dict[str, Any]],
     *,
@@ -185,9 +213,9 @@ def render_ablation_table(
 ) -> str:
     target_label = _target_label(target_per_category)
     rows = [
-        r"\begin{tabular}{llrrrr}",
+        r"\begin{tabular}{llrrrrr}",
         r"\toprule",
-        r"Setting & Graph & Records & Accepted & Acceptance & Categories at target \\",
+        r"Setting & Graph & Attempts & Records & Accepted & Acceptance & Categories at target \\",
         r"\midrule",
     ]
     for summary in sorted(summaries, key=_ablation_sort_key):
@@ -197,11 +225,12 @@ def render_ablation_table(
         )
         rows.append(
             (
-                "{name} & {graph} & {records} & {accepted} & {rate} & "
+                "{name} & {graph} & {attempts} & {records} & {accepted} & {rate} & "
                 "{at_target}/{category_count} \\\\"
             ).format(
                 name=_escape_latex(_ablation_label(str(summary.get("run", "")))),
                 graph=_escape_latex(_graph_label(str(summary.get("run", "")))),
+                attempts=_fmt_int(summary.get("candidate_attempts", summary.get("records", 0))),
                 records=_fmt_int(summary.get("records", 0)),
                 accepted=_fmt_int(summary.get("accepted", 0)),
                 rate=_fmt_float(summary.get("accept_rate", 0.0)),
@@ -214,7 +243,8 @@ def render_ablation_table(
         body="\n".join(rows),
         caption=(
             f"Live {target_label} ablation evidence with local Qwen3.5-9B. "
-            f"Each graph run targets {target_per_category} accepted examples per category."
+            f"Governed graph runs target {target_per_category} accepted examples per category; "
+            "the unconstrained row is a stress baseline reported with explicit attempt accounting."
         ),
         label="tab:ablation_results",
     )
@@ -229,7 +259,7 @@ def render_ablation_quality_table(
     rows = [
         r"\begin{tabular}{llrrrrr}",
         r"\toprule",
-        r"Setting & Graph & Read-only & Syntax & Schema & Exec. & Judge \\",
+        r"Setting & Graph & Read-only & Syntax & Schema & Exec. & Judge/post-hoc \\",
         r"\midrule",
     ]
     for summary in sorted(summaries, key=_ablation_sort_key):
@@ -250,7 +280,8 @@ def render_ablation_quality_table(
         body="\n".join(rows),
         caption=(
             f"Quality-gate rates for the live {target_label} ablation suite. "
-            "Rates are computed over all generated records in each graph/setting."
+            "Rates are computed over all generated records in each graph/setting; "
+            "for no-judge settings, the judge column is a post-hoc scoring diagnostic."
         ),
         label="tab:ablation_quality",
     )
@@ -294,6 +325,7 @@ def render_failure_taxonomy_table(report: dict[str, Any]) -> str:
 
 def render_judge_audit_coverage_table(snapshot: dict[str, Any]) -> str:
     coverage = snapshot["coverage"]
+    metrics = snapshot.get("metrics", {})
     graph = coverage.get("by_graph", {})
     difficulty = coverage.get("by_difficulty", {})
     label_status = str(snapshot.get("label_status", "unknown")).replace("_", " ")
@@ -319,14 +351,51 @@ def render_judge_audit_coverage_table(snapshot: dict[str, Any]) -> str:
             labeled=_fmt_int(coverage.get("labeled_rows", 0)),
         ),
         f"Calibration status & {_escape_latex(label_status)} \\\\",
-        r"\bottomrule",
-        r"\end{tabular}",
     ]
+    if int(metrics.get("total_labeled", 0) or 0):
+        rows.extend(
+            [
+                "Agreement / $\\kappa$ & {agreement} / {kappa} \\\\".format(
+                    agreement=_fmt_float(metrics.get("agreement_rate", 0.0)),
+                    kappa=_fmt_float(metrics.get("cohen_kappa", 0.0)),
+                ),
+                "Judge precision (95\\% CI) & {point} ({ci}) \\\\".format(
+                    point=_fmt_float(metrics.get("judge_precision", 0.0)),
+                    ci=_fmt_ci(
+                        metrics.get("judge_precision_ci_low", 0.0),
+                        metrics.get("judge_precision_ci_high", 0.0),
+                    ),
+                ),
+                "Judge recall (95\\% CI) & {point} ({ci}) \\\\".format(
+                    point=_fmt_float(metrics.get("judge_recall", 0.0)),
+                    ci=_fmt_ci(
+                        metrics.get("judge_recall_ci_low", 0.0),
+                        metrics.get("judge_recall_ci_high", 0.0),
+                    ),
+                ),
+                "False-accept rate (95\\% CI) & {point} ({ci}) \\\\".format(
+                    point=_fmt_float(metrics.get("false_accept_rate", 0.0)),
+                    ci=_fmt_ci(
+                        metrics.get("false_accept_rate_ci_low", 0.0),
+                        metrics.get("false_accept_rate_ci_high", 0.0),
+                    ),
+                ),
+                "False-reject rate (95\\% CI) & {point} ({ci}) \\\\".format(
+                    point=_fmt_float(metrics.get("false_reject_rate", 0.0)),
+                    ci=_fmt_ci(
+                        metrics.get("false_reject_rate_ci_low", 0.0),
+                        metrics.get("false_reject_rate_ci_high", 0.0),
+                    ),
+                ),
+            ]
+        )
+    rows.extend([r"\bottomrule", r"\end{tabular}"])
     return _table(
         body="\n".join(rows),
         caption=(
-            "Post-hoc judge calibration packet coverage. Human labels are pending "
-            "until the packet is complete and are not used as a generation gate."
+            "Post-hoc judge calibration packet coverage and agreement. Human labels "
+            "calibrate the automated gate after generation and are not used as a "
+            "generation gate."
         ),
         label="tab:judge_audit_coverage",
     )
@@ -499,8 +568,9 @@ def render_prompt_refinement_table() -> str:
     return _table(
         body="\n".join(body),
         caption=(
-            "Prompt-profile plan inspired by Mind the Query's prompt-variant analysis. "
-            "Only completed, audited target-50-or-larger results should be promoted into results tables."
+            "Prompt profiles implemented for Mind-the-Query-style prompt-factorial "
+            "evaluation. Results are reported only for completed, audited "
+            "target-50-or-larger suites."
         ),
         label="tab:prompt_refinement_plan",
     )
@@ -512,7 +582,7 @@ def render_effort_automation_table() -> str:
         ("Human effort", "Reported 1,400 person-hours", "80-row post-hoc judge calibration audit"),
         ("Private values", "Public benchmark values", "Configurable sampling and redacted export"),
         ("Refresh", "Static dataset release", "Rerunnable private benchmark factory"),
-        ("Model endpoint", "Gemini for generation", "Local Qwen3.5-9B endpoint"),
+        ("Model endpoint", "Gemini in their reported pipeline", "Local Qwen3.5-9B endpoint"),
     ]
     body = [
         r"\begin{tabular}{lll}",
@@ -575,6 +645,10 @@ def _fmt_count_or_dash(value: Any) -> str:
 
 def _fmt_float(value: Any) -> str:
     return f"{float(value):.3f}"
+
+
+def _fmt_ci(low: Any, high: Any) -> str:
+    return f"{_fmt_float(low)}--{_fmt_float(high)}"
 
 
 def _short_category(label: str) -> str:

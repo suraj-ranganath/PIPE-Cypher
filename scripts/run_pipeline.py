@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -119,6 +120,7 @@ def main() -> None:
                 f"random_seed={cfg.generation.random_seed if cfg.generation.random_seed is not None else ''}",
                 f"records={len(result.records)}",
                 f"accepted={accepted}",
+                "attempt_summary=" + json.dumps(result.attempt_summary, sort_keys=True),
                 f"output={output_path}",
             ]
         ),
