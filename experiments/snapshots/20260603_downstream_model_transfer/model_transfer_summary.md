@@ -1,6 +1,6 @@
 # Downstream Model Transfer Summary
 
-Complete runs: 10 / 10
+Complete runs: 12 / 12
 
 | Model | Family | Tuning | Zero exec. acc. | Few-shot exec. acc. | Delta | Zero schema | Few schema |
 |---|---|---:|---:|---:|---:|---:|---:|
@@ -14,3 +14,5 @@ Complete runs: 10 / 10
 | aigentx/Llama-3.1-8B Cypher LoRA | Llama 3.1 | Cypher LoRA | 0.074 | 0.730 | 0.655 | 0.199 | 0.912 |
 | aigentx/Llama-3.1-8B Cypher mixed LoRA | Llama 3.1 | Cypher mixed LoRA | 0.111 | 0.983 | 0.872 | 0.791 | 0.990 |
 | ragraph-ai/stable-cypher-instruct-3b | StableLM | Cypher instruction | 0.155 | 0.838 | 0.682 | 0.780 | 0.976 |
+| projectwilsen/Llama-3.1-8B Text2Cypher LoRA | Llama 3.1 | Text2Cypher LoRA | 0.169 | 0.142 | -0.027 | 0.639 | 0.990 |
+| Saiprasanth15/Llama-3.1-8B Text2Cypher LoRA | Llama 3.1 | Text2Cypher LoRA | 0.000 | 0.730 | 0.730 | 0.186 | 0.993 |

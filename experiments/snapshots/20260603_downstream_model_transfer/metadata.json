@@ -48,5 +48,15 @@
     "model": "ragraph-ai/stable-cypher-instruct-3b",
     "model_family": "StableLM",
     "tuning": "Cypher instruction"
+  },
+  "20260603_downstream_projectwilsen_llama31_text2cypher_lora_zero_fewshot": {
+    "model": "projectwilsen/Llama-3.1-8B Text2Cypher LoRA",
+    "model_family": "Llama 3.1",
+    "tuning": "Text2Cypher LoRA"
+  },
+  "20260603_downstream_saiprasanth_llama31_text2cypher_lora_zero_fewshot": {
+    "model": "Saiprasanth15/Llama-3.1-8B Text2Cypher LoRA",
+    "model_family": "Llama 3.1",
+    "tuning": "Text2Cypher LoRA"
   }
 }

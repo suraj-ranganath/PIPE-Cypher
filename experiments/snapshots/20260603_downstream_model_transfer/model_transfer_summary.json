@@ -9,7 +9,7 @@
     "model": "Qwen2.5-Coder-7B-Instruct",
     "run_id": "20260602_downstream_qwen25_coder7b_zero_fewshot"
   },
-  "complete_count": 10,
+  "complete_count": 12,
   "complete_runs": [
     {
       "complete": true,
@@ -270,9 +270,61 @@
         "parse_valid": 1.0,
         "schema_valid": 0.7804054054054054
       }
+    },
+    {
+      "complete": true,
+      "few_shot": {
+        "answer_f1": 0.14189189189189189,
+        "execution_accuracy": 0.14189189189189189,
+        "execution_success": 0.16216216216216217,
+        "n": 296,
+        "parse_valid": 0.3310810810810811,
+        "schema_valid": 0.9898648648648649
+      },
+      "local_weights": true,
+      "missing": [],
+      "model": "projectwilsen/Llama-3.1-8B Text2Cypher LoRA",
+      "model_family": "Llama 3.1",
+      "path": "artifacts/evaluations/20260603_downstream_projectwilsen_llama31_text2cypher_lora_zero_fewshot",
+      "run_id": "20260603_downstream_projectwilsen_llama31_text2cypher_lora_zero_fewshot",
+      "tuning": "Text2Cypher LoRA",
+      "zero_shot": {
+        "answer_f1": 0.16891891891891891,
+        "execution_accuracy": 0.16891891891891891,
+        "execution_success": 0.48986486486486486,
+        "n": 296,
+        "parse_valid": 0.9054054054054054,
+        "schema_valid": 0.6385135135135135
+      }
+    },
+    {
+      "complete": true,
+      "few_shot": {
+        "answer_f1": 0.7297297297297297,
+        "execution_accuracy": 0.7297297297297297,
+        "execution_success": 0.7398648648648649,
+        "n": 296,
+        "parse_valid": 0.9797297297297297,
+        "schema_valid": 0.9932432432432432
+      },
+      "local_weights": true,
+      "missing": [],
+      "model": "Saiprasanth15/Llama-3.1-8B Text2Cypher LoRA",
+      "model_family": "Llama 3.1",
+      "path": "artifacts/evaluations/20260603_downstream_saiprasanth_llama31_text2cypher_lora_zero_fewshot",
+      "run_id": "20260603_downstream_saiprasanth_llama31_text2cypher_lora_zero_fewshot",
+      "tuning": "Text2Cypher LoRA",
+      "zero_shot": {
+        "answer_f1": 0.0,
+        "execution_accuracy": 0.0,
+        "execution_success": 0.11148648648648649,
+        "n": 296,
+        "parse_valid": 1.0,
+        "schema_valid": 0.1858108108108108
+      }
     }
   ],
   "incomplete_count": 0,
   "incomplete_runs": [],
-  "runs_examined": 10
+  "runs_examined": 12
 }
