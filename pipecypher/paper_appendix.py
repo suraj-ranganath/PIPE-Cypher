@@ -161,7 +161,7 @@ def render_prompt_contracts_tex() -> str:
                 "and validation summary for each reviewed example."
             ),
             r"\begingroup",
-            r"\footnotesize",
+            r"\scriptsize",
             r"\begin{verbatim}",
             "System prompt:",
             *_verbatim_lines(SYSTEM_JSON_ENGINEER),
@@ -368,7 +368,7 @@ def _wrap_code(value: str, *, width: int) -> str:
     return "\\\\\n".join(_escape_latex(line) for line in lines)
 
 
-def _verbatim_lines(value: str, *, width: int = 76) -> list[str]:
+def _verbatim_lines(value: str, *, width: int = 48) -> list[str]:
     lines: list[str] = []
     for source_line in value.strip().splitlines():
         if not source_line.strip():

@@ -193,6 +193,7 @@ def format_ablation_suite_comparison_tex(report: dict[str, Any]) -> str:
         r"\begin{table}[H]",
         r"\centering",
         r"\small",
+        r"\resizebox{\columnwidth}{!}{%",
         r"\begin{tabular}{llrrrrrr}",
         r"\toprule",
         r"Setting & Graph & Suites & Target cov. & Acceptance & Cat. target & Exec. & Judge \\",
@@ -220,6 +221,7 @@ def format_ablation_suite_comparison_tex(report: dict[str, Any]) -> str:
         [
             r"\bottomrule",
             r"\end{tabular}",
+            r"}",
             (
                 r"\caption{Target-size and repeated-seed ablation sensitivity. "
                 r"Target coverage normalizes accepted examples by each suite's "

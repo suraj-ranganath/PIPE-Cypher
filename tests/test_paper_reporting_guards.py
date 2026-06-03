@@ -67,7 +67,19 @@ def test_paper_reporting_filenames_do_not_include_diagnostic_runs():
     assert offenders == []
 
 
-def test_appendix_result_tables_use_fixed_placement():
+def test_appendix_stays_in_acl_two_column_mode():
+    offenders: list[str] = []
+    for name in ("main_acl.tex", "main.tex"):
+        path = PAPER_ROOT / name
+        text = path.read_text(encoding="utf-8")
+        appendix_match = re.search(r"\\appendix(?P<body>.*)", text, re.DOTALL)
+        if appendix_match and r"\onecolumn" in appendix_match.group("body"):
+            offenders.append(name)
+
+    assert offenders == []
+
+
+def test_appendix_result_tables_use_venue_compliant_placement():
     appendix_table_names = {
         "tables_ablation_results.tex",
         "tables_ablation_quality.tex",
@@ -88,11 +100,17 @@ def test_appendix_result_tables_use_fixed_placement():
         "tables_effort_automation.tex",
         "tables_judge_audit_coverage.tex",
     }
+    allowed_full_width = {
+        "tables_downstream_fewshot_controls.tex",
+        "tables_supported_text_metrics.tex",
+    }
     offenders: list[str] = []
     for name in appendix_table_names:
         path = PAPER_ROOT / name
         text = path.read_text(encoding="utf-8")
-        if r"\begin{table*}" in text or r"\begin{table}[t]" in text:
+        if r"\begin{table*}" in text and name not in allowed_full_width:
+            offenders.append(name)
+        if r"\begin{table}[t]" in text:
             offenders.append(name)
 
     assert offenders == []

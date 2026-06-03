@@ -1,7 +1,7 @@
-\begin{table}[H]
+\begin{table*}[t]
 \centering
-\small
-\begin{tabular}{lll}
+\footnotesize
+\begin{tabular}{p{0.16\textwidth}p{0.58\textwidth}p{0.18\textwidth}}
 \toprule
 Metric & PIPE-Cypher support & Primary citation \\
 \midrule
@@ -17,4 +17,4 @@ Exact match & Raw and normalized string exact match & \cite{rajpurkar-etal-2016-
 \end{tabular}
 \caption{Supplementary reference-based text metrics supported by the PIPE-Cypher evaluator. These metrics are useful for debugging answer rendering, paraphrase sensitivity, and near-match behavior, but they do not replace execution accuracy or answer-set F1 for Text2Cypher correctness. BERTScore and FrugalScore are optional integrations because they require additional metric/model packages.}
 \label{tab:supported_text_metrics}
-\end{table}
+\end{table*}

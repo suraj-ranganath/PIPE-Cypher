@@ -35,7 +35,8 @@ def test_prompt_contracts_include_generation_and_judge_hashes():
     assert "RETURN DISTINCT" in text
     assert "SHA-256" in text
     assert "LLM Judge Prompt Used in Reported Runs" in text
-    assert "You are judging whether an NL-to-Cypher benchmark example" in text
+    assert "You are judging whether an NL-to-Cypher" in text
+    assert "benchmark example is acceptable for" in text
     assert "System prompt:" in text
     assert "User prompt template:" in text
     assert r"\label{tab:prompt_contracts}" in text

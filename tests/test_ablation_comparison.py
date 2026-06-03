@@ -66,6 +66,7 @@ def test_compare_ablation_suites_preserves_seed_metadata_and_cell_variation(tmp_
     assert "full_pipe_cypher" in csv_text
     assert r"\label{tab:ablation_suite_comparison}" in tex
     assert r"\begin{table}[H]" in tex
+    assert r"\resizebox{\columnwidth}{!}{%" in tex
     assert r"Full PIPE-Cypher & FinBench & 2/2" in tex
 
 

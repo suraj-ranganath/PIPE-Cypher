@@ -126,7 +126,6 @@ PIPE-Cypher is designed for private benchmark generation under local-model deplo
 \bibliography{references}
 
 \clearpage
-\onecolumn
 \appendix
 
 \section{Governed Generation Evidence}
@@ -137,12 +136,12 @@ The appendix is organized as a claim-evidence trace. Each table or figure appear
 
 Figure~\ref{fig:ablation_suite_target100_main} and Table~\ref{tab:ablation_results} are the detailed evidence behind the compact RQ2 discussion. The unconstrained rows are intentionally shown as a stress baseline: plausible raw local-model generations do not produce balanced, executable benchmark coverage. The governed variants, in contrast, fill every target cell on both graphs.
 
-\begin{figure}[H]
+\begin{figure*}[t]
 \centering
 \includegraphics[width=0.82\textwidth]{figures/ablation_suite_target100.pdf}
 \caption{Target-100 ablation yield on FinBench and SNB. Unconstrained local generation is reported as a stress baseline with explicit attempt accounting; the execution-grounded governed variants reach all eight workload-category targets on both graphs. The takeaway is reliability of the grounded governance core, not that every optional module is needed for yield.}
 \label{fig:ablation_suite_target100_main}
-\end{figure}
+\end{figure*}
 
 \input{tables_ablation_results}
 
@@ -235,12 +234,12 @@ The downstream experiment is a benchmark-utility stress test. A useful enterpris
 
 The multi-model transfer suite compares local general instruction, code-tuned, Cypher instruction, and Text2Cypher-finetuned models while keeping the schema prompt, evaluation backend, split, and execution metrics fixed. Figure~\ref{fig:downstream_fewshot_controls} is the key result: zero-shot transfer is weak, but accepted graph-specific examples become a high-value private question-answer bank. Demonstration-bank controls close much of the gap for compatible model families such as Qwen, Qwen-Coder, stable-cypher, and one Gemma Text2Cypher LoRA, while still revealing brittle public fine-tuned checkpoints.
 
-\begin{figure}[H]
+\begin{figure*}[t]
 \centering
-\includegraphics[width=\columnwidth]{figures/downstream_fewshot_controls.pdf}
+\includegraphics[width=\textwidth]{figures/downstream_fewshot_controls.pdf}
 \caption{Execution accuracy for the 12 local downstream models under zero-shot and few-shot control modes. The heatmap highlights both findings: schema-specific examples can sharply help compatible models, and several public fine-tuned checkpoints still fail under enterprise-style Cypher prompting.}
 \label{fig:downstream_fewshot_controls}
-\end{figure}
+\end{figure*}
 
 \input{tables_downstream_fewshot_controls}
 
@@ -292,19 +291,19 @@ Strategy diagnostics complement category balance. Two questions can share a cate
 
 \input{tables_strategy_diagnostics}
 
-\begin{figure}[H]
+\begin{figure*}[t]
 \centering
 \includegraphics[width=0.92\textwidth]{figures/strategy_coverage.pdf}
 \caption{Cypher strategy coverage by workload category. Category balancing does not by itself guarantee operator coverage; the strategy matrix shows where the benchmark exercises single-hop retrieval, joins, aggregation, ordering, negation, path patterns, optional matches, and bounded-result queries.}
 \label{fig:strategy_coverage}
-\end{figure}
+\end{figure*}
 
-\begin{figure}[H]
+\begin{figure*}[t]
 \centering
 \includegraphics[width=0.88\textwidth]{figures/strategy_downstream_errors.pdf}
 \caption{Downstream outcomes by gold Cypher strategy on the full held-out test split. The local Qwen3.5-9B baseline fails differently across strategies: aggregation mixes exact matches with execution failures, while join-heavy, negation, path, and ranking examples are dominated by semantically wrong executable queries or execution failures.}
 \label{fig:strategy_downstream_errors}
-\end{figure}
+\end{figure*}
 
 \FloatBarrier
 
