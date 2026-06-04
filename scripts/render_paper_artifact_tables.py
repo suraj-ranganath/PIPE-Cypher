@@ -31,19 +31,19 @@ def main() -> None:
     )
     parser.add_argument(
         "--benchmark-dir",
-        default="artifacts/benchmarks/20260601_live_full_qwen9b",
+        default="artifacts/benchmarks/20260604_live_full_qwen9b_reviewfix",
     )
     parser.add_argument(
         "--evaluation-summary",
-        default="artifacts/evaluations/20260601_full_qwen9b_test_summary.json",
+        default="artifacts/evaluations/20260604_clean_downstream_qwen35_9b_zero_fewshot/zero_shot_summary.json",
     )
     parser.add_argument(
         "--downstream-errors",
-        default="experiments/snapshots/20260601_live_full_qwen9b/downstream_error_report.json",
+        default="experiments/snapshots/20260604_clean_downstream_model_transfer/downstream_error_report.json",
     )
     parser.add_argument(
         "--failure-taxonomy",
-        default="experiments/snapshots/20260601_live_full_qwen9b/failure_taxonomy.json",
+        default="experiments/snapshots/20260604_review_remediation/failure_taxonomy.json",
     )
     parser.add_argument(
         "--icij-onboarding",

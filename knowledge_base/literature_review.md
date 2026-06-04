@@ -10,6 +10,8 @@ Primary search sources used in this pass: ACL Anthology, arXiv, LDBC/GDC pages, 
 - **SyntheT2C** (Zhong et al., COLING 2025) proposes synthetic Text2Cypher data construction with LLM prompting and template filling, applied to medical KGs. PIPE-Cypher should cite it as closest synthetic Text2Cypher generation work, then separate itself through enterprise graph introspection, reverse Cypher binding over real graph values, deterministic safety/schema/direction validation, execution, diversity caps, and LLM judge metadata.
 - **Auto-Cypher** (Tiwari et al., NAACL 2025) presents an LLM-supervised generation-verification framework and SynthCypher. This is important because it shares the generation-verification framing; our distinction is that verification is a deployed benchmark factory over the enterprise's own property graph, with read-only Cypher constraints, local-model operation, and explicit automated-vs-human evaluation calibration.
 - **Text2Cypher: Bridging Natural Language and Graph Databases** (Ozsoy et al., GenAIK 2025) combines public datasets into 44,387 instances and shows fine-tuning gains. PIPE-Cypher should use it to motivate data scarcity and the need for higher-quality, schema-relevant training/evaluation data.
+- **CypherBench** (Feng et al., arXiv 2025) converts large RDF KGs into property-graph views and builds a full-scale Text2Cypher retrieval benchmark. It strengthens the argument that modern KGs need Cypher-aware retrieval/evaluation, while PIPE-Cypher differs by creating private enterprise benchmarks from a live target graph rather than one static public benchmark.
+- **Neo4j text2cypher-2024v1** is a public consolidated Text2Cypher dataset with roughly 44k rows and public schema/question/cypher fields. It is useful for positioning public fine-tuning data and the local fine-tuned checkpoints in the downstream transfer suite; PIPE-Cypher should not treat it as an enterprise-private benchmark factory.
 
 ## Positioning Matrix
 
@@ -19,6 +21,8 @@ Primary search sources used in this pass: ACL Anthology, arXiv, LDBC/GDC pages, 
 | SyntheT2C | Synthetic training set and method | Medical Text2Cypher | Prompting and template filling | Reverse-query grounding, execution validation, diversity caps, industry graph workloads |
 | Auto-Cypher | Synthetic data generation-verification | Text2Cypher and graph-adapted Spider | LLM-supervised verification | Cypher-first deterministic validator, property-graph schema introspection, local deployment constraints |
 | Text2Cypher | Aggregated public dataset | Public Text2Cypher fine-tuning | Dataset cleaning/evaluation | Organization-specific data creation for private schemas and evolving workloads |
+| CypherBench | Public benchmark over property-graph views | Full-scale KG retrieval with Cypher | RDF-to-property-graph conversion and Text2Cypher QA generation | Live enterprise schema onboarding, privacy, refresh, and governance |
+| text2cypher-2024v1 | Public consolidated dataset | Mixed public Cypher examples | Dataset aggregation for training/evaluation | Tests whether public fine-tuning transfers to private-style FinBench/SNB workloads |
 | Spider 2.0 | Enterprise Text2SQL benchmark | SQL workflows across cloud/local systems | Execution/workflow evaluation | Transfers enterprise-realism argument to property graphs and Cypher |
 | BIRD | Large database-grounded Text2SQL benchmark | SQL over realistic databases | Execution accuracy and value grounding | Motivates non-empty execution, value grounding, and answer-level evaluation |
 | AutoQuery | Generated cross-model query workloads | Relational/graph analytics | Rule-based post-processing and error analysis | Motivates strategy-level yield/diversity reporting for generated benchmark workloads |
@@ -28,6 +32,7 @@ Primary search sources used in this pass: ACL Anthology, arXiv, LDBC/GDC pages, 
 - **Spider 2.0** motivates real-world, workflow-style database tasks and emphasizes that legacy text-to-SQL benchmarks understate deployment complexity. Its strongest message for our introduction is that enterprise data interfaces require metadata search, dialect awareness, and complex workflow evaluation rather than toy schemas.
 - **BIRD** motivates execution accuracy, realistic database content, value grounding, and efficiency. PIPE-Cypher should borrow the argument that database values matter, then map it to graph literals, categorical properties, and entity-binding queries.
 - **CIKM AutoQuery** motivates separating workload generation quality from model quality, reporting execution accuracy, and analyzing strategy-level coverage rather than only category counts.
+- **Execution-guided Text-to-SQL** (e.g., Wang et al., 2018) motivates using execution as semantic feedback rather than treating query strings as enough. PIPE-Cypher adapts that stance to benchmark generation: candidates must execute on the graph, and failures remain in the rejection ledger.
 
 ## Diversity And Benchmark Quality Metrics
 
@@ -76,7 +81,10 @@ Existing work provides public Text2Cypher datasets, synthetic Text2Cypher exampl
 - SyntheT2C: ACL Anthology entry verified; cite as COLING 2025.
 - Auto-Cypher: ACL Anthology entry verified; cite as NAACL short 2025.
 - Text2Cypher: ACL Anthology entry verified; cite as GenAIK 2025.
+- CypherBench: arXiv metadata verified.
+- text2cypher-2024v1: Hugging Face dataset card verified.
 - Spider 2.0: arXiv entry verified; cite as ICLR 2025 oral if final venue metadata is needed after template cleanup.
+- Execution-guided Text-to-SQL decoding: arXiv metadata verified.
 - BIRD: arXiv/NeurIPS metadata verified; cite NeurIPS 2023.
 - AutoQuery: author-hosted CIKM paper and DOI verified.
 - Li et al. diversity objective: ACL Anthology metadata and DOI verified.

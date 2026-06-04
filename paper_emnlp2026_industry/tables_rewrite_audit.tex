@@ -1,0 +1,23 @@
+\begin{table}[H]
+\centering
+\small
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lr}
+\toprule
+Rewrite audit property & Value \\
+\midrule
+Generation records audited & 4,925 \\
+Accepted records audited & 3,000 \\
+Records changed by normalization & 0 \\
+Accepted records changed & 0 \\
+RETURN DISTINCT insertions & 0 \\
+Accepted RETURN DISTINCT insertions & 0 \\
+Rewrite-skip reasons logged & 196 \\
+Live comparisons required & 0 \\
+Answer-set equality in comparisons & 0 \\
+\bottomrule
+\end{tabular}
+}
+\caption{Rewrite prevalence and impact audit over paper-generation records. When no generated query differs from its normalized form, no live original/normalized re-execution is required for semantic drift.}
+\label{tab:rewrite_audit}
+\end{table}

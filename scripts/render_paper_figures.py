@@ -27,27 +27,27 @@ def main() -> None:
     parser.add_argument("--diversity-report", required=True)
     parser.add_argument(
         "--benchmark-stats",
-        default="artifacts/benchmarks/20260601_live_full_qwen9b/stats.json",
+        default="artifacts/benchmarks/20260604_live_full_qwen9b_reviewfix/stats.json",
     )
     parser.add_argument(
         "--downstream-summary",
-        default="artifacts/evaluations/20260601_full_qwen9b_test_summary.json",
+        default="artifacts/evaluations/20260604_clean_downstream_qwen35_9b_zero_fewshot/zero_shot_summary.json",
     )
     parser.add_argument(
         "--downstream-uncertainty",
-        default="experiments/snapshots/20260601_live_full_qwen9b/downstream_uncertainty.json",
+        default="experiments/snapshots/20260604_clean_downstream_model_transfer/downstream_uncertainty.json",
     )
     parser.add_argument(
         "--failure-taxonomy",
-        default="experiments/snapshots/20260601_live_full_qwen9b/failure_taxonomy.json",
+        default="experiments/snapshots/20260604_review_remediation/failure_taxonomy.json",
     )
     parser.add_argument(
         "--downstream-errors",
-        default="experiments/snapshots/20260601_live_full_qwen9b/downstream_error_report.json",
+        default="experiments/snapshots/20260604_clean_downstream_model_transfer/downstream_error_report.json",
     )
     parser.add_argument(
         "--fewshot-control-summary",
-        default="experiments/snapshots/20260603_downstream_model_transfer/fewshot_control_summary.json",
+        default="experiments/snapshots/20260604_clean_downstream_model_transfer/fewshot_control_summary.json",
     )
     parser.add_argument(
         "--ablation-comparison",
@@ -204,7 +204,7 @@ def render_query_signature_concentration_figure(report: dict, output: Path, plt)
 
 
 def render_downstream_fewshot_control_figure(report: dict, output: Path, plt) -> None:
-    models = report.get("models", [])
+    models = [model for model in report.get("models", []) if model.get("complete", True)]
     mode_labels = ["Zero", "Ordered", "No-sig", "Random mean"]
     matrix = []
     y_labels = []

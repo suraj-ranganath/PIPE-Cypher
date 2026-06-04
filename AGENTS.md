@@ -19,6 +19,9 @@ PIPE-Cypher is an industry-track research codebase for automatic benchmark gener
 - Human review is not a generation gate. Use deterministic validation plus LLM-judge review. A small human audit may be used only to calibrate judge reliability for the paper.
 - Large-scale evaluation is a core requirement. Keep target-100, repeated target-50-or-larger, full held-out downstream, and graph/category/difficulty-stratified runs moving when `ds-serv6` has capacity; do not stop because a smaller suite already passed.
 - Latest owner directive: do more large-scale evaluation and ablations whenever feasible, because reviewer confidence depends on scale, repeated evidence, and reliable slice-level results. Keep queueing or launching defensible scale increments while compute is available.
+- Paper-facing generation, judge, runtime, rewrite, governance, diversity, downstream, and few-shot evidence must come from a single approved benchmark manifest or from explicitly compatible manifests with matching split hashes and model-provenance checks. Do not mix old top-up exports, older splits, or partial reruns with clean paper tables.
+- The old `artifacts/benchmarks/20260601_live_full_qwen9b` export is not acceptable for final paper evidence because its source lineage included larger-model top-ups despite the directory name. Use `artifacts/benchmarks/20260604_live_full_qwen9b_reviewfix` or a later manifest that passes approved-model provenance guards.
+- If a benchmark export or held-out split changes after a clean rerender, downstream and few-shot tables must be rerun or explicitly relabeled. Never reuse old downstream metrics on a different split.
 
 ## Engineering Rules
 

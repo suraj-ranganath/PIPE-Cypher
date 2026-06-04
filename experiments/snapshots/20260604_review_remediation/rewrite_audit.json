@@ -1,0 +1,64 @@
+{
+  "accepted_changed_rate": 0.0,
+  "accepted_changed_records": 0,
+  "accepted_records": 3000,
+  "accepted_rewrite_type_counts": {
+    "unchanged": 3000
+  },
+  "by_category": {
+    "boolean_existence": {
+      "unchanged": 435
+    },
+    "complex_aggregation": {
+      "unchanged": 376
+    },
+    "complex_retrieval": {
+      "unchanged": 377
+    },
+    "negation_difference": {
+      "unchanged": 1672
+    },
+    "path_temporal": {
+      "unchanged": 376
+    },
+    "ranking_topk": {
+      "unchanged": 936
+    },
+    "simple_aggregation": {
+      "unchanged": 377
+    },
+    "simple_retrieval": {
+      "unchanged": 376
+    }
+  },
+  "by_graph": {
+    "finbench": {
+      "unchanged": 3405
+    },
+    "snb": {
+      "unchanged": 1520
+    }
+  },
+  "changed_examples": [],
+  "changed_rate": 0.0,
+  "changed_records": 0,
+  "execution_comparison": {
+    "answer_multiset_equal": 0,
+    "answer_multiset_equal_rate": 0.0,
+    "answer_set_equal": 0,
+    "answer_set_equal_rate": 0.0,
+    "compared": 0,
+    "duplicate_collapse": 0,
+    "normalized_success": 0,
+    "original_success": 0
+  },
+  "execution_comparisons_sample": [],
+  "records": 4925,
+  "rewrite_skip_reasons": {
+    "risky construct `WHERE EXISTS`": 2,
+    "risky construct `WHERE NOT EXISTS`": 194
+  },
+  "rewrite_type_counts": {
+    "unchanged": 4925
+  }
+}

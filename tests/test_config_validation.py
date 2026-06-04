@@ -40,6 +40,22 @@ generation:
         load_config(config_path, strict=True)
 
 
+def test_env_overrides_local_llm_runtime_controls(monkeypatch):
+    monkeypatch.setenv("PIPE_CYPHER_LLM_MAX_TOKENS", "384")
+    monkeypatch.setenv("PIPE_CYPHER_LLM_TEMPERATURE", "0.05")
+    monkeypatch.setenv("PIPE_CYPHER_LLM_REASONING_EFFORT", "")
+    monkeypatch.setenv("PIPE_CYPHER_LLM_INCLUDE_REASONING", "false")
+    monkeypatch.setenv("PIPE_CYPHER_LLM_ENABLE_THINKING", "0")
+
+    config = load_config("configs/finbench_full.yaml")
+
+    assert config.models.max_tokens == 384
+    assert config.models.temperature == 0.05
+    assert config.models.reasoning_effort is None
+    assert config.models.include_reasoning is False
+    assert config.models.enable_thinking is False
+
+
 def test_validate_config_rejects_expensive_run_mistakes():
     config = RunConfig()
     config.generation.target_per_category = 0

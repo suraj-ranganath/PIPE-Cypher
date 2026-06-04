@@ -1,0 +1,156 @@
+{
+  "ablation": {
+    "by_variant_graph": {
+      "unconstrained_local_llm::finbench": {
+        "invalid_categorical_value": 7,
+        "missing_context_column": 71,
+        "quoted_value_fuzzy_match": 28,
+        "quoted_value_not_literal": 1,
+        "unknown_property": 10,
+        "unseen_relationship_pattern": 19,
+        "wrong_direction": 49
+      },
+      "unconstrained_local_llm::snb": {
+        "missing_context_column": 495,
+        "quoted_value_not_literal": 135,
+        "unbalanced_brackets": 1,
+        "unbalanced_parentheses": 4,
+        "undirected_relationship": 4,
+        "unknown_property": 889,
+        "unknown_relationship": 1,
+        "unknown_relationship_property": 3,
+        "unseen_relationship_pattern": 59,
+        "wrong_direction": 207
+      }
+    },
+    "issue_counts": {
+      "invalid_categorical_value": 7,
+      "missing_context_column": 566,
+      "quoted_value_fuzzy_match": 28,
+      "quoted_value_not_literal": 136,
+      "unbalanced_brackets": 1,
+      "unbalanced_parentheses": 4,
+      "undirected_relationship": 4,
+      "unknown_property": 899,
+      "unknown_relationship": 1,
+      "unknown_relationship_property": 3,
+      "unseen_relationship_pattern": 78,
+      "wrong_direction": 256
+    },
+    "issue_groups": {
+      "direction": 260,
+      "read_only_safety": 0,
+      "schema_or_value": 988,
+      "syntax_or_parser": 5
+    },
+    "run_count": 2,
+    "target_per_category": 100
+  },
+  "combined_issue_counts": {
+    "invalid_categorical_value": 7,
+    "missing_context_column": 718,
+    "quoted_value_fuzzy_match": 28,
+    "quoted_value_not_literal": 143,
+    "rewrite_skipped": 196,
+    "syntax_shape": 12,
+    "unbalanced_brackets": 1,
+    "unbalanced_parentheses": 4,
+    "undirected_relationship": 4,
+    "unknown_property": 909,
+    "unknown_relationship": 1,
+    "unknown_relationship_property": 3,
+    "unseen_relationship_pattern": 79,
+    "wrong_direction": 281
+  },
+  "combined_issue_groups": {
+    "direction": 285,
+    "read_only_safety": 0,
+    "schema_or_value": 999,
+    "syntax_or_parser": 17
+  },
+  "downstream": {
+    "incorrect": 240,
+    "issue_counts": {
+      "missing_context_column": 135,
+      "syntax_shape": 12,
+      "unknown_property": 8,
+      "unseen_relationship_pattern": 1,
+      "wrong_direction": 25
+    },
+    "issue_groups": {
+      "direction": 25,
+      "read_only_safety": 0,
+      "schema_or_value": 9,
+      "syntax_or_parser": 12
+    },
+    "total": 296
+  },
+  "generation_records": {
+    "accepted_records": 3000,
+    "by_category": {
+      "boolean_existence": {
+        "quoted_value_not_literal": 1
+      },
+      "complex_aggregation": {
+        "quoted_value_not_literal": 1
+      },
+      "complex_retrieval": {
+        "quoted_value_not_literal": 1,
+        "unknown_property": 1
+      },
+      "negation_difference": {
+        "missing_context_column": 17,
+        "rewrite_skipped": 196
+      },
+      "path_temporal": {
+        "quoted_value_not_literal": 1
+      },
+      "ranking_topk": {
+        "quoted_value_not_literal": 1
+      },
+      "simple_aggregation": {
+        "quoted_value_not_literal": 1,
+        "unknown_property": 1
+      },
+      "simple_retrieval": {
+        "quoted_value_not_literal": 1
+      }
+    },
+    "by_graph": {
+      "finbench": {
+        "missing_context_column": 17,
+        "quoted_value_not_literal": 7
+      },
+      "snb": {
+        "rewrite_skipped": 196,
+        "unknown_property": 2
+      }
+    },
+    "direction_examples": {},
+    "issue_counts": {
+      "missing_context_column": 17,
+      "quoted_value_not_literal": 7,
+      "rewrite_skipped": 196,
+      "unknown_property": 2
+    },
+    "issue_groups": {
+      "direction": 0,
+      "read_only_safety": 0,
+      "schema_or_value": 2,
+      "syntax_or_parser": 0
+    },
+    "records": 4925,
+    "rejected_issue_counts": {
+      "missing_context_column": 4,
+      "quoted_value_not_literal": 7,
+      "rewrite_skipped": 170,
+      "unknown_property": 2
+    },
+    "rejected_issue_groups": {
+      "direction": 0,
+      "read_only_safety": 0,
+      "schema_or_value": 2,
+      "syntax_or_parser": 0
+    }
+  }
+}

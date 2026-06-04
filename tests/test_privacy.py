@@ -48,6 +48,23 @@ def test_hash_placeholders_are_stable_without_exposing_values():
     assert "Kant" not in first["entity_values"][0]
 
 
+def test_redact_numeric_entity_values_in_cypher_when_enabled():
+    example = {
+        "question": "What did person 4398046511136 post?",
+        "cypher": "MATCH (p:Person {id: 4398046511136}) RETURN p.id AS PersonId",
+        "normalized_cypher": "MATCH (p:Person {id: 4398046511136}) RETURN p.id AS PersonId",
+        "entity_values": ["4398046511136"],
+        "result_rows_sample": [{"PersonId": 4398046511136}],
+    }
+
+    redacted = redact_example(example, policy=PrivacyPolicy(redact_numeric_literals=True))
+
+    assert "4398046511136" not in redacted["question"]
+    assert "4398046511136" not in redacted["cypher"]
+    assert "__VALUE_001__" in redacted["cypher"]
+    assert redacted["result_rows_sample"][0]["PersonId"] == "__VALUE_001__"
+
+
 def test_value_sampling_policy_omits_high_cardinality_values():
     sampled = sample_categorical_values(
         "Person.personName",

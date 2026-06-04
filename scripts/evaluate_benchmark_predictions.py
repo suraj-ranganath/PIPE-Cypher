@@ -115,6 +115,7 @@ def _open_graph_contexts(items: list[str]):
             cfg.neo4j.password,
             database=cfg.neo4j.database,
             timeout_sec=cfg.neo4j.query_timeout_sec,
+            enforce_read_transactions=cfg.neo4j.enforce_read_transactions,
         )
         contexts[graph] = (schema, client)
     return contexts

@@ -58,6 +58,7 @@ def main() -> None:
         cfg.neo4j.password,
         database=cfg.neo4j.database,
         timeout_sec=cfg.neo4j.query_timeout_sec,
+        enforce_read_transactions=cfg.neo4j.enforce_read_transactions,
     )
     gold_by_question = {row["question"]: row for row in load_jsonl(args.gold)}
     outputs = []

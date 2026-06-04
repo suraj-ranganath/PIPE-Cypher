@@ -32,6 +32,8 @@ IDENTITY_PROPERTY_PREFERENCES = (
     "name",
     "title",
     "accountId",
+    "caseId",
+    "customerId",
     "personId",
     "companyId",
     "entity_number",
@@ -83,6 +85,22 @@ def reverse_cypher_for_schema_template(template: TemplateCandidate, limit: int =
     prop = str(meta["slot_property"])
     slot = str(meta["slot"])
 
+    if kind == "negation_context_outgoing_scoped":
+        missing_rel = str(meta["missing_relationship_type"])
+        missing_end = str(meta["missing_end_label"])
+        return (
+            f"MATCH (a:{start})-[:{rel_type}]->(b:{end}) "
+            f"WHERE a.{prop} IS NOT NULL AND NOT (b)-[:{missing_rel}]->(:{missing_end}) "
+            f"RETURN DISTINCT a.{prop} AS {slot} LIMIT {limit}"
+        )
+    if kind == "negation_context_incoming_scoped":
+        missing_rel = str(meta["missing_relationship_type"])
+        missing_start = str(meta["missing_start_label"])
+        return (
+            f"MATCH (a:{start})-[:{rel_type}]->(b:{end}) "
+            f"WHERE a.{prop} IS NOT NULL AND NOT (:{missing_start})-[:{missing_rel}]->(b) "
+            f"RETURN DISTINCT a.{prop} AS {slot} LIMIT {limit}"
+        )
     if kind == "topk_outgoing_scoped":
         return (
             f"MATCH (s:{start})-[:{rel_type}]->(:{end}) "
@@ -200,6 +218,22 @@ def cypher_for_schema_template(
             f"MATCH (e:{end} {{{prop}: {value}}}) "
             f"WHERE NOT (:{start})-[:{rel_type}]->(e) "
             f"RETURN DISTINCT {_projection(schema, end, 'e', 'Target')} LIMIT {limit}"
+        )
+    if kind == "negation_context_outgoing_scoped":
+        missing_rel = str(meta["missing_relationship_type"])
+        missing_end = str(meta["missing_end_label"])
+        return (
+            f"MATCH (a:{start} {{{prop}: {value}}})-[:{rel_type}]->(b:{end}) "
+            f"WHERE NOT (b)-[:{missing_rel}]->(:{missing_end}) "
+            f"RETURN DISTINCT {_projection(schema, end, 'b', 'Target')} LIMIT {limit}"
+        )
+    if kind == "negation_context_incoming_scoped":
+        missing_rel = str(meta["missing_relationship_type"])
+        missing_start = str(meta["missing_start_label"])
+        return (
+            f"MATCH (a:{start} {{{prop}: {value}}})-[:{rel_type}]->(b:{end}) "
+            f"WHERE NOT (:{missing_start})-[:{missing_rel}]->(b) "
+            f"RETURN DISTINCT {_projection(schema, end, 'b', 'Target')} LIMIT {limit}"
         )
     if kind == "count_outgoing":
         return (
@@ -419,6 +453,85 @@ def _negation_templates_for_relationship(
                 ),
             )
         )
+    for prop in _slot_properties(schema, rel.start_label)[:2]:
+        templates.extend(_contextual_negation_templates(schema, rel, prop))
+    return templates
+
+
+def _contextual_negation_templates(
+    schema: SchemaSummary,
+    context_rel: RelationshipPattern,
+    slot_property: str,
+) -> list[TemplateCandidate]:
+    """Create two-hop anti-joins scoped by an anchor value.
+
+    These templates are useful for sparse enterprise schemas where many
+    unscoped anti-joins are either empty or duplicate. The reverse query uses
+    the same anti-join predicate as the final query, so sampled slot values are
+    outcome-aware rather than broad label/property lookups.
+    """
+
+    if not _safe_identifier(slot_property):
+        return []
+    anchor_text = _label_phrase(context_rel.start_label)
+    target_text = _label_phrase(context_rel.end_label)
+    templates: list[TemplateCandidate] = []
+    outgoing_missing = [
+        rel
+        for rel in _rank_relationships(schema.relationships)
+        if rel.start_label == context_rel.end_label
+        and (rel.type, rel.end_label) != (context_rel.type, context_rel.start_label)
+    ][:2]
+    incoming_missing = [
+        rel
+        for rel in _rank_relationships(schema.relationships)
+        if rel.end_label == context_rel.end_label
+        and (rel.type, rel.start_label) != (context_rel.type, context_rel.start_label)
+    ][:2]
+    for missing in outgoing_missing:
+        missing_text = _label_phrase(missing.end_label)
+        templates.append(
+            TemplateCandidate(
+                category="negation_difference",
+                template=(
+                    f"Which {target_text} records linked from {anchor_text} records with "
+                    f"{slot_property} '{{anchorValue}}' through :{context_rel.type} have no "
+                    f"outgoing :{missing.type} relationship to {missing_text} records?"
+                ),
+                slots={"anchorValue": f"{context_rel.start_label}.{slot_property}"},
+                rationale="Schema-derived context-scoped anti-join with outcome-aware grounding.",
+                metadata=_metadata(
+                    "negation_context_outgoing_scoped",
+                    context_rel,
+                    slot="anchorValue",
+                    slot_property=slot_property,
+                    missing_relationship_type=missing.type,
+                    missing_end_label=missing.end_label,
+                ),
+            )
+        )
+    for missing in incoming_missing:
+        missing_text = _label_phrase(missing.start_label)
+        templates.append(
+            TemplateCandidate(
+                category="negation_difference",
+                template=(
+                    f"Which {target_text} records linked from {anchor_text} records with "
+                    f"{slot_property} '{{anchorValue}}' through :{context_rel.type} are not "
+                    f"linked from any {missing_text} record through :{missing.type}?"
+                ),
+                slots={"anchorValue": f"{context_rel.start_label}.{slot_property}"},
+                rationale="Schema-derived context-scoped inverse anti-join with outcome-aware grounding.",
+                metadata=_metadata(
+                    "negation_context_incoming_scoped",
+                    context_rel,
+                    slot="anchorValue",
+                    slot_property=slot_property,
+                    missing_relationship_type=missing.type,
+                    missing_start_label=missing.start_label,
+                ),
+            )
+        )
     return templates
 
 
@@ -441,7 +554,8 @@ def _slot_properties(schema: SchemaSummary, label: str) -> list[str]:
         if key.startswith(f"{label}.") and values
     ]
     preferred = [prop for prop in SAFE_SLOT_PROPERTY_NAMES if prop in available]
-    candidates = [*categorical, *preferred]
+    identity = [prop for prop in IDENTITY_PROPERTY_PREFERENCES if prop in available]
+    candidates = [*categorical, *preferred, *identity]
     selected: list[str] = []
     for prop in candidates:
         if prop in selected or prop not in available or not _safe_identifier(prop):

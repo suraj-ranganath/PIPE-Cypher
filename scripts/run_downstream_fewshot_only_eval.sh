@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-BENCHMARK="${BENCHMARK:-artifacts/benchmarks/20260601_live_full_qwen9b}"
+BENCHMARK="${BENCHMARK:-artifacts/benchmarks/20260604_live_full_qwen9b_reviewfix}"
 SPLIT="${SPLIT:-test}"
 RUN_PREFIX="${RUN_PREFIX:-$(date +%Y%m%d_%H%M%S)_downstream_fewshot_control}"
 BASE_URL="${BASE_URL:-http://localhost:8000/v1}"
@@ -13,6 +13,12 @@ FEW_SHOT_MAX_QUESTION_SIM="${FEW_SHOT_MAX_QUESTION_SIM:-0.90}"
 FEW_SHOT_EXCLUDE_SIGNATURE_MATCH="${FEW_SHOT_EXCLUDE_SIGNATURE_MATCH:-false}"
 OUTPUT_DIR="${OUTPUT_DIR:-artifacts/evaluations/${RUN_PREFIX}}"
 SYSTEM_MESSAGE_MODE="${SYSTEM_MESSAGE_MODE:-separate}"
+DISABLE_TEXT_METRICS="${DISABLE_TEXT_METRICS:-true}"
+
+TEXT_METRIC_ARGS=()
+if [[ "${DISABLE_TEXT_METRICS}" == "true" ]]; then
+  TEXT_METRIC_ARGS+=(--disable-text-metrics)
+fi
 
 mkdir -p "${OUTPUT_DIR}"
 
@@ -30,6 +36,7 @@ mkdir -p "${OUTPUT_DIR}"
   printf 'few_shot_max_question_similarity=%s\n' "${FEW_SHOT_MAX_QUESTION_SIM}"
   printf 'few_shot_exclude_signature_match=%s\n' "${FEW_SHOT_EXCLUDE_SIGNATURE_MATCH}"
   printf 'system_message_mode=%s\n' "${SYSTEM_MESSAGE_MODE}"
+  printf 'text_metrics_disabled=%s\n' "${DISABLE_TEXT_METRICS}"
   date -u '+launched_at_utc=%Y-%m-%dT%H:%M:%SZ'
   printf 'notes=local weights served by local endpoint; few-shot control run only\n'
 } > "${OUTPUT_DIR}/run_metadata.txt"
@@ -58,7 +65,8 @@ python scripts/evaluate_benchmark_predictions.py \
   --config finbench=configs/finbench_full.yaml \
   --config snb=configs/snb_full.yaml \
   --output "${OUTPUT_DIR}/few_shot_evaluation.jsonl" \
-  --summary-output "${OUTPUT_DIR}/few_shot_summary.json"
+  --summary-output "${OUTPUT_DIR}/few_shot_summary.json" \
+  "${TEXT_METRIC_ARGS[@]}"
 
 cat > "${OUTPUT_DIR}/metadata.json" <<EOF
 {
@@ -71,7 +79,8 @@ cat > "${OUTPUT_DIR}/metadata.json" <<EOF
   "few_shot_seed": ${FEW_SHOT_SEED},
   "few_shot_max_question_similarity": ${FEW_SHOT_MAX_QUESTION_SIM},
   "few_shot_exclude_signature_match": ${FEW_SHOT_EXCLUDE_SIGNATURE_MATCH},
-  "system_message_mode": "${SYSTEM_MESSAGE_MODE}"
+  "system_message_mode": "${SYSTEM_MESSAGE_MODE}",
+  "text_metrics_disabled": ${DISABLE_TEXT_METRICS}
 }
 EOF
 

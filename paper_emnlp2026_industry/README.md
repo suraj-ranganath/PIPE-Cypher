@@ -2,275 +2,130 @@
 
 Target: EMNLP 2026 Industry Track.
 
-Core claim: PIPE-Cypher is a local-model, execution-grounded, Cypher-specific pipeline for generating private enterprise NL-to-Cypher benchmarks.
+Canonical submission source: `main_acl.tex`. Treat `main.tex` and `paper.md`
+as convenience mirrors only after the canonical source is stable.
 
-Page accounting: for the EMNLP Industry submission, the counted main paper is at most 6 pages and `Conclusion` must end by the end of page 6. `Limitations`, ethical considerations, references, and appendices are excluded from this limit. The appendix should carry full ablations, diversity diagnostics, failure analysis, graph/category breakdowns, judge calibration material, reproducibility details, and examples.
+Core claim: PIPE-Cypher is a local-model, execution-grounded, Cypher-specific
+pipeline for generating private enterprise NL-to-Cypher benchmarks.
 
-After rebuilding the ACL-style draft, audit the page accounting from the project root:
+Page accounting: for the EMNLP Industry submission, the counted main paper is
+at most 6 pages and `Conclusion` must end by the end of page 6. `Limitations`,
+ethical considerations, references, and appendices are excluded from this
+limit. The appendix should carry full ablations, diversity diagnostics, failure
+analysis, graph/category breakdowns, judge calibration material,
+reproducibility details, and examples.
+
+## Build and Audit
+
+From the project root:
 
 ```bash
+cd paper_emnlp2026_industry
+latexmk -pdf -interaction=nonstopmode main_acl.tex
+cd ..
 python scripts/audit_emnlp_page_budget.py \
   --pdf paper_emnlp2026_industry/main_acl.pdf
-```
-
-Files:
-
-- `paper.md`: current paper draft for rapid editing.
-- `main.tex`: ACL/EMNLP-style LaTeX draft skeleton.
-- `references.bib`: working references.
-- `tables_*.tex`: current method, experiment, full-generation, export, diversity, failure-taxonomy, judge-audit, distribution, downstream evaluation, and downstream uncertainty tables.
-- `appendix_claim_evidence.tex`, `appendix_prompt_contracts.tex`, and `appendix_example_cards.tex`: generated appendix material for claim/evidence traceability, prompt contracts, and representative accepted benchmark examples.
-- `figures/*.pdf`: appendix-ready ablation, diversity, failure-taxonomy, export-distribution, downstream-evaluation, and downstream-uncertainty figures.
-- `main.pdf`: compiled local draft when LaTeX is available.
-
-Figure style: all matplotlib figures should import `pipecypher.paper_style`
-and use its muted blue/teal/gold/red/purple palette, graph colors, metric
-colors, and shared sequential/quality colormaps. Figure 1's TikZ colors are
-kept in the same palette. Avoid one-off default colormaps or bright ad hoc
-colors; regenerate vector PDFs after style changes and visually inspect the
-first six pages plus appendix figure pages before submission.
-
-Citation provenance is tracked in `../knowledge_base/citation_verification.md`; no placeholder citations are currently present in `references.bib`.
-
-Regenerate artifact-derived result tables with:
-
-```bash
-python ../scripts/render_paper_artifact_tables.py \
-  --benchmark-dir ../artifacts/benchmarks/20260601_live_full_qwen9b \
-  --evaluation-summary ../artifacts/evaluations/20260601_full_qwen9b_test_summary.json \
-  --paper-dir .
-```
-
-From the project root, regenerate downstream-evaluation uncertainty intervals
-from the full row-level evaluation artifact:
-
-```bash
-python scripts/analyze_evaluation_uncertainty.py \
-  --evaluation artifacts/evaluations/20260601_full_qwen9b_test_eval.jsonl \
-  --output-json experiments/snapshots/20260601_live_full_qwen9b/downstream_uncertainty.json \
-  --output-md experiments/snapshots/20260601_live_full_qwen9b/downstream_uncertainty.md \
-  --output-tex paper_emnlp2026_industry/tables_downstream_uncertainty.tex \
-  --iterations 2000 \
-  --seed 13
-```
-
-Target-five and smaller ablations are engineering sanity checks, not paper
-results. Target-25 is an interim checkpoint. Do not include
-`tables_ablation5_results.tex`, `tables_smoke.tex`, `tables_mini_results.tex`,
-or `tables_midscale_results.tex` in the paper. Run a scaled ablation suite from
-the project root before adding ablation tables:
-
-The regression test `tests/test_paper_reporting_guards.py` scans manuscript,
-table, appendix, and paper-figure surfaces for these diagnostic artifacts. Keep
-that test passing before treating the draft as paper-ready.
-
-```bash
-SESSION=pipecypher_ablation50_qwen9b \
-TARGET_PER_CATEGORY=50 \
-PYTHON_BIN=/home/suraj/pipecypher-tools/runtime-venv/bin/python \
-GENERATION_MODEL=Qwen/Qwen3.5-9B \
-JUDGE_MODEL=Qwen/Qwen3.5-9B \
-RUN_PREFIX=20260601_ablation50_qwen9b \
-  scripts/launch_live_ablation_suite_tmux.sh
-```
-
-Use `TARGET_PER_CATEGORY=25` only as an interim scaled checkpoint. Treat
-`TARGET_PER_CATEGORY=50` as the minimum paper-readiness threshold, not the ideal
-scale. Prefer `TARGET_PER_CATEGORY=100`, repeated target-50 suites, or another
-scale-equivalent design for final appendix claims when the endpoint is stable
-enough.
-
-For repeated suites, set `RUN_SEED` and include the seed in the run prefix. The
-pipeline records the seed in per-run summaries and suite metadata, so appendix
-variance or sensitivity claims can point to reproducible repeated-seed runs.
-
-Current large-scale follow-up: `20260602_ablation100_qwen9b_schemafix` is running on
-the remote compute host in tmux session `pipecypher_ablation100_qwen9b_schemafix`, staged from commit
-`389e7e09af06bbdcc48c6a4bc80f8f2c7af3b944` under
-`/home/suraj/PIPE-Cypher-389e7e0-schemafix`. This is not paper evidence
-until it completes, is collected, and passes the paper-readiness audit.
-
-Additional repeated-run follow-up: `20260602_ablation50_qwen9b_seed17_schemafix` is queued
-in tmux session `pipecypher_ablation50_qwen9b_seed17_schemafix`, staged from commit
-`389e7e09af06bbdcc48c6a4bc80f8f2c7af3b944` under
-`/home/suraj/PIPE-Cypher-389e7e0-schemafix`. It waits for target-100 to
-finish and records `RUN_SEED=17` for repeated-seed sensitivity evidence. This is
-also not paper evidence until collected and audited.
-
-While a remote suite is running, inspect progress without copying partial
-artifacts. The queue monitor prints each suite's `next_action` and safe
-`collection_command`; already collected paper-ready suites report
-`collection_command=not_applicable`:
-
-```bash
-python scripts/monitor_remote_ablation_queue.py \
-  --queue experiments/remote_ablation_queue.yaml
-```
-
-For focused target-50 inspection, use the single-suite monitor:
-
-```bash
-python scripts/monitor_remote_ablation_suite.py \
-  --run-prefix 20260601_ablation50_qwen9b \
-  --target-per-category 50 \
-  --session pipecypher_ablation50_qwen9b
-```
-
-After the suite finishes, create a non-paper audit summary first. The audit
-defaults to a target-50 minimum for paper-style reporting:
-
-```bash
-python scripts/collect_remote_ablation_suite.py \
-  --run-prefix 20260601_ablation50_qwen9b \
-  --target-per-category 50 \
-  --wait-session pipecypher_ablation50_qwen9b \
-  --poll-seconds 60
-```
-
-For the target-100 suite, collect from the staged remote root after it exits:
-
-```bash
-python scripts/collect_remote_ablation_suite.py \
-  --remote-root /home/suraj/PIPE-Cypher-389e7e0-schemafix \
-  --run-prefix 20260602_ablation100_qwen9b_schemafix \
-  --target-per-category 100 \
-  --wait-session pipecypher_ablation100_qwen9b_schemafix \
-  --poll-seconds 60
-```
-
-The collector fetches matching remote run directories from the configured remote host, copies
-the remote log into `experiments/snapshots/<run_prefix>/remote_run.log`, and
-writes `ablation_suite_summary.{json,md,csv}` plus
-`ablation_suite_audit.{json,md}` and `collection_manifest.json` locally. The
-manifest fingerprints fetched records, run summaries, summary/audit files, the
-remote log, and any rendered paper ablation artifacts. If the run directories
-are already local, the lower-level summary command is:
-
-```bash
-python scripts/summarize_live_ablation_suite.py \
-  --glob 'artifacts/runs/*20260601_ablation50_qwen9b*' \
-  --target-per-category 50 \
-  --output-json experiments/snapshots/20260601_ablation50_qwen9b/ablation_suite_summary.json \
-  --output-md experiments/snapshots/20260601_ablation50_qwen9b/ablation_suite_summary.md \
-  --output-csv experiments/snapshots/20260601_ablation50_qwen9b/ablation_suite_summary.csv \
-  --output-audit-json experiments/snapshots/20260601_ablation50_qwen9b/ablation_suite_audit.json \
-  --output-audit-md experiments/snapshots/20260601_ablation50_qwen9b/ablation_suite_audit.md \
-  --metadata run_prefix=20260601_ablation50_qwen9b \
-  --metadata generation_model=Qwen/Qwen3.5-9B \
-  --metadata judge_model=Qwen/Qwen3.5-9B \
-  --metadata code_revision=<RECORDED_REVISION> \
-  --metadata log_file=logs/20260601_ablation50_qwen9b.log
-```
-
-Only after the suite is complete and the audit reports `paper_ready=true`
-should it be considered for manuscript reporting. For final claims, also check
-whether the run is sufficiently scaled, graph-stratified, and accompanied by
-failure analysis and uncertainty or variance evidence. Render accepted suites
-into `tables_ablation_results.tex` and `tables_ablation_quality.tex`:
-
-```bash
-python scripts/summarize_live_ablation_suite.py \
-  --glob 'artifacts/runs/*20260601_ablation50_qwen9b*' \
-  --target-per-category 50 \
-  --output-tex paper_emnlp2026_industry/tables_ablation_results.tex \
-  --output-quality-tex paper_emnlp2026_industry/tables_ablation_quality.tex \
-  --metadata run_prefix=20260601_ablation50_qwen9b \
-  --metadata generation_model=Qwen/Qwen3.5-9B \
-  --metadata judge_model=Qwen/Qwen3.5-9B \
-  --metadata code_revision=<RECORDED_REVISION> \
-  --metadata log_file=logs/20260601_ablation50_qwen9b.log
-```
-
-The matching ablation figures are also generated separately, not by the default
-paper-figure script, so partial ablation evidence is not accidentally pulled
-into the manuscript:
-
-```bash
-python scripts/render_ablation_suite_figure.py \
-  --suite-summary experiments/snapshots/20260602_ablation100_qwen9b_catfix/ablation_suite_summary.json \
-  --stress-baseline-summary experiments/snapshots/20260603_unconstrained_attempts_qwen9b_stress_baseline/ablation_suite_summary.json \
-  --output paper_emnlp2026_industry/figures/ablation_suite_target100.pdf \
-  --quality-output paper_emnlp2026_industry/figures/ablation_quality_target100.pdf
-```
-
-For target-size or repeated-seed sensitivity, compare collected suite summaries
-before writing variance claims. The comparison report uses target-normalized
-coverage, so target-50 and target-100 suites can be compared without treating
-larger raw accepted counts as quality gains:
-
-```bash
-python scripts/compare_ablation_suites.py \
-  experiments/snapshots/<suite-a>/ablation_suite_summary.json \
-  experiments/snapshots/<suite-b>/ablation_suite_summary.json \
-  --output-json experiments/snapshots/ablation_suite_comparison.json \
-  --output-md experiments/snapshots/ablation_suite_comparison.md \
-  --output-csv experiments/snapshots/ablation_suite_comparison.csv \
-  --output-tex paper_emnlp2026_industry/tables_ablation_comparison.tex
-```
-
-The `--output-tex` path is guarded: it refuses to render from fewer than two
-suites or from suites without sibling `ablation_suite_audit.json` and
-`collection_manifest.json` evidence. Use `--allow-diagnostic-tex` only for
-internal layout checks, not for paper reporting.
-
-Regenerate the diversity table and appendix figures from the project root:
-
-```bash
-python scripts/analyze_benchmark_diversity.py \
-  --benchmark artifacts/benchmarks/20260601_live_full_qwen9b/all.jsonl \
-  --schema configs/schema_finbench.json \
-  --schema configs/schema_snb.json \
-  --output-json experiments/snapshots/20260601_live_full_qwen9b/diversity_report.json \
-  --output-tex paper_emnlp2026_industry/tables_diversity.tex
-
-python scripts/analyze_failure_taxonomy.py \
+python scripts/verify_submission_package.py \
+  --paper-tex paper_emnlp2026_industry/main_acl.tex \
+  --evidence-manifest experiments/snapshots/20260604_review_remediation/clean_qwen9b_submission_evidence_manifest.json \
   --records \
     artifacts/runs/20260601_142318_20260601_full_qwen9b_finbench \
     artifacts/runs/20260601_165047_20260601_full_qwen9b_snb \
-    artifacts/runs/20260601_173836_20260601_full_qwen9b_finbench_fill_20260601_173235_negation_difference \
-    artifacts/runs/20260601_173838_20260601_full_qwen9b_snb_fill_20260601_173235_negation_difference \
-    artifacts/runs/20260601_173842_20260601_full_qwen9b_snb_fill_20260601_173235_path_temporal \
-    artifacts/runs/20260601_173848_20260601_full_qwen9b_snb_fill_20260601_173235_ranking_topk \
-  --output-json experiments/snapshots/20260601_live_full_qwen9b/failure_taxonomy.json \
-  --output-tex paper_emnlp2026_industry/tables_failure_taxonomy.tex
-
-python scripts/render_paper_figures.py \
-  --diversity-report experiments/snapshots/20260601_live_full_qwen9b/diversity_report.json \
-  --failure-taxonomy experiments/snapshots/20260601_live_full_qwen9b/failure_taxonomy.json \
-  --benchmark-stats artifacts/benchmarks/20260601_live_full_qwen9b/stats.json \
-  --downstream-summary artifacts/evaluations/20260601_full_qwen9b_test_summary.json \
-  --downstream-uncertainty experiments/snapshots/20260601_live_full_qwen9b/downstream_uncertainty.json \
-  --output-dir paper_emnlp2026_industry/figures
-
-python scripts/analyze_strategy_diagnostics.py \
-  --benchmark artifacts/benchmarks/20260601_live_full_qwen9b/all.jsonl \
-  --evaluation artifacts/evaluations/20260601_full_qwen9b_test_eval.jsonl \
-  --output-json experiments/snapshots/20260601_live_full_qwen9b/strategy_diagnostics.json \
-  --output-tex paper_emnlp2026_industry/tables_strategy_diagnostics.tex \
-  --coverage-figure paper_emnlp2026_industry/figures/strategy_coverage.pdf \
-  --downstream-figure paper_emnlp2026_industry/figures/strategy_downstream_errors.pdf
+    artifacts/runs/20260604_131025_20260604_qwen9b_reviewfix_finbench_negation_difference \
+    artifacts/runs/20260604_132554_20260604_qwen9b_reviewfix_snb_4096_negation_difference \
+    artifacts/runs/20260604_134817_20260604_qwen9b_reviewfix_snb_negation_extra \
+    artifacts/runs/20260604_132921_20260604_qwen9b_reviewfix_snb_path_2048 \
+    artifacts/runs/20260604_133010_20260604_qwen9b_reviewfix_snb_ranking_2048 \
+  --approved-model Qwen/Qwen3.5-9B
 ```
 
-Regenerate the judge-audit coverage table and local HTML review packet from the project root:
+## Clean Evidence Namespace
+
+Use `artifacts/benchmarks/20260604_live_full_qwen9b_reviewfix` or a later
+manifest that passes the approved-model provenance guard. The older June 1
+export name is not acceptable for final paper evidence because its source
+lineage included larger-model top-ups.
+
+Paper-facing clean summaries currently live under:
+
+- `experiments/snapshots/20260604_review_remediation/`
+- `experiments/snapshots/20260604_diversity_governed_target50_reviewfix/`
+- `experiments/snapshots/20260604_clean_downstream_model_transfer/` after the
+  clean downstream rerun finishes and is collected.
+
+Do not promote partial or sampled runs into the main paper or appendix.
+Research-quality reported results need complete run directories, logs, code
+revision or manifest evidence, model IDs, graph workloads, audit status, and
+enough scale or uncertainty analysis to be reviewer-defensible.
+
+## Rerender Core Tables
 
 ```bash
-python scripts/render_judge_audit_packet.py \
-  --audit artifacts/audits/20260601_full_qwen9b_judge_audit_v2.csv \
-  --output-html artifacts/audits/20260601_full_qwen9b_judge_audit_v2.html \
-  --output-json experiments/snapshots/20260601_live_full_qwen9b/judge_audit_packet_v2.json \
-  --output-tex paper_emnlp2026_industry/tables_judge_audit_coverage.tex
+python scripts/render_paper_artifact_tables.py \
+  --benchmark-dir artifacts/benchmarks/20260604_live_full_qwen9b_reviewfix \
+  --evaluation-summary artifacts/evaluations/20260604_clean_downstream_qwen35_9b_zero_fewshot/zero_shot_summary.json \
+  --downstream-errors experiments/snapshots/20260604_clean_downstream_model_transfer/downstream_error_report.json \
+  --failure-taxonomy experiments/snapshots/20260604_review_remediation/failure_taxonomy.json \
+  --paper-dir paper_emnlp2026_industry
 ```
 
-Regenerate the appendix prompt contracts and representative accepted examples:
+## Rerender Diversity and Governance Evidence
 
 ```bash
-python scripts/render_appendix_material.py \
-  --claim-map knowledge_base/claim_evidence_map.yaml \
-  --output-claims paper_emnlp2026_industry/appendix_claim_evidence.tex \
-  --examples experiments/snapshots/20260601_live_full_qwen9b/sample_examples.json \
-  --output-prompts paper_emnlp2026_industry/appendix_prompt_contracts.tex \
-  --output-examples paper_emnlp2026_industry/appendix_example_cards.tex \
-  --max-examples 16
+python scripts/analyze_benchmark_diversity.py \
+  --benchmark artifacts/benchmarks/20260604_live_full_qwen9b_reviewfix/all.jsonl \
+  --schema configs/schema_finbench.json \
+  --schema configs/schema_snb.json \
+  --output-json experiments/snapshots/20260604_review_remediation/diversity_report.json \
+  --output-tex paper_emnlp2026_industry/tables_diversity.tex
+
+python scripts/audit_gate_impact.py \
+  --records \
+    artifacts/runs/20260601_142318_20260601_full_qwen9b_finbench \
+    artifacts/runs/20260601_165047_20260601_full_qwen9b_snb \
+    artifacts/runs/20260604_131025_20260604_qwen9b_reviewfix_finbench_negation_difference \
+    artifacts/runs/20260604_132554_20260604_qwen9b_reviewfix_snb_4096_negation_difference \
+    artifacts/runs/20260604_134817_20260604_qwen9b_reviewfix_snb_negation_extra \
+    artifacts/runs/20260604_132921_20260604_qwen9b_reviewfix_snb_path_2048 \
+    artifacts/runs/20260604_133010_20260604_qwen9b_reviewfix_snb_ranking_2048 \
+  --output-json experiments/snapshots/20260604_review_remediation/gate_impact.json \
+  --output-tex paper_emnlp2026_industry/tables_gate_impact.tex
+
+python scripts/audit_redaction_policy.py \
+  --benchmark artifacts/benchmarks/20260604_live_full_qwen9b_reviewfix/all.jsonl \
+  --output-json experiments/snapshots/20260604_review_remediation/redaction_audit.json \
+  --output-tex paper_emnlp2026_industry/tables_redaction_audit.tex
 ```
 
-Current caveat: the paper is structurally complete for serious revision and now includes the 3,000-example full FinBench/SNB benchmark export, full-test Qwen3.5-9B downstream evaluation with bootstrap uncertainty intervals, diversity diagnostics, strategy diagnostics, full-run failure taxonomy, completed judge-audit calibration, ICIJ onboarding, claim/evidence traceability, prompt contracts, representative accepted examples, the corrected target-100 ablation suite, and the seed-17 target-50 repeat. Do not promote partial ablation suites or sampled downstream evaluations into the main paper or appendix; research-quality reported results need complete run directories, logs, code revisions, model IDs, graph workloads, audit status, and enough scale or uncertainty analysis to be reviewer-defensible.
+## Rerender Downstream Controls
+
+After all clean downstream run directories exist under `artifacts/evaluations/`
+with the `20260604_clean_*` prefix, build the control summaries and figures:
+
+```bash
+python scripts/build_downstream_control_manifest.py
+python scripts/summarize_downstream_fewshot_controls.py \
+  --zero-run-dir artifacts/evaluations/20260604_clean_downstream_<model>_zero_fewshot \
+  --control-run-dir artifacts/evaluations/20260604_clean_control_<model>_ordered_logged \
+  --control-run-dir artifacts/evaluations/20260604_clean_control_<model>_scored_no_signature \
+  --control-run-dir artifacts/evaluations/20260604_clean_control_<model>_random_seed13 \
+  --control-run-dir artifacts/evaluations/20260604_clean_control_<model>_random_seed17 \
+  --control-run-dir artifacts/evaluations/20260604_clean_control_<model>_random_seed23 \
+  --output-json experiments/snapshots/20260604_clean_downstream_model_transfer/fewshot_control_summary.json \
+  --output-md experiments/snapshots/20260604_clean_downstream_model_transfer/fewshot_control_summary.md \
+  --output-tex paper_emnlp2026_industry/tables_downstream_fewshot_controls.tex
+```
+
+Use all completed local-model run directories, not the literal `<model>`
+placeholder above. The same clean summaries should then feed
+`render_downstream_transfer_controls.py`,
+`render_downstream_fewshot_control_uncertainty.py`,
+`render_fewshot_leakage_controls.py`, and `render_paper_figures.py`.
+
+## Figure Style
+
+All matplotlib figures should import `pipecypher.paper_style` and use its
+shared palette, graph colors, metric colors, and sequential/quality colormaps.
+Figure 1's TikZ colors are kept in the same palette. Regenerate vector PDFs
+after style changes and visually inspect the first six pages plus appendix
+figure pages before submission.

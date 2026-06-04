@@ -1,0 +1,327 @@
+{
+  "args": {
+    "benchmark": "artifacts/benchmarks/20260604_live_full_qwen9b_reviewfix/all.jsonl",
+    "max_signature_share": 0.2,
+    "max_template_family_share": 0.25,
+    "output_dir": "experiments/snapshots/20260604_diversity_governed_target50_reviewfix",
+    "schema": [
+      "configs/schema_finbench.json",
+      "configs/schema_snb.json"
+    ],
+    "seed": "13",
+    "self_bleu_sample_size": 200,
+    "split_mode": "signature_disjoint",
+    "target_per_graph_category": 50
+  },
+  "method": "balanced_random_vs_diversity_governed_subset",
+  "rows": [
+    {
+      "delta": 0.017242706170411903,
+      "diversity_governed": 0.5747205375358095,
+      "metric": "pipe_diversity_index",
+      "random_balanced": 0.5574778313653976
+    },
+    {
+      "delta": 0.07250000000000001,
+      "diversity_governed": 0.135,
+      "metric": "query_signature_ratio",
+      "random_balanced": 0.0625
+    },
+    {
+      "delta": 0.0,
+      "diversity_governed": 0.0625,
+      "metric": "top_signature_share",
+      "random_balanced": 0.0625
+    },
+    {
+      "delta": -0.034876459349084676,
+      "diversity_governed": 0.8678154682030849,
+      "metric": "template_family_entropy",
+      "random_balanced": 0.9026919275521695
+    },
+    {
+      "delta": 0.010150301194340794,
+      "diversity_governed": 0.9114690336879114,
+      "metric": "operator_combo_entropy",
+      "random_balanced": 0.9013187324935706
+    },
+    {
+      "delta": 37,
+      "diversity_governed": 134,
+      "metric": "structural_substructures",
+      "random_balanced": 97
+    },
+    {
+      "delta": 0.015877343765383856,
+      "diversity_governed": 0.8662992179585491,
+      "metric": "self_bleu_2",
+      "random_balanced": 0.8504218741931653
+    },
+    {
+      "delta": 0.01793964278153004,
+      "diversity_governed": 0.284129851237821,
+      "metric": "ead_distinct_2",
+      "random_balanced": 0.26619020845629093
+    },
+    {
+      "delta": 0.018518518518518545,
+      "diversity_governed": 0.42592592592592593,
+      "metric": "schema_property_coverage",
+      "random_balanced": 0.4074074074074074
+    }
+  ],
+  "selection_report": {
+    "group_keys": [
+      "graph_profile",
+      "category"
+    ],
+    "groups": {
+      "finbench::boolean_existence": {
+        "cap_events": {
+          "query_signature_cap": 30,
+          "template_family_cap": 24
+        },
+        "input": 250,
+        "operator_combinations": 1,
+        "query_signatures": 2,
+        "selected": 50,
+        "structural_substructures": 11,
+        "target": 50,
+        "template_families": 2,
+        "underfilled": false
+      },
+      "finbench::complex_aggregation": {
+        "cap_events": {
+          "query_signature_cap": 40,
+          "template_family_cap": 37
+        },
+        "input": 250,
+        "operator_combinations": 1,
+        "query_signatures": 1,
+        "selected": 50,
+        "structural_substructures": 10,
+        "target": 50,
+        "template_families": 1,
+        "underfilled": false
+      },
+      "finbench::complex_retrieval": {
+        "cap_events": {
+          "query_signature_cap": 40,
+          "template_family_cap": 37
+        },
+        "input": 250,
+        "operator_combinations": 1,
+        "query_signatures": 1,
+        "selected": 50,
+        "structural_substructures": 11,
+        "target": 50,
+        "template_families": 1,
+        "underfilled": false
+      },
+      "finbench::negation_difference": {
+        "cap_events": {
+          "query_signature_cap": 16,
+          "template_family_cap": 13
+        },
+        "input": 250,
+        "operator_combinations": 1,
+        "query_signatures": 25,
+        "selected": 50,
+        "structural_substructures": 45,
+        "target": 50,
+        "template_families": 10,
+        "underfilled": false
+      },
+      "finbench::path_temporal": {
+        "cap_events": {
+          "query_signature_cap": 30,
+          "template_family_cap": 24
+        },
+        "input": 250,
+        "operator_combinations": 1,
+        "query_signatures": 2,
+        "selected": 50,
+        "structural_substructures": 13,
+        "target": 50,
+        "template_families": 2,
+        "underfilled": false
+      },
+      "finbench::ranking_topk": {
+        "cap_events": {
+          "query_signature_cap": 38,
+          "template_family_cap": 35
+        },
+        "input": 250,
+        "operator_combinations": 1,
+        "query_signatures": 3,
+        "selected": 50,
+        "structural_substructures": 17,
+        "target": 50,
+        "template_families": 3,
+        "underfilled": false
+      },
+      "finbench::simple_aggregation": {
+        "cap_events": {
+          "query_signature_cap": 40,
+          "template_family_cap": 37
+        },
+        "input": 250,
+        "operator_combinations": 1,
+        "query_signatures": 1,
+        "selected": 50,
+        "structural_substructures": 8,
+        "target": 50,
+        "template_families": 1,
+        "underfilled": false
+      },
+      "finbench::simple_retrieval": {
+        "cap_events": {
+          "query_signature_cap": 40,
+          "template_family_cap": 37
+        },
+        "input": 250,
+        "operator_combinations": 1,
+        "query_signatures": 1,
+        "selected": 50,
+        "structural_substructures": 10,
+        "target": 50,
+        "template_families": 1,
+        "underfilled": false
+      },
+      "snb::boolean_existence": {
+        "cap_events": {
+          "query_signature_cap": 40,
+          "template_family_cap": 37
+        },
+        "input": 125,
+        "operator_combinations": 1,
+        "query_signatures": 1,
+        "selected": 50,
+        "structural_substructures": 10,
+        "target": 50,
+        "template_families": 1,
+        "underfilled": false
+      },
+      "snb::complex_aggregation": {
+        "cap_events": {
+          "query_signature_cap": 40,
+          "template_family_cap": 37
+        },
+        "input": 125,
+        "operator_combinations": 1,
+        "query_signatures": 1,
+        "selected": 50,
+        "structural_substructures": 10,
+        "target": 50,
+        "template_families": 1,
+        "underfilled": false
+      },
+      "snb::complex_retrieval": {
+        "cap_events": {
+          "query_signature_cap": 40,
+          "template_family_cap": 37
+        },
+        "input": 125,
+        "operator_combinations": 1,
+        "query_signatures": 1,
+        "selected": 50,
+        "structural_substructures": 16,
+        "target": 50,
+        "template_families": 1,
+        "underfilled": false
+      },
+      "snb::negation_difference": {
+        "cap_events": {
+          "template_family_cap": 1
+        },
+        "input": 125,
+        "operator_combinations": 2,
+        "query_signatures": 25,
+        "selected": 50,
+        "structural_substructures": 55,
+        "target": 50,
+        "template_families": 6,
+        "underfilled": false
+      },
+      "snb::path_temporal": {
+        "cap_events": {
+          "query_signature_cap": 40,
+          "template_family_cap": 37
+        },
+        "input": 125,
+        "operator_combinations": 1,
+        "query_signatures": 1,
+        "selected": 50,
+        "structural_substructures": 11,
+        "target": 50,
+        "template_families": 1,
+        "underfilled": false
+      },
+      "snb::ranking_topk": {
+        "cap_events": {
+          "template_family_cap": 12
+        },
+        "input": 125,
+        "operator_combinations": 1,
+        "query_signatures": 41,
+        "selected": 50,
+        "structural_substructures": 62,
+        "target": 50,
+        "template_families": 5,
+        "underfilled": false
+      },
+      "snb::simple_aggregation": {
+        "cap_events": {
+          "query_signature_cap": 40,
+          "template_family_cap": 37
+        },
+        "input": 125,
+        "operator_combinations": 1,
+        "query_signatures": 1,
+        "selected": 50,
+        "structural_substructures": 12,
+        "target": 50,
+        "template_families": 1,
+        "underfilled": false
+      },
+      "snb::simple_retrieval": {
+        "cap_events": {
+          "query_signature_cap": 40,
+          "template_family_cap": 37
+        },
+        "input": 125,
+        "operator_combinations": 1,
+        "query_signatures": 1,
+        "selected": 50,
+        "structural_substructures": 8,
+        "target": 50,
+        "template_families": 1,
+        "underfilled": false
+      }
+    },
+    "input_examples": 3000,
+    "max_signature_share": 0.2,
+    "max_template_family_share": 0.25,
+    "method": "greedy_mmr_cypher_diversity",
+    "seed": "13",
+    "selected_examples": 800,
+    "target_per_group": 50,
+    "weights": {
+      "cap_penalty": 0.35,
+      "lexical_novelty": 0.1,
+      "quality": 0.04,
+      "query_signature": 0.24,
+      "schema_atom": 0.14,
+      "structural_substructure": 0.22,
+      "template_family": 0.18,
+      "value_atom": 0.08
+    }
+  },
+  "split_audit": {
+    "blocks": 108,
+    "examples": {},
+    "leakage_free": true,
+    "leaked_blocks": 0,
+    "mode": "signature_disjoint"
+  }
+}

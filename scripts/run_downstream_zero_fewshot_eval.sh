@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-BENCHMARK="${BENCHMARK:-artifacts/benchmarks/20260601_live_full_qwen9b}"
+BENCHMARK="${BENCHMARK:-artifacts/benchmarks/20260604_live_full_qwen9b_reviewfix}"
 SPLIT="${SPLIT:-test}"
 RUN_PREFIX="${RUN_PREFIX:-$(date +%Y%m%d_%H%M%S)_downstream_zero_fewshot}"
 BASE_URL="${BASE_URL:-http://localhost:8000/v1}"
@@ -13,6 +13,12 @@ FEW_SHOT_MAX_QUESTION_SIM="${FEW_SHOT_MAX_QUESTION_SIM:-0.90}"
 FEW_SHOT_EXCLUDE_SIGNATURE_MATCH="${FEW_SHOT_EXCLUDE_SIGNATURE_MATCH:-false}"
 OUTPUT_DIR="${OUTPUT_DIR:-artifacts/evaluations/${RUN_PREFIX}}"
 SYSTEM_MESSAGE_MODE="${SYSTEM_MESSAGE_MODE:-separate}"
+DISABLE_TEXT_METRICS="${DISABLE_TEXT_METRICS:-true}"
+
+TEXT_METRIC_ARGS=()
+if [[ "${DISABLE_TEXT_METRICS}" == "true" ]]; then
+  TEXT_METRIC_ARGS+=(--disable-text-metrics)
+fi
 
 mkdir -p "${OUTPUT_DIR}"
 
@@ -34,7 +40,8 @@ python scripts/evaluate_benchmark_predictions.py \
   --config finbench=configs/finbench_full.yaml \
   --config snb=configs/snb_full.yaml \
   --output "${OUTPUT_DIR}/zero_shot_evaluation.jsonl" \
-  --summary-output "${OUTPUT_DIR}/zero_shot_summary.json"
+  --summary-output "${OUTPUT_DIR}/zero_shot_summary.json" \
+  "${TEXT_METRIC_ARGS[@]}"
 
 python scripts/generate_text2cypher_predictions.py \
   --benchmark "${BENCHMARK}" \
@@ -60,7 +67,8 @@ python scripts/evaluate_benchmark_predictions.py \
   --config finbench=configs/finbench_full.yaml \
   --config snb=configs/snb_full.yaml \
   --output "${OUTPUT_DIR}/few_shot_evaluation.jsonl" \
-  --summary-output "${OUTPUT_DIR}/few_shot_summary.json"
+  --summary-output "${OUTPUT_DIR}/few_shot_summary.json" \
+  "${TEXT_METRIC_ARGS[@]}"
 
 printf 'wrote downstream zero/few-shot outputs to %s\n' "${OUTPUT_DIR}"
 cat > "${OUTPUT_DIR}/metadata.json" <<EOF
@@ -73,6 +81,7 @@ cat > "${OUTPUT_DIR}/metadata.json" <<EOF
   "few_shot_mode": "${FEW_SHOT_MODE}",
   "few_shot_seed": ${FEW_SHOT_SEED},
   "few_shot_max_question_similarity": ${FEW_SHOT_MAX_QUESTION_SIM},
-  "few_shot_exclude_signature_match": ${FEW_SHOT_EXCLUDE_SIGNATURE_MATCH}
+  "few_shot_exclude_signature_match": ${FEW_SHOT_EXCLUDE_SIGNATURE_MATCH},
+  "text_metrics_disabled": ${DISABLE_TEXT_METRICS}
 }
 EOF

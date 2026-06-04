@@ -458,6 +458,197 @@ def render_judge_audit_coverage_table(snapshot: dict[str, Any]) -> str:
     )
 
 
+def render_rewrite_audit_table(summary: dict[str, Any]) -> str:
+    execution = summary.get("execution_comparison", {})
+    rewrite_counts = summary.get("rewrite_type_counts", {})
+    accepted_counts = summary.get("accepted_rewrite_type_counts", {})
+    rows = [
+        r"\begin{tabular}{lr}",
+        r"\toprule",
+        r"Rewrite audit property & Value \\",
+        r"\midrule",
+        f"Generation records audited & {_fmt_int(summary.get('records', 0))} \\\\",
+        f"Accepted records audited & {_fmt_int(summary.get('accepted_records', 0))} \\\\",
+        f"Records changed by normalization & {_fmt_int(summary.get('changed_records', 0))} \\\\",
+        f"Accepted records changed & {_fmt_int(summary.get('accepted_changed_records', 0))} \\\\",
+        f"RETURN DISTINCT insertions & {_fmt_int(rewrite_counts.get('return_distinct_inserted', 0) + rewrite_counts.get('return_distinct_only', 0))} \\\\",
+        f"Accepted RETURN DISTINCT insertions & {_fmt_int(accepted_counts.get('return_distinct_inserted', 0) + accepted_counts.get('return_distinct_only', 0))} \\\\",
+        f"Rewrite-skip reasons logged & {_fmt_int(sum(summary.get('rewrite_skip_reasons', {}).values()))} \\\\",
+        f"Live comparisons required & {_fmt_int(execution.get('compared', 0))} \\\\",
+        f"Answer-set equality in comparisons & {_fmt_int(execution.get('answer_set_equal', 0))} \\\\",
+        r"\bottomrule",
+        r"\end{tabular}",
+    ]
+    return _table(
+        body="\n".join(rows),
+        caption=(
+            "Rewrite prevalence and impact audit over paper-generation records. "
+            "When no generated query differs from its normalized form, no live "
+            "original/normalized re-execution is required for semantic drift."
+        ),
+        label="tab:rewrite_audit",
+    )
+
+
+def render_governance_audit_table(summary: dict[str, Any]) -> str:
+    sources = [
+        ("Full generation records", summary.get("generation_records", {})),
+        ("Target-size ablations", summary.get("ablation", {})),
+        ("Downstream predictions", summary.get("downstream", {})),
+        ("Combined", summary),
+    ]
+    rows = [
+        r"\begin{tabular}{lrrrr}",
+        r"\toprule",
+        r"Evidence source & Direction & Schema/value & Syntax/parser & Read-only \\",
+        r"\midrule",
+    ]
+    for label, data in sources:
+        groups = data.get("issue_groups") or data.get("combined_issue_groups") or {}
+        rows.append(
+            "{label} & {direction} & {schema} & {syntax} & {readonly} \\\\".format(
+                label=_escape_latex(label),
+                direction=_fmt_int(groups.get("direction", 0)),
+                schema=_fmt_int(groups.get("schema_or_value", 0)),
+                syntax=_fmt_int(groups.get("syntax_or_parser", 0)),
+                readonly=_fmt_int(groups.get("read_only_safety", 0)),
+            )
+        )
+    rows.extend([r"\bottomrule", r"\end{tabular}"])
+    return _table(
+        body="\n".join(rows),
+        caption=(
+            "Governance failure audit. Direction errors, schema/value errors, "
+            "syntax/parser failures, and read-only violations are counted separately "
+            "so the appendix shows which Cypher-specific gates do real work."
+        ),
+        label="tab:governance_audit",
+    )
+
+
+def render_runtime_accounting_table(summary: dict[str, Any]) -> str:
+    rows = [
+        r"\begin{tabular}{lrrrrr}",
+        r"\toprule",
+        r"Scope & Records & Accepted & Acceptance & Exec. p50 ms & Exec. p95 ms \\",
+        r"\midrule",
+    ]
+    scopes = [("Overall", summary.get("overall", {}))]
+    scopes.extend(
+        (_graph_label_from_key(graph), data)
+        for graph, data in sorted(summary.get("by_graph", {}).items())
+    )
+    for label, data in scopes:
+        latency = data.get("execution_latency_ms", {})
+        rows.append(
+            "{label} & {records} & {accepted} & {rate} & {p50} & {p95} \\\\".format(
+                label=_escape_latex(label),
+                records=_fmt_int(data.get("records", 0)),
+                accepted=_fmt_int(data.get("accepted", 0)),
+                rate=_fmt_float(data.get("acceptance_rate", 0.0)),
+                p50=_fmt_float(latency.get("median", 0.0)),
+                p95=_fmt_float(latency.get("p95", 0.0)),
+            )
+        )
+    rows.extend([r"\bottomrule", r"\end{tabular}"])
+    return _table(
+        body="\n".join(rows),
+        caption=(
+            "Operational accounting from completed generation records. These are "
+            "local-run latency and acceptance diagnostics, not paid-API cost claims."
+        ),
+        label="tab:runtime_accounting",
+    )
+
+
+def render_gate_impact_table(summary: dict[str, Any]) -> str:
+    blocked = summary.get("blocked_by_gate", {})
+    gate_order = [
+        "accepted",
+        "duplicate_or_diversity",
+        "empty_result",
+        "judge",
+        "schema",
+        "direction",
+        "value",
+        "syntax",
+        "read_only",
+        "execution",
+        "other_reject",
+    ]
+    rows = [
+        r"\begin{tabular}{lrr}",
+        r"\toprule",
+        r"First blocking gate & Candidates & Share \\",
+        r"\midrule",
+    ]
+    total = max(int(summary.get("records", 0)), 1)
+    seen = set()
+    for gate in gate_order:
+        count = int(blocked.get(gate, 0))
+        if count == 0:
+            continue
+        seen.add(gate)
+        rows.append(
+            "{gate} & {count} & {share} \\\\".format(
+                gate=_escape_latex(_gate_label(gate)),
+                count=_fmt_int(count),
+                share=_fmt_float(count / total),
+            )
+        )
+    for gate, count in sorted(blocked.items()):
+        if gate in seen or not count:
+            continue
+        rows.append(
+            "{gate} & {count} & {share} \\\\".format(
+                gate=_escape_latex(_gate_label(gate)),
+                count=_fmt_int(count),
+                share=_fmt_float(int(count) / total),
+            )
+        )
+    rows.extend([r"\bottomrule", r"\end{tabular}"])
+    return _table(
+        body="\n".join(rows),
+        caption=(
+            "Counterfactual first-blocking-gate audit over generation records. "
+            "The table shows which failure class would enter the benchmark if that "
+            "gate were removed or weakened."
+        ),
+        label="tab:gate_impact",
+    )
+
+
+def render_redaction_audit_table(summary: dict[str, Any]) -> str:
+    linkability = summary.get("placeholder_linkability", {})
+    rows = [
+        r"\begin{tabular}{lr}",
+        r"\toprule",
+        r"Redaction audit property & Value \\",
+        r"\midrule",
+        f"Examples audited & {_fmt_int(summary.get('examples', 0))} \\\\",
+        f"Sensitive values checked & {_fmt_int(summary.get('sensitive_values', 0))} \\\\",
+        f"Examples with sensitive values & {_fmt_int(summary.get('examples_with_sensitive_values', 0))} \\\\",
+        f"Examples with residual raw values & {_fmt_int(summary.get('examples_with_residuals', 0))} \\\\",
+        f"Residual raw-value matches & {_fmt_int(summary.get('residual_values', 0))} \\\\",
+        f"Residual rate per checked value & {_fmt_float(summary.get('residual_rate_per_value', 0.0))} \\\\",
+        f"Unique placeholders & {_fmt_int(linkability.get('unique_placeholders', 0))} \\\\",
+        f"Reused placeholders & {_fmt_int(linkability.get('reused_placeholders', 0))} \\\\",
+        f"Max placeholder frequency & {_fmt_int(linkability.get('max_placeholder_frequency', 0))} \\\\",
+        r"\bottomrule",
+        r"\end{tabular}",
+    ]
+    return _table(
+        body="\n".join(rows),
+        caption=(
+            "Exact-match redaction audit over value-bearing benchmark surfaces. "
+            "The audit checks entity bindings, quoted Cypher literals, reverse "
+            "grounding literals, and string-valued result samples after applying "
+            "the configured redaction policy."
+        ),
+        label="tab:redaction_audit",
+    )
+
+
 def render_graph_statistics_table(rows: list[dict[str, Any]]) -> str:
     body = [
         r"\begin{tabular}{lrrrrl}",
@@ -799,6 +990,31 @@ def _graph_label(run: str) -> str:
     if "_snb_" in run or "snb" in run.lower():
         return "SNB"
     return "FinBench"
+
+
+def _graph_label_from_key(graph: str) -> str:
+    return {
+        "finbench": "FinBench",
+        "snb": "SNB",
+        "icij": "ICIJ",
+        "icij_offshoreleaks": "ICIJ",
+    }.get(str(graph).lower(), str(graph))
+
+
+def _gate_label(gate: str) -> str:
+    return {
+        "accepted": "Accepted",
+        "duplicate_or_diversity": "Duplicate/diversity",
+        "empty_result": "Empty result",
+        "judge": "Judge reject",
+        "schema": "Schema",
+        "direction": "Direction",
+        "value": "Value",
+        "syntax": "Syntax/parser",
+        "read_only": "Read-only",
+        "execution": "Execution failure",
+        "other_reject": "Other reject",
+    }.get(gate, gate.replace("_", " ").title())
 
 
 def _graph_sort_key(run: str) -> int:

@@ -111,6 +111,54 @@ def test_schema_derived_negation_reverse_is_outcome_aware():
     assert "LIMIT 7" in cypher
 
 
+def test_schema_derived_negation_uses_identity_slots_for_sparse_schemas():
+    schema = SchemaSummary(
+        node_properties=[
+            NodeProperty("Customer", "customerId", "STRING"),
+            NodeProperty("Case", "caseId", "STRING"),
+        ],
+        relationships=[
+            RelationshipPattern("Customer", "OWNS", "Case", 1000),
+        ],
+        graph_name="sparse_enterprise_test",
+    )
+    templates = schema_derived_templates(schema, "negation_difference", max_templates=40)
+
+    assert any(
+        item.metadata.get("schema_template_kind") == "negation_outgoing_scoped"
+        and item.metadata.get("slot_property") == "customerId"
+        for item in templates
+    )
+
+
+def test_contextual_negation_templates_are_outcome_aware_and_valid():
+    schema = _enterprise_schema()
+    templates = schema_derived_templates(schema, "negation_difference", max_templates=80)
+    contextual = next(
+        item
+        for item in templates
+        if item.metadata.get("schema_template_kind") == "negation_context_outgoing_scoped"
+    )
+
+    reverse = default_reverse_cypher_for_template(contextual, limit=11)
+    cypher = default_cypher_for_template(
+        contextual,
+        schema=schema,
+        bindings={"anchorValue": "US"},
+        limit=11,
+    )
+    prop = contextual.metadata["slot_property"]
+
+    assert reverse is not None
+    assert "MATCH (a:Customer)-[:OWNS]->(b:Case)" in reverse
+    assert "AND NOT (b)-[:RELATED_TO]->(:Case)" in reverse
+    assert f"RETURN DISTINCT a.{prop} AS anchorValue LIMIT 11" in reverse
+    assert f"MATCH (a:Customer {{{prop}: 'US'}})-[:OWNS]->(b:Case)" in cypher
+    assert "WHERE NOT (b)-[:RELATED_TO]->(:Case)" in cypher
+    result = validate_cypher(cypher, schema)
+    assert result.ok, [issue.code for issue in result.issues]
+
+
 def test_icij_live_schema_gets_extra_schema_templates_for_sparse_categories():
     schema = load_schema("configs/schema_icij_offshoreleaks_live.json")
 

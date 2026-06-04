@@ -226,7 +226,7 @@ def render_fewshot_leakage_latex(report: dict[str, Any]) -> str:
     selected = report["selected_examples"]
     return "\n".join(
         [
-            r"\begin{table}[t]",
+            r"\begin{table}[H]",
             r"\centering",
             r"\small",
             r"\begin{tabular}{lr}",
@@ -313,7 +313,7 @@ def render_fewshot_leakage_control_markdown(report: dict[str, Any]) -> str:
 
 def render_fewshot_leakage_control_latex(report: dict[str, Any]) -> str:
     rows = [
-        r"\begin{table}[t]",
+        r"\begin{table}[H]",
         r"\centering",
         r"\small",
         r"\resizebox{\columnwidth}{!}{%",

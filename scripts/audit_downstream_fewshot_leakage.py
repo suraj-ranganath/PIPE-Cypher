@@ -23,7 +23,7 @@ def main() -> None:
     )
     parser.add_argument(
         "--benchmark-dir",
-        default="artifacts/benchmarks/20260601_live_full_qwen9b",
+        default="artifacts/benchmarks/20260604_live_full_qwen9b_reviewfix",
     )
     parser.add_argument("--split", default="test")
     parser.add_argument("--predictions", default="")

@@ -1,0 +1,260 @@
+{
+  "accepted": 3000,
+  "blocked": 1925,
+  "blocked_by_gate": {
+    "accepted": 3000,
+    "duplicate_or_diversity": 1366,
+    "empty_result": 486,
+    "execution": 4,
+    "judge": 67,
+    "schema": 2
+  },
+  "by_graph_category": {
+    "finbench::boolean_existence": {
+      "accepted": 250,
+      "judge": 60
+    },
+    "finbench::complex_aggregation": {
+      "accepted": 250,
+      "judge": 1
+    },
+    "finbench::complex_retrieval": {
+      "accepted": 250,
+      "judge": 1
+    },
+    "finbench::negation_difference": {
+      "accepted": 250,
+      "duplicate_or_diversity": 777,
+      "execution": 1,
+      "judge": 1
+    },
+    "finbench::path_temporal": {
+      "accepted": 250,
+      "judge": 1
+    },
+    "finbench::ranking_topk": {
+      "accepted": 250,
+      "duplicate_or_diversity": 560,
+      "judge": 1
+    },
+    "finbench::simple_aggregation": {
+      "accepted": 250,
+      "judge": 1
+    },
+    "finbench::simple_retrieval": {
+      "accepted": 250,
+      "judge": 1
+    },
+    "snb::boolean_existence": {
+      "accepted": 125
+    },
+    "snb::complex_aggregation": {
+      "accepted": 125
+    },
+    "snb::complex_retrieval": {
+      "accepted": 125,
+      "schema": 1
+    },
+    "snb::negation_difference": {
+      "accepted": 125,
+      "duplicate_or_diversity": 29,
+      "empty_result": 486,
+      "execution": 3
+    },
+    "snb::path_temporal": {
+      "accepted": 125
+    },
+    "snb::ranking_topk": {
+      "accepted": 125
+    },
+    "snb::simple_aggregation": {
+      "accepted": 125,
+      "schema": 1
+    },
+    "snb::simple_retrieval": {
+      "accepted": 125
+    }
+  },
+  "examples": {
+    "duplicate_or_diversity": [
+      {
+        "category": "negation_difference",
+        "cypher": "MATCH (p:Person)-[:OWN_ACCOUNT]->(:Account) WHERE NOT (p)-[:APPLY_LOAN]->(:Loan) RETURN DISTINCT p.personId AS PersonId, p.personName AS PersonName LIMIT 300",
+        "gate": "duplicate_or_diversity",
+        "graph_profile": "finbench",
+        "issues": [],
+        "judge_failure_reason": "duplicate accepted question",
+        "question": "Which people own accounts but have not applied for a loan?"
+      },
+      {
+        "category": "negation_difference",
+        "cypher": "MATCH (p:Person)-[:OWN_ACCOUNT]->(:Account) WHERE NOT (p)-[:APPLY_LOAN]->(:Loan) RETURN DISTINCT p.personId AS PersonId, p.personName AS PersonName LIMIT 300",
+        "gate": "duplicate_or_diversity",
+        "graph_profile": "finbench",
+        "issues": [],
+        "judge_failure_reason": "duplicate accepted question",
+        "question": "Which people own accounts but have not applied for a loan?"
+      },
+      {
+        "category": "negation_difference",
+        "cypher": "MATCH (p:Person)-[:OWN_ACCOUNT]->(:Account) WHERE NOT (p)-[:APPLY_LOAN]->(:Loan) RETURN DISTINCT p.personId AS PersonId, p.personName AS PersonName LIMIT 300",
+        "gate": "duplicate_or_diversity",
+        "graph_profile": "finbench",
+        "issues": [],
+        "judge_failure_reason": "duplicate accepted question",
+        "question": "Which people own accounts but have not applied for a loan?"
+      },
+      {
+        "category": "negation_difference",
+        "cypher": "MATCH (c:Company)-[:OWN_ACCOUNT]->(:Account) WHERE NOT (c)-[:APPLY_LOAN]->(:Loan) RETURN DISTINCT c.companyId AS CompanyId, c.companyName AS CompanyName, c.business AS Business LIMIT 300",
+        "gate": "duplicate_or_diversity",
+        "graph_profile": "finbench",
+        "issues": [],
+        "judge_failure_reason": "duplicate accepted question",
+        "question": "Which companies own accounts but have not applied for a loan?"
+      }
+    ],
+    "empty_result": [
+      {
+        "category": "negation_difference",
+        "cypher": "MATCH (forum:Forum {title: 'Wall of Jose Alonso'})-[:HAS_MEMBER]->(p:Person) WHERE NOT (p)-[:LIKES]->(:Post) RETURN DISTINCT p.id AS PersonId, p.firstName AS FirstName, p.lastName AS LastName LIMIT 200",
+        "gate": "empty_result",
+        "graph_profile": "snb",
+        "issues": [],
+        "judge_failure_reason": "execution returned no rows",
+        "question": "Which members of forum 'Wall of Jose Alonso' have not liked any post?"
+      },
+      {
+        "category": "negation_difference",
+        "cypher": "MATCH (forum:Forum {title: 'Album 0 of Jose Alonso'})-[:HAS_MEMBER]->(p:Person) WHERE NOT (p)-[:LIKES]->(:Post) RETURN DISTINCT p.id AS PersonId, p.firstName AS FirstName, p.lastName AS LastName LIMIT 200",
+        "gate": "empty_result",
+        "graph_profile": "snb",
+        "issues": [],
+        "judge_failure_reason": "execution returned no rows",
+        "question": "Which members of forum 'Album 0 of Jose Alonso' have not liked any post?"
+      },
+      {
+        "category": "negation_difference",
+        "cypher": "MATCH (forum:Forum {title: 'Album 1 of Jose Alonso'})-[:HAS_MEMBER]->(p:Person) WHERE NOT (p)-[:LIKES]->(:Post) RETURN DISTINCT p.id AS PersonId, p.firstName AS FirstName, p.lastName AS LastName LIMIT 200",
+        "gate": "empty_result",
+        "graph_profile": "snb",
+        "issues": [],
+        "judge_failure_reason": "execution returned no rows",
+        "question": "Which members of forum 'Album 1 of Jose Alonso' have not liked any post?"
+      },
+      {
+        "category": "negation_difference",
+        "cypher": "MATCH (forum:Forum {title: 'Album 2 of Jose Alonso'})-[:HAS_MEMBER]->(p:Person) WHERE NOT (p)-[:LIKES]->(:Post) RETURN DISTINCT p.id AS PersonId, p.firstName AS FirstName, p.lastName AS LastName LIMIT 200",
+        "gate": "empty_result",
+        "graph_profile": "snb",
+        "issues": [],
+        "judge_failure_reason": "execution returned no rows",
+        "question": "Which members of forum 'Album 2 of Jose Alonso' have not liked any post?"
+      }
+    ],
+    "execution": [
+      {
+        "category": "negation_difference",
+        "cypher": "RETURN DISTINCT 1 AS SlotBindingsExhausted",
+        "gate": "execution",
+        "graph_profile": "finbench",
+        "issues": [],
+        "judge_failure_reason": "slot bindings exhausted",
+        "question": "Which accounts owned by person '{personName}' have not sent any transfers?"
+      },
+      {
+        "category": "negation_difference",
+        "cypher": "RETURN DISTINCT 1 AS SlotBindingsExhausted",
+        "gate": "execution",
+        "graph_profile": "snb",
+        "issues": [],
+        "judge_failure_reason": "slot bindings exhausted",
+        "question": "Which members of forum '{forumTitle}' have not liked any post?"
+      },
+      {
+        "category": "negation_difference",
+        "cypher": "RETURN DISTINCT 1 AS SlotBindingsExhausted",
+        "gate": "execution",
+        "graph_profile": "snb",
+        "issues": [],
+        "judge_failure_reason": "slot bindings exhausted",
+        "question": "Which members of forum '{forumTitle}' have not liked any post?"
+      },
+      {
+        "category": "negation_difference",
+        "cypher": "MATCH (p:Post) WHERE NOT EXISTS((p)<-[:CONTAINER_OF]-(f:Forum)) RETURN DISTINCT p.id AS PostId",
+        "gate": "execution",
+        "graph_profile": "snb",
+        "issues": [],
+        "judge_failure_reason": "",
+        "question": "Which post records are not linked from any forum record through :CONTAINER_OF?"
+      }
+    ],
+    "judge": [
+      {
+        "category": "simple_retrieval",
+        "cypher": "MATCH (p:Person {personName: 'O\\'Hearn'})-[:OWN_ACCOUNT]->(a:Account) RETURN DISTINCT a.accountId AS AccountId, a.accountType AS AccountType, a.isBlocked AS IsBlocked LIMIT 300",
+        "gate": "judge",
+        "graph_profile": "finbench",
+        "issues": [],
+        "judge_failure_reason": "Ambiguous question: 'O'Hearn' is a name pattern, not a unique identifier. The query assumes an exact match on personName, which may fail if the name is stored differently or if multiple people share the name. Enterprise benchmarks require deterministic, unambiguous inputs.",
+        "question": "Which accounts are owned by person 'O'Hearn'?"
+      },
+      {
+        "category": "complex_retrieval",
+        "cypher": "MATCH (p:Person {personName: 'O\\'Hearn'})-[:OWN_ACCOUNT]->(src:Account)-[:TRANSFER_TO]->(dst:Account) RETURN DISTINCT dst.accountId AS AccountId, dst.accountType AS AccountType, dst.isBlocked AS IsBlocked LIMIT 300",
+        "gate": "judge",
+        "graph_profile": "finbench",
+        "issues": [],
+        "judge_failure_reason": "The question asks for accounts owned by a specific person ('O'Hearn'), but the provided execution sample returns account details (AccountId, AccountType, IsBlocked) instead of the owner's name or a clear indication of the ownership link, making it impossible to verify if the results correspond to the specific person requested. Additionally, the validation summary flags a warning about the quoted value not appearing as an exact literal, suggesting a potential data mismatch or parsing issue with the name 'O'Hearn'.",
+        "question": "Which accounts received transfers from accounts owned by person 'O'Hearn'?"
+      },
+      {
+        "category": "simple_aggregation",
+        "cypher": "MATCH (p:Person {personName: 'O\\'Hearn'})-[:OWN_ACCOUNT]->(a:Account) RETURN DISTINCT COUNT(DISTINCT a) AS AccountCount",
+        "gate": "judge",
+        "graph_profile": "finbench",
+        "issues": [],
+        "judge_failure_reason": "The question contains a specific value ('O'Hearn') that is not provided as a literal in the natural language text, making the query unanswerable without external context or parameterization. The validation warning confirms this mismatch.",
+        "question": "How many accounts are owned by person 'O'Hearn'?"
+      },
+      {
+        "category": "complex_aggregation",
+        "cypher": "MATCH (p:Person {personName: 'O\\'Hearn'})-[:OWN_ACCOUNT]->(src:Account)-[t:TRANSFER_TO]->(:Account) RETURN DISTINCT SUM(t.amount) AS TotalTransferredAmount",
+        "gate": "judge",
+        "graph_profile": "finbench",
+        "issues": [],
+        "judge_failure_reason": "The question asks for the 'total transferred amount', but the provided Cypher query does not reference the 'amount' property in the TRANSFER_TO relationship, making it impossible to calculate the requested value.",
+        "question": "What is the total transferred amount from accounts owned by person 'O'Hearn'?"
+      }
+    ],
+    "schema": [
+      {
+        "category": "complex_retrieval",
+        "cypher": "MATCH (forum:Forum)-[:HAS_MEMBER]->(p:Person), (forum)-[:CONTAINER_OF]->(post:Post)-[:HAS_TAG]->(tag:Tag {name: 'Kissology_Volume_Two:_1978-1991'}) RETURN DISTINCT p.id AS PersonId LIMIT 200",
+        "gate": "schema",
+        "graph_profile": "snb",
+        "issues": [
+          "unknown_property"
+        ],
+        "judge_failure_reason": "Invalid property usage: The Cypher query uses 'name' in the tag filter, but the validation error indicates the system expects 'Kissology_Volume_Two' as a property value or the property name is mismatched. Additionally, the validation summary explicitly flags 'Unknown property :Tag.Kissology_Volume_Two', indicating a schema violation or data mismatch that prevents execution.",
+        "question": "Which people are members of forums containing posts tagged 'Kissology_Volume_Two:_1978-1991'?"
+      },
+      {
+        "category": "simple_aggregation",
+        "cypher": "MATCH (post:Post)-[:HAS_TAG]->(tag:Tag {name: 'Kissology_Volume_Two:_1978-1991'}) RETURN DISTINCT COUNT(DISTINCT post) AS PostCount",
+        "gate": "schema",
+        "graph_profile": "snb",
+        "issues": [
+          "unknown_property"
+        ],
+        "judge_failure_reason": "Invalid property usage: The query uses 'Kissology_Volume_Two:_1978-1991' as a property value for the Tag node, but the schema defines 'Tag.name' as a String property. The validation error 'Unknown property :Tag.Kissology_Volume_Two' indicates the property name was incorrectly parsed or the value format is invalid for the property 'name'. The correct Cypher should be MATCH (post:Post)-[:HAS_TAG]->(tag:Tag {name: 'Kissology_Volume_Two:_1978-1991'})...",
+        "question": "How many posts are tagged 'Kissology_Volume_Two:_1978-1991'?"
+      }
+    ]
+  },
+  "issue_counts": {
+    "unknown_property": 2
+  },
+  "records": 4925
+}

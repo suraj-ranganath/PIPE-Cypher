@@ -1,0 +1,20 @@
+\begin{table}[H]
+\centering
+\small
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lrr}
+\toprule
+First blocking gate & Candidates & Share \\
+\midrule
+Accepted & 3,000 & 0.609 \\
+Duplicate/diversity & 1,366 & 0.277 \\
+Empty result & 486 & 0.099 \\
+Judge reject & 67 & 0.014 \\
+Schema & 2 & 0.000 \\
+Execution failure & 4 & 0.001 \\
+\bottomrule
+\end{tabular}
+}
+\caption{Counterfactual first-blocking-gate audit over generation records. The table shows which failure class would enter the benchmark if that gate were removed or weakened.}
+\label{tab:gate_impact}
+\end{table}

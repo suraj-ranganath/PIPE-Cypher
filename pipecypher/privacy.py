@@ -64,17 +64,29 @@ def redact_example(
     state = _RedactionState(active_policy)
 
     literal_values: list[str] = []
+    entity_values = [str(value) for value in redacted.get("entity_values", [])]
     for field_name in ("cypher", "normalized_cypher"):
         text = redacted.get(field_name)
         if isinstance(text, str) and active_policy.redact_cypher_literals:
             redacted[field_name], values = _redact_cypher_literals(text, state)
             literal_values.extend(values)
+        if isinstance(redacted.get(field_name), str) and active_policy.redact_numeric_literals:
+            redacted[field_name] = _redact_numeric_entity_literals(
+                str(redacted[field_name]),
+                values=entity_values,
+                state=state,
+            )
 
     if active_policy.redact_reverse_cypher and isinstance(redacted.get("reverse_cypher"), str):
         redacted["reverse_cypher"], values = _redact_cypher_literals(redacted["reverse_cypher"], state)
         literal_values.extend(values)
+        if active_policy.redact_numeric_literals:
+            redacted["reverse_cypher"] = _redact_numeric_entity_literals(
+                redacted["reverse_cypher"],
+                values=entity_values,
+                state=state,
+            )
 
-    entity_values = [str(value) for value in redacted.get("entity_values", [])]
     for value in entity_values:
         if value:
             state.placeholder_for(value)
@@ -185,6 +197,31 @@ def _redact_text_values(text: str, *, values: list[str], state: "_RedactionState
         if not value:
             continue
         out = out.replace(value, state.placeholder_for(value))
+    return out
+
+
+def _redact_numeric_entity_literals(
+    text: str,
+    *,
+    values: list[str],
+    state: "_RedactionState",
+) -> str:
+    out = text
+    numeric_values = sorted(
+        {
+            value
+            for value in values
+            if re.fullmatch(r"[-+]?\d+(?:\.\d+)?", str(value).strip())
+        },
+        key=len,
+        reverse=True,
+    )
+    for value in numeric_values:
+        out = re.sub(
+            rf"(?<![A-Za-z0-9_]){re.escape(value)}(?![A-Za-z0-9_])",
+            state.placeholder_for(value),
+            out,
+        )
     return out
 
 

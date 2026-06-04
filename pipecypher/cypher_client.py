@@ -4,9 +4,10 @@ import time
 from typing import Any
 
 try:
-    from neo4j import GraphDatabase
+    from neo4j import READ_ACCESS, GraphDatabase
 except Exception:  # pragma: no cover - optional until live graph runs
     GraphDatabase = None
+    READ_ACCESS = "READ"
 
 from .models import ExecutionResult
 from .validator import assert_read_only
@@ -22,11 +23,13 @@ class Neo4jCypherClient:
         password: str,
         database: str = "neo4j",
         timeout_sec: int = 60,
+        enforce_read_transactions: bool = True,
     ) -> None:
         self.uri = uri
         self.user = user
         self.database = database
         self.timeout_sec = timeout_sec
+        self.enforce_read_transactions = enforce_read_transactions
         if GraphDatabase is None:
             raise RuntimeError("neo4j package is not installed; install pipe-cypher with runtime deps")
         self._driver = GraphDatabase.driver(uri, auth=(user, password))
@@ -49,7 +52,10 @@ class Neo4jCypherClient:
             assert_read_only(query)
         started = time.perf_counter()
         try:
-            with self._driver.session(database=self.database) as session:
+            session_kwargs: dict[str, Any] = {"database": self.database}
+            if read_only and self.enforce_read_transactions:
+                session_kwargs["default_access_mode"] = READ_ACCESS
+            with self._driver.session(**session_kwargs) as session:
                 result = session.run(query, params or {}, timeout=self.timeout_sec)
                 rows = [dict(record) for record in result]
                 if limit_rows is not None:
@@ -62,7 +68,7 @@ class Neo4jCypherClient:
 
     def explain(self, query: str) -> ExecutionResult:
         assert_read_only(query)
-        return self.run("EXPLAIN " + query, read_only=False, limit_rows=1)
+        return self.run("EXPLAIN " + query, read_only=True, limit_rows=1)
 
 
 class NullCypherClient:

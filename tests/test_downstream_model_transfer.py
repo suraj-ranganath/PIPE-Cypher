@@ -122,6 +122,70 @@ def test_fewshot_control_report_pairs_zero_and_control_runs(tmp_path: Path):
     assert "Qwen3.5-9B" in latex
 
 
+def test_fewshot_control_report_accepts_clean_run_tag_prefix(tmp_path: Path):
+    zero = tmp_path / "20260604_clean_downstream_qwen35_9b_zero_fewshot"
+    zero.mkdir()
+    _write_summary(zero / "zero_shot_summary.json", execution_accuracy=0.2, schema_valid=0.8)
+
+    controls = []
+    for suffix, value in [
+        ("ordered_logged", 0.4),
+        ("scored_no_signature", 0.5),
+        ("random_seed13", 0.3),
+        ("random_seed17", 0.6),
+        ("random_seed23", 0.6),
+    ]:
+        path = tmp_path / f"20260604_clean_control_qwen35_9b_{suffix}"
+        path.mkdir()
+        _write_summary(path / "few_shot_summary.json", execution_accuracy=value, schema_valid=1.0)
+        controls.append(path)
+
+    report = build_fewshot_control_report(zero_shot_dirs=[zero], control_dirs=controls)
+
+    assert report["complete_model_count"] == 1
+    model = report["models"][0]
+    assert model["controls"]["scored_no_signature"]["execution_accuracy"] == 0.5
+    assert model["random"]["mean"]["execution_accuracy"] == pytest.approx(0.5)
+
+
+def test_fewshot_control_report_uses_zero_run_fewshot_as_ordered_control(tmp_path: Path):
+    zero = tmp_path / "20260604_clean_downstream_qwen35_9b_zero_fewshot"
+    zero.mkdir()
+    _write_summary(zero / "zero_shot_summary.json", execution_accuracy=0.2, schema_valid=0.8)
+    _write_summary(zero / "few_shot_summary.json", execution_accuracy=0.9, schema_valid=1.0)
+
+    controls = []
+    for suffix, value in [
+        ("scored_no_signature", 0.5),
+        ("random_seed13", 0.3),
+        ("random_seed17", 0.6),
+        ("random_seed23", 0.6),
+    ]:
+        path = tmp_path / f"20260604_clean_control_qwen35_9b_{suffix}"
+        path.mkdir()
+        _write_summary(path / "few_shot_summary.json", execution_accuracy=value, schema_valid=1.0)
+        controls.append(path)
+
+    report = build_fewshot_control_report(zero_shot_dirs=[zero], control_dirs=controls)
+
+    assert report["complete_model_count"] == 1
+    model = report["models"][0]
+    assert model["controls"]["ordered"]["run_id"] == zero.name
+    assert model["controls"]["ordered"]["execution_accuracy"] == 0.9
+
+
+def test_zero_row_summaries_are_incomplete(tmp_path: Path):
+    run_dir = tmp_path / "20260604_clean_downstream_stable_zero_fewshot"
+    run_dir.mkdir()
+    _write_summary(run_dir / "zero_shot_summary.json", execution_accuracy=0.0, schema_valid=0.0, n=0)
+    _write_summary(run_dir / "few_shot_summary.json", execution_accuracy=0.0, schema_valid=0.0, n=0)
+
+    report = build_model_transfer_report([run_dir])
+
+    assert report["complete_count"] == 0
+    assert "no evaluated rows" in " ".join(report["incomplete_runs"][0]["missing"])
+
+
 def test_fewshot_control_report_uses_control_metadata_when_zero_metadata_missing(tmp_path: Path):
     zero = tmp_path / "20260602_downstream_neo4j_gemma2_text2cypher_lora_zero_fewshot"
     zero.mkdir()
@@ -214,10 +278,16 @@ def test_fewshot_control_uncertainty_reports_model_level_deltas(tmp_path: Path):
     assert "Models improved" in latex
 
 
-def _write_summary(path: Path, *, execution_accuracy: float, schema_valid: float) -> None:
+def _write_summary(
+    path: Path,
+    *,
+    execution_accuracy: float,
+    schema_valid: float,
+    n: int = 296,
+) -> None:
     summary = {
         "overall": {
-            "n": 296,
+            "n": n,
             "execution_accuracy": execution_accuracy,
             "answer_f1": execution_accuracy,
             "execution_success": max(execution_accuracy, 0.5),

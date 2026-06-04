@@ -54,6 +54,14 @@ def build_fewshot_control_report(
         slug, mode_key = parsed
         controls_by_slug.setdefault(slug, {})[mode_key] = path
 
+    # Zero/few-shot run directories already contain the deterministic
+    # ordered_same_category few-shot artifacts. Treat those as the ordered
+    # control when a separate ordered control directory was not materialized.
+    for slug, path in zero_by_slug.items():
+        controls = controls_by_slug.setdefault(slug, {})
+        if "ordered" not in controls and _summary_has_rows(path / "few_shot_summary.json"):
+            controls["ordered"] = path
+
     model_reports = []
     for slug, zero_dir in sorted(zero_by_slug.items()):
         controls = controls_by_slug.get(slug, {})
@@ -83,9 +91,12 @@ def summarize_model_transfer_run(run_dir: Path, metadata: dict[str, Any] | None 
     metadata = {**_read_json(run_dir / "metadata.json"), **(metadata or {})}
     zero_summary = run_dir / "zero_shot_summary.json"
     few_summary = run_dir / "few_shot_summary.json"
-    missing = [
-        path.name for path in (zero_summary, few_summary) if not path.exists()
-    ]
+    missing = []
+    for path in (zero_summary, few_summary):
+        if not path.exists():
+            missing.append(path.name)
+        elif not _summary_has_rows(path):
+            missing.append(f"{path.name}: no evaluated rows")
     run = {
         "run_id": run_dir.name,
         "path": str(run_dir),
@@ -117,8 +128,16 @@ def render_fewshot_control_markdown(report: dict[str, Any]) -> str:
         "| Model | Tuning | Zero | Ordered | Scored no-sig | Random mean | Random std | Best control |",
         "|---|---|---:|---:|---:|---:|---:|---|",
     ]
-    for model in report["models"]:
+    for model in _complete_control_models(report):
         lines.append(_control_markdown_row(model))
+    incomplete = [model for model in report["models"] if not model.get("complete")]
+    if incomplete:
+        lines.extend(["", "## Incomplete Or Excluded Runs", ""])
+        for model in incomplete:
+            lines.append(
+                f"- {model['model']} (`{model['zero_shot_run_id']}`) missing: "
+                + ", ".join(model.get("missing", []))
+            )
     aggregate = report.get("aggregate", {})
     if aggregate:
         lines.extend(
@@ -151,7 +170,7 @@ def render_fewshot_control_latex(report: dict[str, Any]) -> str:
         r"Model & Tuning & Zero & Ordered & No-sig & Random $\mu$ & Random $\sigma$ & Best \\",
         r"\midrule",
     ]
-    for model in report["models"]:
+    for model in _complete_control_models(report):
         zero = model["zero_shot"].get("execution_accuracy")
         ordered = _metric(model, "ordered", "execution_accuracy")
         scored = _metric(model, "scored_no_signature", "execution_accuracy")
@@ -176,7 +195,8 @@ def render_fewshot_control_latex(report: dict[str, Any]) -> str:
             r"}",
             (
                 r"\caption{Few-shot demonstration-bank controls for local downstream "
-                r"Text2Cypher evaluation. Ordered uses the deterministic same-graph, "
+                r"Text2Cypher evaluation over completed 296-example local-model runs. "
+                r"Ordered uses the deterministic same-graph, "
                 r"same-category example bank; scored excludes exact query-signature "
                 r"matches and near-duplicate questions; random reports the mean and "
                 r"standard deviation across seeds 13, 17, and 23. ``No gain'' means "
@@ -287,7 +307,7 @@ def render_fewshot_control_uncertainty_markdown(report: dict[str, Any]) -> str:
 def render_fewshot_control_uncertainty_latex(report: dict[str, Any]) -> str:
     confidence = int(round(float(report.get("confidence_level", 0.95)) * 100))
     rows = [
-        r"\begin{table}[t]",
+        r"\begin{table}[H]",
         r"\centering",
         r"\small",
         r"\resizebox{\columnwidth}{!}{%",
@@ -413,12 +433,16 @@ def _summarize_control_model(
     missing = []
     if not zero_summary.exists():
         missing.append(str(zero_summary))
+    elif not _summary_has_rows(zero_summary):
+        missing.append("zero_shot_summary.json: no evaluated rows")
     required = ["ordered", "scored_no_signature", "random_seed13", "random_seed17", "random_seed23"]
     for key in required:
         if key not in control_dirs:
             missing.append(key)
         elif not (control_dirs[key] / "few_shot_summary.json").exists():
             missing.append(f"{key}/few_shot_summary.json")
+        elif not _summary_has_rows(control_dirs[key] / "few_shot_summary.json"):
+            missing.append(f"{key}/few_shot_summary.json: no evaluated rows")
 
     controls: dict[str, Any] = {}
     control_metadata = _control_metadata(control_dirs)
@@ -496,6 +520,10 @@ def _aggregate_control_models(models: list[dict[str, Any]]) -> dict[str, Any]:
             > float(model["zero_shot"]["execution_accuracy"])
         ),
     }
+
+
+def _complete_control_models(report: dict[str, Any]) -> list[dict[str, Any]]:
+    return [model for model in report.get("models", []) if model.get("complete")]
 
 
 def _mean_metrics(runs: list[dict[str, Any]]) -> dict[str, float]:
@@ -633,9 +661,13 @@ def _control_markdown_row(model: dict[str, Any]) -> str:
 
 def _control_slug_from_zero_run(run_id: str) -> str:
     name = run_id
-    for prefix in ("20260602_downstream_", "20260603_downstream_"):
-        if name.startswith(prefix):
-            name = name[len(prefix) :]
+    marker = "_downstream_"
+    if marker in name:
+        name = name.split(marker, 1)[1]
+    else:
+        for prefix in ("20260602_downstream_", "20260603_downstream_", "downstream_"):
+            if name.startswith(prefix):
+                name = name[len(prefix) :]
     if name.endswith("_zero_fewshot"):
         name = name[: -len("_zero_fewshot")]
     return {
@@ -645,10 +677,13 @@ def _control_slug_from_zero_run(run_id: str) -> str:
 
 
 def _parse_control_run_id(run_id: str) -> tuple[str, str] | None:
-    prefix = "20260603_control_"
-    if not run_id.startswith(prefix):
+    marker = "_control_"
+    if marker in run_id:
+        body = run_id.split(marker, 1)[1]
+    elif run_id.startswith("control_"):
+        body = run_id[len("control_") :]
+    else:
         return None
-    body = run_id[len(prefix) :]
     suffixes = {
         "_ordered_logged": "ordered",
         "_scored_no_signature": "scored_no_signature",
@@ -666,6 +701,14 @@ def _read_json(path: Path) -> dict[str, Any]:
     if not path.exists():
         return {}
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _summary_has_rows(path: Path) -> bool:
+    summary = _read_json(path)
+    try:
+        return int(summary.get("overall", {}).get("n", 0)) > 0
+    except (TypeError, ValueError):
+        return False
 
 
 def _control_metadata(control_dirs: dict[str, Path]) -> dict[str, Any]:
@@ -705,9 +748,13 @@ def _markdown_row(run: dict[str, Any]) -> str:
 
 def _infer_model_name(run_id: str) -> str:
     name = run_id
-    for prefix in ("20260602_downstream_", "20260603_downstream_"):
-        if name.startswith(prefix):
-            name = name[len(prefix) :]
+    marker = "_downstream_"
+    if marker in name:
+        name = name.split(marker, 1)[1]
+    else:
+        for prefix in ("20260602_downstream_", "20260603_downstream_", "downstream_"):
+            if name.startswith(prefix):
+                name = name[len(prefix) :]
     for suffix in ("_zero_fewshot", "_lora_zero_fewshot", "_transformers_zero_fewshot"):
         if name.endswith(suffix):
             name = name[: -len(suffix)]

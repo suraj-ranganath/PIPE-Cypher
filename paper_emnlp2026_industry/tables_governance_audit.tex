@@ -1,0 +1,18 @@
+\begin{table}[H]
+\centering
+\small
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lrrrr}
+\toprule
+Evidence source & Direction & Schema/value & Syntax/parser & Read-only \\
+\midrule
+Full generation records & 0 & 2 & 0 & 0 \\
+Target-size ablations & 260 & 988 & 5 & 0 \\
+Downstream predictions & 25 & 9 & 12 & 0 \\
+Combined & 285 & 999 & 17 & 0 \\
+\bottomrule
+\end{tabular}
+}
+\caption{Governance failure audit. Direction errors, schema/value errors, syntax/parser failures, and read-only violations are counted separately so the appendix shows which Cypher-specific gates do real work.}
+\label{tab:governance_audit}
+\end{table}

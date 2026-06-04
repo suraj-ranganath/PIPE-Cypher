@@ -34,6 +34,7 @@ class Neo4jConfig:
     password: str = "password"
     database: str = "neo4j"
     query_timeout_sec: int = 60
+    enforce_read_transactions: bool = True
 
 
 @dataclass
@@ -161,7 +162,29 @@ def _apply_env(config: RunConfig) -> RunConfig:
     if "PIPE_CYPHER_RANDOM_SEED" in os.environ:
         raw_seed = os.environ["PIPE_CYPHER_RANDOM_SEED"].strip()
         config.generation.random_seed = int(raw_seed) if raw_seed else None
+    if "PIPE_CYPHER_LLM_MAX_TOKENS" in os.environ:
+        config.models.max_tokens = int(os.environ["PIPE_CYPHER_LLM_MAX_TOKENS"])
+    if "PIPE_CYPHER_LLM_TEMPERATURE" in os.environ:
+        config.models.temperature = float(os.environ["PIPE_CYPHER_LLM_TEMPERATURE"])
+    if "PIPE_CYPHER_LLM_REASONING_EFFORT" in os.environ:
+        raw_effort = os.environ["PIPE_CYPHER_LLM_REASONING_EFFORT"].strip()
+        config.models.reasoning_effort = raw_effort or None
+    if "PIPE_CYPHER_LLM_INCLUDE_REASONING" in os.environ:
+        config.models.include_reasoning = _env_bool("PIPE_CYPHER_LLM_INCLUDE_REASONING")
+    if "PIPE_CYPHER_LLM_ENABLE_THINKING" in os.environ:
+        config.models.enable_thinking = _env_bool("PIPE_CYPHER_LLM_ENABLE_THINKING")
+    if "PIPE_CYPHER_LLM_STRIP_REASONING" in os.environ:
+        config.models.strip_reasoning = _env_bool("PIPE_CYPHER_LLM_STRIP_REASONING")
     return config
+
+
+def _env_bool(name: str) -> bool:
+    value = os.environ[name].strip().casefold()
+    if value in {"1", "true", "yes", "y", "on"}:
+        return True
+    if value in {"0", "false", "no", "n", "off"}:
+        return False
+    raise ConfigValidationError(f"{name} must be a boolean value")
 
 
 def validate_config(config: RunConfig, *, check_paths: bool = False) -> list[str]:

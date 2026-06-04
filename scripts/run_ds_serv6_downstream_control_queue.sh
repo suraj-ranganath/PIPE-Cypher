@@ -3,8 +3,11 @@ set -euo pipefail
 
 GPU_ID="${GPU_ID:-2}"
 PORT="${PORT:-8000}"
-BENCHMARK="${BENCHMARK:-artifacts/benchmarks/20260601_live_full_qwen9b}"
+BENCHMARK="${BENCHMARK:-artifacts/benchmarks/20260604_live_full_qwen9b_reviewfix}"
 SPLIT="${SPLIT:-test}"
+RUN_TAG="${RUN_TAG:-20260604_clean}"
+RUN_ZERO_FEWSHOT="${RUN_ZERO_FEWSHOT:-false}"
+RUN_ORDERED_CONTROL="${RUN_ORDERED_CONTROL:-true}"
 WAIT_SESSION="${WAIT_SESSION:-pipecypher_downstream_controls_qwen}"
 KILL_SESSION_AFTER_WAIT="${KILL_SESSION_AFTER_WAIT:-pipecypher_vllm_controls_qwen}"
 ENDPOINT_TAG="${ENDPOINT_TAG:-downstream_controls}"
@@ -43,19 +46,50 @@ run_fewshot_controls() {
   local slug="$1"
   local model_name="$2"
   local system_mode="$3"
-  local base_url="http://localhost:${PORT}/v1"
   local prefix
 
-  prefix="20260603_control_${slug}_ordered_logged"
-  run_one_control "${prefix}" "${model_name}" "${system_mode}" ordered_same_category 13 false
+  if [[ "${RUN_ZERO_FEWSHOT}" == "true" ]]; then
+    prefix="${RUN_TAG}_downstream_${slug}_zero_fewshot"
+    run_zero_fewshot "${prefix}" "${model_name}" "${system_mode}"
+  fi
 
-  prefix="20260603_control_${slug}_scored_no_signature"
+  if [[ "${RUN_ORDERED_CONTROL}" == "true" ]]; then
+    prefix="${RUN_TAG}_control_${slug}_ordered_logged"
+    run_one_control "${prefix}" "${model_name}" "${system_mode}" ordered_same_category 13 false
+  fi
+
+  prefix="${RUN_TAG}_control_${slug}_scored_no_signature"
   run_one_control "${prefix}" "${model_name}" "${system_mode}" scored_no_signature 13 true
 
   for seed in 13 17 23; do
-    prefix="20260603_control_${slug}_random_seed${seed}"
+    prefix="${RUN_TAG}_control_${slug}_random_seed${seed}"
     run_one_control "${prefix}" "${model_name}" "${system_mode}" random_same_category "${seed}" false
   done
+}
+
+run_zero_fewshot() {
+  local prefix="$1"
+  local model_name="$2"
+  local system_mode="$3"
+  local out_dir="artifacts/evaluations/${prefix}"
+
+  if [[ -s "${out_dir}/zero_shot_summary.json" ]] && [[ -s "${out_dir}/few_shot_summary.json" ]]; then
+    echo "skip_existing=${out_dir}"
+    return 0
+  fi
+
+  RUN_PREFIX="${prefix}" \
+  BENCHMARK="${BENCHMARK}" \
+  SPLIT="${SPLIT}" \
+  BASE_URL="http://localhost:${PORT}/v1" \
+  MODEL="${model_name}" \
+  FEW_SHOT_K=5 \
+  FEW_SHOT_MODE=ordered_same_category \
+  FEW_SHOT_SEED=13 \
+  FEW_SHOT_EXCLUDE_SIGNATURE_MATCH=false \
+  FEW_SHOT_MAX_QUESTION_SIM=0.90 \
+  SYSTEM_MESSAGE_MODE="${system_mode}" \
+    bash scripts/run_downstream_zero_fewshot_eval.sh
 }
 
 run_one_control() {
@@ -128,6 +162,11 @@ run_transformers_controls() {
   local model_name="ragraph-ai/stable-cypher-instruct-3b"
   local prefix
 
+  if [[ "${RUN_ZERO_FEWSHOT}" == "true" ]]; then
+    prefix="${RUN_TAG}_downstream_${slug}_zero_fewshot"
+    run_transformers_zero_fewshot "${prefix}" "${model_name}"
+  fi
+
   for spec in \
     "ordered_same_category 13 false ordered_logged" \
     "scored_no_signature 13 true scored_no_signature" \
@@ -135,7 +174,10 @@ run_transformers_controls() {
     "random_same_category 17 false random_seed17" \
     "random_same_category 23 false random_seed23"; do
     read -r mode seed exclude suffix <<< "${spec}"
-    prefix="20260603_control_${slug}_${suffix}"
+    if [[ "${suffix}" == "ordered_logged" && "${RUN_ORDERED_CONTROL}" != "true" ]]; then
+      continue
+    fi
+    prefix="${RUN_TAG}_control_${slug}_${suffix}"
     local out_dir="artifacts/evaluations/${prefix}"
     if [[ -s "${out_dir}/few_shot_summary.json" ]] && [[ -s "${out_dir}/few_shot_selection.jsonl" ]]; then
       echo "skip_existing=${out_dir}"
@@ -177,8 +219,88 @@ run_transformers_controls() {
       --config finbench=configs/finbench_full.yaml \
       --config snb=configs/snb_full.yaml \
       --output "${out_dir}/few_shot_evaluation.jsonl" \
-      --summary-output "${out_dir}/few_shot_summary.json"
+      --summary-output "${out_dir}/few_shot_summary.json" \
+      --disable-text-metrics
   done
+}
+
+run_transformers_zero_fewshot() {
+  local prefix="$1"
+  local model_name="$2"
+  local out_dir="artifacts/evaluations/${prefix}"
+
+  if [[ -s "${out_dir}/zero_shot_summary.json" ]] && [[ -s "${out_dir}/few_shot_summary.json" ]]; then
+    echo "skip_existing=${out_dir}"
+    return 0
+  fi
+  mkdir -p "${out_dir}"
+  {
+    printf 'run_prefix=%s\n' "${prefix}"
+    printf 'code_revision=%s\n' "$(git rev-parse HEAD 2>/dev/null || printf unknown)"
+    printf 'benchmark=%s\n' "${BENCHMARK}"
+    printf 'split=%s\n' "${SPLIT}"
+    printf 'model=%s\n' "${model_name}"
+    printf 'runner=transformers_bitsandbytes\n'
+    printf 'few_shot_mode=ordered_same_category\n'
+    printf 'few_shot_seed=13\n'
+    date -u '+launched_at_utc=%Y-%m-%dT%H:%M:%SZ'
+  } > "${out_dir}/run_metadata.txt"
+  CUDA_VISIBLE_DEVICES="${GPU_ID}" python scripts/generate_text2cypher_predictions_transformers.py \
+    --benchmark "${BENCHMARK}" \
+    --split "${SPLIT}" \
+    --schema finbench=configs/schema_finbench.json \
+    --schema snb=configs/schema_snb.json \
+    --output "${out_dir}/zero_shot_predictions.jsonl" \
+    --model "${model_name}" \
+    --few-shot-k 0 \
+    --device-map single_cuda \
+    --load-in-8bit
+  python scripts/evaluate_benchmark_predictions.py \
+    --benchmark "${BENCHMARK}" \
+    --split "${SPLIT}" \
+    --predictions "${out_dir}/zero_shot_predictions.jsonl" \
+    --config finbench=configs/finbench_full.yaml \
+    --config snb=configs/snb_full.yaml \
+    --output "${out_dir}/zero_shot_evaluation.jsonl" \
+    --summary-output "${out_dir}/zero_shot_summary.json" \
+    --disable-text-metrics
+  CUDA_VISIBLE_DEVICES="${GPU_ID}" python scripts/generate_text2cypher_predictions_transformers.py \
+    --benchmark "${BENCHMARK}" \
+    --split "${SPLIT}" \
+    --schema finbench=configs/schema_finbench.json \
+    --schema snb=configs/schema_snb.json \
+    --output "${out_dir}/few_shot_predictions.jsonl" \
+    --model "${model_name}" \
+    --few-shot "${BENCHMARK}/train.jsonl" \
+    --few-shot-k 5 \
+    --few-shot-mode ordered_same_category \
+    --few-shot-seed 13 \
+    --few-shot-max-question-sim 0.90 \
+    --few-shot-log "${out_dir}/few_shot_selection.jsonl" \
+    --device-map single_cuda \
+    --load-in-8bit
+  python scripts/evaluate_benchmark_predictions.py \
+    --benchmark "${BENCHMARK}" \
+    --split "${SPLIT}" \
+    --predictions "${out_dir}/few_shot_predictions.jsonl" \
+    --config finbench=configs/finbench_full.yaml \
+    --config snb=configs/snb_full.yaml \
+    --output "${out_dir}/few_shot_evaluation.jsonl" \
+    --summary-output "${out_dir}/few_shot_summary.json" \
+    --disable-text-metrics
+  cat > "${out_dir}/metadata.json" <<EOF
+{
+  "benchmark": "${BENCHMARK}",
+  "split": "${SPLIT}",
+  "model": "${model_name}",
+  "few_shot_k": 5,
+  "few_shot_mode": "ordered_same_category",
+  "few_shot_seed": 13,
+  "few_shot_max_question_similarity": 0.90,
+  "few_shot_exclude_signature_match": false,
+  "system_message_mode": "transformers"
+}
+EOF
 }
 
 run_or_log() {
@@ -193,7 +315,7 @@ run_or_log() {
     printf 'status=%s\n' "${status}"
     printf 'command=%q' "$@"
     printf '\n'
-  } >> "logs/20260603_downstream_control_queue_failures.log"
+  } >> "logs/${RUN_TAG}_downstream_control_queue_failures.log"
   echo "failed_label=${label} status=${status}; continuing"
   return 0
 }
@@ -208,6 +330,7 @@ main() {
 
   case "${MODEL_SET}" in
     all|direct)
+      run_or_log qwen35_9b serve_vllm_and_run qwen35_9b "Qwen/Qwen3.5-9B" "Qwen/Qwen3.5-9B" separate
       run_or_log qwen25_coder7b serve_vllm_and_run qwen25_coder7b "Qwen/Qwen2.5-Coder-7B-Instruct" "Qwen/Qwen2.5-Coder-7B-Instruct" separate
       run_or_log gemma2_9b_it serve_vllm_and_run gemma2_9b_it "google/gemma-2-9b-it" "google/gemma-2-9b-it" merge
       run_or_log tomasonjo_text2cypher8b serve_vllm_and_run tomasonjo_text2cypher8b "tomasonjo/text2cypher-demo-16bit" "tomasonjo/text2cypher-demo-16bit" separate

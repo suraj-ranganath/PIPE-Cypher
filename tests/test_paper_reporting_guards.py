@@ -35,6 +35,10 @@ FORBIDDEN_PAPER_EVIDENCE_PATTERNS = {
         r"All reported generation,\s*judging,\s*and downstream evaluation runs use",
         re.IGNORECASE,
     ),
+    "larger model leakage": re.compile(
+        r"Qwen/?Qwen3\.5-35B|35B-A3B",
+        re.IGNORECASE,
+    ),
     "unconstrained baseline without attempts": re.compile(
         r"Unconstrained LLM\s*&\s*(?:FinBench|SNB)\s*&\s*0\s*&\s*0\s*&\s*0\.000",
         re.IGNORECASE,
@@ -97,6 +101,11 @@ def test_appendix_result_tables_use_venue_compliant_placement():
         "tables_diversity_improvement.tex",
         "tables_strategy_diagnostics.tex",
         "tables_validator_cascade.tex",
+        "tables_rewrite_audit.tex",
+        "tables_governance_audit.tex",
+        "tables_runtime_accounting.tex",
+        "tables_gate_impact.tex",
+        "tables_redaction_audit.tex",
         "tables_prompt_refinement.tex",
         "tables_effort_automation.tex",
         "tables_judge_audit_coverage.tex",

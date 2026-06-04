@@ -34,7 +34,7 @@ def main() -> None:
     )
     parser.add_argument(
         "--benchmark",
-        default="artifacts/benchmarks/20260601_live_full_qwen9b/all.jsonl",
+        default="artifacts/benchmarks/20260604_live_full_qwen9b_reviewfix/all.jsonl",
         help="Input benchmark JSONL, usually an accepted all.jsonl export.",
     )
     parser.add_argument("--schema", action="append", default=[], help="Schema JSON path.")

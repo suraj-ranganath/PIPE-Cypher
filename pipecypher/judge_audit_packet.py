@@ -18,6 +18,8 @@ ANNOTATOR_FIELDS = [
     "graph_profile",
     "judge_accept",
     "human_accept",
+    "human_naturalness_1_5",
+    "human_ambiguity_1_5",
     "category",
     "difficulty",
     "primary_strategy",
@@ -32,10 +34,16 @@ ADJUDICATION_FIELDS = [
     "graph_profile",
     "judge_accept",
     "annotator_a_accept",
+    "annotator_a_naturalness_1_5",
+    "annotator_a_ambiguity_1_5",
     "annotator_a_notes",
     "annotator_b_accept",
+    "annotator_b_naturalness_1_5",
+    "annotator_b_ambiguity_1_5",
     "annotator_b_notes",
     "adjudicated_accept",
+    "adjudicated_naturalness_1_5",
+    "adjudicated_ambiguity_1_5",
     "adjudication_notes",
     "category",
     "difficulty",
@@ -206,12 +214,20 @@ def render_audit_html(path: str | Path, *, title: str = "PIPE-Cypher Judge Audit
       return text;
     }}
     function downloadLabels() {{
-      const lines = [["id","human_accept","human_notes"].join(",")];
-      for (const row of auditRows) {{
-        const domId = String(row.dom_id);
-        const selected = document.querySelector(`input[name="human_accept_${{CSS.escape(domId)}}"]:checked`);
-        const notes = document.querySelector(`#human_notes_${{CSS.escape(domId)}}`);
-        lines.push([row.id, selected ? selected.value : "", notes ? notes.value : ""].map(csvEscape).join(","));
+        const lines = [["id","human_accept","human_naturalness_1_5","human_ambiguity_1_5","human_notes"].join(",")];
+        for (const row of auditRows) {{
+          const domId = String(row.dom_id);
+          const selected = document.querySelector(`input[name="human_accept_${{CSS.escape(domId)}}"]:checked`);
+          const naturalness = document.querySelector(`#human_naturalness_${{CSS.escape(domId)}}`);
+          const ambiguity = document.querySelector(`#human_ambiguity_${{CSS.escape(domId)}}`);
+          const notes = document.querySelector(`#human_notes_${{CSS.escape(domId)}}`);
+        lines.push([
+          row.id,
+          selected ? selected.value : "",
+          naturalness ? naturalness.value : "",
+          ambiguity ? ambiguity.value : "",
+          notes ? notes.value : ""
+        ].map(csvEscape).join(","));
       }}
       const blob = new Blob([lines.join("\\n") + "\\n"], {{ type: "text/csv" }});
       const url = URL.createObjectURL(blob);
@@ -243,6 +259,8 @@ def _render_row(row: dict[str, str]) -> str:
       <h2>Human Label</h2>
       <label><input type="radio" name="human_accept_{_e(dom_id)}" value="true"{checked_true}> Accept</label>
       <label><input type="radio" name="human_accept_{_e(dom_id)}" value="false"{checked_false}> Reject</label>
+      <p><label>Naturalness 1--5 <input id="human_naturalness_{_e(dom_id)}" type="number" min="1" max="5" value="{_e(row.get("human_naturalness_1_5", ""))}"></label>
+      <label>Ambiguity 1--5 <input id="human_ambiguity_{_e(dom_id)}" type="number" min="1" max="5" value="{_e(row.get("human_ambiguity_1_5", ""))}"></label></p>
       <textarea id="human_notes_{_e(dom_id)}" placeholder="human_notes">{_e(row.get("human_notes", ""))}</textarea>
     </section>"""
 
@@ -273,6 +291,10 @@ def _write_annotator_sheet(
             out = {field: row.get(field, "") for field in fields if field != "review_order"}
             out["review_order"] = str(index)
             out["human_accept"] = ""
+            if "human_naturalness_1_5" in out:
+                out["human_naturalness_1_5"] = ""
+            if "human_ambiguity_1_5" in out:
+                out["human_ambiguity_1_5"] = ""
             out["human_notes"] = ""
             writer.writerow(out)
 
@@ -299,10 +321,16 @@ def _write_adjudication_template(
                         if field
                         in {
                             "annotator_a_accept",
+                            "annotator_a_naturalness_1_5",
+                            "annotator_a_ambiguity_1_5",
                             "annotator_a_notes",
                             "annotator_b_accept",
+                            "annotator_b_naturalness_1_5",
+                            "annotator_b_ambiguity_1_5",
                             "annotator_b_notes",
                             "adjudicated_accept",
+                            "adjudicated_naturalness_1_5",
+                            "adjudicated_ambiguity_1_5",
                             "adjudication_notes",
                         }
                         else row.get(field, "")

@@ -64,7 +64,7 @@ def introspect_schema(
     rel_properties = []
     relationships = []
 
-    node_result = client.run(NODE_PROPERTIES_QUERY, read_only=False)
+    node_result = client.run(NODE_PROPERTIES_QUERY)
     if node_result.success:
         node_properties = [
             NodeProperty(
@@ -76,7 +76,7 @@ def introspect_schema(
             if row.get("label") and row.get("property")
         ]
 
-    rel_prop_result = client.run(REL_PROPERTIES_QUERY, read_only=False)
+    rel_prop_result = client.run(REL_PROPERTIES_QUERY)
     if rel_prop_result.success:
         rel_properties = [
             RelationshipProperty(
@@ -91,7 +91,6 @@ def introspect_schema(
     rel_result = client.run(
         RELATIONSHIP_PATTERN_QUERY,
         params={"limit": relationship_limit},
-        read_only=False,
     )
     if rel_result.success:
         relationships = [
@@ -152,7 +151,6 @@ def infer_categorical_properties(
         result = client.run(
             query,
             params={"limit": max_values + 1, "max_value_chars": max_value_chars},
-            read_only=False,
             limit_rows=1,
         )
         if not result.success or not result.rows:

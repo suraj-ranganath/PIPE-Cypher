@@ -13,13 +13,13 @@ from pipecypher.judge_audit_packet import (
 
 def _write_audit(path: Path, rows: int = 4) -> None:
     lines = [
-        "id,graph_profile,judge_accept,human_accept,category,difficulty,primary_strategy,question,cypher,judge_failure_reason,human_notes"
+        "id,graph_profile,judge_accept,human_accept,human_naturalness_1_5,human_ambiguity_1_5,category,difficulty,primary_strategy,question,cypher,judge_failure_reason,human_notes"
     ]
     for idx in range(rows):
         graph = "finbench" if idx % 2 == 0 else "snb"
         judge = "true" if idx % 2 == 0 else "false"
         lines.append(
-            f"{idx},{graph},{judge},,category_{idx % 2},easy,single_hop,"
+            f"{idx},{graph},{judge},,,,category_{idx % 2},easy,single_hop,"
             f"Question {idx}?,MATCH (n) RETURN n,reason {idx},"
         )
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
@@ -82,6 +82,8 @@ def test_render_audit_html_escapes_values_and_includes_download(tmp_path: Path):
     assert "&lt;Question?&gt;" in html
     assert "&lt;bad&gt;" in html
     assert "Download labels CSV" in html
+    assert "human_naturalness_1_5" in html
+    assert "human_ambiguity_1_5" in html
     assert "human_accept_0" in html
     assert "--require-complete-labels" in html
 
@@ -126,6 +128,8 @@ def test_write_annotation_sheets_preserves_rows_without_filling_labels(tmp_path:
 
     assert {row["id"] for row in rows} == original_ids
     assert all(row["human_accept"] == "" for row in rows)
+    assert all(row["human_naturalness_1_5"] == "" for row in rows)
+    assert all(row["human_ambiguity_1_5"] == "" for row in rows)
     assert all(row["human_notes"] == "" for row in rows)
     assert all(row["review_order"] for row in rows[1:])
 

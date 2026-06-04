@@ -1,0 +1,1627 @@
+{
+  "control_runs": [
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 264441,
+          "line_count": 296,
+          "sha256": "f92b22d2746a45f091060010bacef812bac992b78d6a01a407724e192c9c8c79"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 863340,
+          "line_count": 296,
+          "sha256": "f298012f5eb8f47f79e5fb7e6141929051296237d2754cfd3acb79968ce72223"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 690363,
+          "line_count": 296,
+          "sha256": "5fea29c67a8c0a4b81263edf2c46dfdeeec776f1c01e7f653f0718c70308e5dc"
+        },
+        "few_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        },
+        "metadata.json": {
+          "bytes": 420,
+          "sha256": "bcb2ab40b415dc2c387f721fc2b69db34d903ba1d50b783e515caaf71733c347"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_aigentx_llama31_cypher_lora_random_seed13",
+      "run_id": "20260604_clean_control_aigentx_llama31_cypher_lora_random_seed13"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 264441,
+          "line_count": 296,
+          "sha256": "f92b22d2746a45f091060010bacef812bac992b78d6a01a407724e192c9c8c79"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 863416,
+          "line_count": 296,
+          "sha256": "bc161a045782e8708e8e058c827679eff8a3ab77e742d0b1c46a198c3f7cd34e"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 690439,
+          "line_count": 296,
+          "sha256": "b55d30f67f141519becc4d2e0e298039efbc31a91b941c49209f28a741bd1bd4"
+        },
+        "few_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        },
+        "metadata.json": {
+          "bytes": 420,
+          "sha256": "6569f1572e03cf7936121265d2bd96079e15031ecaa700d218c387a9340d7487"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_aigentx_llama31_cypher_lora_random_seed17",
+      "run_id": "20260604_clean_control_aigentx_llama31_cypher_lora_random_seed17"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 264441,
+          "line_count": 296,
+          "sha256": "f92b22d2746a45f091060010bacef812bac992b78d6a01a407724e192c9c8c79"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 863894,
+          "line_count": 296,
+          "sha256": "74dbb7d5a28c62c08b2b4e5d7391feaaa9e0b900569d35d4dfea74e67725a358"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 690917,
+          "line_count": 296,
+          "sha256": "7ad14d57e6cb5769ef1d6776e7f8437f5d3e0e95cb171ddcbcf6d0312471240c"
+        },
+        "few_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        },
+        "metadata.json": {
+          "bytes": 420,
+          "sha256": "205b45f991e6954d4a68718c3a26747a1a0565970c1f7be2843cc7cb5eb7f2eb"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_aigentx_llama31_cypher_lora_random_seed23",
+      "run_id": "20260604_clean_control_aigentx_llama31_cypher_lora_random_seed23"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 264441,
+          "line_count": 296,
+          "sha256": "f92b22d2746a45f091060010bacef812bac992b78d6a01a407724e192c9c8c79"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 867165,
+          "line_count": 296,
+          "sha256": "75e9b146e69bd116ab39130d5a2b02c5358ed9183192ebe42e50c47f4a653ebf"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 694188,
+          "line_count": 296,
+          "sha256": "0b750c03bd9aaa46e1912df09e88902bc47ab848836f674ad557aaa1ed6b100b"
+        },
+        "few_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        },
+        "metadata.json": {
+          "bytes": 418,
+          "sha256": "08367f6dde1c47dc13fccf1d3e624ed8ac0ff78de32d6d0a8873cdeae20452d8"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_aigentx_llama31_cypher_lora_scored_no_signature",
+      "run_id": "20260604_clean_control_aigentx_llama31_cypher_lora_scored_no_signature"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 266217,
+          "line_count": 296,
+          "sha256": "52d781ae624879b065f1f4c633703ddbcfaf9348d3081b838648d52919e18088"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 865116,
+          "line_count": 296,
+          "sha256": "22a0ae1bc627c2c33066f306b0201035d8cf80fddfe9206a6ad37465a0927821"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 690363,
+          "line_count": 296,
+          "sha256": "5fea29c67a8c0a4b81263edf2c46dfdeeec776f1c01e7f653f0718c70308e5dc"
+        },
+        "few_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        },
+        "metadata.json": {
+          "bytes": 426,
+          "sha256": "c50f70c65df0ac848476b7a91da73c05bd1bc89c4aae8614309c37f5a81d6921"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_aigentx_llama31_cypher_mixed_lora_random_seed13",
+      "run_id": "20260604_clean_control_aigentx_llama31_cypher_mixed_lora_random_seed13"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 266217,
+          "line_count": 296,
+          "sha256": "52d781ae624879b065f1f4c633703ddbcfaf9348d3081b838648d52919e18088"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 865192,
+          "line_count": 296,
+          "sha256": "f13b04f16a25a18726ed8b990812e65aa7b62fe5996941690d516e10efb8c91b"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 690439,
+          "line_count": 296,
+          "sha256": "b55d30f67f141519becc4d2e0e298039efbc31a91b941c49209f28a741bd1bd4"
+        },
+        "few_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        },
+        "metadata.json": {
+          "bytes": 426,
+          "sha256": "811cfaabab4a71149aeeb41f55aa70c1cfdb3172fbef64ee75b55581bfd4b763"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_aigentx_llama31_cypher_mixed_lora_random_seed17",
+      "run_id": "20260604_clean_control_aigentx_llama31_cypher_mixed_lora_random_seed17"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 266217,
+          "line_count": 296,
+          "sha256": "52d781ae624879b065f1f4c633703ddbcfaf9348d3081b838648d52919e18088"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 865670,
+          "line_count": 296,
+          "sha256": "b8bcbe35228cf2120cfb03fc73a4b2223cfc35dcffcd3f356283ebeeaf6155c0"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 690917,
+          "line_count": 296,
+          "sha256": "7ad14d57e6cb5769ef1d6776e7f8437f5d3e0e95cb171ddcbcf6d0312471240c"
+        },
+        "few_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        },
+        "metadata.json": {
+          "bytes": 426,
+          "sha256": "48ca11be29907beae3236cc823934e21095383c02f8c8159d5f8a5c13f38dcd0"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_aigentx_llama31_cypher_mixed_lora_random_seed23",
+      "run_id": "20260604_clean_control_aigentx_llama31_cypher_mixed_lora_random_seed23"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 266217,
+          "line_count": 296,
+          "sha256": "52d781ae624879b065f1f4c633703ddbcfaf9348d3081b838648d52919e18088"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 868941,
+          "line_count": 296,
+          "sha256": "cdf38b079066870a2d7f2137d1dea765b3467ea8d8c3bc327aca081d74258da2"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 694188,
+          "line_count": 296,
+          "sha256": "0b750c03bd9aaa46e1912df09e88902bc47ab848836f674ad557aaa1ed6b100b"
+        },
+        "few_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        },
+        "metadata.json": {
+          "bytes": 424,
+          "sha256": "608e1449b77d4dc0f312b94565500758d8c05facbc24ce97e23c4b27737a4387"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_aigentx_llama31_cypher_mixed_lora_scored_no_signature",
+      "run_id": "20260604_clean_control_aigentx_llama31_cypher_mixed_lora_scored_no_signature"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 267105,
+          "line_count": 296,
+          "sha256": "0b89b2d398f6811f1a78e2cb09ab84b3254b4fa382a09251b28c05cd2f079c8b"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 866004,
+          "line_count": 296,
+          "sha256": "40182ee82d7832bdcf5553050791e6203f618546b90cd9a2525dcd4c06d68468"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 690363,
+          "line_count": 296,
+          "sha256": "5fea29c67a8c0a4b81263edf2c46dfdeeec776f1c01e7f653f0718c70308e5dc"
+        },
+        "few_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        },
+        "metadata.json": {
+          "bytes": 429,
+          "sha256": "91374aceed4e10d6a3ed1f5e5422f665f60f23680bd00cb726c17547c0a8c8e1"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_azzedde_llama31_text2cypher_random_seed13",
+      "run_id": "20260604_clean_control_azzedde_llama31_text2cypher_random_seed13"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 267105,
+          "line_count": 296,
+          "sha256": "0b89b2d398f6811f1a78e2cb09ab84b3254b4fa382a09251b28c05cd2f079c8b"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 866080,
+          "line_count": 296,
+          "sha256": "7a6180e4895c40f7913a3d46671d08bf1e3c41597da149e389bfc17ca05ae94f"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 690439,
+          "line_count": 296,
+          "sha256": "b55d30f67f141519becc4d2e0e298039efbc31a91b941c49209f28a741bd1bd4"
+        },
+        "few_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        },
+        "metadata.json": {
+          "bytes": 429,
+          "sha256": "b3e0dc852324338615a770dc15ccde15db767ee3818a459881d5ec650f43c3c6"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_azzedde_llama31_text2cypher_random_seed17",
+      "run_id": "20260604_clean_control_azzedde_llama31_text2cypher_random_seed17"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 267105,
+          "line_count": 296,
+          "sha256": "0b89b2d398f6811f1a78e2cb09ab84b3254b4fa382a09251b28c05cd2f079c8b"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 866558,
+          "line_count": 296,
+          "sha256": "9f443ae92016a9f0c6797e6bd26518b41a86acdab3e83a9c4d7d2d46a306b845"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 690917,
+          "line_count": 296,
+          "sha256": "7ad14d57e6cb5769ef1d6776e7f8437f5d3e0e95cb171ddcbcf6d0312471240c"
+        },
+        "few_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        },
+        "metadata.json": {
+          "bytes": 429,
+          "sha256": "493b94063433d66fd96c5037e83c9f8dbde1d4ffac2f76f4988a8615008d9fd1"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_azzedde_llama31_text2cypher_random_seed23",
+      "run_id": "20260604_clean_control_azzedde_llama31_text2cypher_random_seed23"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 267105,
+          "line_count": 296,
+          "sha256": "0b89b2d398f6811f1a78e2cb09ab84b3254b4fa382a09251b28c05cd2f079c8b"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 869829,
+          "line_count": 296,
+          "sha256": "ca4e32a662cf3ec24327fc133ccdecd9965e6b0c4d371e2d5737ab29f87d6c4f"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 694188,
+          "line_count": 296,
+          "sha256": "0b750c03bd9aaa46e1912df09e88902bc47ab848836f674ad557aaa1ed6b100b"
+        },
+        "few_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        },
+        "metadata.json": {
+          "bytes": 427,
+          "sha256": "8777598fc753d0b1abb8e1995d1db7cdd0a06ef91c7acf30820b5b31322906fc"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_azzedde_llama31_text2cypher_scored_no_signature",
+      "run_id": "20260604_clean_control_azzedde_llama31_text2cypher_scored_no_signature"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 263849,
+          "line_count": 296,
+          "sha256": "7b4bd4eafc2b53f280e5c475698ea0ef88ee174194eea4eb248e70ebcf9930f6"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 862748,
+          "line_count": 296,
+          "sha256": "e7662b1b640d6483901dc685b97ea9b1984fe2ef1fe94f8b55e4aa318786c241"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 690363,
+          "line_count": 296,
+          "sha256": "5fea29c67a8c0a4b81263edf2c46dfdeeec776f1c01e7f653f0718c70308e5dc"
+        },
+        "few_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        },
+        "metadata.json": {
+          "bytes": 415,
+          "sha256": "e19e210c0a5e83393b174ba9797af31ecf562c7cc2ade7b3d979fb1d8fe58fa3"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_gemma2_9b_it_random_seed13",
+      "run_id": "20260604_clean_control_gemma2_9b_it_random_seed13"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 263849,
+          "line_count": 296,
+          "sha256": "7b4bd4eafc2b53f280e5c475698ea0ef88ee174194eea4eb248e70ebcf9930f6"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 862824,
+          "line_count": 296,
+          "sha256": "6269b3d67715ff432f42ef7ee5ca6195acc0dda8b8749dee97710d9625f90b87"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 690439,
+          "line_count": 296,
+          "sha256": "b55d30f67f141519becc4d2e0e298039efbc31a91b941c49209f28a741bd1bd4"
+        },
+        "few_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        },
+        "metadata.json": {
+          "bytes": 415,
+          "sha256": "3c27540b245568aef42009ea1efeab2f38665798efcddeb36fe8136839d40a2e"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_gemma2_9b_it_random_seed17",
+      "run_id": "20260604_clean_control_gemma2_9b_it_random_seed17"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 263849,
+          "line_count": 296,
+          "sha256": "7b4bd4eafc2b53f280e5c475698ea0ef88ee174194eea4eb248e70ebcf9930f6"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 863302,
+          "line_count": 296,
+          "sha256": "fcd092fe3d748acd0eeb9ff67f1444a915566c25bdbf981ad3504cbad4d4b26d"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 690917,
+          "line_count": 296,
+          "sha256": "7ad14d57e6cb5769ef1d6776e7f8437f5d3e0e95cb171ddcbcf6d0312471240c"
+        },
+        "few_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        },
+        "metadata.json": {
+          "bytes": 415,
+          "sha256": "d57e39d3673065caababee908fa0572752486d719d683a9984cb77bdd7c49418"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_gemma2_9b_it_random_seed23",
+      "run_id": "20260604_clean_control_gemma2_9b_it_random_seed23"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 263849,
+          "line_count": 296,
+          "sha256": "7b4bd4eafc2b53f280e5c475698ea0ef88ee174194eea4eb248e70ebcf9930f6"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 866573,
+          "line_count": 296,
+          "sha256": "d41ab41f1c17ee0d6e132c5af180a46e88aa3f1836e996fabc575a8dacd0e0fa"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 694188,
+          "line_count": 296,
+          "sha256": "0b750c03bd9aaa46e1912df09e88902bc47ab848836f674ad557aaa1ed6b100b"
+        },
+        "few_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        },
+        "metadata.json": {
+          "bytes": 413,
+          "sha256": "b62f76a9b7c0e5685b15fb3b4fcf4981e9e46d4de0e37c1dcf433709054c91c2"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_gemma2_9b_it_scored_no_signature",
+      "run_id": "20260604_clean_control_gemma2_9b_it_scored_no_signature"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 267258,
+          "line_count": 296,
+          "sha256": "8d092650ca51fff9c14202e37bbb13d4ba25b44b842434eb06e590e371b92471"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 947994,
+          "line_count": 296,
+          "sha256": "1462b3126ec1d440502f5af1ecc4a640fdeee6a26914c4a8f97f832c02341dff"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 691745,
+          "line_count": 296,
+          "sha256": "297107d7e500afa297694142f8a217b86ca79f1e3a6d472866cf1c2288eaa866"
+        },
+        "few_shot_summary.json": {
+          "bytes": 2947,
+          "sha256": "9808d9692bc3bc760a9f81712bd5f7a3bffd6df4b7229daf3cea1b74436da37d"
+        },
+        "metadata.json": {
+          "bytes": 425,
+          "sha256": "fb2e339ac805da7afef04199f6d0dd678e81bd2c8cf040b8b4d501576065e033"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_neo4j_gemma2_text2cypher_lora_ordered_logged",
+      "run_id": "20260604_clean_control_neo4j_gemma2_text2cypher_lora_ordered_logged"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 267165,
+          "line_count": 296,
+          "sha256": "2a06be0d227bdef2d27aa7b12fe2c553efdbb0cdca4ff2fd5e5383dbc349caa8"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 946830,
+          "line_count": 296,
+          "sha256": "20081c6df332da8c0ebf3447a8b7868516b8560892680ea8fc9511e624d1e35a"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 690363,
+          "line_count": 296,
+          "sha256": "5fea29c67a8c0a4b81263edf2c46dfdeeec776f1c01e7f653f0718c70308e5dc"
+        },
+        "few_shot_summary.json": {
+          "bytes": 3000,
+          "sha256": "b741e62af83650086fbcec27c69827a8dce86cf20f3d7ed7f0529884a538687b"
+        },
+        "metadata.json": {
+          "bytes": 424,
+          "sha256": "f630f389ee6121df619b9839a7c42bc6e4449064eb82e6031e085485bb3f5087"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_neo4j_gemma2_text2cypher_lora_random_seed13",
+      "run_id": "20260604_clean_control_neo4j_gemma2_text2cypher_lora_random_seed13"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 267215,
+          "line_count": 296,
+          "sha256": "52d15f1d9a28a0e3cadb20fb567bad7c11c897a905bfaf2b0628c08019e2b24e"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 946966,
+          "line_count": 296,
+          "sha256": "9fec156b7a58e7372667cdb8c6830888c5d72e528e413642770629063fb8c009"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 690439,
+          "line_count": 296,
+          "sha256": "b55d30f67f141519becc4d2e0e298039efbc31a91b941c49209f28a741bd1bd4"
+        },
+        "few_shot_summary.json": {
+          "bytes": 3090,
+          "sha256": "afdad1cc56bc93fd8e941675cc90097317337b442698be0be0f37a79a96d23ae"
+        },
+        "metadata.json": {
+          "bytes": 424,
+          "sha256": "f8985afa3f27fda9b44954a9f440b8add543fa9ee6cb23a6cb53279fcc96cead"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_neo4j_gemma2_text2cypher_lora_random_seed17",
+      "run_id": "20260604_clean_control_neo4j_gemma2_text2cypher_lora_random_seed17"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 267163,
+          "line_count": 296,
+          "sha256": "54ddb1c19578c5a139d6224eaba46d50bd2407a664bfbc2c6eca5a44ff5113fc"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 947430,
+          "line_count": 296,
+          "sha256": "6ed7817bfc7a5701eb78ba5f4a3002ffc98cc43bddbd54034fa4526dedee2a37"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 690917,
+          "line_count": 296,
+          "sha256": "7ad14d57e6cb5769ef1d6776e7f8437f5d3e0e95cb171ddcbcf6d0312471240c"
+        },
+        "few_shot_summary.json": {
+          "bytes": 3075,
+          "sha256": "41c16c56db670116b1498324f59317ec570060d735915e85a1fc1d83efa3a3b7"
+        },
+        "metadata.json": {
+          "bytes": 424,
+          "sha256": "7343621273d8302a64d5a883d4299fbb81ed20fd3bfa5a8c829dfc3b4398a59f"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_neo4j_gemma2_text2cypher_lora_random_seed23",
+      "run_id": "20260604_clean_control_neo4j_gemma2_text2cypher_lora_random_seed23"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 270523,
+          "line_count": 296,
+          "sha256": "2dae9ff210dc175a5302ed07a17e91fb881531bf800cf44c55ce94434451ba2a"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 950277,
+          "line_count": 296,
+          "sha256": "4530d3b446b8b0264d9ae2b9a895e1dcaa87de8e31b1218ea8e7c317697c582a"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 694188,
+          "line_count": 296,
+          "sha256": "0b750c03bd9aaa46e1912df09e88902bc47ab848836f674ad557aaa1ed6b100b"
+        },
+        "few_shot_summary.json": {
+          "bytes": 3276,
+          "sha256": "23d073b23e0da1423b05376e8e7301071fa1ae4cb5b737fdbd130e76feb9862a"
+        },
+        "metadata.json": {
+          "bytes": 422,
+          "sha256": "070bdd2a4a4e90a34023cbbd06ff8edf659d802d06c806b778d6d169c5d4c47a"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_neo4j_gemma2_text2cypher_lora_scored_no_signature",
+      "run_id": "20260604_clean_control_neo4j_gemma2_text2cypher_lora_scored_no_signature"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 272729,
+          "line_count": 296,
+          "sha256": "a8a88e08ba258c807ed7ce24f927efa5065bab6c1effea1f0c64ba08c70504c0"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 871628,
+          "line_count": 296,
+          "sha256": "1c5f3ead2c5e2176776f6bec468c3a9ccfab2445d8678b626656ec9426156ca2"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 690363,
+          "line_count": 296,
+          "sha256": "5fea29c67a8c0a4b81263edf2c46dfdeeec776f1c01e7f653f0718c70308e5dc"
+        },
+        "few_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        },
+        "metadata.json": {
+          "bytes": 448,
+          "sha256": "2813b56f43a8a41e9f55e4ea121f689e6f1b2dd695e48a2a6720dd48b57f1b94"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_neo4j_gemma3_4b_random_seed13",
+      "run_id": "20260604_clean_control_neo4j_gemma3_4b_random_seed13"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 272729,
+          "line_count": 296,
+          "sha256": "a8a88e08ba258c807ed7ce24f927efa5065bab6c1effea1f0c64ba08c70504c0"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 871704,
+          "line_count": 296,
+          "sha256": "a3082d396aab6b4e0bca42d831a76867f58c232cbf0b062d3a75416758b91ab6"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 690439,
+          "line_count": 296,
+          "sha256": "b55d30f67f141519becc4d2e0e298039efbc31a91b941c49209f28a741bd1bd4"
+        },
+        "few_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        },
+        "metadata.json": {
+          "bytes": 448,
+          "sha256": "ba6d84ae6c9664d6d240ab46bbeaeb8b75aa05307063cc47fc63da017dc76bd9"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_neo4j_gemma3_4b_random_seed17",
+      "run_id": "20260604_clean_control_neo4j_gemma3_4b_random_seed17"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 272729,
+          "line_count": 296,
+          "sha256": "a8a88e08ba258c807ed7ce24f927efa5065bab6c1effea1f0c64ba08c70504c0"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 872182,
+          "line_count": 296,
+          "sha256": "146c9f1a0273a62751a5e153fa4fdda50e02792843ac45ede32f6b840ff9ce8e"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 690917,
+          "line_count": 296,
+          "sha256": "7ad14d57e6cb5769ef1d6776e7f8437f5d3e0e95cb171ddcbcf6d0312471240c"
+        },
+        "few_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        },
+        "metadata.json": {
+          "bytes": 448,
+          "sha256": "05ba9e90f9f9bf797383033d3571189a01fa1e805f0849909bbb3400f3bc1e74"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_neo4j_gemma3_4b_random_seed23",
+      "run_id": "20260604_clean_control_neo4j_gemma3_4b_random_seed23"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 272729,
+          "line_count": 296,
+          "sha256": "a8a88e08ba258c807ed7ce24f927efa5065bab6c1effea1f0c64ba08c70504c0"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 875453,
+          "line_count": 296,
+          "sha256": "a955bd0e63751445c516ec2235b186e9478a7af918a251bb964f9626a24cf459"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 694188,
+          "line_count": 296,
+          "sha256": "0b750c03bd9aaa46e1912df09e88902bc47ab848836f674ad557aaa1ed6b100b"
+        },
+        "few_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        },
+        "metadata.json": {
+          "bytes": 446,
+          "sha256": "ca094e30669692fb7372129752ba9f6c1555734c6fe3fa4a3d23b42ee8a0d283"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_neo4j_gemma3_4b_scored_no_signature",
+      "run_id": "20260604_clean_control_neo4j_gemma3_4b_scored_no_signature"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 270361,
+          "line_count": 296,
+          "sha256": "ed980a1fd7c8fcddf7a96bfdd5e60462285d4113c789d90a8aaaac2aab552650"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 869260,
+          "line_count": 296,
+          "sha256": "af6dd1b901bd0b176ff82248ac1e0f20ed8f64fe0fbfbcf9da7255cd19d9927e"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 690363,
+          "line_count": 296,
+          "sha256": "5fea29c67a8c0a4b81263edf2c46dfdeeec776f1c01e7f653f0718c70308e5dc"
+        },
+        "few_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        },
+        "metadata.json": {
+          "bytes": 440,
+          "sha256": "12733d5ced5ded9b05eddbede920ba369a98a437ff4a8849d81ff10782b3dbb6"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_projectwilsen_llama31_text2cypher_lora_random_seed13",
+      "run_id": "20260604_clean_control_projectwilsen_llama31_text2cypher_lora_random_seed13"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 270361,
+          "line_count": 296,
+          "sha256": "ed980a1fd7c8fcddf7a96bfdd5e60462285d4113c789d90a8aaaac2aab552650"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 869336,
+          "line_count": 296,
+          "sha256": "a3be2b1553069c6202bd90e0a52de90fd687d0a7c0462563697524c83cbdcdcd"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 690439,
+          "line_count": 296,
+          "sha256": "b55d30f67f141519becc4d2e0e298039efbc31a91b941c49209f28a741bd1bd4"
+        },
+        "few_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        },
+        "metadata.json": {
+          "bytes": 440,
+          "sha256": "efe7c5e8ba6e395a45944263caad711800bc19869ae7cea6267c1ea6f9ed066b"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_projectwilsen_llama31_text2cypher_lora_random_seed17",
+      "run_id": "20260604_clean_control_projectwilsen_llama31_text2cypher_lora_random_seed17"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 270361,
+          "line_count": 296,
+          "sha256": "ed980a1fd7c8fcddf7a96bfdd5e60462285d4113c789d90a8aaaac2aab552650"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 869814,
+          "line_count": 296,
+          "sha256": "27b8427988af10e74afb3e0554db6214bed08925ea41592eaa7018e0f40eef38"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 690917,
+          "line_count": 296,
+          "sha256": "7ad14d57e6cb5769ef1d6776e7f8437f5d3e0e95cb171ddcbcf6d0312471240c"
+        },
+        "few_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        },
+        "metadata.json": {
+          "bytes": 440,
+          "sha256": "79a02ef09a34783fef33bbc58d6251d177ed7e13c23183b2bfee4297e1f5e4cc"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_projectwilsen_llama31_text2cypher_lora_random_seed23",
+      "run_id": "20260604_clean_control_projectwilsen_llama31_text2cypher_lora_random_seed23"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 270361,
+          "line_count": 296,
+          "sha256": "ed980a1fd7c8fcddf7a96bfdd5e60462285d4113c789d90a8aaaac2aab552650"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 873085,
+          "line_count": 296,
+          "sha256": "594d604a1a6d915d5115cbae3e8e5e93c45f8ef2175183180cc6fd0fe12d3980"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 694188,
+          "line_count": 296,
+          "sha256": "0b750c03bd9aaa46e1912df09e88902bc47ab848836f674ad557aaa1ed6b100b"
+        },
+        "few_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        },
+        "metadata.json": {
+          "bytes": 438,
+          "sha256": "1d7cf795a24f0425930fc82e9f65df8ec013764626e37429241fffd6b3a8f855"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_projectwilsen_llama31_text2cypher_lora_scored_no_signature",
+      "run_id": "20260604_clean_control_projectwilsen_llama31_text2cypher_lora_scored_no_signature"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 268841,
+          "line_count": 296,
+          "sha256": "62975c864c3236f7c5ad64a3f8f3f1200fa70205bb9c4e878a19523cc56efd62"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 949410,
+          "line_count": 296,
+          "sha256": "8fbc9f950905d272a0a7d77b60d7ed7cae4c87c2d83dc9756393112eef56c0ec"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 690363,
+          "line_count": 296,
+          "sha256": "5fea29c67a8c0a4b81263edf2c46dfdeeec776f1c01e7f653f0718c70308e5dc"
+        },
+        "few_shot_summary.json": {
+          "bytes": 3122,
+          "sha256": "3b1459b3135a5bc74755442ea11e2ac76dde2add5ab33134adcbe6356ae66e64"
+        },
+        "metadata.json": {
+          "bytes": 428,
+          "sha256": "ac7fddb47530293fa9d1ad3c4f9e2a63a75e88da2b98364a9fe30c5d01c755e3"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_qwen25_coder7b_random_seed13",
+      "run_id": "20260604_clean_control_qwen25_coder7b_random_seed13"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 268947,
+          "line_count": 296,
+          "sha256": "716cc6d118c542805796ee5ba7484c19efab8ca98df41b907b634ffb02383ca3"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 949614,
+          "line_count": 296,
+          "sha256": "79ae31ecfdd5c4b0c8f6dafe7e9435c09183d7fbd849da72a1f1ac1d04c4ef3e"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 690439,
+          "line_count": 296,
+          "sha256": "b55d30f67f141519becc4d2e0e298039efbc31a91b941c49209f28a741bd1bd4"
+        },
+        "few_shot_summary.json": {
+          "bytes": 3140,
+          "sha256": "db9563860fe92d67c77d371ddf25ab6ae246da72df545eb72fcef395a86f2154"
+        },
+        "metadata.json": {
+          "bytes": 428,
+          "sha256": "6f151167b50788a8c2479764918b8c03415dfb040dfbc6c3bc2789de58d4090c"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_qwen25_coder7b_random_seed17",
+      "run_id": "20260604_clean_control_qwen25_coder7b_random_seed17"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 268843,
+          "line_count": 296,
+          "sha256": "3ff804d242866edc4d69018c9a5191efb02d1f1259d0208897be3ad459674f34"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 950068,
+          "line_count": 296,
+          "sha256": "1821041c9187532536320f433384f4090fd4c8215c662a79a07e7dee2ba1cc2a"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 690917,
+          "line_count": 296,
+          "sha256": "7ad14d57e6cb5769ef1d6776e7f8437f5d3e0e95cb171ddcbcf6d0312471240c"
+        },
+        "few_shot_summary.json": {
+          "bytes": 3119,
+          "sha256": "8f1b9bddf65eed5a3587d855ef79b27d5b6b1dc80572cf00347af27d13a9b3d2"
+        },
+        "metadata.json": {
+          "bytes": 428,
+          "sha256": "46467cc76ffbda682555db01811b5e90389743d93b25a1f1de4a5ff9baef68e7"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_qwen25_coder7b_random_seed23",
+      "run_id": "20260604_clean_control_qwen25_coder7b_random_seed23"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 275767,
+          "line_count": 296,
+          "sha256": "2f8a31309f1f3599a5a79753387fb72e102ec5fc63d98d435c9f278fc5dae345"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 953533,
+          "line_count": 296,
+          "sha256": "29c5de3eec99fb1828fbb88331f30c542cab43edda5b3f4ff4454613fd55670f"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 694188,
+          "line_count": 296,
+          "sha256": "0b750c03bd9aaa46e1912df09e88902bc47ab848836f674ad557aaa1ed6b100b"
+        },
+        "few_shot_summary.json": {
+          "bytes": 3334,
+          "sha256": "a22c3fefefbac3fc257c986b740a6fdfc8325d67719d489704ce523e6e976c75"
+        },
+        "metadata.json": {
+          "bytes": 426,
+          "sha256": "e0486c8d347dc27cd67fe63d7e60547b6f348e0b0d17433c41d7d0cc255442b4"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_qwen25_coder7b_scored_no_signature",
+      "run_id": "20260604_clean_control_qwen25_coder7b_scored_no_signature"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 264160,
+          "line_count": 296,
+          "sha256": "9cdf112723893c180206f85cf3d9f92f0fbc9873fa2b254889384b1f7b89d6ea"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 944884,
+          "line_count": 296,
+          "sha256": "77c58e01eee70cb81db7c2f48c141df7785b119b986021f004b9b0007117eb0f"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 690363,
+          "line_count": 296,
+          "sha256": "5fea29c67a8c0a4b81263edf2c46dfdeeec776f1c01e7f653f0718c70308e5dc"
+        },
+        "few_shot_summary.json": {
+          "bytes": 3010,
+          "sha256": "d0e9fb2ed775a9d114d85bfafca99bbe9e58e2b84a2c857d62916c334bee34ac"
+        },
+        "metadata.json": {
+          "bytes": 413,
+          "sha256": "3c2ac5dd6732ab9cb733edc3df8257102df8b4c0cbfd4378006d56143b4d0e33"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_qwen35_9b_random_seed13",
+      "run_id": "20260604_clean_control_qwen35_9b_random_seed13"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 264147,
+          "line_count": 296,
+          "sha256": "8bb7479eac7fa3133d62fa7c3de8f5416067e03996df52f64cb1fdc9b7ea96d5"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 944928,
+          "line_count": 296,
+          "sha256": "5b89255fa413298b6e7eaaf6cc7fc29992ab8518aef4e0e55bde7087382a02eb"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 690439,
+          "line_count": 296,
+          "sha256": "b55d30f67f141519becc4d2e0e298039efbc31a91b941c49209f28a741bd1bd4"
+        },
+        "few_shot_summary.json": {
+          "bytes": 3017,
+          "sha256": "4411fdc14ef8fe348468619b161e5030c148d1453c484a4296a2a8f5956a3eda"
+        },
+        "metadata.json": {
+          "bytes": 413,
+          "sha256": "9b9ceff7edd37641a8a2b14bee358ac6f1181270243b1d946ccf94d61c8c6b69"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_qwen35_9b_random_seed17",
+      "run_id": "20260604_clean_control_qwen35_9b_random_seed17"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 264472,
+          "line_count": 296,
+          "sha256": "66a3afa42d73de130b28833704e66b46215856dc82ebf961b024c0149b388441"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 945626,
+          "line_count": 296,
+          "sha256": "aef7fb827dbe1e88b43ee64f9ec81086acee343930f0a1eca6c0b11653825351"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 690917,
+          "line_count": 296,
+          "sha256": "7ad14d57e6cb5769ef1d6776e7f8437f5d3e0e95cb171ddcbcf6d0312471240c"
+        },
+        "few_shot_summary.json": {
+          "bytes": 3078,
+          "sha256": "0f20801d9f812a1f8185687808bf9021726a388041a9a9fd2f8dc78d6c4d8985"
+        },
+        "metadata.json": {
+          "bytes": 413,
+          "sha256": "7e93467c7227acbbb701ee7b1ee7356f0a21db4bfde5fee9190839092703f336"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_qwen35_9b_random_seed23",
+      "run_id": "20260604_clean_control_qwen35_9b_random_seed23"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 272540,
+          "line_count": 296,
+          "sha256": "925634a65256557bf61043214c9d90f3a52c6df03f898719d207943bb74981bd"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 947923,
+          "line_count": 296,
+          "sha256": "91d9acd9d5782e11ebaa2ecb5bafef0134a0db43d2c7e0300d6166a5a0811afb"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 694188,
+          "line_count": 296,
+          "sha256": "0b750c03bd9aaa46e1912df09e88902bc47ab848836f674ad557aaa1ed6b100b"
+        },
+        "few_shot_summary.json": {
+          "bytes": 3251,
+          "sha256": "4f9b572cc193bdedffc6331e3c047e6a1c969e4ed08f10452151d033b61f1345"
+        },
+        "metadata.json": {
+          "bytes": 411,
+          "sha256": "ae29f73dcfc7790fa52f4de8bc00df8cb406b453b4b815909367291ecd2a14c7"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_qwen35_9b_scored_no_signature",
+      "run_id": "20260604_clean_control_qwen35_9b_scored_no_signature"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 269769,
+          "line_count": 296,
+          "sha256": "8fdd2982b8f5fa91119236da2d957674b5d25ea97a9ec4cc65a0156c0a9d3d8a"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 868668,
+          "line_count": 296,
+          "sha256": "c050f66de532a3866a34e7134c5bd431231aeb0496113c08c86dea0b634f16f3"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 690363,
+          "line_count": 296,
+          "sha256": "5fea29c67a8c0a4b81263edf2c46dfdeeec776f1c01e7f653f0718c70308e5dc"
+        },
+        "few_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        },
+        "metadata.json": {
+          "bytes": 438,
+          "sha256": "c807805012d0e719a7fe3b9def74b94bb4b300af3aab3a7c612f7d0b47f2739a"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_saiprasanth_llama31_text2cypher_lora_random_seed13",
+      "run_id": "20260604_clean_control_saiprasanth_llama31_text2cypher_lora_random_seed13"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 269769,
+          "line_count": 296,
+          "sha256": "8fdd2982b8f5fa91119236da2d957674b5d25ea97a9ec4cc65a0156c0a9d3d8a"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 868744,
+          "line_count": 296,
+          "sha256": "3e2274b0d567c730ce6f4da517f22db0b8ef71f0d9631e376fcca71431888a4d"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 690439,
+          "line_count": 296,
+          "sha256": "b55d30f67f141519becc4d2e0e298039efbc31a91b941c49209f28a741bd1bd4"
+        },
+        "few_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        },
+        "metadata.json": {
+          "bytes": 438,
+          "sha256": "e3fc2036049fcf33d81d4837d2030175057b3ad08bc24d2cb2a5ca142cbfcf81"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_saiprasanth_llama31_text2cypher_lora_random_seed17",
+      "run_id": "20260604_clean_control_saiprasanth_llama31_text2cypher_lora_random_seed17"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 269769,
+          "line_count": 296,
+          "sha256": "8fdd2982b8f5fa91119236da2d957674b5d25ea97a9ec4cc65a0156c0a9d3d8a"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 869222,
+          "line_count": 296,
+          "sha256": "52a1408067c7bb981dce0624d05c6fede3478815d9991a7dc0be4b64c27757be"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 690917,
+          "line_count": 296,
+          "sha256": "7ad14d57e6cb5769ef1d6776e7f8437f5d3e0e95cb171ddcbcf6d0312471240c"
+        },
+        "few_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        },
+        "metadata.json": {
+          "bytes": 438,
+          "sha256": "2a0ef7fb62f0f35274d13eba44e54307a3655354d697ff583d046ea30b92e9b8"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_saiprasanth_llama31_text2cypher_lora_random_seed23",
+      "run_id": "20260604_clean_control_saiprasanth_llama31_text2cypher_lora_random_seed23"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 269769,
+          "line_count": 296,
+          "sha256": "8fdd2982b8f5fa91119236da2d957674b5d25ea97a9ec4cc65a0156c0a9d3d8a"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 872493,
+          "line_count": 296,
+          "sha256": "3fa3bbddc239e3dff2ab7c8f585d0fbf009c9f672f7e237acfe13f9770db4d90"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 694188,
+          "line_count": 296,
+          "sha256": "0b750c03bd9aaa46e1912df09e88902bc47ab848836f674ad557aaa1ed6b100b"
+        },
+        "few_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        },
+        "metadata.json": {
+          "bytes": 436,
+          "sha256": "f87ad309901936faf541b31d46d9a32c21004b4472369d1c40c3987d84cb3c27"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_saiprasanth_llama31_text2cypher_lora_scored_no_signature",
+      "run_id": "20260604_clean_control_saiprasanth_llama31_text2cypher_lora_scored_no_signature"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 267401,
+          "line_count": 296,
+          "sha256": "604340c7d7704ba3ed123a44ed5d19215ef3920ddaad383da038f311b4378593"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 866300,
+          "line_count": 296,
+          "sha256": "5914e9ad07772d33381ece6421652bdfefc59b4601a4ac673dfad728a2411452"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 690363,
+          "line_count": 296,
+          "sha256": "5fea29c67a8c0a4b81263edf2c46dfdeeec776f1c01e7f653f0718c70308e5dc"
+        },
+        "few_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        },
+        "metadata.json": {
+          "bytes": 430,
+          "sha256": "ad4817b3ba8434f38434cfd540f762a0ac5ac12a29a16f1b674838c651b8db60"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_tomasonjo_text2cypher8b_random_seed13",
+      "run_id": "20260604_clean_control_tomasonjo_text2cypher8b_random_seed13"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 267401,
+          "line_count": 296,
+          "sha256": "604340c7d7704ba3ed123a44ed5d19215ef3920ddaad383da038f311b4378593"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 866376,
+          "line_count": 296,
+          "sha256": "6ee9a78a81d49fb28b3fd00df8088d1517e8fa23d06d033f6e527e69d1905940"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 690439,
+          "line_count": 296,
+          "sha256": "b55d30f67f141519becc4d2e0e298039efbc31a91b941c49209f28a741bd1bd4"
+        },
+        "few_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        },
+        "metadata.json": {
+          "bytes": 430,
+          "sha256": "97ae71711083be5da6f34bc5b64d78e25cdd4f62808783f2182bd9d171e5f610"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_tomasonjo_text2cypher8b_random_seed17",
+      "run_id": "20260604_clean_control_tomasonjo_text2cypher8b_random_seed17"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 267401,
+          "line_count": 296,
+          "sha256": "604340c7d7704ba3ed123a44ed5d19215ef3920ddaad383da038f311b4378593"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 866854,
+          "line_count": 296,
+          "sha256": "3ba4dfa9db0a9bde81ae73824f4644774f34e9557ebcb766d67a2d3b011ae296"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 690917,
+          "line_count": 296,
+          "sha256": "7ad14d57e6cb5769ef1d6776e7f8437f5d3e0e95cb171ddcbcf6d0312471240c"
+        },
+        "few_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        },
+        "metadata.json": {
+          "bytes": 430,
+          "sha256": "3193b45b02acc8ee62bb2137a07ac9f73df6525121d9dfe4b1d8d7a1e2a16b37"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_tomasonjo_text2cypher8b_random_seed23",
+      "run_id": "20260604_clean_control_tomasonjo_text2cypher8b_random_seed23"
+    },
+    {
+      "files": {
+        "few_shot_evaluation.jsonl": {
+          "bytes": 267401,
+          "line_count": 296,
+          "sha256": "604340c7d7704ba3ed123a44ed5d19215ef3920ddaad383da038f311b4378593"
+        },
+        "few_shot_predictions.jsonl": {
+          "bytes": 870125,
+          "line_count": 296,
+          "sha256": "c78a130a8de1a1b94da07337e41d9572aa2585d2c4b498e618bdc36dd6912abd"
+        },
+        "few_shot_selection.jsonl": {
+          "bytes": 694188,
+          "line_count": 296,
+          "sha256": "0b750c03bd9aaa46e1912df09e88902bc47ab848836f674ad557aaa1ed6b100b"
+        },
+        "few_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        },
+        "metadata.json": {
+          "bytes": 428,
+          "sha256": "8102bde3f3e3265fe57db8dbf8406a8d0effd375fd4884bd66b94643b5f29c0a"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_control_tomasonjo_text2cypher8b_scored_no_signature",
+      "run_id": "20260604_clean_control_tomasonjo_text2cypher8b_scored_no_signature"
+    }
+  ],
+  "created_at": "2026-06-04T19:13:40.946280+00:00",
+  "evaluation_root": "artifacts/evaluations",
+  "expected": {
+    "control_modes_per_model": 4,
+    "control_runs": 45,
+    "rows_per_run": 296,
+    "zero_runs": 11
+  },
+  "filters": {
+    "control_prefix": "20260604_clean_control_",
+    "exclude_run_substrings": [
+      "stable_cypher_instruct3b_transformers"
+    ],
+    "zero_prefix": "20260604_clean_downstream_"
+  },
+  "issues": [],
+  "observed": {
+    "all_complete": true,
+    "control_runs": 45,
+    "zero_runs": 11
+  },
+  "snapshot_dir": "experiments/snapshots/20260604_clean_downstream_model_transfer",
+  "snapshot_files": {
+    "fewshot_control_summary.json": {
+      "bytes": 39929,
+      "sha256": "2bb8026a0e01d4eff86e9a45c2711c0a41ef6a01da72635b36bc8fc92def4258"
+    },
+    "fewshot_control_summary.md": {
+      "bytes": 2121,
+      "sha256": "15beb95d33a0ce356bf3e4eaf25a3108856090be3ad3f0b6d445692bf52ca54b"
+    },
+    "fewshot_leakage_control_audit.json": {
+      "bytes": 1060,
+      "sha256": "7bf7876d9e18abe9de0485b61226ea7151f7dfd37f28399baa2ed9254c975dbc"
+    },
+    "fewshot_leakage_control_audit.md": {
+      "bytes": 440,
+      "sha256": "4c90d2be2f62c380e6795870b33ba9eebd933a4db458cda847678d63c9474a1b"
+    }
+  },
+  "zero_runs": [
+    {
+      "files": {
+        "zero_shot_evaluation.jsonl": {
+          "bytes": 264441,
+          "line_count": 296,
+          "sha256": "f92b22d2746a45f091060010bacef812bac992b78d6a01a407724e192c9c8c79"
+        },
+        "zero_shot_predictions.jsonl": {
+          "bytes": 174457,
+          "line_count": 296,
+          "sha256": "54ddb9d9ddae2ce336a6e0a1989455500a6a15d5b3010115473b684dea119ef5"
+        },
+        "zero_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_downstream_aigentx_llama31_cypher_lora_zero_fewshot",
+      "run_id": "20260604_clean_downstream_aigentx_llama31_cypher_lora_zero_fewshot"
+    },
+    {
+      "files": {
+        "zero_shot_evaluation.jsonl": {
+          "bytes": 266217,
+          "line_count": 296,
+          "sha256": "52d781ae624879b065f1f4c633703ddbcfaf9348d3081b838648d52919e18088"
+        },
+        "zero_shot_predictions.jsonl": {
+          "bytes": 176233,
+          "line_count": 296,
+          "sha256": "0b8c151d52992539020bf6a73370ba694f679b669c338b6aaf225af8350d3a6b"
+        },
+        "zero_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_downstream_aigentx_llama31_cypher_mixed_lora_zero_fewshot",
+      "run_id": "20260604_clean_downstream_aigentx_llama31_cypher_mixed_lora_zero_fewshot"
+    },
+    {
+      "files": {
+        "zero_shot_evaluation.jsonl": {
+          "bytes": 267105,
+          "line_count": 296,
+          "sha256": "0b89b2d398f6811f1a78e2cb09ab84b3254b4fa382a09251b28c05cd2f079c8b"
+        },
+        "zero_shot_predictions.jsonl": {
+          "bytes": 177121,
+          "line_count": 296,
+          "sha256": "43fb39899e63a9ee40af6e6d4fe110b6aef3b80e3d91bfddf56ea3589f791aed"
+        },
+        "zero_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_downstream_azzedde_llama31_text2cypher_zero_fewshot",
+      "run_id": "20260604_clean_downstream_azzedde_llama31_text2cypher_zero_fewshot"
+    },
+    {
+      "files": {
+        "zero_shot_evaluation.jsonl": {
+          "bytes": 263849,
+          "line_count": 296,
+          "sha256": "7b4bd4eafc2b53f280e5c475698ea0ef88ee174194eea4eb248e70ebcf9930f6"
+        },
+        "zero_shot_predictions.jsonl": {
+          "bytes": 173865,
+          "line_count": 296,
+          "sha256": "5c524dba13625df5d67bc20b2049dc4aa45b391e9ee7fc3d6d9fdc84e87ef279"
+        },
+        "zero_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_downstream_gemma2_9b_it_zero_fewshot",
+      "run_id": "20260604_clean_downstream_gemma2_9b_it_zero_fewshot"
+    },
+    {
+      "files": {
+        "zero_shot_evaluation.jsonl": {
+          "bytes": 263475,
+          "line_count": 296,
+          "sha256": "459a84172d4250f0b440e52f08c04ecd37bcf276356b1205b96186f1e6a87671"
+        },
+        "zero_shot_predictions.jsonl": {
+          "bytes": 225381,
+          "line_count": 296,
+          "sha256": "c00c097ec194d1a8d0d5f61d12c0374a409bc906140e221ac0cc5d7d7c48cdbd"
+        },
+        "zero_shot_summary.json": {
+          "bytes": 3171,
+          "sha256": "6c991cb015f6954450a0bcadf6c8dba54770fc3271fd4245a24c26950eb01145"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_downstream_neo4j_gemma2_text2cypher_lora_zero_fewshot",
+      "run_id": "20260604_clean_downstream_neo4j_gemma2_text2cypher_lora_zero_fewshot"
+    },
+    {
+      "files": {
+        "zero_shot_evaluation.jsonl": {
+          "bytes": 272729,
+          "line_count": 296,
+          "sha256": "a8a88e08ba258c807ed7ce24f927efa5065bab6c1effea1f0c64ba08c70504c0"
+        },
+        "zero_shot_predictions.jsonl": {
+          "bytes": 182745,
+          "line_count": 296,
+          "sha256": "11192939ed39697a460048b5ad5612fcd721f141d69697974f15b594d86d182c"
+        },
+        "zero_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_downstream_neo4j_gemma3_4b_zero_fewshot",
+      "run_id": "20260604_clean_downstream_neo4j_gemma3_4b_zero_fewshot"
+    },
+    {
+      "files": {
+        "zero_shot_evaluation.jsonl": {
+          "bytes": 270361,
+          "line_count": 296,
+          "sha256": "ed980a1fd7c8fcddf7a96bfdd5e60462285d4113c789d90a8aaaac2aab552650"
+        },
+        "zero_shot_predictions.jsonl": {
+          "bytes": 180377,
+          "line_count": 296,
+          "sha256": "04b478cde4450802f6949ccec94aeb889167215cd11282ad9f65b02281029ac2"
+        },
+        "zero_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_downstream_projectwilsen_llama31_text2cypher_lora_zero_fewshot",
+      "run_id": "20260604_clean_downstream_projectwilsen_llama31_text2cypher_lora_zero_fewshot"
+    },
+    {
+      "files": {
+        "zero_shot_evaluation.jsonl": {
+          "bytes": 788500,
+          "line_count": 296,
+          "sha256": "737c566c8535e9debca02c5bdc6cbe257e715664f4a283ef2a4f3df8b2a37ce4"
+        },
+        "zero_shot_predictions.jsonl": {
+          "bytes": 239829,
+          "line_count": 296,
+          "sha256": "a32c213bb1a564f2ca82ac597454b091b0214b207ead10e76262dede74ea8d32"
+        },
+        "zero_shot_summary.json": {
+          "bytes": 22297,
+          "sha256": "0019b395d50863fe57f601b950f1fb5ce8111e5124b8e443bc58bf3eb48f4671"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_downstream_qwen25_coder7b_zero_fewshot",
+      "run_id": "20260604_clean_downstream_qwen25_coder7b_zero_fewshot"
+    },
+    {
+      "files": {
+        "zero_shot_evaluation.jsonl": {
+          "bytes": 284804,
+          "line_count": 296,
+          "sha256": "ba9883c18720aa9f3d821c6fb2db836e73bdee1bb1b8d6ed0329a8f1c302bc6a"
+        },
+        "zero_shot_predictions.jsonl": {
+          "bytes": 236152,
+          "line_count": 296,
+          "sha256": "09343d40a221fc731ef596b9f1cad7aae90400a3af0916cd491337b5673da857"
+        },
+        "zero_shot_summary.json": {
+          "bytes": 3187,
+          "sha256": "c475bd17271dd25d4eaba8718a471f2f7e6d3df7e79a79570b2cebb5cbbed9b7"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_downstream_qwen35_9b_zero_fewshot",
+      "run_id": "20260604_clean_downstream_qwen35_9b_zero_fewshot"
+    },
+    {
+      "files": {
+        "zero_shot_evaluation.jsonl": {
+          "bytes": 269769,
+          "line_count": 296,
+          "sha256": "8fdd2982b8f5fa91119236da2d957674b5d25ea97a9ec4cc65a0156c0a9d3d8a"
+        },
+        "zero_shot_predictions.jsonl": {
+          "bytes": 179785,
+          "line_count": 296,
+          "sha256": "49b27918355daea03cadd0fd6deceb9cc414422694f30ad9b648bd3c5ec69ff3"
+        },
+        "zero_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_downstream_saiprasanth_llama31_text2cypher_lora_zero_fewshot",
+      "run_id": "20260604_clean_downstream_saiprasanth_llama31_text2cypher_lora_zero_fewshot"
+    },
+    {
+      "files": {
+        "zero_shot_evaluation.jsonl": {
+          "bytes": 267401,
+          "line_count": 296,
+          "sha256": "604340c7d7704ba3ed123a44ed5d19215ef3920ddaad383da038f311b4378593"
+        },
+        "zero_shot_predictions.jsonl": {
+          "bytes": 177417,
+          "line_count": 296,
+          "sha256": "ee75718c98276da029628a2df3fca41b7a5b2016b52c8c933208906413fb26d4"
+        },
+        "zero_shot_summary.json": {
+          "bytes": 2777,
+          "sha256": "8275be9860b09ae720d7a8e7ccb2e5489d58e22c5f9d9a3b9969ea833481ca16"
+        }
+      },
+      "issues": [],
+      "path": "artifacts/evaluations/20260604_clean_downstream_tomasonjo_text2cypher8b_zero_fewshot",
+      "run_id": "20260604_clean_downstream_tomasonjo_text2cypher8b_zero_fewshot"
+    }
+  ]
+}

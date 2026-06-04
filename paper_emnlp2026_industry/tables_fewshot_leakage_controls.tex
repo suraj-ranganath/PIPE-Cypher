@@ -6,14 +6,12 @@
 \toprule
 Selection mode & Rows & Demos & Sig. match & High sim. & Mean sim. \\
 \midrule
-ordered & 296 & 1480 & 0.888 & 0.393 & 0.846 \\
-scored no-sig & 296 & 1480 & 0.000 & 0.000 & 0.593 \\
-random seed 13 & 296 & 1480 & 0.870 & 0.406 & 0.840 \\
-random seed 17 & 296 & 1480 & 0.872 & 0.399 & 0.836 \\
-random seed 23 & 296 & 1480 & 0.882 & 0.410 & 0.844 \\
+Ordered & 296 & 1480 & 0.866 & 0.389 & 0.825 \\
+No-signature & 296 & 1480 & 0.000 & 0.000 & 0.585 \\
+Random & 296 & 1480 & 0.854 & 0.409 & 0.824 \\
 \bottomrule
 \end{tabular}
 }
-\caption{Few-shot leakage controls for downstream demonstration-bank evaluation. The held-out split has 0 exact train/test question overlaps and 295 train/test query-signature overlaps; selection-mode rates show how often retrieved demonstrations share the test query signature or exceed the 0.90 normalized-question similarity threshold.}
+\caption{Few-shot leakage controls for downstream demonstration-bank evaluation. The held-out split has 0 exact train/test question overlaps and 289 train/test query-signature overlaps; selection-mode rates show how often retrieved demonstrations share the test query signature or exceed the 0.90 normalized-question similarity threshold.}
 \label{tab:fewshot_leakage_controls}
 \end{table}
