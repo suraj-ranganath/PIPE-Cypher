@@ -135,20 +135,34 @@ def render_downstream_error_table(report: dict[str, Any]) -> str:
 def render_diversity_table(report: dict[str, Any]) -> str:
     text = report["question_text"]
     templates = report["query_templates"]
+    families = report.get("template_families", {})
     coverage = report["schema_coverage"]
     distributions = report["distributions"]
     structural = report["structural_features"]
+    substructures = report.get("structural_substructures", {})
     values = report["value_grounding"]
+    pipe_index = report.get("pipe_diversity_index", {})
+    pairwise = text.get("pairwise_jaccard_sampled", {})
     rows = [
         r"\begin{tabular}{lr}",
         r"\toprule",
         r"Metric & Value \\",
         r"\midrule",
+        f"PIPE-Diversity index & {_fmt_float(pipe_index.get('score', 0.0))} \\\\",
         f"Question Distinct-1 & {_fmt_float(text['distinct_1'])} \\\\",
         f"Question Distinct-2 & {_fmt_float(text['distinct_2'])} \\\\",
+        f"Question adjusted Distinct-2 & {_fmt_float(text.get('ead_distinct_2', 0.0))} \\\\",
         f"Question self-BLEU-2 (sampled) & {_fmt_float(text['self_bleu_2_sampled'])} \\\\",
+        f"Mean nearest-neighbor question Jaccard & "
+        f"{_fmt_float(pairwise.get('mean_nearest_neighbor_jaccard', 0.0))} \\\\",
         f"Unique query-signature ratio & {_fmt_float(templates['unique_signature_ratio'])} \\\\",
         f"Top query-signature share & {_fmt_float(templates['top_signature_share'])} \\\\",
+        f"Template-family entropy & "
+        f"{_fmt_float(families.get('distribution', {}).get('normalized_entropy', 0.0))} \\\\",
+        f"Operator-combination entropy & "
+        f"{_fmt_float(distributions.get('operator_combinations', {}).get('normalized_entropy', 0.0))} \\\\",
+        f"Unique structural substructures & "
+        f"{_fmt_int(substructures.get('unique_substructure_count', 0))} \\\\",
         f"Category normalized entropy & {_fmt_float(distributions['category']['normalized_entropy'])} \\\\",
         f"Graph-category normalized entropy & {_fmt_float(distributions['graph_category']['normalized_entropy'])} \\\\",
         f"Difficulty normalized entropy & {_fmt_float(distributions['difficulty']['normalized_entropy'])} \\\\",
@@ -169,9 +183,10 @@ def render_diversity_table(report: dict[str, Any]) -> str:
     return _table(
         body="\n".join(rows),
         caption=(
-            "Diversity diagnostics for the full exported benchmark. Distinct-n follows "
-            "text-generation usage; self-BLEU is lower when questions are less redundant; "
-            "grounded-value metrics are aggregate-only and do not list raw values."
+            "Diversity diagnostics for the full exported benchmark. PIPE-Diversity is "
+            "a geometric mean of lexical, query-template, structural, schema, value, "
+            "and balance components; component rows are shown so the composite score "
+            "does not hide residual concentration."
         ),
         label="tab:diversity_metrics",
     )
@@ -202,6 +217,48 @@ def render_query_signature_concentration_table(report: dict[str, Any]) -> str:
             "template concentration rather than raw value reuse."
         ),
         label="tab:query_signature_concentration",
+    )
+
+
+def render_diversity_improvement_table(comparison: dict[str, Any]) -> str:
+    labels = {
+        "pipe_diversity_index": "PIPE-Diversity index",
+        "query_signature_ratio": "Unique query-signature ratio",
+        "top_signature_share": "Top signature share (lower better)",
+        "template_family_entropy": "Template-family entropy",
+        "operator_combo_entropy": "Operator-combination entropy",
+        "structural_substructures": "Unique structural substructures",
+        "self_bleu_2": "Question self-BLEU-2 (lower better)",
+        "ead_distinct_2": "Adjusted Distinct-2",
+        "schema_property_coverage": "Property coverage",
+    }
+    rows = [
+        r"\begin{tabular}{lrrr}",
+        r"\toprule",
+        r"Metric & Random balanced & Diversity governed & $\Delta$ \\",
+        r"\midrule",
+    ]
+    for row in comparison.get("rows", []):
+        rows.append(
+            "{metric} & {baseline} & {selected} & {delta} \\\\".format(
+                metric=_escape_latex(labels.get(row.get("metric"), str(row.get("metric")))),
+                baseline=_fmt_float(row.get("random_balanced", 0.0)),
+                selected=_fmt_float(row.get("diversity_governed", 0.0)),
+                delta=_fmt_signed_float(row.get("delta", 0.0)),
+            )
+        )
+    rows.extend([r"\bottomrule", r"\end{tabular}"])
+    return _table(
+        body="\n".join(rows),
+        caption=(
+            "Balanced subset comparison at the same graph/category target. "
+            "The diversity-governed selector applies MMR-style novelty over Cypher "
+            "signatures, template families, structural substructures, schema atoms, "
+            "values, and question tokens after quality gates have already passed; "
+            "structural/schema gains are reported alongside residual template "
+            "concentration."
+        ),
+        label="tab:diversity_improvement",
     )
 
 
@@ -653,6 +710,10 @@ def _fmt_count_or_dash(value: Any) -> str:
 
 def _fmt_float(value: Any) -> str:
     return f"{float(value):.3f}"
+
+
+def _fmt_signed_float(value: Any) -> str:
+    return f"{float(value):+.3f}"
 
 
 def _fmt_ci(low: Any, high: Any) -> str:

@@ -94,6 +94,7 @@ def test_appendix_result_tables_use_venue_compliant_placement():
         "tables_downstream_error_taxonomy.tex",
         "tables_supported_text_metrics.tex",
         "tables_diversity.tex",
+        "tables_diversity_improvement.tex",
         "tables_strategy_diagnostics.tex",
         "tables_validator_cascade.tex",
         "tables_prompt_refinement.tex",

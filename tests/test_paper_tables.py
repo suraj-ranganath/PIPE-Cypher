@@ -5,6 +5,7 @@ from pipecypher.paper_tables import (
     render_ablation_quality_table,
     render_ablation_table,
     render_benchmark_export_table,
+    render_diversity_improvement_table,
     render_downstream_error_table,
     render_downstream_table,
     render_effort_automation_table,
@@ -217,6 +218,32 @@ def test_render_judge_audit_coverage_table_reports_packet_balance():
 
     assert "Judge precision (95\\% CI) & 1.000 (0.910--1.000)" in labeled_text
     assert "False-accept rate (95\\% CI) & 0.000 (0.000--0.090)" in labeled_text
+
+
+def test_render_diversity_improvement_table_reports_selector_tradeoffs():
+    text = render_diversity_improvement_table(
+        {
+            "rows": [
+                {
+                    "metric": "pipe_diversity_index",
+                    "random_balanced": 0.52,
+                    "diversity_governed": 0.524,
+                    "delta": 0.004,
+                },
+                {
+                    "metric": "template_family_entropy",
+                    "random_balanced": 0.917,
+                    "diversity_governed": 0.889,
+                    "delta": -0.028,
+                },
+            ]
+        }
+    )
+
+    assert "PIPE-Diversity index & 0.520 & 0.524 & +0.004" in text
+    assert "Template-family entropy & 0.917 & 0.889 & -0.028" in text
+    assert "residual template concentration" in text
+    assert r"\label{tab:diversity_improvement}" in text
 
 
 def test_render_graph_statistics_table_marks_pending_counts_with_dash():

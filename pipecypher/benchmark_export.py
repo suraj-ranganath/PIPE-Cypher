@@ -80,6 +80,8 @@ def materialize_benchmark_examples(
                 "normalized_cypher": validation.get("normalized_cypher"),
                 "structural_features": features,
                 "entity_values": row.get("entity_values", []),
+                "template": row.get("template"),
+                "template_metadata": row.get("template_metadata", {}),
                 "reverse_cypher": row.get("reverse_cypher"),
                 "result_rows_sample": result_rows[:result_sample_limit],
                 "result_row_count_observed": len(result_rows),

@@ -138,20 +138,18 @@ def main() -> None:
 
 
 def render_diversity_figure(report: dict, output: Path, plt) -> None:
-    value_grounding = report["value_grounding"]
+    index = report.get("pipe_diversity_index", {})
+    components = index.get("components", {})
     values = {
-        "Category\nbalance": report["distributions"]["category"]["normalized_entropy"],
-        "Graph-category\nbalance": report["distributions"]["graph_category"]["normalized_entropy"],
-        "Difficulty\nbalance": report["distributions"]["difficulty"]["normalized_entropy"],
-        "Distinct-2\nquestions": report["question_text"]["distinct_2"],
-        "Query-signature\nratio": report["query_templates"]["unique_signature_ratio"],
-        "Grounded-value\nratio": value_grounding["unique_entity_value_ratio"],
-        "Exact quoted\nvalues": value_grounding["entity_values_exact_quoted_rate"],
-        "Label\ncoverage": report["schema_coverage"]["labels"]["coverage"],
-        "Rel-type\ncoverage": report["schema_coverage"]["relationship_types"]["coverage"],
-        "Property\ncoverage": report["schema_coverage"]["properties"]["coverage"],
+        "PIPE-Diversity\nindex": index.get("score", 0.0),
+        "Lexical\nvariety": components.get("lexical", 0.0),
+        "Query-template\nvariety": components.get("query_template", 0.0),
+        "Structural\ncoverage": components.get("structural", 0.0),
+        "Schema\ncoverage": components.get("schema", 0.0),
+        "Value\nvariety": components.get("value", 0.0),
+        "Balance\ncoverage": components.get("balance", 0.0),
     }
-    fig, ax = plt.subplots(figsize=(9.2, 3.2))
+    fig, ax = plt.subplots(figsize=(7.4, 3.2))
     bars = ax.bar(
         range(len(values)),
         list(values.values()),
@@ -159,7 +157,7 @@ def render_diversity_figure(report: dict, output: Path, plt) -> None:
     )
     ax.set_ylim(0, 1.05)
     ax.set_ylabel("Normalized score")
-    ax.set_title("Full benchmark diversity diagnostics")
+    ax.set_title("Full benchmark diversity components")
     ax.set_xticks(range(len(values)))
     ax.set_xticklabels(list(values.keys()), rotation=0, ha="center", fontsize=8)
     style_axis(ax, grid_axis="y")
