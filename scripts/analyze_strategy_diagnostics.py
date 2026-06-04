@@ -31,15 +31,21 @@ def main() -> None:
     )
     parser.add_argument(
         "--benchmark",
-        default="artifacts/benchmarks/20260601_live_full_qwen9b/all.jsonl",
+        default="artifacts/benchmarks/20260604_live_full_qwen9b_reviewfix/all.jsonl",
     )
     parser.add_argument(
         "--evaluation",
-        default="artifacts/evaluations/20260601_full_qwen9b_test_eval.jsonl",
+        default=(
+            "artifacts/evaluations/20260604_clean_downstream_qwen35_9b_zero_fewshot/"
+            "zero_shot_evaluation.jsonl"
+        ),
     )
     parser.add_argument(
         "--output-json",
-        default="experiments/snapshots/20260601_live_full_qwen9b/strategy_diagnostics.json",
+        default=(
+            "experiments/snapshots/20260604_clean_downstream_model_transfer/"
+            "strategy_diagnostics.json"
+        ),
     )
     parser.add_argument(
         "--output-tex",

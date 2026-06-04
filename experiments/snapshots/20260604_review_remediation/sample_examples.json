@@ -1,0 +1,1409 @@
+[
+  {
+    "category": "boolean_existence",
+    "cypher": "MATCH (src:Account {accountId: '187743809466009406'})-[:TRANSFER_TO]->(:Account) RETURN DISTINCT COUNT(DISTINCT src) > 0 AS HasOutgoingTransfer",
+    "difficulty": "easy",
+    "entity_values": [
+      "187743809466009406"
+    ],
+    "gates": {
+      "accepted": true,
+      "execution_success": true,
+      "judge_pass": true,
+      "read_only": true,
+      "schema_valid": true,
+      "syntax_valid": true
+    },
+    "graph_profile": "finbench",
+    "id": "pc_00c0d254748f7ec9",
+    "judge_scores": {
+      "ambiguity": 0.0,
+      "difficulty": "easy",
+      "schema_use": 1.0,
+      "semantic_alignment": 1.0
+    },
+    "normalized_cypher": "MATCH (src:Account {accountId: '187743809466009406'})-[:TRANSFER_TO]->(:Account) RETURN DISTINCT COUNT(DISTINCT src) > 0 AS HasOutgoingTransfer",
+    "question": "Does account '187743809466009406' have any outgoing transfer?",
+    "result_row_count_observed": 1,
+    "result_rows_sample": [
+      {
+        "HasOutgoingTransfer": true
+      }
+    ],
+    "reverse_cypher": "MATCH (src:Account)-[:TRANSFER_TO]->(:Account) RETURN DISTINCT src.accountId AS accountId LIMIT 300",
+    "source": {
+      "created_at": "2026-06-01T15:34:32.979797+00:00",
+      "model": "Qwen/Qwen3.5-9B",
+      "records_path": "artifacts/runs/20260601_142318_20260601_full_qwen9b_finbench/records.jsonl",
+      "run": "20260601_142318_20260601_full_qwen9b_finbench"
+    },
+    "structural_features": {
+      "aggregation": true,
+      "difficulty": "easy",
+      "label_counts": {
+        "Account": 2
+      },
+      "labels": [
+        "Account"
+      ],
+      "limit": false,
+      "negation": false,
+      "node_pattern_count": 2,
+      "optional_match": false,
+      "ordering": false,
+      "path_pattern": false,
+      "primary_strategy": "aggregation",
+      "relationship_counts": {
+        "TRANSFER_TO": 1
+      },
+      "relationship_pattern_count": 1,
+      "relationship_types": [
+        "TRANSFER_TO"
+      ],
+      "return_arity": 1,
+      "strategy_tags": [
+        "single_hop",
+        "aggregation"
+      ]
+    },
+    "template": null,
+    "template_metadata": {}
+  },
+  {
+    "category": "complex_aggregation",
+    "cypher": "MATCH (p:Person {personName: 'Gwar'})-[:OWN_ACCOUNT]->(src:Account)-[t:TRANSFER_TO]->(:Account) RETURN DISTINCT SUM(t.amount) AS TotalTransferredAmount",
+    "difficulty": "medium",
+    "entity_values": [
+      "Gwar"
+    ],
+    "gates": {
+      "accepted": true,
+      "execution_success": true,
+      "judge_pass": true,
+      "read_only": true,
+      "schema_valid": true,
+      "syntax_valid": true
+    },
+    "graph_profile": "finbench",
+    "id": "pc_00191b32d4f9a0d2",
+    "judge_scores": {
+      "ambiguity": 0.0,
+      "difficulty": "medium",
+      "schema_use": 1.0,
+      "semantic_alignment": 1.0
+    },
+    "normalized_cypher": "MATCH (p:Person {personName: 'Gwar'})-[:OWN_ACCOUNT]->(src:Account)-[t:TRANSFER_TO]->(:Account) RETURN DISTINCT SUM(t.amount) AS TotalTransferredAmount",
+    "question": "What is the total transferred amount from accounts owned by person 'Gwar'?",
+    "result_row_count_observed": 1,
+    "result_rows_sample": [
+      {
+        "TotalTransferredAmount": 14972318.41
+      }
+    ],
+    "reverse_cypher": "MATCH (p:Person)-[:OWN_ACCOUNT]->(:Account)-[:TRANSFER_TO]->(:Account) RETURN DISTINCT p.personName AS personName LIMIT 300",
+    "source": {
+      "created_at": "2026-06-01T14:53:10.113146+00:00",
+      "model": "Qwen/Qwen3.5-9B",
+      "records_path": "artifacts/runs/20260601_142318_20260601_full_qwen9b_finbench/records.jsonl",
+      "run": "20260601_142318_20260601_full_qwen9b_finbench"
+    },
+    "structural_features": {
+      "aggregation": true,
+      "difficulty": "medium",
+      "label_counts": {
+        "Account": 2,
+        "Person": 1
+      },
+      "labels": [
+        "Account",
+        "Person"
+      ],
+      "limit": false,
+      "negation": false,
+      "node_pattern_count": 3,
+      "optional_match": false,
+      "ordering": false,
+      "path_pattern": false,
+      "primary_strategy": "aggregation",
+      "relationship_counts": {
+        "OWN_ACCOUNT": 1,
+        "TRANSFER_TO": 1
+      },
+      "relationship_pattern_count": 2,
+      "relationship_types": [
+        "OWN_ACCOUNT",
+        "TRANSFER_TO"
+      ],
+      "return_arity": 1,
+      "strategy_tags": [
+        "join_heavy",
+        "aggregation"
+      ]
+    },
+    "template": null,
+    "template_metadata": {}
+  },
+  {
+    "category": "complex_retrieval",
+    "cypher": "MATCH (p:Person {personName: 'Zof'})-[:OWN_ACCOUNT]->(src:Account)-[:TRANSFER_TO]->(dst:Account) RETURN DISTINCT dst.accountId AS AccountId, dst.accountType AS AccountType, dst.isBlocked AS IsBlocked LIMIT 300",
+    "difficulty": "easy",
+    "entity_values": [
+      "Zof"
+    ],
+    "gates": {
+      "accepted": true,
+      "execution_success": true,
+      "judge_pass": true,
+      "read_only": true,
+      "schema_valid": true,
+      "syntax_valid": true
+    },
+    "graph_profile": "finbench",
+    "id": "pc_01aed23f072ad9b7",
+    "judge_scores": {
+      "ambiguity": 0.0,
+      "difficulty": "easy",
+      "schema_use": 1.0,
+      "semantic_alignment": 1.0
+    },
+    "normalized_cypher": "MATCH (p:Person {personName: 'Zof'})-[:OWN_ACCOUNT]->(src:Account)-[:TRANSFER_TO]->(dst:Account) RETURN DISTINCT dst.accountId AS AccountId, dst.accountType AS AccountType, dst.isBlocked AS IsBlocked LIMIT 300",
+    "question": "Which accounts received transfers from accounts owned by person 'Zof'?",
+    "result_row_count_observed": 3,
+    "result_rows_sample": [
+      {
+        "AccountId": "4687402787162554854",
+        "AccountType": "credit card",
+        "IsBlocked": false
+      },
+      {
+        "AccountId": "193654783976931951",
+        "AccountType": "custodial account",
+        "IsBlocked": false
+      },
+      {
+        "AccountId": "4773815605012726841",
+        "AccountType": "custodial account",
+        "IsBlocked": false
+      }
+    ],
+    "reverse_cypher": "MATCH (p:Person)-[:OWN_ACCOUNT]->(:Account)-[:TRANSFER_TO]->(:Account) RETURN DISTINCT p.personName AS personName LIMIT 300",
+    "source": {
+      "created_at": "2026-06-01T14:40:54.468620+00:00",
+      "model": "Qwen/Qwen3.5-9B",
+      "records_path": "artifacts/runs/20260601_142318_20260601_full_qwen9b_finbench/records.jsonl",
+      "run": "20260601_142318_20260601_full_qwen9b_finbench"
+    },
+    "structural_features": {
+      "aggregation": false,
+      "difficulty": "easy",
+      "label_counts": {
+        "Account": 2,
+        "Person": 1
+      },
+      "labels": [
+        "Account",
+        "Person"
+      ],
+      "limit": true,
+      "negation": false,
+      "node_pattern_count": 3,
+      "optional_match": false,
+      "ordering": false,
+      "path_pattern": false,
+      "primary_strategy": "join_heavy",
+      "relationship_counts": {
+        "OWN_ACCOUNT": 1,
+        "TRANSFER_TO": 1
+      },
+      "relationship_pattern_count": 2,
+      "relationship_types": [
+        "OWN_ACCOUNT",
+        "TRANSFER_TO"
+      ],
+      "return_arity": 3,
+      "strategy_tags": [
+        "join_heavy",
+        "bounded_result"
+      ]
+    },
+    "template": null,
+    "template_metadata": {}
+  },
+  {
+    "category": "negation_difference",
+    "cypher": "MATCH (p:Person {personName: 'Kant'})-[:OWN_ACCOUNT]->(a:Account) WHERE NOT (a)-[:TRANSFER_TO]->(:Account) RETURN DISTINCT a.accountId AS AccountId, a.accountType AS AccountType, a.isBlocked AS IsBlocked LIMIT 300",
+    "difficulty": "medium",
+    "entity_values": [
+      "Kant"
+    ],
+    "gates": {
+      "accepted": true,
+      "execution_success": true,
+      "judge_pass": true,
+      "read_only": true,
+      "schema_valid": true,
+      "syntax_valid": true
+    },
+    "graph_profile": "finbench",
+    "id": "pc_00046a118af3f671",
+    "judge_scores": {
+      "ambiguity": 0.05,
+      "difficulty": "medium",
+      "schema_use": 1.0,
+      "semantic_alignment": 1.0
+    },
+    "normalized_cypher": "MATCH (p:Person {personName: 'Kant'})-[:OWN_ACCOUNT]->(a:Account) WHERE NOT (a)-[:TRANSFER_TO]->(:Account) RETURN DISTINCT a.accountId AS AccountId, a.accountType AS AccountType, a.isBlocked AS IsBlocked LIMIT 300",
+    "question": "Which accounts owned by person 'Kant' have not sent any transfers?",
+    "result_row_count_observed": 1,
+    "result_rows_sample": [
+      {
+        "AccountId": "4739757132830738341",
+        "AccountType": "merchant account",
+        "IsBlocked": false
+      }
+    ],
+    "reverse_cypher": "MATCH (p:Person)-[:OWN_ACCOUNT]->(a:Account) WHERE NOT (a)-[:TRANSFER_TO]->(:Account) RETURN DISTINCT p.personName AS personName LIMIT 300",
+    "source": {
+      "created_at": "2026-06-01T15:38:55.549683+00:00",
+      "model": "Qwen/Qwen3.5-9B",
+      "records_path": "artifacts/runs/20260601_142318_20260601_full_qwen9b_finbench/records.jsonl",
+      "run": "20260601_142318_20260601_full_qwen9b_finbench"
+    },
+    "structural_features": {
+      "aggregation": false,
+      "difficulty": "medium",
+      "label_counts": {
+        "Account": 2,
+        "Person": 1
+      },
+      "labels": [
+        "Account",
+        "Person"
+      ],
+      "limit": true,
+      "negation": true,
+      "node_pattern_count": 4,
+      "optional_match": false,
+      "ordering": false,
+      "path_pattern": false,
+      "primary_strategy": "negation",
+      "relationship_counts": {
+        "OWN_ACCOUNT": 1,
+        "TRANSFER_TO": 1
+      },
+      "relationship_pattern_count": 2,
+      "relationship_types": [
+        "OWN_ACCOUNT",
+        "TRANSFER_TO"
+      ],
+      "return_arity": 3,
+      "strategy_tags": [
+        "join_heavy",
+        "negation",
+        "bounded_result"
+      ]
+    },
+    "template": null,
+    "template_metadata": {}
+  },
+  {
+    "category": "path_temporal",
+    "cypher": "MATCH (p:Person {personName: 'Sossamon'})-[:OWN_ACCOUNT]->(src:Account)-[:TRANSFER_TO*1..2]->(dst:Account) RETURN DISTINCT dst.accountId AS AccountId, dst.accountType AS AccountType, dst.isBlocked AS IsBlocked LIMIT 300",
+    "difficulty": "medium",
+    "entity_values": [
+      "Sossamon"
+    ],
+    "gates": {
+      "accepted": true,
+      "execution_success": true,
+      "judge_pass": true,
+      "read_only": true,
+      "schema_valid": true,
+      "syntax_valid": true
+    },
+    "graph_profile": "finbench",
+    "id": "pc_00cfe6136bcf6427",
+    "judge_scores": {
+      "ambiguity": 0.05,
+      "difficulty": "medium",
+      "schema_use": 1.0,
+      "semantic_alignment": 1.0
+    },
+    "normalized_cypher": "MATCH (p:Person {personName: 'Sossamon'})-[:OWN_ACCOUNT]->(src:Account)-[:TRANSFER_TO*1..2]->(dst:Account) RETURN DISTINCT dst.accountId AS AccountId, dst.accountType AS AccountType, dst.isBlocked AS IsBlocked LIMIT 300",
+    "question": "Which accounts can receive money within two transfer hops from accounts owned by person 'Sossamon'?",
+    "result_row_count_observed": 4,
+    "result_rows_sample": [
+      {
+        "AccountId": "4687402787162554854",
+        "AccountType": "credit card",
+        "IsBlocked": false
+      },
+      {
+        "AccountId": "4760867756084036010",
+        "AccountType": "credit card",
+        "IsBlocked": false
+      },
+      {
+        "AccountId": "4860228422862897491",
+        "AccountType": "prepaid card",
+        "IsBlocked": false
+      },
+      {
+        "AccountId": "163818436445603648",
+        "AccountType": "corporate account",
+        "IsBlocked": false
+      }
+    ],
+    "reverse_cypher": "MATCH (p:Person)-[:OWN_ACCOUNT]->(:Account)-[:TRANSFER_TO]->(:Account) RETURN DISTINCT p.personName AS personName LIMIT 300",
+    "source": {
+      "created_at": "2026-06-01T16:17:09.927834+00:00",
+      "model": "Qwen/Qwen3.5-9B",
+      "records_path": "artifacts/runs/20260601_142318_20260601_full_qwen9b_finbench/records.jsonl",
+      "run": "20260601_142318_20260601_full_qwen9b_finbench"
+    },
+    "structural_features": {
+      "aggregation": false,
+      "difficulty": "medium",
+      "label_counts": {
+        "Account": 2,
+        "Person": 1
+      },
+      "labels": [
+        "Account",
+        "Person"
+      ],
+      "limit": true,
+      "negation": false,
+      "node_pattern_count": 3,
+      "optional_match": false,
+      "ordering": false,
+      "path_pattern": true,
+      "primary_strategy": "path",
+      "relationship_counts": {
+        "OWN_ACCOUNT": 1,
+        "TRANSFER_TO": 1
+      },
+      "relationship_pattern_count": 2,
+      "relationship_types": [
+        "OWN_ACCOUNT",
+        "TRANSFER_TO"
+      ],
+      "return_arity": 3,
+      "strategy_tags": [
+        "join_heavy",
+        "path",
+        "bounded_result"
+      ]
+    },
+    "template": null,
+    "template_metadata": {}
+  },
+  {
+    "category": "ranking_topk",
+    "cypher": "MATCH (p:Person {personName: 'Barry'})-[:OWN_ACCOUNT]->(src:Account)-[t:TRANSFER_TO]->(:Account) WITH src, SUM(t.amount) AS totalAmount RETURN DISTINCT src.accountId AS AccountId, src.accountType AS AccountType, src.isBlocked AS IsBlocked, totalAmount ORDER BY totalAmount DESC LIMIT 1",
+    "difficulty": "medium",
+    "entity_values": [
+      "Barry"
+    ],
+    "gates": {
+      "accepted": true,
+      "execution_success": true,
+      "judge_pass": true,
+      "read_only": true,
+      "schema_valid": true,
+      "syntax_valid": true
+    },
+    "graph_profile": "finbench",
+    "id": "pc_004d912f2a09ff9c",
+    "judge_scores": {
+      "ambiguity": 0.0,
+      "difficulty": "medium",
+      "schema_use": 1.0,
+      "semantic_alignment": 1.0
+    },
+    "normalized_cypher": "MATCH (p:Person {personName: 'Barry'})-[:OWN_ACCOUNT]->(src:Account)-[t:TRANSFER_TO]->(:Account) WITH src, SUM(t.amount) AS totalAmount RETURN DISTINCT src.accountId AS AccountId, src.accountType AS AccountType, src.isBlocked AS IsBlocked, totalAmount ORDER BY totalAmount DESC LIMIT 1",
+    "question": "For accounts owned by person 'Barry', which account sent the highest total transfer amount?",
+    "result_row_count_observed": 1,
+    "result_rows_sample": [
+      {
+        "AccountId": "4732438783436260772",
+        "AccountType": "internet account",
+        "IsBlocked": false,
+        "totalAmount": 26495184.23
+      }
+    ],
+    "reverse_cypher": "MATCH (p:Person)-[:OWN_ACCOUNT]->(:Account)-[:TRANSFER_TO]->(:Account) RETURN DISTINCT p.personName AS personName LIMIT 300",
+    "source": {
+      "created_at": "2026-06-01T16:40:28.107505+00:00",
+      "model": "Qwen/Qwen3.5-9B",
+      "records_path": "artifacts/runs/20260601_142318_20260601_full_qwen9b_finbench/records.jsonl",
+      "run": "20260601_142318_20260601_full_qwen9b_finbench"
+    },
+    "structural_features": {
+      "aggregation": true,
+      "difficulty": "medium",
+      "label_counts": {
+        "Account": 2,
+        "Person": 1
+      },
+      "labels": [
+        "Account",
+        "Person"
+      ],
+      "limit": true,
+      "negation": false,
+      "node_pattern_count": 3,
+      "optional_match": false,
+      "ordering": true,
+      "path_pattern": false,
+      "primary_strategy": "order_rank",
+      "relationship_counts": {
+        "OWN_ACCOUNT": 1,
+        "TRANSFER_TO": 1
+      },
+      "relationship_pattern_count": 2,
+      "relationship_types": [
+        "OWN_ACCOUNT",
+        "TRANSFER_TO"
+      ],
+      "return_arity": 4,
+      "strategy_tags": [
+        "join_heavy",
+        "aggregation",
+        "order_rank",
+        "bounded_result"
+      ]
+    },
+    "template": null,
+    "template_metadata": {}
+  },
+  {
+    "category": "simple_aggregation",
+    "cypher": "MATCH (p:Person {personName: 'Kaewsuktae'})-[:OWN_ACCOUNT]->(a:Account) RETURN DISTINCT COUNT(DISTINCT a) AS AccountCount",
+    "difficulty": "easy",
+    "entity_values": [
+      "Kaewsuktae"
+    ],
+    "gates": {
+      "accepted": true,
+      "execution_success": true,
+      "judge_pass": true,
+      "read_only": true,
+      "schema_valid": true,
+      "syntax_valid": true
+    },
+    "graph_profile": "finbench",
+    "id": "pc_007b19f6335f4bfc",
+    "judge_scores": {
+      "ambiguity": 0.0,
+      "difficulty": "easy",
+      "schema_use": 1.0,
+      "semantic_alignment": 1.0
+    },
+    "normalized_cypher": "MATCH (p:Person {personName: 'Kaewsuktae'})-[:OWN_ACCOUNT]->(a:Account) RETURN DISTINCT COUNT(DISTINCT a) AS AccountCount",
+    "question": "How many accounts are owned by person 'Kaewsuktae'?",
+    "result_row_count_observed": 1,
+    "result_rows_sample": [
+      {
+        "AccountCount": 1
+      }
+    ],
+    "reverse_cypher": "MATCH (p:Person)-[:OWN_ACCOUNT]->(:Account) RETURN DISTINCT p.personName AS personName LIMIT 300",
+    "source": {
+      "created_at": "2026-06-01T14:46:15.077670+00:00",
+      "model": "Qwen/Qwen3.5-9B",
+      "records_path": "artifacts/runs/20260601_142318_20260601_full_qwen9b_finbench/records.jsonl",
+      "run": "20260601_142318_20260601_full_qwen9b_finbench"
+    },
+    "structural_features": {
+      "aggregation": true,
+      "difficulty": "easy",
+      "label_counts": {
+        "Account": 1,
+        "Person": 1
+      },
+      "labels": [
+        "Account",
+        "Person"
+      ],
+      "limit": false,
+      "negation": false,
+      "node_pattern_count": 2,
+      "optional_match": false,
+      "ordering": false,
+      "path_pattern": false,
+      "primary_strategy": "aggregation",
+      "relationship_counts": {
+        "OWN_ACCOUNT": 1
+      },
+      "relationship_pattern_count": 1,
+      "relationship_types": [
+        "OWN_ACCOUNT"
+      ],
+      "return_arity": 1,
+      "strategy_tags": [
+        "single_hop",
+        "aggregation"
+      ]
+    },
+    "template": null,
+    "template_metadata": {}
+  },
+  {
+    "category": "simple_retrieval",
+    "cypher": "MATCH (p:Person {personName: 'Barry'})-[:OWN_ACCOUNT]->(a:Account) RETURN DISTINCT a.accountId AS AccountId, a.accountType AS AccountType, a.isBlocked AS IsBlocked LIMIT 300",
+    "difficulty": "easy",
+    "entity_values": [
+      "Barry"
+    ],
+    "gates": {
+      "accepted": true,
+      "execution_success": true,
+      "judge_pass": true,
+      "read_only": true,
+      "schema_valid": true,
+      "syntax_valid": true
+    },
+    "graph_profile": "finbench",
+    "id": "pc_00288c6fa844b82b",
+    "judge_scores": {
+      "ambiguity": 0.0,
+      "difficulty": "easy",
+      "schema_use": 1.0,
+      "semantic_alignment": 1.0
+    },
+    "normalized_cypher": "MATCH (p:Person {personName: 'Barry'})-[:OWN_ACCOUNT]->(a:Account) RETURN DISTINCT a.accountId AS AccountId, a.accountType AS AccountType, a.isBlocked AS IsBlocked LIMIT 300",
+    "question": "Which accounts are owned by person 'Barry'?",
+    "result_row_count_observed": 1,
+    "result_rows_sample": [
+      {
+        "AccountId": "4732438783436260772",
+        "AccountType": "internet account",
+        "IsBlocked": false
+      }
+    ],
+    "reverse_cypher": "MATCH (p:Person)-[:OWN_ACCOUNT]->(:Account) RETURN DISTINCT p.personName AS personName LIMIT 300",
+    "source": {
+      "created_at": "2026-06-01T14:29:10.815611+00:00",
+      "model": "Qwen/Qwen3.5-9B",
+      "records_path": "artifacts/runs/20260601_142318_20260601_full_qwen9b_finbench/records.jsonl",
+      "run": "20260601_142318_20260601_full_qwen9b_finbench"
+    },
+    "structural_features": {
+      "aggregation": false,
+      "difficulty": "easy",
+      "label_counts": {
+        "Account": 1,
+        "Person": 1
+      },
+      "labels": [
+        "Account",
+        "Person"
+      ],
+      "limit": true,
+      "negation": false,
+      "node_pattern_count": 2,
+      "optional_match": false,
+      "ordering": false,
+      "path_pattern": false,
+      "primary_strategy": "single_hop",
+      "relationship_counts": {
+        "OWN_ACCOUNT": 1
+      },
+      "relationship_pattern_count": 1,
+      "relationship_types": [
+        "OWN_ACCOUNT"
+      ],
+      "return_arity": 3,
+      "strategy_tags": [
+        "single_hop",
+        "bounded_result"
+      ]
+    },
+    "template": null,
+    "template_metadata": {}
+  },
+  {
+    "category": "boolean_existence",
+    "cypher": "MATCH (p:Person {id: 6597069766828}) OPTIONAL MATCH (p)-[:LIKES]->(post:Post) RETURN DISTINCT COUNT(post) > 0 AS LikesAnyPost",
+    "difficulty": "medium",
+    "entity_values": [
+      "6597069766828"
+    ],
+    "gates": {
+      "accepted": true,
+      "execution_success": true,
+      "judge_pass": true,
+      "read_only": true,
+      "schema_valid": true,
+      "syntax_valid": true
+    },
+    "graph_profile": "snb",
+    "id": "pc_06a55c94223666d9",
+    "judge_scores": {
+      "ambiguity": 0.0,
+      "difficulty": "easy",
+      "schema_use": 1.0,
+      "semantic_alignment": 1.0
+    },
+    "normalized_cypher": "MATCH (p:Person {id: 6597069766828}) OPTIONAL MATCH (p)-[:LIKES]->(post:Post) RETURN DISTINCT COUNT(post) > 0 AS LikesAnyPost",
+    "question": "Does person with id 6597069766828 like any post?",
+    "result_row_count_observed": 1,
+    "result_rows_sample": [
+      {
+        "LikesAnyPost": true
+      }
+    ],
+    "reverse_cypher": "MATCH (p:Person)-[:LIKES]->(:Post) RETURN DISTINCT p.id AS personId LIMIT 200",
+    "source": {
+      "created_at": "2026-06-01T17:13:12.851027+00:00",
+      "model": "Qwen/Qwen3.5-9B",
+      "records_path": "artifacts/runs/20260601_165047_20260601_full_qwen9b_snb/records.jsonl",
+      "run": "20260601_165047_20260601_full_qwen9b_snb"
+    },
+    "structural_features": {
+      "aggregation": true,
+      "difficulty": "medium",
+      "label_counts": {
+        "Person": 1,
+        "Post": 1
+      },
+      "labels": [
+        "Person",
+        "Post"
+      ],
+      "limit": false,
+      "negation": false,
+      "node_pattern_count": 4,
+      "optional_match": true,
+      "ordering": false,
+      "path_pattern": false,
+      "primary_strategy": "aggregation",
+      "relationship_counts": {
+        "LIKES": 1
+      },
+      "relationship_pattern_count": 1,
+      "relationship_types": [
+        "LIKES"
+      ],
+      "return_arity": 1,
+      "strategy_tags": [
+        "single_hop",
+        "aggregation",
+        "optional"
+      ]
+    },
+    "template": null,
+    "template_metadata": {}
+  },
+  {
+    "category": "complex_aggregation",
+    "cypher": "MATCH (forum:Forum)-[:HAS_MEMBER]->(p:Person {id: 6597069766845}) MATCH (forum)-[:CONTAINER_OF]->(post:Post) RETURN DISTINCT COUNT(DISTINCT post) AS JoinedForumPostCount",
+    "difficulty": "medium",
+    "entity_values": [
+      "6597069766845"
+    ],
+    "gates": {
+      "accepted": true,
+      "execution_success": true,
+      "judge_pass": true,
+      "read_only": true,
+      "schema_valid": true,
+      "syntax_valid": true
+    },
+    "graph_profile": "snb",
+    "id": "pc_014a78ab6f7df372",
+    "judge_scores": {
+      "ambiguity": 0.0,
+      "difficulty": "medium",
+      "schema_use": 1.0,
+      "semantic_alignment": 1.0
+    },
+    "normalized_cypher": "MATCH (forum:Forum)-[:HAS_MEMBER]->(p:Person {id: 6597069766845}) MATCH (forum)-[:CONTAINER_OF]->(post:Post) RETURN DISTINCT COUNT(DISTINCT post) AS JoinedForumPostCount",
+    "question": "How many distinct posts are in forums joined by person with id 6597069766845?",
+    "result_row_count_observed": 1,
+    "result_rows_sample": [
+      {
+        "JoinedForumPostCount": 1
+      }
+    ],
+    "reverse_cypher": "MATCH (:Forum)-[:HAS_MEMBER]->(p:Person) RETURN DISTINCT p.id AS personId LIMIT 200",
+    "source": {
+      "created_at": "2026-06-01T17:05:41.668015+00:00",
+      "model": "Qwen/Qwen3.5-9B",
+      "records_path": "artifacts/runs/20260601_165047_20260601_full_qwen9b_snb/records.jsonl",
+      "run": "20260601_165047_20260601_full_qwen9b_snb"
+    },
+    "structural_features": {
+      "aggregation": true,
+      "difficulty": "medium",
+      "label_counts": {
+        "Forum": 1,
+        "Person": 1,
+        "Post": 1
+      },
+      "labels": [
+        "Forum",
+        "Person",
+        "Post"
+      ],
+      "limit": false,
+      "negation": false,
+      "node_pattern_count": 4,
+      "optional_match": false,
+      "ordering": false,
+      "path_pattern": false,
+      "primary_strategy": "aggregation",
+      "relationship_counts": {
+        "CONTAINER_OF": 1,
+        "HAS_MEMBER": 1
+      },
+      "relationship_pattern_count": 2,
+      "relationship_types": [
+        "CONTAINER_OF",
+        "HAS_MEMBER"
+      ],
+      "return_arity": 1,
+      "strategy_tags": [
+        "join_heavy",
+        "aggregation"
+      ]
+    },
+    "template": null,
+    "template_metadata": {}
+  },
+  {
+    "category": "complex_retrieval",
+    "cypher": "MATCH (forum:Forum)-[:HAS_MEMBER]->(p:Person), (forum)-[:CONTAINER_OF]->(post:Post)-[:HAS_TAG]->(tag:Tag {name: 'Manuel_Noriega'}) RETURN DISTINCT p.id AS PersonId LIMIT 200",
+    "difficulty": "easy",
+    "entity_values": [
+      "Manuel_Noriega"
+    ],
+    "gates": {
+      "accepted": true,
+      "execution_success": true,
+      "judge_pass": true,
+      "read_only": true,
+      "schema_valid": true,
+      "syntax_valid": true
+    },
+    "graph_profile": "snb",
+    "id": "pc_06656160e11b0a87",
+    "judge_scores": {
+      "ambiguity": 0.0,
+      "difficulty": "easy",
+      "schema_use": 1.0,
+      "semantic_alignment": 1.0
+    },
+    "normalized_cypher": "MATCH (forum:Forum)-[:HAS_MEMBER]->(p:Person), (forum)-[:CONTAINER_OF]->(post:Post)-[:HAS_TAG]->(tag:Tag {name: 'Manuel_Noriega'}) RETURN DISTINCT p.id AS PersonId LIMIT 200",
+    "question": "Which people are members of forums containing posts tagged 'Manuel_Noriega'?",
+    "result_row_count_observed": 19,
+    "result_rows_sample": [
+      {
+        "PersonId": 4398046511220
+      },
+      {
+        "PersonId": 4398046511231
+      },
+      {
+        "PersonId": 10995116277844
+      },
+      {
+        "PersonId": 4398046511325
+      },
+      {
+        "PersonId": 4398046511133
+      }
+    ],
+    "reverse_cypher": "MATCH (:Post)-[:HAS_TAG]->(tag:Tag) RETURN DISTINCT tag.name AS tagName LIMIT 200",
+    "source": {
+      "created_at": "2026-06-01T16:59:28.569775+00:00",
+      "model": "Qwen/Qwen3.5-9B",
+      "records_path": "artifacts/runs/20260601_165047_20260601_full_qwen9b_snb/records.jsonl",
+      "run": "20260601_165047_20260601_full_qwen9b_snb"
+    },
+    "structural_features": {
+      "aggregation": false,
+      "difficulty": "easy",
+      "label_counts": {
+        "Forum": 1,
+        "Person": 1,
+        "Post": 1,
+        "Tag": 1
+      },
+      "labels": [
+        "Forum",
+        "Person",
+        "Post",
+        "Tag"
+      ],
+      "limit": true,
+      "negation": false,
+      "node_pattern_count": 5,
+      "optional_match": false,
+      "ordering": false,
+      "path_pattern": false,
+      "primary_strategy": "join_heavy",
+      "relationship_counts": {
+        "CONTAINER_OF": 1,
+        "HAS_MEMBER": 1,
+        "HAS_TAG": 1
+      },
+      "relationship_pattern_count": 3,
+      "relationship_types": [
+        "CONTAINER_OF",
+        "HAS_MEMBER",
+        "HAS_TAG"
+      ],
+      "return_arity": 1,
+      "strategy_tags": [
+        "join_heavy",
+        "bounded_result"
+      ]
+    },
+    "template": null,
+    "template_metadata": {}
+  },
+  {
+    "category": "negation_difference",
+    "cypher": "MATCH (p:Person) WHERE NOT EXISTS((:Message)-[:HAS_CREATOR]->(p)) RETURN DISTINCT p.id AS PersonId, p.firstName AS PersonFirstName, p.lastName AS PersonLastName",
+    "difficulty": "easy",
+    "entity_values": [],
+    "gates": {
+      "accepted": true,
+      "execution_success": true,
+      "judge_pass": true,
+      "read_only": true,
+      "schema_valid": true,
+      "syntax_valid": true
+    },
+    "graph_profile": "snb",
+    "id": "pc_023bad66ead21941",
+    "judge_scores": {
+      "ambiguity": 0.0,
+      "difficulty": "easy",
+      "schema_use": 1.0,
+      "semantic_alignment": 1.0
+    },
+    "normalized_cypher": "MATCH (p:Person) WHERE NOT EXISTS((:Message)-[:HAS_CREATOR]->(p)) RETURN DISTINCT p.id AS PersonId, p.firstName AS PersonFirstName, p.lastName AS PersonLastName",
+    "question": "Which person records are not linked from any message record through :HAS_CREATOR?",
+    "result_row_count_observed": 25,
+    "result_rows_sample": [
+      {
+        "PersonFirstName": "R.",
+        "PersonId": 8796093022313,
+        "PersonLastName": "Rao"
+      },
+      {
+        "PersonFirstName": "Li",
+        "PersonId": 4398046511256,
+        "PersonLastName": "Zhang"
+      },
+      {
+        "PersonFirstName": "Roberto",
+        "PersonId": 10995116277794,
+        "PersonLastName": "Diaz"
+      },
+      {
+        "PersonFirstName": "Luigi",
+        "PersonId": 6597069766681,
+        "PersonLastName": "Colombo"
+      },
+      {
+        "PersonFirstName": "Ali",
+        "PersonId": 10995116277793,
+        "PersonLastName": "Ferrer"
+      }
+    ],
+    "reverse_cypher": null,
+    "source": {
+      "created_at": "2026-06-04T13:27:46.138726+00:00",
+      "model": "Qwen/Qwen3.5-9B",
+      "records_path": "artifacts/runs/20260604_132554_20260604_qwen9b_reviewfix_snb_4096_negation_difference/records.jsonl",
+      "run": "20260604_132554_20260604_qwen9b_reviewfix_snb_4096_negation_difference"
+    },
+    "structural_features": {
+      "aggregation": false,
+      "difficulty": "easy",
+      "has_return_distinct": true,
+      "label_counts": {
+        "Message": 1,
+        "Person": 1
+      },
+      "labels": [
+        "Message",
+        "Person"
+      ],
+      "limit": false,
+      "limit_value": null,
+      "negation": true,
+      "node_pattern_count": 3,
+      "optional_match": false,
+      "order_by_items": [],
+      "ordering": false,
+      "path_pattern": false,
+      "primary_strategy": "negation",
+      "relationship_counts": {
+        "HAS_CREATOR": 1
+      },
+      "relationship_observations": [
+        {
+          "direction": "outgoing",
+          "end_label": null,
+          "relationship_type": "HAS_CREATOR",
+          "start_label": null
+        }
+      ],
+      "relationship_pattern_count": 1,
+      "relationship_types": [
+        "HAS_CREATOR"
+      ],
+      "return_aliases": [
+        "PersonId",
+        "PersonFirstName",
+        "PersonLastName"
+      ],
+      "return_arity": 3,
+      "return_items": [
+        "p.id",
+        "p.firstName",
+        "p.lastName"
+      ],
+      "rewrite_safe": false,
+      "rewrite_skip_reasons": [
+        "risky construct `WHERE NOT EXISTS`"
+      ],
+      "risky_features": [
+        "WHERE NOT EXISTS"
+      ],
+      "skip": false,
+      "skip_value": null,
+      "strategy_tags": [
+        "single_hop",
+        "negation"
+      ],
+      "variable_labels": {
+        "p": "Person"
+      },
+      "where_clause_count": 1
+    },
+    "template": "Which person records are not linked from any message record through :HAS_CREATOR?",
+    "template_metadata": {
+      "end_label": "Person",
+      "relationship_type": "HAS_CREATOR",
+      "schema_template_kind": "negation_incoming",
+      "start_label": "Message"
+    }
+  },
+  {
+    "category": "path_temporal",
+    "cypher": "MATCH (src:Person {id: 4398046511136})-[:KNOWS*1..2]->(dst:Person) RETURN DISTINCT dst.id AS PersonId, dst.firstName AS FirstName, dst.lastName AS LastName LIMIT 200",
+    "difficulty": "easy",
+    "entity_values": [
+      "4398046511136"
+    ],
+    "gates": {
+      "accepted": true,
+      "execution_success": true,
+      "judge_pass": true,
+      "read_only": true,
+      "schema_valid": true,
+      "syntax_valid": true
+    },
+    "graph_profile": "snb",
+    "id": "pc_00d2146cfc2b9e7f",
+    "judge_scores": {
+      "ambiguity": 0.0,
+      "difficulty": "easy",
+      "schema_use": 1.0,
+      "semantic_alignment": 1.0
+    },
+    "normalized_cypher": "MATCH (src:Person {id: 4398046511136})-[:KNOWS*1..2]->(dst:Person) RETURN DISTINCT dst.id AS PersonId, dst.firstName AS FirstName, dst.lastName AS LastName LIMIT 200",
+    "question": "Which people are within two knows hops of person with id 4398046511136?",
+    "result_row_count_observed": 25,
+    "result_rows_sample": [
+      {
+        "FirstName": "Rafael",
+        "LastName": "Fernández",
+        "PersonId": 4398046511333
+      },
+      {
+        "FirstName": "Rene",
+        "LastName": "Arnaud",
+        "PersonId": 8796093022326
+      },
+      {
+        "FirstName": "Fernanda",
+        "LastName": "Alves",
+        "PersonId": 10995116277866
+      },
+      {
+        "FirstName": "Shweta",
+        "LastName": "Singh",
+        "PersonId": 4398046511327
+      },
+      {
+        "FirstName": "Javed",
+        "LastName": "Khan",
+        "PersonId": 10995116277918
+      }
+    ],
+    "reverse_cypher": "MATCH (p:Person)-[:KNOWS]->(:Person) RETURN DISTINCT p.id AS personId LIMIT 200",
+    "source": {
+      "created_at": "2026-06-04T13:35:56.525697+00:00",
+      "model": "Qwen/Qwen3.5-9B",
+      "records_path": "artifacts/runs/20260604_132921_20260604_qwen9b_reviewfix_snb_path_2048/records.jsonl",
+      "run": "20260604_132921_20260604_qwen9b_reviewfix_snb_path_2048"
+    },
+    "structural_features": {
+      "aggregation": false,
+      "difficulty": "easy",
+      "has_return_distinct": true,
+      "label_counts": {
+        "Person": 2
+      },
+      "labels": [
+        "Person"
+      ],
+      "limit": true,
+      "limit_value": "200",
+      "negation": false,
+      "node_pattern_count": 2,
+      "optional_match": false,
+      "order_by_items": [],
+      "ordering": false,
+      "path_pattern": true,
+      "primary_strategy": "path",
+      "relationship_counts": {
+        "KNOWS": 1
+      },
+      "relationship_observations": [
+        {
+          "direction": "outgoing",
+          "end_label": "Person",
+          "relationship_type": "KNOWS",
+          "start_label": "Person"
+        }
+      ],
+      "relationship_pattern_count": 1,
+      "relationship_types": [
+        "KNOWS"
+      ],
+      "return_aliases": [
+        "PersonId",
+        "FirstName",
+        "LastName"
+      ],
+      "return_arity": 3,
+      "return_items": [
+        "dst.id",
+        "dst.firstName",
+        "dst.lastName"
+      ],
+      "rewrite_safe": true,
+      "rewrite_skip_reasons": [],
+      "risky_features": [],
+      "skip": false,
+      "skip_value": null,
+      "strategy_tags": [
+        "single_hop",
+        "path",
+        "bounded_result"
+      ],
+      "variable_labels": {
+        "dst": "Person",
+        "src": "Person"
+      },
+      "where_clause_count": 0
+    },
+    "template": "Which people are within two knows hops of person with id {personId}?",
+    "template_metadata": {}
+  },
+  {
+    "category": "ranking_topk",
+    "cypher": "MATCH (s:Organisation)-[:IS_LOCATED_IN]->(e:City) WITH e, COUNT(DISTINCT s) AS relatedCount RETURN DISTINCT e.id AS TargetId, e.name AS TargetName, relatedCount ORDER BY relatedCount DESC LIMIT 10",
+    "difficulty": "medium",
+    "entity_values": [],
+    "gates": {
+      "accepted": true,
+      "execution_success": true,
+      "judge_pass": true,
+      "read_only": true,
+      "schema_valid": true,
+      "syntax_valid": true
+    },
+    "graph_profile": "snb",
+    "id": "pc_0339865ec7e3b6d2",
+    "judge_scores": {
+      "ambiguity": 0.0,
+      "difficulty": "medium",
+      "schema_use": 1.0,
+      "semantic_alignment": 1.0
+    },
+    "normalized_cypher": "MATCH (s:Organisation)-[:IS_LOCATED_IN]->(e:City) WITH e, COUNT(DISTINCT s) AS relatedCount RETURN DISTINCT e.id AS TargetId, e.name AS TargetName, relatedCount ORDER BY relatedCount DESC LIMIT 10",
+    "question": "Which city records are linked from the most organisation records through :IS_LOCATED_IN?",
+    "result_row_count_observed": 10,
+    "result_rows_sample": [
+      {
+        "TargetId": 164,
+        "TargetName": "Kolkata",
+        "relatedCount": 130
+      },
+      {
+        "TargetId": 1024,
+        "TargetName": "London",
+        "relatedCount": 87
+      },
+      {
+        "TargetId": 124,
+        "TargetName": "Chennai",
+        "relatedCount": 86
+      },
+      {
+        "TargetId": 176,
+        "TargetName": "Bangalore",
+        "relatedCount": 70
+      },
+      {
+        "TargetId": 190,
+        "TargetName": "Hyderabad",
+        "relatedCount": 65
+      }
+    ],
+    "reverse_cypher": null,
+    "source": {
+      "created_at": "2026-06-04T13:30:48.777264+00:00",
+      "model": "Qwen/Qwen3.5-9B",
+      "records_path": "artifacts/runs/20260604_133010_20260604_qwen9b_reviewfix_snb_ranking_2048/records.jsonl",
+      "run": "20260604_133010_20260604_qwen9b_reviewfix_snb_ranking_2048"
+    },
+    "structural_features": {
+      "aggregation": true,
+      "difficulty": "medium",
+      "has_return_distinct": true,
+      "label_counts": {
+        "City": 1,
+        "Organisation": 1
+      },
+      "labels": [
+        "City",
+        "Organisation"
+      ],
+      "limit": true,
+      "limit_value": "10",
+      "negation": false,
+      "node_pattern_count": 2,
+      "optional_match": false,
+      "order_by_items": [
+        "relatedCount DESC"
+      ],
+      "ordering": true,
+      "path_pattern": false,
+      "primary_strategy": "order_rank",
+      "relationship_counts": {
+        "IS_LOCATED_IN": 1
+      },
+      "relationship_observations": [
+        {
+          "direction": "outgoing",
+          "end_label": "City",
+          "relationship_type": "IS_LOCATED_IN",
+          "start_label": "Organisation"
+        }
+      ],
+      "relationship_pattern_count": 1,
+      "relationship_types": [
+        "IS_LOCATED_IN"
+      ],
+      "return_aliases": [
+        "TargetId",
+        "TargetName"
+      ],
+      "return_arity": 3,
+      "return_items": [
+        "e.id",
+        "e.name",
+        "relatedCount"
+      ],
+      "rewrite_safe": true,
+      "rewrite_skip_reasons": [],
+      "risky_features": [],
+      "skip": false,
+      "skip_value": null,
+      "strategy_tags": [
+        "single_hop",
+        "aggregation",
+        "order_rank",
+        "bounded_result"
+      ],
+      "variable_labels": {
+        "e": "City",
+        "s": "Organisation"
+      },
+      "where_clause_count": 0
+    },
+    "template": "Which city records are linked from the most organisation records through :IS_LOCATED_IN?",
+    "template_metadata": {
+      "end_label": "City",
+      "relationship_type": "IS_LOCATED_IN",
+      "schema_template_kind": "topk_incoming",
+      "start_label": "Organisation"
+    }
+  },
+  {
+    "category": "simple_aggregation",
+    "cypher": "MATCH (post:Post)-[:HAS_TAG]->(tag:Tag {name: 'Vietnam'}) RETURN DISTINCT COUNT(DISTINCT post) AS PostCount",
+    "difficulty": "easy",
+    "entity_values": [
+      "Vietnam"
+    ],
+    "gates": {
+      "accepted": true,
+      "execution_success": true,
+      "judge_pass": true,
+      "read_only": true,
+      "schema_valid": true,
+      "syntax_valid": true
+    },
+    "graph_profile": "snb",
+    "id": "pc_024b8bc487f62d20",
+    "judge_scores": {
+      "ambiguity": 0.0,
+      "difficulty": "easy",
+      "schema_use": 1.0,
+      "semantic_alignment": 1.0
+    },
+    "normalized_cypher": "MATCH (post:Post)-[:HAS_TAG]->(tag:Tag {name: 'Vietnam'}) RETURN DISTINCT COUNT(DISTINCT post) AS PostCount",
+    "question": "How many posts are tagged 'Vietnam'?",
+    "result_row_count_observed": 1,
+    "result_rows_sample": [
+      {
+        "PostCount": 1
+      }
+    ],
+    "reverse_cypher": "MATCH (:Post)-[:HAS_TAG]->(tag:Tag) RETURN DISTINCT tag.name AS tagName LIMIT 200",
+    "source": {
+      "created_at": "2026-06-01T17:02:06.854818+00:00",
+      "model": "Qwen/Qwen3.5-9B",
+      "records_path": "artifacts/runs/20260601_165047_20260601_full_qwen9b_snb/records.jsonl",
+      "run": "20260601_165047_20260601_full_qwen9b_snb"
+    },
+    "structural_features": {
+      "aggregation": true,
+      "difficulty": "easy",
+      "label_counts": {
+        "Post": 1,
+        "Tag": 1
+      },
+      "labels": [
+        "Post",
+        "Tag"
+      ],
+      "limit": false,
+      "negation": false,
+      "node_pattern_count": 2,
+      "optional_match": false,
+      "ordering": false,
+      "path_pattern": false,
+      "primary_strategy": "aggregation",
+      "relationship_counts": {
+        "HAS_TAG": 1
+      },
+      "relationship_pattern_count": 1,
+      "relationship_types": [
+        "HAS_TAG"
+      ],
+      "return_arity": 1,
+      "strategy_tags": [
+        "single_hop",
+        "aggregation"
+      ]
+    },
+    "template": null,
+    "template_metadata": {}
+  },
+  {
+    "category": "simple_retrieval",
+    "cypher": "MATCH (p:Person {id: 4398046511124})-[:LIKES]->(post:Post) RETURN DISTINCT post.id AS PostId LIMIT 200",
+    "difficulty": "easy",
+    "entity_values": [
+      "4398046511124"
+    ],
+    "gates": {
+      "accepted": true,
+      "execution_success": true,
+      "judge_pass": true,
+      "read_only": true,
+      "schema_valid": true,
+      "syntax_valid": true
+    },
+    "graph_profile": "snb",
+    "id": "pc_075560871adfcfe8",
+    "judge_scores": {
+      "ambiguity": 0.0,
+      "difficulty": "easy",
+      "schema_use": 1.0,
+      "semantic_alignment": 1.0
+    },
+    "normalized_cypher": "MATCH (p:Person {id: 4398046511124})-[:LIKES]->(post:Post) RETURN DISTINCT post.id AS PostId LIMIT 200",
+    "question": "Which post IDs did person with id 4398046511124 like?",
+    "result_row_count_observed": 5,
+    "result_rows_sample": [
+      {
+        "PostId": 343597385744
+      },
+      {
+        "PostId": 206158433823
+      },
+      {
+        "PostId": 206158433831
+      },
+      {
+        "PostId": 343597387979
+      },
+      {
+        "PostId": 274877910584
+      }
+    ],
+    "reverse_cypher": "MATCH (p:Person)-[:LIKES]->(:Post) RETURN DISTINCT p.id AS personId LIMIT 200",
+    "source": {
+      "created_at": "2026-06-01T16:50:56.157185+00:00",
+      "model": "Qwen/Qwen3.5-9B",
+      "records_path": "artifacts/runs/20260601_165047_20260601_full_qwen9b_snb/records.jsonl",
+      "run": "20260601_165047_20260601_full_qwen9b_snb"
+    },
+    "structural_features": {
+      "aggregation": false,
+      "difficulty": "easy",
+      "label_counts": {
+        "Person": 1,
+        "Post": 1
+      },
+      "labels": [
+        "Person",
+        "Post"
+      ],
+      "limit": true,
+      "negation": false,
+      "node_pattern_count": 2,
+      "optional_match": false,
+      "ordering": false,
+      "path_pattern": false,
+      "primary_strategy": "single_hop",
+      "relationship_counts": {
+        "LIKES": 1
+      },
+      "relationship_pattern_count": 1,
+      "relationship_types": [
+        "LIKES"
+      ],
+      "return_arity": 1,
+      "strategy_tags": [
+        "single_hop",
+        "bounded_result"
+      ]
+    },
+    "template": null,
+    "template_metadata": {}
+  }
+]

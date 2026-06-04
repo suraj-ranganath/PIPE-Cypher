@@ -21,3 +21,8 @@ Contents:
 Raw generation records and benchmark JSONL exports may contain public graph
 values or organization-specific values in a private deployment. Share those
 only after running the redaction audit and checking the generated manifest.
+
+Before submission, run `python scripts/audit_paper_evidence_provenance.py`
+from the repository root. It checks that manuscript-facing sources, the clean
+benchmark export, the Qwen3.5-9B-only evidence manifest, and the downstream
+control manifest agree and do not reference stale or diagnostic evidence.

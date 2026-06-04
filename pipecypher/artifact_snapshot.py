@@ -132,8 +132,8 @@ def _snapshot_readme(snapshot: dict[str, Any]) -> str:
     return (
         "# Full Qwen3.5-9B Benchmark Snapshot\n\n"
         "This directory is a lightweight, tracked snapshot of an ignored full benchmark export. "
-        "The full JSONL files remain under `artifacts/` locally and on `ds-serv6`; they are not "
-        "committed because generated artifacts can grow quickly.\n\n"
+        "The full JSONL files remain under `artifacts/` or private experiment storage; they "
+        "are not committed because generated artifacts can grow quickly.\n\n"
         f"- Source export: `{source}`\n"
         f"- Total accepted examples: `{total}`\n"
         f"- Canonical export SHA-256: `{source_sha}`\n"

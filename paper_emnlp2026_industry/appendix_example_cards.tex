@@ -162,22 +162,20 @@ LIMIT 200
 \textit{Relationships:} CONTAINER\_OF, HAS\_MEMBER, HAS\_TAG.\par
 \textit{Gates:} RO/Syn/Schema/Exec/Judge.\par
 \textit{Result sample:} \{PersonId: 4398046511220\}; observed rows: 19
-\item \textbf{SNB / Negation Difference / medium.}
-\textit{Question:} Which members of forum 'Wall of Celso Oliveira' have not liked any post?
+\item \textbf{SNB / Negation Difference / easy.}
+\textit{Question:} Which person records are not linked from any message record through :HAS\_CREATOR?
 \begin{quote}\scriptsize\ttfamily\raggedright\sloppy
-MATCH (forum:Forum \{title: 'Wall of\\
-Celso Oliveira'\}) -[:HAS\_MEMBER]-\textgreater{}\\
-(p:Person)\\
-WHERE NOT (p) -[:LIKES]-\textgreater{} (:Post)\\
+MATCH (p:Person)\\
+WHERE NOT EXISTS((:Message)\\
+-[:HAS\_CREATOR]-\textgreater{} (p))\\
 RETURN DISTINCT p.id AS PersonId,\\
-p.firstName AS FirstName, p.lastName AS\\
-LastName\\
-LIMIT 200
+p.firstName AS PersonFirstName,\\
+p.lastName AS PersonLastName
 \end{quote}
-\textit{Structure:} join\_heavy, negation, bounded\_result.\par
-\textit{Relationships:} HAS\_MEMBER, LIKES.\par
+\textit{Structure:} single\_hop, negation.\par
+\textit{Relationships:} HAS\_CREATOR.\par
 \textit{Gates:} RO/Syn/Schema/Exec/Judge.\par
-\textit{Result sample:} \{FirstName: K., LastName: Sen, PersonId: 94\}; observed rows: 1
+\textit{Result sample:} \{PersonFirstName: R., PersonId: 8796093022313, PersonLastName: Rao\}; observed rows: 25
 \item \textbf{SNB / Path Temporal / easy.}
 \textit{Question:} Which people are within two knows hops of person with id 4398046511136?
 \begin{quote}\scriptsize\ttfamily\raggedright\sloppy
@@ -193,23 +191,21 @@ LIMIT 200
 \textit{Gates:} RO/Syn/Schema/Exec/Judge.\par
 \textit{Result sample:} \{FirstName: Rafael, LastName: Fernández, PersonId: 4398046511333\}; observed rows: 25
 \item \textbf{SNB / Ranking Topk / medium.}
-\textit{Question:} Among forums tagged 'James\_K.\_Polk', which forum has the most members?
+\textit{Question:} Which city records are linked from the most organisation records through :IS\_LOCATED\_IN?
 \begin{quote}\scriptsize\ttfamily\raggedright\sloppy
-MATCH (forum:Forum) -[:HAS\_TAG]-\textgreater{}\\
-(tag:Tag \{name: 'James\_K.\_Polk'\})\\
-MATCH (forum) -[:HAS\_MEMBER]-\textgreater{}\\
-(person:Person)\\
-WITH forum, COUNT(DISTINCT person) AS\\
-memberCount\\
-RETURN DISTINCT forum.title AS\\
-ForumTitle, memberCount\\
-ORDER BY memberCount DESC\\
-LIMIT 1
+MATCH (s:Organisation)\\
+-[:IS\_LOCATED\_IN]-\textgreater{} (e:City)\\
+WITH e, COUNT(DISTINCT s) AS\\
+relatedCount\\
+RETURN DISTINCT e.id AS TargetId, e.name\\
+AS TargetName, relatedCount\\
+ORDER BY relatedCount DESC\\
+LIMIT 10
 \end{quote}
-\textit{Structure:} join\_heavy, aggregation, order\_rank, bounded\_result.\par
-\textit{Relationships:} HAS\_MEMBER, HAS\_TAG.\par
+\textit{Structure:} single\_hop, aggregation, order\_rank, bounded\_result.\par
+\textit{Relationships:} IS\_LOCATED\_IN.\par
 \textit{Gates:} RO/Syn/Schema/Exec/Judge.\par
-\textit{Result sample:} \{ForumTitle: Wall of Javed Khan, memberCount: 33\}; observed rows: 1
+\textit{Result sample:} \{TargetId: 164, TargetName: Kolkata, relatedCount: 130\}; observed rows: 10
 \item \textbf{SNB / Simple Aggregation / easy.}
 \textit{Question:} How many posts are tagged 'Vietnam'?
 \begin{quote}\scriptsize\ttfamily\raggedright\sloppy

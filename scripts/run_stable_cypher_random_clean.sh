@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-BENCHMARK="${BENCHMARK:-artifacts/benchmarks/20260601_live_full_qwen9b}"
+BENCHMARK="${BENCHMARK:-artifacts/benchmarks/20260604_live_full_qwen9b_reviewfix}"
 SPLIT="${SPLIT:-test}"
 MODEL="${MODEL:-ragraph-ai/stable-cypher-instruct-3b}"
 GPU_ID="${GPU_ID:-3}"
@@ -10,10 +10,10 @@ export CUDA_VISIBLE_DEVICES="${GPU_ID}"
 
 for seed in 13 17 23; do
   suffix="random_seed${seed}"
-  out_dir="artifacts/evaluations/20260603_control_stable_cypher_instruct3b_transformers_${suffix}"
+  out_dir="artifacts/evaluations/20260604_clean_control_stable_cypher_instruct3b_transformers_${suffix}"
   mkdir -p "${out_dir}"
   {
-    printf 'run_prefix=20260603_control_stable_cypher_instruct3b_transformers_%s\n' "${suffix}"
+    printf 'run_prefix=20260604_clean_control_stable_cypher_instruct3b_transformers_%s\n' "${suffix}"
     printf 'code_revision=%s\n' "$(git rev-parse HEAD 2>/dev/null || printf unknown)"
     printf 'benchmark=%s\n' "${BENCHMARK}"
     printf 'split=%s\n' "${SPLIT}"

@@ -54,14 +54,14 @@ def main() -> None:
         default="20260604_clean_control_",
         help="Prefix filter for few-shot control run directories.",
     )
-    parser.add_argument("--expected-zero-runs", type=int, default=12)
-    parser.add_argument("--expected-control-runs", type=int, default=60)
+    parser.add_argument("--expected-zero-runs", type=int, default=11)
+    parser.add_argument("--expected-control-runs", type=int, default=45)
     parser.add_argument("--rows-per-run", type=int, default=296)
-    parser.add_argument("--control-modes-per-model", type=int, default=5)
+    parser.add_argument("--control-modes-per-model", type=int, default=4)
     parser.add_argument(
         "--exclude-run-substring",
         action="append",
-        default=[],
+        default=["stable_cypher_instruct3b_transformers"],
         help="Exclude known failed or intentionally omitted run directories containing this substring.",
     )
     parser.add_argument(

@@ -25,6 +25,7 @@ latexmk -pdf -interaction=nonstopmode main_acl.tex
 cd ..
 python scripts/audit_emnlp_page_budget.py \
   --pdf paper_emnlp2026_industry/main_acl.pdf
+python scripts/audit_paper_evidence_provenance.py
 python scripts/verify_submission_package.py \
   --paper-tex paper_emnlp2026_industry/main_acl.tex \
   --evidence-manifest experiments/snapshots/20260604_review_remediation/clean_qwen9b_submission_evidence_manifest.json \

@@ -1,0 +1,189 @@
+{
+  "file_checksums": {
+    "all.jsonl": {
+      "bytes": 6195993,
+      "sha256": "2d745a970b3c2f8d647fff75e7144fcad5ad60d01c0df5e4795363d8490ac0cf"
+    },
+    "dev.jsonl": {
+      "bytes": 610524,
+      "sha256": "89a8973e5918f4c8a9a654675c6382dcbf8f25401f4272ea6b317a66fc3b6a9a"
+    },
+    "manifest.json": {
+      "bytes": 1084,
+      "sha256": "e87a9f6da4e56c3e397d5f97fd056aa350bda1ad4316ea1a4edaac28d4dd1285"
+    },
+    "stats.json": {
+      "bytes": 2555,
+      "sha256": "35e35eb27a902662f4c1421a5466a2a71ab7a7f257e52ddb313e2a2b45ff0dc6"
+    },
+    "test.jsonl": {
+      "bytes": 608746,
+      "sha256": "46ee19ef069ece7dd287a7eb2f06781ecd6711f6a2f5afb437d37a3494407f61"
+    },
+    "train.jsonl": {
+      "bytes": 4976723,
+      "sha256": "6e3958d87ea544495d025841d05b0e34795361336b7fab1f59bfc6caea80883c"
+    }
+  },
+  "sample": {
+    "by_graph_category": {
+      "finbench::boolean_existence": 1,
+      "finbench::complex_aggregation": 1,
+      "finbench::complex_retrieval": 1,
+      "finbench::negation_difference": 1,
+      "finbench::path_temporal": 1,
+      "finbench::ranking_topk": 1,
+      "finbench::simple_aggregation": 1,
+      "finbench::simple_retrieval": 1,
+      "snb::boolean_existence": 1,
+      "snb::complex_aggregation": 1,
+      "snb::complex_retrieval": 1,
+      "snb::negation_difference": 1,
+      "snb::path_temporal": 1,
+      "snb::ranking_topk": 1,
+      "snb::simple_aggregation": 1,
+      "snb::simple_retrieval": 1
+    },
+    "count": 16,
+    "path": "sample_examples.json",
+    "per_graph_category": 1,
+    "selection": "stable-id order within each graph_profile/category cell",
+    "sha256": "7c6b06f26c78953593edb8a4afd7cee6ca829ee7a9719fe430e4f1291845a49c"
+  },
+  "snapshot_version": "1.0",
+  "source_export_created_at": "2026-06-04T13:57:15.726590+00:00",
+  "source_export_dir": "artifacts/benchmarks/20260604_live_full_qwen9b_reviewfix",
+  "source_manifest_sha256": "cf274344be2abe7e4bb15ed9b838044edcb954c3d0f38e25a930b402ee9c12f8",
+  "split_counts": {
+    "dev": 296,
+    "test": 296,
+    "train": 2408
+  },
+  "stats": {
+    "by_category": {
+      "boolean_existence": 375,
+      "complex_aggregation": 375,
+      "complex_retrieval": 375,
+      "negation_difference": 375,
+      "path_temporal": 375,
+      "ranking_topk": 375,
+      "simple_aggregation": 375,
+      "simple_retrieval": 375
+    },
+    "by_difficulty": {
+      "easy": 1569,
+      "medium": 1431
+    },
+    "by_graph": {
+      "finbench": 2000,
+      "snb": 1000
+    },
+    "by_graph_category": {
+      "finbench::boolean_existence": 250,
+      "finbench::complex_aggregation": 250,
+      "finbench::complex_retrieval": 250,
+      "finbench::negation_difference": 250,
+      "finbench::path_temporal": 250,
+      "finbench::ranking_topk": 250,
+      "finbench::simple_aggregation": 250,
+      "finbench::simple_retrieval": 250,
+      "snb::boolean_existence": 125,
+      "snb::complex_aggregation": 125,
+      "snb::complex_retrieval": 125,
+      "snb::negation_difference": 125,
+      "snb::path_temporal": 125,
+      "snb::ranking_topk": 125,
+      "snb::simple_aggregation": 125,
+      "snb::simple_retrieval": 125
+    },
+    "by_split": {
+      "dev": 296,
+      "test": 296,
+      "train": 2408
+    },
+    "gate_counts": {
+      "accepted": 3000,
+      "execution_success": 3000,
+      "judge_pass": 3000,
+      "read_only": 3000,
+      "schema_valid": 3000,
+      "syntax_valid": 3000
+    },
+    "label_counts": {
+      "Account": 1995,
+      "City": 7,
+      "Comment": 13,
+      "Company": 13,
+      "Country": 13,
+      "Forum": 424,
+      "Loan": 9,
+      "Medium": 2,
+      "Message": 17,
+      "Organisation": 8,
+      "Person": 2523,
+      "Place": 17,
+      "Post": 734,
+      "Tag": 353,
+      "TagClass": 3,
+      "University": 6
+    },
+    "relationship_type_counts": {
+      "APPLY_LOAN": 4,
+      "CONTAINER_OF": 257,
+      "DEPOSIT": 3,
+      "HAS_CREATOR": 9,
+      "HAS_INTEREST": 3,
+      "HAS_MEMBER": 414,
+      "HAS_TAG": 347,
+      "HAS_TYPE": 3,
+      "INVEST": 5,
+      "IS_LOCATED_IN": 37,
+      "KNOWS": 140,
+      "LIKES": 347,
+      "OWN_ACCOUNT": 1708,
+      "REPAY": 2,
+      "SIGN_IN": 2,
+      "TRANSFER_TO": 1479,
+      "WITHDRAW_TO": 5
+    },
+    "total": 3000,
+    "unique_labels": [
+      "Account",
+      "City",
+      "Comment",
+      "Company",
+      "Country",
+      "Forum",
+      "Loan",
+      "Medium",
+      "Message",
+      "Organisation",
+      "Person",
+      "Place",
+      "Post",
+      "Tag",
+      "TagClass",
+      "University"
+    ],
+    "unique_relationship_types": [
+      "APPLY_LOAN",
+      "CONTAINER_OF",
+      "DEPOSIT",
+      "HAS_CREATOR",
+      "HAS_INTEREST",
+      "HAS_MEMBER",
+      "HAS_TAG",
+      "HAS_TYPE",
+      "INVEST",
+      "IS_LOCATED_IN",
+      "KNOWS",
+      "LIKES",
+      "OWN_ACCOUNT",
+      "REPAY",
+      "SIGN_IN",
+      "TRANSFER_TO",
+      "WITHDRAW_TO"
+    ]
+  },
+  "total_examples": 3000
+}

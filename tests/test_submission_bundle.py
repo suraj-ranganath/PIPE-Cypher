@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from scripts.build_submission_bundle import build_bundle
+from scripts.build_submission_bundle import DEFAULT_INCLUDE, build_bundle
 
 
 def test_build_submission_bundle_copies_requested_files_and_manifest(tmp_path: Path):
@@ -29,3 +29,9 @@ def test_build_submission_bundle_excludes_noncanonical_paper_mirrors(tmp_path: P
     assert not (out / "paper_emnlp2026_industry" / "main.tex").exists()
     assert not (out / "paper_emnlp2026_industry" / "paper.md").exists()
     assert all(not row["path"].endswith(("main.tex", "paper.md")) for row in manifest["files"])
+
+
+def test_default_submission_bundle_includes_clean_evidence_snapshots():
+    assert "experiments/snapshots/20260604_review_remediation" in DEFAULT_INCLUDE
+    assert "experiments/snapshots/20260604_diversity_governed_target50_reviewfix" in DEFAULT_INCLUDE
+    assert "experiments/snapshots/20260604_clean_downstream_model_transfer" in DEFAULT_INCLUDE

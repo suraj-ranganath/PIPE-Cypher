@@ -24,7 +24,7 @@ def main() -> None:
     )
     parser.add_argument(
         "--examples",
-        default="experiments/snapshots/20260601_live_full_qwen9b/sample_examples.json",
+        default="experiments/snapshots/20260604_review_remediation/sample_examples.json",
     )
     parser.add_argument(
         "--output-prompts",
