@@ -12,6 +12,7 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from pipecypher.ablation_suite import variant_label
 from pipecypher.paper_style import (
+    ERROR_COLORS,
     GRAPH_COLORS,
     METRIC_COLORS,
     PALETTE,
@@ -444,10 +445,17 @@ def render_downstream_error_figure(report: dict, output: Path, plt) -> None:
     names = [labels.get(key, key.replace("_", " ").title()) for key, _ in counts]
     values = [int(value) for _, value in counts]
     incorrect = max(int(report.get("incorrect", 0)), 1)
-    colors = categorical_colors(len(names), offset=1)
+    fallback_colors = categorical_colors(len(names), offset=1)
 
     fig, ax = plt.subplots(figsize=(7.4, 3.0))
-    bars = ax.barh(range(len(names)), values, color=colors)
+    bars = ax.barh(
+        range(len(names)),
+        values,
+        color=[
+            ERROR_COLORS.get(key, fallback_colors[idx % len(fallback_colors)])
+            for idx, (key, _) in enumerate(counts)
+        ],
+    )
     ax.set_yticks(range(len(names)))
     ax.set_yticklabels(names, fontsize=8)
     ax.invert_yaxis()

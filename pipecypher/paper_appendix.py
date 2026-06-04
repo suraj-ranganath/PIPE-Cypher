@@ -154,11 +154,13 @@ def render_prompt_contracts_tex() -> str:
             r"\end{enumerate}",
             r"\subsection{LLM Judge Prompt Used in Reported Runs}",
             (
-                "The local LLM judge receives a JSON-only system instruction and "
-                "the following user prompt template after schema slicing, execution "
-                "sampling, and deterministic validation. The placeholders are filled "
-                "with the candidate question, Cypher, schema slice, execution rows, "
-                "and validation summary for each reviewed example."
+                "This is the complete LLM-judge prompt contract used for all "
+                "reported judge decisions. The local judge receives a JSON-only "
+                "system instruction and the following user prompt template after "
+                "schema slicing, execution sampling, and deterministic validation. "
+                "The placeholders are filled with the candidate question, Cypher, "
+                "schema slice, execution rows, and validation summary for each "
+                "reviewed example."
             ),
             r"\begingroup",
             r"\scriptsize",

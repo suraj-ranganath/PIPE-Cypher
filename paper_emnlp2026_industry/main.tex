@@ -234,7 +234,7 @@ The downstream experiment is a benchmark-utility stress test. A useful enterpris
 
 The multi-model transfer suite compares local general instruction, code-tuned, Cypher instruction, and Text2Cypher-finetuned models while keeping the schema prompt, evaluation backend, split, and execution metrics fixed. Figure~\ref{fig:downstream_fewshot_controls} is the key result: zero-shot transfer is weak, but accepted graph-specific examples become a high-value private question-answer bank. Demonstration-bank controls close much of the gap for compatible model families such as Qwen, Qwen-Coder, and one Gemma Text2Cypher LoRA, while still revealing brittle public fine-tuned checkpoints.
 
-\begin{figure*}[t]
+\begin{figure*}[!htbp]
 \centering
 \includegraphics[width=\textwidth]{figures/downstream_fewshot_controls.pdf}
 \caption{Execution accuracy for 11 completed local downstream models under zero-shot and few-shot control modes. The heatmap highlights both findings: schema-specific examples can sharply help compatible models, and several public fine-tuned checkpoints still fail under enterprise-style Cypher prompting.}
@@ -251,6 +251,8 @@ Table~\ref{tab:fewshot_leakage_controls} is placed with the transfer result beca
 
 \input{tables_fewshot_leakage_controls}
 
+\FloatBarrier
+
 \subsection{Downstream Failure Modes and Supplementary Metrics}
 
 The failure taxonomy is included next to the transfer results because it explains why the benchmark is useful operationally. Incorrect rows are not all the same: some outputs fail to parse, some mention invalid schema, some fail at execution time, and many execute but answer the wrong question. That separation is what lets a benchmark owner decide whether to improve schema retrieval, prompt constraints, value grounding, or tenant-specific adaptation.
@@ -264,7 +266,7 @@ The failure taxonomy is included next to the transfer results because it explain
 \label{fig:downstream_error_taxonomy}
 \end{figure}
 
-Table~\ref{tab:supported_text_metrics} is not a headline result. It documents evaluator support for reference-based text metrics that are useful when debugging answer rendering or near-match behavior. The paper's correctness claims remain grounded in execution accuracy and answer-set F1.
+Table~\ref{tab:supported_text_metrics} is evaluator infrastructure rather than a headline result. It documents reference-based text metrics that are useful when debugging answer rendering or near-match behavior. The paper's correctness claims remain grounded in execution accuracy and answer-set F1.
 
 \input{tables_supported_text_metrics}
 
@@ -297,14 +299,14 @@ Strategy diagnostics complement category balance. Two questions can share a cate
 
 \input{tables_strategy_diagnostics}
 
-\begin{figure*}[t]
+\begin{figure*}[!htbp]
 \centering
 \includegraphics[width=0.92\textwidth]{figures/strategy_coverage.pdf}
 \caption{Cypher strategy coverage by workload category. Category balancing does not by itself guarantee operator coverage; the strategy matrix shows where the benchmark exercises single-hop retrieval, joins, aggregation, ordering, negation, path patterns, optional matches, and bounded-result queries.}
 \label{fig:strategy_coverage}
 \end{figure*}
 
-\begin{figure*}[t]
+\begin{figure*}[!htbp]
 \centering
 \includegraphics[width=0.88\textwidth]{figures/strategy_downstream_errors.pdf}
 \caption{Downstream outcomes by gold Cypher strategy on the full held-out test split. The local Qwen3.5-9B baseline fails differently across strategies: aggregation mixes exact matches with execution failures, while join-heavy, negation, path, and ranking examples are dominated by semantically wrong executable queries or execution failures.}
@@ -353,7 +355,7 @@ Table~\ref{tab:runtime_accounting} reports local-run accounting from completed g
 
 \subsection{Prompt Profiles and Contracts}
 
-Table~\ref{tab:prompt_refinement_plan} documents the prompt-profile factors used for ablation planning. The full prompt contracts, including the exact LLM-judge system and user prompt template used in reported runs, follow immediately after the table.
+Table~\ref{tab:prompt_refinement_plan} documents the prompt-profile factors used for ablation planning. The full prompt contracts, including the exact LLM-judge system prompt and user prompt template used for reported judge decisions, follow immediately after the table.
 
 \input{tables_prompt_refinement}
 \input{appendix_prompt_contracts}
@@ -372,7 +374,6 @@ Table~\ref{tab:effort_automation} explains the industry deployment contrast with
 \clearpage
 \input{appendix_claim_evidence}
 \FloatBarrier
-\clearpage
 \input{appendix_example_cards}
 
 \end{document}

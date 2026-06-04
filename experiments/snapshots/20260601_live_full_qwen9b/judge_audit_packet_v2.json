@@ -1,6 +1,6 @@
 {
-  "audit_csv": "artifacts/audits/20260601_full_qwen9b_judge_audit_v2.csv",
-  "audit_sha256": "59d1be5a1a946fd2141cf5d5d1b735a82eb9ef18db7018f6cbcb049953b3eeea",
+  "audit_csv": "artifacts/audits/20260601_full_qwen9b_judge_audit_v2_filled.csv",
+  "audit_sha256": "3fa9893bb2752810e032eae83e7aa739cd3e994ecb99f3ed3a32d4058fed2e5a",
   "coverage": {
     "by_category": {
       "boolean_existence": 13,
@@ -30,27 +30,39 @@
     },
     "judge_accepts": 40,
     "judge_rejects": 40,
-    "labeled_rows": 0,
+    "labeled_rows": 80,
     "total_rows": 80,
-    "unlabeled_rows": 80
+    "unlabeled_rows": 0
   },
   "html_packet": "artifacts/audits/20260601_full_qwen9b_judge_audit_v2.html",
-  "label_completion_rate": 0.0,
-  "label_status": "unlabeled",
+  "label_completion_rate": 1.0,
+  "label_status": "complete",
   "metrics": {
-    "agreement_rate": 0.0,
-    "balanced_accuracy": 0.0,
-    "cohen_kappa": 0.0,
+    "agreement_rate": 0.8,
+    "balanced_accuracy": 0.8571428571428572,
+    "cohen_kappa": 0.6000000000000001,
+    "false_accept_rate": 0.0,
+    "false_accept_rate_ci_high": 0.13797620467498017,
+    "false_accept_rate_ci_low": 1.3877787807814457e-17,
     "false_accepts": 0,
-    "false_rejects": 0,
-    "judge_negative_predictive_value": 0.0,
-    "judge_precision": 0.0,
-    "judge_recall": 0.0,
-    "judge_specificity": 0.0,
-    "total_labeled": 0,
-    "true_accepts": 0,
-    "true_rejects": 0
+    "false_reject_rate": 0.2857142857142857,
+    "false_reject_rate_ci_high": 0.4147525071551667,
+    "false_reject_rate_ci_low": 0.18418775143858906,
+    "false_rejects": 16,
+    "judge_negative_predictive_value": 0.6,
+    "judge_precision": 1.0,
+    "judge_precision_ci_high": 1.0,
+    "judge_precision_ci_low": 0.9123783988027135,
+    "judge_recall": 0.7142857142857143,
+    "judge_recall_ci_high": 0.8158122485614109,
+    "judge_recall_ci_low": 0.5852474928448334,
+    "judge_specificity": 1.0,
+    "judge_specificity_ci_high": 1.0,
+    "judge_specificity_ci_low": 0.8620237953250198,
+    "total_labeled": 80,
+    "true_accepts": 40,
+    "true_rejects": 24
   },
   "partial_labels_present": false,
-  "ready_for_calibration": false
+  "ready_for_calibration": true
 }

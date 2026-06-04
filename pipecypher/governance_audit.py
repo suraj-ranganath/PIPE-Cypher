@@ -37,10 +37,24 @@ def load_json(path: str | Path) -> dict[str, Any]:
 def load_jsonl(paths: list[str | Path]) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     for path in paths:
-        for line in Path(path).read_text(encoding="utf-8").splitlines():
+        jsonl_path = _resolve_jsonl_path(path)
+        for line in jsonl_path.read_text(encoding="utf-8").splitlines():
             if line.strip():
                 rows.append(json.loads(line))
     return rows
+
+
+def _resolve_jsonl_path(path: str | Path) -> Path:
+    candidate = Path(path)
+    if candidate.is_dir():
+        for name in ("records.jsonl", "all.jsonl"):
+            nested = candidate / name
+            if nested.exists():
+                return nested
+        raise FileNotFoundError(
+            f"{candidate} is a directory but contains neither records.jsonl nor all.jsonl"
+        )
+    return candidate
 
 
 def summarize_governance_records(records: list[dict[str, Any]]) -> dict[str, Any]:

@@ -94,6 +94,7 @@ python scripts/audit_gate_impact.py \
 
 python scripts/audit_redaction_policy.py \
   --benchmark artifacts/benchmarks/20260604_live_full_qwen9b_reviewfix/all.jsonl \
+  --redact-numeric-literals \
   --output-json experiments/snapshots/20260604_review_remediation/redaction_audit.json \
   --output-tex paper_emnlp2026_industry/tables_redaction_audit.tex
 ```

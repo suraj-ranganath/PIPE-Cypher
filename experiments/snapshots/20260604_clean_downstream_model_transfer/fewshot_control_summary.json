@@ -10,7 +10,7 @@
     "scored_improved_models": 3
   },
   "complete_model_count": 11,
-  "incomplete_model_count": 1,
+  "incomplete_model_count": 0,
   "models": [
     {
       "best_control": {
@@ -955,97 +955,6 @@
     {
       "best_control": {
         "execution_accuracy": 0.0,
-        "mode": "scored_no_signature"
-      },
-      "complete": false,
-      "controls": {
-        "random_seed13": {
-          "answer_f1": 0.0,
-          "execution_accuracy": 0.0,
-          "execution_success": 0.0,
-          "n": 0,
-          "parse_valid": 0.0,
-          "path": "artifacts/evaluations/20260604_clean_control_stable_cypher_instruct3b_transformers_random_seed13",
-          "run_id": "20260604_clean_control_stable_cypher_instruct3b_transformers_random_seed13",
-          "schema_valid": 0.0
-        },
-        "random_seed17": {
-          "answer_f1": 0.0,
-          "execution_accuracy": 0.0,
-          "execution_success": 0.0,
-          "n": 0,
-          "parse_valid": 0.0,
-          "path": "artifacts/evaluations/20260604_clean_control_stable_cypher_instruct3b_transformers_random_seed17",
-          "run_id": "20260604_clean_control_stable_cypher_instruct3b_transformers_random_seed17",
-          "schema_valid": 0.0
-        },
-        "random_seed23": {
-          "answer_f1": 0.0,
-          "execution_accuracy": 0.0,
-          "execution_success": 0.0,
-          "n": 0,
-          "parse_valid": 0.0,
-          "path": "artifacts/evaluations/20260604_clean_control_stable_cypher_instruct3b_transformers_random_seed23",
-          "run_id": "20260604_clean_control_stable_cypher_instruct3b_transformers_random_seed23",
-          "schema_valid": 0.0
-        },
-        "scored_no_signature": {
-          "answer_f1": 0.0,
-          "execution_accuracy": 0.0,
-          "execution_success": 0.0,
-          "n": 0,
-          "parse_valid": 0.0,
-          "path": "artifacts/evaluations/20260604_clean_control_stable_cypher_instruct3b_transformers_scored_no_signature",
-          "run_id": "20260604_clean_control_stable_cypher_instruct3b_transformers_scored_no_signature",
-          "schema_valid": 0.0
-        }
-      },
-      "missing": [
-        "zero_shot_summary.json: no evaluated rows",
-        "ordered",
-        "scored_no_signature/few_shot_summary.json: no evaluated rows",
-        "random_seed13/few_shot_summary.json: no evaluated rows",
-        "random_seed17/few_shot_summary.json: no evaluated rows",
-        "random_seed23/few_shot_summary.json: no evaluated rows"
-      ],
-      "model": "ragraph-ai/stable-cypher-instruct-3b",
-      "model_family": "StableLM",
-      "random": {
-        "mean": {
-          "answer_f1": 0.0,
-          "execution_accuracy": 0.0,
-          "execution_success": 0.0,
-          "parse_valid": 0.0,
-          "schema_valid": 0.0
-        },
-        "seeds": [
-          13,
-          17,
-          23
-        ],
-        "std": {
-          "answer_f1": 0.0,
-          "execution_accuracy": 0.0,
-          "execution_success": 0.0,
-          "parse_valid": 0.0,
-          "schema_valid": 0.0
-        }
-      },
-      "slug": "stable_cypher_instruct3b_transformers",
-      "tuning": "Cypher instruction",
-      "zero_shot": {
-        "answer_f1": 0.0,
-        "execution_accuracy": 0.0,
-        "execution_success": 0.0,
-        "n": 0,
-        "parse_valid": 0.0,
-        "schema_valid": 0.0
-      },
-      "zero_shot_run_id": "20260604_clean_downstream_stable_cypher_instruct3b_transformers_zero_fewshot"
-    },
-    {
-      "best_control": {
-        "execution_accuracy": 0.0,
         "mode": "ordered"
       },
       "complete": true,
@@ -1138,5 +1047,5 @@
       "zero_shot_run_id": "20260604_clean_downstream_tomasonjo_text2cypher8b_zero_fewshot"
     }
   ],
-  "models_examined": 12
+  "models_examined": 11
 }

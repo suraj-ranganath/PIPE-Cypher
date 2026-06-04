@@ -1,6 +1,6 @@
 # Downstream Few-Shot Control Summary
 
-Complete models: 11 / 12
+Complete models: 11 / 11
 
 | Model | Tuning | Zero | Ordered | Scored no-sig | Random mean | Random std | Best control |
 |---|---|---:|---:|---:|---:|---:|---|
@@ -15,10 +15,6 @@ Complete models: 11 / 12
 | Qwen3.5-9B | general instruction | 0.189 | 0.993 | 0.828 | 0.986 | 0.007 | ordered (0.993) |
 | Saiprasanth15/Llama-3.1-8B Text2Cypher LoRA | Text2Cypher LoRA | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | no gain |
 | tomasonjo/text2cypher-demo-16bit | Text2Cypher fine-tuned | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | no gain |
-
-## Incomplete Or Excluded Runs
-
-- ragraph-ai/stable-cypher-instruct-3b (`20260604_clean_downstream_stable_cypher_instruct3b_transformers_zero_fewshot`) missing: zero_shot_summary.json: no evaluated rows, ordered, scored_no_signature/few_shot_summary.json: no evaluated rows, random_seed13/few_shot_summary.json: no evaluated rows, random_seed17/few_shot_summary.json: no evaluated rows, random_seed23/few_shot_summary.json: no evaluated rows
 
 ## Aggregate
 

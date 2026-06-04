@@ -27,7 +27,7 @@ the markdown summary, but it is not counted as a model result.
 
 - `model_transfer_summary.json`: 10 zero/few-shot directories complete; the
   Neo4j Gemma-2 LoRA ordered evidence is stored as a separate ordered control.
-- `fewshot_control_summary.json`: 11/12 examined model slugs complete.
+- `fewshot_control_summary.json`: 11 paper-facing completed model slugs.
 - `fewshot_control_uncertainty.json`: model-level paired bootstrap intervals
   over the 11 completed checkpoints.
 - `fewshot_leakage_control_audit.json`: ordered, scored no-signature, and

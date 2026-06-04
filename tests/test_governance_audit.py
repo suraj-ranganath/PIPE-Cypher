@@ -1,4 +1,7 @@
+import json
+
 from pipecypher.governance_audit import (
+    load_jsonl,
     merge_governance_audits,
     summarize_downstream_governance,
     summarize_governance_records,
@@ -36,6 +39,17 @@ def test_summarize_governance_records_groups_direction_schema_and_safety():
     assert summary["issue_groups"]["schema_or_value"] == 1
     assert summary["issue_groups"]["read_only_safety"] == 1
     assert summary["direction_examples"]["wrong_direction"][0]["graph_profile"] == "finbench"
+
+
+def test_load_jsonl_accepts_run_directory(tmp_path):
+    run_dir = tmp_path / "run"
+    run_dir.mkdir()
+    (run_dir / "records.jsonl").write_text(
+        json.dumps({"graph_profile": "finbench", "accepted": True}) + "\n",
+        encoding="utf-8",
+    )
+
+    assert load_jsonl([run_dir]) == [{"graph_profile": "finbench", "accepted": True}]
 
 
 def test_summarize_downstream_governance_collects_nested_issue_counts():

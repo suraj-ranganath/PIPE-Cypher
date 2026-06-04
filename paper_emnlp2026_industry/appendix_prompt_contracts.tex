@@ -16,7 +16,7 @@ PIPE-Cypher treats prompts as versioned implementation artifacts. The list summa
 \textit{Contract.} Read-only Cypher only; Schema-visible constructs and exact direction preservation; RETURN DISTINCT, count/ranking rules, and no explanations
 \end{enumerate}
 \subsection{LLM Judge Prompt Used in Reported Runs}
-The local LLM judge receives a JSON-only system instruction and the following user prompt template after schema slicing, execution sampling, and deterministic validation. The placeholders are filled with the candidate question, Cypher, schema slice, execution rows, and validation summary for each reviewed example.
+This is the complete LLM-judge prompt contract used for all reported judge decisions. The local judge receives a JSON-only system instruction and the following user prompt template after schema slicing, execution sampling, and deterministic validation. The placeholders are filled with the candidate question, Cypher, schema slice, execution rows, and validation summary for each reviewed example.
 \begingroup
 \scriptsize
 \begin{verbatim}

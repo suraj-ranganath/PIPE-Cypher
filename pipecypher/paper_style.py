@@ -47,6 +47,14 @@ METRIC_COLORS = {
     "judge_pass": PALETTE["purple"],
 }
 
+ERROR_COLORS = {
+    "exact": PALETTE["teal"],
+    "answer_mismatch": PALETTE["gold"],
+    "execution_failed": PALETTE["blue"],
+    "schema_invalid": PALETTE["purple"],
+    "parse_invalid": PALETTE["red"],
+}
+
 
 def apply_paper_style(plt: Any) -> None:
     """Apply the PIPE-Cypher publication style to matplotlib figures."""

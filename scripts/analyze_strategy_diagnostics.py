@@ -11,6 +11,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from pipecypher.paper_style import (
+    ERROR_COLORS,
     PALETTE,
     apply_paper_style,
     categorical_colors,
@@ -122,13 +123,6 @@ def render_strategy_downstream_error_figure(report: dict, output: Path, plt) -> 
         )
     ]
     buckets = [bucket for bucket in ERROR_BUCKET_ORDER if any(downstream[s]["error_bucket_counts"].get(bucket, 0) for s in strategies)]
-    colors = {
-        "exact": PALETTE["teal"],
-        "answer_mismatch": PALETTE["gold"],
-        "execution_failed": PALETTE["blue"],
-        "schema_invalid": PALETTE["purple"],
-        "parse_invalid": PALETTE["red"],
-    }
     fallback_colors = categorical_colors(len(buckets))
 
     fig, ax = plt.subplots(figsize=(8.8, 3.8))
@@ -140,7 +134,7 @@ def render_strategy_downstream_error_figure(report: dict, output: Path, plt) -> 
             x_positions,
             values,
             bottom=bottoms,
-            color=colors.get(bucket, fallback_colors[buckets.index(bucket)]),
+            color=ERROR_COLORS.get(bucket, fallback_colors[buckets.index(bucket)]),
             label=_bucket_label(bucket),
         )
         bottoms = [bottom + value for bottom, value in zip(bottoms, values, strict=True)]
