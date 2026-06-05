@@ -482,7 +482,7 @@ def render_rewrite_audit_table(summary: dict[str, Any]) -> str:
     return _table(
         body="\n".join(rows),
         caption=(
-            "Rewrite prevalence and impact audit over paper-generation records. "
+            "Rewrite prevalence and impact audit over reported generation records. "
             "When no generated query differs from its normalized form, no live "
             "original/normalized re-execution is required for semantic drift."
         ),
@@ -653,7 +653,7 @@ def render_graph_statistics_table(rows: list[dict[str, Any]]) -> str:
     body = [
         r"\begin{tabular}{lrrrrl}",
         r"\toprule",
-        r"Graph & Nodes & Relationships & Labels & Rel. types & Paper status \\",
+        r"Graph & Nodes & Relationships & Labels & Rel. types & Study status \\",
         r"\midrule",
     ]
     for row in rows:
@@ -699,7 +699,7 @@ def render_icij_onboarding_table(summary: dict[str, Any]) -> str:
         f"Generated / accepted & {_fmt_int(summary.get('records', 0))} / {_fmt_int(summary.get('accepted', 0))} \\\\",
         f"Acceptance rate & {_fmt_float(summary.get('accept_rate', 0.0))} \\\\",
         f"Categories at target & {_fmt_int(summary.get('categories_at_target', 0))}/{len(summary.get('expected_categories', []))} \\\\",
-        f"Paper audit & {_escape_latex('ready' if audit.get('ready_for_paper_promotion') else 'not ready')} \\\\",
+        f"Study audit & {_escape_latex('ready' if audit.get('ready_for_paper_promotion') else 'not ready')} \\\\",
         f"Sparse schema-derived accepts & {_escape_latex(schema_accept_text)} \\\\",
         r"\bottomrule",
         r"\end{tabular}",
@@ -709,7 +709,7 @@ def render_icij_onboarding_table(summary: dict[str, Any]) -> str:
         caption=(
             "ICIJ Offshore Leaks third-graph onboarding audit. The public "
             "finance/compliance graph tests arbitrary-schema generation beyond the "
-            "two LDBC study workloads; raw values remain outside the paper artifacts."
+            "two LDBC study workloads; raw values remain outside the reported artifacts."
         ),
         label="tab:icij_onboarding",
     )
