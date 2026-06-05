@@ -27,18 +27,18 @@ Enterprises increasingly use property graphs and Cypher to analyze fraud, risk, 
 \section{Introduction}
 Property graphs are attractive in enterprise settings because the facts of interest are often relational paths: account transfers, identity entitlements, access chains, customer interactions, supplier dependencies, and fraud rings. Cypher gives analysts a compact language for these patterns. As LLMs become natural-language interfaces for graph analytics, an organization cannot evaluate a Text2Cypher system only on public schemas; it needs to know whether the model handles its labels, relationship directions, values, governance rules, and recurring operational questions.
 
-This changes the benchmark problem. A static public dataset is valuable for shared comparison, but it cannot contain a bank's account taxonomy, an identity team's permission graph, or the exact categorical values that make a query answerable. It also cannot refresh when schemas change. Industry teams therefore need a benchmark factory: a repeatable way to turn a live property graph into a balanced, executable, privacy-aware NL-to-Cypher benchmark without sending sensitive schema or values to paid generation APIs.
+For evaluation, that privacy boundary matters as much as model accuracy. A static public dataset is useful for shared comparison, but it cannot contain a bank's account taxonomy, an identity team's permission graph, or the categorical values that make a query answerable. It also cannot refresh when schemas change. Industry teams therefore need a benchmark factory: a repeatable way to turn a live property graph into a balanced, executable, privacy-aware NL-to-Cypher benchmark without sending sensitive schema or values to paid generation APIs.
 
 PIPE-Cypher addresses this setting. The pipeline profiles a target graph, grounds question slots through reverse Cypher execution, constrains local-model generation, validates and repairs generated Cypher through deterministic gates, and uses a local LLM judge only after execution evidence is available. Its design treats Cypher correctness as a governed artifact rather than a prompt preference: relationship direction, read-only safety, exact literal use, categorical values, contextual return columns, and \texttt{RETURN DISTINCT} are checked or normalized before examples are accepted.
 
 \noindent\textbf{Contributions.} We make four contributions: (1) an end-to-end local-model benchmark-factory workflow for organization-run NL-to-Cypher evaluation; (2) outcome-aware reverse grounding plus deterministic Cypher governance for read-only safety, directionality, exact literals, categorical values, contextual returns, and conservative rewrite boundaries; (3) a scaled public-proxy evaluation over FinBench, SNB, and ICIJ with ablations, judge calibration, privacy/redaction audits, and an 11-model completed local transfer stress test; and (4) reproducibility artifacts for onboarding, value sampling, benchmark refresh, evidence packaging, and appendix-level auditability.
 
 \section{Related Work}
-Recent Text2Cypher resources, including Mind the Query~\citep{mindthequery2025}, SyntheT2C~\citep{synthet2c2025}, Auto-Cypher~\citep{autocypher2025}, Text2Cypher~\citep{text2cypher2025}, CypherBench~\citep{cypherbench2025}, and the public Text2Cypher-2024 corpus~\citep{text2cypher2024dataset}, show that high-quality Cypher data requires schema grounding, execution checks, verification, and complexity-aware evaluation. PIPE-Cypher does not treat template filling or execution filtering as new in isolation. Its technical delta is the enterprise benchmark-factory composition: outcome-aware reverse grounding, deterministic Cypher governance, read-only deployment, local judge calibration, privacy/value policies, refreshable exports, and evidence ledgers.
+Recent Text2Cypher resources, including Mind the Query~\citep{mindthequery2025}, SyntheT2C~\citep{synthet2c2025}, Auto-Cypher~\citep{autocypher2025}, Text2Cypher~\citep{text2cypher2025}, CypherBench~\citep{cypherbench2025}, and the public Text2Cypher-2024 corpus~\citep{text2cypher2024dataset}, show that high-quality Cypher data requires schema grounding, execution checks, verification, and complexity-aware evaluation. PIPE-Cypher does not treat template filling or execution filtering as new in isolation. Its contribution is to make those pieces work as an enterprise benchmark factory: reverse grounding is outcome-aware, Cypher governance is deterministic and read-only, judge calibration is local, privacy policies are explicit, and every exported example carries an audit trail.
 
 \input{tables_prior_mechanism_comparison}
 
-Mind the Query is especially relevant because it reports an Industry Track Text2Cypher dataset with schema, runtime, value, and human logical validation. PIPE-Cypher borrows the reviewer-facing discipline of those checks, but changes the target artifact: instead of releasing one static dataset or tuning corpus, it studies the process of generating, refreshing, auditing, and redacting benchmarks for a target graph, local model endpoint, privacy policy, and benchmark refresh cycle.
+Mind the Query is especially relevant because it reports an Industry Track Text2Cypher dataset with schema, runtime, value, and human logical validation. PIPE-Cypher keeps that validation discipline, but changes the object of study. The artifact is not one static dataset or tuning corpus; it is the process that lets an organization generate, refresh, audit, and redact a benchmark for its own graph, local model endpoint, and value policy.
 
 Text-to-SQL benchmarks such as Spider 2.0~\citep{spider22024} and BIRD~\citep{bird2023} have pushed text-to-query evaluation toward realistic database tasks and execution-based scoring, while execution-guided decoding shows why query execution is useful semantic feedback rather than a cosmetic check~\citep{wang2018executionguidedtexttosql}. Recent residual-skill Text-to-SQL work further shows that optimizing complementary agent skills on residual failures can improve selected accuracy across SQL dialects~\citep{zhu2026residualskilloptimizationtexttosql}. Graph query generation adds different failure modes: relationship direction can invert the meaning of a query, node and relationship properties live in different namespaces, and path-shaped questions can be syntactically valid while semantically ungrounded. CIKM AutoQuery~\citep{autoquery2024} motivates treating workload generation as a separate object of study from downstream model quality. LDBC FinBench~\citep{ldbcfinbench} and SNB~\citep{ldbcsnb} provide public graph workloads with financial and social-network structure, while ICIJ Offshore Leaks gives an additional public finance/compliance onboarding check.
 
@@ -91,13 +91,13 @@ The generated benchmark contains 3,000 accepted examples: 2,000 from LDBC FinBen
 
 The accepted records are exported with stable identifiers, train/dev/test splits, result samples, gate metadata, aggregate statistics, and a manifest hash; the appendix gives the full artifact distribution.
 
-\noindent\textbf{Diversity and residual concentration.} We report diversity as an audit signal, not as a slogan. The full export has perfect category balance, near-perfect difficulty balance, 1,115 unique grounded entity values, and exact quotation of grounded values in 82.6\% of examples with entity bindings. Query-signature diversity remains low because seeded graph-grounded templates do substantial work, but a diversity-governed selector improves structural coverage, adjusted Distinct-2, query-signature ratio, and property coverage at the same graph/category target (Appendix Table~\ref{tab:diversity_improvement}). Thus PIPE-Cypher produces a balanced executable benchmark while making residual template and value concentration visible for refresh.
+\noindent\textbf{Diversity and residual concentration.} We report diversity as an audit surface rather than a single headline score. The full export has perfect category balance, near-perfect difficulty balance, 1,115 unique grounded entity values, and exact quotation of grounded values in 82.6\% of examples with entity bindings. Query-signature diversity remains low because seeded graph-grounded templates do substantial work, but a diversity-governed selector improves structural coverage, adjusted Distinct-2, query-signature ratio, and property coverage at the same graph/category target (Appendix Table~\ref{tab:diversity_improvement}). PIPE-Cypher therefore produces a balanced executable benchmark while making residual template and value concentration visible for refresh.
 
 \noindent\textbf{RQ2: governed generation.} The full-run failure taxonomy is concentrated in duplicate/diversity controls and empty execution results; only 2/4,925 candidates were schema-invalid after governance. A rewrite audit found that all paper-run candidates were already identical to their normalized Cypher, so accepted examples do not depend on semantics-changing rewrites. The ablations are therefore a reliability study of the execution-grounded core: in the target-100 suite, every non-unconstrained graph/setting cell reached all eight category targets, while unconstrained generation did not provide balanced executable coverage. Across the three evidence-ready suites, target-normalized coverage is 1.000 for every non-unconstrained cell.
 
 \noindent\textbf{Judge calibration.} An 80-row post-hoc human audit sampled accepted and rejected candidates across both graphs and all categories. Agreement is 80.0\%, Cohen's $\kappa=0.60$, judge precision/specificity are 1.00, recall is 0.714, and no false accepts appear in the sample. The judge is conservative and protects accepted-example quality; human labels calibrate the gate but do not participate in generation.
 
-\noindent\textbf{RQ3: downstream stress test.} We evaluate downstream Text2Cypher by giving each model schema text and the question, then scoring live execution on FinBench or SNB. The purpose is not to present a strong baseline; it is to test whether PIPE-Cypher exposes plausible but wrong Cypher. In an 11-model completed local transfer suite, zero-shot execution accuracy ranges from 0.000 to 0.203 (mean 0.036). The primary few-shot generalization result is the scored no-signature control, which excludes exact query-signature matches and near-duplicate questions and raises mean accuracy to 0.200. Ordered and random same-category example banks reach 0.269/0.267, but are reported as operational upper bounds because they often share query signatures (Appendix Tables~\ref{tab:downstream_fewshot_controls}--\ref{tab:fewshot_leakage_controls}).
+\noindent\textbf{RQ3: downstream stress test.} We evaluate downstream Text2Cypher by giving each model schema text and the question, then scoring live execution on FinBench or SNB. This is where a benchmark earns its keep: many model outputs parse, mention plausible schema, and still answer the wrong graph question. In an 11-model completed local transfer suite, zero-shot execution accuracy ranges from 0.000 to 0.203 (mean 0.036). The primary few-shot generalization result is the scored no-signature control, which excludes exact query-signature matches and near-duplicate questions and raises mean accuracy to 0.200. Ordered and random same-category example banks reach 0.269/0.267, but are reported as operational upper bounds because they often share query signatures (Appendix Tables~\ref{tab:downstream_fewshot_controls}--\ref{tab:fewshot_leakage_controls}).
 
 \input{tables_downstream_evaluation}
 
@@ -121,13 +121,13 @@ PIPE-Cypher is designed for private benchmark generation under local-model deplo
 \appendix
 \raggedbottom
 
-\section{Appendix Roadmap and Artifact Summary}
+\section{Experimental Setup and Exported Benchmark}
 
-The appendix is organized as a claim-evidence trace. Each table or figure appears next to the paragraph that interprets it so the reader does not need to reconstruct the argument from a block of floats. The opening tables summarize the paper-facing run setup and exported artifact before the appendix turns to reliability, onboarding, downstream transfer, diversity, governance, prompt contracts, and representative examples.
+All extended results use the same live FinBench/SNB benchmark export as the main paper unless a table explicitly names an ablation suite or the ICIJ onboarding run. The setup tables below fix the scale, graph mix, split, and validation totals for the artifact used in the downstream and diversity analyses.
 
 \subsection{Benchmark Artifact Summary}
 
-Tables~\ref{tab:experiment_plan}, \ref{tab:benchmark_export}, and \ref{tab:full_artifact_distribution} give the setup, export manifest summary, and gate/distribution details that are compressed in the six-page main body.
+Tables~\ref{tab:experiment_plan}, \ref{tab:benchmark_export}, and \ref{tab:full_artifact_distribution} give the run configuration, export manifest summary, and gate/distribution details for the 3,000-example benchmark.
 
 \input{tables_experiments}
 \input{tables_benchmark_export}
@@ -137,16 +137,16 @@ Tables~\ref{tab:experiment_plan}, \ref{tab:benchmark_export}, and \ref{tab:full_
 
 \section{Governed Generation Evidence}
 
-The first empirical claim is reliability: once reverse grounding and deterministic Cypher governance are in place, PIPE-Cypher fills every planned graph/category cell at target scale.
+The central reliability question is whether reverse grounding and deterministic Cypher governance can fill every planned graph/category cell at target scale.
 
 \subsection{Target-100 Stress Baseline}
 
-Figure~\ref{fig:ablation_suite_target100_main} and Table~\ref{tab:ablation_results} are the detailed evidence behind the compact RQ2 discussion. The unconstrained rows are intentionally shown as a stress baseline: plausible raw local-model generations do not produce balanced, executable benchmark coverage. The governed variants, in contrast, fill every target cell on both graphs.
+Figure~\ref{fig:ablation_suite_target100_main} and Table~\ref{tab:ablation_results} show the target-100 stress baseline. The unconstrained rows are deliberately harsh: plausible raw local-model generations do not produce balanced, executable benchmark coverage. The governed variants fill every target cell on both graphs.
 
 \begin{figure*}[t]
 \centering
 \includegraphics[width=0.82\textwidth]{figures/ablation_suite_target100.pdf}
-\caption{Target-100 ablation yield on FinBench and SNB. Unconstrained local generation is reported as a stress baseline with explicit attempt accounting; the execution-grounded governed variants reach all eight workload-category targets on both graphs. The takeaway is reliability of the grounded governance core, not that every optional module is needed for yield.}
+\caption{Target-100 ablation yield on FinBench and SNB. Unconstrained local generation is reported as a stress baseline with explicit attempt accounting; the execution-grounded governed variants reach all eight workload-category targets on both graphs. The result supports reliability of the grounded governance core without implying that every optional module is required for yield.}
 \label{fig:ablation_suite_target100_main}
 \end{figure*}
 
@@ -154,7 +154,7 @@ Figure~\ref{fig:ablation_suite_target100_main} and Table~\ref{tab:ablation_resul
 
 \subsection{Gate-Level Quality}
 
-Yield alone is not the main result; a benchmark factory must explain which gates are doing useful work. Table~\ref{tab:ablation_quality} and Figure~\ref{fig:ablation_quality_target100} therefore report read-only, syntax, schema, execution, and judge/post-hoc rates for the same target-100 suite. The quality story is that read-only and syntax checks are saturated after governance, while execution and semantic judging expose the remaining differences.
+Yield alone is not enough. A benchmark factory must show which gates keep bad examples out. Table~\ref{tab:ablation_quality} and Figure~\ref{fig:ablation_quality_target100} report read-only, syntax, schema, execution, and judge/post-hoc rates for the same target-100 suite. Read-only and syntax checks saturate after governance; execution and semantic judging expose the remaining differences.
 
 \input{tables_ablation_quality}
 
@@ -167,7 +167,7 @@ Yield alone is not the main result; a benchmark factory must explain which gates
 
 \subsection{Repeated-Suite Stability}
 
-The same conclusion holds across target sizes and seeds. The repeated-suite comparison normalizes by each suite's planned target, so the table and figure show stability rather than rewarding larger raw counts. Full PIPE-Cypher and the governed ablations reach complete target coverage on both graphs, supporting the claim that the system behaves like a repeatable benchmark factory rather than a one-off generation script.
+The same pattern holds across target sizes and seeds. The repeated-suite comparison normalizes by each suite's planned target, so it measures stability rather than rewarding larger raw counts. Full PIPE-Cypher and the governed ablations reach complete target coverage on both graphs, which is what a repeatable benchmark factory should do.
 
 \input{tables_ablation_comparison}
 
@@ -197,7 +197,7 @@ The rejection taxonomy explains where the remaining work occurs. After determini
 
 \subsection{Export Balance}
 
-The exported artifact is designed to make scale and balance visible. Figure~\ref{fig:full_export_distribution} shows the planned 2:1 FinBench/SNB mix, exact category balance, and near-even difficulty split. This is the artifact-level evidence for the paper's core claim: PIPE-Cypher produces a benchmark that is balanced by design rather than sampled opportunistically.
+The exported artifact makes scale and balance visible. Figure~\ref{fig:full_export_distribution} shows the planned 2:1 FinBench/SNB mix, exact category balance, and near-even difficulty split. PIPE-Cypher produces a benchmark that is balanced by design rather than sampled opportunistically.
 
 \begin{figure}[H]
 \centering
@@ -227,7 +227,7 @@ Table~\ref{tab:icij_onboarding} and Figure~\ref{fig:icij_onboarding_audit} repor
 
 \subsection{Category Crosswalk}
 
-Table~\ref{tab:category_crosswalk} connects PIPE-Cypher's eight categories to the simpler retrieval/aggregation/evaluation-query taxonomy used in Mind the Query. The purpose is to make comparison easy while showing the extra enterprise workload classes: negation, temporal/path reasoning, and ranking/top-k.
+Table~\ref{tab:category_crosswalk} connects PIPE-Cypher's eight categories to the simpler retrieval/aggregation/evaluation-query taxonomy used in Mind the Query. The crosswalk keeps the comparison legible while making the extra enterprise workload classes explicit: negation, temporal/path reasoning, and ranking/top-k.
 
 \input{tables_category_crosswalk}
 
@@ -237,9 +237,9 @@ Table~\ref{tab:category_crosswalk} connects PIPE-Cypher's eight categories to th
 
 \subsection{Transfer Controls}
 
-The downstream experiment is a benchmark-utility stress test. A useful enterprise benchmark should not merely reward syntactically valid Cypher; it should reveal when a model produces a query that parses, mentions plausible schema elements, and even executes, but answers the wrong operational question. The Qwen3.5-9B result has that shape: parse validity is 0.963 and schema validity is 0.916, while exact execution accuracy is only 0.189 on the full held-out split. This gap is evidence that PIPE-Cypher is measuring semantic graph-query competence rather than only query formatting.
+The downstream experiment tests benchmark utility. A useful enterprise benchmark should not merely reward syntactically valid Cypher; it should reveal when a model produces a query that parses, mentions plausible schema elements, and even executes, but answers the wrong operational question. The Qwen3.5-9B result has that shape: parse validity is 0.963 and schema validity is 0.916, while exact execution accuracy is only 0.189 on the full held-out split. The gap shows that PIPE-Cypher measures semantic graph-query competence rather than only query formatting.
 
-The multi-model transfer suite compares local general instruction, code-tuned, Cypher instruction, and Text2Cypher-finetuned models while keeping the schema prompt, evaluation backend, split, and execution metrics fixed. Figure~\ref{fig:downstream_fewshot_controls} is the key result: zero-shot transfer is weak, but accepted graph-specific examples become a high-value private question-answer bank. Demonstration-bank controls close much of the gap for compatible model families such as Qwen, Qwen-Coder, and one Gemma Text2Cypher LoRA, while still revealing brittle public fine-tuned checkpoints.
+The multi-model transfer suite compares local general instruction, code-tuned, Cypher instruction, and Text2Cypher-finetuned models while keeping the schema prompt, evaluation backend, split, and execution metrics fixed. Figure~\ref{fig:downstream_fewshot_controls} shows a sharp pattern: zero-shot transfer is weak, but accepted graph-specific examples can become a useful private question-answer bank. Demonstration-bank controls close much of the gap for compatible model families such as Qwen, Qwen-Coder, and one Gemma Text2Cypher LoRA, while several public fine-tuned checkpoints remain brittle under enterprise-style prompting.
 
 \begin{figure*}[!htbp]
 \centering
@@ -268,7 +268,7 @@ The failure taxonomy is included next to the transfer results because it explain
 
 \subsection{Supplementary Text Metrics}
 
-Table~\ref{tab:supported_text_metrics} lists optional text-overlap metrics for debugging answer rendering and near-match behavior. These are not correctness metrics; the paper's claims use execution accuracy and answer-set F1.
+Table~\ref{tab:supported_text_metrics} lists optional text-overlap metrics for debugging answer rendering and near-match behavior. These are not correctness metrics; the reported correctness results use execution accuracy and answer-set F1.
 
 \input{tables_supported_text_metrics}
 
@@ -278,7 +278,7 @@ Table~\ref{tab:supported_text_metrics} lists optional text-overlap metrics for d
 
 \subsection{Diversity Diagnostics}
 
-PIPE-Cypher does not ask reviewers to trust a single aggregate acceptance rate. It reports diversity and strategy diagnostics so an enterprise can see whether its benchmark is balanced, what structural operators it exercises, and where residual concentration remains. Figure~\ref{fig:diversity_diagnostics} keeps the useful diversity view: category, graph-category, and difficulty balance are strong by construction; schema and value coverage are visible audit quantities rather than hidden assumptions.
+Aggregate acceptance rates hide too much. The diversity and strategy diagnostics show whether the benchmark is balanced, which Cypher operators it exercises, and where residual concentration remains. Figure~\ref{fig:diversity_diagnostics} keeps the useful diversity view: category, graph-category, and difficulty balance are strong by construction, while schema and value coverage remain visible audit quantities.
 
 \input{tables_diversity}
 
@@ -319,7 +319,7 @@ Strategy diagnostics complement category balance. Two questions can share a cate
 
 \section{Governance, Judge Calibration, and Deployment Details}
 
-The following tables collect implementation details that support the paper's industry claims: the validator cascade, prompt-profile controls, automation/effort contrast, and the completed post-hoc judge audit. These tables are placed here rather than near unrelated result plots because they explain how PIPE-Cypher can be deployed as a governed local workflow instead of a manual dataset-writing exercise.
+The deployment details below matter because enterprises rarely fail on a single model call. They fail when a benchmark has no safety boundary, no value policy, no audit trail, or no way to explain why an example was accepted. The validator cascade, prompt contracts, automation comparison, and judge audit describe the controls that make PIPE-Cypher a governed local workflow rather than a manual dataset-writing exercise.
 
 \subsection{Validation Cascade}
 
@@ -364,18 +364,13 @@ Table~\ref{tab:prompt_refinement_plan} documents the prompt-profile factors used
 
 \subsection{Automation and Calibration}
 
-Table~\ref{tab:effort_automation} explains the industry deployment contrast with Mind the Query, and Table~\ref{tab:judge_audit_coverage} reports the completed human calibration packet. The important claim is not that human review disappeared from science; it is that human labels are post-hoc calibration evidence rather than a required production gate.
+Table~\ref{tab:effort_automation} gives the deployment contrast with Mind the Query, and Table~\ref{tab:judge_audit_coverage} reports the completed human calibration packet. Human review has not disappeared from the research process; it has moved from a production gate to post-hoc calibration evidence.
 
 \input{tables_effort_automation}
 \input{tables_judge_audit_coverage}
 
 \FloatBarrier
 \clearpage
-\input{appendix_review_response_matrix}
-\FloatBarrier
-\clearpage
-\input{appendix_claim_evidence}
-\FloatBarrier
 \input{appendix_example_cards}
 
 \end{document}

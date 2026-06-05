@@ -1,6 +1,6 @@
-\section{Claim--Evidence Map}
+\section{Reproducibility Evidence Map}
 \label{tab:claim_evidence_map}
-This section maps the main paper claims to the strongest current evidence and to the remaining risks. This is intended as a reviewer-facing audit surface: claims with pending evidence remain marked as such rather than being folded into the main results.
+The entries below record the main empirical statements, the artifacts that support them, and the remaining risks that should be considered when reproducing or extending the study.
 \begin{enumerate}
 \item \textbf{Claim 1.} PIPE-Cypher can generate a private, executable NL-to-Cypher benchmark over enterprise-style property graphs using local models.\par
 \textit{Evidence.} The full local Qwen3.5-9B run exported 3,000 accepted examples: 2,000 FinBench and 1,000 SNB, with 375 examples in every planned workload category and all accepted examples passing read-only, syntax, schema, execution, non-empty-result, and judge gates.\par
@@ -28,7 +28,7 @@ This section maps the main paper claims to the strongest current evidence and to
 \textit{Status.} Supported by live downstream evaluation against FinBench/SNB databases, with complete 11-model zero-shot/control summaries and leakage-aware few-shot controls.\par
 \textit{Risk.} Several local fine-tuned checkpoints remain brittle under few-shot prompting; the current study shows example-bank utility and transfer failure modes, not a completed tenant-specific fine-tuning result. The stricter no-signature improvement is an aggregate signal with broad model-family uncertainty rather than a universal model-level gain.
 \item \textbf{Claim 6.} Automated LLM-judge review can serve as a generation gate with post-hoc human calibration while still exposing judge risk.\par
-\textit{Evidence.} The pipeline uses deterministic validation plus LLM-judge review as the generation gate. A post-hoc 80-row judge audit packet preserves 40 judge accepts, 40 judge rejects, both graphs, and all eight categories. The completed human audit reports 80.0\% agreement, Cohen's kappa 0.60, balanced accuracy 0.857, judge precision 1.00, judge specificity 1.00, judge recall 0.714, zero false accepts, and 16 false rejects. The analyzer requires complete labels for paper-facing calibration, and the tracked summary avoids committing raw value-bearing audit rows.\par
+\textit{Evidence.} The pipeline uses deterministic validation plus LLM-judge review as the generation gate. A post-hoc 80-row judge audit packet preserves 40 judge accepts, 40 judge rejects, both graphs, and all eight categories. The completed human audit reports 80.0\% agreement, Cohen's kappa 0.60, balanced accuracy 0.857, judge precision 1.00, judge specificity 1.00, judge recall 0.714, zero false accepts, and 16 false rejects. The analyzer requires complete labels for calibration, and the tracked summary avoids committing raw value-bearing audit rows.\par
 \textit{Key artifacts.} code: judge.py; code: calibration.py; code: judge\_audit\_packet.py; script: create judge annotation sheets; +3 more\par
 \textit{Status.} Supported by completed human audit summary.\par
 \textit{Risk.} The judge appears conservative on this sample; larger audits or different enterprise schemas may reveal false accepts.
