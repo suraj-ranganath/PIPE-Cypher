@@ -1,15 +1,15 @@
 \begin{table}[H]
 \centering
 \footnotesize
-\begin{tabular}{p{0.24\columnwidth}p{0.29\columnwidth}p{0.30\columnwidth}}
+\begin{tabular}{@{}p{0.37\columnwidth}p{0.56\columnwidth}@{}}
 \toprule
-Mechanism & Prior Text2Cypher use & PIPE-Cypher delta \\
+Prior mechanism & PIPE-Cypher delta \\
 \midrule
-Template/\allowbreak LLM synthesis & SyntheT2C and Auto-Cypher generate Question-Cypher pairs. & Outcome-aware reverse grounding binds slots through live Cypher before NL realization. \\
-Execution validation & Auto-Cypher and Mind the Query retain executable queries. & Execution is one gate in a ledger with direction, read-only, value, non-empty, and judge evidence. \\
-Schema/value checks & Mind the Query validates schema, runtime, and values. & Checks are packaged for private refresh with configurable value sampling and redacted exports. \\
-Logical review & Mind the Query uses human logical validation. & Human labels calibrate a local LLM judge; they are not a generation gate. \\
-Benchmark artifact & Public static datasets and tuning corpora. & Organization-run benchmark factory with manifests, refresh, and provenance audits. \\
+Template/LLM synthesis in SyntheT2C and Auto-Cypher & Outcome-aware reverse grounding binds slots through live Cypher before NL realization. \\
+Execution validation in Auto-Cypher and Mind the Query & Execution is one gate in a ledger with direction, read-only, value, non-empty, and judge evidence. \\
+Schema/value checks in Mind the Query & Checks are packaged for private refresh with configurable value sampling and redacted exports. \\
+Human logical review in Mind the Query & Human labels calibrate a local LLM judge; they are not a generation gate. \\
+Public static datasets and tuning corpora & Organization-run benchmark factory with manifests, refresh, and provenance audits. \\
 \bottomrule
 \end{tabular}
 \caption{Prior mechanism comparison. PIPE-Cypher combines outcome-aware grounding, deterministic Cypher checks, local judge calibration, privacy policy, refresh support, and audit logs so organizations can generate their own benchmarks rather than only consume static datasets.}
