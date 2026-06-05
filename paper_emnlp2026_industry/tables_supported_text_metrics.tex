@@ -1,20 +1,20 @@
-\begin{table*}[t]
+\begin{table}[H]
 \centering
-\footnotesize
-\begin{tabular}{p{0.16\textwidth}p{0.58\textwidth}p{0.18\textwidth}}
+\scriptsize
+\begin{tabular}{@{}p{0.25\columnwidth}p{0.67\columnwidth}@{}}
 \toprule
-Metric & PIPE-Cypher support & Primary citation \\
+Metric & Supported use and primary citation \\
 \midrule
-ROUGE-1/2/L & Reference overlap over serialized answer sets and query strings & \cite{lin-2004-rouge} \\
-BLEU & Sentence-level reference overlap with brevity penalty & \cite{papineni-etal-2002-bleu} \\
-METEOR & Exact-token METEOR-style precision/recall with fragmentation penalty & \cite{banerjee-lavie-2005-meteor} \\
-BERTScore & Optional contextual-embedding similarity when installed & \cite{zhang-etal-2020-bertscore} \\
-FrugalScore & Optional efficient learned NLG metric when installed & \cite{kamal-eddine-etal-2022-frugalscore} \\
-Cosine & Token-count vector cosine similarity & \cite{manning-etal-2008-ir} \\
-Jaro-Winkler & Character-level string similarity for near-match diagnostics & \cite{jaro1989record,winkler1990string} \\
-Exact match & Raw and normalized string exact match & \cite{rajpurkar-etal-2016-squad} \\
+ROUGE-1/2/L & Reference overlap over serialized answer sets and query strings~\cite{lin-2004-rouge} \\
+BLEU & Sentence-level reference overlap with brevity penalty~\cite{papineni-etal-2002-bleu} \\
+METEOR & Exact-token precision/recall with fragmentation penalty~\cite{banerjee-lavie-2005-meteor} \\
+BERTScore & Optional contextual-embedding similarity~\cite{zhang-etal-2020-bertscore} \\
+FrugalScore & Optional efficient learned NLG metric~\cite{kamal-eddine-etal-2022-frugalscore} \\
+Cosine & Token-count vector cosine similarity~\cite{manning-etal-2008-ir} \\
+Jaro-Winkler & Character-level near-match similarity~\cite{jaro1989record,winkler1990string} \\
+Exact match & Raw and normalized string exact match~\cite{rajpurkar-etal-2016-squad} \\
 \bottomrule
 \end{tabular}
 \caption{Supplementary reference-based text metrics supported by the PIPE-Cypher evaluator. These metrics are useful for debugging answer rendering, paraphrase sensitivity, and near-match behavior, but they do not replace execution accuracy or answer-set F1 for Text2Cypher correctness. BERTScore and FrugalScore are optional integrations because they require additional metric/model packages.}
 \label{tab:supported_text_metrics}
-\end{table*}
+\end{table}

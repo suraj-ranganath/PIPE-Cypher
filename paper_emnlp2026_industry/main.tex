@@ -119,10 +119,11 @@ PIPE-Cypher is designed for private benchmark generation under local-model deplo
 
 \clearpage
 \appendix
+\raggedbottom
 
-\section{Governed Generation Evidence}
+\section{Appendix Roadmap and Artifact Summary}
 
-The appendix is organized as a claim-evidence trace. Each table or figure appears next to the paragraph that interprets it so the reader does not need to reconstruct the argument from a block of floats. The first claim is reliability: once reverse grounding and deterministic Cypher governance are in place, PIPE-Cypher fills every planned graph/category cell at target scale.
+The appendix is organized as a claim-evidence trace. Each table or figure appears next to the paragraph that interprets it so the reader does not need to reconstruct the argument from a block of floats. The opening tables summarize the paper-facing run setup and exported artifact before the appendix turns to reliability, onboarding, downstream transfer, diversity, governance, prompt contracts, and representative examples.
 
 \subsection{Benchmark Artifact Summary}
 
@@ -131,6 +132,12 @@ Tables~\ref{tab:experiment_plan}, \ref{tab:benchmark_export}, and \ref{tab:full_
 \input{tables_experiments}
 \input{tables_benchmark_export}
 \input{tables_full_artifact_distribution}
+
+\FloatBarrier
+
+\section{Governed Generation Evidence}
+
+The first empirical claim is reliability: once reverse grounding and deterministic Cypher governance are in place, PIPE-Cypher fills every planned graph/category cell at target scale.
 
 \subsection{Target-100 Stress Baseline}
 
@@ -253,20 +260,15 @@ Table~\ref{tab:fewshot_leakage_controls} is placed with the transfer result beca
 
 \FloatBarrier
 
-\subsection{Downstream Failure Modes and Supplementary Metrics}
+\subsection{Downstream Failure Modes}
 
 The failure taxonomy is included next to the transfer results because it explains why the benchmark is useful operationally. Incorrect rows are not all the same: some outputs fail to parse, some mention invalid schema, some fail at execution time, and many execute but answer the wrong question. That separation is what lets a benchmark owner decide whether to improve schema retrieval, prompt constraints, value grounding, or tenant-specific adaptation.
 
 \input{tables_downstream_error_taxonomy}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=\columnwidth]{figures/downstream_error_taxonomy.pdf}
-\caption{Downstream Text2Cypher failure taxonomy for the local Qwen3.5-9B baseline on the full test split. Exact matches are excluded so the chart exposes whether misses come from invalid Cypher, failed execution, or semantically wrong executable queries.}
-\label{fig:downstream_error_taxonomy}
-\end{figure}
+\subsection{Supplementary Text Metrics}
 
-Table~\ref{tab:supported_text_metrics} is evaluator infrastructure rather than a headline result. It documents reference-based text metrics that are useful when debugging answer rendering or near-match behavior. The paper's correctness claims remain grounded in execution accuracy and answer-set F1.
+Table~\ref{tab:supported_text_metrics} lists optional text-overlap metrics for debugging answer rendering and near-match behavior. These are not correctness metrics; the paper's claims use execution accuracy and answer-set F1.
 
 \input{tables_supported_text_metrics}
 

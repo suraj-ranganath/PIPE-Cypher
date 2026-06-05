@@ -858,8 +858,6 @@ def render_effort_automation_table() -> str:
 
 
 _MAIN_BODY_TABLE_LABELS = {
-    "tab:benchmark_export",
-    "tab:full_artifact_distribution",
     "tab:downstream_evaluation",
 }
 
