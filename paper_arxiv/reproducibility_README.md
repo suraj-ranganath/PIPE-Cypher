@@ -1,6 +1,6 @@
-# PIPE-Cypher Reproducibility Bundle
+# PIPE-Cypher Reproducibility Notes
 
-This anonymous bundle contains the code and paper artifacts needed to inspect
+This bundle contains the code and paper artifacts needed to inspect
 PIPE-Cypher without private machine paths or remote-host operations notes.
 
 Contents:
@@ -13,8 +13,7 @@ Contents:
 - `configs/`: public-proxy graph and enterprise-template configuration files.
 - `tests/`: deterministic unit tests for validators, privacy, diversity,
   reporting, and package checks.
-- `paper_emnlp2026_industry/`: ACL-style source, figures, tables, and PDF
-  build outputs.
+- `paper_arxiv/`: arXiv source, figures, tables, and PDF build outputs.
 - `knowledge_base/`: sanitized citation, literature, deployment, and
   review-response notes.
 
