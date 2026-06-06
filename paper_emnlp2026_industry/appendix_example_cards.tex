@@ -1,5 +1,5 @@
 \section{Representative Accepted Examples}
-The examples below are selected in stable identifier order from the tracked full-export snapshot, one per graph/category cell when available. They show the natural-language question, accepted Cypher, structural tags, gate status, and a bounded execution-result sample.
+The examples below are selected in stable identifier order from tracked evidence snapshots, one per graph/category cell when available. They show the NL question, accepted Cypher, structural tags, gate status, and a bounded execution-result sample. ICIJ examples are redacted before rendering, preserving query structure while removing value-bearing strings.
 \begin{enumerate}
 \item \textbf{FinBench / Boolean Existence / easy.}
 \textit{Question:} Does account '187743809466009406' have any outgoing transfer?
@@ -121,6 +121,128 @@ LIMIT 300
 \textit{Relationships:} OWN\_ACCOUNT.\par
 \textit{Gates:} RO/Syn/Schema/Exec/Judge.\par
 \textit{Result sample:} \{AccountId: 4732438783436260772, AccountType: internet account, IsBlocked: False\}; observed rows: 1
+\item \textbf{ICIJ Offshore Leaks / Boolean Existence / medium.}
+\textit{Question:} Does offshore entity 'ENTITY\_VALUE\_1' have a registered address?
+\begin{quote}\scriptsize\ttfamily\raggedright\sloppy
+MATCH (e:Entity \{name:\\
+'ENTITY\_VALUE\_1'\})\\
+OPTIONAL MATCH (e)\\
+-[:registered\_address]-\textgreater{} (addr:Address)\\
+RETURN DISTINCT COUNT(addr) \textgreater{} 0 AS\\
+HasRegisteredAddress
+\end{quote}
+\textit{Structure:} single\_hop, aggregation, optional.\par
+\textit{Relationships:} registered\_address.\par
+\textit{Gates:} RO/Syn/Schema/Exec/Judge.\par
+\textit{Result sample:} \{HasRegisteredAddress: True\}; observed rows: 1
+\item \textbf{ICIJ Offshore Leaks / Complex Aggregation / easy.}
+\textit{Question:} How many distinct officers are connected to entities in jurisdiction 'JURISDICTION\_VALUE\_1'?
+\begin{quote}\scriptsize\ttfamily\raggedright\sloppy
+MATCH (o:Officer) -[:officer\_of]-\textgreater{}\\
+(e:Entity \{jurisdiction:\\
+'JURISDICTION\_VALUE\_1'\})\\
+RETURN DISTINCT COUNT(DISTINCT o) AS\\
+OfficerCount
+\end{quote}
+\textit{Structure:} single\_hop, aggregation.\par
+\textit{Relationships:} officer\_of.\par
+\textit{Gates:} RO/Syn/Schema/Exec/Judge.\par
+\textit{Result sample:} \{OfficerCount: 2\}; observed rows: 1
+\item \textbf{ICIJ Offshore Leaks / Complex Retrieval / easy.}
+\textit{Question:} Which officers share a registered address with offshore entity 'ENTITY\_VALUE\_1'?
+\begin{quote}\scriptsize\ttfamily\raggedright\sloppy
+MATCH (e:Entity \{name:\\
+'ENTITY\_VALUE\_1'\})\\
+-[:registered\_address]-\textgreater{} (addr:Address)\\
+\textless{}-[:registered\_address]- (o:Officer)\\
+RETURN DISTINCT o.node\_id AS OfficerId,\\
+o.name AS OfficerName, addr.address AS\\
+RegisteredAddress\\
+LIMIT 300
+\end{quote}
+\textit{Structure:} join\_heavy, bounded\_result.\par
+\textit{Relationships:} registered\_address.\par
+\textit{Gates:} RO/Syn/Schema/Exec/Judge.\par
+\textit{Result sample:} \{OfficerId: OFFICER\_ID\_1, OfficerName: OFFICER\_NAME\_1, RegisteredAddress: ADDRESS\_1\}; observed rows: 8
+\item \textbf{ICIJ Offshore Leaks / Negation Difference / easy.}
+\textit{Question:} Which offshore entities in jurisdiction 'JURISDICTION\_VALUE\_1' do not have a registered address?
+\begin{quote}\scriptsize\ttfamily\raggedright\sloppy
+MATCH (e:Entity \{jurisdiction:\\
+'JURISDICTION\_VALUE\_1'\})\\
+WHERE NOT (e) -[:registered\_address]-\textgreater{}\\
+(:Address)\\
+RETURN DISTINCT e.node\_id AS EntityId,\\
+e.name AS EntityName, e.jurisdiction AS\\
+Jurisdiction\\
+LIMIT 300
+\end{quote}
+\textit{Structure:} single\_hop, negation, bounded\_result.\par
+\textit{Relationships:} registered\_address.\par
+\textit{Gates:} RO/Syn/Schema/Exec/Judge.\par
+\textit{Result sample:} \{EntityId: ENTITY\_ID\_1, EntityName: ENTITY\_NAME\_1, Jurisdiction: JURISDICTION\_1\}; observed rows: 2
+\item \textbf{ICIJ Offshore Leaks / Path Temporal / medium.}
+\textit{Question:} Which officers share offshore entities with officer 'OFFICER\_VALUE\_1', and when did each connection start?
+\begin{quote}\scriptsize\ttfamily\raggedright\sloppy
+MATCH\\
+(src:Officer)-[srcRel:officer\_of]-\textgreater{}\\
+(entity:Entity) \textless{}-[dstRel:officer\_of]-\\
+(dst:Officer)\\
+WHERE trim(src.name) = 'OFFICER\_VALUE\_1'\\
+AND dst \textless{}\textgreater{} src\\
+RETURN DISTINCT dst.node\_id AS\\
+OfficerId, dst.name AS OfficerName,\\
+entity.name AS SharedEntityName,\\
+dstRel.start\_date AS ConnectionStartDate\\
+LIMIT 300
+\end{quote}
+\textit{Structure:} join\_heavy, negation, bounded\_result.\par
+\textit{Relationships:} officer\_of.\par
+\textit{Gates:} RO/Syn/Schema/Exec/Judge.\par
+\textit{Result sample:} \{ConnectionStartDate: DATE\_1, OfficerId: OFFICER\_ID\_1, OfficerName: OFFICER\_NAME\_1\}; observed rows: 15
+\item \textbf{ICIJ Offshore Leaks / Ranking Topk / medium.}
+\textit{Question:} Which jurisdictions have the most offshore entities?
+\begin{quote}\scriptsize\ttfamily\raggedright\sloppy
+MATCH (e:Entity)\\
+WHERE e.jurisdiction IS NOT NULL\\
+WITH e.jurisdiction AS jurisdiction,\\
+COUNT(DISTINCT e) AS entityCount\\
+RETURN DISTINCT jurisdiction,\\
+entityCount\\
+ORDER BY entityCount DESC\\
+LIMIT 10
+\end{quote}
+\textit{Structure:} node\_scan, aggregation, order\_rank, negation, bounded\_result.\par
+\textit{Relationships:} none.\par
+\textit{Gates:} RO/Syn/Schema/Exec/Judge.\par
+\textit{Result sample:} \{entityCount: 209634, jurisdiction: JURISDICTION\_1\}; observed rows: 10
+\item \textbf{ICIJ Offshore Leaks / Simple Aggregation / easy.}
+\textit{Question:} How many offshore entities are connected to officer 'OFFICER\_VALUE\_1'?
+\begin{quote}\scriptsize\ttfamily\raggedright\sloppy
+MATCH (o:Officer) -[:officer\_of]-\textgreater{}\\
+(e:Entity)\\
+WHERE trim(o.name) = 'OFFICER\_VALUE\_1'\\
+RETURN DISTINCT COUNT(DISTINCT e) AS\\
+OffshoreEntityCount
+\end{quote}
+\textit{Structure:} single\_hop, aggregation.\par
+\textit{Relationships:} officer\_of.\par
+\textit{Gates:} RO/Syn/Schema/Exec/Judge.\par
+\textit{Result sample:} \{OffshoreEntityCount: 1\}; observed rows: 1
+\item \textbf{ICIJ Offshore Leaks / Simple Retrieval / easy.}
+\textit{Question:} Which offshore entities is officer 'OFFICER\_VALUE\_1' connected to?
+\begin{quote}\scriptsize\ttfamily\raggedright\sloppy
+MATCH (o:Officer)-[r:officer\_of]-\textgreater{}\\
+(e:Entity)\\
+WHERE trim(o.name) = 'OFFICER\_VALUE\_1'\\
+RETURN DISTINCT e.node\_id AS EntityId,\\
+e.name AS EntityName, e.jurisdiction AS\\
+Jurisdiction, r.link AS Link\\
+LIMIT 300
+\end{quote}
+\textit{Structure:} single\_hop, bounded\_result.\par
+\textit{Relationships:} officer\_of.\par
+\textit{Gates:} RO/Syn/Schema/Exec/Judge.\par
+\textit{Result sample:} \{EntityId: ENTITY\_ID\_1, EntityName: ENTITY\_NAME\_1, Jurisdiction: JURISDICTION\_1\}; observed rows: 1
 \item \textbf{SNB / Boolean Existence / medium.}
 \textit{Question:} Does person with id 6597069766828 like any post?
 \begin{quote}\scriptsize\ttfamily\raggedright\sloppy

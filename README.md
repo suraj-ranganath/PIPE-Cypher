@@ -134,10 +134,10 @@ Render appendix prompt contracts and representative accepted examples:
 python scripts/render_appendix_material.py \
   --claim-map knowledge_base/claim_evidence_map.yaml \
   --output-claims paper_emnlp2026_industry/appendix_claim_evidence.tex \
-  --examples experiments/snapshots/20260601_live_full_qwen9b/sample_examples.json \
+  --examples experiments/snapshots/20260604_review_remediation/sample_examples.json \
   --output-prompts paper_emnlp2026_industry/appendix_prompt_contracts.tex \
   --output-examples paper_emnlp2026_industry/appendix_example_cards.tex \
-  --max-examples 16
+  --max-examples 24
 ```
 
 Check the GPU host:

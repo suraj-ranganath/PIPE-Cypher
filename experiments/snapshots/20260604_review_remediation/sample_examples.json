@@ -625,6 +625,817 @@
   },
   {
     "category": "boolean_existence",
+    "cypher": "MATCH (e:Entity {name: 'ENTITY_VALUE_1'}) OPTIONAL MATCH (e)-[:registered_address]->(addr:Address) RETURN DISTINCT COUNT(addr) > 0 AS HasRegisteredAddress",
+    "difficulty": "medium",
+    "entity_values": [
+      "ENTITY_VALUE_1"
+    ],
+    "gates": {
+      "accepted": true,
+      "execution_success": true,
+      "judge_pass": true,
+      "read_only": true,
+      "schema_valid": true,
+      "syntax_valid": true
+    },
+    "graph_profile": "icij_offshoreleaks",
+    "id": "icij_00_boolean_existence",
+    "judge_scores": {
+      "ambiguity": 0.2,
+      "difficulty": "medium",
+      "schema_use": 1.0,
+      "semantic_alignment": 0.85
+    },
+    "normalized_cypher": "MATCH (e:Entity {name: 'ENTITY_VALUE_1'}) OPTIONAL MATCH (e)-[:registered_address]->(addr:Address) RETURN DISTINCT COUNT(addr) > 0 AS HasRegisteredAddress",
+    "question": "Does offshore entity 'ENTITY_VALUE_1' have a registered address?",
+    "result_row_count_observed": 1,
+    "result_rows_sample": [
+      {
+        "HasRegisteredAddress": true
+      }
+    ],
+    "reverse_cypher": "MATCH (e:Entity)-[:registered_address]->(:Address) RETURN DISTINCT e.name AS entityName LIMIT 300",
+    "source": {
+      "created_at": "2026-06-02T19:32:38.690636+00:00",
+      "model": "Qwen/Qwen3.5-9B",
+      "records_path": "artifacts/runs/20260602_192926_20260602_icij_target100_schema_templates_v3/records.jsonl",
+      "redaction": "paper-facing placeholders for ICIJ value-bearing strings",
+      "run": "20260602_192926_20260602_icij_target100_schema_templates_v3"
+    },
+    "structural_features": {
+      "aggregation": true,
+      "difficulty": "medium",
+      "has_return_distinct": true,
+      "label_counts": {
+        "Address": 1,
+        "Entity": 1
+      },
+      "labels": [
+        "Address",
+        "Entity"
+      ],
+      "limit": false,
+      "limit_value": null,
+      "negation": false,
+      "node_pattern_count": 4,
+      "optional_match": true,
+      "order_by_items": [],
+      "ordering": false,
+      "path_pattern": false,
+      "primary_strategy": "aggregation",
+      "relationship_counts": {
+        "registered_address": 1
+      },
+      "relationship_observations": [
+        {
+          "direction": "outgoing",
+          "end_label": "Address",
+          "relationship_type": "registered_address",
+          "start_label": null
+        }
+      ],
+      "relationship_pattern_count": 1,
+      "relationship_types": [
+        "registered_address"
+      ],
+      "return_aliases": [
+        "HasRegisteredAddress"
+      ],
+      "return_arity": 1,
+      "return_items": [
+        "COUNT(addr) > 0"
+      ],
+      "rewrite_safe": true,
+      "rewrite_skip_reasons": [],
+      "risky_features": [],
+      "skip": false,
+      "skip_value": null,
+      "strategy_tags": [
+        "single_hop",
+        "aggregation",
+        "optional"
+      ],
+      "variable_labels": {
+        "addr": "Address",
+        "e": "Entity"
+      },
+      "where_clause_count": 0
+    }
+  },
+  {
+    "category": "complex_aggregation",
+    "cypher": "MATCH (o:Officer)-[:officer_of]->(e:Entity {jurisdiction: 'JURISDICTION_VALUE_1'}) RETURN DISTINCT COUNT(DISTINCT o) AS OfficerCount",
+    "difficulty": "easy",
+    "entity_values": [
+      "JURISDICTION_VALUE_1"
+    ],
+    "gates": {
+      "accepted": true,
+      "execution_success": true,
+      "judge_pass": true,
+      "read_only": true,
+      "schema_valid": true,
+      "syntax_valid": true
+    },
+    "graph_profile": "icij_offshoreleaks",
+    "id": "icij_01_complex_aggregation",
+    "judge_scores": {
+      "ambiguity": 0.2,
+      "difficulty": "easy",
+      "schema_use": 1.0,
+      "semantic_alignment": 0.85
+    },
+    "normalized_cypher": "MATCH (o:Officer)-[:officer_of]->(e:Entity {jurisdiction: 'JURISDICTION_VALUE_1'}) RETURN DISTINCT COUNT(DISTINCT o) AS OfficerCount",
+    "question": "How many distinct officers are connected to entities in jurisdiction 'JURISDICTION_VALUE_1'?",
+    "result_row_count_observed": 1,
+    "result_rows_sample": [
+      {
+        "OfficerCount": 2
+      }
+    ],
+    "reverse_cypher": "MATCH (:Officer)-[:officer_of]->(e:Entity) WHERE e.jurisdiction IS NOT NULL RETURN DISTINCT e.jurisdiction AS jurisdiction LIMIT 300",
+    "source": {
+      "created_at": "2026-06-02T19:31:34.296983+00:00",
+      "model": "Qwen/Qwen3.5-9B",
+      "records_path": "artifacts/runs/20260602_192926_20260602_icij_target100_schema_templates_v3/records.jsonl",
+      "redaction": "paper-facing placeholders for ICIJ value-bearing strings",
+      "run": "20260602_192926_20260602_icij_target100_schema_templates_v3"
+    },
+    "structural_features": {
+      "aggregation": true,
+      "difficulty": "easy",
+      "has_return_distinct": true,
+      "label_counts": {
+        "Entity": 1,
+        "Officer": 1
+      },
+      "labels": [
+        "Entity",
+        "Officer"
+      ],
+      "limit": false,
+      "limit_value": null,
+      "negation": false,
+      "node_pattern_count": 2,
+      "optional_match": false,
+      "order_by_items": [],
+      "ordering": false,
+      "path_pattern": false,
+      "primary_strategy": "aggregation",
+      "relationship_counts": {
+        "officer_of": 1
+      },
+      "relationship_observations": [
+        {
+          "direction": "outgoing",
+          "end_label": "Entity",
+          "relationship_type": "officer_of",
+          "start_label": "Officer"
+        }
+      ],
+      "relationship_pattern_count": 1,
+      "relationship_types": [
+        "officer_of"
+      ],
+      "return_aliases": [
+        "OfficerCount"
+      ],
+      "return_arity": 1,
+      "return_items": [
+        "COUNT(DISTINCT o)"
+      ],
+      "rewrite_safe": true,
+      "rewrite_skip_reasons": [],
+      "risky_features": [],
+      "skip": false,
+      "skip_value": null,
+      "strategy_tags": [
+        "single_hop",
+        "aggregation"
+      ],
+      "variable_labels": {
+        "e": "Entity",
+        "o": "Officer"
+      },
+      "where_clause_count": 0
+    }
+  },
+  {
+    "category": "complex_retrieval",
+    "cypher": "MATCH (e:Entity {name: 'ENTITY_VALUE_1'})-[:registered_address]->(addr:Address)<-[:registered_address]-(o:Officer) RETURN DISTINCT o.node_id AS OfficerId, o.name AS OfficerName, addr.address AS RegisteredAddress LIMIT 300",
+    "difficulty": "easy",
+    "entity_values": [
+      "ENTITY_VALUE_1"
+    ],
+    "gates": {
+      "accepted": true,
+      "execution_success": true,
+      "judge_pass": true,
+      "read_only": true,
+      "schema_valid": true,
+      "syntax_valid": true
+    },
+    "graph_profile": "icij_offshoreleaks",
+    "id": "icij_02_complex_retrieval",
+    "judge_scores": {
+      "ambiguity": 0.2,
+      "difficulty": "easy",
+      "schema_use": 1.0,
+      "semantic_alignment": 0.85
+    },
+    "normalized_cypher": "MATCH (e:Entity {name: 'ENTITY_VALUE_1'})-[:registered_address]->(addr:Address)<-[:registered_address]-(o:Officer) RETURN DISTINCT o.node_id AS OfficerId, o.name AS OfficerName, addr.address AS RegisteredAddress LIMIT 300",
+    "question": "Which officers share a registered address with offshore entity 'ENTITY_VALUE_1'?",
+    "result_row_count_observed": 8,
+    "result_rows_sample": [
+      {
+        "OfficerId": "OFFICER_ID_1",
+        "OfficerName": "OFFICER_NAME_1",
+        "RegisteredAddress": "ADDRESS_1"
+      }
+    ],
+    "reverse_cypher": "MATCH (:Officer)-[:registered_address]->(addr:Address)<-[:registered_address]-(e:Entity) RETURN DISTINCT e.name AS entityName LIMIT 300",
+    "source": {
+      "created_at": "2026-06-02T19:30:07.238919+00:00",
+      "model": "Qwen/Qwen3.5-9B",
+      "records_path": "artifacts/runs/20260602_192926_20260602_icij_target100_schema_templates_v3/records.jsonl",
+      "redaction": "paper-facing placeholders for ICIJ value-bearing strings",
+      "run": "20260602_192926_20260602_icij_target100_schema_templates_v3"
+    },
+    "structural_features": {
+      "aggregation": false,
+      "difficulty": "easy",
+      "has_return_distinct": true,
+      "label_counts": {
+        "Address": 1,
+        "Entity": 1,
+        "Officer": 1
+      },
+      "labels": [
+        "Address",
+        "Entity",
+        "Officer"
+      ],
+      "limit": true,
+      "limit_value": "300",
+      "negation": false,
+      "node_pattern_count": 3,
+      "optional_match": false,
+      "order_by_items": [],
+      "ordering": false,
+      "path_pattern": false,
+      "primary_strategy": "join_heavy",
+      "relationship_counts": {
+        "registered_address": 2
+      },
+      "relationship_observations": [
+        {
+          "direction": "outgoing",
+          "end_label": "Address",
+          "relationship_type": "registered_address",
+          "start_label": "Entity"
+        }
+      ],
+      "relationship_pattern_count": 2,
+      "relationship_types": [
+        "registered_address"
+      ],
+      "return_aliases": [
+        "OfficerId",
+        "OfficerName",
+        "RegisteredAddress"
+      ],
+      "return_arity": 3,
+      "return_items": [
+        "o.node_id",
+        "o.name",
+        "addr.address"
+      ],
+      "rewrite_safe": true,
+      "rewrite_skip_reasons": [],
+      "risky_features": [],
+      "skip": false,
+      "skip_value": null,
+      "strategy_tags": [
+        "join_heavy",
+        "bounded_result"
+      ],
+      "variable_labels": {
+        "addr": "Address",
+        "e": "Entity",
+        "o": "Officer"
+      },
+      "where_clause_count": 0
+    }
+  },
+  {
+    "category": "negation_difference",
+    "cypher": "MATCH (e:Entity {jurisdiction: 'JURISDICTION_VALUE_1'}) WHERE NOT (e)-[:registered_address]->(:Address) RETURN DISTINCT e.node_id AS EntityId, e.name AS EntityName, e.jurisdiction AS Jurisdiction LIMIT 300",
+    "difficulty": "easy",
+    "entity_values": [
+      "JURISDICTION_VALUE_1"
+    ],
+    "gates": {
+      "accepted": true,
+      "execution_success": true,
+      "judge_pass": true,
+      "read_only": true,
+      "schema_valid": true,
+      "syntax_valid": true
+    },
+    "graph_profile": "icij_offshoreleaks",
+    "id": "icij_03_negation_difference",
+    "judge_scores": {
+      "ambiguity": 0.2,
+      "difficulty": "easy",
+      "schema_use": 1.0,
+      "semantic_alignment": 0.85
+    },
+    "normalized_cypher": "MATCH (e:Entity {jurisdiction: 'JURISDICTION_VALUE_1'}) WHERE NOT (e)-[:registered_address]->(:Address) RETURN DISTINCT e.node_id AS EntityId, e.name AS EntityName, e.jurisdiction AS Jurisdiction LIMIT 300",
+    "question": "Which offshore entities in jurisdiction 'JURISDICTION_VALUE_1' do not have a registered address?",
+    "result_row_count_observed": 2,
+    "result_rows_sample": [
+      {
+        "EntityId": "ENTITY_ID_1",
+        "EntityName": "ENTITY_NAME_1",
+        "Jurisdiction": "JURISDICTION_1"
+      }
+    ],
+    "reverse_cypher": "MATCH (e:Entity) WHERE e.jurisdiction IS NOT NULL AND NOT (e)-[:registered_address]->(:Address) RETURN DISTINCT e.jurisdiction AS jurisdiction LIMIT 300",
+    "source": {
+      "created_at": "2026-06-02T19:32:55.022983+00:00",
+      "model": "Qwen/Qwen3.5-9B",
+      "records_path": "artifacts/runs/20260602_192926_20260602_icij_target100_schema_templates_v3/records.jsonl",
+      "redaction": "paper-facing placeholders for ICIJ value-bearing strings",
+      "run": "20260602_192926_20260602_icij_target100_schema_templates_v3"
+    },
+    "structural_features": {
+      "aggregation": false,
+      "difficulty": "easy",
+      "has_return_distinct": true,
+      "label_counts": {
+        "Address": 1,
+        "Entity": 1
+      },
+      "labels": [
+        "Address",
+        "Entity"
+      ],
+      "limit": true,
+      "limit_value": "300",
+      "negation": true,
+      "node_pattern_count": 3,
+      "optional_match": false,
+      "order_by_items": [],
+      "ordering": false,
+      "path_pattern": false,
+      "primary_strategy": "negation",
+      "relationship_counts": {
+        "registered_address": 1
+      },
+      "relationship_observations": [
+        {
+          "direction": "outgoing",
+          "end_label": "Address",
+          "relationship_type": "registered_address",
+          "start_label": null
+        }
+      ],
+      "relationship_pattern_count": 1,
+      "relationship_types": [
+        "registered_address"
+      ],
+      "return_aliases": [
+        "EntityId",
+        "EntityName",
+        "Jurisdiction"
+      ],
+      "return_arity": 3,
+      "return_items": [
+        "e.node_id",
+        "e.name",
+        "e.jurisdiction"
+      ],
+      "rewrite_safe": true,
+      "rewrite_skip_reasons": [],
+      "risky_features": [],
+      "skip": false,
+      "skip_value": null,
+      "strategy_tags": [
+        "single_hop",
+        "negation",
+        "bounded_result"
+      ],
+      "variable_labels": {
+        "e": "Entity"
+      },
+      "where_clause_count": 1
+    }
+  },
+  {
+    "category": "path_temporal",
+    "cypher": "MATCH (src:Officer)-[srcRel:officer_of]->(entity:Entity)<-[dstRel:officer_of]-(dst:Officer) WHERE trim(src.name) = 'OFFICER_VALUE_1' AND dst <> src RETURN DISTINCT dst.node_id AS OfficerId, dst.name AS OfficerName, entity.name AS SharedEntityName, dstRel.start_date AS ConnectionStartDate LIMIT 300",
+    "difficulty": "medium",
+    "entity_values": [
+      "OFFICER_VALUE_1"
+    ],
+    "gates": {
+      "accepted": true,
+      "execution_success": true,
+      "judge_pass": true,
+      "read_only": true,
+      "schema_valid": true,
+      "syntax_valid": true
+    },
+    "graph_profile": "icij_offshoreleaks",
+    "id": "icij_04_path_temporal",
+    "judge_scores": {
+      "ambiguity": 0.2,
+      "difficulty": "medium",
+      "schema_use": 1.0,
+      "semantic_alignment": 0.85
+    },
+    "normalized_cypher": "MATCH (src:Officer)-[srcRel:officer_of]->(entity:Entity)<-[dstRel:officer_of]-(dst:Officer) WHERE trim(src.name) = 'OFFICER_VALUE_1' AND dst <> src RETURN DISTINCT dst.node_id AS OfficerId, dst.name AS OfficerName, entity.name AS SharedEntityName, dstRel.start_date AS ConnectionStartDate LIMIT 300",
+    "question": "Which officers share offshore entities with officer 'OFFICER_VALUE_1', and when did each connection start?",
+    "result_row_count_observed": 15,
+    "result_rows_sample": [
+      {
+        "ConnectionStartDate": "DATE_1",
+        "OfficerId": "OFFICER_ID_1",
+        "OfficerName": "OFFICER_NAME_1",
+        "SharedEntityName": "ENTITY_NAME_1"
+      }
+    ],
+    "reverse_cypher": "MATCH (src:Officer)-[:officer_of]->(:Entity)<-[:officer_of]-(dst:Officer) WHERE src.name IS NOT NULL AND dst <> src WITH trim(src.name) AS officerName WHERE officerName <> '' RETURN DISTINCT officerName LIMIT 300",
+    "source": {
+      "created_at": "2026-06-02T19:34:25.780708+00:00",
+      "model": "Qwen/Qwen3.5-9B",
+      "records_path": "artifacts/runs/20260602_192926_20260602_icij_target100_schema_templates_v3/records.jsonl",
+      "redaction": "paper-facing placeholders for ICIJ value-bearing strings",
+      "run": "20260602_192926_20260602_icij_target100_schema_templates_v3"
+    },
+    "structural_features": {
+      "aggregation": false,
+      "difficulty": "medium",
+      "has_return_distinct": true,
+      "label_counts": {
+        "Entity": 1,
+        "Officer": 2
+      },
+      "labels": [
+        "Entity",
+        "Officer"
+      ],
+      "limit": true,
+      "limit_value": "300",
+      "negation": true,
+      "node_pattern_count": 3,
+      "optional_match": false,
+      "order_by_items": [],
+      "ordering": false,
+      "path_pattern": false,
+      "primary_strategy": "negation",
+      "relationship_counts": {
+        "officer_of": 2
+      },
+      "relationship_observations": [
+        {
+          "direction": "outgoing",
+          "end_label": "Entity",
+          "relationship_type": "officer_of",
+          "start_label": "Officer"
+        }
+      ],
+      "relationship_pattern_count": 2,
+      "relationship_types": [
+        "officer_of"
+      ],
+      "return_aliases": [
+        "OfficerId",
+        "OfficerName",
+        "SharedEntityName",
+        "ConnectionStartDate"
+      ],
+      "return_arity": 4,
+      "return_items": [
+        "dst.node_id",
+        "dst.name",
+        "entity.name",
+        "dstRel.start_date"
+      ],
+      "rewrite_safe": true,
+      "rewrite_skip_reasons": [],
+      "risky_features": [],
+      "skip": false,
+      "skip_value": null,
+      "strategy_tags": [
+        "join_heavy",
+        "negation",
+        "bounded_result"
+      ],
+      "variable_labels": {
+        "dst": "Officer",
+        "entity": "Entity",
+        "src": "Officer"
+      },
+      "where_clause_count": 1
+    }
+  },
+  {
+    "category": "ranking_topk",
+    "cypher": "MATCH (e:Entity) WHERE e.jurisdiction IS NOT NULL WITH e.jurisdiction AS jurisdiction, COUNT(DISTINCT e) AS entityCount RETURN DISTINCT jurisdiction, entityCount ORDER BY entityCount DESC LIMIT 10",
+    "difficulty": "medium",
+    "entity_values": [
+      "JURISDICTION_VALUE_1"
+    ],
+    "gates": {
+      "accepted": true,
+      "execution_success": true,
+      "judge_pass": true,
+      "read_only": true,
+      "schema_valid": true,
+      "syntax_valid": true
+    },
+    "graph_profile": "icij_offshoreleaks",
+    "id": "icij_05_ranking_topk",
+    "judge_scores": {
+      "ambiguity": 0.2,
+      "difficulty": "medium",
+      "schema_use": 1.0,
+      "semantic_alignment": 0.85
+    },
+    "normalized_cypher": "MATCH (e:Entity) WHERE e.jurisdiction IS NOT NULL WITH e.jurisdiction AS jurisdiction, COUNT(DISTINCT e) AS entityCount RETURN DISTINCT jurisdiction, entityCount ORDER BY entityCount DESC LIMIT 10",
+    "question": "Which jurisdictions have the most offshore entities?",
+    "result_row_count_observed": 10,
+    "result_rows_sample": [
+      {
+        "entityCount": 209634,
+        "jurisdiction": "JURISDICTION_1"
+      }
+    ],
+    "reverse_cypher": null,
+    "source": {
+      "created_at": "2026-06-02T19:35:08.209925+00:00",
+      "model": "Qwen/Qwen3.5-9B",
+      "records_path": "artifacts/runs/20260602_192926_20260602_icij_target100_schema_templates_v3/records.jsonl",
+      "redaction": "paper-facing placeholders for ICIJ value-bearing strings",
+      "run": "20260602_192926_20260602_icij_target100_schema_templates_v3"
+    },
+    "structural_features": {
+      "aggregation": true,
+      "difficulty": "medium",
+      "has_return_distinct": true,
+      "label_counts": {
+        "Entity": 1
+      },
+      "labels": [
+        "Entity"
+      ],
+      "limit": true,
+      "limit_value": "10",
+      "negation": true,
+      "node_pattern_count": 1,
+      "optional_match": false,
+      "order_by_items": [
+        "entityCount DESC"
+      ],
+      "ordering": true,
+      "path_pattern": false,
+      "primary_strategy": "negation",
+      "relationship_counts": {},
+      "relationship_observations": [],
+      "relationship_pattern_count": 0,
+      "relationship_types": [],
+      "return_aliases": [],
+      "return_arity": 2,
+      "return_items": [
+        "jurisdiction",
+        "entityCount"
+      ],
+      "rewrite_safe": true,
+      "rewrite_skip_reasons": [],
+      "risky_features": [],
+      "skip": false,
+      "skip_value": null,
+      "strategy_tags": [
+        "node_scan",
+        "aggregation",
+        "order_rank",
+        "negation",
+        "bounded_result"
+      ],
+      "variable_labels": {
+        "e": "Entity"
+      },
+      "where_clause_count": 1
+    }
+  },
+  {
+    "category": "simple_aggregation",
+    "cypher": "MATCH (o:Officer)-[:officer_of]->(e:Entity) WHERE trim(o.name) = 'OFFICER_VALUE_1' RETURN DISTINCT COUNT(DISTINCT e) AS OffshoreEntityCount",
+    "difficulty": "easy",
+    "entity_values": [
+      "OFFICER_VALUE_1"
+    ],
+    "gates": {
+      "accepted": true,
+      "execution_success": true,
+      "judge_pass": true,
+      "read_only": true,
+      "schema_valid": true,
+      "syntax_valid": true
+    },
+    "graph_profile": "icij_offshoreleaks",
+    "id": "icij_06_simple_aggregation",
+    "judge_scores": {
+      "ambiguity": 0.2,
+      "difficulty": "easy",
+      "schema_use": 1.0,
+      "semantic_alignment": 0.85
+    },
+    "normalized_cypher": "MATCH (o:Officer)-[:officer_of]->(e:Entity) WHERE trim(o.name) = 'OFFICER_VALUE_1' RETURN DISTINCT COUNT(DISTINCT e) AS OffshoreEntityCount",
+    "question": "How many offshore entities are connected to officer 'OFFICER_VALUE_1'?",
+    "result_row_count_observed": 1,
+    "result_rows_sample": [
+      {
+        "OffshoreEntityCount": 1
+      }
+    ],
+    "reverse_cypher": "MATCH (o:Officer)-[:officer_of]->(:Entity) WITH trim(o.name) AS officerName WHERE officerName <> '' RETURN DISTINCT officerName LIMIT 300",
+    "source": {
+      "created_at": "2026-06-02T19:30:54.310327+00:00",
+      "model": "Qwen/Qwen3.5-9B",
+      "records_path": "artifacts/runs/20260602_192926_20260602_icij_target100_schema_templates_v3/records.jsonl",
+      "redaction": "paper-facing placeholders for ICIJ value-bearing strings",
+      "run": "20260602_192926_20260602_icij_target100_schema_templates_v3"
+    },
+    "structural_features": {
+      "aggregation": true,
+      "difficulty": "easy",
+      "has_return_distinct": true,
+      "label_counts": {
+        "Entity": 1,
+        "Officer": 1
+      },
+      "labels": [
+        "Entity",
+        "Officer"
+      ],
+      "limit": false,
+      "limit_value": null,
+      "negation": false,
+      "node_pattern_count": 2,
+      "optional_match": false,
+      "order_by_items": [],
+      "ordering": false,
+      "path_pattern": false,
+      "primary_strategy": "aggregation",
+      "relationship_counts": {
+        "officer_of": 1
+      },
+      "relationship_observations": [
+        {
+          "direction": "outgoing",
+          "end_label": "Entity",
+          "relationship_type": "officer_of",
+          "start_label": "Officer"
+        }
+      ],
+      "relationship_pattern_count": 1,
+      "relationship_types": [
+        "officer_of"
+      ],
+      "return_aliases": [
+        "OffshoreEntityCount"
+      ],
+      "return_arity": 1,
+      "return_items": [
+        "COUNT(DISTINCT e)"
+      ],
+      "rewrite_safe": true,
+      "rewrite_skip_reasons": [],
+      "risky_features": [],
+      "skip": false,
+      "skip_value": null,
+      "strategy_tags": [
+        "single_hop",
+        "aggregation"
+      ],
+      "variable_labels": {
+        "e": "Entity",
+        "o": "Officer"
+      },
+      "where_clause_count": 1
+    }
+  },
+  {
+    "category": "simple_retrieval",
+    "cypher": "MATCH (o:Officer)-[r:officer_of]->(e:Entity) WHERE trim(o.name) = 'OFFICER_VALUE_1' RETURN DISTINCT e.node_id AS EntityId, e.name AS EntityName, e.jurisdiction AS Jurisdiction, r.link AS Link LIMIT 300",
+    "difficulty": "easy",
+    "entity_values": [
+      "OFFICER_VALUE_1"
+    ],
+    "gates": {
+      "accepted": true,
+      "execution_success": true,
+      "judge_pass": true,
+      "read_only": true,
+      "schema_valid": true,
+      "syntax_valid": true
+    },
+    "graph_profile": "icij_offshoreleaks",
+    "id": "icij_07_simple_retrieval",
+    "judge_scores": {
+      "ambiguity": 0.2,
+      "difficulty": "easy",
+      "schema_use": 1.0,
+      "semantic_alignment": 0.85
+    },
+    "normalized_cypher": "MATCH (o:Officer)-[r:officer_of]->(e:Entity) WHERE trim(o.name) = 'OFFICER_VALUE_1' RETURN DISTINCT e.node_id AS EntityId, e.name AS EntityName, e.jurisdiction AS Jurisdiction, r.link AS Link LIMIT 300",
+    "question": "Which offshore entities is officer 'OFFICER_VALUE_1' connected to?",
+    "result_row_count_observed": 1,
+    "result_rows_sample": [
+      {
+        "EntityId": "ENTITY_ID_1",
+        "EntityName": "ENTITY_NAME_1",
+        "Jurisdiction": "JURISDICTION_1",
+        "Link": "RELATION_LABEL_1"
+      }
+    ],
+    "reverse_cypher": "MATCH (o:Officer)-[:officer_of]->(:Entity) WITH trim(o.name) AS officerName WHERE officerName <> '' RETURN DISTINCT officerName LIMIT 300",
+    "source": {
+      "created_at": "2026-06-02T19:29:26.669859+00:00",
+      "model": "Qwen/Qwen3.5-9B",
+      "records_path": "artifacts/runs/20260602_192926_20260602_icij_target100_schema_templates_v3/records.jsonl",
+      "redaction": "paper-facing placeholders for ICIJ value-bearing strings",
+      "run": "20260602_192926_20260602_icij_target100_schema_templates_v3"
+    },
+    "structural_features": {
+      "aggregation": false,
+      "difficulty": "easy",
+      "has_return_distinct": true,
+      "label_counts": {
+        "Entity": 1,
+        "Officer": 1
+      },
+      "labels": [
+        "Entity",
+        "Officer"
+      ],
+      "limit": true,
+      "limit_value": "300",
+      "negation": false,
+      "node_pattern_count": 2,
+      "optional_match": false,
+      "order_by_items": [],
+      "ordering": false,
+      "path_pattern": false,
+      "primary_strategy": "single_hop",
+      "relationship_counts": {
+        "officer_of": 1
+      },
+      "relationship_observations": [
+        {
+          "direction": "outgoing",
+          "end_label": "Entity",
+          "relationship_type": "officer_of",
+          "start_label": "Officer"
+        }
+      ],
+      "relationship_pattern_count": 1,
+      "relationship_types": [
+        "officer_of"
+      ],
+      "return_aliases": [
+        "EntityId",
+        "EntityName",
+        "Jurisdiction",
+        "Link"
+      ],
+      "return_arity": 4,
+      "return_items": [
+        "e.node_id",
+        "e.name",
+        "e.jurisdiction",
+        "r.link"
+      ],
+      "rewrite_safe": true,
+      "rewrite_skip_reasons": [],
+      "risky_features": [],
+      "skip": false,
+      "skip_value": null,
+      "strategy_tags": [
+        "single_hop",
+        "bounded_result"
+      ],
+      "variable_labels": {
+        "e": "Entity",
+        "o": "Officer"
+      },
+      "where_clause_count": 1
+    }
+  },
+  {
+    "category": "boolean_existence",
     "cypher": "MATCH (p:Person {id: 6597069766828}) OPTIONAL MATCH (p)-[:LIKES]->(post:Post) RETURN DISTINCT COUNT(post) > 0 AS LikesAnyPost",
     "difficulty": "medium",
     "entity_values": [

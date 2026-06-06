@@ -28,7 +28,7 @@ def test_build_submission_bundle_excludes_noncanonical_paper_mirrors(tmp_path: P
     assert (out / "paper_emnlp2026_industry" / "main_acl.tex").exists()
     assert not (out / "paper_emnlp2026_industry" / "main.tex").exists()
     assert not (out / "paper_emnlp2026_industry" / "paper.md").exists()
-    assert all(not row["path"].endswith(("main.tex", "paper.md")) for row in manifest["files"])
+    assert all(Path(row["path"]).name not in {"main.tex", "paper.md"} for row in manifest["files"])
 
 
 def test_default_submission_bundle_includes_clean_evidence_snapshots():

@@ -42,7 +42,7 @@ def main() -> None:
         "--output-claims",
         default="paper_emnlp2026_industry/appendix_claim_evidence.tex",
     )
-    parser.add_argument("--max-examples", type=int, default=16)
+    parser.add_argument("--max-examples", type=int, default=24)
     args = parser.parse_args()
 
     claims = load_claim_evidence(args.claim_map)

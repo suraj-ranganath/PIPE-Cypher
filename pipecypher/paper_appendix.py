@@ -222,7 +222,7 @@ def render_claim_evidence_tex(claims: list[dict[str, Any]]) -> str:
 def render_example_cards_tex(
     examples: list[dict[str, Any]],
     *,
-    max_examples: int = 16,
+    max_examples: int = 24,
 ) -> str:
     selected = sorted(
         examples,
@@ -235,10 +235,11 @@ def render_example_cards_tex(
     lines = [
         r"\section{Representative Accepted Examples}",
         (
-            "The examples below are selected in stable identifier order from the tracked "
-            "full-export snapshot, one per graph/category cell when available. They show "
-            "the natural-language question, accepted Cypher, structural tags, gate status, "
-            "and a bounded execution-result sample."
+            "The examples below are selected in stable identifier order from tracked "
+            "evidence snapshots, one per graph/category cell when available. They show "
+            "the NL question, accepted Cypher, structural tags, gate status, "
+            "and a bounded execution-result sample. ICIJ examples are redacted before "
+            "rendering, preserving query structure while removing value-bearing strings."
         ),
         r"\begin{enumerate}",
     ]
@@ -429,4 +430,6 @@ def _label(value: str) -> str:
         return "FinBench"
     if value.lower() == "snb":
         return "SNB"
+    if value.lower() in {"icij", "icij_offshoreleaks", "icij offshoreleaks"}:
+        return "ICIJ Offshore Leaks"
     return _escape_latex(value.replace("_", " ").title())

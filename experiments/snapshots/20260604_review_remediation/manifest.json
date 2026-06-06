@@ -35,6 +35,14 @@
       "finbench::ranking_topk": 1,
       "finbench::simple_aggregation": 1,
       "finbench::simple_retrieval": 1,
+      "icij_offshoreleaks::boolean_existence": 1,
+      "icij_offshoreleaks::complex_aggregation": 1,
+      "icij_offshoreleaks::complex_retrieval": 1,
+      "icij_offshoreleaks::negation_difference": 1,
+      "icij_offshoreleaks::path_temporal": 1,
+      "icij_offshoreleaks::ranking_topk": 1,
+      "icij_offshoreleaks::simple_aggregation": 1,
+      "icij_offshoreleaks::simple_retrieval": 1,
       "snb::boolean_existence": 1,
       "snb::complex_aggregation": 1,
       "snb::complex_retrieval": 1,
@@ -44,11 +52,26 @@
       "snb::simple_aggregation": 1,
       "snb::simple_retrieval": 1
     },
-    "count": 16,
+    "count": 24,
+    "icij_onboarding_source": {
+      "categories": [
+        "boolean_existence",
+        "complex_aggregation",
+        "complex_retrieval",
+        "negation_difference",
+        "path_temporal",
+        "ranking_topk",
+        "simple_aggregation",
+        "simple_retrieval"
+      ],
+      "records_path": "artifacts/runs/20260602_192926_20260602_icij_target100_schema_templates_v3/records.jsonl",
+      "redaction": "question, Cypher literals, string result fields, and identifier-like result values replaced with placeholders",
+      "run": "20260602_192926_20260602_icij_target100_schema_templates_v3"
+    },
     "path": "sample_examples.json",
     "per_graph_category": 1,
-    "selection": "stable-id order within each graph_profile/category cell",
-    "sha256": "7c6b06f26c78953593edb8a4afd7cee6ca829ee7a9719fe430e4f1291845a49c"
+    "selection": "stable-id order within each graph_profile/category cell; ICIJ examples are value-redacted from the completed target-100 onboarding run",
+    "sha256": "fc20779b52200a3cbdcb8ce39a2051ae85084b947d88911194882c07ab4800f6"
   },
   "snapshot_version": "1.0",
   "source_export_created_at": "2026-06-04T13:57:15.726590+00:00",
