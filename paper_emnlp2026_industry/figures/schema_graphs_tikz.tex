@@ -34,8 +34,7 @@
 \begin{tikzpicture}[
   schemaNode/.style={draw=teal!55!black, rounded corners=2pt, fill=teal!7, thick, align=center, font=\footnotesize\bfseries, minimum width=1.85cm, minimum height=0.68cm},
   rel/.style={-Latex, thick, draw=teal!65!black},
-  relLabel/.style={font=\scriptsize\ttfamily, align=center, fill=white, inner sep=1.4pt},
-  groupNote/.style={font=\scriptsize, align=center, text=black!70}
+  relLabel/.style={font=\scriptsize\ttfamily, align=center, fill=white, inner sep=1.4pt}
 ]
 \node[schemaNode, minimum width=2.15cm] (person) at (0,0) {Person};
 \node[schemaNode, minimum width=2.15cm] (forum) at (0,2.75) {Forum};
@@ -48,8 +47,8 @@
 \draw[rel] (forum) -- node[relLabel, above, sloped] {CONTAINER\_OF} (content);
 \draw[rel] (forum) -- node[relLabel, left] {HAS\_MEMBER\\HAS\_MODERATOR} (person);
 \draw[rel] (forum) -- node[relLabel, above, sloped] {HAS\_TAG} (tag);
-\draw[rel] (content) to[bend right=10] node[relLabel, above, sloped, pos=0.62] {HAS\_CREATOR} (person);
-\draw[rel] (person) to[bend left=16] node[relLabel, above, sloped, pos=0.42] {LIKES} (content);
+\draw[rel] (content.south west) to[out=230,in=18,looseness=1.10] node[relLabel, below, sloped, pos=0.50, yshift=-2.5pt] {HAS\_CREATOR} (person.east);
+\draw[rel] (person.north east) to[out=52,in=205,looseness=1.10] node[relLabel, above, sloped, pos=0.44, yshift=2.5pt] {LIKES} (content.west);
 \path[rel] (content) edge[loop right, min distance=13mm] node[relLabel, right] {REPLY\_OF} (content);
 \draw[rel] (content) -- node[relLabel, above, sloped] {HAS\_TAG} (tag);
 \draw[rel] (person.east) to[out=-5,in=-135,looseness=0.92] node[relLabel, below, pos=0.56] {HAS\_INTEREST} (tag.south west);
@@ -61,9 +60,8 @@
 \draw[rel] (content.south east) to[out=-35,in=95] node[relLabel, right, pos=0.58] {IS\_LOCATED\_IN} (place.north);
 \draw[rel] (org) -- node[relLabel, below, sloped] {IS\_LOCATED\_IN} (place);
 \path[rel] (place) edge[loop right, min distance=13mm] node[relLabel, right] {IS\_PART\_OF} (place);
-\node[groupNote] at (5.15,-3.75) {Grouped boxes preserve all 14 SNB labels while keeping the schema readable;\\Table~\ref{tab:graph_statistics} reports the full 59 directed label/type/label patterns.};
 \end{tikzpicture}}
-\caption{SNB schema graph used in the reported runs. Related labels are grouped into content, place, and organization families because the live schema expands them into many parallel label/type/label patterns.}
+\caption{SNB schema graph used in the reported runs. Related labels are grouped into content, place, and organization families so all 14 labels and 59 directed label/type/label patterns remain readable; Table~\ref{tab:graph_statistics} gives the full inventory counts.}
 \label{fig:snb_schema}
 \end{figure}
 
@@ -81,20 +79,20 @@
 \node[schemaNode] (address) at (9.85,0.65) {Address\\{\scriptsize 15 props}};
 \node[schemaNode] (other) at (5.15,-3.35) {Other\\{\scriptsize 14 props}};
 
-\draw[rel] (officer.east) to[bend left=10] node[relLabel, above, sloped, pos=0.38] {officer\_of\\intermediary\_of\\connected\_to} (entity.north west);
+\draw[rel] (officer.east) to[bend left=12] node[relLabel, above, sloped, pos=0.22, yshift=3pt] {officer\_of\\intermediary\_of\\connected\_to} (entity.north west);
 \draw[rel] (intermediary.east) to[bend right=10] node[relLabel, below, sloped, pos=0.36] {intermediary\_of\\officer\_of\\connected\_to} (entity.south west);
 \draw[rel] (officer.north east) to[out=28,in=165] node[relLabel, above, pos=0.64] {registered\_address} (address.north west);
 \draw[rel] (intermediary.south east) to[out=-18,in=-155] node[relLabel, below, pos=0.56] {registered\_address} (address.south west);
-\draw[rel] (entity) -- node[relLabel, above, pos=0.58] {registered\_address} (address);
+\draw[rel] (entity) -- node[relLabel, above, pos=0.72] {registered\_address} (address);
 \draw[rel] (other.east) to[out=-5,in=-112] node[relLabel, below, sloped, pos=0.58] {registered\_address} (address.south);
-\draw[rel] (other.north) -- node[relLabel, right, pos=0.45] {connected\_to\\underlying} (entity.south);
+\draw[rel] (other.north) -- node[relLabel, left, pos=0.70, xshift=-4pt, yshift=-2pt] {connected\_to\\underlying} (entity.south);
 \draw[rel] (officer.west) -- (-1.85,1.85) -- (-1.85,-3.35) -- (other.west);
 \node[relLabel, anchor=east] at (-1.92,-2.72) {officer\_of};
 \path[rel] (officer) edge[loop left, min distance=15mm] node[relLabel, left] {same\_name\_as\\same\_id\_as\\similar\\underlying} (officer);
 \path[rel] (entity) edge[loop above, min distance=16mm] node[relLabel, above] {same\_company\_as\\same\_name\_as\\same\_as\\similar\_company\_as} (entity);
 \path[rel] (intermediary) edge[loop left, min distance=14mm] node[relLabel, left] {same\_name\_as\\similar\\same\_intermediary\_as} (intermediary);
 \path[rel] (address) edge[loop right, min distance=13mm] node[relLabel, right] {same\_as\\same\_address\_as} (address);
-\draw[rel] (entity.north west) to[out=158,in=-8] node[relLabel, above, sloped, pos=0.54] {same\_name\_as} (officer.east);
+\draw[rel] (entity.north west) to[out=152,in=-8,looseness=0.9] node[relLabel, below, sloped, pos=0.52, yshift=-6pt] {same\_name\_as} (officer.east);
 \draw[rel] (intermediary.north west) to[out=135,in=-132] node[relLabel, left, pos=0.56] {same\_as\\underlying\\similar} (officer.south west);
 \end{tikzpicture}}
 \caption{ICIJ Offshore Leaks schema graph used for the third-graph onboarding audit. The schema is compact in node labels but large in edge volume: relationship families encode officer/entity/intermediary roles, registered addresses, identity-resolution links, and similarity links.}
