@@ -127,6 +127,7 @@ def prompt_contracts() -> list[PromptContract]:
 def render_prompt_contracts_tex() -> str:
     rows = [
         r"\section{Prompt Contracts}",
+        r"\label{sec:prompt_contracts}",
         r"\label{tab:prompt_contracts}",
         (
             "PIPE-Cypher treats prompts as versioned implementation artifacts. "

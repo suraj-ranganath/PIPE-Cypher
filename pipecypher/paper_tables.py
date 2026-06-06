@@ -392,6 +392,18 @@ def render_judge_audit_coverage_table(snapshot: dict[str, Any]) -> str:
         r"Audit packet property & Value \\",
         r"\midrule",
         f"Rows & {_fmt_int(coverage.get('total_rows', 0))} \\\\",
+        "{label} & {value} \\\\".format(
+            label="Human annotators",
+            value=_escape_latex(str(snapshot.get("human_annotators", "1 external annotator"))),
+        ),
+        "{label} & {value} \\\\".format(
+            label="IRB status",
+            value=_escape_latex(str(snapshot.get("irb_status", "exempt determination"))),
+        ),
+        "{label} & {value} \\\\".format(
+            label="Use of human labels",
+            value=_escape_latex(str(snapshot.get("human_label_use", "post-hoc calibration only"))),
+        ),
         "Judge accept / reject & {accepts} / {rejects} \\\\".format(
             accepts=_fmt_int(coverage.get("judge_accepts", 0)),
             rejects=_fmt_int(coverage.get("judge_rejects", 0)),
@@ -412,7 +424,7 @@ def render_judge_audit_coverage_table(snapshot: dict[str, Any]) -> str:
     if int(metrics.get("total_labeled", 0) or 0):
         rows.extend(
             [
-                "Agreement / $\\kappa$ & {agreement} / {kappa} \\\\".format(
+                "Judge-human agreement / $\\kappa$ & {agreement} / {kappa} \\\\".format(
                     agreement=_fmt_float(metrics.get("agreement_rate", 0.0)),
                     kappa=_fmt_float(metrics.get("cohen_kappa", 0.0)),
                 ),
@@ -450,9 +462,9 @@ def render_judge_audit_coverage_table(snapshot: dict[str, Any]) -> str:
     return _table(
         body="\n".join(rows),
         caption=(
-            "Post-hoc judge calibration packet coverage and agreement. Human labels "
-            "calibrate the automated gate after generation and are not used as a "
-            "generation gate."
+            "Post-hoc judge calibration packet coverage and judge-human agreement. "
+            "Human labels calibrate the automated gate after generation and are not "
+            "used as a generation gate."
         ),
         label="tab:judge_audit_coverage",
     )

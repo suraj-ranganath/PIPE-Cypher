@@ -182,6 +182,9 @@ def test_render_judge_audit_coverage_table_reports_packet_balance():
     )
 
     assert "Rows & 80" in text
+    assert "Human annotators & 1 external annotator" in text
+    assert "IRB status & exempt determination" in text
+    assert "Use of human labels & post-hoc calibration only" in text
     assert "Judge accept / reject & 40 / 40" in text
     assert "FinBench / SNB rows & 48 / 32" in text
     assert "Labeled rows & 0" in text
@@ -216,6 +219,7 @@ def test_render_judge_audit_coverage_table_reports_packet_balance():
         }
     )
 
+    assert "Judge-human agreement / $\\kappa$ & 0.800 / 0.600" in labeled_text
     assert "Judge precision (95\\% CI) & 1.000 (0.910--1.000)" in labeled_text
     assert "False-accept rate (95\\% CI) & 0.000 (0.000--0.090)" in labeled_text
 
