@@ -1,0 +1,101 @@
+\begin{figure}[H]
+\centering
+\resizebox{\columnwidth}{!}{%
+\begin{tikzpicture}[
+  schemaNode/.style={draw=blue!55!black, rounded corners=2pt, fill=blue!6, thick, align=center, font=\footnotesize\bfseries, minimum width=2.0cm, minimum height=0.75cm},
+  rel/.style={-Latex, thick, draw=blue!65!black},
+  relLabel/.style={font=\scriptsize\ttfamily, align=center, fill=white, inner sep=1.4pt}
+]
+\node[schemaNode] (person) at (0,0) {Person\\{\scriptsize 8 props}};
+\node[schemaNode] (company) at (0,-2.2) {Company\\{\scriptsize 9 props}};
+\node[schemaNode] (account) at (4.0,-1.1) {Account\\{\scriptsize 9 props}};
+\node[schemaNode] (loan) at (7.8,0) {Loan\\{\scriptsize 6 props}};
+\node[schemaNode] (medium) at (7.8,-2.2) {Medium\\{\scriptsize 5 props}};
+
+\draw[rel] (person) -- node[relLabel, above, sloped] {OWN\_ACCOUNT} (account);
+\draw[rel] (company) -- node[relLabel, below, sloped] {OWN\_ACCOUNT} (account);
+\draw[rel] (person) -- node[relLabel, above, sloped] {APPLY\_LOAN} (loan);
+\draw[rel] (company) to[bend right=12] node[relLabel, below, sloped] {APPLY\_LOAN} (loan);
+\draw[rel] (account) -- node[relLabel, above, sloped] {REPAY} (loan);
+\draw[rel] (loan) -- node[relLabel, above, sloped] {DEPOSIT} (account);
+\draw[rel] (medium) -- node[relLabel, below, sloped] {SIGN\_IN} (account);
+\path[rel] (account) edge[loop right, min distance=15mm] node[relLabel, right] {TRANSFER\_TO\\WITHDRAW\_TO} (account);
+\path[rel] (person) edge[loop left, min distance=14mm] node[relLabel, left] {GUARANTEE} (person);
+\path[rel] (company) edge[loop left, min distance=14mm] node[relLabel, left] {INVEST\\GUARANTEE} (company);
+\draw[rel] (person) to[bend right=13] node[relLabel, left] {INVEST} (company);
+\end{tikzpicture}}
+\caption{FinBench schema graph used in the reported runs. The workload is centered on financial entities, account ownership, transaction/event relationships, loans, sign-in media, guarantees, and investments.}
+\label{fig:finbench_schema}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\resizebox{\columnwidth}{!}{%
+\begin{tikzpicture}[
+  schemaNode/.style={draw=teal!55!black, rounded corners=2pt, fill=teal!7, thick, align=center, font=\footnotesize\bfseries, minimum width=1.85cm, minimum height=0.68cm},
+  rel/.style={-Latex, thick, draw=teal!65!black},
+  relLabel/.style={font=\scriptsize\ttfamily, align=center, fill=white, inner sep=1.4pt},
+  groupNote/.style={font=\scriptsize, align=center, text=black!70}
+]
+\node[schemaNode, minimum width=2.15cm] (person) at (0,0) {Person};
+\node[schemaNode, minimum width=2.15cm] (forum) at (0,2.6) {Forum};
+\node[schemaNode, minimum width=3.0cm] (content) at (4.0,1.5) {Message\\Post\\Comment};
+\node[schemaNode, minimum width=2.15cm] (tag) at (7.8,2.6) {Tag};
+\node[schemaNode, minimum width=2.15cm] (tagclass) at (10.4,2.6) {TagClass};
+\node[schemaNode, minimum width=3.0cm] (place) at (7.8,-1.2) {Place\\City\\Country\\Continent};
+\node[schemaNode, minimum width=3.25cm] (org) at (2.2,-2.6) {Organisation\\Company\\University};
+
+\draw[rel] (forum) -- node[relLabel, above, sloped] {CONTAINER\_OF} (content);
+\draw[rel] (forum) -- node[relLabel, left] {HAS\_MEMBER\\HAS\_MODERATOR} (person);
+\draw[rel] (forum) -- node[relLabel, above, sloped] {HAS\_TAG} (tag);
+\draw[rel] (content) -- node[relLabel, above, sloped] {HAS\_CREATOR} (person);
+\draw[rel] (person) to[bend left=12] node[relLabel, above, sloped] {LIKES} (content);
+\path[rel] (content) edge[loop right, min distance=13mm] node[relLabel, right] {REPLY\_OF} (content);
+\draw[rel] (content) -- node[relLabel, above, sloped] {HAS\_TAG} (tag);
+\draw[rel] (person) -- node[relLabel, below, sloped] {HAS\_INTEREST} (tag);
+\draw[rel] (tag) -- node[relLabel, above] {HAS\_TYPE} (tagclass);
+\path[rel] (tagclass) edge[loop right, min distance=12mm] node[relLabel, right] {IS\_SUBCLASS\_OF} (tagclass);
+\path[rel] (person) edge[loop left, min distance=13mm] node[relLabel, left] {KNOWS} (person);
+\draw[rel] (person) -- node[relLabel, below, sloped] {WORK\_AT\\STUDY\_AT} (org);
+\draw[rel] (person) -- node[relLabel, below, sloped] {IS\_LOCATED\_IN} (place);
+\draw[rel] (content) -- node[relLabel, right] {IS\_LOCATED\_IN} (place);
+\draw[rel] (org) -- node[relLabel, below, sloped] {IS\_LOCATED\_IN} (place);
+\path[rel] (place) edge[loop right, min distance=13mm] node[relLabel, right] {IS\_PART\_OF} (place);
+\node[groupNote] at (4.9,-3.6) {Grouped boxes preserve all 14 SNB labels while keeping the schema readable;\\Table~\ref{tab:graph_statistics} reports the full 59 directed label/type/label patterns.};
+\end{tikzpicture}}
+\caption{SNB schema graph used in the reported runs. Related labels are grouped into content, place, and organization families because the live schema expands them into many parallel label/type/label patterns.}
+\label{fig:snb_schema}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\resizebox{\columnwidth}{!}{%
+\begin{tikzpicture}[
+  schemaNode/.style={draw=violet!55!black, rounded corners=2pt, fill=violet!7, thick, align=center, font=\footnotesize\bfseries, minimum width=2.2cm, minimum height=0.76cm},
+  rel/.style={-Latex, thick, draw=violet!65!black},
+  relLabel/.style={font=\scriptsize\ttfamily, align=center, fill=white, inner sep=1.4pt}
+]
+\node[schemaNode] (officer) at (0,1.2) {Officer\\{\scriptsize 19 props}};
+\node[schemaNode] (intermediary) at (0,-1.2) {Intermediary\\{\scriptsize 19 props}};
+\node[schemaNode] (entity) at (4.2,0) {Entity\\{\scriptsize 29 props}};
+\node[schemaNode] (address) at (8.2,0) {Address\\{\scriptsize 15 props}};
+\node[schemaNode] (other) at (4.2,-2.7) {Other\\{\scriptsize 14 props}};
+
+\draw[rel] (officer) -- node[relLabel, above, sloped] {officer\_of\\intermediary\_of\\connected\_to} (entity);
+\draw[rel] (intermediary) -- node[relLabel, below, sloped] {intermediary\_of\\officer\_of\\connected\_to} (entity);
+\draw[rel] (officer) -- node[relLabel, above, sloped] {registered\_address} (address);
+\draw[rel] (intermediary) -- node[relLabel, below, sloped] {registered\_address} (address);
+\draw[rel] (entity) -- node[relLabel, above] {registered\_address} (address);
+\draw[rel] (other) -- node[relLabel, below, sloped] {registered\_address} (address);
+\draw[rel] (other) -- node[relLabel, right] {connected\_to\\underlying} (entity);
+\draw[rel] (officer) to[bend right=18] node[relLabel, left] {officer\_of} (other);
+\path[rel] (officer) edge[loop left, min distance=15mm] node[relLabel, left] {same\_name\_as\\same\_id\_as\\similar\\underlying} (officer);
+\path[rel] (entity) edge[loop above, min distance=15mm] node[relLabel, above] {same\_company\_as\\same\_name\_as\\same\_as\\similar\_company\_as} (entity);
+\path[rel] (intermediary) edge[loop left, min distance=14mm] node[relLabel, left] {same\_name\_as\\similar\\same\_intermediary\_as} (intermediary);
+\path[rel] (address) edge[loop right, min distance=13mm] node[relLabel, right] {same\_as\\same\_address\_as} (address);
+\draw[rel] (entity) to[bend left=18] node[relLabel, above, sloped] {same\_name\_as} (officer);
+\draw[rel] (intermediary) to[bend right=14] node[relLabel, below, sloped] {same\_as\\underlying\\similar} (officer);
+\end{tikzpicture}}
+\caption{ICIJ Offshore Leaks schema graph used for the third-graph onboarding audit. The schema is compact in node labels but large in edge volume: relationship families encode officer/entity/intermediary roles, registered addresses, identity-resolution links, and similarity links.}
+\label{fig:icij_schema}
+\end{figure}
