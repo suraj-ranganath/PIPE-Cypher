@@ -1,3 +1,0 @@
-setting,graph,run,candidate_attempts,records,accepted,accept_rate,categories_at_target,category_count,finished,read_only_rate,syntax_valid_rate,schema_valid_rate,execution_success_rate,judge_pass_rate
-Unconstrained LLM,snb,20260603_041956_20260603_unconstrained_attempts_qwen9b_snb_snb_unconstrained_local_llm,2000,2000,50,0.025000,0,8,true,1.000000,0.997500,0.598500,0.478500,0.144500
-Unconstrained LLM,snb,20260603_044238_20260603_unconstrained_attempts_qwen9b_snb_unconstrained_local_llm,49,49,0,0.000000,0,8,false,1.000000,1.000000,0.775510,0.448980,0.326531

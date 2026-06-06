@@ -1,11 +1,11 @@
 # PIPE-Cypher
 
-PIPE-Cypher is a local-model pipeline for creating private, executable
-natural-language-to-Cypher benchmarks from an organization's own property graph.
-It is designed for enterprise Text2Cypher evaluation: schemas and values stay
-inside the organization's environment, generated NL--Cypher pairs execute
-against the live graph, and accepted examples are balanced across workload
-categories, graph structure, and difficulty.
+PIPE-Cypher is a local-model library for creating private, executable
+NL-to-Cypher benchmarks from an organization's own property graph. It is built
+for enterprise Text2Cypher evaluation: schemas and values stay inside the
+organization's environment, generated NL--Cypher pairs execute against the live
+graph, and accepted examples are balanced across workload categories, graph
+structure, and difficulty.
 
 ![PIPE-Cypher pipeline](docs/assets/pipeline_overview.png)
 
@@ -86,44 +86,36 @@ structural features, validation gates, result samples, and provenance fields.
 See [`docs/benchmark_format.md`](docs/benchmark_format.md) for the schema and
 recommended evaluation protocol.
 
-## Paper And Reproducibility
+## Library Surfaces
 
-The EMNLP Industry submission source is under
-[`paper_emnlp2026_industry/`](paper_emnlp2026_industry/). Reproduction notes are
-in [`docs/reproducing_paper.md`](docs/reproducing_paper.md) and
-[`paper_emnlp2026_industry/reproducibility_README.md`](paper_emnlp2026_industry/reproducibility_README.md).
+PIPE-Cypher is organized around reusable library components rather than a
+single fixed dataset. The public branch contains:
 
-Useful checks:
+- schema introspection and schema-card generation for property graphs;
+- reverse-grounded candidate generation and slot binding;
+- deterministic Cypher validators for read-only safety, labels,
+  relationship types, properties, directions, literals, execution, and result
+  shape;
+- conservative query normalization and rewrite auditing;
+- local LLM generation and judging through OpenAI-compatible endpoints;
+- privacy redaction, value-sampling policies, and benchmark-card exports;
+- diversity selection and diagnostics;
+- downstream Text2Cypher evaluation utilities.
 
-```bash
-python scripts/verify_submission_package.py \
-  --paper-tex paper_emnlp2026_industry/main_acl.tex
-
-python scripts/audit_emnlp_page_budget.py \
-  --pdf paper_emnlp2026_industry/main_acl.pdf
-```
-
-Build the anonymous ACL/EMNLP supplementary zip:
-
-```bash
-python scripts/build_acl_supplement.py \
-  --output-dir dist/acl_supplement/PIPE-Cypher-ACL-supplement \
-  --zip-path dist/acl_supplement/PIPE-Cypher-ACL-supplement.zip
-```
+Paper source, experiment snapshots, and submission packages are intentionally
+kept on the research branch rather than on `main`.
 
 ## Repository Layout
 
 - [`pipecypher/`](pipecypher/): pipeline, validators, grounding, diversity,
   judge, export, and reporting modules.
 - [`scripts/`](scripts/): command-line entry points for running, exporting,
-  auditing, packaging, and evaluating benchmarks.
+  auditing, redacting, and evaluating benchmarks.
 - [`configs/`](configs/): local smoke, public graph, and enterprise template
   configs.
-- [`tests/`](tests/): deterministic tests for pipeline behavior and paper
-  reporting guards.
-- [`paper_emnlp2026_industry/`](paper_emnlp2026_industry/): ACL-style paper
-  source, figures, tables, and PDF.
-- [`docs/`](docs/): public deployment and reproducibility documentation.
+- [`tests/`](tests/): deterministic tests for pipeline and library behavior.
+- [`docs/`](docs/): public deployment, onboarding, and benchmark-format
+  documentation.
 
 ## License
 

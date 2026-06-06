@@ -43,22 +43,19 @@ def main() -> None:
     )
     parser.add_argument(
         "--output-json",
-        default=(
-            "experiments/snapshots/20260604_clean_downstream_model_transfer/"
-            "strategy_diagnostics.json"
-        ),
+        default="artifacts/reports/strategy_diagnostics.json",
     )
     parser.add_argument(
         "--output-tex",
-        default="paper_emnlp2026_industry/tables_strategy_diagnostics.tex",
+        default="artifacts/reports/strategy_diagnostics.tex",
     )
     parser.add_argument(
         "--coverage-figure",
-        default="paper_emnlp2026_industry/figures/strategy_coverage.pdf",
+        default="artifacts/reports/strategy_coverage.pdf",
     )
     parser.add_argument(
         "--downstream-figure",
-        default="paper_emnlp2026_industry/figures/strategy_downstream_errors.pdf",
+        default="artifacts/reports/strategy_downstream_errors.pdf",
     )
     args = parser.parse_args()
 

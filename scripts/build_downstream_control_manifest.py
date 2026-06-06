@@ -42,7 +42,7 @@ def main() -> None:
     parser.add_argument("--evaluation-root", default="artifacts/evaluations")
     parser.add_argument(
         "--snapshot-dir",
-        default="experiments/snapshots/20260604_clean_downstream_model_transfer",
+        default="artifacts/reports/downstream_control",
     )
     parser.add_argument(
         "--zero-prefix",
@@ -66,7 +66,7 @@ def main() -> None:
     )
     parser.add_argument(
         "--output",
-        default="experiments/snapshots/20260604_clean_downstream_model_transfer/downstream_control_manifest.json",
+        default="artifacts/reports/downstream_control/downstream_control_manifest.json",
     )
     args = parser.parse_args()
 
