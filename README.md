@@ -86,6 +86,14 @@ structural features, validation gates, result samples, and provenance fields.
 See [`docs/benchmark_format.md`](docs/benchmark_format.md) for the schema and
 recommended evaluation protocol.
 
+## Reproducing the Paper Experiments
+
+The public branch includes a separate reproducibility guide for the experiments
+reported in the PIPE-Cypher paper: graph loading, model endpoints, full
+generation configs, ablations, diversity selection, judge calibration,
+downstream evaluation, and paper-scale result targets. See
+[`docs/reproducing_paper_experiments.md`](docs/reproducing_paper_experiments.md).
+
 ## Library Surfaces
 
 PIPE-Cypher is organized around reusable library components rather than a
