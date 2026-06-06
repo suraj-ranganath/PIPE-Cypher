@@ -153,12 +153,12 @@ The central reliability question is whether reverse grounding and Cypher validat
 
 Figure~\ref{fig:ablation_suite_target100_main} and Table~\ref{tab:ablation_results} show the target-100 stress baseline. The unconstrained rows are deliberately harsh: raw local-model generations may look plausible, but they do not produce balanced, executable benchmark coverage. The governed variants fill every target cell on both graphs.
 
-\begin{figure*}[t]
+\begin{figure}[H]
 \centering
-\includegraphics[width=0.82\textwidth]{figures/ablation_suite_target100.pdf}
-\caption{Target-100 ablation yield on FinBench and SNB. Unconstrained local generation is reported as a stress baseline with explicit attempt accounting; the execution-grounded governed variants reach all eight workload-category targets on both graphs. The result supports reliability of the grounded governance core without implying that every optional module is required for yield.}
+\includegraphics[width=\columnwidth]{figures/ablation_suite_target100.pdf}
+\caption{Target-100 ablation yield on FinBench and SNB. Unconstrained local generation is reported as a stress baseline with explicit attempt accounting; the execution-grounded governed variants reach all eight workload-category targets on both graphs. This shows that the grounded governance core is reliable at filling the planned benchmark cells; it does not claim that each optional stage independently increases yield.}
 \label{fig:ablation_suite_target100_main}
-\end{figure*}
+\end{figure}
 
 \input{tables_ablation_results}
 
