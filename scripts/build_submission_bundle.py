@@ -49,6 +49,7 @@ DEFAULT_EXCLUDE_SUFFIXES = {
 }
 DEFAULT_EXCLUDE_FILENAMES = {
     "build_arxiv_paper.py",
+    "main.pdf",
     "main.tex",
     "paper.md",
     "prepare_hf_dataset.py",
