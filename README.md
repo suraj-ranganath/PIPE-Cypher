@@ -1,6 +1,6 @@
 # PIPE-Cypher
 
-PIPE-Cypher is a local-model library for creating private, executable
+PIPE-Cypher is a library for creating private, executable
 NL-to-Cypher benchmarks from an organization's own property graph. It is built
 for enterprise Text2Cypher evaluation: schemas and values stay inside the
 organization's environment, generated NL--Cypher pairs execute against the live
