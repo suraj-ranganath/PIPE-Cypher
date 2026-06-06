@@ -276,17 +276,11 @@ Table~\ref{tab:fewshot_leakage_controls} gives the interpretation for the transf
 
 \subsection{Downstream Failure Modes}
 
-The failure taxonomy appears next to the transfer results because it explains why the benchmark is useful operationally. Incorrect rows are not all the same. Some outputs fail to parse. Some mention invalid schema. Some fail at execution time. Many execute but answer the wrong question. That separation tells a benchmark owner whether to improve schema retrieval, prompt constraints, value grounding, or tenant-specific adaptation.
-
 \input{tables_downstream_error_taxonomy}
 
-\subsection{Supplementary Text Metrics}
+Table~\ref{tab:downstream_error_taxonomy} makes the downstream study actionable. An answer mismatch means the model produced executable Cypher for the wrong semantics, so better graph-specific examples, retrieval, or adaptation are the likely fixes. Execution failures point instead to unsupported operators, brittle literals, or missing repair rules. Parse and schema failures are the errors deterministic guards should catch before a query ever reaches users.
 
-Table~\ref{tab:supported_text_metrics} lists optional text-overlap metrics for debugging answer rendering and near-match behavior. These are not correctness metrics; the reported correctness results use execution accuracy and answer-set F1.
-
-\input{tables_supported_text_metrics}
-
-\FloatBarrier
+This is why the taxonomy appears next to the transfer results. Many incorrect outputs are not malformed queries; they run and return the wrong answer set. A syntax-only or schema-only benchmark would miss that failure. For a benchmark owner, the taxonomy is therefore a debugging interface: it shows whether the next improvement should target schema retrieval, prompt constraints, value grounding, operator repair, or tenant-specific adaptation.
 
 \section{Diversity and Cypher Strategy Audit}
 
@@ -328,6 +322,14 @@ Strategy diagnostics complement category balance. Two questions can share a cate
 \caption{Downstream outcomes by gold Cypher strategy on the full held-out test split. The local Qwen3.5-9B baseline fails differently across strategies: aggregation mixes exact matches with execution failures, while join-heavy, negation, path, and ranking examples are dominated by semantically wrong executable queries or execution failures.}
 \label{fig:strategy_downstream_errors}
 \end{figure*}
+
+\FloatBarrier
+
+\section{Supplementary Evaluator Metrics}
+
+Table~\ref{tab:supported_text_metrics} lists optional text-overlap metrics for debugging answer rendering and near-match behavior. These are not correctness metrics; the reported correctness results use execution accuracy and answer-set F1.
+
+\input{tables_supported_text_metrics}
 
 \FloatBarrier
 
