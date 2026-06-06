@@ -9,7 +9,10 @@ description = "Automatic enterprise NL-to-Cypher benchmark generation pipeline"
 readme = "README.md"
 requires-python = ">=3.11"
 license = {text = "MIT"}
-authors = [{name = "PIPE-Cypher Authors"}]
+authors = [
+    {name = "Suraj Ranganath"},
+    {name = "Anish Raghavendra"},
+]
 dependencies = [
     "neo4j>=5.20.0",
     "numpy>=1.26.0",

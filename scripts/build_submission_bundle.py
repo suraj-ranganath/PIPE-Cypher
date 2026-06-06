@@ -16,7 +16,7 @@ from pipecypher.provenance import file_manifest
 
 
 DEFAULT_INCLUDE = [
-    "AGENTS.md",
+    "README.md",
     "pyproject.toml",
     "pipecypher",
     "scripts",
@@ -48,14 +48,21 @@ DEFAULT_EXCLUDE_SUFFIXES = {
     ".pyc",
 }
 DEFAULT_EXCLUDE_FILENAMES = {
+    "build_arxiv_paper.py",
     "main.tex",
     "paper.md",
+    "prepare_hf_dataset.py",
+    "test_submission_bundle.py",
 }
 PRIVATE_TEXT_MARKERS = (
     "ds-serv6",
+    "ds_serv6",
     "suraj@",
     "/Users/suraj",
     "/home/suraj",
+    "Qwen/Qwen3.5-35B",
+    "Qwen3.5-35B",
+    "35B-A3B",
 )
 
 
@@ -91,13 +98,13 @@ def build_bundle(output_dir: Path, *, include_paths: list[str]) -> dict[str, obj
                     if _contains_private_marker(path):
                         continue
                     (output_dir / relative).parent.mkdir(parents=True, exist_ok=True)
-                    shutil.copy2(path, output_dir / relative)
+                    _copy_bundle_file(path, output_dir / relative)
                     copied.append(output_dir / relative)
         else:
             if _contains_private_marker(source):
                 continue
             target.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(source, target)
+            _copy_bundle_file(source, target)
             copied.append(target)
     manifest = {
         "created_at": datetime.now(timezone.utc).isoformat(),
@@ -115,6 +122,12 @@ def build_bundle(output_dir: Path, *, include_paths: list[str]) -> dict[str, obj
 
 
 def _excluded(path: Path) -> bool:
+    try:
+        path_text = path.relative_to(PROJECT_ROOT).as_posix()
+    except ValueError:
+        path_text = path.name
+    if any(marker in path_text for marker in PRIVATE_TEXT_MARKERS):
+        return True
     if any(part in DEFAULT_EXCLUDE_PARTS for part in path.parts):
         return True
     if path.name in DEFAULT_EXCLUDE_FILENAMES:
@@ -130,6 +143,37 @@ def _contains_private_marker(path: Path) -> bool:
     except UnicodeDecodeError:
         return False
     return any(marker in text for marker in PRIVATE_TEXT_MARKERS)
+
+
+def _copy_bundle_file(source: Path, target: Path) -> None:
+    if source.name == "pyproject.toml":
+        text = source.read_text(encoding="utf-8")
+        text = _anonymize_pyproject(text)
+        target.write_text(text, encoding="utf-8")
+    else:
+        shutil.copy2(source, target)
+
+
+def _anonymize_pyproject(text: str) -> str:
+    start = text.find("authors = [")
+    if start == -1:
+        return text
+    cursor = start + len("authors = [")
+    depth = 1
+    while cursor < len(text):
+        char = text[cursor]
+        if char == "[":
+            depth += 1
+        elif char == "]":
+            depth -= 1
+            if depth == 0:
+                return (
+                    text[:start]
+                    + 'authors = [{name = "Anonymous Authors"}]'
+                    + text[cursor + 1 :]
+                )
+        cursor += 1
+    return text
 
 
 if __name__ == "__main__":

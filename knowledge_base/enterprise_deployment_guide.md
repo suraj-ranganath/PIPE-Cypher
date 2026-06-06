@@ -25,8 +25,7 @@ MODEL=Qwen/Qwen3.5-9B \
 CUDA_VISIBLE_DEVICES=0 \
 MAX_MODEL_LEN=2048 \
 GPU_MEMORY_UTILIZATION=0.90 \
-CONDA_ENV=pipe-rdf-arr \
-scripts/launch_ds_serv6_vllm.sh
+scripts/serve_qwen_vllm.sh
 ```
 
 Then verify the endpoint:

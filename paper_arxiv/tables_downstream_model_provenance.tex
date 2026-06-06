@@ -1,0 +1,25 @@
+\begin{table*}[t]
+\centering
+\scriptsize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}llll@{}}
+\toprule
+Displayed model & Served checkpoint or adapter & Family & Citation \\
+\midrule
+aigentx/Llama-3.1-8B Cypher LoRA & \texttt{aigentx/llama-3.1-8b-instruct-cypher} & Cypher LoRA & \citep{llama3herd2024,aigentx2025llama31cypherhf} \\
+aigentx/Llama-3.1-8B Cypher mixed LoRA & \texttt{aigentx/llama-3.1-8b-instruct-cypher-mixed-samples} & Cypher mixed LoRA & \citep{llama3herd2024,aigentx2025llama31cyphermixedhf} \\
+Azzedde/llama3.1-8b-text2cypher & \texttt{Azzedde/llama3.1-8b-text2cypher} & Text2Cypher fine-tuned & \citep{llama3herd2024,azzedde2025llama31text2cypherhf} \\
+Gemma-2-9B-IT & \texttt{google/gemma-2-9b-it} & General instruction & \citep{gemma2team2024} \\
+neo4j/Gemma-2-9B Text2Cypher LoRA & \texttt{neo4j/text2cypher-gemma-2-9b-it-finetuned-2024v1} & Text2Cypher LoRA & \citep{gemma2team2024,text2cypher2025,neo4j2025gemma2text2cypherhf} \\
+neo4j/Gemma-3-4B Text2Cypher & \texttt{neo4j/text-to-cypher-Gemma-3-4B-Instruct-2025.04.0} & Text2Cypher fine-tuned & \citep{gemma3team2025,text2cypher2025,neo4j2025gemma3text2cypherhf} \\
+projectwilsen/Llama-3.1-8B Text2Cypher LoRA & \texttt{projectwilsen/llama3.1-8b-text2cypher-neo4j-live} & Text2Cypher LoRA & \citep{llama3herd2024,projectwilsen2024llama31text2cypherhf} \\
+Qwen2.5-Coder-7B-Instruct & \texttt{Qwen/Qwen2.5-Coder-7B-Instruct} & Code instruction & \citep{hui2024qwen25coder} \\
+Qwen3.5-9B & \texttt{Qwen/Qwen3.5-9B} & General instruction & \citep{yang2025qwen3,qwen2026qwen35hf} \\
+Saiprasanth15/Llama-3.1-8B Text2Cypher LoRA & \texttt{Saiprasanth15/llama3.1-8b-text2cypher-neo4j-live} & Text2Cypher LoRA & \citep{llama3herd2024,saiprasanth2024llama31text2cypherhf} \\
+tomasonjo/text2cypher-demo-16bit & \texttt{tomasonjo/text2cypher-demo-16bit} & Text2Cypher fine-tuned & \citep{llama3herd2024,tomasonjo2024text2cypherdemohf} \\
+\bottomrule
+\end{tabular}
+}
+\caption{Downstream model provenance for the 11 completed local checkpoints in the transfer study. Original model-family papers are cited wherever available; Hugging Face repository citations are retained only to identify exact fine-tuned checkpoints or adapters without a separate paper.}
+\label{tab:downstream_model_provenance}
+\end{table*}

@@ -28,8 +28,9 @@ def test_evidence_manifest_requires_clean_models_and_present_artifacts(tmp_path:
 
 def test_evidence_manifest_blocks_disallowed_models(tmp_path: Path):
     records = tmp_path / "records.jsonl"
+    disallowed_model = "Local/NonApproved-Text2Cypher-Model"
     records.write_text(
-        json.dumps({"model": "Qwen/Qwen3.5-35B-A3B"}) + "\n",
+        json.dumps({"model": disallowed_model}) + "\n",
         encoding="utf-8",
     )
 
@@ -43,7 +44,7 @@ def test_evidence_manifest_blocks_disallowed_models(tmp_path: Path):
 
     assert manifest["paper_ready"] is False
     assert manifest["model_provenance"]["disallowed_model_counts"] == {
-        "Qwen/Qwen3.5-35B-A3B": 1
+        disallowed_model: 1
     }
 
 

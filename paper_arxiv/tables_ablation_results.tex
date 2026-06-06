@@ -1,0 +1,28 @@
+\begin{table}[H]
+\centering
+\small
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{llrrrrr}
+\toprule
+Setting & Graph & Attempts & Records & Accepted & Acceptance & Categories at target \\
+\midrule
+Unconstrained LLM & FinBench & 422 & 422 & 200 & 0.474 & 2/8 \\
+Unconstrained LLM & SNB & 2,000 & 2,000 & 50 & 0.025 & 0/8 \\
+Reverse-only & FinBench & 815 & 815 & 800 & 0.982 & 8/8 \\
+Reverse-only & SNB & 820 & 820 & 800 & 0.976 & 8/8 \\
+Validators+repair & FinBench & 833 & 833 & 800 & 0.960 & 8/8 \\
+Validators+repair & SNB & 824 & 824 & 800 & 0.971 & 8/8 \\
+No retrieval & FinBench & 819 & 819 & 800 & 0.977 & 8/8 \\
+No retrieval & SNB & 809 & 809 & 800 & 0.989 & 8/8 \\
+No rewrite & FinBench & 826 & 826 & 800 & 0.969 & 8/8 \\
+No rewrite & SNB & 834 & 834 & 800 & 0.959 & 8/8 \\
+No LLM judge & FinBench & 812 & 812 & 800 & 0.985 & 8/8 \\
+No LLM judge & SNB & 828 & 828 & 800 & 0.966 & 8/8 \\
+Full PIPE-Cypher & FinBench & 824 & 824 & 800 & 0.971 & 8/8 \\
+Full PIPE-Cypher & SNB & 824 & 824 & 800 & 0.971 & 8/8 \\
+\bottomrule
+\end{tabular}
+}
+\caption{Live target-100 ablation evidence with local Qwen3.5-9B. Governed graph runs target 100 accepted examples per category; the unconstrained row is a stress baseline reported with explicit attempt accounting.}
+\label{tab:ablation_results}
+\end{table}

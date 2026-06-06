@@ -1,0 +1,19 @@
+\begin{table}[H]
+\centering
+\small
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lll}
+\toprule
+Dimension & Mind the Query & PIPE-Cypher \\
+\midrule
+Generation review gate & Manual logical review & Deterministic gates + local LLM judge \\
+Human effort & Reported 1,400 person-hours & 80-row post-hoc judge calibration audit \\
+Private values & Public benchmark values & Configurable sampling and redacted export \\
+Refresh & Static dataset release & Rerunnable private benchmark factory \\
+Model endpoint & Gemini in their reported pipeline & Local Qwen3.5-9B endpoint \\
+\bottomrule
+\end{tabular}
+}
+\caption{Industry deployment contrast with Mind the Query. PIPE-Cypher focuses on private refreshable benchmark generation rather than a one-time public dataset.}
+\label{tab:effort_automation}
+\end{table}

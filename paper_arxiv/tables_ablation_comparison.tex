@@ -1,0 +1,26 @@
+\begin{table}[H]
+\centering
+\small
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{llrrrrrr}
+\toprule
+Setting & Graph & Suites & Target cov. & Acceptance & Cat. target & Exec. & Judge \\
+\midrule
+No LLM judge & FinBench & 3/3 & 1.000 & 0.994$\pm$0.008 & 1.000 & 1.000 & 0.994 \\
+No retrieval & FinBench & 3/3 & 1.000 & 0.967$\pm$0.031 & 1.000 & 1.000 & 0.967 \\
+No rewrite & FinBench & 3/3 & 1.000 & 0.969$\pm$0.023 & 1.000 & 1.000 & 0.969 \\
+Full PIPE-Cypher & FinBench & 3/3 & 1.000 & 0.975$\pm$0.016 & 1.000 & 1.000 & 0.975 \\
+Reverse-only & FinBench & 3/3 & 1.000 & 0.994$\pm$0.011 & 1.000 & 0.994 & 0.994 \\
+Validators+repair & FinBench & 3/3 & 1.000 & 0.987$\pm$0.023 & 1.000 & 1.000 & 0.987 \\
+No LLM judge & SNB & 3/3 & 1.000 & 0.982$\pm$0.015 & 1.000 & 0.996 & 0.982 \\
+No retrieval & SNB & 3/3 & 1.000 & 0.993$\pm$0.004 & 1.000 & 0.996 & 0.993 \\
+No rewrite & SNB & 3/3 & 1.000 & 0.983$\pm$0.021 & 1.000 & 0.996 & 0.983 \\
+Full PIPE-Cypher & SNB & 3/3 & 1.000 & 0.987$\pm$0.014 & 1.000 & 0.996 & 0.987 \\
+Reverse-only & SNB & 3/3 & 1.000 & 0.989$\pm$0.011 & 1.000 & 0.996 & 0.989 \\
+Validators+repair & SNB & 3/3 & 1.000 & 0.987$\pm$0.014 & 1.000 & 0.996 & 0.987 \\
+\bottomrule
+\end{tabular}
+}
+\caption{Target-size and repeated-seed ablation sensitivity. Target coverage normalizes accepted examples by each suite's planned graph/category target, so target-50 and target-100 suites can be compared without treating larger raw counts as quality gains. Unconstrained local generation is excluded from this stability table and reported separately as the attempt-logged stress baseline in Table~\ref{tab:ablation_results}.}
+\label{tab:ablation_suite_comparison}
+\end{table}
