@@ -78,6 +78,11 @@ deployment flow is:
 7. Calibrate the judge with a post-hoc human audit sample.
 8. Refresh the benchmark when the graph, values, or user workloads change.
 
+You can also try PIPE-Cypher with an AI coding agent: point the agent at this
+repository and your hosted read-only knowledge graph, then ask it to use
+`AGENTS.md` and the `.agents/skills/pipecypher-enterprise-benchmark` skill to
+configure onboarding, run a dry pass, and export an agent-ready benchmark.
+
 ## Benchmark Data Format
 
 Accepted examples are exported as JSONL files with train/dev/test splits. Each
