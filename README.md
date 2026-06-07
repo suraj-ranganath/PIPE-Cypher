@@ -9,6 +9,24 @@ structure, and difficulty.
 
 ![PIPE-Cypher pipeline](docs/assets/pipeline_overview.png)
 
+## Why PIPE-Cypher Exists
+
+Enterprise property graphs are not interchangeable. Their schema structure,
+internal terminology, governance rules, and common questions depend on the
+domain, the product, the data integrations, and the users or agents that query
+them. A useful Text2Cypher benchmark should therefore reflect how that specific
+graph is actually used, not only public schemas or generic query patterns.
+
+A strong AI agent can sometimes create a small benchmark by inspecting a schema,
+writing Cypher, running queries, and revising failures. That is not enough when
+benchmarks must be refreshed repeatedly as graphs change. PIPE-Cypher turns that
+process into a constrained local pipeline: efficient local models handle
+language and query generation, while deterministic graph checks handle
+grounding, relationship directions, safety, execution, category balance,
+difficulty balance, diversity, redaction, and audit evidence. The result is a
+repeatable way to generate benchmarks at scale without sending private schema or
+values outside the organization.
+
 ## What PIPE-Cypher Does
 
 - Profiles property-graph schemas, relationship directions, properties, and
