@@ -7,8 +7,8 @@ outside their environment.
 
 ## Non-Negotiables
 
-- Keep `main` library-facing. Do not add paper source, submission packages, or
-  private experiment logs here.
+- Keep `main` library-facing: prioritize reusable code, deployment docs, tests,
+  and examples for users running PIPE-Cypher on their own graphs.
 - Treat all graph access as read-only. Generated Cypher is unsafe until it
   passes read-only, syntax, schema, direction, execution, and judge checks.
 - Never commit credentials, private schema dumps, raw proprietary values, or
@@ -75,4 +75,3 @@ python scripts/summarize_run.py artifacts/runs/<run_id>/records.jsonl
 python scripts/export_benchmark.py --records artifacts/runs/<run_id> --output-dir artifacts/benchmarks/<name>_raw
 python scripts/redact_benchmark_export.py --input artifacts/benchmarks/<name>_raw --output artifacts/benchmarks/<name>_redacted --hash-placeholders
 ```
-
