@@ -1,31 +1,8 @@
 # PIPE-Cypher
 
-PIPE-Cypher is a library for creating private, executable
-NL-to-Cypher benchmarks from an organization's own property graph. It is built
-for enterprise Text2Cypher evaluation: schemas and values stay inside the
-organization's environment, generated NL--Cypher pairs execute against the live
-graph, and accepted examples are balanced across workload categories, graph
-structure, and difficulty.
+PIPE-Cypher is a synthetic data pipeline that creates balanced, executable, privacy-aware NL-to-Cypher benchmarks for enterprise knowledge graphs. The value here is that enterprise graphs are highly differentiated: their schemas, terminology, query patterns, and even the questions users ask are unique to each deployment. A strong coding agent today can probably generate data by inspecting a schema, but PIPE-Cypher makes this scalable, cost-effective, and repeatable when the schema inevitably changes. By constraining this as a pipeline, even small local models can efficiently create large amounts of synthetic benchmark data, with deterministic graph checks for balance, diversity, auditability, and execution validity. That makes it useful for keeping private Text2Cypher benchmarks grounded in how a graph is actually used as it evolves.
 
 ![PIPE-Cypher pipeline](docs/assets/pipeline_overview.png)
-
-## Why PIPE-Cypher Exists
-
-Enterprise property graphs are not interchangeable. Their schema structure,
-internal terminology, governance rules, and common questions depend on the
-domain, the product, the data integrations, and the users or agents that query
-them. A useful Text2Cypher benchmark should therefore reflect how that specific
-graph is actually used, not only public schemas or generic query patterns.
-
-A strong AI agent can sometimes create a small benchmark by inspecting a schema,
-writing Cypher, running queries, and revising failures. That is not enough when
-benchmarks must be refreshed repeatedly as graphs change. PIPE-Cypher turns that
-process into a constrained local pipeline: efficient local models handle
-language and query generation, while deterministic graph checks handle
-grounding, relationship directions, safety, execution, category balance,
-difficulty balance, diversity, redaction, and audit evidence. The result is a
-repeatable way to generate benchmarks at scale without sending private schema or
-values outside the organization.
 
 ## What PIPE-Cypher Does
 
