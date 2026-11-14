@@ -23,6 +23,7 @@ outside auditor, and curated benchmarks.
 | `configs/` | Build configurations (`finbench_v3.yaml`, `snb_v3.yaml`, public-graph and ablation configs), schemas, difficulty model |
 | `tests/` | Deterministic unit tests (no GPU, no graph, no network) |
 | `release/benchmarks/` | The released benchmarks: FinBench/SNB (3,038 items, signature-disjoint train/dev/test) and the three public-graph builds |
+| `release/benchmarks/naacl_v3_full/auditor_verdicts.jsonl` | The outside auditor's verdict for every item; the 2,264 items with `auditor_passed: true` form an audited subset |
 | `release/predictions/` | Zero-shot predictions of the 11 evaluated models on all 3,038 items, with score summaries |
 | `release/results/` | The result files behind the paper's tables and figures |
 | `release/human_validation/` | The 70 audited items, sampling key and weights, and the annotators' labels (annotators appear as A and B) |
