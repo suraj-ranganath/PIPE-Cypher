@@ -4,6 +4,8 @@ PIPE-Cypher is a synthetic data pipeline that creates balanced, executable, priv
 
 ## How it works
 
+![PIPE-Cypher pipeline, following one released FinBench item](docs/assets/pipeline_overview.png)
+
 An LLM proposes question templates, and each template is filled only with
 values for which its own query returns an answer on the live graph (reverse
 querying). Deterministic checks reject unsafe or inconsistent items, and a
