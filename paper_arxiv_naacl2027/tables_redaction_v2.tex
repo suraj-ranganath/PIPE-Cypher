@@ -1,0 +1,15 @@
+\begin{table}[t]
+\centering
+\footnotesize
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Redaction policy & default & + numeric literals \\
+\midrule
+Sensitive values audited & 7,740 & 7,740 \\
+Residual values after redaction & 924 (11.9\%) & 81 (1.0\%) \\
+Items with any residual & 402 & 26 \\
+\bottomrule
+\end{tabular}
+\caption{Exact-match redaction audit over the 2,080 v2 items (entity bindings, quoted and numeric Cypher literals, reverse-grounding literals, result-row strings). v2 grounds many slots on numeric identifiers, so the default policy (strings only) leaks them; enabling numeric-literal redaction leaves residuals that are almost entirely schema identifiers returned as values (e.g., label names), which the policy does not hide by design.}
+\label{tab:redaction}
+\end{table}

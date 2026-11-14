@@ -1,0 +1,7 @@
+\section{What the v3 Checks Would Have Caught in v2}
+\label{app:v2audit}
+We ran v3's literal-consistency check and tie check over the released v2 benchmark after the fact.
+
+\paragraph{Literal mismatches.} 201 of v2's 2,080 items (9.7\%) state a value the reference does not use or use a value the question does not state. The most frequent problems (an item can have several) are malformed quoted identifiers produced by v2's id-slot phrasing (142 items), an unstated \cy{LIMIT}~$k$ (38), an unfilled template placeholder (24), a Cypher literal the question never mentions (16), a bound value missing from the Cypher (11), and numbers or hop bounds that differ (7). They concentrate in ranking (72 of 260) and negation (41 of 260). On v2's held-out test, dropping the 29 flagged items moves no model by more than 4.9 points, and model rankings barely change (Kendall $\tau$ between full and clean test: 1.00 zero-shot, 0.96 governed, 0.85 few-shot); models solve the flagged items less often (median 0.28 vs.\ 0.35 zero-shot).
+
+\paragraph{Ties at a \cy{LIMIT} cutoff.} 65 of v2's 283 references with \cy{ORDER BY\ldots LIMIT} tie at the cutoff, and 3 bind an entity identifier as the $k$ of a top-$k$ question; dropping the 10 affected test items moves no model by more than 2.1 points. v3 rejects both before the judge (131 tie rejections in the build), and its release contains neither.

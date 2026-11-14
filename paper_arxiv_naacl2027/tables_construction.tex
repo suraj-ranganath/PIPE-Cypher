@@ -1,0 +1,27 @@
+\begin{table}[H]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+& v1 & v2 & v3 \\
+\midrule
+Items (FinBench / SNB per category) & 3,000 (250/125) & 2,080 (150/110) & 3,038 ($\leq$250/150) \\
+Candidates $\rightarrow$ accepted & -- & 5,031 $\rightarrow$ 2,609 & 5,617 $\rightarrow$ 3,042 \\
+Empty-result rejections (\% of candidates) & -- & 24.2\% & 1.3\% \\
+Released refs.\ with a \cy{LIMIT}-cutoff tie & -- & 65 & 0 \\
+Released items with a literal mismatch & -- & 201 (9.7\%) & 0 \\
+Query signatures & 123 & 1,312 & 919 \\
+Signatures per cell (min / median) & 1 / 1 & 19 / 75 & 19 / 54 \\
+Top-10 signature share & 67.3\% & 3.8\% & 4.3\% \\
+Distinct-2 / EAD-Distinct-2 & 0.09 / 0.27 & 0.24 / 0.70 & 0.19 / 0.73 \\
+Self-BLEU-2, sampled (lower is better) & 0.81 & 0.87 & 0.78 \\
+Easy / medium / hard, calibrated (\%) & 30 / 59 / 11 & 33 / 41 / 26 & 35 / 36 / 29 \\
+Test items sharing a train signature & 289 / 296 & 0 / 216 & 0 / 342 \\
+API cost per 1,000 items & local & \$1.55 & \$1.15 \\
+\bottomrule
+\end{tabular}}
+\caption{Three generations of the FinBench/SNB benchmark: v1, the first version, drew its 3,000 items from a small fixed template set; v2 is the baseline of \S\ref{sec:setup}. v3 binds slots through each template's own query, checks literals and \cy{LIMIT} ties before the judge, and rewrites questions in four registers: empty-result rejections fall from 24\% to 1.3\% of candidates and no released item has a tie or literal mismatch. Tiers use the calibrated score for all three versions (v2's heuristic had reported 1\% hard). v3 reuses each verified template for several bindings (3.3 items per signature vs.\ 1.6), so it has fewer signatures than v2 at the same per-cell floor and a similar top-10 share. Test counts refer to the template-held-out split.}
+\label{tab:construction}
+\end{table}

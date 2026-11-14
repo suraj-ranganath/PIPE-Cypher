@@ -1,0 +1,27 @@
+\section{Wide-Schema Stress Test}
+\label{app:wide}
+To test schemas with more than 100 labels, we copied the five public graphs (FinBench, SNB, Recommendations, Northwind, FinCEN) four times each into one Neo4j database, namespacing every label and relationship type (e.g., \cy{FinA\_Account}, \cy{FINA\_TRANSFER\_TO}) so that every label holds real data. The merged graph has 132 labels, 148 relationship types, 372 relationship patterns, 1,116 node properties, 328,652 nodes, and 1.35M relationships; its profiled schema takes about 6,200 prompt tokens, against 800 for FinBench and 1,100 for SNB. We ran the unchanged v3 pipeline (GLM generator, GLM\,+\,Gemma-4 panel, no hand-written templates) at 10 items per category.
+
+\begin{table}[H]
+\centering
+\footnotesize
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{}lrr@{}}
+\toprule
+& Wide (132 labels) & Main build \\
+\midrule
+Candidates $\rightarrow$ accepted & 135 $\rightarrow$ 80 (59\%) & 5,617 $\rightarrow$ 3,042 (54\%) \\
+Cells at target & 8 of 8 & 21 of 32$^\ast$ \\
+Template proposals meeting the contract & 59\% & 76\% \\
+Empty-result rejections (\% of candidates) & 3.7\% & 1.3\% \\
+API cost per 1,000 accepted items & \$2.13 & \$1.15 \\
+Prompt tokens served from cache & 33\% & 37\% \\
+Accepted queries mixing namespaces & 0 & -- \\
+Accepted items flagged by the outside auditor & 29\% (23/80) & 22\% \\
+\bottomrule
+\end{tabular}}
+\caption{The pipeline on a 132-label schema. $^\ast$Eight main-build cells were stopped at a time budget (Appendix~\ref{app:judges}). Template rejections on the wide schema are mostly properties attached to the wrong label (32 of 36), which the schema check catches. Accepted items span all five domains but unevenly (Recommendations 34, FinCEN 26, Northwind 11, FinBench 8, SNB 1), because the planner balances categories and ignores domains.}
+\label{tab:wide}
+\end{table}
+
+A schema with 26 times FinBench's labels (an eight-times longer schema prompt) roughly doubles the cost per item and makes template proposals noisier; every cell still fills, and the outside auditor's flag rate rises from 22\% to 29\% on these 80 items (no human labels or downstream runs on this graph). A tenant with a schema this size would add domain quotas next to the category quotas and, beyond a few hundred labels, slice the schema per template to the labels within a few hops of its pattern.

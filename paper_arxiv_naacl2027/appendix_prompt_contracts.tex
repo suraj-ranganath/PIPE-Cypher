@@ -1,0 +1,238 @@
+\section{Prompt Contracts and Convention Sheet}
+\label{app:prompts}
+\label{sec:prompt_contracts}
+Prompts are versioned implementation artifacts; the hashes fingerprint the prompt constants in the released code. Every v3 prompt places the fixed blocks (schema, rules, convention sheet, examples) first and the item-specific blocks last, so hosted endpoints can reuse cached prefixes; the content is not shortened.
+\begin{enumerate}\setlength\itemsep{1pt}
+\item \textbf{Template proposal and induction} (\texttt{007be4}, \texttt{a827ce}, rules \texttt{5b8f6e}). A question with typed slots plus parameterized Cypher that uses every slot as \cy{\$slot}; conventions C4 and C10; a requested difficulty tier; induction also lists the templates already covered and asks for structurally different ones.
+\item \textbf{Question realization} (\texttt{513b36}). Rewrite in one sampled register (terse analyst, business manager, imperative, or context-first) without changing meaning; of several rewrites, the one least similar to already accepted questions is kept; every bound value verbatim; the writer rules below.
+\item \textbf{Reference generation} (\texttt{f4af10}). Schema-visible constructs and observed directions only; \cy{RETURN DISTINCT} for set answers; exact equality for quoted values; required context columns; no writes; the convention sheet. The template's own Cypher, with the bound values substituted, is kept as a fallback when the generated reference is rejected, and as an agreement check otherwise.
+\item \textbf{Checklist judge} (\texttt{68dd5f}, frozen before the build). Inputs: the full schema with symmetric types marked, the convention sheet, the question, the Cypher, a clause-by-clause reading the judge writes first, five result rows, and deterministic notes (unlisted patterns, variables dropped at a \cy{WITH}). The judge answers nine criteria (values, relationships, aggregation, grouping, comparisons, ranking, columns, no extra constraints, unambiguous) with yes, no, or n/a and evidence; code passes the item only if no criterion is ``no'' and ``unambiguous'' is ``yes''. Ties, truncation, emptiness, read-only safety, and syntax are left to code.
+\item \textbf{Downstream Text2Cypher} (standard and governed prompts). Read-only Cypher only; schema-visible constructs and direction preservation; the governed prompt adds the generator's conventions.
+\end{enumerate}
+
+\subsection{Convention Sheet (v3.2)}
+The same text is given to the question writer, the reference generator, both judges, the outside auditor, and the human annotators.
+\par\smallskip
+\begingroup
+\fontsize{6.3}{7.3}\selectfont
+\begin{verbatim}
+Benchmark conventions (questions are written under these
+    rules and read with them):
+C1 Values. Text in quotation marks is an exact, case-
+    sensitive value. Identifiers are written without
+    quotation marks (for example "account
+    4803651952544056659") and match the label's
+    identifying property. A quoted number or boolean that
+    names a value ("'73'", "'False'") means that value in
+    the property's stored type. Every value the question
+    states appears in the query, and the query filters on
+    no literal value that the question does not state.
+C2 Direction. A verb with a direction ("transferred to",
+    "invested in", "owned by", "replied to", "applied
+    for") fixes the relationship direction. A neutral verb
+    ("connected to", "linked with", "related to",
+    "associated with") means either direction; a question
+    that intends one direction must use a directed verb.
+    Symmetric relationship types (listed with the schema)
+    are matched without a direction.
+C3 Roles. A role noun ("investor", "owner", "member",
+    "author") covers every label that can play that role
+    in the schema unless the question names the label.
+C4 Counting. "How many <entities>" counts distinct
+    entities. "How many <transfers / links / relationships
+    / events / times>" counts relationship or event
+    instances. Sum, average, minimum, and maximum are
+    taken over all matching instances, never over DISTINCT
+    values, unless the question says "distinct" or
+    "different".
+C5 Sets. Answers are compared as sets of rows: duplicate
+    rows and row order do not matter unless the question
+    asks for an order ("in chronological order", "sorted
+    by", "ranked"). DISTINCT in a query is never an error
+    by itself.
+C6 Columns. The query returns every attribute the question
+    asks for, by name. Extra columns that identify or
+    describe the returned entities (ids, names, types,
+    status flags) are allowed. Extra filters, exclusions,
+    or row limits that the question does not state are not
+    allowed.
+C7 Comparisons. "After", "before", "more than", "less
+    than", "over", "under", "exceeds" are strict (>, <).
+    "On or after", "since", "at least", "at most", "no
+    more than", "up to", "until" are inclusive (>=, <=).
+    "Between A and B" includes both ends. "In <year>" or
+    "in <month> <year>" covers the whole period. A two-way
+    split ("before and after", "above and below") may put
+    the boundary value in either group.
+C8 Paths. "Within N hops" means 1 to N hops; "exactly N
+    hops" means N; "directly" means 1 hop. A reachability
+    question states its hop bound, and the query uses
+    exactly that bound.
+C9 Temporal chains. "Then", "followed by", "later", or
+    "subsequently" between steps require each later step's
+    timestamp to be greater than the earlier step's.
+C10 Self-matches. "Other", "another", "else", or
+    "different" (in the sense of "not the same one")
+    require the query to exclude the anchor entity, for
+    example a <> b for self-transfers. Without such a
+    word, the query may either allow or exclude self-
+    matches; neither is an error.
+C11 Ranking. "Top k by X" or "the k highest X" sorts by X
+    descending and keeps k rows; "lowest", "bottom",
+    "fewest" sort ascending. "Which <entity> has the most
+    X" returns the maximum. The ranking is over the
+    population the question names; ranking a single given
+    entity against itself is degenerate and not allowed.
+C12 Grouping. "For each X", "per X", or "by X" groups by X
+    and returns X's identifier with each aggregate.
+    Without such words an aggregate is one value over the
+    whole population. Groups with zero matches are
+    included only when the question says so ("including
+    those with none").
+C13 One reading. A question has exactly one reasonable
+    reading under these conventions. It contains no
+    unfilled placeholders such as {k} and no malformed
+    values (such as a quoted "account with id 123"), it
+    names any time window, threshold, k, or hop bound it
+    relies on, and it asks only for facts the graph
+    records (no "current" or historical status the schema
+    does not store).
+\end{verbatim}
+\endgroup
+
+\subsection{Checklist Judge Prompt}
+\label{app:judgeprompt}
+Both panel judges and every chat-model auditor receive the prompt below, frozen before the build. Angle brackets mark the slots filled for each item: the conventions slot holds the sheet above, and the schema slot the full profiled schema.
+\par\smallskip
+\begingroup
+\fontsize{6.3}{7.3}\selectfont
+\begin{verbatim}
+[system]
+You are a meticulous reviewer of
+    natural-language-to-Cypher benchmark items. Return
+    strict JSON only. No markdown or extra text.
+
+[user]
+Task: decide whether a benchmark item is correct. An item
+    is a natural-language question and a reference Cypher
+    query over the graph schema below. The item is correct
+    when the query returns exactly what the question asks
+    for, read under the conventions.
+
+<conventions>
+
+Out of scope (code checks these before you see the item;
+    never answer "no" because of them): read-only safety,
+    Cypher syntax, empty results, ties at an ORDER BY ...
+    LIMIT cutoff, and truncation by a LIMIT without ORDER
+    BY. A large LIMIT that only caps a list (the result
+    has fewer rows than the LIMIT) is harmless.
+    Categorical value lists constrain literals written in
+    the query, not values that appear in result rows. Code
+    checks that labels and properties exist and that
+    simple MATCH patterns follow the schema, but it does
+    not check patterns inside EXISTS / NOT EXISTS
+    subqueries, untyped nodes, or whether a pattern can
+    relate the entities the question means; you must check
+    those.
+
+How to review: first read the query clause by clause and
+    write down what it returns: which variables each MATCH
+    binds, what each WITH carries forward (a variable that
+    is not carried loses its binding and matches anything
+    if it is used again), which entities each mandatory
+    MATCH drops, whether separate patterns are combined
+    into a cross product of rows, and what one result row
+    represents. Then compare that reading with the
+    question.
+
+Checklist. For each criterion, first write short evidence
+    that quotes the question and the query, then answer
+    "yes", "no", or "na" (na only when the criterion does
+    not apply).
+1. values: every entity, identifier, number, date, and
+    quoted value in the question appears in the query with
+    the same meaning, and the query filters on no literal
+    value the question does not state (C1). A quoted
+    phrase that is not itself a stored value (for example
+    'account with id 123' or 'company id company') is a
+    no.
+2. relationships: relationship types, node labels, and
+    directions express the question's meaning, and the
+    pattern connects the entities the question relates
+    (C2, C3). Every pattern, including patterns inside
+    EXISTS / NOT EXISTS and after WITH, uses a
+    relationship the schema lists between those labels in
+    the listed direction (symmetric types excepted);
+    variables used after a WITH were carried through it;
+    independent sub-answers are not combined into a cross
+    product of rows.
+3. aggregation: the aggregate function and the counted
+    unit match the question (C4). na if the question asks
+    for no aggregate.
+4. grouping: the grouping key and the per-group output
+    match the question (C12). A question that asks for one
+    overall value gets one value, not one per entity; a
+    per-entity question is not collapsed into one value.
+    na if there is neither grouping nor an overall
+    aggregate.
+5. comparisons: comparison operators, boundaries, time
+    windows, and hop ranges match the question (C7, C8,
+    C9). na if there are none.
+6. ranking: the sort key, sort direction, and k match the
+    question (C11). A ranking whose population is
+    restricted to one given entity (for example "among
+    accounts with id 123, which have the most ...") or
+    whose sort key is the same for every row is a no. na
+    if the question asks for no ranking or ordering.
+7. columns: the query returns every attribute the question
+    asks for (C6).
+8. no_extra_constraints: the query adds no filter,
+    exclusion, hop bound, or row limit that the question
+    does not state and the conventions do not require (C6,
+    C8, C10), and no mandatory MATCH drops entities the
+    question asks for (for example, keeping only a
+    person's comments that reply to comments when the
+    question asks for all of their comments).
+9. unambiguous: the question has one reasonable reading
+    under the conventions, contains no unfilled
+    placeholder, asks only for facts the graph stores (no
+    "current" job, change history, or population the
+    schema lacks), and its answer is meaningful to an
+    analyst (C11, C13).
+
+Output: one JSON object with exactly these keys:
+{"query_reading": "walk through the query clause by clause
+    (each MATCH pattern as start label, type, end label;
+    each WITH and what it carries; each WHERE; the
+    RETURN), then say what one result row represents and
+    which rows are kept or dropped", "values":
+    {"evidence": "...", "answer": "yes|no|na"},
+    "relationships": {"evidence": "...", "answer": "..."},
+    "aggregation": {...}, "grouping": {...},
+    "comparisons": {...}, "ranking": {...}, "columns":
+    {...}, "no_extra_constraints": {...}, "unambiguous":
+    {...}, "clarified_question": "if unambiguous is no,
+    one rewrite of the question that has a single reading
+    and matches the query; otherwise an empty string",
+    "difficulty": "easy|medium|hard"}
+
+Graph schema:
+<schema>
+
+Item to review
+Question:
+<question>
+
+Reference Cypher:
+<cypher>
+
+Result: <row_summary>
+<rows>
+
+Query features (from the parser): <features>
+Validator notes: <notes>
+
+Return the JSON object now.
+\end{verbatim}
+\endgroup

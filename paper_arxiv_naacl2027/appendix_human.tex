@@ -1,0 +1,86 @@
+\section{Human Validation Protocol}
+\label{app:human}
+\paragraph{Sample.} 70 items were drawn from the v3 release, stratified by graph~$\times$ category~$\times$ tier. Within each of these cells, items that none of the 11 models solved zero-shot or that the outside auditor rejected formed a separate stratum with twice the inclusion weight, and hard cells had twice the weight. A sample of 70 cannot cover all 92 resulting strata, so within a cell the smallest stratum was merged into its sibling (smallest first) until 66 strata remained; every cell and every released item is then covered, and inclusion probabilities stay exact. Each of two annotators received 50 items; 30 items were shared to measure agreement between them. The sample holds 41 FinBench and 29 SNB items (21 easy, 22 medium, 27 hard); 23 were rejected by the auditor and 5 were solved by no model.
+
+\paragraph{Annotators.} Both annotators are authors. Judging a reference requires reading Cypher fluently and knowing the FinBench and SNB schemas, including relationship directions and which types are symmetric, so we chose annotators with that background over crowd workers. One annotator did not work on the generation pipeline. They labeled independently without discussing items, did not open the sampling key or any model or judge outputs before finishing, and did not change their individual labels after estimates were computed.
+
+\paragraph{What annotators saw.} A private web page showed one item at a time: the question, the reference Cypher, the first five result rows, the schema elements the query touches (with symmetric relationship types marked), and the convention sheet. A collapsed panel held, for reference, the full prompt the two judges received for that item (their instructions and nine-criterion checklist, the whole graph schema, and the item with its parser features and validator notes), rendered by the judge's own prompt function. Annotators did not answer the checklist. The page did not show the category, calibrated tier, model predictions, any judge verdict, or why the item was sampled.
+
+\paragraph{Labels.} \emph{Question:} clear, or ambiguous (with the convention it leaves open, or ``not covered''). \emph{Reference:} correct; minor issue (the answer is right, but something small is off, such as an extra non-identifying column, a redundant clause, or wording that slightly mismatches the query while the intended answer is clear); or wrong (the query would return a different answer from the one the question asks for: reversed direction, wrong filter or literal, wrong count unit, wrong hop bound, missing or extra rows). A note explained each non-correct label.
+
+\paragraph{Resolving disagreements.} The two annotators' labels differed on 8 of the 30 shared items (6 on the reference, 2 only on the question). After both had finished and the first estimates were computed, they discussed these items together and recorded one label for each; their individual labels were kept, and agreement is reported on them. For each item, a page showed both labels and notes, the conventions at issue, and a corrected query run on the graph beside the reference, with any rows that differed. Two references were resolved as wrong although the corrected query returned the same requested rows on the current graph, because the query answers a different question and would diverge on other data (a single \cy{MATCH} forbids two patterns to share an edge; three companies are not required to differ). One reference that both had labeled wrong was resolved as correct, for a question that admits both readings. Estimates use the resolved labels; Table~\ref{tab:human}a also gives them with the two labels on each shared item averaged instead (an item then counts 0, 0.5, or 1).
+
+\paragraph{Estimates.} Rates are ratio estimates over the 66 strata: each item is weighted by its inverse inclusion probability, and the 95\% interval resamples items with their weights (2,000 resamples). Agreement intervals resample the 30 shared items. Since every released item passed the panel (both panel judges passed all 70 sampled items), one minus the error rate is the panel's precision.
+
+\paragraph{Wrong references.} Of the 12 references resolved as wrong, six omit a constraint or join the question implies or count the wrong unit (three companies are not required to differ; the repayer is not required to be the guaranteed person; a withdrawal to the same account is not excluded; forums are grouped by title and moderator name, which can merge distinct forums; an account linked both ways is counted twice; one \cy{MATCH} forbids two patterns to share an edge). Three answer a question the schema cannot express as asked (summing investment ratios as amounts, requiring an account to receive a repayment, locating a transfer within a sign-in). One encodes a date cutoff wrongly, and two take a reading the convention sheet rules out or leaves open (averaging over accounts with no transfers; what counts as the owner's own account). The auditor flagged 10 of the 12; the two it passed are the ones on which the annotators had first disagreed. Of the 5 items no model solved, 2 have wrong references. Of the auditor's 23 flags, 15 mark some defect (Table~\ref{tab:human}d).
+
+\begin{table}[H]
+\centering\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+\multicolumn{3}{@{}l}{\emph{(a) Release estimates, \% (95\% CI)}} \\
+ & Resolved & Averaged \\
+\midrule
+Reference wrong & 13.8 [6.3, 22.2] & 15.7 [7.2, 25.6] \\
+Wrong or minor issue & 18.8 [10.2, 29.1] & 20.9 [10.8, 32.7] \\
+Question ambiguous & 11.8 [4.3, 21.8] & 10.8 [4.9, 18.1] \\
+Not correct and clear & 24.0 [13.2, 36.1] & 22.6 [12.7, 34.5] \\
+\bottomrule
+\end{tabular}
+
+\vspace{6pt}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+\multicolumn{5}{@{}l}{\emph{(b) By slice, resolved labels, reweighted \%}} \\
+ & $n$ & Wrong & Wr./minor & Ambig. \\
+\midrule
+FinBench & 41 & 18.0 & 26.0 & 19.1 \\
+SNB & 29 & 6.9 & 6.9 & 0.0 \\
+\addlinespace
+Easy & 21 & 2.5 & 14.6 & 13.1 \\
+Medium & 22 & 10.0 & 10.0 & 3.8 \\
+Hard & 27 & 32.3 & 35.1 & 20.4 \\
+\addlinespace
+Simple retrieval & 8 & 0.0 & 3.0 & 0.0 \\
+Complex retrieval & 10 & 24.8 & 24.8 & 17.5 \\
+Simple aggregation & 8 & 5.7 & 25.1 & 5.7 \\
+Complex aggregation & 8 & 30.8 & 35.5 & 44.0 \\
+Boolean existence & 9 & 7.0 & 10.7 & 3.6 \\
+Negation/difference & 7 & 0.0 & 10.1 & 0.0 \\
+Path/temporal & 11 & 31.1 & 31.1 & 21.1 \\
+Ranking/top-$k$ & 9 & 8.5 & 8.5 & 0.0 \\
+\bottomrule
+\end{tabular}
+
+\vspace{6pt}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+\multicolumn{3}{@{}l}{\emph{(c) Agreement on 30 shared items, before discussion}} \\
+ & Agree & $\kappa$ [95\% CI] \\
+\midrule
+Reference, three-way & 80\% & 0.51 [0.23, 0.77] \\
+Correct vs.\ not & 90\% & 0.73 [0.38, 1.00] \\
+Wrong vs.\ not & 83\% & 0.47 [0.00, 0.81] \\
+Question clear vs.\ ambiguous & 87\% & 0.00 (AC1 0.85) \\
+\bottomrule
+\end{tabular}
+
+\vspace{6pt}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{}lcc@{}}
+\toprule
+\multicolumn{3}{@{}l}{\emph{(d) Auditor (gpt-6-luna) vs.\ resolved labels, items}} \\
+ & Flagged & Passed \\
+\midrule
+Reference wrong & 10 & 2 \\
+Minor issue & 4 & 2 \\
+Correct, question ambiguous & 1 & 2 \\
+Correct and clear & 8 & 41 \\
+\addlinespace
+\% wrong, reweighted & 59.7 [36.0, 77.7] & 3.9 [0.0, 11.0] \\
+\bottomrule
+\end{tabular}}
+\caption{Human validation on 70 sampled items (30 labeled by both annotators). (a)~Error rates reweighted to the 3,038-item release, using resolved labels or averaging the two labels on shared items. (b)~Slices have 7--41 items, so their intervals are wide. (c)~$\kappa$ for the question is 0 because one annotator labeled every shared question clear; AC1 is Gwet's coefficient. (d)~Rows are exclusive; the auditor flags 22\% of the release.}
+\label{tab:human}
+\end{table}

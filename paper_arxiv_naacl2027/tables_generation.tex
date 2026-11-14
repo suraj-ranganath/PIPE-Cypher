@@ -1,0 +1,36 @@
+\begin{table*}[t]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+& v2 & v3 \\
+\midrule
+Candidates / accepted & 5,031 / 2,609 & 5,617 / 3,042 \\
+Exported & 2,080 & 3,038 \\
+\multicolumn{3}{@{}l}{\emph{First blocking reason for rejected candidates}} \\
+Tier quota full & -- & 1,713 \\
+LLM judge / panel reject & 405 & 197 \\
+Slot bindings unavailable & 385 & 181 \\
+Duplicate, entity, or signature cap & 385 & 138 \\
+Tie at the \cy{ORDER BY\ldots LIMIT} cutoff & -- & 131 \\
+Category contract (e.g., yes/no returns one boolean) & -- & 98 \\
+Empty result & 1,220 & 72 \\
+Literal mismatch (question vs.\ Cypher) & -- & 22 \\
+Structural defect (unlisted pattern, dropped variable) & -- & 22 \\
+Execution, schema, or syntax error; unordered \cy{LIMIT} & 27 & 1 \\
+\multicolumn{3}{@{}l}{\emph{Templates}} \\
+LLM proposals kept / proposed & -- & 826 / 1,081 \\
+Accepted items: seed / schema-derived / LLM / induced & 279 / 896 / 1,247 / 187 & 375 / 423 / 1,476 / 768 \\
+\multicolumn{3}{@{}l}{\emph{Cost and time}} \\
+LLM calls (generation / judge 1 / judge 2) & 18,405 & 11,086 / 4,368 / 4,362 \\
+Prompt / completion / reasoning tokens & 20.7M / 1.39M / 0.70M & 57.0M / 5.11M / 0.54M \\
+Prompt tokens served from cache & 22\% & 37\% \\
+API cost (generation / judge 1 / judge 2) & \$3.23 & \$1.63 / \$1.42 / \$0.44 \\
+Cost per 1,000 exported items & \$1.55 & \$1.15 \\
+Wall-clock (parallel workers, one laptop or CPU host) & 54 min & 76 min \\
+\bottomrule
+\end{tabular}
+\caption{Generation accounting for the FinBench/SNB builds. In v3 the deterministic checks run before the judges: 1,142 of the 1,713 tier-quota rejections, and 60\% of all rejections, cost no judge call, while 475 candidates passed the panel and were then rejected when the tier quota was re-checked at acceptance. Judge calls therefore exceed the 3,239 candidates whose final verdict came from the panel; candidates whose generator reference was rejected were also judged again with their template's Cypher. Empty results, v2's dominant failure (LLM-proposed templates whose slots fell back to a generic value lookup), drop from 1,220 to 72. v3 sends about three times as many prompt tokens (full schema and convention sheet in every judge prompt, two judges) yet costs less per item, because its GLM endpoint is cheaper and caches prompt prefixes.}
+\label{tab:generation}
+\end{table*}

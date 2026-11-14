@@ -1,0 +1,228 @@
+\documentclass[11pt]{article}
+\usepackage[preprint]{acl}
+\usepackage{times}
+\usepackage{latexsym}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{placeins}
+\usepackage{float}
+\usepackage{multirow}
+\usetikzlibrary{arrows.meta,calc,positioning}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+
+\newcommand{\cy}[1]{\texttt{\small #1}}
+\setcounter{topnumber}{1} % at most one float at the top of a column
+
+\title{PIPE-Cypher: Generating Private, Execution-Grounded Text-to-Cypher\\Benchmarks for Enterprise Property Graphs}
+\author{
+Suraj Ranganath\\
+Hal{\i}c{\i}o\u{g}lu School of Data Science and Computing\\
+University of California, San Diego
+\And
+Anish Raghavendra\\
+Independent Researcher
+}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+A team that puts a natural-language interface on its property graph needs to know whether a Text-to-Cypher system works on \emph{its} schema, values, and questions. Public benchmarks cannot tell it: they contain neither the team's graph nor its changes. We introduce PIPE-Cypher, a pipeline that turns a live property graph into a private, execution-grounded Text-to-Cypher benchmark. Having an LLM write question--query pairs for a private schema is easy, and it fails quietly: values that are not in the graph, relationships that point the wrong way, queries that return nothing. PIPE-Cypher lets the LLM propose and the graph decide. Each question is filled only with values for which its query returns an answer on the live graph, and deterministic checks, written answer conventions, and a cross-family judge panel filter what remains. A generated benchmark deserves skepticism, so we measure its validity separately. On LDBC FinBench and SNB, it builds 3,038 items; a human audit estimates that 81\% of their references are fully correct and 14\% wrong, and the benchmark ranks 11 models as curated benchmarks do. When the schema changes, stale references silently inflate every model's score, and PIPE-Cypher updates the benchmark at a fraction of a rebuild's cost.
+\end{abstract}
+
+\section{Introduction}
+Property graphs hold some of an enterprise's most consequential facts as paths: money moving between accounts, who can reach which system, which suppliers a product depends on. Teams now put natural-language interfaces on these graphs, letting analysts and agents ask questions that an LLM translates into Cypher. Before such an interface reaches production, its owners face a plain question: does it work on \emph{our} graph, with our labels and relationship directions, our categorical values, and the questions our users ask? Public Text2Cypher benchmarks~\citep{text2cypher2025,cypherbench2025,mindthequery2025} cannot answer it. They do not contain a bank's account taxonomy or an identity team's entitlement graph, they cannot be built from data that may not leave the organization, and they do not change when the production schema does.
+
+\begin{figure*}[t]
+\centering
+\input{figures/pipeline_figure1_tikz}
+\caption{PIPE-Cypher, following one released FinBench item (full trace in Appendix Table~\ref{tab:running_example}). Top: the LLM proposes, while code and queries on the live graph decide what survives; deterministic checks and quotas run before the judges. Bottom: after release, validity is measured independently, systems are scored by execution, and graph changes trigger an incremental refresh.}
+\label{fig:pipeline}
+\end{figure*}
+
+The obvious alternative is to have a strong LLM write question--Cypher pairs against the private schema. Writing one good pair is easy. A useful benchmark is much harder: it needs thousands of items whose values exist in the graph, whose relationships point the right way, and whose queries add no constraint the question leaves out, and it must be rebuilt whenever the schema migrates. Even with checks and a judge, generation fails quietly: in an earlier version of our own pipeline, a quarter of candidates returned no rows, and 9.7\% of released items stated a literal that the question and the Cypher did not share.
+
+PIPE-Cypher therefore makes generation a pipeline in which the LLM proposes and the graph decides (Figure~\ref{fig:pipeline}). Its central step is \emph{reverse querying}: the LLM writes a parameterized template, and each slot is filled only with values for which the template's own query returns an answer on the live graph. Every released item therefore has a known, non-empty answer, which is what lets a system be scored by executing its query and comparing rows. Text overlap with the reference cannot replace execution for graph queries, since one question has many correct Cypher forms (Appendix Table~\ref{tab:metrics}), and a reference that returns nothing would match any wrong query that also returns nothing. Deterministic checks then reject unsafe, schema-invalid, literal-inconsistent, or order-dependent items before any paid judgment, and two judges from different model families read the survivors against a \emph{convention sheet} that also guides the writers. The same machinery refreshes the benchmark after a schema change.
+
+A generated benchmark invites fair skepticism: are its references right, do they favor the model that wrote them, and does it rank systems as a curated benchmark would? We measure each independently of the pipeline. Our contributions are:
+\begin{itemize}\setlength\itemsep{1pt}
+\item \textbf{A private benchmark factory for property graphs} (\S\ref{sec:method}): values verified through each template's own query (reverse querying), cheap deterministic checks before a cross-family judge panel, one convention sheet for writers and judges, and calibrated difficulty tiers.
+\item \textbf{A validity study} (\S\ref{sec:validity}): a human estimate of the reference error rate (13.8\%, mostly hard items), an outside auditor that finds most errors, a generator swap, and ranking agreement with curated benchmarks and with an independent regeneration.
+\item \textbf{Deployment evidence and lessons} (\S\ref{sec:downstream}--\ref{sec:lessons}): 11 models and two Text2Cypher fine-tunes evaluated, a refresh after schema migration, a 9B generator, a 132-label schema, and measured cost.
+\end{itemize}
+
+\section{Related Work}
+\paragraph{Text2Cypher data and benchmark pipelines.} Mind the Query~\citep{mindthequery2025} releases a dataset together with the pipeline that built it: a hosted LLM writes question--Cypher pairs, schema, runtime, and value validators filter them, and annotators verify the logic by hand. SyntheT2C~\citep{synthet2c2025} and Auto-Cypher~\citep{autocypher2025} synthesize training data verified by execution, KG2Cypher~\citep{kg2cypher} builds queries from observed graph facts to fine-tune an enterprise generator, and Text2Cypher~\citep{text2cypher2025,text2cypher2024dataset} and CypherBench~\citep{cypherbench2025} release benchmarks over public graphs. Matching query text penalizes correct predictions written in another form~\citep{zhong2020testsuites}, so BIRD~\citep{bird2023} and Spider~2.0~\citep{spider22024} made execution accuracy the Text-to-SQL standard, while Text2Cypher results are still reported with text overlap alongside execution~\citep{text2cypher2025}; BEAVER~\citep{beaver2024} shows how far public-benchmark accuracy overstates accuracy on private data. PIPE-Cypher differs in its mechanisms and in what it evaluates: values are bound through each query so that every item has an observed answer, literal and tie checks and a shared convention sheet target semantic errors, reference quality is measured by audit, and refresh after a schema change is implemented and tested (Appendix Table~\ref{tab:prior_mechanism_comparison}). Systems that answer graph questions for users~\citep{graphseek,segra,natnl2gql} are what such a benchmark is built to evaluate.
+
+\paragraph{Validity of generated and curated benchmarks.} YourBench~\citep{yourbench2025} generates custom evaluation sets from an organization's documents; PIPE-Cypher does so for executable queries, where a reference can be checked by running it. Generated benchmarks raise threats that we test directly: LLM judges are imperfect proxies for human judgment~\citep{zheng2023judging} and favor their own generations~\citep{panickssery2024selfpref}, and a new benchmark is informative only if it agrees with established ones~\citep{perlitz2024agreement}. Curated benchmarks have errors too: audits found wrong gold SQL in a fifth of BIRD's financial-domain questions~\citep{wretblad2024noise} and annotation errors, ambiguity included, in over half of the BIRD and Spider~2.0-Snow subsets examined~\citep{jin2026pervasive}.
+
+\section{PIPE-Cypher}
+\label{sec:method}
+PIPE-Cypher connects to a graph through a read-only session and runs eight stages of three kinds (Figure~\ref{fig:pipeline}): deterministic code, queries on the live graph, and LLM calls. All of its LLMs have open weights, so an organization can host them; here GLM-5.3-Flash~\citep{glm53flash2026hf} is the generator, and GLM and Gemma-4 are the judges (terms in Appendix Table~\ref{tab:glossary}). We call an exported query a \emph{pipeline-validated reference}: it passed every check, and its correctness is measured separately (\S\ref{sec:validity}).
+
+\paragraph{Profiling and planning.} The profiler introspects labels, relationship patterns with their observed directions, typed properties, and bounded low-cardinality values; a value policy omits free-text and sensitive fields. The planner sets targets for eight query categories (simple and complex retrieval and aggregation, boolean existence, negation, path/temporal, and ranking/top-$k$), splits each across three difficulty tiers, and caps the items per query signature (its Cypher with literals and names abstracted). Tiers come from a structural score on the reference Cypher, fitted to how often 11 models solved an earlier benchmark's items; out of fold, models solve 65\%, 31\%, and 18\% of items scored easy, medium, and hard (Appendix~\ref{app:difficulty}).
+
+\paragraph{Reverse querying: templates with verified bindings.} Scoring by execution needs references whose answers are real. In our earlier version, most failed items went wrong at the values, such as an account with no transfers in the requested window. PIPE-Cypher therefore asks the LLM for \emph{parameterized templates}, each a question with typed slots plus Cypher that uses every slot as a \cy{\$slot} parameter, and queries the graph in reverse to fill them. The template query, rewritten to return the slot's property, proposes candidates, and a value is kept only if the template query run with it returns a non-degenerate answer (not empty, null, or zero). Each item thus enters the benchmark with an observed answer. Templates whose slots cannot be bound are retired with a logged reason, and saturated templates or short tiers trigger requests for new structures.
+
+\paragraph{Realization and the convention sheet.} Each bound question is rewritten in one of four registers (e.g., terse analyst or imperative), keeping, of several rewrites, the one least similar to accepted questions, with every bound value verbatim; the LLM then writes the reference Cypher for the final question. Many disputes about whether a query is right are really about reading conventions: does ``how many accounts'' count accounts or paths, is a date range inclusive, may the anchor account appear in its own answer? A plain-text convention sheet of 13 such rules goes to the question writer, the reference writer, and the judges alike, and a team can add its own domain rules (Appendix~\ref{app:prompts}).
+
+\paragraph{Cheap checks before paid judgment.} A lightweight parser extracts projections, patterns, predicates, ordering, and limits. Deterministic checks then reject items that could write; use labels, properties, directions, or categorical literals the profile does not have; state a value, date, $k$, or hop bound in the question that the Cypher lacks, or the reverse (a \emph{literal mismatch}); tie at an \cy{ORDER BY\ldots LIMIT} cutoff, so that the answer depends on engine ordering; break their category's answer contract (a yes/no question must return one boolean); return nothing; or fall into a full quota. These checks run before the judges (quota and duplicate checks repeat at acceptance), and each rejection is logged with its first failed check.
+
+\paragraph{A cross-family judge panel.} Two judges from different model families answer a fixed nine-item checklist (values, relationships, aggregation, grouping, comparisons, ranking, columns, no unstated constraints, unambiguous) given the schema, the convention sheet, and the result rows. Code computes the verdict, both judges must accept, and a judge error rejects. On the 150 LLM-adjudicated items used to design them, agreement rose from $\kappa=0.14$ for a free-form prompt to 0.67 for the checklist (0.61 on a frozen rerun) and 0.73 for the panel (Appendix~\ref{app:judges}).
+
+\paragraph{Export and scoring.} Each item carries its question, reference, answer contract, signature, tier, check outcomes, judge checklists, and provenance. A system is scored by executing its query and the reference read-only and comparing rows. \textbf{Strict EX} requires identical row sets, with multi-column rows matched on column names and values. \textbf{Projected EX} accepts any mapping of the reference's answer columns to predicted columns that yields identical row sets, ignoring column names, extra columns, and identifying context columns (convention C6). Both compare row sets, so row order is not scored. Text overlap serves only as a diagnostic: only 3.5\% of right answers match the reference text (Appendix Table~\ref{tab:metrics}).
+
+\section{Experimental Setup}
+\label{sec:setup}
+\paragraph{Graphs.} The main benchmark uses two LDBC workloads: FinBench~\citep{ldbcfinbench}, for financial risk control (10k nodes, 5 labels, 9 relationship types), and the Social Network Benchmark~\citep{ldbcsnb} (35k nodes, 14 labels, 15 types). Three public Neo4j graphs with curated Text2Cypher-2024 questions~\citep{text2cypher2024dataset}, Recommendations, Northwind, and FinCEN, serve as an external anchor (Appendix Table~\ref{tab:graph_statistics}). All run on Neo4j~5.26 Community.
+
+\paragraph{Builds.} The main build targets 250 items per category on FinBench and 150 on SNB, generated as two independent halves with different seeds and split by query signature into train (2,355 items), dev (341), and test (342). Each public graph was built with 20 items per category from introspection alone. Our baseline is \emph{v2}, an earlier version of the pipeline (2,080 items) without verified bindings, literal and tie checks, convention sheet, or checklist.
+
+\paragraph{Models.} GLM-5.3-Flash (open weights, 321B, FP8) is the generator and first judge, and Gemma-4-26B-A4B the second judge; our graphs are public, so we used hosted endpoints at the released precision. The closed gpt-6-luna never decides what is released; it serves only as auditor, replay generator, and downstream reference. Downstream we evaluate ten open-weight models from seven families, gpt-6-luna, and two Neo4j Text2Cypher fine-tunes (Appendix Table~\ref{tab:models}).
+
+\paragraph{Human validation.} Two authors fluent in Cypher and both schemas, one of whom did not work on the pipeline, independently labeled 70 released items stratified by graph, category, and tier (oversampling hard, unsolved, and auditor-rejected items); 30 were labeled by both. They judged whether each question is clear and whether its reference is correct, has a minor issue, or is wrong, and saw the judges' full prompt but no category, tier, model output, or verdict. Estimates are reweighted to the release (Appendix~\ref{app:human}); other intervals are 95\% bootstrap intervals over query-signature clusters (2,000 resamples).
+
+\section{Results}
+\subsection{Construction, diversity, and cost}
+\label{sec:construction}
+The main build drew 5,617 candidates in 76 minutes and accepted 3,042 (3,038 after deduplication) at an API cost of \$3.50 (\$1.15 per 1,000 items). Full tier quotas account for two thirds of the rejections (1,713; Appendix Table~\ref{tab:generation}). The checks caught 131 ties at a \cy{LIMIT} cutoff, 98 broken category contracts, and 22 literal mismatches, and the judge panel rejected only 197 candidates (3.5\%). Empty results fell from 24\% of candidates in v2 to 1.3\%, and reverse querying alone accounts for this: with verified bindings switched off in the current pipeline, 36\% of candidates return nothing, against 1.6\% in a matched run with them on (Appendix Table~\ref{tab:ablation_binding}). The release holds 1,882 FinBench and 1,156 SNB items, 35/36/29\% easy/medium/hard.
+
+Compared with v2, no released reference now ties at a cutoff or mismatches a literal, and no test signature occurs in train (Appendix Table~\ref{tab:construction}).
+
+\subsection{Are the references valid?}
+\label{sec:validity}
+\paragraph{Human labels.} Reweighted to the release, 13.8\% of references are wrong (95\% CI [6.3, 22.2]), another 5\% have a minor issue, and 11.8\% of questions are ambiguous. Errors concentrate in hard items (32\% vs.\ 2.5\% of easy ones) and on FinBench (18\% vs.\ 7\% on SNB). Half of the 12 wrong references in the sample omit a constraint the question implies, for instance that three companies are distinct (Appendix~\ref{app:human}). Before discussion, the annotators agreed on whether a reference is correct for 90\% of the 30 shared items ($\kappa=0.73$; 0.47 for wrong vs.\ not, 0.51 over all three labels); most of their six reference disagreements concerned severity and were resolved together afterwards.
+
+\paragraph{Judges and an outside auditor.} The two panel judges agree on 95.6\% of the 3,239 candidates they saw ($\kappa=0.41$; 0.91 adjusted for prevalence), and each passes about 96\% of what reaches it. Every sampled item had passed both judges, so this is the error rate among accepted items. To find such errors cheaply, gpt-6-luna re-judged every candidate independently with the same checklist and evidence. It flags 21.8\% of accepted items (36.5\% of hard ones). Reweighted, it flags about three in four wrong references (10 of 12 in the sample), and an estimated 4\% of the items it passes are wrong (95\% CI 0--11\%; Appendix Tables~\ref{tab:judges},~\ref{tab:human}). Dropping its flagged items raises every model's accuracy by 2 to 4 points and barely changes the ranking ($\tau=0.93$). Correcting the seven clearly wrong sampled references flips four right predictions to wrong and none the other way (Appendix~\ref{app:sensitivity}).
+
+\paragraph{Does the generator favor itself?} We replayed 400 accepted items, keeping GLM's question, template, bindings, checks, and judges while another model wrote the reference. gpt-6-luna's references return the released answer on 95\% of items, as often as a second GLM run (94\%), and Qwen3.5-9B's on 86\%. Rescoring all 11 models on the 302 items that every replay passed, GLM's lead over the others is 2.4 points larger against its own references than against gpt-6-luna's (difference-in-differences 95\% CI [$-0.04$, 0.09]). This is the largest of 11 placebo values ($p=0.09$, the minimum possible), so a small self-preference remains possible; gpt-6-luna and Qwen gain at most a point from theirs (Appendix Table~\ref{tab:validity}). A misreading shared by two models would still pass this test.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/curated_agreement.pdf}
+\caption{Generated benchmarks order models as curated ones do: each point is one of 11 models, scored zero-shot on 160 generated items ($y$) and on curated rows of the same graph ($x$); permutation $p<0.005$.}
+\label{fig:curated}
+\end{figure}
+
+\paragraph{Does it rank models like curated benchmarks?} On Recommendations, Northwind, and FinCEN, the ranking of the 11 models on 160 generated items matches their ranking on curated test rows (Figure~\ref{fig:curated}; Kendall $\tau$ 0.77, 0.78, and 0.66), and leaving out the generator changes $\tau$ by at most 0.04. Accuracy is higher on generated items, so we compare only the rankings. GLM and gpt-6-luna swap places on every graph (GLM leads on generated items), but so do two pairs without the generator, so any home advantage is small. The two independently generated halves of the main build also rank the models alike ($\tau=0.89$ [0.82, 1.00]), so regeneration preserves the ranking.
+
+\subsection{Downstream stress test}
+\label{sec:downstream}
+\input{tables_downstream_main}
+
+On all 3,038 items, zero-shot projected accuracy ranges from 0.21 to 0.77 (Table~\ref{tab:downstream}; median 0.43), far below median parse validity (0.99) and execution success (0.80; Appendix Table~\ref{tab:downstream_full}): models write Cypher that runs but answers a different question, and up to 13\% of predictions traverse a relationship backwards. Tiers calibrated on an earlier benchmark separate the same models on fresh items: every model falls from easy to medium to hard, the median from 0.70 to 0.42 to 0.15 (Appendix Figure~\ref{fig:tiers}). A third of hard references are wrong (\S\ref{sec:validity}), which blurs hard-tier scores, but the gap between the strongest models (0.58--0.61) and the median stays wide.
+
+On the held-out test, five same-category demonstrations help all 11 models (median 0.41 to 0.58) although none shares the test item's signature, while the governed prompt, which adds the generator's own Cypher rules, lowers 8 of 11. Neo4j's Text2Cypher-tuned Gemma-3-4B scores 0.39, up from 0.22 for its base model but below its 0.51 on curated rows from its training distribution: public fine-tuning helps, but much of the gain does not transfer to a new schema.
+
+\subsection{Refresh, small generators, wide schemas}
+\label{sec:refresh}
+\paragraph{Refresh.} We applied four schema migrations and two data-drift edits to a copy of FinBench and re-executed the 1,882 now \emph{stale} references, those written before the change (Appendix Table~\ref{tab:refresh}). Renaming \cy{TRANSFER\_TO} breaks 562 (30\%) without a single error: 376 return no rows and 165 different rows.
+Stale references also flatter models: prompted with the old schema, as by a team that missed the migration, all 11 models score 11 to 23 points higher against stale than against refreshed references (Figure~\ref{fig:refresh}), mostly because outdated predictions and references return the same empty rows. Data drift alone changes 13--16\% of answers. The refresh path rewrites renamed references, re-executes items whose answers changed, and regenerates only items whose structure is gone: after \cy{GUARANTEE} was dropped, it regenerated the 180 affected items for \$0.16, 8\% of the cost and worker time of rebuilding FinBench.
+
+\paragraph{Smaller generators and larger schemas.} With Qwen3.5-9B (one 24\,GB GPU) as generator in a 25-per-cell run, with the larger judges kept, only 30\% of template proposals met the contract and 4 of 16 cells filled; given GLM's questions, though, its references return the released answer on 86\% of items (Appendix~\ref{app:gen9b}). As a test of schema width, we loaded the five public graphs four times each into one database under namespaced labels (132 labels, 148 relationship types): the unchanged pipeline filled all eight 10-item cells at 59\% acceptance and \$2.13 per 1,000 items (Appendix~\ref{app:wide}).
+
+
+\section{Lessons for Deployment}
+\label{sec:lessons}
+\textbf{Let the graph decide.} LLMs propose query structures well but do not know what the data contains. Filling slots by reverse querying cut empty-result rejections from 24\% to 1.3\% of candidates and gives every item an observed answer; an empty reference rewards any wrong query that also returns nothing, which is exactly how stale references inflated scores.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/refresh_inflation.pdf}
+\caption{Stale references inflate scores: after \cy{TRANSFER\_TO} is renamed, models prompted with the old schema score 11 to 23 points higher against stale references (open) than against refreshed ones (filled).}
+\label{fig:refresh}
+\end{figure}
+
+\textbf{Spend judgment last.} Ordering checks by cost keeps a strict panel affordable: 60\% of rejected candidates never reached a judge.
+
+\textbf{Write the conventions down.} Many disagreements about correctness are disagreements about how to read a question. Giving the judge this sheet and a checklist raised its agreement with adjudicated labels from $\kappa=0.14$ to 0.61--0.67 on our design items; a team adds its own rules there.
+
+\textbf{Measure validity independently.} Every item in our human sample had passed both judges, yet one reference in seven is wrong, and one in three among hard items. An outside auditor that flags a fifth of the release catches about three in four wrong references, so its flags and hard items should go to human review. An open-weight auditor can do this privately: DeepSeek-V4.1-Flash caught 8 of our sample's 12 wrong references (Appendix~\ref{app:sensitivity}).
+
+\textbf{Make refresh part of the benchmark.} Migrations break stale references silently: they return empty rows that outdated predictions match, so scores rise where the benchmark has stopped measuring.
+
+\textbf{Match the model to the step.} Proposing templates is the hard step, and writing a reference for a given question is far easier: a 9B model failed at the first and mostly succeeded at the second.
+
+\section{Conclusion}
+PIPE-Cypher turns a live property graph into a private Text-to-Cypher benchmark that an organization can rebuild whenever its graph changes, with open-weight models it can host. Execution-verified bindings, deterministic checks, explicit answer conventions, and a cross-family judge panel yield references that a human audit finds 81\% correct and 14\% wrong, with the errors concentrated in hard items that an outside auditor can route to review. The benchmark ranks models as curated benchmarks do, and it stays useful under change: after a schema migration, stale references inflated every model's score by 11 to 23 points, while regenerating only the affected items cost 8\% of a rebuild. The next step is a proprietary graph, where the analysts who ask the questions can judge the benchmark (Appendix~\ref{app:tenant}).
+
+\section*{Limitations}
+All graphs in this study are public; we did not run PIPE-Cypher on a proprietary tenant graph, and Appendix~\ref{app:tenant} explains why we expect the results to carry over and what a tenant should check first. The eight categories are a balancing scaffold; we did not measure how tenant questions are distributed. Neo4j~5 is the backend of every experiment, and we did not run on another engine. Cypher is also available as openCypher on Amazon Neptune, Memgraph, Apache AGE, and SAP HANA Graph, among others, and nothing in the method depends on Neo4j: the pipeline reaches the graph through one client that issues read-only queries, and its Neo4j-specific parts are confined to that client and the schema reader (two introspection procedures and the syntax check), which a schema file can replace. Engines differ in functions and dialect details, so a port should first rerun the deterministic checks on its own engine. PIPE-Cypher benchmarks the read-only subset of Cypher and skips rewrites around \cy{CALL}, \cy{UNION}, and \cy{UNWIND}. The judge panel was designed on items labeled by an LLM adjudicator, and the difficulty tiers were fitted to the same 11 models we evaluate. Human validation covers 70 items, so per-slice error rates have wide intervals. Its annotators are two of the authors, because deciding whether a query answers a question requires reading Cypher and knowing the graph's schema; audits of text-to-SQL references rely on SQL experts for the same reason~\citep{wretblad2024noise,jin2026pervasive}. To limit bias, labeling was blind to verdicts and sampling reasons, one annotator did not work on the pipeline, and we report agreement on the shared items before discussion. Annotators who know the system may still be more lenient than outsiders, so the error estimate should be read together with the outside auditor's flags. An estimated 14\% of released references are wrong, mostly on hard items, so part of the hard tier's low accuracy reflects reference errors; keeping only items the auditor passes removes most of them at the cost of a fifth of the items. The two regenerated halves share seed and schema-derived templates and the generator, so their agreement measures sampling variation only. Because a binding must yield a non-degenerate answer, single-number answers are almost never zero (5 of 550), although yes/no answers are balanced (57\% yes). Questions whose right answer is zero or an empty list, which monitoring and compliance work asks often, are therefore under-represented, and a tenant that needs them should add such templates deliberately. Both accuracy metrics measure execution agreement on the current graph: queries with different meanings can return the same rows when the data hold no case that separates them, as four of our seven corrected references did, and projected EX also tolerates differences in column naming and context columns (Appendix~\ref{app:sensitivity}). They compare row sets and do not score row order; scoring it on the 249 items that ask for a sorted listing lowers accuracy by at most 1.25 points and does not change the ranking (Appendix~\ref{app:sensitivity}). Every model that decides what enters the benchmark has open weights, so the pipeline can run entirely on an organization's own hardware; because our graphs are public we reached them through hosted endpoints, and the smallest generator we tested, Qwen3.5-9B, fits one 24\,GB GPU. We also used one closed model, gpt-6-luna, as outside auditor, replay generator, and downstream reference. A model at the frontier of capability and cost is a useful yardstick for the open-weight components, and none of its roles is needed to build or release a benchmark. An on-premises deployment would give the auditor role to an open-weight model, and the strongest one we tested, DeepSeek-V4.1-Flash, catches 8 of the 12 wrong references where gpt-6-luna catches 10 (Appendix~\ref{app:sensitivity}). The redaction audit checks residuals of values the pipeline produces; it does not classify PII or hide schema names.
+
+\section*{Ethics Statement}
+PIPE-Cypher is designed for private benchmark generation in which graph data stays within an organization's boundary. All graphs in this study are public or synthetic, which is why hosted model endpoints could be used; deployments on private graphs should host the open-weight models themselves. Organizations should restrict benchmark artifacts to authorized users and review sampled values. The human labels were provided by two of the authors on public or synthetic graph data; no outside annotators were recruited or paid. The labeling page recorded only an account identifier per label, and labels are reported in aggregate.
+
+\bibliography{references}
+
+\clearpage
+\appendix
+\raggedbottom
+\input{appendix_tenant_deployment}
+
+\section{Running Example, Glossary, Models, and Prior Work}
+Table~\ref{tab:glossary} defines the terms we use, Table~\ref{tab:running_example} traces the item of Figure~\ref{fig:pipeline} through every stage, Table~\ref{tab:models} lists the models and how they were served, and Table~\ref{tab:prior_mechanism_comparison} relates PIPE-Cypher to the mechanisms of prior work.
+\input{tables_glossary}
+\input{appendix_running_example}
+\input{tables_downstream_models}
+\clearpage
+\input{tables_prior_mechanism_comparison}
+
+\section{Generation, Judges, and Privacy}
+\label{app:judges}
+This appendix compares the three versions of the benchmark (Table~\ref{tab:construction}), isolates the effect of reverse querying (Table~\ref{tab:ablation_binding}), accounts for every candidate, call, and dollar of the main build (Table~\ref{tab:generation}), reports how the judges were chosen and how they behaved (Table~\ref{tab:judges}), and audits the redacted export (Table~\ref{tab:redaction}). Of the 32 cells of the main build (2 graphs $\times$ 8 categories $\times$ 2 halves), 21 reached their target, 3 ran out of templates with bindable slots, and 8 were stopped at a fixed time budget while only full tier quotas were still rejecting candidates; the release reaches 95\% of the planned item count; overall the build accepted 54\% of its candidates, and the two judges account for \$1.86 of its \$3.50.
+\input{tables_construction}
+\input{tables_ablation_binding}
+\input{tables_generation}
+\input{tables_judges}
+\input{tables_redaction_v3}
+
+\input{appendix_difficulty}
+
+\input{appendix_human}
+
+\input{appendix_sensitivity}
+
+\section{Validity Tests: Full Results}
+\label{app:validity}
+Table~\ref{tab:validity} gives the numbers behind Figure~\ref{fig:curated} and the generator-swap and regeneration results of \S\ref{sec:validity}.
+\input{tables_validity}
+
+\section{Full Downstream Results}
+Table~\ref{tab:downstream_full} extends Table~\ref{tab:downstream} with strict accuracy, confidence intervals, per-graph accuracy, and the validity diagnostics for each of the 11 models.
+\input{tables_downstream_full}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\columnwidth]{figures/tier_accuracy.pdf}
+\caption{Zero-shot projected EX on all 3,038 items by calibrated tier (item counts): all 11 models fall from easy to hard.}
+\label{fig:tiers}
+\end{figure}
+\input{tables_downstream_tiers}
+
+\input{appendix_gen9b}
+
+\input{appendix_wide_schema}
+
+\section{Refresh Details}
+\label{app:refresh}
+Table~\ref{tab:refresh} reports, for each schema migration and data-drift edit, how many stale references break and how the incremental refresh handles them. In the misestimate experiment after the \cy{TRANSFER\_TO} rename (Figure~\ref{fig:refresh}), the 11 models score a median of 17.5 points higher against stale than against refreshed references. After \cy{GUARANTEE} was dropped, regenerating the 180 affected items took 75 worker-minutes and \$0.16; rebuilding FinBench from scratch took 950 worker-minutes and \$2.06, so the refresh used about 8\% of each.
+\input{tables_refresh}
+
+\input{appendix_v2_audits}
+
+\section{Graphs and Schemas}
+Table~\ref{tab:graph_statistics} gives the size of each graph, and Figures~\ref{fig:finbench_schema} and~\ref{fig:snb_schema} show the two main schemas.
+\input{tables_graph_statistics}
+\input{figures/schema_graphs_tikz}
+
+\input{appendix_examples_v3}
+
+\input{appendix_prompt_contracts}
+
+\end{document}

@@ -1,0 +1,25 @@
+\begin{table}[H]
+\centering
+\footnotesize
+\begin{tabular}{@{}p{2.25cm}p{4.95cm}@{}}
+\toprule
+Term & Meaning in this paper \\
+\midrule
+Parameterized template & An LLM-proposed question with typed slots plus Cypher that uses each slot as a \cy{\$slot} parameter. \\
+Verified binding & A slot value drawn through the template's own query and kept only if that query, run with it, returns a non-degenerate answer. \\
+Query signature & A Cypher query with literals and variable names abstracted; two items with the same signature differ only in values. \\
+Signature / tier quota & Maximum accepted items per signature, and per difficulty tier, in a graph--category cell. \\
+Difficulty tier & Easy, medium, or hard from a structural score calibrated on how often models solved earlier items. \\
+Template induction & Asking the LLM for templates with uncovered structure, or at a short tier, once existing templates saturate. \\
+Convention sheet & Thirteen plain-text reading rules shared by question writer, generator, judges, auditor, and annotators. \\
+Deterministic checks & Code checks before the judge (symmetric relationship types such as SNB's \cy{KNOWS} are matched without a direction): read-only, schema, direction, categorical and literal consistency, \cy{LIMIT} ties, category contract, structural defects, emptiness, quotas. \\
+Judge panel & Two cross-family LLM judges answering a nine-item checklist; both must accept. \\
+Outside auditor & A judge (gpt-6-luna) that does not decide what is released; used to estimate errors in released items. \\
+Pipeline-validated reference & An exported query that passed every check; its correctness is measured separately. \\
+Strict / projected EX & Exact row-set match / match on the answer columns, ignoring column names, order, extra columns, and policy context columns. \\
+Template-held-out split & Test items whose signatures never occur in train. \\
+\bottomrule
+\end{tabular}
+\caption{Terms used throughout the paper.}
+\label{tab:glossary}
+\end{table}
