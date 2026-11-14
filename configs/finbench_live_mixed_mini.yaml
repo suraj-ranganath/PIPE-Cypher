@@ -1,0 +1,53 @@
+models:
+  generation_model: Qwen/Qwen3.5-9B
+  judge_model: Qwen/Qwen3.5-9B
+  embedding_model: BAAI/bge-m3
+  llm_base_url: http://localhost:8000/v1
+  request_timeout_sec: 180
+  temperature: 0.2
+  max_tokens: 768
+  reasoning_effort: none
+  include_reasoning: false
+  enable_thinking: false
+  strip_reasoning: true
+
+neo4j:
+  uri: bolt://localhost:7687
+  user: neo4j
+  password: password
+  database: neo4j
+  query_timeout_sec: 60
+
+generation:
+  graph_profile: finbench
+  categories:
+    - simple_retrieval
+    - complex_retrieval
+    - simple_aggregation
+    - complex_aggregation
+    - boolean_existence
+    - negation_difference
+    - path_temporal
+    - ranking_topk
+  target_per_category: 2
+  template_candidates: 3
+  template_source: mixed
+  retrieval_top_k: 2
+  repair_attempts: 1
+  deterministic_cypher_fallback: true
+  max_entity_pct: 0.5
+  require_non_empty: true
+  generated_query_limit: 20
+
+judge:
+  enabled: true
+  deterministic_fallback: true
+  min_semantic_alignment: 0.75
+  min_schema_use: 0.8
+  max_ambiguity: 0.35
+
+paths:
+  artifact_dir: artifacts
+  schema_path: configs/schema_finbench.json
+  seed_examples_path:
+

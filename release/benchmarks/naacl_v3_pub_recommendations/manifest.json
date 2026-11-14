@@ -1,0 +1,30 @@
+{
+  "accepted_only": true,
+  "all_path": "artifacts/benchmarks/naacl_v3_pub_recommendations/all.jsonl",
+  "cell_cap_dropped": 0,
+  "created_at": "2026-11-13T02:20:13.051367+00:00",
+  "max_per_cell": {},
+  "max_per_signature": 0,
+  "records_paths": [
+    "artifacts/runs/20261112_180826_naacl_v3_pub_t2c_recommendations_v3_s1_boolean_existence",
+    "artifacts/runs/20261112_180826_naacl_v3_pub_t2c_recommendations_v3_s1_complex_aggregation",
+    "artifacts/runs/20261112_180826_naacl_v3_pub_t2c_recommendations_v3_s1_complex_retrieval",
+    "artifacts/runs/20261112_180826_naacl_v3_pub_t2c_recommendations_v3_s1_negation_difference",
+    "artifacts/runs/20261112_180826_naacl_v3_pub_t2c_recommendations_v3_s1_path_temporal",
+    "artifacts/runs/20261112_180826_naacl_v3_pub_t2c_recommendations_v3_s1_ranking_topk",
+    "artifacts/runs/20261112_180826_naacl_v3_pub_t2c_recommendations_v3_s1_simple_aggregation",
+    "artifacts/runs/20261112_180826_naacl_v3_pub_t2c_recommendations_v3_s1_simple_retrieval"
+  ],
+  "result_sample_limit": 5,
+  "sha256": "6c016665d64f0f63dff80c4ddad8c66835153f5865cec0142432f208a5d33df7",
+  "signature_cap_dropped": 0,
+  "split_counts": {
+    "dev": 16,
+    "test": 16,
+    "train": 128
+  },
+  "split_seed": "naacl-v3",
+  "split_strategy": "random",
+  "stats_path": "artifacts/benchmarks/naacl_v3_pub_recommendations/stats.json",
+  "total_examples": 160
+}

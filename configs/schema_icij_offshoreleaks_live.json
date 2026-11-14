@@ -1,0 +1,1241 @@
+{
+  "categorical_properties": {
+    "Address.sourceID": [
+      "Bahamas Leaks",
+      "Offshore Leaks",
+      "Panama Papers",
+      "Pandora Papers - Alem\u00e1n, Cordero, Galindo & Lee (Alcogal)",
+      "Pandora Papers - Alpha Consulting",
+      "Pandora Papers - Asiaciti Trust",
+      "Pandora Papers - CILTrust International",
+      "Pandora Papers - Commence Overseas",
+      "Pandora Papers - Fidelity Corporate Services",
+      "Pandora Papers - Il Shin Corporate Consulting Limited",
+      "Pandora Papers - Overseas Management Company (OMC)",
+      "Pandora Papers - SFM Corporate Services",
+      "Pandora Papers - Trident Trust",
+      "Paradise Papers - Appleby",
+      "Paradise Papers - Aruba corporate registry",
+      "Paradise Papers - Bahamas corporate registry",
+      "Paradise Papers - Barbados corporate registry",
+      "Paradise Papers - Malta corporate registry",
+      "Paradise Papers - Nevis corporate registry",
+      "Paradise Papers - Samoa corporate registry"
+    ],
+    "Address.status": [
+      "Removed"
+    ],
+    "Entity.registration_date": [
+      "11-JAN-2006"
+    ],
+    "Entity.service_provider": [
+      "Appleby",
+      "Commonwealth Trust Limited",
+      "Mossack Fonseca",
+      "Portcullis Trustnet"
+    ],
+    "Intermediary.sourceID": [
+      "Bahamas Leaks",
+      "Offshore Leaks",
+      "Panama Papers",
+      "Pandora Papers - Alem\u00e1n, Cordero, Galindo & Lee (Alcogal)",
+      "Paradise Papers - Appleby",
+      "Paradise Papers - Aruba corporate registry",
+      "Paradise Papers - Bahamas corporate registry",
+      "Paradise Papers - Barbados corporate registry",
+      "Paradise Papers - Nevis corporate registry"
+    ],
+    "Intermediary.status": [
+      "ACTIVE",
+      "ACTIVE LEGAL",
+      "CLIENT IN REPRESENTATIVE TERRITORY",
+      "DELINQUENT",
+      "INACTIVE",
+      "PROSPECT",
+      "SUSPENDED",
+      "SUSPENDED LEGAL",
+      "UNRECOVERABLE ACCOUNTS"
+    ],
+    "Intermediary.valid_until": [
+      "Appleby data is current through 2014",
+      "Aruba corporate registry data is current through 2016",
+      "Bahamas corporate registry data is current through 2016",
+      "Barbados corporate registry data is current through 2016",
+      "Nevis corporate registry data is current through 2016",
+      "Provider data is current through 2017",
+      "Provider data is current through 2018",
+      "The Bahamas Leaks data is current through early 2016.",
+      "The Offshore Leaks data is current through 2010",
+      "The Panama Papers  data is current through 2015"
+    ],
+    "Officer.end_date": [
+      "26-OCT-2015",
+      "30-OCT-2015"
+    ],
+    "Officer.status": [
+      "Removed"
+    ],
+    "Other.jurisdiction": [
+      "AW",
+      "BLZ",
+      "KNA",
+      "PAN",
+      "USA",
+      "VGB"
+    ],
+    "Other.jurisdiction_description": [
+      "Aruba",
+      "Belize",
+      "British Virgin Islands",
+      "Nevis",
+      "Panama",
+      "South Dakota"
+    ],
+    "Other.lastEditTimestamp": [
+      "1638311068329",
+      "1638311074502",
+      "1638311074946",
+      "1638311075268",
+      "1638311075503",
+      "1651575199169"
+    ],
+    "Other.sourceID": [
+      "Pandora Papers - Alem\u00e1n, Cordero, Galindo & Lee (Alcogal)",
+      "Pandora Papers - CILTrust International",
+      "Pandora Papers - Fidelity Corporate Services",
+      "Pandora Papers - Overseas Management Company (OMC)",
+      "Pandora Papers - Trident Trust",
+      "Paradise Papers - Appleby",
+      "Paradise Papers - Aruba corporate registry"
+    ],
+    "Other.type": [
+      "FOREIGN FORMED CORPORATION",
+      "LIMITED LIABILITY COMPANY",
+      "SOLE OWNERSHIP"
+    ],
+    "Other.valid_until": [
+      "Appleby data is current through 2014",
+      "Aruba corporate registry data is current through 2016",
+      "Provider data is current through 2008",
+      "Provider data is current through 2012",
+      "Provider data is current through 2013",
+      "Provider data is current through 2015",
+      "Provider data is current through 2016",
+      "Provider data is current through 2017",
+      "Provider data is current through 2018",
+      "Provider data is current through 2019"
+    ]
+  },
+  "graph_name": "icij_offshoreleaks",
+  "node_properties": [
+    {
+      "label": "Address",
+      "property": "address",
+      "type": "String"
+    },
+    {
+      "label": "Address",
+      "property": "addressID",
+      "type": "String"
+    },
+    {
+      "label": "Address",
+      "property": "countries",
+      "type": "String"
+    },
+    {
+      "label": "Address",
+      "property": "country",
+      "type": "String"
+    },
+    {
+      "label": "Address",
+      "property": "country_code",
+      "type": "String"
+    },
+    {
+      "label": "Address",
+      "property": "country_codes",
+      "type": "String"
+    },
+    {
+      "label": "Address",
+      "property": "icij_id",
+      "type": "String"
+    },
+    {
+      "label": "Address",
+      "property": "lastEditTimestamp",
+      "type": "String"
+    },
+    {
+      "label": "Address",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "Address",
+      "property": "node_id",
+      "type": "Integer"
+    },
+    {
+      "label": "Address",
+      "property": "note",
+      "type": "String"
+    },
+    {
+      "label": "Address",
+      "property": "original_address",
+      "type": "String"
+    },
+    {
+      "label": "Address",
+      "property": "sourceID",
+      "type": "String"
+    },
+    {
+      "label": "Address",
+      "property": "status",
+      "type": "String"
+    },
+    {
+      "label": "Address",
+      "property": "valid_until",
+      "type": "String"
+    },
+    {
+      "label": "Entity",
+      "property": "address",
+      "type": "String"
+    },
+    {
+      "label": "Entity",
+      "property": "closed_date",
+      "type": "String"
+    },
+    {
+      "label": "Entity",
+      "property": "comments",
+      "type": "String"
+    },
+    {
+      "label": "Entity",
+      "property": "company_number",
+      "type": "String"
+    },
+    {
+      "label": "Entity",
+      "property": "company_type",
+      "type": "String"
+    },
+    {
+      "label": "Entity",
+      "property": "countries",
+      "type": "String"
+    },
+    {
+      "label": "Entity",
+      "property": "country_codes",
+      "type": "String"
+    },
+    {
+      "label": "Entity",
+      "property": "dorm_date",
+      "type": "String"
+    },
+    {
+      "label": "Entity",
+      "property": "entity_number",
+      "type": "String"
+    },
+    {
+      "label": "Entity",
+      "property": "former_name",
+      "type": "String"
+    },
+    {
+      "label": "Entity",
+      "property": "ibcRUC",
+      "type": "String"
+    },
+    {
+      "label": "Entity",
+      "property": "inactivation_date",
+      "type": "String"
+    },
+    {
+      "label": "Entity",
+      "property": "incorporation_date",
+      "type": "String"
+    },
+    {
+      "label": "Entity",
+      "property": "internal_id",
+      "type": "String"
+    },
+    {
+      "label": "Entity",
+      "property": "jurisdiction",
+      "type": "String"
+    },
+    {
+      "label": "Entity",
+      "property": "jurisdiction_description",
+      "type": "String"
+    },
+    {
+      "label": "Entity",
+      "property": "lastEditTimestamp",
+      "type": "String"
+    },
+    {
+      "label": "Entity",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "Entity",
+      "property": "node_id",
+      "type": "Integer"
+    },
+    {
+      "label": "Entity",
+      "property": "note",
+      "type": "String"
+    },
+    {
+      "label": "Entity",
+      "property": "original_name",
+      "type": "String"
+    },
+    {
+      "label": "Entity",
+      "property": "registration_date",
+      "type": "String"
+    },
+    {
+      "label": "Entity",
+      "property": "service_provider",
+      "type": "String"
+    },
+    {
+      "label": "Entity",
+      "property": "sourceID",
+      "type": "String"
+    },
+    {
+      "label": "Entity",
+      "property": "status",
+      "type": "String"
+    },
+    {
+      "label": "Entity",
+      "property": "struck_off_date",
+      "type": "String"
+    },
+    {
+      "label": "Entity",
+      "property": "tax_stat_description",
+      "type": "String"
+    },
+    {
+      "label": "Entity",
+      "property": "type",
+      "type": "String"
+    },
+    {
+      "label": "Entity",
+      "property": "valid_until",
+      "type": "String"
+    },
+    {
+      "label": "Intermediary",
+      "property": "address",
+      "type": "String"
+    },
+    {
+      "label": "Intermediary",
+      "property": "countries",
+      "type": "String"
+    },
+    {
+      "label": "Intermediary",
+      "property": "countries",
+      "type": "String"
+    },
+    {
+      "label": "Intermediary",
+      "property": "country_codes",
+      "type": "String"
+    },
+    {
+      "label": "Intermediary",
+      "property": "country_codes",
+      "type": "String"
+    },
+    {
+      "label": "Intermediary",
+      "property": "internal_id",
+      "type": "String"
+    },
+    {
+      "label": "Intermediary",
+      "property": "lastEditTimestamp",
+      "type": "String"
+    },
+    {
+      "label": "Intermediary",
+      "property": "lastEditTimestamp",
+      "type": "String"
+    },
+    {
+      "label": "Intermediary",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "Intermediary",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "Intermediary",
+      "property": "node_id",
+      "type": "Integer"
+    },
+    {
+      "label": "Intermediary",
+      "property": "node_id",
+      "type": "Integer"
+    },
+    {
+      "label": "Intermediary",
+      "property": "note",
+      "type": "String"
+    },
+    {
+      "label": "Intermediary",
+      "property": "registered_office",
+      "type": "String"
+    },
+    {
+      "label": "Intermediary",
+      "property": "sourceID",
+      "type": "String"
+    },
+    {
+      "label": "Intermediary",
+      "property": "sourceID",
+      "type": "String"
+    },
+    {
+      "label": "Intermediary",
+      "property": "status",
+      "type": "String"
+    },
+    {
+      "label": "Intermediary",
+      "property": "valid_until",
+      "type": "String"
+    },
+    {
+      "label": "Intermediary",
+      "property": "valid_until",
+      "type": "String"
+    },
+    {
+      "label": "Officer",
+      "property": "address",
+      "type": "String"
+    },
+    {
+      "label": "Officer",
+      "property": "countries",
+      "type": "String"
+    },
+    {
+      "label": "Officer",
+      "property": "countries",
+      "type": "String"
+    },
+    {
+      "label": "Officer",
+      "property": "country_codes",
+      "type": "String"
+    },
+    {
+      "label": "Officer",
+      "property": "country_codes",
+      "type": "String"
+    },
+    {
+      "label": "Officer",
+      "property": "end_date",
+      "type": "String"
+    },
+    {
+      "label": "Officer",
+      "property": "icij_id",
+      "type": "Integer"
+    },
+    {
+      "label": "Officer",
+      "property": "lastEditTimestamp",
+      "type": "String"
+    },
+    {
+      "label": "Officer",
+      "property": "lastEditTimestamp",
+      "type": "String"
+    },
+    {
+      "label": "Officer",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "Officer",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "Officer",
+      "property": "node_id",
+      "type": "Integer"
+    },
+    {
+      "label": "Officer",
+      "property": "node_id",
+      "type": "Integer"
+    },
+    {
+      "label": "Officer",
+      "property": "note",
+      "type": "String"
+    },
+    {
+      "label": "Officer",
+      "property": "sourceID",
+      "type": "String"
+    },
+    {
+      "label": "Officer",
+      "property": "sourceID",
+      "type": "String"
+    },
+    {
+      "label": "Officer",
+      "property": "status",
+      "type": "String"
+    },
+    {
+      "label": "Officer",
+      "property": "valid_until",
+      "type": "String"
+    },
+    {
+      "label": "Officer",
+      "property": "valid_until",
+      "type": "String"
+    },
+    {
+      "label": "Other",
+      "property": "closed_date",
+      "type": "String"
+    },
+    {
+      "label": "Other",
+      "property": "countries",
+      "type": "String"
+    },
+    {
+      "label": "Other",
+      "property": "country_codes",
+      "type": "String"
+    },
+    {
+      "label": "Other",
+      "property": "incorporation_date",
+      "type": "String"
+    },
+    {
+      "label": "Other",
+      "property": "jurisdiction",
+      "type": "String"
+    },
+    {
+      "label": "Other",
+      "property": "jurisdiction_description",
+      "type": "String"
+    },
+    {
+      "label": "Other",
+      "property": "lastEditTimestamp",
+      "type": "String"
+    },
+    {
+      "label": "Other",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "Other",
+      "property": "node_id",
+      "type": "Long"
+    },
+    {
+      "label": "Other",
+      "property": "note",
+      "type": "String"
+    },
+    {
+      "label": "Other",
+      "property": "sourceID",
+      "type": "String"
+    },
+    {
+      "label": "Other",
+      "property": "struck_off_date",
+      "type": "String"
+    },
+    {
+      "label": "Other",
+      "property": "type",
+      "type": "String"
+    },
+    {
+      "label": "Other",
+      "property": "valid_until",
+      "type": "String"
+    }
+  ],
+  "relationship_properties": [
+    {
+      "property": "link",
+      "type": "connected_to",
+      "value_type": "String"
+    },
+    {
+      "property": "sourceID",
+      "type": "connected_to",
+      "value_type": "String"
+    },
+    {
+      "property": "valid_until",
+      "type": "connected_to",
+      "value_type": "String"
+    },
+    {
+      "property": "end_date",
+      "type": "intermediary_of",
+      "value_type": "String"
+    },
+    {
+      "property": "lastEditTimestamp",
+      "type": "intermediary_of",
+      "value_type": "String"
+    },
+    {
+      "property": "link",
+      "type": "intermediary_of",
+      "value_type": "String"
+    },
+    {
+      "property": "sourceID",
+      "type": "intermediary_of",
+      "value_type": "String"
+    },
+    {
+      "property": "start_date",
+      "type": "intermediary_of",
+      "value_type": "String"
+    },
+    {
+      "property": "valid_until",
+      "type": "intermediary_of",
+      "value_type": "String"
+    },
+    {
+      "property": "end_date",
+      "type": "officer_of",
+      "value_type": "String"
+    },
+    {
+      "property": "lastEditTimestamp",
+      "type": "officer_of",
+      "value_type": "String"
+    },
+    {
+      "property": "link",
+      "type": "officer_of",
+      "value_type": "String"
+    },
+    {
+      "property": "sourceID",
+      "type": "officer_of",
+      "value_type": "String"
+    },
+    {
+      "property": "start_date",
+      "type": "officer_of",
+      "value_type": "String"
+    },
+    {
+      "property": "status",
+      "type": "officer_of",
+      "value_type": "String"
+    },
+    {
+      "property": "valid_until",
+      "type": "officer_of",
+      "value_type": "String"
+    },
+    {
+      "property": "link",
+      "type": "probably_same_officer_as",
+      "value_type": "String"
+    },
+    {
+      "property": "sourceID",
+      "type": "probably_same_officer_as",
+      "value_type": "String"
+    },
+    {
+      "property": "valid_until",
+      "type": "probably_same_officer_as",
+      "value_type": "String"
+    },
+    {
+      "property": "lastEditTimestamp",
+      "type": "registered_address",
+      "value_type": "String"
+    },
+    {
+      "property": "link",
+      "type": "registered_address",
+      "value_type": "String"
+    },
+    {
+      "property": "sourceID",
+      "type": "registered_address",
+      "value_type": "String"
+    },
+    {
+      "property": "valid_until",
+      "type": "registered_address",
+      "value_type": "String"
+    },
+    {
+      "property": "link",
+      "type": "same_address_as",
+      "value_type": "String"
+    },
+    {
+      "property": "sourceID",
+      "type": "same_address_as",
+      "value_type": "String"
+    },
+    {
+      "property": "valid_until",
+      "type": "same_address_as",
+      "value_type": "String"
+    },
+    {
+      "property": "link",
+      "type": "same_as",
+      "value_type": "String"
+    },
+    {
+      "property": "link",
+      "type": "same_company_as",
+      "value_type": "String"
+    },
+    {
+      "property": "sourceID",
+      "type": "same_company_as",
+      "value_type": "String"
+    },
+    {
+      "property": "valid_until",
+      "type": "same_company_as",
+      "value_type": "String"
+    },
+    {
+      "property": "link",
+      "type": "same_id_as",
+      "value_type": "String"
+    },
+    {
+      "property": "sourceID",
+      "type": "same_id_as",
+      "value_type": "String"
+    },
+    {
+      "property": "valid_until",
+      "type": "same_id_as",
+      "value_type": "String"
+    },
+    {
+      "property": "link",
+      "type": "same_intermediary_as",
+      "value_type": "String"
+    },
+    {
+      "property": "sourceID",
+      "type": "same_intermediary_as",
+      "value_type": "String"
+    },
+    {
+      "property": "valid_until",
+      "type": "same_intermediary_as",
+      "value_type": "String"
+    },
+    {
+      "property": "lastEditTimestamp",
+      "type": "same_name_as",
+      "value_type": "String"
+    },
+    {
+      "property": "link",
+      "type": "same_name_as",
+      "value_type": "String"
+    },
+    {
+      "property": "sourceID",
+      "type": "same_name_as",
+      "value_type": "String"
+    },
+    {
+      "property": "valid_until",
+      "type": "same_name_as",
+      "value_type": "String"
+    },
+    {
+      "property": "link",
+      "type": "similar_company_as",
+      "value_type": "String"
+    },
+    {
+      "property": "sourceID",
+      "type": "similar_company_as",
+      "value_type": "String"
+    },
+    {
+      "property": "valid_until",
+      "type": "similar_company_as",
+      "value_type": "String"
+    },
+    {
+      "property": "link",
+      "type": "similar",
+      "value_type": "String"
+    },
+    {
+      "property": "lastEditTimestamp",
+      "type": "underlying",
+      "value_type": "String"
+    },
+    {
+      "property": "link",
+      "type": "underlying",
+      "value_type": "String"
+    },
+    {
+      "property": "sourceID",
+      "type": "underlying",
+      "value_type": "String"
+    },
+    {
+      "property": "valid_until",
+      "type": "underlying",
+      "value_type": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "count": 1668142,
+      "end_label": "Entity",
+      "start_label": "Officer",
+      "type": "officer_of"
+    },
+    {
+      "count": 590096,
+      "end_label": "Entity",
+      "start_label": "Intermediary",
+      "type": "intermediary_of"
+    },
+    {
+      "count": 483764,
+      "end_label": "Address",
+      "start_label": "Officer",
+      "type": "registered_address"
+    },
+    {
+      "count": 336951,
+      "end_label": "Address",
+      "start_label": "Entity",
+      "type": "registered_address"
+    },
+    {
+      "count": 97770,
+      "end_label": "Officer",
+      "start_label": "Officer",
+      "type": "same_name_as"
+    },
+    {
+      "count": 46387,
+      "end_label": "Officer",
+      "start_label": "Officer",
+      "type": "similar"
+    },
+    {
+      "count": 43304,
+      "end_label": "Entity",
+      "start_label": "Intermediary",
+      "type": "officer_of"
+    },
+    {
+      "count": 43304,
+      "end_label": "Entity",
+      "start_label": "Officer",
+      "type": "officer_of"
+    },
+    {
+      "count": 15523,
+      "end_label": "Entity",
+      "start_label": "Entity",
+      "type": "same_company_as"
+    },
+    {
+      "count": 10822,
+      "end_label": "Entity",
+      "start_label": "Other",
+      "type": "connected_to"
+    },
+    {
+      "count": 9303,
+      "end_label": "Address",
+      "start_label": "Intermediary",
+      "type": "registered_address"
+    },
+    {
+      "count": 8450,
+      "end_label": "Entity",
+      "start_label": "Intermediary",
+      "type": "intermediary_of"
+    },
+    {
+      "count": 8450,
+      "end_label": "Entity",
+      "start_label": "Officer",
+      "type": "intermediary_of"
+    },
+    {
+      "count": 7183,
+      "end_label": "Entity",
+      "start_label": "Intermediary",
+      "type": "officer_of"
+    },
+    {
+      "count": 4121,
+      "end_label": "Entity",
+      "start_label": "Entity",
+      "type": "same_name_as"
+    },
+    {
+      "count": 3146,
+      "end_label": "Entity",
+      "start_label": "Entity",
+      "type": "same_as"
+    },
+    {
+      "count": 3120,
+      "end_label": "Officer",
+      "start_label": "Officer",
+      "type": "same_id_as"
+    },
+    {
+      "count": 1718,
+      "end_label": "Other",
+      "start_label": "Officer",
+      "type": "officer_of"
+    },
+    {
+      "count": 1193,
+      "end_label": "Address",
+      "start_label": "Intermediary",
+      "type": "registered_address"
+    },
+    {
+      "count": 1193,
+      "end_label": "Address",
+      "start_label": "Officer",
+      "type": "registered_address"
+    },
+    {
+      "count": 1187,
+      "end_label": "Officer",
+      "start_label": "Officer",
+      "type": "underlying"
+    },
+    {
+      "count": 1099,
+      "end_label": "Entity",
+      "start_label": "Officer",
+      "type": "connected_to"
+    },
+    {
+      "count": 960,
+      "end_label": "Address",
+      "start_label": "Address",
+      "type": "same_as"
+    },
+    {
+      "count": 888,
+      "end_label": "Address",
+      "start_label": "Other",
+      "type": "registered_address"
+    },
+    {
+      "count": 631,
+      "end_label": "Officer",
+      "start_label": "Entity",
+      "type": "same_name_as"
+    },
+    {
+      "count": 622,
+      "end_label": "Entity",
+      "start_label": "Entity",
+      "type": "registered_address"
+    },
+    {
+      "count": 552,
+      "end_label": "Other",
+      "start_label": "Entity",
+      "type": "same_name_as"
+    },
+    {
+      "count": 494,
+      "end_label": "Officer",
+      "start_label": "Intermediary",
+      "type": "same_name_as"
+    },
+    {
+      "count": 300,
+      "end_label": "Intermediary",
+      "start_label": "Officer",
+      "type": "similar"
+    },
+    {
+      "count": 277,
+      "end_label": "Entity",
+      "start_label": "Officer",
+      "type": "same_name_as"
+    },
+    {
+      "count": 224,
+      "end_label": "Entity",
+      "start_label": "Intermediary",
+      "type": "connected_to"
+    },
+    {
+      "count": 219,
+      "end_label": "Entity",
+      "start_label": "Other",
+      "type": "same_name_as"
+    },
+    {
+      "count": 203,
+      "end_label": "Entity",
+      "start_label": "Entity",
+      "type": "similar_company_as"
+    },
+    {
+      "count": 166,
+      "end_label": "Officer",
+      "start_label": "Intermediary",
+      "type": "same_as"
+    },
+    {
+      "count": 132,
+      "end_label": "Officer",
+      "start_label": "Officer",
+      "type": "probably_same_officer_as"
+    },
+    {
+      "count": 70,
+      "end_label": "Entity",
+      "start_label": "Other",
+      "type": "underlying"
+    },
+    {
+      "count": 47,
+      "end_label": "Entity",
+      "start_label": "Intermediary",
+      "type": "same_name_as"
+    },
+    {
+      "count": 46,
+      "end_label": "Intermediary",
+      "start_label": "Officer",
+      "type": "underlying"
+    },
+    {
+      "count": 46,
+      "end_label": "Officer",
+      "start_label": "Officer",
+      "type": "underlying"
+    },
+    {
+      "count": 43,
+      "end_label": "Officer",
+      "start_label": "Intermediary",
+      "type": "similar"
+    },
+    {
+      "count": 24,
+      "end_label": "Intermediary",
+      "start_label": "Intermediary",
+      "type": "same_name_as"
+    },
+    {
+      "count": 22,
+      "end_label": "Officer",
+      "start_label": "Other",
+      "type": "same_name_as"
+    },
+    {
+      "count": 16,
+      "end_label": "Intermediary",
+      "start_label": "Intermediary",
+      "type": "similar"
+    },
+    {
+      "count": 8,
+      "end_label": "Officer",
+      "start_label": "Intermediary",
+      "type": "similar"
+    },
+    {
+      "count": 8,
+      "end_label": "Officer",
+      "start_label": "Officer",
+      "type": "similar"
+    },
+    {
+      "count": 8,
+      "end_label": "Other",
+      "start_label": "Other",
+      "type": "same_name_as"
+    },
+    {
+      "count": 6,
+      "end_label": "Officer",
+      "start_label": "Officer",
+      "type": "officer_of"
+    },
+    {
+      "count": 5,
+      "end_label": "Address",
+      "start_label": "Address",
+      "type": "same_address_as"
+    },
+    {
+      "count": 5,
+      "end_label": "Officer",
+      "start_label": "Intermediary",
+      "type": "underlying"
+    },
+    {
+      "count": 5,
+      "end_label": "Officer",
+      "start_label": "Officer",
+      "type": "underlying"
+    },
+    {
+      "count": 4,
+      "end_label": "Intermediary",
+      "start_label": "Intermediary",
+      "type": "same_intermediary_as"
+    },
+    {
+      "count": 4,
+      "end_label": "Intermediary",
+      "start_label": "Intermediary",
+      "type": "similar"
+    },
+    {
+      "count": 4,
+      "end_label": "Intermediary",
+      "start_label": "Officer",
+      "type": "same_name_as"
+    },
+    {
+      "count": 4,
+      "end_label": "Officer",
+      "start_label": "Officer",
+      "type": "same_name_as"
+    },
+    {
+      "count": 4,
+      "end_label": "Intermediary",
+      "start_label": "Officer",
+      "type": "similar"
+    },
+    {
+      "count": 3,
+      "end_label": "Entity",
+      "start_label": "Entity",
+      "type": "officer_of"
+    },
+    {
+      "count": 2,
+      "end_label": "Intermediary",
+      "start_label": "Officer",
+      "type": "similar"
+    },
+    {
+      "count": 2,
+      "end_label": "Officer",
+      "start_label": "Officer",
+      "type": "similar"
+    },
+    {
+      "count": 1,
+      "end_label": "Intermediary",
+      "start_label": "Intermediary",
+      "type": "similar"
+    },
+    {
+      "count": 1,
+      "end_label": "Officer",
+      "start_label": "Intermediary",
+      "type": "similar"
+    },
+    {
+      "count": 1,
+      "end_label": "Intermediary",
+      "start_label": "Officer",
+      "type": "officer_of"
+    },
+    {
+      "count": 1,
+      "end_label": "Intermediary",
+      "start_label": "Officer",
+      "type": "same_name_as"
+    },
+    {
+      "count": 1,
+      "end_label": "Intermediary",
+      "start_label": "Officer",
+      "type": "similar"
+    },
+    {
+      "count": 1,
+      "end_label": "Officer",
+      "start_label": "Officer",
+      "type": "similar"
+    }
+  ],
+  "source": "neo4j"
+}

@@ -1,0 +1,465 @@
+{
+  "config": {
+    "include_numeric_literals": false,
+    "min_sensitive_chars": 3
+  },
+  "examples": 2080,
+  "examples_with_residuals": 26,
+  "examples_with_residuals_sample": [
+    {
+      "category": "path_temporal",
+      "graph_profile": "snb",
+      "id": "pc_0cf9a554d17b0707",
+      "residuals": [
+        {
+          "field": "question",
+          "value_preview": "REPLY_OF"
+        },
+        {
+          "field": "cypher",
+          "value_preview": "REPLY_OF"
+        },
+        {
+          "field": "normalized_cypher",
+          "value_preview": "REPLY_OF"
+        },
+        {
+          "field": "cypher",
+          "value_preview": "HAS_CREATOR"
+        },
+        {
+          "field": "normalized_cypher",
+          "value_preview": "HAS_CREATOR"
+        }
+      ]
+    },
+    {
+      "category": "complex_retrieval",
+      "graph_profile": "snb",
+      "id": "pc_0d8af72b0d873047",
+      "residuals": [
+        {
+          "field": "cypher",
+          "value_preview": "Company"
+        },
+        {
+          "field": "normalized_cypher",
+          "value_preview": "Company"
+        },
+        {
+          "field": "cypher",
+          "value_preview": "University"
+        },
+        {
+          "field": "normalized_cypher",
+          "value_preview": "University"
+        }
+      ]
+    },
+    {
+      "category": "complex_retrieval",
+      "graph_profile": "snb",
+      "id": "pc_10d46e0a4f9e9c97",
+      "residuals": [
+        {
+          "field": "cypher",
+          "value_preview": "Company"
+        },
+        {
+          "field": "normalized_cypher",
+          "value_preview": "Company"
+        },
+        {
+          "field": "cypher",
+          "value_preview": "University"
+        },
+        {
+          "field": "normalized_cypher",
+          "value_preview": "University"
+        }
+      ]
+    },
+    {
+      "category": "path_temporal",
+      "graph_profile": "snb",
+      "id": "pc_120f712ab792d748",
+      "residuals": [
+        {
+          "field": "question",
+          "value_preview": "Post"
+        },
+        {
+          "field": "cypher",
+          "value_preview": "Post"
+        },
+        {
+          "field": "normalized_cypher",
+          "value_preview": "Post"
+        },
+        {
+          "field": "question",
+          "value_preview": "Comment"
+        },
+        {
+          "field": "cypher",
+          "value_preview": "Comment"
+        },
+        {
+          "field": "normalized_cypher",
+          "value_preview": "Comment"
+        },
+        {
+          "field": "reverse_cypher",
+          "value_preview": "Comment"
+        }
+      ]
+    },
+    {
+      "category": "boolean_existence",
+      "graph_profile": "snb",
+      "id": "pc_24bd80fb198c178e",
+      "residuals": [
+        {
+          "field": "cypher",
+          "value_preview": "country"
+        },
+        {
+          "field": "normalized_cypher",
+          "value_preview": "country"
+        },
+        {
+          "field": "reverse_cypher",
+          "value_preview": "country"
+        }
+      ]
+    },
+    {
+      "category": "boolean_existence",
+      "graph_profile": "snb",
+      "id": "pc_2603c7b4d53834c2",
+      "residuals": [
+        {
+          "field": "reverse_cypher",
+          "value_preview": "tag"
+        }
+      ]
+    },
+    {
+      "category": "complex_retrieval",
+      "graph_profile": "snb",
+      "id": "pc_27a09d96b1dcff91",
+      "residuals": [
+        {
+          "field": "cypher",
+          "value_preview": "Company"
+        },
+        {
+          "field": "normalized_cypher",
+          "value_preview": "Company"
+        },
+        {
+          "field": "cypher",
+          "value_preview": "University"
+        },
+        {
+          "field": "normalized_cypher",
+          "value_preview": "University"
+        }
+      ]
+    },
+    {
+      "category": "complex_retrieval",
+      "graph_profile": "snb",
+      "id": "pc_29461515e658b5da",
+      "residuals": [
+        {
+          "field": "cypher",
+          "value_preview": "Company"
+        },
+        {
+          "field": "normalized_cypher",
+          "value_preview": "Company"
+        },
+        {
+          "field": "cypher",
+          "value_preview": "University"
+        },
+        {
+          "field": "normalized_cypher",
+          "value_preview": "University"
+        }
+      ]
+    },
+    {
+      "category": "complex_aggregation",
+      "graph_profile": "snb",
+      "id": "pc_3acd06f6454215e0",
+      "residuals": [
+        {
+          "field": "reverse_cypher",
+          "value_preview": "targetValue"
+        }
+      ]
+    },
+    {
+      "category": "path_temporal",
+      "graph_profile": "snb",
+      "id": "pc_42ee42475a68c46f",
+      "residuals": [
+        {
+          "field": "cypher",
+          "value_preview": "WORK_AT"
+        },
+        {
+          "field": "normalized_cypher",
+          "value_preview": "WORK_AT"
+        },
+        {
+          "field": "reverse_cypher",
+          "value_preview": "WORK_AT"
+        },
+        {
+          "field": "cypher",
+          "value_preview": "STUDY_AT"
+        },
+        {
+          "field": "normalized_cypher",
+          "value_preview": "STUDY_AT"
+        },
+        {
+          "field": "reverse_cypher",
+          "value_preview": "STUDY_AT"
+        }
+      ]
+    },
+    {
+      "category": "boolean_existence",
+      "graph_profile": "snb",
+      "id": "pc_4c67fb2be4a85b53",
+      "residuals": [
+        {
+          "field": "cypher",
+          "value_preview": "country"
+        },
+        {
+          "field": "normalized_cypher",
+          "value_preview": "country"
+        },
+        {
+          "field": "reverse_cypher",
+          "value_preview": "country"
+        }
+      ]
+    },
+    {
+      "category": "path_temporal",
+      "graph_profile": "snb",
+      "id": "pc_5b41b657379aeb2d",
+      "residuals": [
+        {
+          "field": "question",
+          "value_preview": "Post"
+        },
+        {
+          "field": "cypher",
+          "value_preview": "Post"
+        },
+        {
+          "field": "normalized_cypher",
+          "value_preview": "Post"
+        },
+        {
+          "field": "reverse_cypher",
+          "value_preview": "Post"
+        },
+        {
+          "field": "question",
+          "value_preview": "Message"
+        },
+        {
+          "field": "cypher",
+          "value_preview": "Message"
+        },
+        {
+          "field": "normalized_cypher",
+          "value_preview": "Message"
+        }
+      ]
+    },
+    {
+      "category": "complex_retrieval",
+      "graph_profile": "snb",
+      "id": "pc_79d663852670ab79",
+      "residuals": [
+        {
+          "field": "cypher",
+          "value_preview": "Company"
+        },
+        {
+          "field": "normalized_cypher",
+          "value_preview": "Company"
+        },
+        {
+          "field": "cypher",
+          "value_preview": "University"
+        },
+        {
+          "field": "normalized_cypher",
+          "value_preview": "University"
+        }
+      ]
+    },
+    {
+      "category": "complex_aggregation",
+      "graph_profile": "snb",
+      "id": "pc_7b46e9f6ced85992",
+      "residuals": [
+        {
+          "field": "cypher",
+          "value_preview": "Person"
+        },
+        {
+          "field": "normalized_cypher",
+          "value_preview": "Person"
+        }
+      ]
+    },
+    {
+      "category": "path_temporal",
+      "graph_profile": "snb",
+      "id": "pc_7ca7b6795465b92b",
+      "residuals": [
+        {
+          "field": "question",
+          "value_preview": "Post"
+        },
+        {
+          "field": "cypher",
+          "value_preview": "Post"
+        },
+        {
+          "field": "normalized_cypher",
+          "value_preview": "Post"
+        },
+        {
+          "field": "question",
+          "value_preview": "Comment"
+        },
+        {
+          "field": "cypher",
+          "value_preview": "Comment"
+        },
+        {
+          "field": "normalized_cypher",
+          "value_preview": "Comment"
+        },
+        {
+          "field": "reverse_cypher",
+          "value_preview": "Comment"
+        }
+      ]
+    },
+    {
+      "category": "negation_difference",
+      "graph_profile": "snb",
+      "id": "pc_7ce3e70fb60358e9",
+      "residuals": [
+        {
+          "field": "reverse_cypher",
+          "value_preview": "university"
+        }
+      ]
+    },
+    {
+      "category": "boolean_existence",
+      "graph_profile": "snb",
+      "id": "pc_87b90aeea7a69d47",
+      "residuals": [
+        {
+          "field": "reverse_cypher",
+          "value_preview": "tag"
+        }
+      ]
+    },
+    {
+      "category": "boolean_existence",
+      "graph_profile": "snb",
+      "id": "pc_a106455a444f0c15",
+      "residuals": [
+        {
+          "field": "reverse_cypher",
+          "value_preview": "company"
+        }
+      ]
+    },
+    {
+      "category": "complex_retrieval",
+      "graph_profile": "finbench",
+      "id": "pc_aac216488cccd39f",
+      "residuals": [
+        {
+          "field": "question",
+          "value_preview": "Not have helped in th..."
+        }
+      ]
+    },
+    {
+      "category": "complex_aggregation",
+      "graph_profile": "snb",
+      "id": "pc_c221de5d00600a9c",
+      "residuals": [
+        {
+          "field": "reverse_cypher",
+          "value_preview": "targetValue"
+        }
+      ]
+    }
+  ],
+  "examples_with_sensitive_values": 1940,
+  "placeholder_linkability": {
+    "max_placeholder_frequency": 271,
+    "reused_placeholders": 2260,
+    "unique_placeholders": 5641
+  },
+  "policy": {
+    "hash_placeholders": true,
+    "include_private_mapping": false,
+    "placeholder_prefix": "VALUE",
+    "redact_cypher_literals": true,
+    "redact_entity_values": true,
+    "redact_numeric_literals": true,
+    "redact_questions": true,
+    "redact_result_samples": true,
+    "redact_reverse_cypher": true
+  },
+  "residual_rate_per_value": 0.010465116279069767,
+  "residual_values": 81,
+  "residuals_by_field": {
+    "cypher": 28,
+    "normalized_cypher": 28,
+    "question": 10,
+    "reverse_cypher": 15
+  },
+  "sensitive_values": 7740,
+  "threat_model": {
+    "audited_surfaces": [
+      "cypher",
+      "entity_values",
+      "normalized_cypher",
+      "question",
+      "result_rows_sample",
+      "reverse_cypher"
+    ],
+    "not_claimed": [
+      "semantic paraphrase detection",
+      "full PII classification",
+      "schema-name confidentiality"
+    ],
+    "sensitive_sources": [
+      "entity_values",
+      "quoted Cypher literals",
+      "reverse Cypher literals",
+      "string-valued result samples"
+    ]
+  }
+}

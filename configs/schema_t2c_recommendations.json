@@ -1,0 +1,537 @@
+{
+  "categorical_properties": {
+    "Genre.name": [
+      "(no genres listed)",
+      "Action",
+      "Adventure",
+      "Animation",
+      "Children",
+      "Comedy",
+      "Crime",
+      "Documentary",
+      "Drama",
+      "Fantasy",
+      "Film-Noir",
+      "Horror",
+      "IMAX",
+      "Musical",
+      "Mystery",
+      "Romance",
+      "Sci-Fi",
+      "Thriller",
+      "War",
+      "Western"
+    ]
+  },
+  "graph_name": "t2c_recommendations",
+  "node_properties": [
+    {
+      "label": "Actor",
+      "property": "bio",
+      "type": "String"
+    },
+    {
+      "label": "Actor",
+      "property": "bio",
+      "type": "String"
+    },
+    {
+      "label": "Actor",
+      "property": "born",
+      "type": "Date"
+    },
+    {
+      "label": "Actor",
+      "property": "born",
+      "type": "Date"
+    },
+    {
+      "label": "Actor",
+      "property": "bornIn",
+      "type": "String"
+    },
+    {
+      "label": "Actor",
+      "property": "bornIn",
+      "type": "String"
+    },
+    {
+      "label": "Actor",
+      "property": "died",
+      "type": "Date"
+    },
+    {
+      "label": "Actor",
+      "property": "died",
+      "type": "Date"
+    },
+    {
+      "label": "Actor",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "Actor",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "Actor",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "Actor",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "Actor",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "Actor",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "Actor",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "Actor",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "Actor",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "Actor",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "Director",
+      "property": "bio",
+      "type": "String"
+    },
+    {
+      "label": "Director",
+      "property": "bio",
+      "type": "String"
+    },
+    {
+      "label": "Director",
+      "property": "born",
+      "type": "Date"
+    },
+    {
+      "label": "Director",
+      "property": "born",
+      "type": "Date"
+    },
+    {
+      "label": "Director",
+      "property": "bornIn",
+      "type": "String"
+    },
+    {
+      "label": "Director",
+      "property": "bornIn",
+      "type": "String"
+    },
+    {
+      "label": "Director",
+      "property": "died",
+      "type": "Date"
+    },
+    {
+      "label": "Director",
+      "property": "died",
+      "type": "Date"
+    },
+    {
+      "label": "Director",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "Director",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "Director",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "Director",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "Director",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "Director",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "Director",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "Director",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "Director",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "Director",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "Genre",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "Movie",
+      "property": "budget",
+      "type": "Long"
+    },
+    {
+      "label": "Movie",
+      "property": "countries",
+      "type": "StringArray"
+    },
+    {
+      "label": "Movie",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "Movie",
+      "property": "imdbRating",
+      "type": "Double"
+    },
+    {
+      "label": "Movie",
+      "property": "imdbVotes",
+      "type": "Long"
+    },
+    {
+      "label": "Movie",
+      "property": "languages",
+      "type": "StringArray"
+    },
+    {
+      "label": "Movie",
+      "property": "movieId",
+      "type": "String"
+    },
+    {
+      "label": "Movie",
+      "property": "plot",
+      "type": "String"
+    },
+    {
+      "label": "Movie",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "Movie",
+      "property": "released",
+      "type": "String"
+    },
+    {
+      "label": "Movie",
+      "property": "revenue",
+      "type": "Long"
+    },
+    {
+      "label": "Movie",
+      "property": "runtime",
+      "type": "Long"
+    },
+    {
+      "label": "Movie",
+      "property": "title",
+      "type": "String"
+    },
+    {
+      "label": "Movie",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "Movie",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "Movie",
+      "property": "year",
+      "type": "Long"
+    },
+    {
+      "label": "Person",
+      "property": "bio",
+      "type": "String"
+    },
+    {
+      "label": "Person",
+      "property": "bio",
+      "type": "String"
+    },
+    {
+      "label": "Person",
+      "property": "bio",
+      "type": "String"
+    },
+    {
+      "label": "Person",
+      "property": "born",
+      "type": "Date"
+    },
+    {
+      "label": "Person",
+      "property": "born",
+      "type": "Date"
+    },
+    {
+      "label": "Person",
+      "property": "born",
+      "type": "Date"
+    },
+    {
+      "label": "Person",
+      "property": "bornIn",
+      "type": "String"
+    },
+    {
+      "label": "Person",
+      "property": "bornIn",
+      "type": "String"
+    },
+    {
+      "label": "Person",
+      "property": "bornIn",
+      "type": "String"
+    },
+    {
+      "label": "Person",
+      "property": "died",
+      "type": "Date"
+    },
+    {
+      "label": "Person",
+      "property": "died",
+      "type": "Date"
+    },
+    {
+      "label": "Person",
+      "property": "died",
+      "type": "Date"
+    },
+    {
+      "label": "Person",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "Person",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "Person",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "Person",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "Person",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "Person",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "Person",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "Person",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "Person",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "Person",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "Person",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "Person",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "Person",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "Person",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "Person",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "User",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "User",
+      "property": "userId",
+      "type": "String"
+    }
+  ],
+  "relationship_properties": [
+    {
+      "property": "role",
+      "type": "ACTED_IN",
+      "value_type": "String"
+    },
+    {
+      "property": "role",
+      "type": "DIRECTED",
+      "value_type": "String"
+    },
+    {
+      "property": "rating",
+      "type": "RATED",
+      "value_type": "Double"
+    },
+    {
+      "property": "timestamp",
+      "type": "RATED",
+      "value_type": "Long"
+    }
+  ],
+  "relationships": [
+    {
+      "count": 100004,
+      "end_label": "Movie",
+      "start_label": "User",
+      "type": "RATED"
+    },
+    {
+      "count": 32980,
+      "end_label": "Movie",
+      "start_label": "Actor",
+      "type": "ACTED_IN"
+    },
+    {
+      "count": 32980,
+      "end_label": "Movie",
+      "start_label": "Person",
+      "type": "ACTED_IN"
+    },
+    {
+      "count": 20340,
+      "end_label": "Genre",
+      "start_label": "Movie",
+      "type": "IN_GENRE"
+    },
+    {
+      "count": 8289,
+      "end_label": "Movie",
+      "start_label": "Director",
+      "type": "DIRECTED"
+    },
+    {
+      "count": 8289,
+      "end_label": "Movie",
+      "start_label": "Person",
+      "type": "DIRECTED"
+    },
+    {
+      "count": 2930,
+      "end_label": "Movie",
+      "start_label": "Actor",
+      "type": "ACTED_IN"
+    },
+    {
+      "count": 2930,
+      "end_label": "Movie",
+      "start_label": "Director",
+      "type": "ACTED_IN"
+    },
+    {
+      "count": 2930,
+      "end_label": "Movie",
+      "start_label": "Person",
+      "type": "ACTED_IN"
+    },
+    {
+      "count": 1718,
+      "end_label": "Movie",
+      "start_label": "Actor",
+      "type": "DIRECTED"
+    },
+    {
+      "count": 1718,
+      "end_label": "Movie",
+      "start_label": "Director",
+      "type": "DIRECTED"
+    },
+    {
+      "count": 1718,
+      "end_label": "Movie",
+      "start_label": "Person",
+      "type": "DIRECTED"
+    }
+  ],
+  "source": "neo4j",
+  "symmetric_relationships": []
+}

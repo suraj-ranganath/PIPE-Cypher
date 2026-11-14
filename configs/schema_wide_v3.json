@@ -1,0 +1,9461 @@
+{
+  "categorical_properties": {
+    "FinA_Account.freqLoginType": [
+      "ATM",
+      "IPv4",
+      "IPv6",
+      "MAC",
+      "NFC",
+      "PHONE",
+      "POS",
+      "QRCode",
+      "RFID",
+      "WIFI"
+    ],
+    "FinA_Loan.loanUsage": [
+      "business ventures",
+      "debt consolidation",
+      "education",
+      "funerals",
+      "investing",
+      "major purchases",
+      "medical expenses",
+      "other",
+      "renovations",
+      "vacations",
+      "weddings"
+    ],
+    "FinA_Medium.mediumType": [
+      "ATM",
+      "IPv4",
+      "IPv6",
+      "MAC",
+      "NFC",
+      "PHONE",
+      "POS",
+      "QRCode",
+      "RFID",
+      "WIFI"
+    ],
+    "FinA_Person.gender": [
+      "female",
+      "male"
+    ],
+    "FinB_Account.freqLoginType": [
+      "ATM",
+      "IPv4",
+      "IPv6",
+      "MAC",
+      "NFC",
+      "PHONE",
+      "POS",
+      "QRCode",
+      "RFID",
+      "WIFI"
+    ],
+    "FinB_Loan.loanUsage": [
+      "business ventures",
+      "debt consolidation",
+      "education",
+      "funerals",
+      "investing",
+      "major purchases",
+      "medical expenses",
+      "other",
+      "renovations",
+      "vacations",
+      "weddings"
+    ],
+    "FinB_Medium.mediumType": [
+      "ATM",
+      "IPv4",
+      "IPv6",
+      "MAC",
+      "NFC",
+      "PHONE",
+      "POS",
+      "QRCode",
+      "RFID",
+      "WIFI"
+    ],
+    "FinB_Person.gender": [
+      "female",
+      "male"
+    ],
+    "FinC_Account.freqLoginType": [
+      "ATM",
+      "IPv4",
+      "IPv6",
+      "MAC",
+      "NFC",
+      "PHONE",
+      "POS",
+      "QRCode",
+      "RFID",
+      "WIFI"
+    ],
+    "FinC_Loan.loanUsage": [
+      "business ventures",
+      "debt consolidation",
+      "education",
+      "funerals",
+      "investing",
+      "major purchases",
+      "medical expenses",
+      "other",
+      "renovations",
+      "vacations",
+      "weddings"
+    ],
+    "FinC_Medium.mediumType": [
+      "ATM",
+      "IPv4",
+      "IPv6",
+      "MAC",
+      "NFC",
+      "PHONE",
+      "POS",
+      "QRCode",
+      "RFID",
+      "WIFI"
+    ],
+    "FinC_Person.gender": [
+      "female",
+      "male"
+    ],
+    "FinD_Account.freqLoginType": [
+      "ATM",
+      "IPv4",
+      "IPv6",
+      "MAC",
+      "NFC",
+      "PHONE",
+      "POS",
+      "QRCode",
+      "RFID",
+      "WIFI"
+    ],
+    "FinD_Loan.loanUsage": [
+      "business ventures",
+      "debt consolidation",
+      "education",
+      "funerals",
+      "investing",
+      "major purchases",
+      "medical expenses",
+      "other",
+      "renovations",
+      "vacations",
+      "weddings"
+    ],
+    "FinD_Medium.mediumType": [
+      "ATM",
+      "IPv4",
+      "IPv6",
+      "MAC",
+      "NFC",
+      "PHONE",
+      "POS",
+      "QRCode",
+      "RFID",
+      "WIFI"
+    ],
+    "FinD_Person.gender": [
+      "female",
+      "male"
+    ],
+    "NwA_Category.categoryID": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8"
+    ],
+    "NwA_Category.categoryName": [
+      "Beverages",
+      "Condiments",
+      "Confections",
+      "Dairy Products",
+      "Grains/Cereals",
+      "Meat/Poultry",
+      "Produce",
+      "Seafood"
+    ],
+    "NwA_Category.description": [
+      "Breads, crackers, pasta, and cereal",
+      "Cheeses",
+      "Desserts, candies, and sweet breads",
+      "Dried fruit and bean curd",
+      "Prepared meats",
+      "Seaweed and fish",
+      "Soft drinks, coffees, teas, beers, and ales",
+      "Sweet and savory sauces, relishes, spreads, and seasonings"
+    ],
+    "NwA_Customer.contactTitle": [
+      "Accounting Manager",
+      "Assistant Sales Agent",
+      "Assistant Sales Representative",
+      "Marketing Assistant",
+      "Marketing Manager",
+      "Order Administrator",
+      "Owner",
+      "Owner/Marketing Assistant",
+      "Sales Agent",
+      "Sales Associate",
+      "Sales Manager",
+      "Sales Representative"
+    ],
+    "NwA_Order.employeeID": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9"
+    ],
+    "NwA_Order.shipVia": [
+      "1",
+      "2",
+      "3"
+    ],
+    "NwA_Product.categoryID": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8"
+    ],
+    "NwA_Supplier.homePage": [
+      "#CAJUN.HTM#",
+      "(02) 555-4873",
+      "(03) 444-6588",
+      "(0544) 60603",
+      "(089) 6547667",
+      "(1) 03.83.00.62",
+      "38.76.98.58",
+      "NULL"
+    ],
+    "NwB_Category.categoryID": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8"
+    ],
+    "NwB_Category.categoryName": [
+      "Beverages",
+      "Condiments",
+      "Confections",
+      "Dairy Products",
+      "Grains/Cereals",
+      "Meat/Poultry",
+      "Produce",
+      "Seafood"
+    ],
+    "NwB_Category.description": [
+      "Breads, crackers, pasta, and cereal",
+      "Cheeses",
+      "Desserts, candies, and sweet breads",
+      "Dried fruit and bean curd",
+      "Prepared meats",
+      "Seaweed and fish",
+      "Soft drinks, coffees, teas, beers, and ales",
+      "Sweet and savory sauces, relishes, spreads, and seasonings"
+    ],
+    "NwB_Customer.contactTitle": [
+      "Accounting Manager",
+      "Assistant Sales Agent",
+      "Assistant Sales Representative",
+      "Marketing Assistant",
+      "Marketing Manager",
+      "Order Administrator",
+      "Owner",
+      "Owner/Marketing Assistant",
+      "Sales Agent",
+      "Sales Associate",
+      "Sales Manager",
+      "Sales Representative"
+    ],
+    "NwB_Order.employeeID": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9"
+    ],
+    "NwB_Order.shipVia": [
+      "1",
+      "2",
+      "3"
+    ],
+    "NwB_Product.categoryID": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8"
+    ],
+    "NwB_Supplier.homePage": [
+      "#CAJUN.HTM#",
+      "(02) 555-4873",
+      "(03) 444-6588",
+      "(0544) 60603",
+      "(089) 6547667",
+      "(1) 03.83.00.62",
+      "38.76.98.58",
+      "NULL"
+    ],
+    "NwC_Category.categoryID": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8"
+    ],
+    "NwC_Category.categoryName": [
+      "Beverages",
+      "Condiments",
+      "Confections",
+      "Dairy Products",
+      "Grains/Cereals",
+      "Meat/Poultry",
+      "Produce",
+      "Seafood"
+    ],
+    "NwC_Category.description": [
+      "Breads, crackers, pasta, and cereal",
+      "Cheeses",
+      "Desserts, candies, and sweet breads",
+      "Dried fruit and bean curd",
+      "Prepared meats",
+      "Seaweed and fish",
+      "Soft drinks, coffees, teas, beers, and ales",
+      "Sweet and savory sauces, relishes, spreads, and seasonings"
+    ],
+    "NwC_Customer.contactTitle": [
+      "Accounting Manager",
+      "Assistant Sales Agent",
+      "Assistant Sales Representative",
+      "Marketing Assistant",
+      "Marketing Manager",
+      "Order Administrator",
+      "Owner",
+      "Owner/Marketing Assistant",
+      "Sales Agent",
+      "Sales Associate",
+      "Sales Manager",
+      "Sales Representative"
+    ],
+    "NwC_Order.employeeID": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9"
+    ],
+    "NwC_Order.shipVia": [
+      "1",
+      "2",
+      "3"
+    ],
+    "NwC_Product.categoryID": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8"
+    ],
+    "NwC_Supplier.homePage": [
+      "#CAJUN.HTM#",
+      "(02) 555-4873",
+      "(03) 444-6588",
+      "(0544) 60603",
+      "(089) 6547667",
+      "(1) 03.83.00.62",
+      "38.76.98.58",
+      "NULL"
+    ],
+    "NwD_Category.categoryID": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8"
+    ],
+    "NwD_Category.categoryName": [
+      "Beverages",
+      "Condiments",
+      "Confections",
+      "Dairy Products",
+      "Grains/Cereals",
+      "Meat/Poultry",
+      "Produce",
+      "Seafood"
+    ],
+    "NwD_Category.description": [
+      "Breads, crackers, pasta, and cereal",
+      "Cheeses",
+      "Desserts, candies, and sweet breads",
+      "Dried fruit and bean curd",
+      "Prepared meats",
+      "Seaweed and fish",
+      "Soft drinks, coffees, teas, beers, and ales",
+      "Sweet and savory sauces, relishes, spreads, and seasonings"
+    ],
+    "NwD_Customer.contactTitle": [
+      "Accounting Manager",
+      "Assistant Sales Agent",
+      "Assistant Sales Representative",
+      "Marketing Assistant",
+      "Marketing Manager",
+      "Order Administrator",
+      "Owner",
+      "Owner/Marketing Assistant",
+      "Sales Agent",
+      "Sales Associate",
+      "Sales Manager",
+      "Sales Representative"
+    ],
+    "NwD_Order.employeeID": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9"
+    ],
+    "NwD_Order.shipVia": [
+      "1",
+      "2",
+      "3"
+    ],
+    "NwD_Product.categoryID": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8"
+    ],
+    "NwD_Supplier.homePage": [
+      "#CAJUN.HTM#",
+      "(02) 555-4873",
+      "(03) 444-6588",
+      "(0544) 60603",
+      "(089) 6547667",
+      "(1) 03.83.00.62",
+      "38.76.98.58",
+      "NULL"
+    ],
+    "SnbA_Comment.browserUsed": [
+      "Chrome",
+      "Firefox",
+      "Internet Explorer",
+      "Opera",
+      "Safari"
+    ],
+    "SnbA_Continent.name": [
+      "Africa",
+      "Asia",
+      "Australia",
+      "Europe",
+      "North_America",
+      "South_America"
+    ],
+    "SnbA_Continent.url": [
+      "http://dbpedia.org/resource/Africa",
+      "http://dbpedia.org/resource/Asia",
+      "http://dbpedia.org/resource/Australia",
+      "http://dbpedia.org/resource/Europe",
+      "http://dbpedia.org/resource/North_America",
+      "http://dbpedia.org/resource/South_America"
+    ],
+    "SnbA_Message.browserUsed": [
+      "Chrome",
+      "Firefox",
+      "Internet Explorer",
+      "Opera",
+      "Safari"
+    ],
+    "SnbA_Message.language": [
+      "ar",
+      "tk",
+      "uz"
+    ],
+    "SnbA_Person.browserUsed": [
+      "Chrome",
+      "Firefox",
+      "Internet Explorer",
+      "Opera",
+      "Safari"
+    ],
+    "SnbA_Person.gender": [
+      "female",
+      "male"
+    ],
+    "SnbA_Post.browserUsed": [
+      "Chrome",
+      "Firefox",
+      "Internet Explorer",
+      "Opera",
+      "Safari"
+    ],
+    "SnbA_Post.language": [
+      "ar",
+      "tk",
+      "uz"
+    ],
+    "SnbB_Comment.browserUsed": [
+      "Chrome",
+      "Firefox",
+      "Internet Explorer",
+      "Opera",
+      "Safari"
+    ],
+    "SnbB_Continent.name": [
+      "Africa",
+      "Asia",
+      "Australia",
+      "Europe",
+      "North_America",
+      "South_America"
+    ],
+    "SnbB_Continent.url": [
+      "http://dbpedia.org/resource/Africa",
+      "http://dbpedia.org/resource/Asia",
+      "http://dbpedia.org/resource/Australia",
+      "http://dbpedia.org/resource/Europe",
+      "http://dbpedia.org/resource/North_America",
+      "http://dbpedia.org/resource/South_America"
+    ],
+    "SnbB_Message.browserUsed": [
+      "Chrome",
+      "Firefox",
+      "Internet Explorer",
+      "Opera",
+      "Safari"
+    ],
+    "SnbB_Message.language": [
+      "ar",
+      "tk",
+      "uz"
+    ],
+    "SnbB_Person.browserUsed": [
+      "Chrome",
+      "Firefox",
+      "Internet Explorer",
+      "Opera",
+      "Safari"
+    ],
+    "SnbB_Person.gender": [
+      "female",
+      "male"
+    ],
+    "SnbB_Post.browserUsed": [
+      "Chrome",
+      "Firefox",
+      "Internet Explorer",
+      "Opera",
+      "Safari"
+    ],
+    "SnbB_Post.language": [
+      "ar",
+      "tk",
+      "uz"
+    ],
+    "SnbC_Comment.browserUsed": [
+      "Chrome",
+      "Firefox",
+      "Internet Explorer",
+      "Opera",
+      "Safari"
+    ],
+    "SnbC_Continent.name": [
+      "Africa",
+      "Asia",
+      "Australia",
+      "Europe",
+      "North_America",
+      "South_America"
+    ],
+    "SnbC_Continent.url": [
+      "http://dbpedia.org/resource/Africa",
+      "http://dbpedia.org/resource/Asia",
+      "http://dbpedia.org/resource/Australia",
+      "http://dbpedia.org/resource/Europe",
+      "http://dbpedia.org/resource/North_America",
+      "http://dbpedia.org/resource/South_America"
+    ],
+    "SnbC_Message.browserUsed": [
+      "Chrome",
+      "Firefox",
+      "Internet Explorer",
+      "Opera",
+      "Safari"
+    ],
+    "SnbC_Message.language": [
+      "ar",
+      "tk",
+      "uz"
+    ],
+    "SnbC_Person.browserUsed": [
+      "Chrome",
+      "Firefox",
+      "Internet Explorer",
+      "Opera",
+      "Safari"
+    ],
+    "SnbC_Person.gender": [
+      "female",
+      "male"
+    ],
+    "SnbC_Post.browserUsed": [
+      "Chrome",
+      "Firefox",
+      "Internet Explorer",
+      "Opera",
+      "Safari"
+    ],
+    "SnbC_Post.language": [
+      "ar",
+      "tk",
+      "uz"
+    ],
+    "SnbD_Comment.browserUsed": [
+      "Chrome",
+      "Firefox",
+      "Internet Explorer",
+      "Opera",
+      "Safari"
+    ],
+    "SnbD_Continent.name": [
+      "Africa",
+      "Asia",
+      "Australia",
+      "Europe",
+      "North_America",
+      "South_America"
+    ],
+    "SnbD_Continent.url": [
+      "http://dbpedia.org/resource/Africa",
+      "http://dbpedia.org/resource/Asia",
+      "http://dbpedia.org/resource/Australia",
+      "http://dbpedia.org/resource/Europe",
+      "http://dbpedia.org/resource/North_America",
+      "http://dbpedia.org/resource/South_America"
+    ],
+    "SnbD_Message.browserUsed": [
+      "Chrome",
+      "Firefox",
+      "Internet Explorer",
+      "Opera",
+      "Safari"
+    ],
+    "SnbD_Message.language": [
+      "ar",
+      "tk",
+      "uz"
+    ],
+    "SnbD_Person.browserUsed": [
+      "Chrome",
+      "Firefox",
+      "Internet Explorer",
+      "Opera",
+      "Safari"
+    ],
+    "SnbD_Person.gender": [
+      "female",
+      "male"
+    ],
+    "SnbD_Post.browserUsed": [
+      "Chrome",
+      "Firefox",
+      "Internet Explorer",
+      "Opera",
+      "Safari"
+    ],
+    "SnbD_Post.language": [
+      "ar",
+      "tk",
+      "uz"
+    ]
+  },
+  "graph_name": "wide_multidomain",
+  "node_properties": [
+    {
+      "label": "FcA_Country",
+      "property": "code",
+      "type": "String"
+    },
+    {
+      "label": "FcA_Country",
+      "property": "location",
+      "type": "Point"
+    },
+    {
+      "label": "FcA_Country",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "FcA_Country",
+      "property": "tld",
+      "type": "String"
+    },
+    {
+      "label": "FcA_Entity",
+      "property": "country",
+      "type": "String"
+    },
+    {
+      "label": "FcA_Entity",
+      "property": "id",
+      "type": "String"
+    },
+    {
+      "label": "FcA_Entity",
+      "property": "location",
+      "type": "Point"
+    },
+    {
+      "label": "FcA_Entity",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "FcA_Filing",
+      "property": "amount",
+      "type": "Long"
+    },
+    {
+      "label": "FcA_Filing",
+      "property": "begin",
+      "type": "DateTime"
+    },
+    {
+      "label": "FcA_Filing",
+      "property": "begin_date",
+      "type": "String"
+    },
+    {
+      "label": "FcA_Filing",
+      "property": "begin_date_format",
+      "type": "String"
+    },
+    {
+      "label": "FcA_Filing",
+      "property": "beneficiary_bank",
+      "type": "String"
+    },
+    {
+      "label": "FcA_Filing",
+      "property": "beneficiary_bank_country",
+      "type": "String"
+    },
+    {
+      "label": "FcA_Filing",
+      "property": "beneficiary_bank_id",
+      "type": "String"
+    },
+    {
+      "label": "FcA_Filing",
+      "property": "beneficiary_iso",
+      "type": "String"
+    },
+    {
+      "label": "FcA_Filing",
+      "property": "beneficiary_lat",
+      "type": "String"
+    },
+    {
+      "label": "FcA_Filing",
+      "property": "beneficiary_lng",
+      "type": "String"
+    },
+    {
+      "label": "FcA_Filing",
+      "property": "end",
+      "type": "DateTime"
+    },
+    {
+      "label": "FcA_Filing",
+      "property": "end_date",
+      "type": "String"
+    },
+    {
+      "label": "FcA_Filing",
+      "property": "end_date_format",
+      "type": "String"
+    },
+    {
+      "label": "FcA_Filing",
+      "property": "filer_org_name",
+      "type": "String"
+    },
+    {
+      "label": "FcA_Filing",
+      "property": "filer_org_name_id",
+      "type": "String"
+    },
+    {
+      "label": "FcA_Filing",
+      "property": "id",
+      "type": "String"
+    },
+    {
+      "label": "FcA_Filing",
+      "property": "number",
+      "type": "Long"
+    },
+    {
+      "label": "FcA_Filing",
+      "property": "origin_lat",
+      "type": "String"
+    },
+    {
+      "label": "FcA_Filing",
+      "property": "origin_lng",
+      "type": "String"
+    },
+    {
+      "label": "FcA_Filing",
+      "property": "originator_bank",
+      "type": "String"
+    },
+    {
+      "label": "FcA_Filing",
+      "property": "originator_bank_country",
+      "type": "String"
+    },
+    {
+      "label": "FcA_Filing",
+      "property": "originator_bank_id",
+      "type": "String"
+    },
+    {
+      "label": "FcA_Filing",
+      "property": "originator_iso",
+      "type": "String"
+    },
+    {
+      "label": "FcA_Filing",
+      "property": "sar_id",
+      "type": "String"
+    },
+    {
+      "label": "FcB_Country",
+      "property": "code",
+      "type": "String"
+    },
+    {
+      "label": "FcB_Country",
+      "property": "location",
+      "type": "Point"
+    },
+    {
+      "label": "FcB_Country",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "FcB_Country",
+      "property": "tld",
+      "type": "String"
+    },
+    {
+      "label": "FcB_Entity",
+      "property": "country",
+      "type": "String"
+    },
+    {
+      "label": "FcB_Entity",
+      "property": "id",
+      "type": "String"
+    },
+    {
+      "label": "FcB_Entity",
+      "property": "location",
+      "type": "Point"
+    },
+    {
+      "label": "FcB_Entity",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "FcB_Filing",
+      "property": "amount",
+      "type": "Long"
+    },
+    {
+      "label": "FcB_Filing",
+      "property": "begin",
+      "type": "DateTime"
+    },
+    {
+      "label": "FcB_Filing",
+      "property": "begin_date",
+      "type": "String"
+    },
+    {
+      "label": "FcB_Filing",
+      "property": "begin_date_format",
+      "type": "String"
+    },
+    {
+      "label": "FcB_Filing",
+      "property": "beneficiary_bank",
+      "type": "String"
+    },
+    {
+      "label": "FcB_Filing",
+      "property": "beneficiary_bank_country",
+      "type": "String"
+    },
+    {
+      "label": "FcB_Filing",
+      "property": "beneficiary_bank_id",
+      "type": "String"
+    },
+    {
+      "label": "FcB_Filing",
+      "property": "beneficiary_iso",
+      "type": "String"
+    },
+    {
+      "label": "FcB_Filing",
+      "property": "beneficiary_lat",
+      "type": "String"
+    },
+    {
+      "label": "FcB_Filing",
+      "property": "beneficiary_lng",
+      "type": "String"
+    },
+    {
+      "label": "FcB_Filing",
+      "property": "end",
+      "type": "DateTime"
+    },
+    {
+      "label": "FcB_Filing",
+      "property": "end_date",
+      "type": "String"
+    },
+    {
+      "label": "FcB_Filing",
+      "property": "end_date_format",
+      "type": "String"
+    },
+    {
+      "label": "FcB_Filing",
+      "property": "filer_org_name",
+      "type": "String"
+    },
+    {
+      "label": "FcB_Filing",
+      "property": "filer_org_name_id",
+      "type": "String"
+    },
+    {
+      "label": "FcB_Filing",
+      "property": "id",
+      "type": "String"
+    },
+    {
+      "label": "FcB_Filing",
+      "property": "number",
+      "type": "Long"
+    },
+    {
+      "label": "FcB_Filing",
+      "property": "origin_lat",
+      "type": "String"
+    },
+    {
+      "label": "FcB_Filing",
+      "property": "origin_lng",
+      "type": "String"
+    },
+    {
+      "label": "FcB_Filing",
+      "property": "originator_bank",
+      "type": "String"
+    },
+    {
+      "label": "FcB_Filing",
+      "property": "originator_bank_country",
+      "type": "String"
+    },
+    {
+      "label": "FcB_Filing",
+      "property": "originator_bank_id",
+      "type": "String"
+    },
+    {
+      "label": "FcB_Filing",
+      "property": "originator_iso",
+      "type": "String"
+    },
+    {
+      "label": "FcB_Filing",
+      "property": "sar_id",
+      "type": "String"
+    },
+    {
+      "label": "FcC_Country",
+      "property": "code",
+      "type": "String"
+    },
+    {
+      "label": "FcC_Country",
+      "property": "location",
+      "type": "Point"
+    },
+    {
+      "label": "FcC_Country",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "FcC_Country",
+      "property": "tld",
+      "type": "String"
+    },
+    {
+      "label": "FcC_Entity",
+      "property": "country",
+      "type": "String"
+    },
+    {
+      "label": "FcC_Entity",
+      "property": "id",
+      "type": "String"
+    },
+    {
+      "label": "FcC_Entity",
+      "property": "location",
+      "type": "Point"
+    },
+    {
+      "label": "FcC_Entity",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "FcC_Filing",
+      "property": "amount",
+      "type": "Long"
+    },
+    {
+      "label": "FcC_Filing",
+      "property": "begin",
+      "type": "DateTime"
+    },
+    {
+      "label": "FcC_Filing",
+      "property": "begin_date",
+      "type": "String"
+    },
+    {
+      "label": "FcC_Filing",
+      "property": "begin_date_format",
+      "type": "String"
+    },
+    {
+      "label": "FcC_Filing",
+      "property": "beneficiary_bank",
+      "type": "String"
+    },
+    {
+      "label": "FcC_Filing",
+      "property": "beneficiary_bank_country",
+      "type": "String"
+    },
+    {
+      "label": "FcC_Filing",
+      "property": "beneficiary_bank_id",
+      "type": "String"
+    },
+    {
+      "label": "FcC_Filing",
+      "property": "beneficiary_iso",
+      "type": "String"
+    },
+    {
+      "label": "FcC_Filing",
+      "property": "beneficiary_lat",
+      "type": "String"
+    },
+    {
+      "label": "FcC_Filing",
+      "property": "beneficiary_lng",
+      "type": "String"
+    },
+    {
+      "label": "FcC_Filing",
+      "property": "end",
+      "type": "DateTime"
+    },
+    {
+      "label": "FcC_Filing",
+      "property": "end_date",
+      "type": "String"
+    },
+    {
+      "label": "FcC_Filing",
+      "property": "end_date_format",
+      "type": "String"
+    },
+    {
+      "label": "FcC_Filing",
+      "property": "filer_org_name",
+      "type": "String"
+    },
+    {
+      "label": "FcC_Filing",
+      "property": "filer_org_name_id",
+      "type": "String"
+    },
+    {
+      "label": "FcC_Filing",
+      "property": "id",
+      "type": "String"
+    },
+    {
+      "label": "FcC_Filing",
+      "property": "number",
+      "type": "Long"
+    },
+    {
+      "label": "FcC_Filing",
+      "property": "origin_lat",
+      "type": "String"
+    },
+    {
+      "label": "FcC_Filing",
+      "property": "origin_lng",
+      "type": "String"
+    },
+    {
+      "label": "FcC_Filing",
+      "property": "originator_bank",
+      "type": "String"
+    },
+    {
+      "label": "FcC_Filing",
+      "property": "originator_bank_country",
+      "type": "String"
+    },
+    {
+      "label": "FcC_Filing",
+      "property": "originator_bank_id",
+      "type": "String"
+    },
+    {
+      "label": "FcC_Filing",
+      "property": "originator_iso",
+      "type": "String"
+    },
+    {
+      "label": "FcC_Filing",
+      "property": "sar_id",
+      "type": "String"
+    },
+    {
+      "label": "FcD_Country",
+      "property": "code",
+      "type": "String"
+    },
+    {
+      "label": "FcD_Country",
+      "property": "location",
+      "type": "Point"
+    },
+    {
+      "label": "FcD_Country",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "FcD_Country",
+      "property": "tld",
+      "type": "String"
+    },
+    {
+      "label": "FcD_Entity",
+      "property": "country",
+      "type": "String"
+    },
+    {
+      "label": "FcD_Entity",
+      "property": "id",
+      "type": "String"
+    },
+    {
+      "label": "FcD_Entity",
+      "property": "location",
+      "type": "Point"
+    },
+    {
+      "label": "FcD_Entity",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "FcD_Filing",
+      "property": "amount",
+      "type": "Long"
+    },
+    {
+      "label": "FcD_Filing",
+      "property": "begin",
+      "type": "DateTime"
+    },
+    {
+      "label": "FcD_Filing",
+      "property": "begin_date",
+      "type": "String"
+    },
+    {
+      "label": "FcD_Filing",
+      "property": "begin_date_format",
+      "type": "String"
+    },
+    {
+      "label": "FcD_Filing",
+      "property": "beneficiary_bank",
+      "type": "String"
+    },
+    {
+      "label": "FcD_Filing",
+      "property": "beneficiary_bank_country",
+      "type": "String"
+    },
+    {
+      "label": "FcD_Filing",
+      "property": "beneficiary_bank_id",
+      "type": "String"
+    },
+    {
+      "label": "FcD_Filing",
+      "property": "beneficiary_iso",
+      "type": "String"
+    },
+    {
+      "label": "FcD_Filing",
+      "property": "beneficiary_lat",
+      "type": "String"
+    },
+    {
+      "label": "FcD_Filing",
+      "property": "beneficiary_lng",
+      "type": "String"
+    },
+    {
+      "label": "FcD_Filing",
+      "property": "end",
+      "type": "DateTime"
+    },
+    {
+      "label": "FcD_Filing",
+      "property": "end_date",
+      "type": "String"
+    },
+    {
+      "label": "FcD_Filing",
+      "property": "end_date_format",
+      "type": "String"
+    },
+    {
+      "label": "FcD_Filing",
+      "property": "filer_org_name",
+      "type": "String"
+    },
+    {
+      "label": "FcD_Filing",
+      "property": "filer_org_name_id",
+      "type": "String"
+    },
+    {
+      "label": "FcD_Filing",
+      "property": "id",
+      "type": "String"
+    },
+    {
+      "label": "FcD_Filing",
+      "property": "number",
+      "type": "Long"
+    },
+    {
+      "label": "FcD_Filing",
+      "property": "origin_lat",
+      "type": "String"
+    },
+    {
+      "label": "FcD_Filing",
+      "property": "origin_lng",
+      "type": "String"
+    },
+    {
+      "label": "FcD_Filing",
+      "property": "originator_bank",
+      "type": "String"
+    },
+    {
+      "label": "FcD_Filing",
+      "property": "originator_bank_country",
+      "type": "String"
+    },
+    {
+      "label": "FcD_Filing",
+      "property": "originator_bank_id",
+      "type": "String"
+    },
+    {
+      "label": "FcD_Filing",
+      "property": "originator_iso",
+      "type": "String"
+    },
+    {
+      "label": "FcD_Filing",
+      "property": "sar_id",
+      "type": "String"
+    },
+    {
+      "label": "FinA_Account",
+      "property": "accountId",
+      "type": "String"
+    },
+    {
+      "label": "FinA_Account",
+      "property": "accountType",
+      "type": "String"
+    },
+    {
+      "label": "FinA_Account",
+      "property": "createTime",
+      "type": "DateTime"
+    },
+    {
+      "label": "FinA_Account",
+      "property": "email",
+      "type": "String"
+    },
+    {
+      "label": "FinA_Account",
+      "property": "freqLoginType",
+      "type": "String"
+    },
+    {
+      "label": "FinA_Account",
+      "property": "isBlocked",
+      "type": "Boolean"
+    },
+    {
+      "label": "FinA_Account",
+      "property": "lastLoginTime",
+      "type": "DateTime"
+    },
+    {
+      "label": "FinA_Account",
+      "property": "nickname",
+      "type": "String"
+    },
+    {
+      "label": "FinA_Account",
+      "property": "phonenum",
+      "type": "String"
+    },
+    {
+      "label": "FinA_Company",
+      "property": "business",
+      "type": "String"
+    },
+    {
+      "label": "FinA_Company",
+      "property": "city",
+      "type": "String"
+    },
+    {
+      "label": "FinA_Company",
+      "property": "companyId",
+      "type": "String"
+    },
+    {
+      "label": "FinA_Company",
+      "property": "companyName",
+      "type": "String"
+    },
+    {
+      "label": "FinA_Company",
+      "property": "country",
+      "type": "String"
+    },
+    {
+      "label": "FinA_Company",
+      "property": "createTime",
+      "type": "DateTime"
+    },
+    {
+      "label": "FinA_Company",
+      "property": "description",
+      "type": "String"
+    },
+    {
+      "label": "FinA_Company",
+      "property": "isBlocked",
+      "type": "Boolean"
+    },
+    {
+      "label": "FinA_Company",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "FinA_Loan",
+      "property": "balance",
+      "type": "Double"
+    },
+    {
+      "label": "FinA_Loan",
+      "property": "createTime",
+      "type": "DateTime"
+    },
+    {
+      "label": "FinA_Loan",
+      "property": "interestRate",
+      "type": "Double"
+    },
+    {
+      "label": "FinA_Loan",
+      "property": "loanAmount",
+      "type": "Double"
+    },
+    {
+      "label": "FinA_Loan",
+      "property": "loanId",
+      "type": "String"
+    },
+    {
+      "label": "FinA_Loan",
+      "property": "loanUsage",
+      "type": "String"
+    },
+    {
+      "label": "FinA_Medium",
+      "property": "createTime",
+      "type": "DateTime"
+    },
+    {
+      "label": "FinA_Medium",
+      "property": "isBlocked",
+      "type": "Boolean"
+    },
+    {
+      "label": "FinA_Medium",
+      "property": "lastLoginTime",
+      "type": "DateTime"
+    },
+    {
+      "label": "FinA_Medium",
+      "property": "mediumId",
+      "type": "String"
+    },
+    {
+      "label": "FinA_Medium",
+      "property": "mediumType",
+      "type": "String"
+    },
+    {
+      "label": "FinA_Person",
+      "property": "birthday",
+      "type": "Date"
+    },
+    {
+      "label": "FinA_Person",
+      "property": "city",
+      "type": "String"
+    },
+    {
+      "label": "FinA_Person",
+      "property": "country",
+      "type": "String"
+    },
+    {
+      "label": "FinA_Person",
+      "property": "createTime",
+      "type": "DateTime"
+    },
+    {
+      "label": "FinA_Person",
+      "property": "gender",
+      "type": "String"
+    },
+    {
+      "label": "FinA_Person",
+      "property": "isBlocked",
+      "type": "Boolean"
+    },
+    {
+      "label": "FinA_Person",
+      "property": "personId",
+      "type": "String"
+    },
+    {
+      "label": "FinA_Person",
+      "property": "personName",
+      "type": "String"
+    },
+    {
+      "label": "FinB_Account",
+      "property": "accountId",
+      "type": "String"
+    },
+    {
+      "label": "FinB_Account",
+      "property": "accountType",
+      "type": "String"
+    },
+    {
+      "label": "FinB_Account",
+      "property": "createTime",
+      "type": "DateTime"
+    },
+    {
+      "label": "FinB_Account",
+      "property": "email",
+      "type": "String"
+    },
+    {
+      "label": "FinB_Account",
+      "property": "freqLoginType",
+      "type": "String"
+    },
+    {
+      "label": "FinB_Account",
+      "property": "isBlocked",
+      "type": "Boolean"
+    },
+    {
+      "label": "FinB_Account",
+      "property": "lastLoginTime",
+      "type": "DateTime"
+    },
+    {
+      "label": "FinB_Account",
+      "property": "nickname",
+      "type": "String"
+    },
+    {
+      "label": "FinB_Account",
+      "property": "phonenum",
+      "type": "String"
+    },
+    {
+      "label": "FinB_Company",
+      "property": "business",
+      "type": "String"
+    },
+    {
+      "label": "FinB_Company",
+      "property": "city",
+      "type": "String"
+    },
+    {
+      "label": "FinB_Company",
+      "property": "companyId",
+      "type": "String"
+    },
+    {
+      "label": "FinB_Company",
+      "property": "companyName",
+      "type": "String"
+    },
+    {
+      "label": "FinB_Company",
+      "property": "country",
+      "type": "String"
+    },
+    {
+      "label": "FinB_Company",
+      "property": "createTime",
+      "type": "DateTime"
+    },
+    {
+      "label": "FinB_Company",
+      "property": "description",
+      "type": "String"
+    },
+    {
+      "label": "FinB_Company",
+      "property": "isBlocked",
+      "type": "Boolean"
+    },
+    {
+      "label": "FinB_Company",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "FinB_Loan",
+      "property": "balance",
+      "type": "Double"
+    },
+    {
+      "label": "FinB_Loan",
+      "property": "createTime",
+      "type": "DateTime"
+    },
+    {
+      "label": "FinB_Loan",
+      "property": "interestRate",
+      "type": "Double"
+    },
+    {
+      "label": "FinB_Loan",
+      "property": "loanAmount",
+      "type": "Double"
+    },
+    {
+      "label": "FinB_Loan",
+      "property": "loanId",
+      "type": "String"
+    },
+    {
+      "label": "FinB_Loan",
+      "property": "loanUsage",
+      "type": "String"
+    },
+    {
+      "label": "FinB_Medium",
+      "property": "createTime",
+      "type": "DateTime"
+    },
+    {
+      "label": "FinB_Medium",
+      "property": "isBlocked",
+      "type": "Boolean"
+    },
+    {
+      "label": "FinB_Medium",
+      "property": "lastLoginTime",
+      "type": "DateTime"
+    },
+    {
+      "label": "FinB_Medium",
+      "property": "mediumId",
+      "type": "String"
+    },
+    {
+      "label": "FinB_Medium",
+      "property": "mediumType",
+      "type": "String"
+    },
+    {
+      "label": "FinB_Person",
+      "property": "birthday",
+      "type": "Date"
+    },
+    {
+      "label": "FinB_Person",
+      "property": "city",
+      "type": "String"
+    },
+    {
+      "label": "FinB_Person",
+      "property": "country",
+      "type": "String"
+    },
+    {
+      "label": "FinB_Person",
+      "property": "createTime",
+      "type": "DateTime"
+    },
+    {
+      "label": "FinB_Person",
+      "property": "gender",
+      "type": "String"
+    },
+    {
+      "label": "FinB_Person",
+      "property": "isBlocked",
+      "type": "Boolean"
+    },
+    {
+      "label": "FinB_Person",
+      "property": "personId",
+      "type": "String"
+    },
+    {
+      "label": "FinB_Person",
+      "property": "personName",
+      "type": "String"
+    },
+    {
+      "label": "FinC_Account",
+      "property": "accountId",
+      "type": "String"
+    },
+    {
+      "label": "FinC_Account",
+      "property": "accountType",
+      "type": "String"
+    },
+    {
+      "label": "FinC_Account",
+      "property": "createTime",
+      "type": "DateTime"
+    },
+    {
+      "label": "FinC_Account",
+      "property": "email",
+      "type": "String"
+    },
+    {
+      "label": "FinC_Account",
+      "property": "freqLoginType",
+      "type": "String"
+    },
+    {
+      "label": "FinC_Account",
+      "property": "isBlocked",
+      "type": "Boolean"
+    },
+    {
+      "label": "FinC_Account",
+      "property": "lastLoginTime",
+      "type": "DateTime"
+    },
+    {
+      "label": "FinC_Account",
+      "property": "nickname",
+      "type": "String"
+    },
+    {
+      "label": "FinC_Account",
+      "property": "phonenum",
+      "type": "String"
+    },
+    {
+      "label": "FinC_Company",
+      "property": "business",
+      "type": "String"
+    },
+    {
+      "label": "FinC_Company",
+      "property": "city",
+      "type": "String"
+    },
+    {
+      "label": "FinC_Company",
+      "property": "companyId",
+      "type": "String"
+    },
+    {
+      "label": "FinC_Company",
+      "property": "companyName",
+      "type": "String"
+    },
+    {
+      "label": "FinC_Company",
+      "property": "country",
+      "type": "String"
+    },
+    {
+      "label": "FinC_Company",
+      "property": "createTime",
+      "type": "DateTime"
+    },
+    {
+      "label": "FinC_Company",
+      "property": "description",
+      "type": "String"
+    },
+    {
+      "label": "FinC_Company",
+      "property": "isBlocked",
+      "type": "Boolean"
+    },
+    {
+      "label": "FinC_Company",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "FinC_Loan",
+      "property": "balance",
+      "type": "Double"
+    },
+    {
+      "label": "FinC_Loan",
+      "property": "createTime",
+      "type": "DateTime"
+    },
+    {
+      "label": "FinC_Loan",
+      "property": "interestRate",
+      "type": "Double"
+    },
+    {
+      "label": "FinC_Loan",
+      "property": "loanAmount",
+      "type": "Double"
+    },
+    {
+      "label": "FinC_Loan",
+      "property": "loanId",
+      "type": "String"
+    },
+    {
+      "label": "FinC_Loan",
+      "property": "loanUsage",
+      "type": "String"
+    },
+    {
+      "label": "FinC_Medium",
+      "property": "createTime",
+      "type": "DateTime"
+    },
+    {
+      "label": "FinC_Medium",
+      "property": "isBlocked",
+      "type": "Boolean"
+    },
+    {
+      "label": "FinC_Medium",
+      "property": "lastLoginTime",
+      "type": "DateTime"
+    },
+    {
+      "label": "FinC_Medium",
+      "property": "mediumId",
+      "type": "String"
+    },
+    {
+      "label": "FinC_Medium",
+      "property": "mediumType",
+      "type": "String"
+    },
+    {
+      "label": "FinC_Person",
+      "property": "birthday",
+      "type": "Date"
+    },
+    {
+      "label": "FinC_Person",
+      "property": "city",
+      "type": "String"
+    },
+    {
+      "label": "FinC_Person",
+      "property": "country",
+      "type": "String"
+    },
+    {
+      "label": "FinC_Person",
+      "property": "createTime",
+      "type": "DateTime"
+    },
+    {
+      "label": "FinC_Person",
+      "property": "gender",
+      "type": "String"
+    },
+    {
+      "label": "FinC_Person",
+      "property": "isBlocked",
+      "type": "Boolean"
+    },
+    {
+      "label": "FinC_Person",
+      "property": "personId",
+      "type": "String"
+    },
+    {
+      "label": "FinC_Person",
+      "property": "personName",
+      "type": "String"
+    },
+    {
+      "label": "FinD_Account",
+      "property": "accountId",
+      "type": "String"
+    },
+    {
+      "label": "FinD_Account",
+      "property": "accountType",
+      "type": "String"
+    },
+    {
+      "label": "FinD_Account",
+      "property": "createTime",
+      "type": "DateTime"
+    },
+    {
+      "label": "FinD_Account",
+      "property": "email",
+      "type": "String"
+    },
+    {
+      "label": "FinD_Account",
+      "property": "freqLoginType",
+      "type": "String"
+    },
+    {
+      "label": "FinD_Account",
+      "property": "isBlocked",
+      "type": "Boolean"
+    },
+    {
+      "label": "FinD_Account",
+      "property": "lastLoginTime",
+      "type": "DateTime"
+    },
+    {
+      "label": "FinD_Account",
+      "property": "nickname",
+      "type": "String"
+    },
+    {
+      "label": "FinD_Account",
+      "property": "phonenum",
+      "type": "String"
+    },
+    {
+      "label": "FinD_Company",
+      "property": "business",
+      "type": "String"
+    },
+    {
+      "label": "FinD_Company",
+      "property": "city",
+      "type": "String"
+    },
+    {
+      "label": "FinD_Company",
+      "property": "companyId",
+      "type": "String"
+    },
+    {
+      "label": "FinD_Company",
+      "property": "companyName",
+      "type": "String"
+    },
+    {
+      "label": "FinD_Company",
+      "property": "country",
+      "type": "String"
+    },
+    {
+      "label": "FinD_Company",
+      "property": "createTime",
+      "type": "DateTime"
+    },
+    {
+      "label": "FinD_Company",
+      "property": "description",
+      "type": "String"
+    },
+    {
+      "label": "FinD_Company",
+      "property": "isBlocked",
+      "type": "Boolean"
+    },
+    {
+      "label": "FinD_Company",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "FinD_Loan",
+      "property": "balance",
+      "type": "Double"
+    },
+    {
+      "label": "FinD_Loan",
+      "property": "createTime",
+      "type": "DateTime"
+    },
+    {
+      "label": "FinD_Loan",
+      "property": "interestRate",
+      "type": "Double"
+    },
+    {
+      "label": "FinD_Loan",
+      "property": "loanAmount",
+      "type": "Double"
+    },
+    {
+      "label": "FinD_Loan",
+      "property": "loanId",
+      "type": "String"
+    },
+    {
+      "label": "FinD_Loan",
+      "property": "loanUsage",
+      "type": "String"
+    },
+    {
+      "label": "FinD_Medium",
+      "property": "createTime",
+      "type": "DateTime"
+    },
+    {
+      "label": "FinD_Medium",
+      "property": "isBlocked",
+      "type": "Boolean"
+    },
+    {
+      "label": "FinD_Medium",
+      "property": "lastLoginTime",
+      "type": "DateTime"
+    },
+    {
+      "label": "FinD_Medium",
+      "property": "mediumId",
+      "type": "String"
+    },
+    {
+      "label": "FinD_Medium",
+      "property": "mediumType",
+      "type": "String"
+    },
+    {
+      "label": "FinD_Person",
+      "property": "birthday",
+      "type": "Date"
+    },
+    {
+      "label": "FinD_Person",
+      "property": "city",
+      "type": "String"
+    },
+    {
+      "label": "FinD_Person",
+      "property": "country",
+      "type": "String"
+    },
+    {
+      "label": "FinD_Person",
+      "property": "createTime",
+      "type": "DateTime"
+    },
+    {
+      "label": "FinD_Person",
+      "property": "gender",
+      "type": "String"
+    },
+    {
+      "label": "FinD_Person",
+      "property": "isBlocked",
+      "type": "Boolean"
+    },
+    {
+      "label": "FinD_Person",
+      "property": "personId",
+      "type": "String"
+    },
+    {
+      "label": "FinD_Person",
+      "property": "personName",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Category",
+      "property": "categoryID",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Category",
+      "property": "categoryName",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Category",
+      "property": "description",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Category",
+      "property": "picture",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Customer",
+      "property": "address",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Customer",
+      "property": "city",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Customer",
+      "property": "companyName",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Customer",
+      "property": "contactName",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Customer",
+      "property": "contactTitle",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Customer",
+      "property": "country",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Customer",
+      "property": "customerID",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Customer",
+      "property": "fax",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Customer",
+      "property": "phone",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Customer",
+      "property": "postalCode",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Customer",
+      "property": "region",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Order",
+      "property": "customerID",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Order",
+      "property": "employeeID",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Order",
+      "property": "freight",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Order",
+      "property": "orderDate",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Order",
+      "property": "orderID",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Order",
+      "property": "requiredDate",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Order",
+      "property": "shipAddress",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Order",
+      "property": "shipCity",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Order",
+      "property": "shipCountry",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Order",
+      "property": "shipName",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Order",
+      "property": "shipPostalCode",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Order",
+      "property": "shipRegion",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Order",
+      "property": "shipVia",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Order",
+      "property": "shippedDate",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Product",
+      "property": "categoryID",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Product",
+      "property": "discontinued",
+      "type": "Boolean"
+    },
+    {
+      "label": "NwA_Product",
+      "property": "productID",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Product",
+      "property": "productName",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Product",
+      "property": "quantityPerUnit",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Product",
+      "property": "reorderLevel",
+      "type": "Long"
+    },
+    {
+      "label": "NwA_Product",
+      "property": "supplierID",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Product",
+      "property": "unitPrice",
+      "type": "Double"
+    },
+    {
+      "label": "NwA_Product",
+      "property": "unitsInStock",
+      "type": "Long"
+    },
+    {
+      "label": "NwA_Product",
+      "property": "unitsOnOrder",
+      "type": "Long"
+    },
+    {
+      "label": "NwA_Supplier",
+      "property": "address",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Supplier",
+      "property": "city",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Supplier",
+      "property": "companyName",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Supplier",
+      "property": "contactName",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Supplier",
+      "property": "contactTitle",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Supplier",
+      "property": "country",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Supplier",
+      "property": "fax",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Supplier",
+      "property": "homePage",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Supplier",
+      "property": "phone",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Supplier",
+      "property": "postalCode",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Supplier",
+      "property": "region",
+      "type": "String"
+    },
+    {
+      "label": "NwA_Supplier",
+      "property": "supplierID",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Category",
+      "property": "categoryID",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Category",
+      "property": "categoryName",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Category",
+      "property": "description",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Category",
+      "property": "picture",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Customer",
+      "property": "address",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Customer",
+      "property": "city",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Customer",
+      "property": "companyName",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Customer",
+      "property": "contactName",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Customer",
+      "property": "contactTitle",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Customer",
+      "property": "country",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Customer",
+      "property": "customerID",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Customer",
+      "property": "fax",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Customer",
+      "property": "phone",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Customer",
+      "property": "postalCode",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Customer",
+      "property": "region",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Order",
+      "property": "customerID",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Order",
+      "property": "employeeID",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Order",
+      "property": "freight",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Order",
+      "property": "orderDate",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Order",
+      "property": "orderID",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Order",
+      "property": "requiredDate",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Order",
+      "property": "shipAddress",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Order",
+      "property": "shipCity",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Order",
+      "property": "shipCountry",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Order",
+      "property": "shipName",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Order",
+      "property": "shipPostalCode",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Order",
+      "property": "shipRegion",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Order",
+      "property": "shipVia",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Order",
+      "property": "shippedDate",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Product",
+      "property": "categoryID",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Product",
+      "property": "discontinued",
+      "type": "Boolean"
+    },
+    {
+      "label": "NwB_Product",
+      "property": "productID",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Product",
+      "property": "productName",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Product",
+      "property": "quantityPerUnit",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Product",
+      "property": "reorderLevel",
+      "type": "Long"
+    },
+    {
+      "label": "NwB_Product",
+      "property": "supplierID",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Product",
+      "property": "unitPrice",
+      "type": "Double"
+    },
+    {
+      "label": "NwB_Product",
+      "property": "unitsInStock",
+      "type": "Long"
+    },
+    {
+      "label": "NwB_Product",
+      "property": "unitsOnOrder",
+      "type": "Long"
+    },
+    {
+      "label": "NwB_Supplier",
+      "property": "address",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Supplier",
+      "property": "city",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Supplier",
+      "property": "companyName",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Supplier",
+      "property": "contactName",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Supplier",
+      "property": "contactTitle",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Supplier",
+      "property": "country",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Supplier",
+      "property": "fax",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Supplier",
+      "property": "homePage",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Supplier",
+      "property": "phone",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Supplier",
+      "property": "postalCode",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Supplier",
+      "property": "region",
+      "type": "String"
+    },
+    {
+      "label": "NwB_Supplier",
+      "property": "supplierID",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Category",
+      "property": "categoryID",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Category",
+      "property": "categoryName",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Category",
+      "property": "description",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Category",
+      "property": "picture",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Customer",
+      "property": "address",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Customer",
+      "property": "city",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Customer",
+      "property": "companyName",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Customer",
+      "property": "contactName",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Customer",
+      "property": "contactTitle",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Customer",
+      "property": "country",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Customer",
+      "property": "customerID",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Customer",
+      "property": "fax",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Customer",
+      "property": "phone",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Customer",
+      "property": "postalCode",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Customer",
+      "property": "region",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Order",
+      "property": "customerID",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Order",
+      "property": "employeeID",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Order",
+      "property": "freight",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Order",
+      "property": "orderDate",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Order",
+      "property": "orderID",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Order",
+      "property": "requiredDate",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Order",
+      "property": "shipAddress",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Order",
+      "property": "shipCity",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Order",
+      "property": "shipCountry",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Order",
+      "property": "shipName",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Order",
+      "property": "shipPostalCode",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Order",
+      "property": "shipRegion",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Order",
+      "property": "shipVia",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Order",
+      "property": "shippedDate",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Product",
+      "property": "categoryID",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Product",
+      "property": "discontinued",
+      "type": "Boolean"
+    },
+    {
+      "label": "NwC_Product",
+      "property": "productID",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Product",
+      "property": "productName",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Product",
+      "property": "quantityPerUnit",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Product",
+      "property": "reorderLevel",
+      "type": "Long"
+    },
+    {
+      "label": "NwC_Product",
+      "property": "supplierID",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Product",
+      "property": "unitPrice",
+      "type": "Double"
+    },
+    {
+      "label": "NwC_Product",
+      "property": "unitsInStock",
+      "type": "Long"
+    },
+    {
+      "label": "NwC_Product",
+      "property": "unitsOnOrder",
+      "type": "Long"
+    },
+    {
+      "label": "NwC_Supplier",
+      "property": "address",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Supplier",
+      "property": "city",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Supplier",
+      "property": "companyName",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Supplier",
+      "property": "contactName",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Supplier",
+      "property": "contactTitle",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Supplier",
+      "property": "country",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Supplier",
+      "property": "fax",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Supplier",
+      "property": "homePage",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Supplier",
+      "property": "phone",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Supplier",
+      "property": "postalCode",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Supplier",
+      "property": "region",
+      "type": "String"
+    },
+    {
+      "label": "NwC_Supplier",
+      "property": "supplierID",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Category",
+      "property": "categoryID",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Category",
+      "property": "categoryName",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Category",
+      "property": "description",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Category",
+      "property": "picture",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Customer",
+      "property": "address",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Customer",
+      "property": "city",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Customer",
+      "property": "companyName",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Customer",
+      "property": "contactName",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Customer",
+      "property": "contactTitle",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Customer",
+      "property": "country",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Customer",
+      "property": "customerID",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Customer",
+      "property": "fax",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Customer",
+      "property": "phone",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Customer",
+      "property": "postalCode",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Customer",
+      "property": "region",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Order",
+      "property": "customerID",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Order",
+      "property": "employeeID",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Order",
+      "property": "freight",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Order",
+      "property": "orderDate",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Order",
+      "property": "orderID",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Order",
+      "property": "requiredDate",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Order",
+      "property": "shipAddress",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Order",
+      "property": "shipCity",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Order",
+      "property": "shipCountry",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Order",
+      "property": "shipName",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Order",
+      "property": "shipPostalCode",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Order",
+      "property": "shipRegion",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Order",
+      "property": "shipVia",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Order",
+      "property": "shippedDate",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Product",
+      "property": "categoryID",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Product",
+      "property": "discontinued",
+      "type": "Boolean"
+    },
+    {
+      "label": "NwD_Product",
+      "property": "productID",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Product",
+      "property": "productName",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Product",
+      "property": "quantityPerUnit",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Product",
+      "property": "reorderLevel",
+      "type": "Long"
+    },
+    {
+      "label": "NwD_Product",
+      "property": "supplierID",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Product",
+      "property": "unitPrice",
+      "type": "Double"
+    },
+    {
+      "label": "NwD_Product",
+      "property": "unitsInStock",
+      "type": "Long"
+    },
+    {
+      "label": "NwD_Product",
+      "property": "unitsOnOrder",
+      "type": "Long"
+    },
+    {
+      "label": "NwD_Supplier",
+      "property": "address",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Supplier",
+      "property": "city",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Supplier",
+      "property": "companyName",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Supplier",
+      "property": "contactName",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Supplier",
+      "property": "contactTitle",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Supplier",
+      "property": "country",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Supplier",
+      "property": "fax",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Supplier",
+      "property": "homePage",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Supplier",
+      "property": "phone",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Supplier",
+      "property": "postalCode",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Supplier",
+      "property": "region",
+      "type": "String"
+    },
+    {
+      "label": "NwD_Supplier",
+      "property": "supplierID",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Actor",
+      "property": "bio",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Actor",
+      "property": "bio",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Actor",
+      "property": "born",
+      "type": "Date"
+    },
+    {
+      "label": "RecA_Actor",
+      "property": "born",
+      "type": "Date"
+    },
+    {
+      "label": "RecA_Actor",
+      "property": "bornIn",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Actor",
+      "property": "bornIn",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Actor",
+      "property": "died",
+      "type": "Date"
+    },
+    {
+      "label": "RecA_Actor",
+      "property": "died",
+      "type": "Date"
+    },
+    {
+      "label": "RecA_Actor",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Actor",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Actor",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Actor",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Actor",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Actor",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Actor",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Actor",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Actor",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Actor",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Director",
+      "property": "bio",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Director",
+      "property": "bio",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Director",
+      "property": "born",
+      "type": "Date"
+    },
+    {
+      "label": "RecA_Director",
+      "property": "born",
+      "type": "Date"
+    },
+    {
+      "label": "RecA_Director",
+      "property": "bornIn",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Director",
+      "property": "bornIn",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Director",
+      "property": "died",
+      "type": "Date"
+    },
+    {
+      "label": "RecA_Director",
+      "property": "died",
+      "type": "Date"
+    },
+    {
+      "label": "RecA_Director",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Director",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Director",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Director",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Director",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Director",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Director",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Director",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Director",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Director",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Genre",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Movie",
+      "property": "budget",
+      "type": "Long"
+    },
+    {
+      "label": "RecA_Movie",
+      "property": "countries",
+      "type": "StringArray"
+    },
+    {
+      "label": "RecA_Movie",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Movie",
+      "property": "imdbRating",
+      "type": "Double"
+    },
+    {
+      "label": "RecA_Movie",
+      "property": "imdbVotes",
+      "type": "Long"
+    },
+    {
+      "label": "RecA_Movie",
+      "property": "languages",
+      "type": "StringArray"
+    },
+    {
+      "label": "RecA_Movie",
+      "property": "movieId",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Movie",
+      "property": "plot",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Movie",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Movie",
+      "property": "released",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Movie",
+      "property": "revenue",
+      "type": "Long"
+    },
+    {
+      "label": "RecA_Movie",
+      "property": "runtime",
+      "type": "Long"
+    },
+    {
+      "label": "RecA_Movie",
+      "property": "title",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Movie",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Movie",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Movie",
+      "property": "year",
+      "type": "Long"
+    },
+    {
+      "label": "RecA_Person",
+      "property": "bio",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Person",
+      "property": "bio",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Person",
+      "property": "bio",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Person",
+      "property": "born",
+      "type": "Date"
+    },
+    {
+      "label": "RecA_Person",
+      "property": "born",
+      "type": "Date"
+    },
+    {
+      "label": "RecA_Person",
+      "property": "born",
+      "type": "Date"
+    },
+    {
+      "label": "RecA_Person",
+      "property": "bornIn",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Person",
+      "property": "bornIn",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Person",
+      "property": "bornIn",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Person",
+      "property": "died",
+      "type": "Date"
+    },
+    {
+      "label": "RecA_Person",
+      "property": "died",
+      "type": "Date"
+    },
+    {
+      "label": "RecA_Person",
+      "property": "died",
+      "type": "Date"
+    },
+    {
+      "label": "RecA_Person",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Person",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Person",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Person",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Person",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Person",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Person",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Person",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Person",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Person",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Person",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Person",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Person",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Person",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "RecA_Person",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "RecA_User",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "RecA_User",
+      "property": "userId",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Actor",
+      "property": "bio",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Actor",
+      "property": "bio",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Actor",
+      "property": "born",
+      "type": "Date"
+    },
+    {
+      "label": "RecB_Actor",
+      "property": "born",
+      "type": "Date"
+    },
+    {
+      "label": "RecB_Actor",
+      "property": "bornIn",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Actor",
+      "property": "bornIn",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Actor",
+      "property": "died",
+      "type": "Date"
+    },
+    {
+      "label": "RecB_Actor",
+      "property": "died",
+      "type": "Date"
+    },
+    {
+      "label": "RecB_Actor",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Actor",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Actor",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Actor",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Actor",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Actor",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Actor",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Actor",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Actor",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Actor",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Director",
+      "property": "bio",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Director",
+      "property": "bio",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Director",
+      "property": "born",
+      "type": "Date"
+    },
+    {
+      "label": "RecB_Director",
+      "property": "born",
+      "type": "Date"
+    },
+    {
+      "label": "RecB_Director",
+      "property": "bornIn",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Director",
+      "property": "bornIn",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Director",
+      "property": "died",
+      "type": "Date"
+    },
+    {
+      "label": "RecB_Director",
+      "property": "died",
+      "type": "Date"
+    },
+    {
+      "label": "RecB_Director",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Director",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Director",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Director",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Director",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Director",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Director",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Director",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Director",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Director",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Genre",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Movie",
+      "property": "budget",
+      "type": "Long"
+    },
+    {
+      "label": "RecB_Movie",
+      "property": "countries",
+      "type": "StringArray"
+    },
+    {
+      "label": "RecB_Movie",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Movie",
+      "property": "imdbRating",
+      "type": "Double"
+    },
+    {
+      "label": "RecB_Movie",
+      "property": "imdbVotes",
+      "type": "Long"
+    },
+    {
+      "label": "RecB_Movie",
+      "property": "languages",
+      "type": "StringArray"
+    },
+    {
+      "label": "RecB_Movie",
+      "property": "movieId",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Movie",
+      "property": "plot",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Movie",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Movie",
+      "property": "released",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Movie",
+      "property": "revenue",
+      "type": "Long"
+    },
+    {
+      "label": "RecB_Movie",
+      "property": "runtime",
+      "type": "Long"
+    },
+    {
+      "label": "RecB_Movie",
+      "property": "title",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Movie",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Movie",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Movie",
+      "property": "year",
+      "type": "Long"
+    },
+    {
+      "label": "RecB_Person",
+      "property": "bio",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Person",
+      "property": "bio",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Person",
+      "property": "bio",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Person",
+      "property": "born",
+      "type": "Date"
+    },
+    {
+      "label": "RecB_Person",
+      "property": "born",
+      "type": "Date"
+    },
+    {
+      "label": "RecB_Person",
+      "property": "born",
+      "type": "Date"
+    },
+    {
+      "label": "RecB_Person",
+      "property": "bornIn",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Person",
+      "property": "bornIn",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Person",
+      "property": "bornIn",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Person",
+      "property": "died",
+      "type": "Date"
+    },
+    {
+      "label": "RecB_Person",
+      "property": "died",
+      "type": "Date"
+    },
+    {
+      "label": "RecB_Person",
+      "property": "died",
+      "type": "Date"
+    },
+    {
+      "label": "RecB_Person",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Person",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Person",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Person",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Person",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Person",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Person",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Person",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Person",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Person",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Person",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Person",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Person",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Person",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "RecB_Person",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "RecB_User",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "RecB_User",
+      "property": "userId",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Actor",
+      "property": "bio",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Actor",
+      "property": "bio",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Actor",
+      "property": "born",
+      "type": "Date"
+    },
+    {
+      "label": "RecC_Actor",
+      "property": "born",
+      "type": "Date"
+    },
+    {
+      "label": "RecC_Actor",
+      "property": "bornIn",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Actor",
+      "property": "bornIn",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Actor",
+      "property": "died",
+      "type": "Date"
+    },
+    {
+      "label": "RecC_Actor",
+      "property": "died",
+      "type": "Date"
+    },
+    {
+      "label": "RecC_Actor",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Actor",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Actor",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Actor",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Actor",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Actor",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Actor",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Actor",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Actor",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Actor",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Director",
+      "property": "bio",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Director",
+      "property": "bio",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Director",
+      "property": "born",
+      "type": "Date"
+    },
+    {
+      "label": "RecC_Director",
+      "property": "born",
+      "type": "Date"
+    },
+    {
+      "label": "RecC_Director",
+      "property": "bornIn",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Director",
+      "property": "bornIn",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Director",
+      "property": "died",
+      "type": "Date"
+    },
+    {
+      "label": "RecC_Director",
+      "property": "died",
+      "type": "Date"
+    },
+    {
+      "label": "RecC_Director",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Director",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Director",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Director",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Director",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Director",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Director",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Director",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Director",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Director",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Genre",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Movie",
+      "property": "budget",
+      "type": "Long"
+    },
+    {
+      "label": "RecC_Movie",
+      "property": "countries",
+      "type": "StringArray"
+    },
+    {
+      "label": "RecC_Movie",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Movie",
+      "property": "imdbRating",
+      "type": "Double"
+    },
+    {
+      "label": "RecC_Movie",
+      "property": "imdbVotes",
+      "type": "Long"
+    },
+    {
+      "label": "RecC_Movie",
+      "property": "languages",
+      "type": "StringArray"
+    },
+    {
+      "label": "RecC_Movie",
+      "property": "movieId",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Movie",
+      "property": "plot",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Movie",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Movie",
+      "property": "released",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Movie",
+      "property": "revenue",
+      "type": "Long"
+    },
+    {
+      "label": "RecC_Movie",
+      "property": "runtime",
+      "type": "Long"
+    },
+    {
+      "label": "RecC_Movie",
+      "property": "title",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Movie",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Movie",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Movie",
+      "property": "year",
+      "type": "Long"
+    },
+    {
+      "label": "RecC_Person",
+      "property": "bio",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Person",
+      "property": "bio",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Person",
+      "property": "bio",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Person",
+      "property": "born",
+      "type": "Date"
+    },
+    {
+      "label": "RecC_Person",
+      "property": "born",
+      "type": "Date"
+    },
+    {
+      "label": "RecC_Person",
+      "property": "born",
+      "type": "Date"
+    },
+    {
+      "label": "RecC_Person",
+      "property": "bornIn",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Person",
+      "property": "bornIn",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Person",
+      "property": "bornIn",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Person",
+      "property": "died",
+      "type": "Date"
+    },
+    {
+      "label": "RecC_Person",
+      "property": "died",
+      "type": "Date"
+    },
+    {
+      "label": "RecC_Person",
+      "property": "died",
+      "type": "Date"
+    },
+    {
+      "label": "RecC_Person",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Person",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Person",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Person",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Person",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Person",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Person",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Person",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Person",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Person",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Person",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Person",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Person",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Person",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "RecC_Person",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "RecC_User",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "RecC_User",
+      "property": "userId",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Actor",
+      "property": "bio",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Actor",
+      "property": "bio",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Actor",
+      "property": "born",
+      "type": "Date"
+    },
+    {
+      "label": "RecD_Actor",
+      "property": "born",
+      "type": "Date"
+    },
+    {
+      "label": "RecD_Actor",
+      "property": "bornIn",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Actor",
+      "property": "bornIn",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Actor",
+      "property": "died",
+      "type": "Date"
+    },
+    {
+      "label": "RecD_Actor",
+      "property": "died",
+      "type": "Date"
+    },
+    {
+      "label": "RecD_Actor",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Actor",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Actor",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Actor",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Actor",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Actor",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Actor",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Actor",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Actor",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Actor",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Director",
+      "property": "bio",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Director",
+      "property": "bio",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Director",
+      "property": "born",
+      "type": "Date"
+    },
+    {
+      "label": "RecD_Director",
+      "property": "born",
+      "type": "Date"
+    },
+    {
+      "label": "RecD_Director",
+      "property": "bornIn",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Director",
+      "property": "bornIn",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Director",
+      "property": "died",
+      "type": "Date"
+    },
+    {
+      "label": "RecD_Director",
+      "property": "died",
+      "type": "Date"
+    },
+    {
+      "label": "RecD_Director",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Director",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Director",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Director",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Director",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Director",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Director",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Director",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Director",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Director",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Genre",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Movie",
+      "property": "budget",
+      "type": "Long"
+    },
+    {
+      "label": "RecD_Movie",
+      "property": "countries",
+      "type": "StringArray"
+    },
+    {
+      "label": "RecD_Movie",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Movie",
+      "property": "imdbRating",
+      "type": "Double"
+    },
+    {
+      "label": "RecD_Movie",
+      "property": "imdbVotes",
+      "type": "Long"
+    },
+    {
+      "label": "RecD_Movie",
+      "property": "languages",
+      "type": "StringArray"
+    },
+    {
+      "label": "RecD_Movie",
+      "property": "movieId",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Movie",
+      "property": "plot",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Movie",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Movie",
+      "property": "released",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Movie",
+      "property": "revenue",
+      "type": "Long"
+    },
+    {
+      "label": "RecD_Movie",
+      "property": "runtime",
+      "type": "Long"
+    },
+    {
+      "label": "RecD_Movie",
+      "property": "title",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Movie",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Movie",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Movie",
+      "property": "year",
+      "type": "Long"
+    },
+    {
+      "label": "RecD_Person",
+      "property": "bio",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Person",
+      "property": "bio",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Person",
+      "property": "bio",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Person",
+      "property": "born",
+      "type": "Date"
+    },
+    {
+      "label": "RecD_Person",
+      "property": "born",
+      "type": "Date"
+    },
+    {
+      "label": "RecD_Person",
+      "property": "born",
+      "type": "Date"
+    },
+    {
+      "label": "RecD_Person",
+      "property": "bornIn",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Person",
+      "property": "bornIn",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Person",
+      "property": "bornIn",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Person",
+      "property": "died",
+      "type": "Date"
+    },
+    {
+      "label": "RecD_Person",
+      "property": "died",
+      "type": "Date"
+    },
+    {
+      "label": "RecD_Person",
+      "property": "died",
+      "type": "Date"
+    },
+    {
+      "label": "RecD_Person",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Person",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Person",
+      "property": "imdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Person",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Person",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Person",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Person",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Person",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Person",
+      "property": "poster",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Person",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Person",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Person",
+      "property": "tmdbId",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Person",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Person",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "RecD_Person",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "RecD_User",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "RecD_User",
+      "property": "userId",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_City",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbA_City",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_City",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Comment",
+      "property": "browserUsed",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Comment",
+      "property": "content",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Comment",
+      "property": "creationDate",
+      "type": "Long"
+    },
+    {
+      "label": "SnbA_Comment",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbA_Comment",
+      "property": "length",
+      "type": "Long"
+    },
+    {
+      "label": "SnbA_Comment",
+      "property": "locationIP",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Company",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbA_Company",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Company",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Continent",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbA_Continent",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Continent",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Country",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbA_Country",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Country",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Forum",
+      "property": "creationDate",
+      "type": "Long"
+    },
+    {
+      "label": "SnbA_Forum",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbA_Forum",
+      "property": "title",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Message",
+      "property": "browserUsed",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Message",
+      "property": "browserUsed",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Message",
+      "property": "content",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Message",
+      "property": "content",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Message",
+      "property": "creationDate",
+      "type": "Long"
+    },
+    {
+      "label": "SnbA_Message",
+      "property": "creationDate",
+      "type": "Long"
+    },
+    {
+      "label": "SnbA_Message",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbA_Message",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbA_Message",
+      "property": "imageFile",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Message",
+      "property": "language",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Message",
+      "property": "length",
+      "type": "Long"
+    },
+    {
+      "label": "SnbA_Message",
+      "property": "length",
+      "type": "Long"
+    },
+    {
+      "label": "SnbA_Message",
+      "property": "locationIP",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Message",
+      "property": "locationIP",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Organisation",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbA_Organisation",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbA_Organisation",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Organisation",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Organisation",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Organisation",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Person",
+      "property": "birthday",
+      "type": "Long"
+    },
+    {
+      "label": "SnbA_Person",
+      "property": "browserUsed",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Person",
+      "property": "creationDate",
+      "type": "Long"
+    },
+    {
+      "label": "SnbA_Person",
+      "property": "email",
+      "type": "StringArray"
+    },
+    {
+      "label": "SnbA_Person",
+      "property": "firstName",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Person",
+      "property": "gender",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Person",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbA_Person",
+      "property": "lastName",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Person",
+      "property": "locationIP",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Person",
+      "property": "speaks",
+      "type": "StringArray"
+    },
+    {
+      "label": "SnbA_Place",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbA_Place",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbA_Place",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbA_Place",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Place",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Place",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Place",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Place",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Place",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Post",
+      "property": "browserUsed",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Post",
+      "property": "content",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Post",
+      "property": "creationDate",
+      "type": "Long"
+    },
+    {
+      "label": "SnbA_Post",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbA_Post",
+      "property": "imageFile",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Post",
+      "property": "language",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Post",
+      "property": "length",
+      "type": "Long"
+    },
+    {
+      "label": "SnbA_Post",
+      "property": "locationIP",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Tag",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbA_Tag",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_Tag",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_TagClass",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbA_TagClass",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_TagClass",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_University",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbA_University",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbA_University",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_City",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbB_City",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_City",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Comment",
+      "property": "browserUsed",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Comment",
+      "property": "content",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Comment",
+      "property": "creationDate",
+      "type": "Long"
+    },
+    {
+      "label": "SnbB_Comment",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbB_Comment",
+      "property": "length",
+      "type": "Long"
+    },
+    {
+      "label": "SnbB_Comment",
+      "property": "locationIP",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Company",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbB_Company",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Company",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Continent",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbB_Continent",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Continent",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Country",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbB_Country",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Country",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Forum",
+      "property": "creationDate",
+      "type": "Long"
+    },
+    {
+      "label": "SnbB_Forum",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbB_Forum",
+      "property": "title",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Message",
+      "property": "browserUsed",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Message",
+      "property": "browserUsed",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Message",
+      "property": "content",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Message",
+      "property": "content",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Message",
+      "property": "creationDate",
+      "type": "Long"
+    },
+    {
+      "label": "SnbB_Message",
+      "property": "creationDate",
+      "type": "Long"
+    },
+    {
+      "label": "SnbB_Message",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbB_Message",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbB_Message",
+      "property": "imageFile",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Message",
+      "property": "language",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Message",
+      "property": "length",
+      "type": "Long"
+    },
+    {
+      "label": "SnbB_Message",
+      "property": "length",
+      "type": "Long"
+    },
+    {
+      "label": "SnbB_Message",
+      "property": "locationIP",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Message",
+      "property": "locationIP",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Organisation",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbB_Organisation",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbB_Organisation",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Organisation",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Organisation",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Organisation",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Person",
+      "property": "birthday",
+      "type": "Long"
+    },
+    {
+      "label": "SnbB_Person",
+      "property": "browserUsed",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Person",
+      "property": "creationDate",
+      "type": "Long"
+    },
+    {
+      "label": "SnbB_Person",
+      "property": "email",
+      "type": "StringArray"
+    },
+    {
+      "label": "SnbB_Person",
+      "property": "firstName",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Person",
+      "property": "gender",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Person",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbB_Person",
+      "property": "lastName",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Person",
+      "property": "locationIP",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Person",
+      "property": "speaks",
+      "type": "StringArray"
+    },
+    {
+      "label": "SnbB_Place",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbB_Place",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbB_Place",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbB_Place",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Place",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Place",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Place",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Place",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Place",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Post",
+      "property": "browserUsed",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Post",
+      "property": "content",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Post",
+      "property": "creationDate",
+      "type": "Long"
+    },
+    {
+      "label": "SnbB_Post",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbB_Post",
+      "property": "imageFile",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Post",
+      "property": "language",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Post",
+      "property": "length",
+      "type": "Long"
+    },
+    {
+      "label": "SnbB_Post",
+      "property": "locationIP",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Tag",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbB_Tag",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_Tag",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_TagClass",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbB_TagClass",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_TagClass",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_University",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbB_University",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbB_University",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_City",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbC_City",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_City",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Comment",
+      "property": "browserUsed",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Comment",
+      "property": "content",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Comment",
+      "property": "creationDate",
+      "type": "Long"
+    },
+    {
+      "label": "SnbC_Comment",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbC_Comment",
+      "property": "length",
+      "type": "Long"
+    },
+    {
+      "label": "SnbC_Comment",
+      "property": "locationIP",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Company",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbC_Company",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Company",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Continent",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbC_Continent",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Continent",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Country",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbC_Country",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Country",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Forum",
+      "property": "creationDate",
+      "type": "Long"
+    },
+    {
+      "label": "SnbC_Forum",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbC_Forum",
+      "property": "title",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Message",
+      "property": "browserUsed",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Message",
+      "property": "browserUsed",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Message",
+      "property": "content",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Message",
+      "property": "content",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Message",
+      "property": "creationDate",
+      "type": "Long"
+    },
+    {
+      "label": "SnbC_Message",
+      "property": "creationDate",
+      "type": "Long"
+    },
+    {
+      "label": "SnbC_Message",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbC_Message",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbC_Message",
+      "property": "imageFile",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Message",
+      "property": "language",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Message",
+      "property": "length",
+      "type": "Long"
+    },
+    {
+      "label": "SnbC_Message",
+      "property": "length",
+      "type": "Long"
+    },
+    {
+      "label": "SnbC_Message",
+      "property": "locationIP",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Message",
+      "property": "locationIP",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Organisation",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbC_Organisation",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbC_Organisation",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Organisation",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Organisation",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Organisation",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Person",
+      "property": "birthday",
+      "type": "Long"
+    },
+    {
+      "label": "SnbC_Person",
+      "property": "browserUsed",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Person",
+      "property": "creationDate",
+      "type": "Long"
+    },
+    {
+      "label": "SnbC_Person",
+      "property": "email",
+      "type": "StringArray"
+    },
+    {
+      "label": "SnbC_Person",
+      "property": "firstName",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Person",
+      "property": "gender",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Person",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbC_Person",
+      "property": "lastName",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Person",
+      "property": "locationIP",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Person",
+      "property": "speaks",
+      "type": "StringArray"
+    },
+    {
+      "label": "SnbC_Place",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbC_Place",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbC_Place",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbC_Place",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Place",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Place",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Place",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Place",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Place",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Post",
+      "property": "browserUsed",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Post",
+      "property": "content",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Post",
+      "property": "creationDate",
+      "type": "Long"
+    },
+    {
+      "label": "SnbC_Post",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbC_Post",
+      "property": "imageFile",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Post",
+      "property": "language",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Post",
+      "property": "length",
+      "type": "Long"
+    },
+    {
+      "label": "SnbC_Post",
+      "property": "locationIP",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Tag",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbC_Tag",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_Tag",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_TagClass",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbC_TagClass",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_TagClass",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_University",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbC_University",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbC_University",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_City",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbD_City",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_City",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Comment",
+      "property": "browserUsed",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Comment",
+      "property": "content",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Comment",
+      "property": "creationDate",
+      "type": "Long"
+    },
+    {
+      "label": "SnbD_Comment",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbD_Comment",
+      "property": "length",
+      "type": "Long"
+    },
+    {
+      "label": "SnbD_Comment",
+      "property": "locationIP",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Company",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbD_Company",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Company",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Continent",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbD_Continent",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Continent",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Country",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbD_Country",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Country",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Forum",
+      "property": "creationDate",
+      "type": "Long"
+    },
+    {
+      "label": "SnbD_Forum",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbD_Forum",
+      "property": "title",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Message",
+      "property": "browserUsed",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Message",
+      "property": "browserUsed",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Message",
+      "property": "content",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Message",
+      "property": "content",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Message",
+      "property": "creationDate",
+      "type": "Long"
+    },
+    {
+      "label": "SnbD_Message",
+      "property": "creationDate",
+      "type": "Long"
+    },
+    {
+      "label": "SnbD_Message",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbD_Message",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbD_Message",
+      "property": "imageFile",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Message",
+      "property": "language",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Message",
+      "property": "length",
+      "type": "Long"
+    },
+    {
+      "label": "SnbD_Message",
+      "property": "length",
+      "type": "Long"
+    },
+    {
+      "label": "SnbD_Message",
+      "property": "locationIP",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Message",
+      "property": "locationIP",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Organisation",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbD_Organisation",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbD_Organisation",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Organisation",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Organisation",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Organisation",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Person",
+      "property": "birthday",
+      "type": "Long"
+    },
+    {
+      "label": "SnbD_Person",
+      "property": "browserUsed",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Person",
+      "property": "creationDate",
+      "type": "Long"
+    },
+    {
+      "label": "SnbD_Person",
+      "property": "email",
+      "type": "StringArray"
+    },
+    {
+      "label": "SnbD_Person",
+      "property": "firstName",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Person",
+      "property": "gender",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Person",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbD_Person",
+      "property": "lastName",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Person",
+      "property": "locationIP",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Person",
+      "property": "speaks",
+      "type": "StringArray"
+    },
+    {
+      "label": "SnbD_Place",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbD_Place",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbD_Place",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbD_Place",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Place",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Place",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Place",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Place",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Place",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Post",
+      "property": "browserUsed",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Post",
+      "property": "content",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Post",
+      "property": "creationDate",
+      "type": "Long"
+    },
+    {
+      "label": "SnbD_Post",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbD_Post",
+      "property": "imageFile",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Post",
+      "property": "language",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Post",
+      "property": "length",
+      "type": "Long"
+    },
+    {
+      "label": "SnbD_Post",
+      "property": "locationIP",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Tag",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbD_Tag",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_Tag",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_TagClass",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbD_TagClass",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_TagClass",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_University",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "SnbD_University",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "SnbD_University",
+      "property": "url",
+      "type": "String"
+    }
+  ],
+  "relationship_properties": [
+    {
+      "property": "comment",
+      "type": "FINA_APPLY_LOAN",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": "FINA_APPLY_LOAN",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "loanAmount",
+      "type": "FINA_APPLY_LOAN",
+      "value_type": "Double"
+    },
+    {
+      "property": "org",
+      "type": "FINA_APPLY_LOAN",
+      "value_type": "String"
+    },
+    {
+      "property": "amount",
+      "type": "FINA_DEPOSIT",
+      "value_type": "Double"
+    },
+    {
+      "property": "comment",
+      "type": "FINA_DEPOSIT",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": "FINA_DEPOSIT",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "comment",
+      "type": "FINA_GUARANTEE",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": "FINA_GUARANTEE",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "relation",
+      "type": "FINA_GUARANTEE",
+      "value_type": "String"
+    },
+    {
+      "property": "comment",
+      "type": "FINA_INVEST",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": "FINA_INVEST",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "ratio",
+      "type": "FINA_INVEST",
+      "value_type": "Double"
+    },
+    {
+      "property": "comment",
+      "type": "FINA_OWN_ACCOUNT",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": "FINA_OWN_ACCOUNT",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "amount",
+      "type": "FINA_REPAY",
+      "value_type": "Double"
+    },
+    {
+      "property": "comment",
+      "type": "FINA_REPAY",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": "FINA_REPAY",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "comment",
+      "type": "FINA_SIGN_IN",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": "FINA_SIGN_IN",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "location",
+      "type": "FINA_SIGN_IN",
+      "value_type": "String"
+    },
+    {
+      "property": "amount",
+      "type": "FINA_TRANSFER_TO",
+      "value_type": "Double"
+    },
+    {
+      "property": "comment",
+      "type": "FINA_TRANSFER_TO",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": "FINA_TRANSFER_TO",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "goodsType",
+      "type": "FINA_TRANSFER_TO",
+      "value_type": "String"
+    },
+    {
+      "property": "orderNum",
+      "type": "FINA_TRANSFER_TO",
+      "value_type": "String"
+    },
+    {
+      "property": "payType",
+      "type": "FINA_TRANSFER_TO",
+      "value_type": "String"
+    },
+    {
+      "property": "amount",
+      "type": "FINA_WITHDRAW_TO",
+      "value_type": "Double"
+    },
+    {
+      "property": "comment",
+      "type": "FINA_WITHDRAW_TO",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": "FINA_WITHDRAW_TO",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "fromType",
+      "type": "FINA_WITHDRAW_TO",
+      "value_type": "String"
+    },
+    {
+      "property": "toType",
+      "type": "FINA_WITHDRAW_TO",
+      "value_type": "String"
+    },
+    {
+      "property": "comment",
+      "type": "FINB_APPLY_LOAN",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": "FINB_APPLY_LOAN",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "loanAmount",
+      "type": "FINB_APPLY_LOAN",
+      "value_type": "Double"
+    },
+    {
+      "property": "org",
+      "type": "FINB_APPLY_LOAN",
+      "value_type": "String"
+    },
+    {
+      "property": "amount",
+      "type": "FINB_DEPOSIT",
+      "value_type": "Double"
+    },
+    {
+      "property": "comment",
+      "type": "FINB_DEPOSIT",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": "FINB_DEPOSIT",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "comment",
+      "type": "FINB_GUARANTEE",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": "FINB_GUARANTEE",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "relation",
+      "type": "FINB_GUARANTEE",
+      "value_type": "String"
+    },
+    {
+      "property": "comment",
+      "type": "FINB_INVEST",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": "FINB_INVEST",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "ratio",
+      "type": "FINB_INVEST",
+      "value_type": "Double"
+    },
+    {
+      "property": "comment",
+      "type": "FINB_OWN_ACCOUNT",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": "FINB_OWN_ACCOUNT",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "amount",
+      "type": "FINB_REPAY",
+      "value_type": "Double"
+    },
+    {
+      "property": "comment",
+      "type": "FINB_REPAY",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": "FINB_REPAY",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "comment",
+      "type": "FINB_SIGN_IN",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": "FINB_SIGN_IN",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "location",
+      "type": "FINB_SIGN_IN",
+      "value_type": "String"
+    },
+    {
+      "property": "amount",
+      "type": "FINB_TRANSFER_TO",
+      "value_type": "Double"
+    },
+    {
+      "property": "comment",
+      "type": "FINB_TRANSFER_TO",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": "FINB_TRANSFER_TO",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "goodsType",
+      "type": "FINB_TRANSFER_TO",
+      "value_type": "String"
+    },
+    {
+      "property": "orderNum",
+      "type": "FINB_TRANSFER_TO",
+      "value_type": "String"
+    },
+    {
+      "property": "payType",
+      "type": "FINB_TRANSFER_TO",
+      "value_type": "String"
+    },
+    {
+      "property": "amount",
+      "type": "FINB_WITHDRAW_TO",
+      "value_type": "Double"
+    },
+    {
+      "property": "comment",
+      "type": "FINB_WITHDRAW_TO",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": "FINB_WITHDRAW_TO",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "fromType",
+      "type": "FINB_WITHDRAW_TO",
+      "value_type": "String"
+    },
+    {
+      "property": "toType",
+      "type": "FINB_WITHDRAW_TO",
+      "value_type": "String"
+    },
+    {
+      "property": "comment",
+      "type": "FINC_APPLY_LOAN",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": "FINC_APPLY_LOAN",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "loanAmount",
+      "type": "FINC_APPLY_LOAN",
+      "value_type": "Double"
+    },
+    {
+      "property": "org",
+      "type": "FINC_APPLY_LOAN",
+      "value_type": "String"
+    },
+    {
+      "property": "amount",
+      "type": "FINC_DEPOSIT",
+      "value_type": "Double"
+    },
+    {
+      "property": "comment",
+      "type": "FINC_DEPOSIT",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": "FINC_DEPOSIT",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "comment",
+      "type": "FINC_GUARANTEE",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": "FINC_GUARANTEE",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "relation",
+      "type": "FINC_GUARANTEE",
+      "value_type": "String"
+    },
+    {
+      "property": "comment",
+      "type": "FINC_INVEST",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": "FINC_INVEST",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "ratio",
+      "type": "FINC_INVEST",
+      "value_type": "Double"
+    },
+    {
+      "property": "comment",
+      "type": "FINC_OWN_ACCOUNT",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": "FINC_OWN_ACCOUNT",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "amount",
+      "type": "FINC_REPAY",
+      "value_type": "Double"
+    },
+    {
+      "property": "comment",
+      "type": "FINC_REPAY",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": "FINC_REPAY",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "comment",
+      "type": "FINC_SIGN_IN",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": "FINC_SIGN_IN",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "location",
+      "type": "FINC_SIGN_IN",
+      "value_type": "String"
+    },
+    {
+      "property": "amount",
+      "type": "FINC_TRANSFER_TO",
+      "value_type": "Double"
+    },
+    {
+      "property": "comment",
+      "type": "FINC_TRANSFER_TO",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": "FINC_TRANSFER_TO",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "goodsType",
+      "type": "FINC_TRANSFER_TO",
+      "value_type": "String"
+    },
+    {
+      "property": "orderNum",
+      "type": "FINC_TRANSFER_TO",
+      "value_type": "String"
+    },
+    {
+      "property": "payType",
+      "type": "FINC_TRANSFER_TO",
+      "value_type": "String"
+    },
+    {
+      "property": "amount",
+      "type": "FINC_WITHDRAW_TO",
+      "value_type": "Double"
+    },
+    {
+      "property": "comment",
+      "type": "FINC_WITHDRAW_TO",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": "FINC_WITHDRAW_TO",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "fromType",
+      "type": "FINC_WITHDRAW_TO",
+      "value_type": "String"
+    },
+    {
+      "property": "toType",
+      "type": "FINC_WITHDRAW_TO",
+      "value_type": "String"
+    },
+    {
+      "property": "comment",
+      "type": "FIND_APPLY_LOAN",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": "FIND_APPLY_LOAN",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "loanAmount",
+      "type": "FIND_APPLY_LOAN",
+      "value_type": "Double"
+    },
+    {
+      "property": "org",
+      "type": "FIND_APPLY_LOAN",
+      "value_type": "String"
+    },
+    {
+      "property": "amount",
+      "type": "FIND_DEPOSIT",
+      "value_type": "Double"
+    },
+    {
+      "property": "comment",
+      "type": "FIND_DEPOSIT",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": "FIND_DEPOSIT",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "comment",
+      "type": "FIND_GUARANTEE",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": "FIND_GUARANTEE",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "relation",
+      "type": "FIND_GUARANTEE",
+      "value_type": "String"
+    },
+    {
+      "property": "comment",
+      "type": "FIND_INVEST",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": "FIND_INVEST",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "ratio",
+      "type": "FIND_INVEST",
+      "value_type": "Double"
+    },
+    {
+      "property": "comment",
+      "type": "FIND_OWN_ACCOUNT",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": "FIND_OWN_ACCOUNT",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "amount",
+      "type": "FIND_REPAY",
+      "value_type": "Double"
+    },
+    {
+      "property": "comment",
+      "type": "FIND_REPAY",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": "FIND_REPAY",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "comment",
+      "type": "FIND_SIGN_IN",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": "FIND_SIGN_IN",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "location",
+      "type": "FIND_SIGN_IN",
+      "value_type": "String"
+    },
+    {
+      "property": "amount",
+      "type": "FIND_TRANSFER_TO",
+      "value_type": "Double"
+    },
+    {
+      "property": "comment",
+      "type": "FIND_TRANSFER_TO",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": "FIND_TRANSFER_TO",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "goodsType",
+      "type": "FIND_TRANSFER_TO",
+      "value_type": "String"
+    },
+    {
+      "property": "orderNum",
+      "type": "FIND_TRANSFER_TO",
+      "value_type": "String"
+    },
+    {
+      "property": "payType",
+      "type": "FIND_TRANSFER_TO",
+      "value_type": "String"
+    },
+    {
+      "property": "amount",
+      "type": "FIND_WITHDRAW_TO",
+      "value_type": "Double"
+    },
+    {
+      "property": "comment",
+      "type": "FIND_WITHDRAW_TO",
+      "value_type": "String"
+    },
+    {
+      "property": "createTime",
+      "type": "FIND_WITHDRAW_TO",
+      "value_type": "DateTime"
+    },
+    {
+      "property": "fromType",
+      "type": "FIND_WITHDRAW_TO",
+      "value_type": "String"
+    },
+    {
+      "property": "toType",
+      "type": "FIND_WITHDRAW_TO",
+      "value_type": "String"
+    },
+    {
+      "property": "discount",
+      "type": "NWA_ORDERS",
+      "value_type": "String"
+    },
+    {
+      "property": "orderID",
+      "type": "NWA_ORDERS",
+      "value_type": "String"
+    },
+    {
+      "property": "productID",
+      "type": "NWA_ORDERS",
+      "value_type": "String"
+    },
+    {
+      "property": "quantity",
+      "type": "NWA_ORDERS",
+      "value_type": "Long"
+    },
+    {
+      "property": "unitPrice",
+      "type": "NWA_ORDERS",
+      "value_type": "String"
+    },
+    {
+      "property": "discount",
+      "type": "NWB_ORDERS",
+      "value_type": "String"
+    },
+    {
+      "property": "orderID",
+      "type": "NWB_ORDERS",
+      "value_type": "String"
+    },
+    {
+      "property": "productID",
+      "type": "NWB_ORDERS",
+      "value_type": "String"
+    },
+    {
+      "property": "quantity",
+      "type": "NWB_ORDERS",
+      "value_type": "Long"
+    },
+    {
+      "property": "unitPrice",
+      "type": "NWB_ORDERS",
+      "value_type": "String"
+    },
+    {
+      "property": "discount",
+      "type": "NWC_ORDERS",
+      "value_type": "String"
+    },
+    {
+      "property": "orderID",
+      "type": "NWC_ORDERS",
+      "value_type": "String"
+    },
+    {
+      "property": "productID",
+      "type": "NWC_ORDERS",
+      "value_type": "String"
+    },
+    {
+      "property": "quantity",
+      "type": "NWC_ORDERS",
+      "value_type": "Long"
+    },
+    {
+      "property": "unitPrice",
+      "type": "NWC_ORDERS",
+      "value_type": "String"
+    },
+    {
+      "property": "discount",
+      "type": "NWD_ORDERS",
+      "value_type": "String"
+    },
+    {
+      "property": "orderID",
+      "type": "NWD_ORDERS",
+      "value_type": "String"
+    },
+    {
+      "property": "productID",
+      "type": "NWD_ORDERS",
+      "value_type": "String"
+    },
+    {
+      "property": "quantity",
+      "type": "NWD_ORDERS",
+      "value_type": "Long"
+    },
+    {
+      "property": "unitPrice",
+      "type": "NWD_ORDERS",
+      "value_type": "String"
+    },
+    {
+      "property": "role",
+      "type": "RECA_ACTED_IN",
+      "value_type": "String"
+    },
+    {
+      "property": "role",
+      "type": "RECA_DIRECTED",
+      "value_type": "String"
+    },
+    {
+      "property": "rating",
+      "type": "RECA_RATED",
+      "value_type": "Double"
+    },
+    {
+      "property": "timestamp",
+      "type": "RECA_RATED",
+      "value_type": "Long"
+    },
+    {
+      "property": "role",
+      "type": "RECB_ACTED_IN",
+      "value_type": "String"
+    },
+    {
+      "property": "role",
+      "type": "RECB_DIRECTED",
+      "value_type": "String"
+    },
+    {
+      "property": "rating",
+      "type": "RECB_RATED",
+      "value_type": "Double"
+    },
+    {
+      "property": "timestamp",
+      "type": "RECB_RATED",
+      "value_type": "Long"
+    },
+    {
+      "property": "role",
+      "type": "RECC_ACTED_IN",
+      "value_type": "String"
+    },
+    {
+      "property": "role",
+      "type": "RECC_DIRECTED",
+      "value_type": "String"
+    },
+    {
+      "property": "rating",
+      "type": "RECC_RATED",
+      "value_type": "Double"
+    },
+    {
+      "property": "timestamp",
+      "type": "RECC_RATED",
+      "value_type": "Long"
+    },
+    {
+      "property": "role",
+      "type": "RECD_ACTED_IN",
+      "value_type": "String"
+    },
+    {
+      "property": "role",
+      "type": "RECD_DIRECTED",
+      "value_type": "String"
+    },
+    {
+      "property": "rating",
+      "type": "RECD_RATED",
+      "value_type": "Double"
+    },
+    {
+      "property": "timestamp",
+      "type": "RECD_RATED",
+      "value_type": "Long"
+    },
+    {
+      "property": "joinDate",
+      "type": "SNBA_HAS_MEMBER",
+      "value_type": "Long"
+    },
+    {
+      "property": "creationDate",
+      "type": "SNBA_KNOWS",
+      "value_type": "Long"
+    },
+    {
+      "property": "creationDate",
+      "type": "SNBA_LIKES",
+      "value_type": "Long"
+    },
+    {
+      "property": "classYear",
+      "type": "SNBA_STUDY_AT",
+      "value_type": "Long"
+    },
+    {
+      "property": "workFrom",
+      "type": "SNBA_WORK_AT",
+      "value_type": "Long"
+    },
+    {
+      "property": "joinDate",
+      "type": "SNBB_HAS_MEMBER",
+      "value_type": "Long"
+    },
+    {
+      "property": "creationDate",
+      "type": "SNBB_KNOWS",
+      "value_type": "Long"
+    },
+    {
+      "property": "creationDate",
+      "type": "SNBB_LIKES",
+      "value_type": "Long"
+    },
+    {
+      "property": "classYear",
+      "type": "SNBB_STUDY_AT",
+      "value_type": "Long"
+    },
+    {
+      "property": "workFrom",
+      "type": "SNBB_WORK_AT",
+      "value_type": "Long"
+    },
+    {
+      "property": "joinDate",
+      "type": "SNBC_HAS_MEMBER",
+      "value_type": "Long"
+    },
+    {
+      "property": "creationDate",
+      "type": "SNBC_KNOWS",
+      "value_type": "Long"
+    },
+    {
+      "property": "creationDate",
+      "type": "SNBC_LIKES",
+      "value_type": "Long"
+    },
+    {
+      "property": "classYear",
+      "type": "SNBC_STUDY_AT",
+      "value_type": "Long"
+    },
+    {
+      "property": "workFrom",
+      "type": "SNBC_WORK_AT",
+      "value_type": "Long"
+    },
+    {
+      "property": "joinDate",
+      "type": "SNBD_HAS_MEMBER",
+      "value_type": "Long"
+    },
+    {
+      "property": "creationDate",
+      "type": "SNBD_KNOWS",
+      "value_type": "Long"
+    },
+    {
+      "property": "creationDate",
+      "type": "SNBD_LIKES",
+      "value_type": "Long"
+    },
+    {
+      "property": "classYear",
+      "type": "SNBD_STUDY_AT",
+      "value_type": "Long"
+    },
+    {
+      "property": "workFrom",
+      "type": "SNBD_WORK_AT",
+      "value_type": "Long"
+    }
+  ],
+  "relationships": [
+    {
+      "count": 100004,
+      "end_label": "RecA_Movie",
+      "start_label": "RecA_User",
+      "type": "RECA_RATED"
+    },
+    {
+      "count": 100004,
+      "end_label": "RecB_Movie",
+      "start_label": "RecB_User",
+      "type": "RECB_RATED"
+    },
+    {
+      "count": 100004,
+      "end_label": "RecC_Movie",
+      "start_label": "RecC_User",
+      "type": "RECC_RATED"
+    },
+    {
+      "count": 100004,
+      "end_label": "RecD_Movie",
+      "start_label": "RecD_User",
+      "type": "RECD_RATED"
+    },
+    {
+      "count": 32980,
+      "end_label": "RecA_Movie",
+      "start_label": "RecA_Actor",
+      "type": "RECA_ACTED_IN"
+    },
+    {
+      "count": 32980,
+      "end_label": "RecA_Movie",
+      "start_label": "RecA_Person",
+      "type": "RECA_ACTED_IN"
+    },
+    {
+      "count": 32980,
+      "end_label": "RecB_Movie",
+      "start_label": "RecB_Actor",
+      "type": "RECB_ACTED_IN"
+    },
+    {
+      "count": 32980,
+      "end_label": "RecB_Movie",
+      "start_label": "RecB_Person",
+      "type": "RECB_ACTED_IN"
+    },
+    {
+      "count": 32980,
+      "end_label": "RecC_Movie",
+      "start_label": "RecC_Actor",
+      "type": "RECC_ACTED_IN"
+    },
+    {
+      "count": 32980,
+      "end_label": "RecC_Movie",
+      "start_label": "RecC_Person",
+      "type": "RECC_ACTED_IN"
+    },
+    {
+      "count": 32980,
+      "end_label": "RecD_Movie",
+      "start_label": "RecD_Actor",
+      "type": "RECD_ACTED_IN"
+    },
+    {
+      "count": 32980,
+      "end_label": "RecD_Movie",
+      "start_label": "RecD_Person",
+      "type": "RECD_ACTED_IN"
+    },
+    {
+      "count": 24491,
+      "end_label": "FcA_Entity",
+      "start_label": "FcA_Filing",
+      "type": "FCA_CONCERNS"
+    },
+    {
+      "count": 24491,
+      "end_label": "FcB_Entity",
+      "start_label": "FcB_Filing",
+      "type": "FCB_CONCERNS"
+    },
+    {
+      "count": 24491,
+      "end_label": "FcC_Entity",
+      "start_label": "FcC_Filing",
+      "type": "FCC_CONCERNS"
+    },
+    {
+      "count": 24491,
+      "end_label": "FcD_Entity",
+      "start_label": "FcD_Filing",
+      "type": "FCD_CONCERNS"
+    },
+    {
+      "count": 20340,
+      "end_label": "RecA_Genre",
+      "start_label": "RecA_Movie",
+      "type": "RECA_IN_GENRE"
+    },
+    {
+      "count": 20340,
+      "end_label": "RecB_Genre",
+      "start_label": "RecB_Movie",
+      "type": "RECB_IN_GENRE"
+    },
+    {
+      "count": 20340,
+      "end_label": "RecC_Genre",
+      "start_label": "RecC_Movie",
+      "type": "RECC_IN_GENRE"
+    },
+    {
+      "count": 20340,
+      "end_label": "RecD_Genre",
+      "start_label": "RecD_Movie",
+      "type": "RECD_IN_GENRE"
+    },
+    {
+      "count": 17661,
+      "end_label": "FinA_Account",
+      "start_label": "FinA_Account",
+      "type": "FINA_WITHDRAW_TO"
+    },
+    {
+      "count": 17661,
+      "end_label": "FinB_Account",
+      "start_label": "FinB_Account",
+      "type": "FINB_WITHDRAW_TO"
+    },
+    {
+      "count": 17661,
+      "end_label": "FinC_Account",
+      "start_label": "FinC_Account",
+      "type": "FINC_WITHDRAW_TO"
+    },
+    {
+      "count": 17661,
+      "end_label": "FinD_Account",
+      "start_label": "FinD_Account",
+      "type": "FIND_WITHDRAW_TO"
+    },
+    {
+      "count": 16080,
+      "end_label": "SnbA_TagClass",
+      "start_label": "SnbA_Tag",
+      "type": "SNBA_HAS_TYPE"
+    },
+    {
+      "count": 16080,
+      "end_label": "SnbB_TagClass",
+      "start_label": "SnbB_Tag",
+      "type": "SNBB_HAS_TYPE"
+    },
+    {
+      "count": 16080,
+      "end_label": "SnbC_TagClass",
+      "start_label": "SnbC_Tag",
+      "type": "SNBC_HAS_TYPE"
+    },
+    {
+      "count": 16080,
+      "end_label": "SnbD_TagClass",
+      "start_label": "SnbD_Tag",
+      "type": "SNBD_HAS_TYPE"
+    },
+    {
+      "count": 13385,
+      "end_label": "FinA_Account",
+      "start_label": "FinA_Account",
+      "type": "FINA_TRANSFER_TO"
+    },
+    {
+      "count": 13385,
+      "end_label": "FinB_Account",
+      "start_label": "FinB_Account",
+      "type": "FINB_TRANSFER_TO"
+    },
+    {
+      "count": 13385,
+      "end_label": "FinC_Account",
+      "start_label": "FinC_Account",
+      "type": "FINC_TRANSFER_TO"
+    },
+    {
+      "count": 13385,
+      "end_label": "FinD_Account",
+      "start_label": "FinD_Account",
+      "type": "FIND_TRANSFER_TO"
+    },
+    {
+      "count": 8289,
+      "end_label": "RecA_Movie",
+      "start_label": "RecA_Director",
+      "type": "RECA_DIRECTED"
+    },
+    {
+      "count": 8289,
+      "end_label": "RecA_Movie",
+      "start_label": "RecA_Person",
+      "type": "RECA_DIRECTED"
+    },
+    {
+      "count": 8289,
+      "end_label": "RecB_Movie",
+      "start_label": "RecB_Director",
+      "type": "RECB_DIRECTED"
+    },
+    {
+      "count": 8289,
+      "end_label": "RecB_Movie",
+      "start_label": "RecB_Person",
+      "type": "RECB_DIRECTED"
+    },
+    {
+      "count": 8289,
+      "end_label": "RecC_Movie",
+      "start_label": "RecC_Director",
+      "type": "RECC_DIRECTED"
+    },
+    {
+      "count": 8289,
+      "end_label": "RecC_Movie",
+      "start_label": "RecC_Person",
+      "type": "RECC_DIRECTED"
+    },
+    {
+      "count": 8289,
+      "end_label": "RecD_Movie",
+      "start_label": "RecD_Director",
+      "type": "RECD_DIRECTED"
+    },
+    {
+      "count": 8289,
+      "end_label": "RecD_Movie",
+      "start_label": "RecD_Person",
+      "type": "RECD_DIRECTED"
+    },
+    {
+      "count": 6380,
+      "end_label": "SnbA_City",
+      "start_label": "SnbA_Organisation",
+      "type": "SNBA_IS_LOCATED_IN"
+    },
+    {
+      "count": 6380,
+      "end_label": "SnbA_Place",
+      "start_label": "SnbA_Organisation",
+      "type": "SNBA_IS_LOCATED_IN"
+    },
+    {
+      "count": 6380,
+      "end_label": "SnbA_City",
+      "start_label": "SnbA_University",
+      "type": "SNBA_IS_LOCATED_IN"
+    },
+    {
+      "count": 6380,
+      "end_label": "SnbA_Place",
+      "start_label": "SnbA_University",
+      "type": "SNBA_IS_LOCATED_IN"
+    },
+    {
+      "count": 6380,
+      "end_label": "SnbB_City",
+      "start_label": "SnbB_Organisation",
+      "type": "SNBB_IS_LOCATED_IN"
+    },
+    {
+      "count": 6380,
+      "end_label": "SnbB_Place",
+      "start_label": "SnbB_Organisation",
+      "type": "SNBB_IS_LOCATED_IN"
+    },
+    {
+      "count": 6380,
+      "end_label": "SnbB_City",
+      "start_label": "SnbB_University",
+      "type": "SNBB_IS_LOCATED_IN"
+    },
+    {
+      "count": 6380,
+      "end_label": "SnbB_Place",
+      "start_label": "SnbB_University",
+      "type": "SNBB_IS_LOCATED_IN"
+    },
+    {
+      "count": 6380,
+      "end_label": "SnbC_City",
+      "start_label": "SnbC_Organisation",
+      "type": "SNBC_IS_LOCATED_IN"
+    },
+    {
+      "count": 6380,
+      "end_label": "SnbC_Place",
+      "start_label": "SnbC_Organisation",
+      "type": "SNBC_IS_LOCATED_IN"
+    },
+    {
+      "count": 6380,
+      "end_label": "SnbC_City",
+      "start_label": "SnbC_University",
+      "type": "SNBC_IS_LOCATED_IN"
+    },
+    {
+      "count": 6380,
+      "end_label": "SnbC_Place",
+      "start_label": "SnbC_University",
+      "type": "SNBC_IS_LOCATED_IN"
+    },
+    {
+      "count": 6380,
+      "end_label": "SnbD_City",
+      "start_label": "SnbD_Organisation",
+      "type": "SNBD_IS_LOCATED_IN"
+    },
+    {
+      "count": 6380,
+      "end_label": "SnbD_Place",
+      "start_label": "SnbD_Organisation",
+      "type": "SNBD_IS_LOCATED_IN"
+    },
+    {
+      "count": 6380,
+      "end_label": "SnbD_City",
+      "start_label": "SnbD_University",
+      "type": "SNBD_IS_LOCATED_IN"
+    },
+    {
+      "count": 6380,
+      "end_label": "SnbD_Place",
+      "start_label": "SnbD_University",
+      "type": "SNBD_IS_LOCATED_IN"
+    },
+    {
+      "count": 5976,
+      "end_label": "FinA_Account",
+      "start_label": "FinA_Medium",
+      "type": "FINA_SIGN_IN"
+    },
+    {
+      "count": 5976,
+      "end_label": "FinB_Account",
+      "start_label": "FinB_Medium",
+      "type": "FINB_SIGN_IN"
+    },
+    {
+      "count": 5976,
+      "end_label": "FinC_Account",
+      "start_label": "FinC_Medium",
+      "type": "FINC_SIGN_IN"
+    },
+    {
+      "count": 5976,
+      "end_label": "FinD_Account",
+      "start_label": "FinD_Medium",
+      "type": "FIND_SIGN_IN"
+    },
+    {
+      "count": 5924,
+      "end_label": "SnbA_Message",
+      "start_label": "SnbA_Forum",
+      "type": "SNBA_CONTAINER_OF"
+    },
+    {
+      "count": 5924,
+      "end_label": "SnbA_Post",
+      "start_label": "SnbA_Forum",
+      "type": "SNBA_CONTAINER_OF"
+    },
+    {
+      "count": 5924,
+      "end_label": "SnbA_Person",
+      "start_label": "SnbA_Message",
+      "type": "SNBA_HAS_CREATOR"
+    },
+    {
+      "count": 5924,
+      "end_label": "SnbA_Country",
+      "start_label": "SnbA_Message",
+      "type": "SNBA_IS_LOCATED_IN"
+    },
+    {
+      "count": 5924,
+      "end_label": "SnbA_Place",
+      "start_label": "SnbA_Message",
+      "type": "SNBA_IS_LOCATED_IN"
+    },
+    {
+      "count": 5924,
+      "end_label": "SnbA_Person",
+      "start_label": "SnbA_Post",
+      "type": "SNBA_HAS_CREATOR"
+    },
+    {
+      "count": 5924,
+      "end_label": "SnbA_Country",
+      "start_label": "SnbA_Post",
+      "type": "SNBA_IS_LOCATED_IN"
+    },
+    {
+      "count": 5924,
+      "end_label": "SnbA_Place",
+      "start_label": "SnbA_Post",
+      "type": "SNBA_IS_LOCATED_IN"
+    },
+    {
+      "count": 5924,
+      "end_label": "SnbB_Message",
+      "start_label": "SnbB_Forum",
+      "type": "SNBB_CONTAINER_OF"
+    },
+    {
+      "count": 5924,
+      "end_label": "SnbB_Post",
+      "start_label": "SnbB_Forum",
+      "type": "SNBB_CONTAINER_OF"
+    },
+    {
+      "count": 5924,
+      "end_label": "SnbB_Person",
+      "start_label": "SnbB_Message",
+      "type": "SNBB_HAS_CREATOR"
+    },
+    {
+      "count": 5924,
+      "end_label": "SnbB_Country",
+      "start_label": "SnbB_Message",
+      "type": "SNBB_IS_LOCATED_IN"
+    },
+    {
+      "count": 5924,
+      "end_label": "SnbB_Place",
+      "start_label": "SnbB_Message",
+      "type": "SNBB_IS_LOCATED_IN"
+    },
+    {
+      "count": 5924,
+      "end_label": "SnbB_Person",
+      "start_label": "SnbB_Post",
+      "type": "SNBB_HAS_CREATOR"
+    },
+    {
+      "count": 5924,
+      "end_label": "SnbB_Country",
+      "start_label": "SnbB_Post",
+      "type": "SNBB_IS_LOCATED_IN"
+    },
+    {
+      "count": 5924,
+      "end_label": "SnbB_Place",
+      "start_label": "SnbB_Post",
+      "type": "SNBB_IS_LOCATED_IN"
+    },
+    {
+      "count": 5924,
+      "end_label": "SnbC_Message",
+      "start_label": "SnbC_Forum",
+      "type": "SNBC_CONTAINER_OF"
+    },
+    {
+      "count": 5924,
+      "end_label": "SnbC_Post",
+      "start_label": "SnbC_Forum",
+      "type": "SNBC_CONTAINER_OF"
+    },
+    {
+      "count": 5924,
+      "end_label": "SnbC_Person",
+      "start_label": "SnbC_Message",
+      "type": "SNBC_HAS_CREATOR"
+    },
+    {
+      "count": 5924,
+      "end_label": "SnbC_Country",
+      "start_label": "SnbC_Message",
+      "type": "SNBC_IS_LOCATED_IN"
+    },
+    {
+      "count": 5924,
+      "end_label": "SnbC_Place",
+      "start_label": "SnbC_Message",
+      "type": "SNBC_IS_LOCATED_IN"
+    },
+    {
+      "count": 5924,
+      "end_label": "SnbC_Person",
+      "start_label": "SnbC_Post",
+      "type": "SNBC_HAS_CREATOR"
+    },
+    {
+      "count": 5924,
+      "end_label": "SnbC_Country",
+      "start_label": "SnbC_Post",
+      "type": "SNBC_IS_LOCATED_IN"
+    },
+    {
+      "count": 5924,
+      "end_label": "SnbC_Place",
+      "start_label": "SnbC_Post",
+      "type": "SNBC_IS_LOCATED_IN"
+    },
+    {
+      "count": 5924,
+      "end_label": "SnbD_Message",
+      "start_label": "SnbD_Forum",
+      "type": "SNBD_CONTAINER_OF"
+    },
+    {
+      "count": 5924,
+      "end_label": "SnbD_Post",
+      "start_label": "SnbD_Forum",
+      "type": "SNBD_CONTAINER_OF"
+    },
+    {
+      "count": 5924,
+      "end_label": "SnbD_Person",
+      "start_label": "SnbD_Message",
+      "type": "SNBD_HAS_CREATOR"
+    },
+    {
+      "count": 5924,
+      "end_label": "SnbD_Country",
+      "start_label": "SnbD_Message",
+      "type": "SNBD_IS_LOCATED_IN"
+    },
+    {
+      "count": 5924,
+      "end_label": "SnbD_Place",
+      "start_label": "SnbD_Message",
+      "type": "SNBD_IS_LOCATED_IN"
+    },
+    {
+      "count": 5924,
+      "end_label": "SnbD_Person",
+      "start_label": "SnbD_Post",
+      "type": "SNBD_HAS_CREATOR"
+    },
+    {
+      "count": 5924,
+      "end_label": "SnbD_Country",
+      "start_label": "SnbD_Post",
+      "type": "SNBD_IS_LOCATED_IN"
+    },
+    {
+      "count": 5924,
+      "end_label": "SnbD_Place",
+      "start_label": "SnbD_Post",
+      "type": "SNBD_IS_LOCATED_IN"
+    },
+    {
+      "count": 5360,
+      "end_label": "SnbA_Tag",
+      "start_label": "SnbA_Forum",
+      "type": "SNBA_HAS_TAG"
+    },
+    {
+      "count": 5360,
+      "end_label": "SnbB_Tag",
+      "start_label": "SnbB_Forum",
+      "type": "SNBB_HAS_TAG"
+    },
+    {
+      "count": 5360,
+      "end_label": "SnbC_Tag",
+      "start_label": "SnbC_Forum",
+      "type": "SNBC_HAS_TAG"
+    },
+    {
+      "count": 5360,
+      "end_label": "SnbD_Tag",
+      "start_label": "SnbD_Forum",
+      "type": "SNBD_HAS_TAG"
+    },
+    {
+      "count": 4971,
+      "end_label": "FinA_Account",
+      "start_label": "FinA_Loan",
+      "type": "FINA_DEPOSIT"
+    },
+    {
+      "count": 4971,
+      "end_label": "FinB_Account",
+      "start_label": "FinB_Loan",
+      "type": "FINB_DEPOSIT"
+    },
+    {
+      "count": 4971,
+      "end_label": "FinC_Account",
+      "start_label": "FinC_Loan",
+      "type": "FINC_DEPOSIT"
+    },
+    {
+      "count": 4971,
+      "end_label": "FinD_Account",
+      "start_label": "FinD_Loan",
+      "type": "FIND_DEPOSIT"
+    },
+    {
+      "count": 4777,
+      "end_label": "SnbA_Tag",
+      "start_label": "SnbA_Person",
+      "type": "SNBA_HAS_INTEREST"
+    },
+    {
+      "count": 4777,
+      "end_label": "SnbB_Tag",
+      "start_label": "SnbB_Person",
+      "type": "SNBB_HAS_INTEREST"
+    },
+    {
+      "count": 4777,
+      "end_label": "SnbC_Tag",
+      "start_label": "SnbC_Person",
+      "type": "SNBC_HAS_INTEREST"
+    },
+    {
+      "count": 4777,
+      "end_label": "SnbD_Tag",
+      "start_label": "SnbD_Person",
+      "type": "SNBD_HAS_INTEREST"
+    },
+    {
+      "count": 4507,
+      "end_label": "FcA_Filing",
+      "start_label": "FcA_Entity",
+      "type": "FCA_FILED"
+    },
+    {
+      "count": 4507,
+      "end_label": "FcA_Entity",
+      "start_label": "FcA_Filing",
+      "type": "FCA_BENEFITS"
+    },
+    {
+      "count": 4507,
+      "end_label": "FcA_Entity",
+      "start_label": "FcA_Filing",
+      "type": "FCA_ORIGINATOR"
+    },
+    {
+      "count": 4507,
+      "end_label": "FcB_Filing",
+      "start_label": "FcB_Entity",
+      "type": "FCB_FILED"
+    },
+    {
+      "count": 4507,
+      "end_label": "FcB_Entity",
+      "start_label": "FcB_Filing",
+      "type": "FCB_BENEFITS"
+    },
+    {
+      "count": 4507,
+      "end_label": "FcB_Entity",
+      "start_label": "FcB_Filing",
+      "type": "FCB_ORIGINATOR"
+    },
+    {
+      "count": 4507,
+      "end_label": "FcC_Filing",
+      "start_label": "FcC_Entity",
+      "type": "FCC_FILED"
+    },
+    {
+      "count": 4507,
+      "end_label": "FcC_Entity",
+      "start_label": "FcC_Filing",
+      "type": "FCC_BENEFITS"
+    },
+    {
+      "count": 4507,
+      "end_label": "FcC_Entity",
+      "start_label": "FcC_Filing",
+      "type": "FCC_ORIGINATOR"
+    },
+    {
+      "count": 4507,
+      "end_label": "FcD_Filing",
+      "start_label": "FcD_Entity",
+      "type": "FCD_FILED"
+    },
+    {
+      "count": 4507,
+      "end_label": "FcD_Entity",
+      "start_label": "FcD_Filing",
+      "type": "FCD_BENEFITS"
+    },
+    {
+      "count": 4507,
+      "end_label": "FcD_Entity",
+      "start_label": "FcD_Filing",
+      "type": "FCD_ORIGINATOR"
+    },
+    {
+      "count": 3654,
+      "end_label": "FinA_Loan",
+      "start_label": "FinA_Account",
+      "type": "FINA_REPAY"
+    },
+    {
+      "count": 3654,
+      "end_label": "FinB_Loan",
+      "start_label": "FinB_Account",
+      "type": "FINB_REPAY"
+    },
+    {
+      "count": 3654,
+      "end_label": "FinC_Loan",
+      "start_label": "FinC_Account",
+      "type": "FINC_REPAY"
+    },
+    {
+      "count": 3654,
+      "end_label": "FinD_Loan",
+      "start_label": "FinD_Account",
+      "type": "FIND_REPAY"
+    },
+    {
+      "count": 3584,
+      "end_label": "SnbA_Person",
+      "start_label": "SnbA_Forum",
+      "type": "SNBA_HAS_MEMBER"
+    },
+    {
+      "count": 3584,
+      "end_label": "SnbB_Person",
+      "start_label": "SnbB_Forum",
+      "type": "SNBB_HAS_MEMBER"
+    },
+    {
+      "count": 3584,
+      "end_label": "SnbC_Person",
+      "start_label": "SnbC_Forum",
+      "type": "SNBC_HAS_MEMBER"
+    },
+    {
+      "count": 3584,
+      "end_label": "SnbD_Person",
+      "start_label": "SnbD_Forum",
+      "type": "SNBD_HAS_MEMBER"
+    },
+    {
+      "count": 2930,
+      "end_label": "RecA_Movie",
+      "start_label": "RecA_Actor",
+      "type": "RECA_ACTED_IN"
+    },
+    {
+      "count": 2930,
+      "end_label": "RecA_Movie",
+      "start_label": "RecA_Director",
+      "type": "RECA_ACTED_IN"
+    },
+    {
+      "count": 2930,
+      "end_label": "RecA_Movie",
+      "start_label": "RecA_Person",
+      "type": "RECA_ACTED_IN"
+    },
+    {
+      "count": 2930,
+      "end_label": "RecB_Movie",
+      "start_label": "RecB_Actor",
+      "type": "RECB_ACTED_IN"
+    },
+    {
+      "count": 2930,
+      "end_label": "RecB_Movie",
+      "start_label": "RecB_Director",
+      "type": "RECB_ACTED_IN"
+    },
+    {
+      "count": 2930,
+      "end_label": "RecB_Movie",
+      "start_label": "RecB_Person",
+      "type": "RECB_ACTED_IN"
+    },
+    {
+      "count": 2930,
+      "end_label": "RecC_Movie",
+      "start_label": "RecC_Actor",
+      "type": "RECC_ACTED_IN"
+    },
+    {
+      "count": 2930,
+      "end_label": "RecC_Movie",
+      "start_label": "RecC_Director",
+      "type": "RECC_ACTED_IN"
+    },
+    {
+      "count": 2930,
+      "end_label": "RecC_Movie",
+      "start_label": "RecC_Person",
+      "type": "RECC_ACTED_IN"
+    },
+    {
+      "count": 2930,
+      "end_label": "RecD_Movie",
+      "start_label": "RecD_Actor",
+      "type": "RECD_ACTED_IN"
+    },
+    {
+      "count": 2930,
+      "end_label": "RecD_Movie",
+      "start_label": "RecD_Director",
+      "type": "RECD_ACTED_IN"
+    },
+    {
+      "count": 2930,
+      "end_label": "RecD_Movie",
+      "start_label": "RecD_Person",
+      "type": "RECD_ACTED_IN"
+    },
+    {
+      "count": 2823,
+      "end_label": "FcA_Country",
+      "start_label": "FcA_Entity",
+      "type": "FCA_COUNTRY"
+    },
+    {
+      "count": 2823,
+      "end_label": "FcB_Country",
+      "start_label": "FcB_Entity",
+      "type": "FCB_COUNTRY"
+    },
+    {
+      "count": 2823,
+      "end_label": "FcC_Country",
+      "start_label": "FcC_Entity",
+      "type": "FCC_COUNTRY"
+    },
+    {
+      "count": 2823,
+      "end_label": "FcD_Country",
+      "start_label": "FcD_Entity",
+      "type": "FCD_COUNTRY"
+    },
+    {
+      "count": 2553,
+      "end_label": "SnbA_Tag",
+      "start_label": "SnbA_Comment",
+      "type": "SNBA_HAS_TAG"
+    },
+    {
+      "count": 2553,
+      "end_label": "SnbA_Tag",
+      "start_label": "SnbA_Message",
+      "type": "SNBA_HAS_TAG"
+    },
+    {
+      "count": 2553,
+      "end_label": "SnbB_Tag",
+      "start_label": "SnbB_Comment",
+      "type": "SNBB_HAS_TAG"
+    },
+    {
+      "count": 2553,
+      "end_label": "SnbB_Tag",
+      "start_label": "SnbB_Message",
+      "type": "SNBB_HAS_TAG"
+    },
+    {
+      "count": 2553,
+      "end_label": "SnbC_Tag",
+      "start_label": "SnbC_Comment",
+      "type": "SNBC_HAS_TAG"
+    },
+    {
+      "count": 2553,
+      "end_label": "SnbC_Tag",
+      "start_label": "SnbC_Message",
+      "type": "SNBC_HAS_TAG"
+    },
+    {
+      "count": 2553,
+      "end_label": "SnbD_Tag",
+      "start_label": "SnbD_Comment",
+      "type": "SNBD_HAS_TAG"
+    },
+    {
+      "count": 2553,
+      "end_label": "SnbD_Tag",
+      "start_label": "SnbD_Message",
+      "type": "SNBD_HAS_TAG"
+    },
+    {
+      "count": 2330,
+      "end_label": "FinA_Company",
+      "start_label": "FinA_Company",
+      "type": "FINA_INVEST"
+    },
+    {
+      "count": 2330,
+      "end_label": "FinB_Company",
+      "start_label": "FinB_Company",
+      "type": "FINB_INVEST"
+    },
+    {
+      "count": 2330,
+      "end_label": "FinC_Company",
+      "start_label": "FinC_Company",
+      "type": "FINC_INVEST"
+    },
+    {
+      "count": 2330,
+      "end_label": "FinD_Company",
+      "start_label": "FinD_Company",
+      "type": "FIND_INVEST"
+    },
+    {
+      "count": 2312,
+      "end_label": "FinA_Company",
+      "start_label": "FinA_Person",
+      "type": "FINA_INVEST"
+    },
+    {
+      "count": 2312,
+      "end_label": "FinB_Company",
+      "start_label": "FinB_Person",
+      "type": "FINB_INVEST"
+    },
+    {
+      "count": 2312,
+      "end_label": "FinC_Company",
+      "start_label": "FinC_Person",
+      "type": "FINC_INVEST"
+    },
+    {
+      "count": 2312,
+      "end_label": "FinD_Company",
+      "start_label": "FinD_Person",
+      "type": "FIND_INVEST"
+    },
+    {
+      "count": 2218,
+      "end_label": "SnbA_Person",
+      "start_label": "SnbA_Comment",
+      "type": "SNBA_HAS_CREATOR"
+    },
+    {
+      "count": 2218,
+      "end_label": "SnbA_Country",
+      "start_label": "SnbA_Comment",
+      "type": "SNBA_IS_LOCATED_IN"
+    },
+    {
+      "count": 2218,
+      "end_label": "SnbA_Place",
+      "start_label": "SnbA_Comment",
+      "type": "SNBA_IS_LOCATED_IN"
+    },
+    {
+      "count": 2218,
+      "end_label": "SnbA_Person",
+      "start_label": "SnbA_Message",
+      "type": "SNBA_HAS_CREATOR"
+    },
+    {
+      "count": 2218,
+      "end_label": "SnbA_Country",
+      "start_label": "SnbA_Message",
+      "type": "SNBA_IS_LOCATED_IN"
+    },
+    {
+      "count": 2218,
+      "end_label": "SnbA_Place",
+      "start_label": "SnbA_Message",
+      "type": "SNBA_IS_LOCATED_IN"
+    },
+    {
+      "count": 2218,
+      "end_label": "SnbB_Person",
+      "start_label": "SnbB_Comment",
+      "type": "SNBB_HAS_CREATOR"
+    },
+    {
+      "count": 2218,
+      "end_label": "SnbB_Country",
+      "start_label": "SnbB_Comment",
+      "type": "SNBB_IS_LOCATED_IN"
+    },
+    {
+      "count": 2218,
+      "end_label": "SnbB_Place",
+      "start_label": "SnbB_Comment",
+      "type": "SNBB_IS_LOCATED_IN"
+    },
+    {
+      "count": 2218,
+      "end_label": "SnbB_Person",
+      "start_label": "SnbB_Message",
+      "type": "SNBB_HAS_CREATOR"
+    },
+    {
+      "count": 2218,
+      "end_label": "SnbB_Country",
+      "start_label": "SnbB_Message",
+      "type": "SNBB_IS_LOCATED_IN"
+    },
+    {
+      "count": 2218,
+      "end_label": "SnbB_Place",
+      "start_label": "SnbB_Message",
+      "type": "SNBB_IS_LOCATED_IN"
+    },
+    {
+      "count": 2218,
+      "end_label": "SnbC_Person",
+      "start_label": "SnbC_Comment",
+      "type": "SNBC_HAS_CREATOR"
+    },
+    {
+      "count": 2218,
+      "end_label": "SnbC_Country",
+      "start_label": "SnbC_Comment",
+      "type": "SNBC_IS_LOCATED_IN"
+    },
+    {
+      "count": 2218,
+      "end_label": "SnbC_Place",
+      "start_label": "SnbC_Comment",
+      "type": "SNBC_IS_LOCATED_IN"
+    },
+    {
+      "count": 2218,
+      "end_label": "SnbC_Person",
+      "start_label": "SnbC_Message",
+      "type": "SNBC_HAS_CREATOR"
+    },
+    {
+      "count": 2218,
+      "end_label": "SnbC_Country",
+      "start_label": "SnbC_Message",
+      "type": "SNBC_IS_LOCATED_IN"
+    },
+    {
+      "count": 2218,
+      "end_label": "SnbC_Place",
+      "start_label": "SnbC_Message",
+      "type": "SNBC_IS_LOCATED_IN"
+    },
+    {
+      "count": 2218,
+      "end_label": "SnbD_Person",
+      "start_label": "SnbD_Comment",
+      "type": "SNBD_HAS_CREATOR"
+    },
+    {
+      "count": 2218,
+      "end_label": "SnbD_Country",
+      "start_label": "SnbD_Comment",
+      "type": "SNBD_IS_LOCATED_IN"
+    },
+    {
+      "count": 2218,
+      "end_label": "SnbD_Place",
+      "start_label": "SnbD_Comment",
+      "type": "SNBD_IS_LOCATED_IN"
+    },
+    {
+      "count": 2218,
+      "end_label": "SnbD_Person",
+      "start_label": "SnbD_Message",
+      "type": "SNBD_HAS_CREATOR"
+    },
+    {
+      "count": 2218,
+      "end_label": "SnbD_Country",
+      "start_label": "SnbD_Message",
+      "type": "SNBD_IS_LOCATED_IN"
+    },
+    {
+      "count": 2218,
+      "end_label": "SnbD_Place",
+      "start_label": "SnbD_Message",
+      "type": "SNBD_IS_LOCATED_IN"
+    },
+    {
+      "count": 2155,
+      "end_label": "NwA_Product",
+      "start_label": "NwA_Order",
+      "type": "NWA_ORDERS"
+    },
+    {
+      "count": 2155,
+      "end_label": "NwB_Product",
+      "start_label": "NwB_Order",
+      "type": "NWB_ORDERS"
+    },
+    {
+      "count": 2155,
+      "end_label": "NwC_Product",
+      "start_label": "NwC_Order",
+      "type": "NWC_ORDERS"
+    },
+    {
+      "count": 2155,
+      "end_label": "NwD_Product",
+      "start_label": "NwD_Order",
+      "type": "NWD_ORDERS"
+    },
+    {
+      "count": 1913,
+      "end_label": "FinA_Account",
+      "start_label": "FinA_Person",
+      "type": "FINA_OWN_ACCOUNT"
+    },
+    {
+      "count": 1913,
+      "end_label": "FinB_Account",
+      "start_label": "FinB_Person",
+      "type": "FINB_OWN_ACCOUNT"
+    },
+    {
+      "count": 1913,
+      "end_label": "FinC_Account",
+      "start_label": "FinC_Person",
+      "type": "FINC_OWN_ACCOUNT"
+    },
+    {
+      "count": 1913,
+      "end_label": "FinD_Account",
+      "start_label": "FinD_Person",
+      "type": "FIND_OWN_ACCOUNT"
+    },
+    {
+      "count": 1897,
+      "end_label": "FinA_Account",
+      "start_label": "FinA_Company",
+      "type": "FINA_OWN_ACCOUNT"
+    },
+    {
+      "count": 1897,
+      "end_label": "FinB_Account",
+      "start_label": "FinB_Company",
+      "type": "FINB_OWN_ACCOUNT"
+    },
+    {
+      "count": 1897,
+      "end_label": "FinC_Account",
+      "start_label": "FinC_Company",
+      "type": "FINC_OWN_ACCOUNT"
+    },
+    {
+      "count": 1897,
+      "end_label": "FinD_Account",
+      "start_label": "FinD_Company",
+      "type": "FIND_OWN_ACCOUNT"
+    },
+    {
+      "count": 1718,
+      "end_label": "RecA_Movie",
+      "start_label": "RecA_Actor",
+      "type": "RECA_DIRECTED"
+    },
+    {
+      "count": 1718,
+      "end_label": "RecA_Movie",
+      "start_label": "RecA_Director",
+      "type": "RECA_DIRECTED"
+    },
+    {
+      "count": 1718,
+      "end_label": "RecA_Movie",
+      "start_label": "RecA_Person",
+      "type": "RECA_DIRECTED"
+    },
+    {
+      "count": 1718,
+      "end_label": "RecB_Movie",
+      "start_label": "RecB_Actor",
+      "type": "RECB_DIRECTED"
+    },
+    {
+      "count": 1718,
+      "end_label": "RecB_Movie",
+      "start_label": "RecB_Director",
+      "type": "RECB_DIRECTED"
+    },
+    {
+      "count": 1718,
+      "end_label": "RecB_Movie",
+      "start_label": "RecB_Person",
+      "type": "RECB_DIRECTED"
+    },
+    {
+      "count": 1718,
+      "end_label": "RecC_Movie",
+      "start_label": "RecC_Actor",
+      "type": "RECC_DIRECTED"
+    },
+    {
+      "count": 1718,
+      "end_label": "RecC_Movie",
+      "start_label": "RecC_Director",
+      "type": "RECC_DIRECTED"
+    },
+    {
+      "count": 1718,
+      "end_label": "RecC_Movie",
+      "start_label": "RecC_Person",
+      "type": "RECC_DIRECTED"
+    },
+    {
+      "count": 1718,
+      "end_label": "RecD_Movie",
+      "start_label": "RecD_Actor",
+      "type": "RECD_DIRECTED"
+    },
+    {
+      "count": 1718,
+      "end_label": "RecD_Movie",
+      "start_label": "RecD_Director",
+      "type": "RECD_DIRECTED"
+    },
+    {
+      "count": 1718,
+      "end_label": "RecD_Movie",
+      "start_label": "RecD_Person",
+      "type": "RECD_DIRECTED"
+    },
+    {
+      "count": 1575,
+      "end_label": "SnbA_Country",
+      "start_label": "SnbA_Company",
+      "type": "SNBA_IS_LOCATED_IN"
+    },
+    {
+      "count": 1575,
+      "end_label": "SnbA_Place",
+      "start_label": "SnbA_Company",
+      "type": "SNBA_IS_LOCATED_IN"
+    },
+    {
+      "count": 1575,
+      "end_label": "SnbA_Country",
+      "start_label": "SnbA_Organisation",
+      "type": "SNBA_IS_LOCATED_IN"
+    },
+    {
+      "count": 1575,
+      "end_label": "SnbA_Place",
+      "start_label": "SnbA_Organisation",
+      "type": "SNBA_IS_LOCATED_IN"
+    },
+    {
+      "count": 1575,
+      "end_label": "SnbB_Country",
+      "start_label": "SnbB_Company",
+      "type": "SNBB_IS_LOCATED_IN"
+    },
+    {
+      "count": 1575,
+      "end_label": "SnbB_Place",
+      "start_label": "SnbB_Company",
+      "type": "SNBB_IS_LOCATED_IN"
+    },
+    {
+      "count": 1575,
+      "end_label": "SnbB_Country",
+      "start_label": "SnbB_Organisation",
+      "type": "SNBB_IS_LOCATED_IN"
+    },
+    {
+      "count": 1575,
+      "end_label": "SnbB_Place",
+      "start_label": "SnbB_Organisation",
+      "type": "SNBB_IS_LOCATED_IN"
+    },
+    {
+      "count": 1575,
+      "end_label": "SnbC_Country",
+      "start_label": "SnbC_Company",
+      "type": "SNBC_IS_LOCATED_IN"
+    },
+    {
+      "count": 1575,
+      "end_label": "SnbC_Place",
+      "start_label": "SnbC_Company",
+      "type": "SNBC_IS_LOCATED_IN"
+    },
+    {
+      "count": 1575,
+      "end_label": "SnbC_Country",
+      "start_label": "SnbC_Organisation",
+      "type": "SNBC_IS_LOCATED_IN"
+    },
+    {
+      "count": 1575,
+      "end_label": "SnbC_Place",
+      "start_label": "SnbC_Organisation",
+      "type": "SNBC_IS_LOCATED_IN"
+    },
+    {
+      "count": 1575,
+      "end_label": "SnbD_Country",
+      "start_label": "SnbD_Company",
+      "type": "SNBD_IS_LOCATED_IN"
+    },
+    {
+      "count": 1575,
+      "end_label": "SnbD_Place",
+      "start_label": "SnbD_Company",
+      "type": "SNBD_IS_LOCATED_IN"
+    },
+    {
+      "count": 1575,
+      "end_label": "SnbD_Country",
+      "start_label": "SnbD_Organisation",
+      "type": "SNBD_IS_LOCATED_IN"
+    },
+    {
+      "count": 1575,
+      "end_label": "SnbD_Place",
+      "start_label": "SnbD_Organisation",
+      "type": "SNBD_IS_LOCATED_IN"
+    },
+    {
+      "count": 1343,
+      "end_label": "SnbA_Country",
+      "start_label": "SnbA_City",
+      "type": "SNBA_IS_PART_OF"
+    },
+    {
+      "count": 1343,
+      "end_label": "SnbA_Place",
+      "start_label": "SnbA_City",
+      "type": "SNBA_IS_PART_OF"
+    },
+    {
+      "count": 1343,
+      "end_label": "SnbA_Country",
+      "start_label": "SnbA_Place",
+      "type": "SNBA_IS_PART_OF"
+    },
+    {
+      "count": 1343,
+      "end_label": "SnbA_Place",
+      "start_label": "SnbA_Place",
+      "type": "SNBA_IS_PART_OF"
+    },
+    {
+      "count": 1343,
+      "end_label": "SnbB_Country",
+      "start_label": "SnbB_City",
+      "type": "SNBB_IS_PART_OF"
+    },
+    {
+      "count": 1343,
+      "end_label": "SnbB_Place",
+      "start_label": "SnbB_City",
+      "type": "SNBB_IS_PART_OF"
+    },
+    {
+      "count": 1343,
+      "end_label": "SnbB_Country",
+      "start_label": "SnbB_Place",
+      "type": "SNBB_IS_PART_OF"
+    },
+    {
+      "count": 1343,
+      "end_label": "SnbB_Place",
+      "start_label": "SnbB_Place",
+      "type": "SNBB_IS_PART_OF"
+    },
+    {
+      "count": 1343,
+      "end_label": "SnbC_Country",
+      "start_label": "SnbC_City",
+      "type": "SNBC_IS_PART_OF"
+    },
+    {
+      "count": 1343,
+      "end_label": "SnbC_Place",
+      "start_label": "SnbC_City",
+      "type": "SNBC_IS_PART_OF"
+    },
+    {
+      "count": 1343,
+      "end_label": "SnbC_Country",
+      "start_label": "SnbC_Place",
+      "type": "SNBC_IS_PART_OF"
+    },
+    {
+      "count": 1343,
+      "end_label": "SnbC_Place",
+      "start_label": "SnbC_Place",
+      "type": "SNBC_IS_PART_OF"
+    },
+    {
+      "count": 1343,
+      "end_label": "SnbD_Country",
+      "start_label": "SnbD_City",
+      "type": "SNBD_IS_PART_OF"
+    },
+    {
+      "count": 1343,
+      "end_label": "SnbD_Place",
+      "start_label": "SnbD_City",
+      "type": "SNBD_IS_PART_OF"
+    },
+    {
+      "count": 1343,
+      "end_label": "SnbD_Country",
+      "start_label": "SnbD_Place",
+      "type": "SNBD_IS_PART_OF"
+    },
+    {
+      "count": 1343,
+      "end_label": "SnbD_Place",
+      "start_label": "SnbD_Place",
+      "type": "SNBD_IS_PART_OF"
+    },
+    {
+      "count": 1150,
+      "end_label": "FinA_Loan",
+      "start_label": "FinA_Person",
+      "type": "FINA_APPLY_LOAN"
+    },
+    {
+      "count": 1150,
+      "end_label": "FinB_Loan",
+      "start_label": "FinB_Person",
+      "type": "FINB_APPLY_LOAN"
+    },
+    {
+      "count": 1150,
+      "end_label": "FinC_Loan",
+      "start_label": "FinC_Person",
+      "type": "FINC_APPLY_LOAN"
+    },
+    {
+      "count": 1150,
+      "end_label": "FinD_Loan",
+      "start_label": "FinD_Person",
+      "type": "FIND_APPLY_LOAN"
+    },
+    {
+      "count": 1148,
+      "end_label": "FinA_Loan",
+      "start_label": "FinA_Company",
+      "type": "FINA_APPLY_LOAN"
+    },
+    {
+      "count": 1148,
+      "end_label": "FinB_Loan",
+      "start_label": "FinB_Company",
+      "type": "FINB_APPLY_LOAN"
+    },
+    {
+      "count": 1148,
+      "end_label": "FinC_Loan",
+      "start_label": "FinC_Company",
+      "type": "FINC_APPLY_LOAN"
+    },
+    {
+      "count": 1148,
+      "end_label": "FinD_Loan",
+      "start_label": "FinD_Company",
+      "type": "FIND_APPLY_LOAN"
+    },
+    {
+      "count": 1109,
+      "end_label": "SnbA_Comment",
+      "start_label": "SnbA_Comment",
+      "type": "SNBA_REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "SnbA_Message",
+      "start_label": "SnbA_Comment",
+      "type": "SNBA_REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "SnbA_Message",
+      "start_label": "SnbA_Comment",
+      "type": "SNBA_REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "SnbA_Post",
+      "start_label": "SnbA_Comment",
+      "type": "SNBA_REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "SnbA_Comment",
+      "start_label": "SnbA_Message",
+      "type": "SNBA_REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "SnbA_Message",
+      "start_label": "SnbA_Message",
+      "type": "SNBA_REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "SnbA_Message",
+      "start_label": "SnbA_Message",
+      "type": "SNBA_REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "SnbA_Post",
+      "start_label": "SnbA_Message",
+      "type": "SNBA_REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "SnbB_Comment",
+      "start_label": "SnbB_Comment",
+      "type": "SNBB_REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "SnbB_Message",
+      "start_label": "SnbB_Comment",
+      "type": "SNBB_REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "SnbB_Message",
+      "start_label": "SnbB_Comment",
+      "type": "SNBB_REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "SnbB_Post",
+      "start_label": "SnbB_Comment",
+      "type": "SNBB_REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "SnbB_Comment",
+      "start_label": "SnbB_Message",
+      "type": "SNBB_REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "SnbB_Message",
+      "start_label": "SnbB_Message",
+      "type": "SNBB_REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "SnbB_Message",
+      "start_label": "SnbB_Message",
+      "type": "SNBB_REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "SnbB_Post",
+      "start_label": "SnbB_Message",
+      "type": "SNBB_REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "SnbC_Comment",
+      "start_label": "SnbC_Comment",
+      "type": "SNBC_REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "SnbC_Message",
+      "start_label": "SnbC_Comment",
+      "type": "SNBC_REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "SnbC_Message",
+      "start_label": "SnbC_Comment",
+      "type": "SNBC_REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "SnbC_Post",
+      "start_label": "SnbC_Comment",
+      "type": "SNBC_REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "SnbC_Comment",
+      "start_label": "SnbC_Message",
+      "type": "SNBC_REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "SnbC_Message",
+      "start_label": "SnbC_Message",
+      "type": "SNBC_REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "SnbC_Message",
+      "start_label": "SnbC_Message",
+      "type": "SNBC_REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "SnbC_Post",
+      "start_label": "SnbC_Message",
+      "type": "SNBC_REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "SnbD_Comment",
+      "start_label": "SnbD_Comment",
+      "type": "SNBD_REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "SnbD_Message",
+      "start_label": "SnbD_Comment",
+      "type": "SNBD_REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "SnbD_Message",
+      "start_label": "SnbD_Comment",
+      "type": "SNBD_REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "SnbD_Post",
+      "start_label": "SnbD_Comment",
+      "type": "SNBD_REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "SnbD_Comment",
+      "start_label": "SnbD_Message",
+      "type": "SNBD_REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "SnbD_Message",
+      "start_label": "SnbD_Message",
+      "type": "SNBD_REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "SnbD_Message",
+      "start_label": "SnbD_Message",
+      "type": "SNBD_REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "SnbD_Post",
+      "start_label": "SnbD_Message",
+      "type": "SNBD_REPLY_OF"
+    },
+    {
+      "count": 830,
+      "end_label": "NwA_Order",
+      "start_label": "NwA_Customer",
+      "type": "NWA_PURCHASED"
+    },
+    {
+      "count": 830,
+      "end_label": "NwB_Order",
+      "start_label": "NwB_Customer",
+      "type": "NWB_PURCHASED"
+    },
+    {
+      "count": 830,
+      "end_label": "NwC_Order",
+      "start_label": "NwC_Customer",
+      "type": "NWC_PURCHASED"
+    },
+    {
+      "count": 830,
+      "end_label": "NwD_Order",
+      "start_label": "NwD_Customer",
+      "type": "NWD_PURCHASED"
+    },
+    {
+      "count": 825,
+      "end_label": "SnbA_Person",
+      "start_label": "SnbA_Person",
+      "type": "SNBA_KNOWS"
+    },
+    {
+      "count": 825,
+      "end_label": "SnbB_Person",
+      "start_label": "SnbB_Person",
+      "type": "SNBB_KNOWS"
+    },
+    {
+      "count": 825,
+      "end_label": "SnbC_Person",
+      "start_label": "SnbC_Person",
+      "type": "SNBC_KNOWS"
+    },
+    {
+      "count": 825,
+      "end_label": "SnbD_Person",
+      "start_label": "SnbD_Person",
+      "type": "SNBD_KNOWS"
+    },
+    {
+      "count": 805,
+      "end_label": "SnbA_Person",
+      "start_label": "SnbA_Forum",
+      "type": "SNBA_HAS_MODERATOR"
+    },
+    {
+      "count": 805,
+      "end_label": "SnbB_Person",
+      "start_label": "SnbB_Forum",
+      "type": "SNBB_HAS_MODERATOR"
+    },
+    {
+      "count": 805,
+      "end_label": "SnbC_Person",
+      "start_label": "SnbC_Forum",
+      "type": "SNBC_HAS_MODERATOR"
+    },
+    {
+      "count": 805,
+      "end_label": "SnbD_Person",
+      "start_label": "SnbD_Forum",
+      "type": "SNBD_HAS_MODERATOR"
+    },
+    {
+      "count": 759,
+      "end_label": "SnbA_Message",
+      "start_label": "SnbA_Person",
+      "type": "SNBA_LIKES"
+    },
+    {
+      "count": 759,
+      "end_label": "SnbA_Post",
+      "start_label": "SnbA_Person",
+      "type": "SNBA_LIKES"
+    },
+    {
+      "count": 759,
+      "end_label": "SnbB_Message",
+      "start_label": "SnbB_Person",
+      "type": "SNBB_LIKES"
+    },
+    {
+      "count": 759,
+      "end_label": "SnbB_Post",
+      "start_label": "SnbB_Person",
+      "type": "SNBB_LIKES"
+    },
+    {
+      "count": 759,
+      "end_label": "SnbC_Message",
+      "start_label": "SnbC_Person",
+      "type": "SNBC_LIKES"
+    },
+    {
+      "count": 759,
+      "end_label": "SnbC_Post",
+      "start_label": "SnbC_Person",
+      "type": "SNBC_LIKES"
+    },
+    {
+      "count": 759,
+      "end_label": "SnbD_Message",
+      "start_label": "SnbD_Person",
+      "type": "SNBD_LIKES"
+    },
+    {
+      "count": 759,
+      "end_label": "SnbD_Post",
+      "start_label": "SnbD_Person",
+      "type": "SNBD_LIKES"
+    },
+    {
+      "count": 683,
+      "end_label": "SnbA_Tag",
+      "start_label": "SnbA_Message",
+      "type": "SNBA_HAS_TAG"
+    },
+    {
+      "count": 683,
+      "end_label": "SnbA_Tag",
+      "start_label": "SnbA_Post",
+      "type": "SNBA_HAS_TAG"
+    },
+    {
+      "count": 683,
+      "end_label": "SnbB_Tag",
+      "start_label": "SnbB_Message",
+      "type": "SNBB_HAS_TAG"
+    },
+    {
+      "count": 683,
+      "end_label": "SnbB_Tag",
+      "start_label": "SnbB_Post",
+      "type": "SNBB_HAS_TAG"
+    },
+    {
+      "count": 683,
+      "end_label": "SnbC_Tag",
+      "start_label": "SnbC_Message",
+      "type": "SNBC_HAS_TAG"
+    },
+    {
+      "count": 683,
+      "end_label": "SnbC_Tag",
+      "start_label": "SnbC_Post",
+      "type": "SNBC_HAS_TAG"
+    },
+    {
+      "count": 683,
+      "end_label": "SnbD_Tag",
+      "start_label": "SnbD_Message",
+      "type": "SNBD_HAS_TAG"
+    },
+    {
+      "count": 683,
+      "end_label": "SnbD_Tag",
+      "start_label": "SnbD_Post",
+      "type": "SNBD_HAS_TAG"
+    },
+    {
+      "count": 646,
+      "end_label": "FinA_Person",
+      "start_label": "FinA_Person",
+      "type": "FINA_GUARANTEE"
+    },
+    {
+      "count": 646,
+      "end_label": "FinB_Person",
+      "start_label": "FinB_Person",
+      "type": "FINB_GUARANTEE"
+    },
+    {
+      "count": 646,
+      "end_label": "FinC_Person",
+      "start_label": "FinC_Person",
+      "type": "FINC_GUARANTEE"
+    },
+    {
+      "count": 646,
+      "end_label": "FinD_Person",
+      "start_label": "FinD_Person",
+      "type": "FIND_GUARANTEE"
+    },
+    {
+      "count": 624,
+      "end_label": "SnbA_Comment",
+      "start_label": "SnbA_Person",
+      "type": "SNBA_LIKES"
+    },
+    {
+      "count": 624,
+      "end_label": "SnbA_Message",
+      "start_label": "SnbA_Person",
+      "type": "SNBA_LIKES"
+    },
+    {
+      "count": 624,
+      "end_label": "SnbB_Comment",
+      "start_label": "SnbB_Person",
+      "type": "SNBB_LIKES"
+    },
+    {
+      "count": 624,
+      "end_label": "SnbB_Message",
+      "start_label": "SnbB_Person",
+      "type": "SNBB_LIKES"
+    },
+    {
+      "count": 624,
+      "end_label": "SnbC_Comment",
+      "start_label": "SnbC_Person",
+      "type": "SNBC_LIKES"
+    },
+    {
+      "count": 624,
+      "end_label": "SnbC_Message",
+      "start_label": "SnbC_Person",
+      "type": "SNBC_LIKES"
+    },
+    {
+      "count": 624,
+      "end_label": "SnbD_Comment",
+      "start_label": "SnbD_Person",
+      "type": "SNBD_LIKES"
+    },
+    {
+      "count": 624,
+      "end_label": "SnbD_Message",
+      "start_label": "SnbD_Person",
+      "type": "SNBD_LIKES"
+    },
+    {
+      "count": 579,
+      "end_label": "FinA_Company",
+      "start_label": "FinA_Company",
+      "type": "FINA_GUARANTEE"
+    },
+    {
+      "count": 579,
+      "end_label": "FinB_Company",
+      "start_label": "FinB_Company",
+      "type": "FINB_GUARANTEE"
+    },
+    {
+      "count": 579,
+      "end_label": "FinC_Company",
+      "start_label": "FinC_Company",
+      "type": "FINC_GUARANTEE"
+    },
+    {
+      "count": 579,
+      "end_label": "FinD_Company",
+      "start_label": "FinD_Company",
+      "type": "FIND_GUARANTEE"
+    },
+    {
+      "count": 485,
+      "end_label": "SnbA_Company",
+      "start_label": "SnbA_Person",
+      "type": "SNBA_WORK_AT"
+    },
+    {
+      "count": 485,
+      "end_label": "SnbA_Organisation",
+      "start_label": "SnbA_Person",
+      "type": "SNBA_WORK_AT"
+    },
+    {
+      "count": 485,
+      "end_label": "SnbB_Company",
+      "start_label": "SnbB_Person",
+      "type": "SNBB_WORK_AT"
+    },
+    {
+      "count": 485,
+      "end_label": "SnbB_Organisation",
+      "start_label": "SnbB_Person",
+      "type": "SNBB_WORK_AT"
+    },
+    {
+      "count": 485,
+      "end_label": "SnbC_Company",
+      "start_label": "SnbC_Person",
+      "type": "SNBC_WORK_AT"
+    },
+    {
+      "count": 485,
+      "end_label": "SnbC_Organisation",
+      "start_label": "SnbC_Person",
+      "type": "SNBC_WORK_AT"
+    },
+    {
+      "count": 485,
+      "end_label": "SnbD_Company",
+      "start_label": "SnbD_Person",
+      "type": "SNBD_WORK_AT"
+    },
+    {
+      "count": 485,
+      "end_label": "SnbD_Organisation",
+      "start_label": "SnbD_Person",
+      "type": "SNBD_WORK_AT"
+    },
+    {
+      "count": 222,
+      "end_label": "SnbA_City",
+      "start_label": "SnbA_Person",
+      "type": "SNBA_IS_LOCATED_IN"
+    },
+    {
+      "count": 222,
+      "end_label": "SnbA_Place",
+      "start_label": "SnbA_Person",
+      "type": "SNBA_IS_LOCATED_IN"
+    },
+    {
+      "count": 222,
+      "end_label": "SnbB_City",
+      "start_label": "SnbB_Person",
+      "type": "SNBB_IS_LOCATED_IN"
+    },
+    {
+      "count": 222,
+      "end_label": "SnbB_Place",
+      "start_label": "SnbB_Person",
+      "type": "SNBB_IS_LOCATED_IN"
+    },
+    {
+      "count": 222,
+      "end_label": "SnbC_City",
+      "start_label": "SnbC_Person",
+      "type": "SNBC_IS_LOCATED_IN"
+    },
+    {
+      "count": 222,
+      "end_label": "SnbC_Place",
+      "start_label": "SnbC_Person",
+      "type": "SNBC_IS_LOCATED_IN"
+    },
+    {
+      "count": 222,
+      "end_label": "SnbD_City",
+      "start_label": "SnbD_Person",
+      "type": "SNBD_IS_LOCATED_IN"
+    },
+    {
+      "count": 222,
+      "end_label": "SnbD_Place",
+      "start_label": "SnbD_Person",
+      "type": "SNBD_IS_LOCATED_IN"
+    },
+    {
+      "count": 180,
+      "end_label": "SnbA_Organisation",
+      "start_label": "SnbA_Person",
+      "type": "SNBA_STUDY_AT"
+    },
+    {
+      "count": 180,
+      "end_label": "SnbA_University",
+      "start_label": "SnbA_Person",
+      "type": "SNBA_STUDY_AT"
+    },
+    {
+      "count": 180,
+      "end_label": "SnbB_Organisation",
+      "start_label": "SnbB_Person",
+      "type": "SNBB_STUDY_AT"
+    },
+    {
+      "count": 180,
+      "end_label": "SnbB_University",
+      "start_label": "SnbB_Person",
+      "type": "SNBB_STUDY_AT"
+    },
+    {
+      "count": 180,
+      "end_label": "SnbC_Organisation",
+      "start_label": "SnbC_Person",
+      "type": "SNBC_STUDY_AT"
+    },
+    {
+      "count": 180,
+      "end_label": "SnbC_University",
+      "start_label": "SnbC_Person",
+      "type": "SNBC_STUDY_AT"
+    },
+    {
+      "count": 180,
+      "end_label": "SnbD_Organisation",
+      "start_label": "SnbD_Person",
+      "type": "SNBD_STUDY_AT"
+    },
+    {
+      "count": 180,
+      "end_label": "SnbD_University",
+      "start_label": "SnbD_Person",
+      "type": "SNBD_STUDY_AT"
+    },
+    {
+      "count": 111,
+      "end_label": "SnbA_Continent",
+      "start_label": "SnbA_Country",
+      "type": "SNBA_IS_PART_OF"
+    },
+    {
+      "count": 111,
+      "end_label": "SnbA_Place",
+      "start_label": "SnbA_Country",
+      "type": "SNBA_IS_PART_OF"
+    },
+    {
+      "count": 111,
+      "end_label": "SnbA_Continent",
+      "start_label": "SnbA_Place",
+      "type": "SNBA_IS_PART_OF"
+    },
+    {
+      "count": 111,
+      "end_label": "SnbA_Place",
+      "start_label": "SnbA_Place",
+      "type": "SNBA_IS_PART_OF"
+    },
+    {
+      "count": 111,
+      "end_label": "SnbB_Continent",
+      "start_label": "SnbB_Country",
+      "type": "SNBB_IS_PART_OF"
+    },
+    {
+      "count": 111,
+      "end_label": "SnbB_Place",
+      "start_label": "SnbB_Country",
+      "type": "SNBB_IS_PART_OF"
+    },
+    {
+      "count": 111,
+      "end_label": "SnbB_Continent",
+      "start_label": "SnbB_Place",
+      "type": "SNBB_IS_PART_OF"
+    },
+    {
+      "count": 111,
+      "end_label": "SnbB_Place",
+      "start_label": "SnbB_Place",
+      "type": "SNBB_IS_PART_OF"
+    },
+    {
+      "count": 111,
+      "end_label": "SnbC_Continent",
+      "start_label": "SnbC_Country",
+      "type": "SNBC_IS_PART_OF"
+    },
+    {
+      "count": 111,
+      "end_label": "SnbC_Place",
+      "start_label": "SnbC_Country",
+      "type": "SNBC_IS_PART_OF"
+    },
+    {
+      "count": 111,
+      "end_label": "SnbC_Continent",
+      "start_label": "SnbC_Place",
+      "type": "SNBC_IS_PART_OF"
+    },
+    {
+      "count": 111,
+      "end_label": "SnbC_Place",
+      "start_label": "SnbC_Place",
+      "type": "SNBC_IS_PART_OF"
+    },
+    {
+      "count": 111,
+      "end_label": "SnbD_Continent",
+      "start_label": "SnbD_Country",
+      "type": "SNBD_IS_PART_OF"
+    },
+    {
+      "count": 111,
+      "end_label": "SnbD_Place",
+      "start_label": "SnbD_Country",
+      "type": "SNBD_IS_PART_OF"
+    },
+    {
+      "count": 111,
+      "end_label": "SnbD_Continent",
+      "start_label": "SnbD_Place",
+      "type": "SNBD_IS_PART_OF"
+    },
+    {
+      "count": 111,
+      "end_label": "SnbD_Place",
+      "start_label": "SnbD_Place",
+      "type": "SNBD_IS_PART_OF"
+    },
+    {
+      "count": 77,
+      "end_label": "NwA_Category",
+      "start_label": "NwA_Product",
+      "type": "NWA_PART_OF"
+    },
+    {
+      "count": 77,
+      "end_label": "NwA_Product",
+      "start_label": "NwA_Supplier",
+      "type": "NWA_SUPPLIES"
+    },
+    {
+      "count": 77,
+      "end_label": "NwB_Category",
+      "start_label": "NwB_Product",
+      "type": "NWB_PART_OF"
+    },
+    {
+      "count": 77,
+      "end_label": "NwB_Product",
+      "start_label": "NwB_Supplier",
+      "type": "NWB_SUPPLIES"
+    },
+    {
+      "count": 77,
+      "end_label": "NwC_Category",
+      "start_label": "NwC_Product",
+      "type": "NWC_PART_OF"
+    },
+    {
+      "count": 77,
+      "end_label": "NwC_Product",
+      "start_label": "NwC_Supplier",
+      "type": "NWC_SUPPLIES"
+    },
+    {
+      "count": 77,
+      "end_label": "NwD_Category",
+      "start_label": "NwD_Product",
+      "type": "NWD_PART_OF"
+    },
+    {
+      "count": 77,
+      "end_label": "NwD_Product",
+      "start_label": "NwD_Supplier",
+      "type": "NWD_SUPPLIES"
+    },
+    {
+      "count": 70,
+      "end_label": "SnbA_TagClass",
+      "start_label": "SnbA_TagClass",
+      "type": "SNBA_IS_SUBCLASS_OF"
+    },
+    {
+      "count": 70,
+      "end_label": "SnbB_TagClass",
+      "start_label": "SnbB_TagClass",
+      "type": "SNBB_IS_SUBCLASS_OF"
+    },
+    {
+      "count": 70,
+      "end_label": "SnbC_TagClass",
+      "start_label": "SnbC_TagClass",
+      "type": "SNBC_IS_SUBCLASS_OF"
+    },
+    {
+      "count": 70,
+      "end_label": "SnbD_TagClass",
+      "start_label": "SnbD_TagClass",
+      "type": "SNBD_IS_SUBCLASS_OF"
+    }
+  ],
+  "source": "neo4j",
+  "symmetric_relationships": []
+}

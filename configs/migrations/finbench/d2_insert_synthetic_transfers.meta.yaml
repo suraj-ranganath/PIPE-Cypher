@@ -1,0 +1,51 @@
+id: d2_insert_synthetic_transfers
+graph_profile: finbench
+kind: data_drift
+description: >-
+  Insert deterministic synthetic TRANSFER_TO edges (5% of the existing count)
+  between existing accounts, timestamped after the latest existing transfer and
+  using the observed payType/goodsType vocabulary.
+cypher_file: d2_insert_synthetic_transfers.cypher
+batch_size: 1000
+generator:
+  kind: synthetic_transfers
+  accounts_query: >-
+    MATCH (a:Account) WHERE a.accountId IS NOT NULL
+    RETURN a.accountId AS accountId ORDER BY accountId
+  stats_query: >-
+    MATCH ()-[t:TRANSFER_TO]->()
+    RETURN count(t) AS n, toString(max(t.createTime)) AS max_create_time
+  vocab_query: >-
+    MATCH ()-[t:TRANSFER_TO]->() WHERE t.payType IS NOT NULL
+    RETURN DISTINCT t.payType AS payType, t.goodsType AS goodsType
+    ORDER BY payType, goodsType LIMIT 200
+  fraction_of_existing: 0.05
+  salt: pipecypher-refresh-d2-insert-transfers-v1
+  comment_marker: pipecypher_refresh_d2_synthetic
+  param_name: rows
+preconditions:
+  - name: transfer_before
+    query: MATCH ()-[t:TRANSFER_TO]->() RETURN count(t) AS n
+    expect: positive
+  - name: synthetic_before
+    query: >-
+      MATCH ()-[t:TRANSFER_TO]->() WHERE t.comment = 'pipecypher_refresh_d2_synthetic'
+      RETURN count(t) AS n
+    expect: zero
+postconditions:
+  - name: transfer_after
+    query: MATCH ()-[t:TRANSFER_TO]->() RETURN count(t) AS n
+    expect: "== transfer_before + generated"
+  - name: synthetic_after
+    query: >-
+      MATCH ()-[t:TRANSFER_TO]->() WHERE t.comment = 'pipecypher_refresh_d2_synthetic'
+      RETURN count(t) AS n
+    expect: "== generated"
+expected_schema_diff:
+  no_structural_changes: true
+  count_changes:
+    - {type: TRANSFER_TO, direction: increase}
+expected_benchmark_impact: >-
+  No schema change. References over TRANSFER_TO stay valid, but counts, sums,
+  rankings, existence, and especially negation ("accounts that have not sent
+  transfers") answers can change silently.

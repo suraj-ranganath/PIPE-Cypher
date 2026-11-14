@@ -1,0 +1,326 @@
+{
+  "categorical_properties": {},
+  "graph_name": "t2c_northwind",
+  "node_properties": [
+    {
+      "label": "Product",
+      "property": "productName",
+      "type": "STRING"
+    },
+    {
+      "label": "Product",
+      "property": "quantityPerUnit",
+      "type": "STRING"
+    },
+    {
+      "label": "Product",
+      "property": "unitsOnOrder",
+      "type": "INTEGER"
+    },
+    {
+      "label": "Product",
+      "property": "supplierID",
+      "type": "STRING"
+    },
+    {
+      "label": "Product",
+      "property": "productID",
+      "type": "STRING"
+    },
+    {
+      "label": "Product",
+      "property": "discontinued",
+      "type": "BOOLEAN"
+    },
+    {
+      "label": "Product",
+      "property": "categoryID",
+      "type": "STRING"
+    },
+    {
+      "label": "Product",
+      "property": "reorderLevel",
+      "type": "INTEGER"
+    },
+    {
+      "label": "Product",
+      "property": "unitsInStock",
+      "type": "INTEGER"
+    },
+    {
+      "label": "Product",
+      "property": "unitPrice",
+      "type": "FLOAT"
+    },
+    {
+      "label": "Category",
+      "property": "picture",
+      "type": "STRING"
+    },
+    {
+      "label": "Category",
+      "property": "categoryID",
+      "type": "STRING"
+    },
+    {
+      "label": "Category",
+      "property": "description",
+      "type": "STRING"
+    },
+    {
+      "label": "Category",
+      "property": "categoryName",
+      "type": "STRING"
+    },
+    {
+      "label": "Supplier",
+      "property": "companyName",
+      "type": "STRING"
+    },
+    {
+      "label": "Supplier",
+      "property": "contactName",
+      "type": "STRING"
+    },
+    {
+      "label": "Supplier",
+      "property": "homePage",
+      "type": "STRING"
+    },
+    {
+      "label": "Supplier",
+      "property": "phone",
+      "type": "STRING"
+    },
+    {
+      "label": "Supplier",
+      "property": "postalCode",
+      "type": "STRING"
+    },
+    {
+      "label": "Supplier",
+      "property": "contactTitle",
+      "type": "STRING"
+    },
+    {
+      "label": "Supplier",
+      "property": "region",
+      "type": "STRING"
+    },
+    {
+      "label": "Supplier",
+      "property": "address",
+      "type": "STRING"
+    },
+    {
+      "label": "Supplier",
+      "property": "fax",
+      "type": "STRING"
+    },
+    {
+      "label": "Supplier",
+      "property": "supplierID",
+      "type": "STRING"
+    },
+    {
+      "label": "Supplier",
+      "property": "country",
+      "type": "STRING"
+    },
+    {
+      "label": "Supplier",
+      "property": "city",
+      "type": "STRING"
+    },
+    {
+      "label": "Customer",
+      "property": "fax",
+      "type": "STRING"
+    },
+    {
+      "label": "Customer",
+      "property": "companyName",
+      "type": "STRING"
+    },
+    {
+      "label": "Customer",
+      "property": "customerID",
+      "type": "STRING"
+    },
+    {
+      "label": "Customer",
+      "property": "phone",
+      "type": "STRING"
+    },
+    {
+      "label": "Customer",
+      "property": "contactName",
+      "type": "STRING"
+    },
+    {
+      "label": "Customer",
+      "property": "contactTitle",
+      "type": "STRING"
+    },
+    {
+      "label": "Customer",
+      "property": "region",
+      "type": "STRING"
+    },
+    {
+      "label": "Customer",
+      "property": "address",
+      "type": "STRING"
+    },
+    {
+      "label": "Customer",
+      "property": "postalCode",
+      "type": "STRING"
+    },
+    {
+      "label": "Customer",
+      "property": "country",
+      "type": "STRING"
+    },
+    {
+      "label": "Customer",
+      "property": "city",
+      "type": "STRING"
+    },
+    {
+      "label": "Order",
+      "property": "shipName",
+      "type": "STRING"
+    },
+    {
+      "label": "Order",
+      "property": "requiredDate",
+      "type": "STRING"
+    },
+    {
+      "label": "Order",
+      "property": "shipCity",
+      "type": "STRING"
+    },
+    {
+      "label": "Order",
+      "property": "employeeID",
+      "type": "STRING"
+    },
+    {
+      "label": "Order",
+      "property": "shipPostalCode",
+      "type": "STRING"
+    },
+    {
+      "label": "Order",
+      "property": "shippedDate",
+      "type": "STRING"
+    },
+    {
+      "label": "Order",
+      "property": "freight",
+      "type": "STRING"
+    },
+    {
+      "label": "Order",
+      "property": "orderDate",
+      "type": "STRING"
+    },
+    {
+      "label": "Order",
+      "property": "orderID",
+      "type": "STRING"
+    },
+    {
+      "label": "Order",
+      "property": "shipAddress",
+      "type": "STRING"
+    },
+    {
+      "label": "Order",
+      "property": "customerID",
+      "type": "STRING"
+    },
+    {
+      "label": "Order",
+      "property": "shipCountry",
+      "type": "STRING"
+    },
+    {
+      "label": "Order",
+      "property": "shipVia",
+      "type": "STRING"
+    },
+    {
+      "label": "Order",
+      "property": "shipRegion",
+      "type": "STRING"
+    }
+  ],
+  "provenance": {
+    "dataset": "neo4j/text2cypher-2024v1",
+    "kind": "derived_from_dataset_schema_text",
+    "note": "Parsed from the dataset's `schema` field (most frequent variant), not introspected from a live graph. Categorical values are intentionally omitted. Use only for offline checks and schema-drift comparison; runs must use the live schema written by scripts/inspect_schema.py.",
+    "revision": "d9f15541ab2f99a0f54797a0109b50663554f512",
+    "rows_total": 1866,
+    "rows_with_selected_variant": 1850,
+    "schema_text_sha256": "d9c23ac7acdc10b5a150ca078869b168e1d965b802fe399e2ff208090ac095dc",
+    "schema_text_variants": 2
+  },
+  "relationship_properties": [
+    {
+      "property": "orderID",
+      "type": "ORDERS",
+      "value_type": "STRING"
+    },
+    {
+      "property": "unitPrice",
+      "type": "ORDERS",
+      "value_type": "STRING"
+    },
+    {
+      "property": "productID",
+      "type": "ORDERS",
+      "value_type": "STRING"
+    },
+    {
+      "property": "quantity",
+      "type": "ORDERS",
+      "value_type": "INTEGER"
+    },
+    {
+      "property": "discount",
+      "type": "ORDERS",
+      "value_type": "STRING"
+    }
+  ],
+  "relationships": [
+    {
+      "count": null,
+      "end_label": "Category",
+      "start_label": "Product",
+      "type": "PART_OF"
+    },
+    {
+      "count": null,
+      "end_label": "Product",
+      "start_label": "Supplier",
+      "type": "SUPPLIES"
+    },
+    {
+      "count": null,
+      "end_label": "Order",
+      "start_label": "Customer",
+      "type": "PURCHASED"
+    },
+    {
+      "count": null,
+      "end_label": "Product",
+      "start_label": "Order",
+      "type": "ORDERS"
+    }
+  ],
+  "source": "derived:neo4j/text2cypher-2024v1@d9f15541ab2f99a0f54797a0109b50663554f512:schema_field:sha256=d9c23ac7acdc10b5",
+  "symmetric_relationships": []
+}

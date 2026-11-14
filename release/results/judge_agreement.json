@@ -1,0 +1,2250 @@
+{
+  "flags": {
+    "flagged_by_all_independent": 143,
+    "flagged_by_any_independent": 727,
+    "flagged_by_any_independent_rate": {
+      "ci95": [
+        0.32932236640414303,
+        0.37027090286775666
+      ],
+      "count": 727,
+      "n": 2080,
+      "rate": 0.34951923076923075
+    },
+    "flagged_by_at_least_2_independent": 143,
+    "flagged_ids": [
+      "pc_013dfa9658523f42",
+      "pc_014418335cb8ff45",
+      "pc_0297223554ad5761",
+      "pc_031f9fb062d8df97",
+      "pc_0385c6465134422f",
+      "pc_03bd8cb4e09d7ef3",
+      "pc_040ce50bd540939d",
+      "pc_043ba1b4fc3050a3",
+      "pc_04b12266d18f1afc",
+      "pc_054a9cb2cea3c4d2",
+      "pc_0584e6defef74bc0",
+      "pc_06218a516fd842e9",
+      "pc_0638ea300e5f4dc6",
+      "pc_069bfeb2988a48cb",
+      "pc_06aa8cfc320631fa",
+      "pc_0755d7f1e37f9fac",
+      "pc_077329de54365b5a",
+      "pc_07cca3f26806dd89",
+      "pc_07f4295f9db4f22d",
+      "pc_0806166595065c2c",
+      "pc_0821a174fdbf3368",
+      "pc_0923c1e94b96aead",
+      "pc_092c7ceec49c41c9",
+      "pc_09548a88c616cf54",
+      "pc_098bfe23aab6d405",
+      "pc_09abc5c57377c6e0",
+      "pc_0a53aacddd194227",
+      "pc_0b3e7c6235e6c749",
+      "pc_0b5abc2253ee1d71",
+      "pc_0bad3b1cf69aab74",
+      "pc_0bb07f26ad4a4614",
+      "pc_0c550ba0541b2a66",
+      "pc_0c64880402a0a076",
+      "pc_0c7fba63f7d34758",
+      "pc_0c91448f3e5a7100",
+      "pc_0cbd5547fdda81f4",
+      "pc_0cda3f948b01a493",
+      "pc_0cf33a7ca7f1d956",
+      "pc_0cf9a554d17b0707",
+      "pc_0d4e33d1ea2768f2",
+      "pc_0d751f4af5224a52",
+      "pc_0e20373211be1233",
+      "pc_0e385cc221ee2188",
+      "pc_0e4fbbbea89de498",
+      "pc_0ec88cd0987d9e65",
+      "pc_103750946cbef6db",
+      "pc_10c295bc13496a46",
+      "pc_10fa63a46f18b92b",
+      "pc_117b238a6701f9d1",
+      "pc_11ad23e60d7b35f1",
+      "pc_11b9e677e6752b90",
+      "pc_120f712ab792d748",
+      "pc_126a4c2bfa995d37",
+      "pc_12b52ea96931cb81",
+      "pc_12d404d49061a3c1",
+      "pc_12db443b09584eca",
+      "pc_12f38342eb48ac1a",
+      "pc_1338d231ce708d13",
+      "pc_13471adfacce54d7",
+      "pc_137f98a152b19209",
+      "pc_13c582f0db6f568f",
+      "pc_141949fa1a5a9064",
+      "pc_1484d041c30eef53",
+      "pc_14c14686b8cb48a8",
+      "pc_14cda64511328695",
+      "pc_151ebfd687c4e0c9",
+      "pc_1536278f32580ec4",
+      "pc_15800312019d2ac2",
+      "pc_15f32c7750493a02",
+      "pc_165347d49c6947c2",
+      "pc_16c2d02da3ea4968",
+      "pc_16fb9806928da932",
+      "pc_171f9f7ea18bdf24",
+      "pc_173bd705d632ac39",
+      "pc_178419c06b0bb94f",
+      "pc_178957f4c357e24d",
+      "pc_17c953fe20ca55f0",
+      "pc_187c9b5e992f7846",
+      "pc_1892da21c587ca35",
+      "pc_18d562483e67ef00",
+      "pc_19647e966afe3653",
+      "pc_197e729cfbfd14be",
+      "pc_19c9c7bc519958b4",
+      "pc_19dea14c3ab50fef",
+      "pc_1a20d9a79b76a66b",
+      "pc_1af17558a115ffb0",
+      "pc_1b0d5b87787e79be",
+      "pc_1bbf2e80971f01e9",
+      "pc_1be3cd4632096807",
+      "pc_1c106b8b084895bc",
+      "pc_1c38f4fdbdb15c6d",
+      "pc_1c3c5bc6c3fcb8e0",
+      "pc_1c81de0fc88e6104",
+      "pc_1cf9122754205434",
+      "pc_1d35b6e08b722804",
+      "pc_1e7fe443651da010",
+      "pc_1ec00767f926f67c",
+      "pc_1ee200319811da3d",
+      "pc_1f2c9492ddb379b7",
+      "pc_1f34e46a13b0d4a6",
+      "pc_1fb206df08bb812e",
+      "pc_1fcbe859bd5e73da",
+      "pc_1fe5d09078345536",
+      "pc_2090eca0524deb3c",
+      "pc_20f72c43b21fc5b0",
+      "pc_2104511d89617cee",
+      "pc_2110d294df477b58",
+      "pc_216a30dcfc6eca1f",
+      "pc_21bd77d28a1acb16",
+      "pc_222eed6cacc81039",
+      "pc_22395b747be5e4e3",
+      "pc_225dbc37eed32354",
+      "pc_226b055f09056e40",
+      "pc_22a50fd4c6f60e67",
+      "pc_22c9031c96654624",
+      "pc_22d8de30cf6d4ec2",
+      "pc_243d52ba685a5553",
+      "pc_2471764c26778522",
+      "pc_250a26c775d34599",
+      "pc_25246f766f2e3f8a",
+      "pc_2539dc8fc239cfd8",
+      "pc_262ae4e5bf9c302c",
+      "pc_2680729c33f57302",
+      "pc_26c7eeb65ea8e1f3",
+      "pc_2762c8a4b509f9cd",
+      "pc_279075c93d148c85",
+      "pc_27a7e96dee5212ab",
+      "pc_27c52ee35d4d5f7d",
+      "pc_2801de2bfc08fe83",
+      "pc_283e0808b3c174a9",
+      "pc_28c990475bc94cd4",
+      "pc_28e6d334a80c5225",
+      "pc_29f9fefc9a6ee988",
+      "pc_2a619d1bd23d6472",
+      "pc_2a7206131d1d01e1",
+      "pc_2aa99b1a7dffb054",
+      "pc_2ae37b2d820092da",
+      "pc_2b0caaa8e90b40fa",
+      "pc_2b553f625d087973",
+      "pc_2bf687f95fe9a577",
+      "pc_2c0d884570edd49d",
+      "pc_2c15c55b9699a427",
+      "pc_2c183218d5c64e9d",
+      "pc_2c45583966f5fd9c",
+      "pc_2c769e1c9fb439e8",
+      "pc_2ccc004898076d06",
+      "pc_2ce80c8d41ec99c0",
+      "pc_2d22b5ef9f848475",
+      "pc_2d6ea079ec1ea2a4",
+      "pc_2da0dbb7eab29979",
+      "pc_2db1c78f0ac2b6b7",
+      "pc_2dc1815309993857",
+      "pc_2e5132e317208615",
+      "pc_2e58fa6987a36e46",
+      "pc_2eae10bf108ec32e",
+      "pc_2ed501a1d13dde81",
+      "pc_2f6fa986fb1b901d",
+      "pc_2fcc0509d553f1fe",
+      "pc_3041022a37f6e65e",
+      "pc_3186392c8548812d",
+      "pc_3241027ec820145c",
+      "pc_34627e02b4467186",
+      "pc_347e289e0c6edb5c",
+      "pc_34c67e1347fdf70c",
+      "pc_34db3a5ce0fa198f",
+      "pc_34df6ba3acd782b3",
+      "pc_35f44943a7ecbb56",
+      "pc_36fa8c3a08082d25",
+      "pc_37446c2de130a02c",
+      "pc_3746e4a98cbec891",
+      "pc_375467a388ec0372",
+      "pc_381c98f248066796",
+      "pc_38668716ec24b657",
+      "pc_3875e3db582e46dc",
+      "pc_38a84654b415d079",
+      "pc_391db7f479bf2d46",
+      "pc_3989b7e95d5b1b49",
+      "pc_39ba97bf723b5444",
+      "pc_3acd06f6454215e0",
+      "pc_3ae731713c207ac9",
+      "pc_3aeef8ab90a0322e",
+      "pc_3af2a086369ea626",
+      "pc_3c06b59c0effb695",
+      "pc_3c3820a9ee534bdc",
+      "pc_3c46ad460f63ce9d",
+      "pc_3d781c5e010373e9",
+      "pc_3d9a78333c4fe27d",
+      "pc_3de62ec770f5e503",
+      "pc_3e4e2949f0f2b335",
+      "pc_3eac0335b0e46eb4",
+      "pc_3f39c2d67d146fec",
+      "pc_3f3e3329bfc852ac",
+      "pc_3f90b0e65b054f28",
+      "pc_3fb3965adc95c44a",
+      "pc_3fe59cfbff3912e5",
+      "pc_40454d0e2d02727f",
+      "pc_40882b5e3fe2c9ae",
+      "pc_40cdb814e0beb343",
+      "pc_411f96d6eab7bd2e",
+      "pc_412bdfe52ee529ab",
+      "pc_413212f82415825a",
+      "pc_4284e93563f92f00",
+      "pc_42af019b429ed275",
+      "pc_42ee42475a68c46f",
+      "pc_42ef1c8635b0be83",
+      "pc_43834c77237f6733",
+      "pc_43a1d3c7d50f1c2c",
+      "pc_43c8a5d20a0a65a8",
+      "pc_44335a19bc103f7c",
+      "pc_44476ac99e1aede7",
+      "pc_4455f255212d97b8",
+      "pc_450008330e69b3e9",
+      "pc_457b86a2dee2ec85",
+      "pc_45d6b1c463ffaf49",
+      "pc_4604c4590b9c2fc3",
+      "pc_47465e65c0662569",
+      "pc_47841d762e2a2a2f",
+      "pc_478ac8f4b347b585",
+      "pc_47971bcb6daf693f",
+      "pc_482e52519edee269",
+      "pc_48513fc4b260e9f5",
+      "pc_487b9c1971934279",
+      "pc_48d9386ea8e3748f",
+      "pc_48dc7fa2b189b821",
+      "pc_49150c3b2f114975",
+      "pc_49184ae53c2129d5",
+      "pc_49856d72456831a9",
+      "pc_498c30643d623fd7",
+      "pc_49a687e8b3415da9",
+      "pc_4a8fd9875cbdb173",
+      "pc_4abd351ec88ec30b",
+      "pc_4b237a509b9fb650",
+      "pc_4b3de40f42b5d95d",
+      "pc_4b4b6e1b58d48b07",
+      "pc_4b5393539b4c7c58",
+      "pc_4c182b79e306ca86",
+      "pc_4c67fb2be4a85b53",
+      "pc_4d043c7e7a235209",
+      "pc_4d59198ae3327d32",
+      "pc_4d8039cf56631f00",
+      "pc_4e7b5b872712d897",
+      "pc_4eb2822f00fed7b6",
+      "pc_4eccd4cf1afb86a3",
+      "pc_4ecd378fec74bb76",
+      "pc_4f8311e758c1a135",
+      "pc_501022f2c1a6a44a",
+      "pc_511c55b83a1da6c9",
+      "pc_5124391e2b24a008",
+      "pc_516d130d419022a2",
+      "pc_523a7b759ae97890",
+      "pc_526232a473072eba",
+      "pc_52ff67bafe134bd9",
+      "pc_53429d0bf4d38d4b",
+      "pc_534cd4f6840990c4",
+      "pc_5397bd2e596ac199",
+      "pc_54391cf55ef9a5d6",
+      "pc_5454671bf24fd0ec",
+      "pc_54aeee2c7078fa7c",
+      "pc_54c3eeb81b5a57e8",
+      "pc_54deb8c77690e33a",
+      "pc_54fdd4c15c2971e3",
+      "pc_5500ea1c75bd4005",
+      "pc_56436a6c02db3943",
+      "pc_56b1038e04ed48ad",
+      "pc_56d97e430437896b",
+      "pc_56f20d9477dc3d87",
+      "pc_56fafe0988f56af4",
+      "pc_576876eb8036d5bb",
+      "pc_5932e20faa3a6b53",
+      "pc_596a72ed1d038f2b",
+      "pc_59c9c4f6e93252c5",
+      "pc_59fc89c8612ae974",
+      "pc_5a18907da509cca7",
+      "pc_5a4f0e69f0468465",
+      "pc_5ac8b64d09def207",
+      "pc_5b41b657379aeb2d",
+      "pc_5b6f398a02de6c82",
+      "pc_5b8b3f0dca55ff36",
+      "pc_5bc81a7eec502b14",
+      "pc_5d57dfe0daac2f0b",
+      "pc_5d612eb5419e42cc",
+      "pc_5d7e4dd39f66f2d6",
+      "pc_5d9c2e5d62de356d",
+      "pc_5e118ad220eda62f",
+      "pc_5e53c9e5bd2f986e",
+      "pc_5edf112b6a4cdcbe",
+      "pc_5ee9d1d40fcfb26e",
+      "pc_5f5e19f691f84aa0",
+      "pc_5fddd7a88ddcc202",
+      "pc_61369d645c1416a7",
+      "pc_619f96f0ed0cca92",
+      "pc_621f969897bb84fd",
+      "pc_62800a66156f27ee",
+      "pc_630f24979c8b2905",
+      "pc_6383695de937f950",
+      "pc_63a116712d7423b1",
+      "pc_63b5d940552ef55a",
+      "pc_63e8a569295e034c",
+      "pc_64013dd4491dea7c",
+      "pc_643e3af4ddd0ccfc",
+      "pc_64a04eabe5f5216a",
+      "pc_655d6c307e39e95d",
+      "pc_6580c40ecb8cfa27",
+      "pc_6589cc5093854f5a",
+      "pc_65b80490a3e5c38a",
+      "pc_66fd1e12a17bf6fd",
+      "pc_6729f749a03e3924",
+      "pc_6731dd53d514014b",
+      "pc_684fb960e3e57a0d",
+      "pc_68e3bd451fc6fe84",
+      "pc_6911ecf74bf53557",
+      "pc_69e735e02fd763e9",
+      "pc_6a67e03d231c085f",
+      "pc_6a90fecefc8c8ddd",
+      "pc_6b3f41c699c39e79",
+      "pc_6b4599af599b7901",
+      "pc_6bb0cf2e2ed15431",
+      "pc_6bb1792aed5a2d2d",
+      "pc_6c0ed4cb14c08c9d",
+      "pc_6d2d66360185f0dc",
+      "pc_6d94da286abe6507",
+      "pc_6d9dffa89b3b57ff",
+      "pc_6eb690a41398ef55",
+      "pc_6f54bf90a577f909",
+      "pc_70532fed1ddb83ab",
+      "pc_70890f5dba99c6d0",
+      "pc_70a7012e135b4d72",
+      "pc_713758bf36070e3c",
+      "pc_713cddfa2102ff94",
+      "pc_7169798eb64b819e",
+      "pc_71881521ab903ba5",
+      "pc_71ce97027f968832",
+      "pc_7235b2ed0930ae8c",
+      "pc_7239618fb63cfc47",
+      "pc_72b0d7c9f4da9dc1",
+      "pc_73b6b95151718ea4",
+      "pc_73b90a1e5841a5f9",
+      "pc_73c29b1b2e067dc0",
+      "pc_73e7842cb4f52cd5",
+      "pc_7420e3055766f2f2",
+      "pc_748193fa5b751e74",
+      "pc_75ddcd7e97ee00df",
+      "pc_763f29e348481211",
+      "pc_766dcd631cd049ef",
+      "pc_76709846e907ea80",
+      "pc_7699dac6df79de73",
+      "pc_7752ea4844f33576",
+      "pc_777d1fb67ff354b8",
+      "pc_78028cb120d40431",
+      "pc_7815928278a31fc6",
+      "pc_793ce7f81f99b77e",
+      "pc_796a941688df6479",
+      "pc_7a01d75bc8747fbd",
+      "pc_7a1c3bcc2f82b3a5",
+      "pc_7aa67d7728cdb9b1",
+      "pc_7af4b22701ed353d",
+      "pc_7b8658169d17501d",
+      "pc_7c15f27ff4d4f242",
+      "pc_7c2f6c61a9c5c27f",
+      "pc_7ca7b6795465b92b",
+      "pc_7cbe6291d7ceb1cb",
+      "pc_7cc2dc67737c7273",
+      "pc_7d023635a355311c",
+      "pc_7d4b5ec91bc9a294",
+      "pc_7d4f730010855d84",
+      "pc_7d9501652ea0aca0",
+      "pc_7d99138da9e8ae7c",
+      "pc_7d9f12da9e32bf66",
+      "pc_7dbe21065d1f1621",
+      "pc_7dd528193440c817",
+      "pc_7e15321f66ce20eb",
+      "pc_7e83aee75825773e",
+      "pc_7f02e3ab7b941f8a",
+      "pc_7fc8e91ec3100fe9",
+      "pc_8027d88440f9364c",
+      "pc_81394bfcd882810f",
+      "pc_8163fa5386a076a4",
+      "pc_82495cc73df500dc",
+      "pc_8364031915479948",
+      "pc_8448c5fe27d9ad22",
+      "pc_848697c13c12e834",
+      "pc_8538e4c38df6d072",
+      "pc_85a55d21bef2c250",
+      "pc_85b2296bffaffef1",
+      "pc_85babc3892fc2e78",
+      "pc_868765e689e9c388",
+      "pc_8743eb848fffd1d5",
+      "pc_87b90aeea7a69d47",
+      "pc_889d226cc2c14896",
+      "pc_892671b07de25b79",
+      "pc_89fc7c2cb607cf8d",
+      "pc_8a585ce8e154c6d6",
+      "pc_8aef9229a63d2d0f",
+      "pc_8ba55dc4f7d4efb8",
+      "pc_8bf2cbfa5998bdde",
+      "pc_8c469c09e7ecf535",
+      "pc_8c5436070785fa72",
+      "pc_8c6a950a01950a3c",
+      "pc_8ca3ca55292f3400",
+      "pc_8d394334a869f597",
+      "pc_8d62f98450e5fe32",
+      "pc_8e07d1498aeae3b6",
+      "pc_8e656208208b423f",
+      "pc_8e8f36622722ec9d",
+      "pc_8e91ca1ad76dd66b",
+      "pc_8e96abb6ca2f3467",
+      "pc_8ea179d3fdd2e279",
+      "pc_8eac3b6e47225143",
+      "pc_8f2f1829a7009253",
+      "pc_9006b42feda2bc2c",
+      "pc_906c09d89d91cfd5",
+      "pc_909b2c1d70730a05",
+      "pc_909d92579f884115",
+      "pc_90ac96ab3f3dc8fa",
+      "pc_90b34866bf7eb957",
+      "pc_90da42d0eb234680",
+      "pc_90ff4d3b34642807",
+      "pc_91c634bb300c8770",
+      "pc_91d442c16db03970",
+      "pc_91f0bd206b8f9650",
+      "pc_925fd6853758ea29",
+      "pc_92ae0baab3dc2bec",
+      "pc_92c04e8fc95cae3a",
+      "pc_92dc680a3fc913b6",
+      "pc_92e38cc56733fad3",
+      "pc_93a4246d08be2089",
+      "pc_93fd21f8f1d10069",
+      "pc_9409543121bc1ea6",
+      "pc_954741056e893d34",
+      "pc_955480c184dbae87",
+      "pc_956cbccb000343d2",
+      "pc_96ab99783c5b5bc6",
+      "pc_96c345672d805c95",
+      "pc_96f66950101bed04",
+      "pc_974e97041325f7ab",
+      "pc_97869e3937c8cf7f",
+      "pc_978caf13439d3392",
+      "pc_97d5b81848f69c29",
+      "pc_97d9b8ba9eecaa11",
+      "pc_98b76fbd1841e3d6",
+      "pc_98bc54d640a68710",
+      "pc_9903dd09704a6e53",
+      "pc_994fb4778448dd7e",
+      "pc_9960af319653a97b",
+      "pc_99fb68cf3bdd17da",
+      "pc_9a974ed8f8b50275",
+      "pc_9af3399b336f276a",
+      "pc_9b65e3d310b9a22c",
+      "pc_9c0d1f772ff00ea2",
+      "pc_9c5f15b43719339a",
+      "pc_9c65be78223bc546",
+      "pc_9cbe23c975b551ad",
+      "pc_9ccfb389b6e84fff",
+      "pc_9d3982bf2ff98083",
+      "pc_9db444f16971f728",
+      "pc_9e038209cb88b051",
+      "pc_9f720aaba3bf3d5b",
+      "pc_9fe70b8164609134",
+      "pc_a01808e334f89c13",
+      "pc_a01899d1f94c60d6",
+      "pc_a029b0f63194f9d7",
+      "pc_a0f0943ab031bb53",
+      "pc_a106455a444f0c15",
+      "pc_a13fbf472b36d09e",
+      "pc_a18c8d555da7832f",
+      "pc_a1a87b7082b49e25",
+      "pc_a22da83338a13cfa",
+      "pc_a2340c6382796cfc",
+      "pc_a246408eb06c52ea",
+      "pc_a279974a82056bcd",
+      "pc_a2db811a62ac6245",
+      "pc_a2eeb8d5fc6609af",
+      "pc_a343c28dfc3b876f",
+      "pc_a38ac88f6658c323",
+      "pc_a3d4df2303e9a38a",
+      "pc_a4556c88d95be9e7",
+      "pc_a4695b0e18392796",
+      "pc_a5329a8f2e69cbd0",
+      "pc_a5922f1f95b4039f",
+      "pc_a60189b002529e4f",
+      "pc_a63d8dc0a1df2cca",
+      "pc_a7e135a7eb770a44",
+      "pc_a823af8a61e71cf0",
+      "pc_a9125f774ce35f4e",
+      "pc_a917cfa909df134f",
+      "pc_a95e17f5eb8db3f2",
+      "pc_a99203097a21bbdf",
+      "pc_a9bed8e64d03e2ac",
+      "pc_a9df53fcbbb22157",
+      "pc_aa0300404db81577",
+      "pc_aa451e05240a35be",
+      "pc_aa5540ab412f407a",
+      "pc_aaa9421ef591a194",
+      "pc_aac216488cccd39f",
+      "pc_ab02fcfe5eb802fb",
+      "pc_ab6edbcf6cf407b9",
+      "pc_ab8410f0c9203960",
+      "pc_aba9dd1a90392d5a",
+      "pc_ac87492e741247d7",
+      "pc_ac992efb29748086",
+      "pc_acaf8fc707db0f44",
+      "pc_ad6bb2f9f7763d16",
+      "pc_ad7de2ead9b2b226",
+      "pc_ae78ebe0d5b13580",
+      "pc_ae8cb57ac35a03e7",
+      "pc_af8ceee59e356937",
+      "pc_affefea830b8d956",
+      "pc_b0502e34eaa5fbf9",
+      "pc_b082d43035c85e86",
+      "pc_b141c30ddc7cfe2e",
+      "pc_b180533c5e984f4a",
+      "pc_b1c2186d13c3d1f6",
+      "pc_b1c98c3acefd4e19",
+      "pc_b1eb4f9ea356a218",
+      "pc_b1f6c65ba7e14511",
+      "pc_b1fc0e9d074694cd",
+      "pc_b2981c511ec32674",
+      "pc_b2bb641e193ac41f",
+      "pc_b354e4d2dd6d12f1",
+      "pc_b36c80f0ec129910",
+      "pc_b36fbc74530f8624",
+      "pc_b3704bfd501e5c2e",
+      "pc_b390ae53a22b092e",
+      "pc_b3d554709511d602",
+      "pc_b3d9f35baa56ebba",
+      "pc_b43b9e75edf3256f",
+      "pc_b4e860eebeba66d7",
+      "pc_b50976892d0e8a42",
+      "pc_b5dbf4d9da5b0664",
+      "pc_b5e27a061ddc6eba",
+      "pc_b5ee08cc237e34f2",
+      "pc_b6fc961cca3b24f3",
+      "pc_b7a535fe352e9edd",
+      "pc_b7d8fc87a9378035",
+      "pc_b7e9f9bdfb0a32d3",
+      "pc_b8883fb77e88e1fe",
+      "pc_b8ac4a73dce8e686",
+      "pc_b8fc6d4654f3aecb",
+      "pc_b8fda3f80badda91",
+      "pc_b941d531f3d8072d",
+      "pc_b9ca9da2e8e588b2",
+      "pc_ba8139b7f81cf8b1",
+      "pc_bb314d6d825ed086",
+      "pc_bb5ba2df3408ea9a",
+      "pc_bb60dd86c5fdd867",
+      "pc_bbd90621fb7520d8",
+      "pc_bc1f1e8d002471c0",
+      "pc_bc63ff341ad9d59a",
+      "pc_bcee89cfb66dc70b",
+      "pc_bd8047d9f6df823d",
+      "pc_bdc7adadbd257ee5",
+      "pc_bdedf4bc95983d23",
+      "pc_bdfc51f6789b2539",
+      "pc_be52268c643fbf8e",
+      "pc_be8c6e22dc742edd",
+      "pc_be9ec2882b90c385",
+      "pc_bf0f8476f1bec1b2",
+      "pc_bf22a660f7878dd6",
+      "pc_bf43b45b71433feb",
+      "pc_bfc04f387446c059",
+      "pc_bff12aaccba14c42",
+      "pc_c07946699f465cf5",
+      "pc_c0b5805f7015c435",
+      "pc_c0c2d024148ed863",
+      "pc_c10aac88d6ab5aa1",
+      "pc_c130f8420c5b9613",
+      "pc_c16fd29a68710919",
+      "pc_c1cab8455e877ac0",
+      "pc_c221de5d00600a9c",
+      "pc_c2dfa97706e844f9",
+      "pc_c42369e0389fae01",
+      "pc_c447a2193cada917",
+      "pc_c46dcf155e64e7df",
+      "pc_c48847578f846954",
+      "pc_c4e0e622ba54aec3",
+      "pc_c4eb1cd0b61bfa10",
+      "pc_c51fa43ed29ee15f",
+      "pc_c637f28d5f73fbd2",
+      "pc_c655ee9503b72b3a",
+      "pc_c7041650a2ce7145",
+      "pc_c705077dc1d99904",
+      "pc_c7161e73eee81ab5",
+      "pc_c728264afee1785b",
+      "pc_c75b16cc4b0dc9d6",
+      "pc_c7ce60b9d87e7e27",
+      "pc_c827e4586b27a988",
+      "pc_c9404b2db9503047",
+      "pc_ca5cdcb80c402e0a",
+      "pc_cb6d62a1f29ef8d5",
+      "pc_cb93efa767c92576",
+      "pc_cc023e640821722a",
+      "pc_cc2e31c704ae9e6a",
+      "pc_cd6f0eb2c8e400d1",
+      "pc_cec0f356a26ff052",
+      "pc_cefbc4f385d8b49f",
+      "pc_cf07098f8d23a5af",
+      "pc_cf507ef5249e0b5f",
+      "pc_cf770f685936656c",
+      "pc_cf7d66fa90f6f9a8",
+      "pc_cf948f2cb0fd0440",
+      "pc_cfc7c2048feee8df",
+      "pc_cfe5ad9e5b1bdc90",
+      "pc_d01bdc916e1c43f8",
+      "pc_d0206338f4bc56f9",
+      "pc_d03fad267ea16859",
+      "pc_d114e70c1bece8dd",
+      "pc_d1f0d5f7250ea110",
+      "pc_d3645a992bfb3de8",
+      "pc_d3d1e668421f5413",
+      "pc_d3ec2eb5ef43dd70",
+      "pc_d47bbcd65eefe161",
+      "pc_d4aa7398ce00ef4f",
+      "pc_d54580b3e44d1753",
+      "pc_d549dde125e29ef6",
+      "pc_d54e0f8353a5699c",
+      "pc_d5dba5726be2b531",
+      "pc_d6df7b5e756d053d",
+      "pc_d7131eafc2a6d8d1",
+      "pc_d7471f3ba9e158f6",
+      "pc_d7483fd1a3eb8eb5",
+      "pc_d77395f828e1ed20",
+      "pc_d789964e3b10bb02",
+      "pc_d7cfa2be3806571a",
+      "pc_d7e7c20246572cfc",
+      "pc_d83e6ec12128e55f",
+      "pc_d851e9e73bee7028",
+      "pc_d889827a261f444b",
+      "pc_d8e1358df7094144",
+      "pc_d91e40f6681bcd46",
+      "pc_d95ac778a5a0a975",
+      "pc_d9d843216a719e9b",
+      "pc_d9f310e59da2f59f",
+      "pc_dae0d21909acd932",
+      "pc_dae511e8d6963537",
+      "pc_daf7f1995e068595",
+      "pc_db1d5d5778230909",
+      "pc_dbbe8799e13c8e87",
+      "pc_dbbfbb656f250b11",
+      "pc_dc7bd75e690f41e0",
+      "pc_dcd34c45668f4756",
+      "pc_deb8c8ceade818c4",
+      "pc_df08a87f722dc6bd",
+      "pc_df53e4fda180fec3",
+      "pc_df6289dd0a3b4012",
+      "pc_df8e07c51271049e",
+      "pc_e04387979a131311",
+      "pc_e04b4783c40c90f9",
+      "pc_e0a1fb925ba9ce46",
+      "pc_e1114abf411d984d",
+      "pc_e1148bb29d1d769a",
+      "pc_e11bf8a5c7a5e395",
+      "pc_e1260a64b77f0ecb",
+      "pc_e12d40a06dbb5967",
+      "pc_e1fb92c5a5e524fa",
+      "pc_e2057d75bde14ecc",
+      "pc_e24267777318cbf2",
+      "pc_e32acd00de41ff73",
+      "pc_e4076fd2bd10339c",
+      "pc_e46911f8082f9593",
+      "pc_e4b17026addd9028",
+      "pc_e4dc734375d6a0ef",
+      "pc_e54ed367d42e2e64",
+      "pc_e58b86809898bedb",
+      "pc_e6b8d66afc64c70b",
+      "pc_e71b306957842aec",
+      "pc_e765ea8535d800ad",
+      "pc_e769ae0082b26221",
+      "pc_e7daf42dee6dc400",
+      "pc_e7fedaf36f0c9d33",
+      "pc_e85247fcfd3271b5",
+      "pc_e922de17798a4c26",
+      "pc_ea9952ddca1ac02b",
+      "pc_eb137f9db47f0201",
+      "pc_eb5e51fc7ff71b45",
+      "pc_ebe78fcd20c4688d",
+      "pc_ec78aa3e3b274217",
+      "pc_ecca71fb3f683f05",
+      "pc_ecf1efffc87d3eeb",
+      "pc_ed21e8759e50c807",
+      "pc_ed4a017bcbfaad50",
+      "pc_ed51b5ecd74e977e",
+      "pc_ed58a742534ac1cf",
+      "pc_edf923602870629b",
+      "pc_ef63d7e17c8f0895",
+      "pc_ef99f121ea07e7c9",
+      "pc_efe25e242cad07f1",
+      "pc_f00b98b8a60a4193",
+      "pc_f21373bf4f075f6e",
+      "pc_f21cd3689aa179be",
+      "pc_f327dfd03c31d350",
+      "pc_f331a86fbb888241",
+      "pc_f37d312a32ec6409",
+      "pc_f3d382490e9fcbc4",
+      "pc_f44d07b1781715d0",
+      "pc_f4afe740077d65aa",
+      "pc_f4c350d3d329908d",
+      "pc_f5646935b277c98d",
+      "pc_f5b3efa8f1523a11",
+      "pc_f5fb9f1b887686d9",
+      "pc_f6284fbdcb3fcea2",
+      "pc_f6e1e8f3cdc7ee5c",
+      "pc_f7248088db4706e9",
+      "pc_f8f96f307605a304",
+      "pc_f99bacdf92172083",
+      "pc_fa0e64077ce87915",
+      "pc_fa4d6fb8efec1066",
+      "pc_facab412326a1b99",
+      "pc_face8dd68d313788",
+      "pc_fae78699e16d26ab",
+      "pc_fae9393273d706aa",
+      "pc_faeb4afe5ed3ce16",
+      "pc_fb08de77df306e10",
+      "pc_fbf94abbff42bd56",
+      "pc_fcc685a4bff70b9a",
+      "pc_fd040cefaf626d6f",
+      "pc_fd0647c0de59bf91",
+      "pc_fd08b547c0e877bf",
+      "pc_fd506111dffca44c",
+      "pc_fd88d436a3c15160",
+      "pc_fde7356f1a6ef75c",
+      "pc_fe0a1da2d7c8d488",
+      "pc_fe105f5d3d49fe04",
+      "pc_fe14e74bdd5fa998",
+      "pc_fe43b55bf7cdf629",
+      "pc_fe5f3b74c210e236",
+      "pc_fe8f672edc40f0c5",
+      "pc_ffe61d44f74ce87e"
+    ],
+    "independent_judges": [
+      "gpt6_luna",
+      "qwen35_9b"
+    ],
+    "original_fail_items": 403,
+    "original_pass_items": 2080,
+    "original_pass_items_decided_by_all_independent": 2079,
+    "rescued_by_any_independent": 273,
+    "rescued_ids": [
+      "pc_003a46189aebeb78",
+      "pc_02e5869e0f6c71d3",
+      "pc_0313aca547cba19b",
+      "pc_032c08b96fdc4477",
+      "pc_03f8eb2e20410bb5",
+      "pc_0432f65b399f22f1",
+      "pc_04b2fb17e1961389",
+      "pc_06496882284b1a26",
+      "pc_06b66c980daf6f3d",
+      "pc_0802bd12c6b67283",
+      "pc_081f00a36111094c",
+      "pc_08e21e19d04690f5",
+      "pc_0c3284229ff3df9f",
+      "pc_0cd89dad0c1bebd6",
+      "pc_0e5adb7dbff69d95",
+      "pc_0ec852423b65d9e8",
+      "pc_0f6f84b6d333f4b3",
+      "pc_0f8b049e251e829f",
+      "pc_10320130f92aeaac",
+      "pc_10a3b32fa50f2f20",
+      "pc_1135d06df744f087",
+      "pc_1145394b811cf931",
+      "pc_1188dfeb99fd96df",
+      "pc_12c10e4fa35cb7f3",
+      "pc_13272e8bfabd0043",
+      "pc_1367c6ce51ecf9e2",
+      "pc_1576c4d93af38b1d",
+      "pc_15932402d826ca12",
+      "pc_1719dc393ebfb325",
+      "pc_17a02f8a89f0848f",
+      "pc_17f484be53fd0a03",
+      "pc_1aaeaa8353d0cb43",
+      "pc_1c06ba575ca2f868",
+      "pc_1c5d8eb2e487d47a",
+      "pc_1c8387b9dc4d975a",
+      "pc_1ddcaca29e4f300c",
+      "pc_1de8b1bccc77383b",
+      "pc_1ecc4874bfe73308",
+      "pc_1f8091a9b98af9e5",
+      "pc_2071de14cc9008a5",
+      "pc_20e4244fe3449746",
+      "pc_21b1e75a07dc826e",
+      "pc_2219d448bf6f3b6f",
+      "pc_22c63e2ca0c14a0a",
+      "pc_2336d125597ddd0d",
+      "pc_2364aedd2dc3afd8",
+      "pc_248a49da806055d4",
+      "pc_270df07d036ca10e",
+      "pc_2743a3b04c77a281",
+      "pc_281fc1f09d0309df",
+      "pc_2850e723458dd1fd",
+      "pc_287b62246aad7e45",
+      "pc_29811e8f3a004a53",
+      "pc_2a8559e0ecea80fe",
+      "pc_2b7934afdd4d6dc9",
+      "pc_2b81b86a25acc230",
+      "pc_2baa85386a155166",
+      "pc_2bb018286de13a0a",
+      "pc_2c6c78cf3f71d9ce",
+      "pc_2d362d36528538af",
+      "pc_2f4a3b81cb1c8abe",
+      "pc_2fd5de25b8653e1e",
+      "pc_32b37b44f4cee6aa",
+      "pc_32c213ea2234ef93",
+      "pc_3356bb2632a75cff",
+      "pc_34c102d1ec04367d",
+      "pc_3627b68059ee2af8",
+      "pc_37d403df1a57d966",
+      "pc_37e868c8f729dcb8",
+      "pc_3ad989c7e12ef7f8",
+      "pc_3bcdd7a720963637",
+      "pc_3d001c576027f2c9",
+      "pc_3e9501f979f29e55",
+      "pc_3f1158ffdd7aef3a",
+      "pc_405a589c097722a6",
+      "pc_41f8a7e63ec4836c",
+      "pc_4421e8dfcf3a5fdc",
+      "pc_451cac1a9db63316",
+      "pc_458575b7a3820c11",
+      "pc_4635e78520887e9a",
+      "pc_4657993b1ee6c27f",
+      "pc_47183ba61ff866ec",
+      "pc_4b367b7aa5f66f5e",
+      "pc_4c0ef5751ea7d26f",
+      "pc_4d214ce11b05c38e",
+      "pc_4de48440b6bace39",
+      "pc_4f4ea32904b683dd",
+      "pc_4fff19dd29416718",
+      "pc_52667ffbd8509f20",
+      "pc_53ec1013f91ec6a6",
+      "pc_5562985ad89a64c9",
+      "pc_5634f7338928e349",
+      "pc_56cbc2ffe3b3e8c4",
+      "pc_57d2b2ca025ffe70",
+      "pc_58946f19f8c05976",
+      "pc_5961ec8290a19f5a",
+      "pc_5abf5a48aef92470",
+      "pc_5d8d7c1380048211",
+      "pc_5edffcf8fe93c90f",
+      "pc_6073b8c0b22a3009",
+      "pc_60b2e5b5a41beafa",
+      "pc_621b12ab30bd3dc3",
+      "pc_629bcadb1ed8767e",
+      "pc_6427a37caeab26fa",
+      "pc_64c6310dc1b4bdbc",
+      "pc_656bcc4a38391d29",
+      "pc_69fffd4fb802bb8e",
+      "pc_6b1d35d0dfc23182",
+      "pc_6c5def00dae1ed97",
+      "pc_6c8937ba83e8ad38",
+      "pc_6dbe2ca66091fc39",
+      "pc_6e61d4c4e12fc7dc",
+      "pc_6f0958b4cca72d8b",
+      "pc_6fefe46da7a6bcaf",
+      "pc_7141bd2f9400c7d9",
+      "pc_71bb07b236b1676f",
+      "pc_71e569a58bffaa56",
+      "pc_742fb62685223a3d",
+      "pc_751318c8c9a025a1",
+      "pc_753996f3c6e5950c",
+      "pc_75b240d08e9c1322",
+      "pc_771516e4257bd184",
+      "pc_774b56b81abcb595",
+      "pc_79daf272092a5e47",
+      "pc_7a15327a2ec4cfac",
+      "pc_7b221f95a128ac4d",
+      "pc_7bab32be891ecfae",
+      "pc_7c5006d49616bf32",
+      "pc_7c58862a9913be7a",
+      "pc_7d13dfb41f455247",
+      "pc_7dfc3f575818f92b",
+      "pc_800793b46044cae2",
+      "pc_806eb01390ffa3fc",
+      "pc_817a71d9bf9165de",
+      "pc_8230d26b919e1b31",
+      "pc_8288ae45149c0323",
+      "pc_82b64541108325a0",
+      "pc_84a17859c68b2557",
+      "pc_84b02b26d2ec5845",
+      "pc_84ceed35caf4f935",
+      "pc_84f625f6bf79be19",
+      "pc_85a5dd9521ca5c45",
+      "pc_85d4fc21c11b74cc",
+      "pc_85e289e54cce28d5",
+      "pc_863e5ad55957bada",
+      "pc_875a8322a67ce2c3",
+      "pc_878e4b48bb2ff0a4",
+      "pc_88033a9f7c943153",
+      "pc_8a5daee4409a28b1",
+      "pc_8c5258114d47668a",
+      "pc_8e45e1c49304c06f",
+      "pc_8f5284b04e4e5a1f",
+      "pc_8ff2b0e360808ed9",
+      "pc_902b0f8bea130048",
+      "pc_903c7904e34c9e32",
+      "pc_9129aa80d4ac406f",
+      "pc_91f275466f3b3739",
+      "pc_92188d4abf7279cc",
+      "pc_9227b5b3d32dc701",
+      "pc_925062dfcc639376",
+      "pc_927a268af0744acb",
+      "pc_93ae31eebd737ef5",
+      "pc_943e461426e8b13c",
+      "pc_9447fcd7fdb77bb3",
+      "pc_945ef8587f377f8e",
+      "pc_94a08a1c09d46d69",
+      "pc_97eb8022cfa19118",
+      "pc_98cffb55220da836",
+      "pc_9906dac6116f8f40",
+      "pc_99543ed03c2aaad0",
+      "pc_9b01a5c48382abbc",
+      "pc_9c0d11fc052ec0de",
+      "pc_9e50806f41903d2a",
+      "pc_9ff34fbb6a71cd77",
+      "pc_a0bea29115e41a2a",
+      "pc_a0ddde6de5396391",
+      "pc_a203ef46eca9d13e",
+      "pc_a2443096a35df695",
+      "pc_a2658395d40236c6",
+      "pc_a3308ab7306833ae",
+      "pc_a414dc2a28644932",
+      "pc_a436abffcf585fb8",
+      "pc_a5123dc42473d2ee",
+      "pc_a5923bb045289330",
+      "pc_a5d97b77e2c4556f",
+      "pc_a732a37ad3910f63",
+      "pc_aa3bb7da445f89d4",
+      "pc_ab0a05f21e6e4a59",
+      "pc_ab5c9b7c7747f963",
+      "pc_ac064114849cbddc",
+      "pc_ac7875fa3354368c",
+      "pc_ace74c1e3897696a",
+      "pc_ae560cb007f56a8d",
+      "pc_b0940f9e1d52ce08",
+      "pc_b0bb18190d4b843a",
+      "pc_b2008521880c8350",
+      "pc_b32ab192af020f27",
+      "pc_b35782ae569d0305",
+      "pc_b4701a7b5fd82095",
+      "pc_b4cbcc513220147d",
+      "pc_b695d856e8198771",
+      "pc_b76db4d17b73b6f5",
+      "pc_b799bdd5d6e730b5",
+      "pc_b9037f47a284b977",
+      "pc_b99c07228c14f7d6",
+      "pc_ba8d51762cf11f17",
+      "pc_bbc7add314e885df",
+      "pc_bc475708218e67ec",
+      "pc_bd877ea2eda0a60f",
+      "pc_bf566b126b96ea71",
+      "pc_bf8265b9bcec22c1",
+      "pc_c18978affe07ee6f",
+      "pc_c2e68b400092323c",
+      "pc_c5c7a6422c59221c",
+      "pc_c6071e80fbcbb177",
+      "pc_c6d06e2078050ee8",
+      "pc_c71b69f89aed9871",
+      "pc_c77a37d428669518",
+      "pc_c847a9b6bb1af450",
+      "pc_c8e4bf0c7471349d",
+      "pc_ca9d6eb5db452092",
+      "pc_cb002dacdeaae2e3",
+      "pc_cb91381410ed5828",
+      "pc_cb9ad5737e6eedee",
+      "pc_cbfa7eaee984c412",
+      "pc_cc94383181bf1718",
+      "pc_cce2ae7d860b49dd",
+      "pc_d00dd7e4192747ba",
+      "pc_d066ba9507560831",
+      "pc_d12f84bcb3373eae",
+      "pc_d14dfbe2979d84aa",
+      "pc_d247370aa515d8c0",
+      "pc_d30fa55f51857541",
+      "pc_d490ae3f412fd8b7",
+      "pc_d7dc2c696491aacf",
+      "pc_d927a68af5cc2d64",
+      "pc_dca4ee54ed2d654e",
+      "pc_ddb0de13bc24de76",
+      "pc_ddd1135601c03ceb",
+      "pc_e010223182c7a515",
+      "pc_e0189ca2f494ae0d",
+      "pc_e04f3484f12ee035",
+      "pc_e08d421e3ab91865",
+      "pc_e093ebedb89740d3",
+      "pc_e186a09a4fe87ebb",
+      "pc_e187c0af73a76b0f",
+      "pc_e25c3bc909ccee89",
+      "pc_e2f0cc86c14630a2",
+      "pc_e329e400923bde54",
+      "pc_e42cdbd277d3662d",
+      "pc_e59b5d402240eb4e",
+      "pc_e5e48069e1a13cf4",
+      "pc_e64dd252f104a28d",
+      "pc_e75233ca6b970245",
+      "pc_e8d466194d7c3812",
+      "pc_e8e1f2e10fa4845a",
+      "pc_e9d5f35c95c50f6f",
+      "pc_ecdcc994efd7c3ca",
+      "pc_efc0d8aa068eb20b",
+      "pc_f1e8c3d4bda6cf48",
+      "pc_f2302635cd62ab83",
+      "pc_f283b791377d674f",
+      "pc_f28530e7335bb8d0",
+      "pc_f451de43b080a4d9",
+      "pc_f69a5026c15042e6",
+      "pc_f7f9dbdef7bbd473",
+      "pc_f8b77069904ec9fb",
+      "pc_fb321f174320f75f",
+      "pc_fb69bf74bc5fbba1",
+      "pc_fc1d18d0d5440a74",
+      "pc_fc84b51225aa684b",
+      "pc_ffba50f5f9be050d",
+      "pc_fff577f3c1ba78df"
+    ]
+  },
+  "fleiss": {
+    "all_judges": {
+      "judges": [
+        "original_qwen3.5_9b",
+        "gpt6_luna",
+        "qwen35_9b"
+      ],
+      "kappa": 0.2639749858251427,
+      "n_items": 2482
+    },
+    "independent_judges": {
+      "judges": [
+        "gpt6_luna",
+        "qwen35_9b"
+      ],
+      "kappa": 0.159800803523966,
+      "n_items": 2482
+    },
+    "original_plus_independent": {
+      "judges": [
+        "original_qwen3.5_9b",
+        "gpt6_luna",
+        "qwen35_9b"
+      ],
+      "kappa": 0.2639749858251427,
+      "n_items": 2482
+    }
+  },
+  "generated_at": "2026-11-12T10:05:43.220960+00:00",
+  "items": {
+    "by_item_source": {
+      "benchmark": 2080,
+      "records_rejected": 403
+    },
+    "n_items": 2483,
+    "original_decided": 2483,
+    "original_decision_sources": {
+      "llm_judge": 2483
+    }
+  },
+  "judges": [
+    {
+      "decided": 2483,
+      "items": 2483,
+      "label": "original_qwen3.5_9b",
+      "model": "z-ai/glm-5.3-flash",
+      "pass_rate": {
+        "ci95": [
+          0.8226731991992422,
+          0.8516761824437935
+        ],
+        "count": 2080,
+        "n": 2483,
+        "rate": 0.837696335078534
+      },
+      "provider": "vllm",
+      "role": "original"
+    },
+    {
+      "categorical_guard_applied": 0,
+      "context_sources": {
+        "source_record": 2483
+      },
+      "decided": 2483,
+      "duplicate_rows": 0,
+      "error_kinds": {},
+      "errors": 0,
+      "items": 2483,
+      "label": "gpt6_luna",
+      "missing_items": 0,
+      "model": "gpt-6-luna",
+      "pass_rate": {
+        "ci95": [
+          0.5818876886456029,
+          0.6203769141966434
+        ],
+        "count": 1493,
+        "n": 2483,
+        "rate": 0.6012887635924286
+      },
+      "path": "artifacts/judges/naacl_v2/rejudge_gpt6_luna.jsonl",
+      "prompt_contracts": [
+        "421c7b785b4bb35e0666f7e59b414d3950c88514bdcba55e1f8427c7a6b03159"
+      ],
+      "provider": "openai",
+      "role": "independent",
+      "sha256": "a1a76267cc3df706359b93c085d4c2345ff229b54aa5bca325dfb6e0ee3b30e2"
+    },
+    {
+      "categorical_guard_applied": 6,
+      "context_sources": {
+        "source_record": 2483
+      },
+      "decided": 2482,
+      "duplicate_rows": 0,
+      "error_kinds": {
+        "parse_error": 1
+      },
+      "errors": 1,
+      "items": 2483,
+      "label": "qwen35_9b",
+      "missing_items": 0,
+      "model": "qwen/qwen3.5-9b",
+      "pass_rate": {
+        "ci95": [
+          0.8259374250942235,
+          0.8547174066916703
+        ],
+        "count": 2087,
+        "n": 2482,
+        "rate": 0.8408541498791298
+      },
+      "path": "artifacts/judges/naacl_v2/rejudge_qwen35_9b.jsonl",
+      "prompt_contracts": [
+        "421c7b785b4bb35e0666f7e59b414d3950c88514bdcba55e1f8427c7a6b03159"
+      ],
+      "provider": "openrouter",
+      "role": "independent",
+      "sha256": "3d38d20c9d867d914c21f49d37f27f8e33d6afeec94259a3f03d0de61ecd29b5"
+    }
+  ],
+  "notes": [
+    "Cohen's kappa is undefined (null) when a judge is constant on the compared items; on accepted-only item sets the original judge passes everything, so report flag rates and Gwet's AC1 alongside kappa, and include judge-decided rejected candidates.",
+    "Items whose call failed (request/parse/judge-output errors) are excluded per judge and counted under errors; they are never replaced by the deterministic fallback."
+  ],
+  "original_label": "original_qwen3.5_9b",
+  "pairwise": [
+    {
+      "agreement": 0.7458719291180024,
+      "cohen_kappa": 0.41118216950113096,
+      "gwet_ac1": 0.5738636974053731,
+      "judge_a": "original_qwen3.5_9b",
+      "judge_b": "gpt6_luna",
+      "n": 2483
+    },
+    {
+      "agreement": 0.7864625302175665,
+      "cohen_kappa": 0.20863447847697061,
+      "gwet_ac1": 0.7075514273836229,
+      "judge_a": "original_qwen3.5_9b",
+      "judge_b": "qwen35_9b",
+      "n": 2482
+    },
+    {
+      "agreement": 0.6619661563255439,
+      "cohen_kappa": 0.21580812436216565,
+      "gwet_ac1": 0.43441784214609624,
+      "judge_a": "gpt6_luna",
+      "judge_b": "qwen35_9b",
+      "n": 2482
+    }
+  ],
+  "privacy": "Aggregate metrics only; item ids are hashes. Disagreement CSVs are PRIVATE/internal.",
+  "slices": {
+    "by_category": {
+      "boolean_existence": {
+        "gpt6_luna": {
+          "ci95": [
+            0.5149013115191515,
+            0.6183029898038522
+          ],
+          "count": 198,
+          "n": 349,
+          "rate": 0.5673352435530086
+        },
+        "original_qwen3.5_9b": {
+          "ci95": [
+            0.6967609386508626,
+            0.7878759874392152
+          ],
+          "count": 260,
+          "n": 349,
+          "rate": 0.7449856733524355
+        },
+        "qwen35_9b": {
+          "ci95": [
+            0.7597074743333145,
+            0.8428366394575497
+          ],
+          "count": 280,
+          "n": 348,
+          "rate": 0.8045977011494253
+        }
+      },
+      "complex_aggregation": {
+        "gpt6_luna": {
+          "ci95": [
+            0.7552131534872843,
+            0.8479628331519027
+          ],
+          "count": 224,
+          "n": 278,
+          "rate": 0.8057553956834532
+        },
+        "original_qwen3.5_9b": {
+          "ci95": [
+            0.8999840504065978,
+            0.9586547070444803
+          ],
+          "count": 260,
+          "n": 278,
+          "rate": 0.935251798561151
+        },
+        "qwen35_9b": {
+          "ci95": [
+            0.8501269187871319,
+            0.9233575817266493
+          ],
+          "count": 248,
+          "n": 278,
+          "rate": 0.8920863309352518
+        }
+      },
+      "complex_retrieval": {
+        "gpt6_luna": {
+          "ci95": [
+            0.5227735516447358,
+            0.6297391908859349
+          ],
+          "count": 187,
+          "n": 324,
+          "rate": 0.5771604938271605
+        },
+        "original_qwen3.5_9b": {
+          "ci95": [
+            0.7556824149894525,
+            0.8421675357307765
+          ],
+          "count": 260,
+          "n": 324,
+          "rate": 0.8024691358024691
+        },
+        "qwen35_9b": {
+          "ci95": [
+            0.7822187477543368,
+            0.864435280575707
+          ],
+          "count": 268,
+          "n": 324,
+          "rate": 0.8271604938271605
+        }
+      },
+      "negation_difference": {
+        "gpt6_luna": {
+          "ci95": [
+            0.7530878514199512,
+            0.8472582561432661
+          ],
+          "count": 218,
+          "n": 271,
+          "rate": 0.8044280442804428
+        },
+        "original_qwen3.5_9b": {
+          "ci95": [
+            0.9287905915999948,
+            0.9771862616317695
+          ],
+          "count": 260,
+          "n": 271,
+          "rate": 0.959409594095941
+        },
+        "qwen35_9b": {
+          "ci95": [
+            0.8422060511921831,
+            0.9182323517212255
+          ],
+          "count": 240,
+          "n": 271,
+          "rate": 0.8856088560885609
+        }
+      },
+      "path_temporal": {
+        "gpt6_luna": {
+          "ci95": [
+            0.3791837571508774,
+            0.48561673927934024
+          ],
+          "count": 142,
+          "n": 329,
+          "rate": 0.4316109422492401
+        },
+        "original_qwen3.5_9b": {
+          "ci95": [
+            0.7430587010741255,
+            0.8307880807442839
+          ],
+          "count": 260,
+          "n": 329,
+          "rate": 0.790273556231003
+        },
+        "qwen35_9b": {
+          "ci95": [
+            0.7140932053337057,
+            0.8056737750567908
+          ],
+          "count": 251,
+          "n": 329,
+          "rate": 0.7629179331306991
+        }
+      },
+      "ranking_topk": {
+        "gpt6_luna": {
+          "ci95": [
+            0.24240926021252784,
+            0.34228934867956773
+          ],
+          "count": 91,
+          "n": 314,
+          "rate": 0.2898089171974522
+        },
+        "original_qwen3.5_9b": {
+          "ci95": [
+            0.7823863919671539,
+            0.8657354759739699
+          ],
+          "count": 260,
+          "n": 314,
+          "rate": 0.8280254777070064
+        },
+        "qwen35_9b": {
+          "ci95": [
+            0.7652198065730316,
+            0.8514398347690084
+          ],
+          "count": 255,
+          "n": 314,
+          "rate": 0.8121019108280255
+        }
+      },
+      "simple_aggregation": {
+        "gpt6_luna": {
+          "ci95": [
+            0.6063655758325387,
+            0.7104062780335517
+          ],
+          "count": 208,
+          "n": 315,
+          "rate": 0.6603174603174603
+        },
+        "original_qwen3.5_9b": {
+          "ci95": [
+            0.7796228792537188,
+            0.8633298934447815
+          ],
+          "count": 260,
+          "n": 315,
+          "rate": 0.8253968253968254
+        },
+        "qwen35_9b": {
+          "ci95": [
+            0.8107077697928573,
+            0.88869939270356
+          ],
+          "count": 269,
+          "n": 315,
+          "rate": 0.8539682539682539
+        }
+      },
+      "simple_retrieval": {
+        "gpt6_luna": {
+          "ci95": [
+            0.6905231489601619,
+            0.7885516167673109
+          ],
+          "count": 225,
+          "n": 303,
+          "rate": 0.7425742574257426
+        },
+        "original_qwen3.5_9b": {
+          "ci95": [
+            0.8143009347877985,
+            0.8929046717622802
+          ],
+          "count": 260,
+          "n": 303,
+          "rate": 0.858085808580858
+        },
+        "qwen35_9b": {
+          "ci95": [
+            0.8734570656297617,
+            0.9380369252963657
+          ],
+          "count": 276,
+          "n": 303,
+          "rate": 0.9108910891089109
+        }
+      }
+    },
+    "by_difficulty": {
+      "easy": {
+        "gpt6_luna": {
+          "ci95": [
+            0.6554969144435131,
+            0.702386696383614
+          ],
+          "count": 1032,
+          "n": 1519,
+          "rate": 0.6793943383805134
+        },
+        "original_qwen3.5_9b": {
+          "ci95": [
+            0.822111703654303,
+            0.8588521576809832
+          ],
+          "count": 1278,
+          "n": 1519,
+          "rate": 0.8413429888084266
+        },
+        "qwen35_9b": {
+          "ci95": [
+            0.8414059004801696,
+            0.8763313227015738
+          ],
+          "count": 1306,
+          "n": 1519,
+          "rate": 0.859776168531929
+        }
+      },
+      "hard": {
+        "gpt6_luna": {
+          "ci95": [
+            0.2268802210080984,
+            0.5599745579401147
+          ],
+          "count": 11,
+          "n": 29,
+          "rate": 0.3793103448275862
+        },
+        "original_qwen3.5_9b": {
+          "ci95": [
+            0.37547963210970914,
+            0.7158683197696281
+          ],
+          "count": 16,
+          "n": 29,
+          "rate": 0.5517241379310345
+        },
+        "qwen35_9b": {
+          "ci95": [
+            0.6545156010980476,
+            0.9240214274710877
+          ],
+          "count": 24,
+          "n": 29,
+          "rate": 0.8275862068965517
+        }
+      },
+      "medium": {
+        "gpt6_luna": {
+          "ci95": [
+            0.4493991254901399,
+            0.5133208847190763
+          ],
+          "count": 450,
+          "n": 935,
+          "rate": 0.48128342245989303
+        },
+        "original_qwen3.5_9b": {
+          "ci95": [
+            0.8157941186913004,
+            0.862701695500964
+          ],
+          "count": 786,
+          "n": 935,
+          "rate": 0.8406417112299466
+        },
+        "qwen35_9b": {
+          "ci95": [
+            0.7841059712585723,
+            0.8343354449796601
+          ],
+          "count": 757,
+          "n": 934,
+          "rate": 0.8104925053533191
+        }
+      }
+    },
+    "by_graph": {
+      "finbench": {
+        "gpt6_luna": {
+          "ci95": [
+            0.544610045470712,
+            0.5951607546836225
+          ],
+          "count": 838,
+          "n": 1470,
+          "rate": 0.5700680272108843
+        },
+        "original_qwen3.5_9b": {
+          "ci95": [
+            0.7957161739102455,
+            0.8352879238738858
+          ],
+          "count": 1200,
+          "n": 1470,
+          "rate": 0.8163265306122449
+        },
+        "qwen35_9b": {
+          "ci95": [
+            0.8296523633547108,
+            0.8662813326051508
+          ],
+          "count": 1247,
+          "n": 1469,
+          "rate": 0.8488767869298843
+        }
+      },
+      "snb": {
+        "gpt6_luna": {
+          "ci95": [
+            0.6166537315756958,
+            0.6754271994520896
+          ],
+          "count": 655,
+          "n": 1013,
+          "rate": 0.646594274432379
+        },
+        "original_qwen3.5_9b": {
+          "ci95": [
+            0.8465095184032876,
+            0.8881182778181125
+          ],
+          "count": 880,
+          "n": 1013,
+          "rate": 0.8687068114511353
+        },
+        "qwen35_9b": {
+          "ci95": [
+            0.8048130328011334,
+            0.8511397651636241
+          ],
+          "count": 840,
+          "n": 1013,
+          "rate": 0.8292201382033564
+        }
+      }
+    },
+    "by_graph_category": {
+      "finbench::boolean_existence": {
+        "gpt6_luna": {
+          "ci95": [
+            0.48137985216161816,
+            0.6103867364111906
+          ],
+          "count": 123,
+          "n": 225,
+          "rate": 0.5466666666666666
+        },
+        "original_qwen3.5_9b": {
+          "ci95": [
+            0.6027283150990514,
+            0.7250095012324085
+          ],
+          "count": 150,
+          "n": 225,
+          "rate": 0.6666666666666666
+        },
+        "qwen35_9b": {
+          "ci95": [
+            0.8052871218199265,
+            0.8969555728510035
+          ],
+          "count": 192,
+          "n": 224,
+          "rate": 0.8571428571428571
+        }
+      },
+      "finbench::complex_aggregation": {
+        "gpt6_luna": {
+          "ci95": [
+            0.6804561105003938,
+            0.8138548070045756
+          ],
+          "count": 119,
+          "n": 158,
+          "rate": 0.7531645569620253
+        },
+        "original_qwen3.5_9b": {
+          "ci95": [
+            0.9032787039549025,
+            0.9741231746164177
+          ],
+          "count": 150,
+          "n": 158,
+          "rate": 0.9493670886075949
+        },
+        "qwen35_9b": {
+          "ci95": [
+            0.879645023165513,
+            0.9606835365929348
+          ],
+          "count": 147,
+          "n": 158,
+          "rate": 0.930379746835443
+        }
+      },
+      "finbench::complex_retrieval": {
+        "gpt6_luna": {
+          "ci95": [
+            0.4658989046479933,
+            0.6055874909513059
+          ],
+          "count": 103,
+          "n": 192,
+          "rate": 0.5364583333333334
+        },
+        "original_qwen3.5_9b": {
+          "ci95": [
+            0.7175728373745691,
+            0.8338936429628818
+          ],
+          "count": 150,
+          "n": 192,
+          "rate": 0.78125
+        },
+        "qwen35_9b": {
+          "ci95": [
+            0.7456952572426924,
+            0.8568329342371149
+          ],
+          "count": 155,
+          "n": 192,
+          "rate": 0.8072916666666666
+        }
+      },
+      "finbench::negation_difference": {
+        "gpt6_luna": {
+          "ci95": [
+            0.6643294227646624,
+            0.7995336345288727
+          ],
+          "count": 118,
+          "n": 160,
+          "rate": 0.7375
+        },
+        "original_qwen3.5_9b": {
+          "ci95": [
+            0.8887842459710525,
+            0.9657003332538804
+          ],
+          "count": 150,
+          "n": 160,
+          "rate": 0.9375
+        },
+        "qwen35_9b": {
+          "ci95": [
+            0.7656111943482116,
+            0.8813557013506663
+          ],
+          "count": 133,
+          "n": 160,
+          "rate": 0.83125
+        }
+      },
+      "finbench::path_temporal": {
+        "gpt6_luna": {
+          "ci95": [
+            0.3289291800827657,
+            0.46487639626350385
+          ],
+          "count": 77,
+          "n": 195,
+          "rate": 0.39487179487179486
+        },
+        "original_qwen3.5_9b": {
+          "ci95": [
+            0.705237452496232,
+            0.8228214373486874
+          ],
+          "count": 150,
+          "n": 195,
+          "rate": 0.7692307692307693
+        },
+        "qwen35_9b": {
+          "ci95": [
+            0.6997692699409429,
+            0.8182313553355017
+          ],
+          "count": 149,
+          "n": 195,
+          "rate": 0.764102564102564
+        }
+      },
+      "finbench::ranking_topk": {
+        "gpt6_luna": {
+          "ci95": [
+            0.18297276646636323,
+            0.30365215015983194
+          ],
+          "count": 45,
+          "n": 189,
+          "rate": 0.23809523809523808
+        },
+        "original_qwen3.5_9b": {
+          "ci95": [
+            0.7303856015239842,
+            0.8452167646830091
+          ],
+          "count": 150,
+          "n": 189,
+          "rate": 0.7936507936507936
+        },
+        "qwen35_9b": {
+          "ci95": [
+            0.7649438353483372,
+            0.8728858136918446
+          ],
+          "count": 156,
+          "n": 189,
+          "rate": 0.8253968253968254
+        }
+      },
+      "finbench::simple_aggregation": {
+        "gpt6_luna": {
+          "ci95": [
+            0.6767504808825887,
+            0.8064484094732521
+          ],
+          "count": 127,
+          "n": 170,
+          "rate": 0.7470588235294118
+        },
+        "original_qwen3.5_9b": {
+          "ci95": [
+            0.8252701424257209,
+            0.9225376640773659
+          ],
+          "count": 150,
+          "n": 170,
+          "rate": 0.8823529411764706
+        },
+        "qwen35_9b": {
+          "ci95": [
+            0.8525911073144761,
+            0.9412356411272624
+          ],
+          "count": 154,
+          "n": 170,
+          "rate": 0.9058823529411765
+        }
+      },
+      "finbench::simple_retrieval": {
+        "gpt6_luna": {
+          "ci95": [
+            0.6256278077479758,
+            0.7584851529102374
+          ],
+          "count": 126,
+          "n": 181,
+          "rate": 0.6961325966850829
+        },
+        "original_qwen3.5_9b": {
+          "ci95": [
+            0.7671574255801206,
+            0.8766375366498422
+          ],
+          "count": 150,
+          "n": 181,
+          "rate": 0.8287292817679558
+        },
+        "qwen35_9b": {
+          "ci95": [
+            0.8354929805675938,
+            0.927322899049421
+          ],
+          "count": 161,
+          "n": 181,
+          "rate": 0.8895027624309392
+        }
+      },
+      "snb::boolean_existence": {
+        "gpt6_luna": {
+          "ci95": [
+            0.5168839177124075,
+            0.6864929855226117
+          ],
+          "count": 75,
+          "n": 124,
+          "rate": 0.6048387096774194
+        },
+        "original_qwen3.5_9b": {
+          "ci95": [
+            0.8193861015044891,
+            0.9315440027478895
+          ],
+          "count": 110,
+          "n": 124,
+          "rate": 0.8870967741935484
+        },
+        "qwen35_9b": {
+          "ci95": [
+            0.6244416488936401,
+            0.7823121575763984
+          ],
+          "count": 88,
+          "n": 124,
+          "rate": 0.7096774193548387
+        }
+      },
+      "snb::complex_aggregation": {
+        "gpt6_luna": {
+          "ci95": [
+            0.8039705979199262,
+            0.9227650272660463
+          ],
+          "count": 105,
+          "n": 120,
+          "rate": 0.875
+        },
+        "original_qwen3.5_9b": {
+          "ci95": [
+            0.8533776783593434,
+            0.9541063496250703
+          ],
+          "count": 110,
+          "n": 120,
+          "rate": 0.9166666666666666
+        },
+        "qwen35_9b": {
+          "ci95": [
+            0.7659066765413198,
+            0.8962302264058994
+          ],
+          "count": 101,
+          "n": 120,
+          "rate": 0.8416666666666667
+        }
+      },
+      "snb::complex_retrieval": {
+        "gpt6_luna": {
+          "ci95": [
+            0.5515211883191461,
+            0.7134936334630516
+          ],
+          "count": 84,
+          "n": 132,
+          "rate": 0.6363636363636364
+        },
+        "original_qwen3.5_9b": {
+          "ci95": [
+            0.7605311988236277,
+            0.8872828099773001
+          ],
+          "count": 110,
+          "n": 132,
+          "rate": 0.8333333333333334
+        },
+        "qwen35_9b": {
+          "ci95": [
+            0.7861088034666418,
+            0.9058743422979855
+          ],
+          "count": 113,
+          "n": 132,
+          "rate": 0.8560606060606061
+        }
+      },
+      "snb::negation_difference": {
+        "gpt6_luna": {
+          "ci95": [
+            0.8312216653336616,
+            0.9437597822545195
+          ],
+          "count": 100,
+          "n": 111,
+          "rate": 0.9009009009009009
+        },
+        "original_qwen3.5_9b": {
+          "ci95": [
+            0.950726667364727,
+            0.9984079145129328
+          ],
+          "count": 110,
+          "n": 111,
+          "rate": 0.990990990990991
+        },
+        "qwen35_9b": {
+          "ci95": [
+            0.910989944100048,
+            0.9858986974907682
+          ],
+          "count": 107,
+          "n": 111,
+          "rate": 0.963963963963964
+        }
+      },
+      "snb::path_temporal": {
+        "gpt6_luna": {
+          "ci95": [
+            0.4020571693250764,
+            0.568923985153249
+          ],
+          "count": 65,
+          "n": 134,
+          "rate": 0.48507462686567165
+        },
+        "original_qwen3.5_9b": {
+          "ci95": [
+            0.7473197986028969,
+            0.8765853801131082
+          ],
+          "count": 110,
+          "n": 134,
+          "rate": 0.8208955223880597
+        },
+        "qwen35_9b": {
+          "ci95": [
+            0.6823684881170146,
+            0.8254613085122918
+          ],
+          "count": 102,
+          "n": 134,
+          "rate": 0.7611940298507462
+        }
+      },
+      "snb::ranking_topk": {
+        "gpt6_luna": {
+          "ci95": [
+            0.2885699663384549,
+            0.4553012976005434
+          ],
+          "count": 46,
+          "n": 125,
+          "rate": 0.368
+        },
+        "original_qwen3.5_9b": {
+          "ci95": [
+            0.8114261894188212,
+            0.9259141113628507
+          ],
+          "count": 110,
+          "n": 125,
+          "rate": 0.88
+        },
+        "qwen35_9b": {
+          "ci95": [
+            0.7126719198807269,
+            0.8539158901936107
+          ],
+          "count": 99,
+          "n": 125,
+          "rate": 0.792
+        }
+      },
+      "snb::simple_aggregation": {
+        "gpt6_luna": {
+          "ci95": [
+            0.4773213718735154,
+            0.6368941171084859
+          ],
+          "count": 81,
+          "n": 145,
+          "rate": 0.5586206896551724
+        },
+        "original_qwen3.5_9b": {
+          "ci95": [
+            0.6828764882654638,
+            0.8210153748904246
+          ],
+          "count": 110,
+          "n": 145,
+          "rate": 0.7586206896551724
+        },
+        "qwen35_9b": {
+          "ci95": [
+            0.7200235028895448,
+            0.8510539420204621
+          ],
+          "count": 115,
+          "n": 145,
+          "rate": 0.7931034482758621
+        }
+      },
+      "snb::simple_retrieval": {
+        "gpt6_luna": {
+          "ci95": [
+            0.7329716513566709,
+            0.8709628604665671
+          ],
+          "count": 99,
+          "n": 122,
+          "rate": 0.8114754098360656
+        },
+        "original_qwen3.5_9b": {
+          "ci95": [
+            0.8359226807162072,
+            0.942834979266389
+          ],
+          "count": 110,
+          "n": 122,
+          "rate": 0.9016393442622951
+        },
+        "qwen35_9b": {
+          "ci95": [
+            0.8862911697412956,
+            0.9719315575864635
+          ],
+          "count": 115,
+          "n": 122,
+          "rate": 0.9426229508196722
+        }
+      }
+    },
+    "by_item_source": {
+      "benchmark": {
+        "gpt6_luna": {
+          "ci95": [
+            0.6872883919173933,
+            0.7263707165292881
+          ],
+          "count": 1471,
+          "n": 2080,
+          "rate": 0.7072115384615385
+        },
+        "original_qwen3.5_9b": {
+          "ci95": [
+            0.9981565493841033,
+            0.9999999999999999
+          ],
+          "count": 2080,
+          "n": 2080,
+          "rate": 1.0
+        },
+        "qwen35_9b": {
+          "ci95": [
+            0.8595222241760795,
+            0.8880142690150895
+          ],
+          "count": 1818,
+          "n": 2079,
+          "rate": 0.8744588744588745
+        }
+      },
+      "records_rejected": {
+        "gpt6_luna": {
+          "ci95": [
+            0.0363239695054993,
+            0.08126841884000391
+          ],
+          "count": 22,
+          "n": 403,
+          "rate": 0.05459057071960298
+        },
+        "original_qwen3.5_9b": {
+          "ci95": [
+            0.0,
+            0.009442151819603907
+          ],
+          "count": 0,
+          "n": 403,
+          "rate": 0.0
+        },
+        "qwen35_9b": {
+          "ci95": [
+            0.6201067562170117,
+            0.7117178331238156
+          ],
+          "count": 269,
+          "n": 403,
+          "rate": 0.6674937965260546
+        }
+      }
+    }
+  },
+  "vs_original": {
+    "gpt6_luna": {
+      "agreement": 0.7458719291180024,
+      "both_fail": 381,
+      "both_pass": 1471,
+      "by_item_source": {
+        "benchmark": {
+          "agreement": 0.7072115384615385,
+          "both_fail": 0,
+          "both_pass": 1471,
+          "cohen_kappa": 0.0,
+          "flag_rate_among_reference_pass": 0.29278846153846155,
+          "flag_rate_ci95": [
+            0.27362928347071197,
+            0.31271160808260684
+          ],
+          "gwet_ac1": 0.6096539404314879,
+          "n": 2080,
+          "reference_fail_other_pass": 0,
+          "reference_pass_other_fail": 609,
+          "rescue_rate_among_reference_fail": null,
+          "rescue_rate_ci95": null
+        },
+        "records_rejected": {
+          "agreement": 0.9454094292803971,
+          "both_fail": 381,
+          "both_pass": 0,
+          "cohen_kappa": 0.0,
+          "flag_rate_among_reference_pass": null,
+          "flag_rate_ci95": null,
+          "gwet_ac1": 0.9423480833631369,
+          "n": 403,
+          "reference_fail_other_pass": 22,
+          "reference_pass_other_fail": 0,
+          "rescue_rate_among_reference_fail": 0.05459057071960298,
+          "rescue_rate_ci95": [
+            0.0363239695054993,
+            0.08126841884000391
+          ]
+        }
+      },
+      "by_original_decision_source": {
+        "llm_judge": {
+          "agreement": 0.7458719291180024,
+          "both_fail": 381,
+          "both_pass": 1471,
+          "cohen_kappa": 0.41118216950113096,
+          "flag_rate_among_reference_pass": 0.29278846153846155,
+          "flag_rate_ci95": [
+            0.27362928347071197,
+            0.31271160808260684
+          ],
+          "gwet_ac1": 0.5738636974053731,
+          "n": 2483,
+          "reference_fail_other_pass": 22,
+          "reference_pass_other_fail": 609,
+          "rescue_rate_among_reference_fail": 0.05459057071960298,
+          "rescue_rate_ci95": [
+            0.0363239695054993,
+            0.08126841884000391
+          ]
+        }
+      },
+      "cohen_kappa": 0.41118216950113096,
+      "flag_rate_among_reference_pass": 0.29278846153846155,
+      "flag_rate_ci95": [
+        0.27362928347071197,
+        0.31271160808260684
+      ],
+      "gwet_ac1": 0.5738636974053731,
+      "n": 2483,
+      "reference_fail_other_pass": 22,
+      "reference_pass_other_fail": 609,
+      "rescue_rate_among_reference_fail": 0.05459057071960298,
+      "rescue_rate_ci95": [
+        0.0363239695054993,
+        0.08126841884000391
+      ]
+    },
+    "qwen35_9b": {
+      "agreement": 0.7864625302175665,
+      "both_fail": 134,
+      "both_pass": 1818,
+      "by_item_source": {
+        "benchmark": {
+          "agreement": 0.8744588744588745,
+          "both_fail": 0,
+          "both_pass": 1818,
+          "cohen_kappa": 0.0,
+          "flag_rate_among_reference_pass": 0.12554112554112554,
+          "flag_rate_ci95": [
+            0.11198573098491053,
+            0.14047777582392065
+          ],
+          "gwet_ac1": 0.8577178357139065,
+          "n": 2079,
+          "reference_fail_other_pass": 0,
+          "reference_pass_other_fail": 261,
+          "rescue_rate_among_reference_fail": null,
+          "rescue_rate_ci95": null
+        },
+        "records_rejected": {
+          "agreement": 0.3325062034739454,
+          "both_fail": 134,
+          "both_pass": 0,
+          "cohen_kappa": 0.0,
+          "flag_rate_among_reference_pass": null,
+          "flag_rate_ci95": null,
+          "gwet_ac1": -0.20208466165830402,
+          "n": 403,
+          "reference_fail_other_pass": 269,
+          "reference_pass_other_fail": 0,
+          "rescue_rate_among_reference_fail": 0.6674937965260546,
+          "rescue_rate_ci95": [
+            0.6201067562170117,
+            0.7117178331238156
+          ]
+        }
+      },
+      "by_original_decision_source": {
+        "llm_judge": {
+          "agreement": 0.7864625302175665,
+          "both_fail": 134,
+          "both_pass": 1818,
+          "cohen_kappa": 0.20863447847697061,
+          "flag_rate_among_reference_pass": 0.12554112554112554,
+          "flag_rate_ci95": [
+            0.11198573098491053,
+            0.14047777582392065
+          ],
+          "gwet_ac1": 0.7075514273836229,
+          "n": 2482,
+          "reference_fail_other_pass": 269,
+          "reference_pass_other_fail": 261,
+          "rescue_rate_among_reference_fail": 0.6674937965260546,
+          "rescue_rate_ci95": [
+            0.6201067562170117,
+            0.7117178331238156
+          ]
+        }
+      },
+      "cohen_kappa": 0.20863447847697061,
+      "flag_rate_among_reference_pass": 0.12554112554112554,
+      "flag_rate_ci95": [
+        0.11198573098491053,
+        0.14047777582392065
+      ],
+      "gwet_ac1": 0.7075514273836229,
+      "n": 2482,
+      "reference_fail_other_pass": 269,
+      "reference_pass_other_fail": 261,
+      "rescue_rate_among_reference_fail": 0.6674937965260546,
+      "rescue_rate_ci95": [
+        0.6201067562170117,
+        0.7117178331238156
+      ]
+    }
+  }
+}

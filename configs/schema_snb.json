@@ -1,0 +1,775 @@
+{
+  "categorical_properties": {},
+  "graph_name": "snb",
+  "node_properties": [
+    {
+      "label": "City",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "City",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "City",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "Comment",
+      "property": "browserUsed",
+      "type": "String"
+    },
+    {
+      "label": "Comment",
+      "property": "content",
+      "type": "String"
+    },
+    {
+      "label": "Comment",
+      "property": "creationDate",
+      "type": "Long"
+    },
+    {
+      "label": "Comment",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "Comment",
+      "property": "length",
+      "type": "Long"
+    },
+    {
+      "label": "Comment",
+      "property": "locationIP",
+      "type": "String"
+    },
+    {
+      "label": "Company",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "Company",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "Company",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "Continent",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "Continent",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "Continent",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "Country",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "Country",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "Country",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "Forum",
+      "property": "creationDate",
+      "type": "Long"
+    },
+    {
+      "label": "Forum",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "Forum",
+      "property": "title",
+      "type": "String"
+    },
+    {
+      "label": "Message",
+      "property": "browserUsed",
+      "type": "String"
+    },
+    {
+      "label": "Message",
+      "property": "browserUsed",
+      "type": "String"
+    },
+    {
+      "label": "Message",
+      "property": "content",
+      "type": "String"
+    },
+    {
+      "label": "Message",
+      "property": "content",
+      "type": "String"
+    },
+    {
+      "label": "Message",
+      "property": "creationDate",
+      "type": "Long"
+    },
+    {
+      "label": "Message",
+      "property": "creationDate",
+      "type": "Long"
+    },
+    {
+      "label": "Message",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "Message",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "Message",
+      "property": "imageFile",
+      "type": "String"
+    },
+    {
+      "label": "Message",
+      "property": "language",
+      "type": "String"
+    },
+    {
+      "label": "Message",
+      "property": "length",
+      "type": "Long"
+    },
+    {
+      "label": "Message",
+      "property": "length",
+      "type": "Long"
+    },
+    {
+      "label": "Message",
+      "property": "locationIP",
+      "type": "String"
+    },
+    {
+      "label": "Message",
+      "property": "locationIP",
+      "type": "String"
+    },
+    {
+      "label": "Organisation",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "Organisation",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "Organisation",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "Organisation",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "Organisation",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "Organisation",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "Person",
+      "property": "birthday",
+      "type": "Long"
+    },
+    {
+      "label": "Person",
+      "property": "browserUsed",
+      "type": "String"
+    },
+    {
+      "label": "Person",
+      "property": "creationDate",
+      "type": "Long"
+    },
+    {
+      "label": "Person",
+      "property": "email",
+      "type": "StringArray"
+    },
+    {
+      "label": "Person",
+      "property": "firstName",
+      "type": "String"
+    },
+    {
+      "label": "Person",
+      "property": "gender",
+      "type": "String"
+    },
+    {
+      "label": "Person",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "Person",
+      "property": "lastName",
+      "type": "String"
+    },
+    {
+      "label": "Person",
+      "property": "locationIP",
+      "type": "String"
+    },
+    {
+      "label": "Person",
+      "property": "speaks",
+      "type": "StringArray"
+    },
+    {
+      "label": "Place",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "Place",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "Place",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "Place",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "Place",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "Place",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "Place",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "Place",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "Place",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "Post",
+      "property": "browserUsed",
+      "type": "String"
+    },
+    {
+      "label": "Post",
+      "property": "content",
+      "type": "String"
+    },
+    {
+      "label": "Post",
+      "property": "creationDate",
+      "type": "Long"
+    },
+    {
+      "label": "Post",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "Post",
+      "property": "imageFile",
+      "type": "String"
+    },
+    {
+      "label": "Post",
+      "property": "language",
+      "type": "String"
+    },
+    {
+      "label": "Post",
+      "property": "length",
+      "type": "Long"
+    },
+    {
+      "label": "Post",
+      "property": "locationIP",
+      "type": "String"
+    },
+    {
+      "label": "Tag",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "Tag",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "Tag",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "TagClass",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "TagClass",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "TagClass",
+      "property": "url",
+      "type": "String"
+    },
+    {
+      "label": "University",
+      "property": "id",
+      "type": "Long"
+    },
+    {
+      "label": "University",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "University",
+      "property": "url",
+      "type": "String"
+    }
+  ],
+  "relationship_properties": [
+    {
+      "property": "joinDate",
+      "type": ":`HAS_MEMBER`",
+      "value_type": "Long"
+    },
+    {
+      "property": "creationDate",
+      "type": ":`KNOWS`",
+      "value_type": "Long"
+    },
+    {
+      "property": "creationDate",
+      "type": ":`LIKES`",
+      "value_type": "Long"
+    },
+    {
+      "property": "classYear",
+      "type": ":`STUDY_AT`",
+      "value_type": "Long"
+    },
+    {
+      "property": "workFrom",
+      "type": ":`WORK_AT`",
+      "value_type": "Long"
+    }
+  ],
+  "relationships": [
+    {
+      "count": 16080,
+      "end_label": "TagClass",
+      "start_label": "Tag",
+      "type": "HAS_TYPE"
+    },
+    {
+      "count": 6380,
+      "end_label": "City",
+      "start_label": "Organisation",
+      "type": "IS_LOCATED_IN"
+    },
+    {
+      "count": 6380,
+      "end_label": "Place",
+      "start_label": "Organisation",
+      "type": "IS_LOCATED_IN"
+    },
+    {
+      "count": 6380,
+      "end_label": "City",
+      "start_label": "University",
+      "type": "IS_LOCATED_IN"
+    },
+    {
+      "count": 6380,
+      "end_label": "Place",
+      "start_label": "University",
+      "type": "IS_LOCATED_IN"
+    },
+    {
+      "count": 5924,
+      "end_label": "Message",
+      "start_label": "Forum",
+      "type": "CONTAINER_OF"
+    },
+    {
+      "count": 5924,
+      "end_label": "Post",
+      "start_label": "Forum",
+      "type": "CONTAINER_OF"
+    },
+    {
+      "count": 5924,
+      "end_label": "Person",
+      "start_label": "Message",
+      "type": "HAS_CREATOR"
+    },
+    {
+      "count": 5924,
+      "end_label": "Country",
+      "start_label": "Message",
+      "type": "IS_LOCATED_IN"
+    },
+    {
+      "count": 5924,
+      "end_label": "Place",
+      "start_label": "Message",
+      "type": "IS_LOCATED_IN"
+    },
+    {
+      "count": 5924,
+      "end_label": "Person",
+      "start_label": "Post",
+      "type": "HAS_CREATOR"
+    },
+    {
+      "count": 5924,
+      "end_label": "Country",
+      "start_label": "Post",
+      "type": "IS_LOCATED_IN"
+    },
+    {
+      "count": 5924,
+      "end_label": "Place",
+      "start_label": "Post",
+      "type": "IS_LOCATED_IN"
+    },
+    {
+      "count": 5360,
+      "end_label": "Tag",
+      "start_label": "Forum",
+      "type": "HAS_TAG"
+    },
+    {
+      "count": 4777,
+      "end_label": "Tag",
+      "start_label": "Person",
+      "type": "HAS_INTEREST"
+    },
+    {
+      "count": 3584,
+      "end_label": "Person",
+      "start_label": "Forum",
+      "type": "HAS_MEMBER"
+    },
+    {
+      "count": 2553,
+      "end_label": "Tag",
+      "start_label": "Comment",
+      "type": "HAS_TAG"
+    },
+    {
+      "count": 2553,
+      "end_label": "Tag",
+      "start_label": "Message",
+      "type": "HAS_TAG"
+    },
+    {
+      "count": 2218,
+      "end_label": "Person",
+      "start_label": "Comment",
+      "type": "HAS_CREATOR"
+    },
+    {
+      "count": 2218,
+      "end_label": "Country",
+      "start_label": "Comment",
+      "type": "IS_LOCATED_IN"
+    },
+    {
+      "count": 2218,
+      "end_label": "Place",
+      "start_label": "Comment",
+      "type": "IS_LOCATED_IN"
+    },
+    {
+      "count": 2218,
+      "end_label": "Person",
+      "start_label": "Message",
+      "type": "HAS_CREATOR"
+    },
+    {
+      "count": 2218,
+      "end_label": "Country",
+      "start_label": "Message",
+      "type": "IS_LOCATED_IN"
+    },
+    {
+      "count": 2218,
+      "end_label": "Place",
+      "start_label": "Message",
+      "type": "IS_LOCATED_IN"
+    },
+    {
+      "count": 1575,
+      "end_label": "Country",
+      "start_label": "Company",
+      "type": "IS_LOCATED_IN"
+    },
+    {
+      "count": 1575,
+      "end_label": "Place",
+      "start_label": "Company",
+      "type": "IS_LOCATED_IN"
+    },
+    {
+      "count": 1575,
+      "end_label": "Country",
+      "start_label": "Organisation",
+      "type": "IS_LOCATED_IN"
+    },
+    {
+      "count": 1575,
+      "end_label": "Place",
+      "start_label": "Organisation",
+      "type": "IS_LOCATED_IN"
+    },
+    {
+      "count": 1343,
+      "end_label": "Country",
+      "start_label": "City",
+      "type": "IS_PART_OF"
+    },
+    {
+      "count": 1343,
+      "end_label": "Place",
+      "start_label": "City",
+      "type": "IS_PART_OF"
+    },
+    {
+      "count": 1343,
+      "end_label": "Country",
+      "start_label": "Place",
+      "type": "IS_PART_OF"
+    },
+    {
+      "count": 1343,
+      "end_label": "Place",
+      "start_label": "Place",
+      "type": "IS_PART_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "Comment",
+      "start_label": "Comment",
+      "type": "REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "Message",
+      "start_label": "Comment",
+      "type": "REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "Message",
+      "start_label": "Comment",
+      "type": "REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "Post",
+      "start_label": "Comment",
+      "type": "REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "Comment",
+      "start_label": "Message",
+      "type": "REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "Message",
+      "start_label": "Message",
+      "type": "REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "Message",
+      "start_label": "Message",
+      "type": "REPLY_OF"
+    },
+    {
+      "count": 1109,
+      "end_label": "Post",
+      "start_label": "Message",
+      "type": "REPLY_OF"
+    },
+    {
+      "count": 825,
+      "end_label": "Person",
+      "start_label": "Person",
+      "type": "KNOWS"
+    },
+    {
+      "count": 805,
+      "end_label": "Person",
+      "start_label": "Forum",
+      "type": "HAS_MODERATOR"
+    },
+    {
+      "count": 759,
+      "end_label": "Message",
+      "start_label": "Person",
+      "type": "LIKES"
+    },
+    {
+      "count": 759,
+      "end_label": "Post",
+      "start_label": "Person",
+      "type": "LIKES"
+    },
+    {
+      "count": 683,
+      "end_label": "Tag",
+      "start_label": "Message",
+      "type": "HAS_TAG"
+    },
+    {
+      "count": 683,
+      "end_label": "Tag",
+      "start_label": "Post",
+      "type": "HAS_TAG"
+    },
+    {
+      "count": 624,
+      "end_label": "Comment",
+      "start_label": "Person",
+      "type": "LIKES"
+    },
+    {
+      "count": 624,
+      "end_label": "Message",
+      "start_label": "Person",
+      "type": "LIKES"
+    },
+    {
+      "count": 485,
+      "end_label": "Company",
+      "start_label": "Person",
+      "type": "WORK_AT"
+    },
+    {
+      "count": 485,
+      "end_label": "Organisation",
+      "start_label": "Person",
+      "type": "WORK_AT"
+    },
+    {
+      "count": 222,
+      "end_label": "City",
+      "start_label": "Person",
+      "type": "IS_LOCATED_IN"
+    },
+    {
+      "count": 222,
+      "end_label": "Place",
+      "start_label": "Person",
+      "type": "IS_LOCATED_IN"
+    },
+    {
+      "count": 180,
+      "end_label": "Organisation",
+      "start_label": "Person",
+      "type": "STUDY_AT"
+    },
+    {
+      "count": 180,
+      "end_label": "University",
+      "start_label": "Person",
+      "type": "STUDY_AT"
+    },
+    {
+      "count": 111,
+      "end_label": "Continent",
+      "start_label": "Country",
+      "type": "IS_PART_OF"
+    },
+    {
+      "count": 111,
+      "end_label": "Place",
+      "start_label": "Country",
+      "type": "IS_PART_OF"
+    },
+    {
+      "count": 111,
+      "end_label": "Continent",
+      "start_label": "Place",
+      "type": "IS_PART_OF"
+    },
+    {
+      "count": 111,
+      "end_label": "Place",
+      "start_label": "Place",
+      "type": "IS_PART_OF"
+    },
+    {
+      "count": 70,
+      "end_label": "TagClass",
+      "start_label": "TagClass",
+      "type": "IS_SUBCLASS_OF"
+    }
+  ],
+  "source": "neo4j"
+}

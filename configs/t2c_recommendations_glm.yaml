@@ -1,0 +1,106 @@
+# E3.5 ranking-agreement benchmark for the public Neo4j example graph 'recommendations' (NAACL 2027).
+# Same v2 pipeline and GLM-5.3-Flash FP8 generator/judge as the main benchmark; no
+# hand-written seed templates exist for this graph (schema-derived + LLM-induced only).
+# E3.4/E3.5 external-anchor graph: Movie recommendation graph (MovieLens ratings + TMDb metadata).
+# Public Neo4j example graph neo4j-graph-examples (see knowledge_base/external_anchor_protocol.md).
+# Load: GRAPHS=recommendations bash scripts/fetch_neo4j_example_graphs.sh <download_dir>  (bolt port 7701).
+# Schema: paths.schema_path is written on gpu-host by
+#   python scripts/inspect_schema.py --config configs/t2c_recommendations.yaml
+# configs/schema_t2c_recommendations_derived.json is parsed from the dataset's schema text
+# (offline checks / schema-drift only); runs must use the live schema.
+# Structure mirrors configs/icij_offshoreleaks_full.yaml; the generation block adds the
+# benchmark-v2 keys used by configs/finbench_v2.yaml so E3.5 validates the same generator.
+models:
+  # GLM-5.3-Flash: open weights (MIT, zai-org/GLM-5.3-Flash, 321B params, released in FP8).
+  # Served through OpenRouter, pinned to Z.ai's own FP8 endpoint (native precision,
+  # no FP4/NVFP4 re-quantization, no fallback to other endpoints).
+  generation_model: z-ai/glm-5.3-flash
+  judge_model: z-ai/glm-5.3-flash
+  embedding_model: BAAI/bge-m3
+  llm_base_url: https://openrouter.ai/api/v1
+  provider: openrouter
+  provider_routing:
+    order:
+      - z-ai/fp8
+    allow_fallbacks: false
+    require_parameters: true
+  request_timeout_sec: 180
+  temperature: 0.2
+  max_tokens: 2048
+  # Reasoning is mandatory for this model; "low" is the cheapest allowed effort.
+  # Reasoning text is excluded from responses (never written to artifacts).
+  reasoning_effort: low
+  include_reasoning: false
+  enable_thinking: false
+  strip_reasoning: true
+neo4j:
+  uri: bolt://localhost:7701
+  user: neo4j
+  password: password
+  database: neo4j
+  query_timeout_sec: 90
+
+generation:
+  graph_profile: t2c_recommendations
+  categories:
+    - simple_retrieval
+    - complex_retrieval
+    - simple_aggregation
+    - complex_aggregation
+    - boolean_existence
+    - negation_difference
+    - path_temporal
+    - ranking_topk
+  target_per_category: 15
+  random_seed: 20261111
+  template_candidates: 12
+  template_source: mixed
+  retrieval_top_k: 4
+  normalize_cypher: true
+  repair_attempts: 2
+  deterministic_cypher_fallback: true
+  max_entity_pct: 0.08
+  require_non_empty: true
+  # --- benchmark v2 keys (match configs/finbench_v2.yaml) ---
+  mixed_keep_llm_templates: true
+  max_examples_per_signature: 8
+  template_induction_rounds: 6
+  template_induction_batch: 10
+  max_attempts_multiplier: 8
+  question_paraphrase: true
+  reject_truncated_unordered_limit: true
+  # Added after the 2026-11-12 v2 build (which ran without them). Enable for the
+  # next build; see artifacts/naacl_results/limit_ties/:
+  # reject_limit_boundary_ties: true
+  # max_rank_slot_value: 100
+  require_slot_bindings: true
+  generated_query_limit: 300
+
+judge:
+  enabled: true
+  deterministic_fallback: false
+  min_semantic_alignment: 0.78
+  min_schema_use: 0.85
+  max_ambiguity: 0.30
+
+privacy:
+  redact_questions: true
+  redact_cypher_literals: true
+  redact_entity_values: true
+  redact_result_samples: true
+  redact_numeric_literals: true  # v2 grounds many slots on numeric ids; see redaction audit
+  value_sampling_mode: bounded
+  categorical_max_values: 20
+  categorical_max_value_chars: 80
+  categorical_omitted_properties:
+    - "*.address"
+    - "*.comments"
+    - "*.note"
+    - "*.notes"
+    - "*.original_address"
+  placeholder_prefix: VALUE
+
+paths:
+  artifact_dir: artifacts
+  schema_path: configs/schema_t2c_recommendations.json
+  seed_examples_path:

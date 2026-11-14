@@ -1,0 +1,55 @@
+id: m3_relabel_merchant_companies
+graph_profile: finbench
+kind: schema_migration
+description: >-
+  Relabel a deterministic 15% hash-selected subset of Company nodes as Merchant
+  (Company label removed from them) and add a new relationship type
+  (:Merchant)-[:SETTLES_TO]->(:Account) for each account a merchant owns.
+cypher_file: m3_relabel_merchant_companies.cypher
+batch_size: 500
+selection:
+  query: MATCH (c:Company) WHERE c.companyId IS NOT NULL RETURN c.companyId AS companyId
+  key_fields: [companyId]
+  fraction: 0.15
+  salt: pipecypher-refresh-m3-merchant-v1
+  param_name: rows
+preconditions:
+  - name: companies_before
+    query: MATCH (c:Company) RETURN count(c) AS n
+    expect: positive
+  - name: merchants_before
+    query: MATCH (m:Merchant) RETURN count(m) AS n
+    expect: zero
+  - name: settles_to_before
+    query: MATCH ()-[r:SETTLES_TO]->() RETURN count(r) AS n
+    expect: zero
+postconditions:
+  - name: merchants_after
+    query: MATCH (m:Merchant) RETURN count(m) AS n
+    expect: "== selected"
+  - name: companies_after
+    query: MATCH (c:Company) RETURN count(c) AS n
+    expect: "== companies_before - selected"
+  - name: merchant_company_overlap
+    query: MATCH (m:Merchant:Company) RETURN count(m) AS n
+    expect: zero
+  - name: settles_to_after
+    query: MATCH (:Merchant)-[r:SETTLES_TO]->(:Account) RETURN count(r) AS n
+    expect: positive
+    severity: warning
+expected_schema_diff:
+  added_labels: [Merchant]
+  added_relationship_types: [SETTLES_TO]
+  added_relationship_patterns:
+    - "(:Merchant)-[:SETTLES_TO]->(:Account)"
+    - "(:Merchant)-[:OWN_ACCOUNT]->(:Account)"
+  retained_labels: [Company]
+  renames:
+    - {kind: label_split, before: Company, after: Merchant}
+  count_changes:
+    - {type: OWN_ACCOUNT, direction: decrease}
+expected_benchmark_impact: >-
+  No reference becomes schema-invalid (Company still exists), so static
+  validation alone cannot see the change. References over Company patterns
+  silently lose the relabeled merchants; the label_split heuristic and pattern
+  count changes flag them for re-execution.

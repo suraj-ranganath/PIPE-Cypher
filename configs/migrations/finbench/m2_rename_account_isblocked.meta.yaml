@@ -1,0 +1,40 @@
+id: m2_rename_account_isblocked
+graph_profile: finbench
+kind: schema_migration
+description: >-
+  Rename node property Account.isBlocked to Account.blocked (values preserved).
+  The isBlocked property of Person, Company, and Medium is not touched.
+cypher_file: m2_rename_account_isblocked.cypher
+preconditions:
+  - name: accounts_with_isblocked
+    query: MATCH (a:Account) WHERE a.isBlocked IS NOT NULL RETURN count(a) AS n
+    expect: positive
+  - name: blocked_accounts_before
+    query: MATCH (a:Account) WHERE a.isBlocked = true RETURN count(a) AS n
+    expect: nonnegative
+  - name: accounts_with_blocked
+    query: MATCH (a:Account) WHERE a.blocked IS NOT NULL RETURN count(a) AS n
+    expect: zero
+postconditions:
+  - name: accounts_with_isblocked_after
+    query: MATCH (a:Account) WHERE a.isBlocked IS NOT NULL RETURN count(a) AS n
+    expect: zero
+  - name: accounts_with_blocked_after
+    query: MATCH (a:Account) WHERE a.blocked IS NOT NULL RETURN count(a) AS n
+    expect: "== accounts_with_isblocked"
+  - name: blocked_accounts_after
+    query: MATCH (a:Account) WHERE a.blocked = true RETURN count(a) AS n
+    expect: "== blocked_accounts_before"
+  - name: person_isblocked_untouched
+    query: MATCH (p:Person) WHERE p.isBlocked IS NOT NULL RETURN count(p) AS n
+    expect: positive
+expected_schema_diff:
+  removed_node_properties: [Account.isBlocked]
+  added_node_properties: [Account.blocked]
+  renames:
+    - {kind: node_property, before: isBlocked, after: blocked, scope: Account}
+expected_benchmark_impact: >-
+  References that read or filter Account.isBlocked (including the governed
+  contextual return column next to Account.accountId) fail schema validation
+  (unknown_property). At runtime Neo4j returns null for the missing property,
+  so the same rows come back with a null column: a silent answer change.

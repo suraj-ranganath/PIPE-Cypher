@@ -1,0 +1,105 @@
+{
+ "gpt-6-luna": {
+  "flagged": 23,
+  "flag_share_w": 0.17709019091507572,
+  "caught": 10,
+  "wrong": 12,
+  "recall_w": 0.7679425837320574,
+  "defect": 15,
+  "wrong_among_passed_w": 0.0388
+ },
+ "deepseek41flash": {
+  "flagged": 17,
+  "flag_share_w": 0.1708360763660303,
+  "caught": 8,
+  "wrong": 12,
+  "recall_w": 0.631578947368421,
+  "defect": 14,
+  "wrong_among_passed_w": 0.0611353711790393
+ },
+ "qwen3coder30b": {
+  "flagged": 1,
+  "flag_share_w": 0.029295589203423306,
+  "caught": 0,
+  "wrong": 12,
+  "recall_w": 0.0,
+  "defect": 0,
+  "wrong_among_passed_w": 0.14174296371651407
+ },
+ "either flags (gpt-6-luna or deepseek)": {
+  "flagged": 26,
+  "flag_share_w": 0.2323897300855826,
+  "caught": 10,
+  "wrong": 12,
+  "recall_w": 0.7679425837320574,
+  "defect": 17,
+  "wrong_among_passed_w": 0.04159519725557462
+ },
+ "jevlatest": {
+  "n": 70,
+  "errors": 0,
+  "flagged": 6,
+  "flag_share_w": 0.05628703094140882,
+  "caught": 3,
+  "wrong": 12,
+  "recall_w": 0.215311004784689,
+  "defect": 3,
+  "wrong_among_passed_w": 0.1144053017091036,
+  "cost_usd": 0.014505708000000003,
+  "served_model": [
+   "~typesafe/jev-latest"
+  ],
+  "auc_wrong": 0.7219827586206896,
+  "top17_caught": 7,
+  "top17_defect": 10,
+  "top23_caught": 8
+ },
+ "jevlatest_v2": {
+  "errors": 0,
+  "refusals": 0,
+  "flagged": 16,
+  "caught": 7,
+  "defect": 9,
+  "recall_w": 0.507177033492823,
+  "flag_share_w": 0.16491112574061884,
+  "wrong_among_passed_w": 0.08119826566811195,
+  "auc": 0.7478448275862069,
+  "top17_caught": 7,
+  "overall_q_flagged": 12,
+  "overall_q_caught": 6,
+  "cost": 0.012659387999999997
+ },
+ "clef_v3": {
+  "n": 70,
+  "errors": 0,
+  "flagged": 10,
+  "caught": 5,
+  "wrong": 12,
+  "defect": 7,
+  "recall_w": 0.4354066985645933,
+  "flag_share_w": 0.1152073732718894,
+  "wrong_among_passed_w": 0.08779761904761904,
+  "top17_caught": 6,
+  "cost": 0.069665664,
+  "format": "v3",
+  "overall_q_flagged": 7,
+  "overall_q_caught": 4,
+  "note": "cloudflare/clef (open weights, HF Cloudflare/clef); compact item-first state (4.6-6.7k chars) because the model card says about the first 2,000 state tokens are read; ten noul questions sent five per request; flag at >=0.5"
+ },
+ "jevlatest_v3": {
+  "n": 70,
+  "errors": 0,
+  "flagged": 6,
+  "caught": 2,
+  "wrong": 12,
+  "defect": 2,
+  "recall_w": 0.11722488038277512,
+  "flag_share_w": 0.06912442396313365,
+  "wrong_among_passed_w": 0.1304809052333805,
+  "top17_caught": 7,
+  "cost": 0.013799856000000001,
+  "format": "v3",
+  "overall_q_flagged": 3,
+  "overall_q_caught": 1
+ }
+}

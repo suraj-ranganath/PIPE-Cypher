@@ -1,0 +1,94 @@
+{
+  "weights": {
+    "return_arity": 2.0,
+    "hops": 2.0,
+    "var_length": 2.0,
+    "grouping_keys": 1.0,
+    "negation": 2.0,
+    "temporal_refs": 1.0,
+    "rel_props": 2.0,
+    "order_by": 1.0,
+    "unwind_collect": 1.0,
+    "predicates": 1.0,
+    "labels": 1.0
+  },
+  "caps": {
+    "return_arity": 6.0,
+    "hops": 4.0,
+    "var_length": 2.0,
+    "grouping_keys": 3.0,
+    "negation": 2.0,
+    "temporal_refs": 3.0,
+    "rel_props": 3.0,
+    "unwind_collect": 2.0,
+    "predicates": 4.0,
+    "labels": 4.0
+  },
+  "thresholds": [
+    10.0,
+    17.0
+  ],
+  "quotas": {
+    "simple_retrieval": {
+      "easy": 0.65,
+      "medium": 0.3,
+      "hard": 0.05
+    },
+    "simple_aggregation": {
+      "easy": 0.6,
+      "medium": 0.28,
+      "hard": 0.12
+    },
+    "boolean_existence": {
+      "easy": 0.6,
+      "medium": 0.32,
+      "hard": 0.08
+    },
+    "complex_aggregation": {
+      "easy": 0.5,
+      "medium": 0.3,
+      "hard": 0.2
+    },
+    "ranking_topk": {
+      "easy": 0.15,
+      "medium": 0.5,
+      "hard": 0.35
+    },
+    "negation_difference": {
+      "easy": 0.15,
+      "medium": 0.5,
+      "hard": 0.35
+    },
+    "complex_retrieval": {
+      "easy": 0.1,
+      "medium": 0.35,
+      "hard": 0.55
+    },
+    "path_temporal": {
+      "easy": 0.05,
+      "medium": 0.25,
+      "hard": 0.7
+    },
+    "_default": {
+      "easy": 0.35,
+      "medium": 0.35,
+      "hard": 0.3
+    }
+  },
+  "metadata": {
+    "description": "Structural difficulty score: sum(weight * min(feature, cap)); easy < t1 <= medium < t2 <= hard.",
+    "calibration_target": "fraction of 11 models solving each v2 held-out test item (zero-shot standard prompt, projected EX)",
+    "calibration_items": 216,
+    "feature_set": "structural",
+    "ridge_lambda": 0.3,
+    "cv_spearman_hardness_continuous": 0.57,
+    "cv_spearman_hardness_integer": 0.562,
+    "in_sample_spearman_hardness_integer": 0.657,
+    "target_tier_shares": {
+      "easy": 0.35,
+      "medium": 0.35,
+      "hard": 0.3
+    },
+    "source": "scripts/calibrate_difficulty.py"
+  }
+}

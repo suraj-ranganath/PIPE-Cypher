@@ -1,0 +1,662 @@
+# PIPE-Cypher downstream Text2Cypher model manifest (NAACL 2027 Industry resubmission).
+#
+# This is NOT a RunConfig. Do not pass it to scripts/validate_config.py,
+# scripts/run_pipeline.py, or pipecypher.config.load_config: it is read only by
+# scripts/run_downstream_suite.py (load_model_manifest), which validates it with
+# its own strict schema and rejects unknown keys.
+#
+# Verification (2026-11-11): every hf_id / adapter / base id below was resolved
+# through the public Hugging Face API (https://huggingface.co/api/models/<id>);
+# hf_sha is the first 12 characters of the repo head commit at that time.
+# Model-card prompt formats are recorded verbatim in
+# knowledge_base/downstream_prompt_formats.md and pipecypher/prompt_formats.py.
+#
+# GPU sizing targets gpu-host RTX A5000 cards (24 GB each). gpu_memory_estimate_gb
+# is weights plus a working KV/activation budget at max_model_len 4096, summed
+# over gpus_required. Never launch on GPUs with another user's resident
+# processes; --launch requires explicit --gpu-ids.
+#
+# system_message_mode: "merge" only for chat templates that reject the system
+# role (Gemma 2). Documented native formats that send a single user turn send no
+# system message at all, regardless of this setting.
+
+manifest_kind: pipecypher_downstream_model_manifest
+manifest_version: 1
+title: NAACL 2027 downstream Text2Cypher transfer suite
+verified_on: "2026-11-11"
+verification_method: Hugging Face public API and raw model cards (no paid APIs)
+
+hardware:
+  host: gpu-host
+  gpu: NVIDIA RTX A5000
+  gpu_memory_gb: 24
+
+defaults:
+  provider: vllm
+  port: 8000
+  dtype: bfloat16
+  max_model_len: 4096
+  quantization: null
+  tensor_parallel_size: 1
+  gpu_memory_utilization: 0.88
+  system_message_mode: separate
+  base_vllm_args:
+    - --no-enable-flashinfer-autotune
+    - --enforce-eager
+    - --max-num-seqs
+    - "1"
+    - --max-num-batched-tokens
+    - "4096"
+
+launch:
+  serve_script: scripts/serve_qwen_vllm.sh
+  # Rendered by run_downstream_suite.py --launch (shown verbatim with --dry-run).
+  # {vllm_args} = base_vllm_args + --dtype/--quantization + LoRA flags + extra_args.
+  command_template: >-
+    CUDA_VISIBLE_DEVICES={gpu_ids} PORT={port} SERVED_MODEL_NAME={base_served_model_name}
+    TENSOR_PARALLEL_SIZE={tensor_parallel_size} MAX_MODEL_LEN={max_model_len}
+    GPU_MEMORY_UTILIZATION={gpu_memory_utilization} EXTRA_VLLM_ARGS=
+    bash scripts/serve_qwen_vllm.sh {serve_model} {vllm_args}
+  health_timeout_sec: 1800
+
+models:
+  # ------------------------------------------------------------------
+  # General instruction models
+  # ------------------------------------------------------------------
+  - slug: qwen35_9b
+    tier: core
+    hf_id: Qwen/Qwen3.5-9B
+    hf_sha: c20223623576
+    served_model_name: Qwen/Qwen3.5-9B
+    serve_model: Qwen/Qwen3.5-9B
+    family: general
+    lineage: Qwen
+    tuning: general instruction (thinking disabled)
+    is_generator: true  # benchmark generator + judge; report as self-model row, not independent transfer evidence
+    license: apache-2.0
+    license_gated: false
+    vllm:
+      dtype: bfloat16
+      max_model_len: 4096
+      quantization: null
+      tensor_parallel_size: 1
+      gpu_memory_utilization: 0.88
+    system_message_mode: separate
+    native_prompt_format: null
+    native_format_status: not_applicable
+    weights_gb: 19.3
+    gpu_memory_estimate_gb: 21
+    gpus_required: 1
+    notes: Proven single-A5000 config (enforce-eager, max-num-seqs 1) from the June 2026 runs.
+
+  - slug: llama31_8b_instruct
+    tier: core
+    hf_id: meta-llama/Llama-3.1-8B-Instruct
+    hf_sha: 0e9e39f249a1
+    served_model_name: meta-llama/Llama-3.1-8B-Instruct
+    serve_model: meta-llama/Llama-3.1-8B-Instruct
+    family: general
+    lineage: Llama
+    tuning: general instruction
+    license: llama3.1
+    license_gated: true  # HF gated=manual; accept the Llama 3.1 license before download
+    vllm:
+      dtype: bfloat16
+      max_model_len: 4096
+      quantization: null
+      tensor_parallel_size: 1
+      gpu_memory_utilization: 0.88
+    system_message_mode: separate
+    native_prompt_format: null
+    native_format_status: not_applicable
+    weights_gb: 16.1
+    gpu_memory_estimate_gb: 19
+    gpus_required: 1
+    notes: Untuned base for the Llama-3.1 Text2Cypher fine-tunes (paired comparison).
+
+  - slug: gemma3_12b_it
+    tier: core
+    hf_id: google/gemma-3-12b-it
+    hf_sha: 96b6f1eccf38
+    served_model_name: google/gemma-3-12b-it
+    serve_model: google/gemma-3-12b-it
+    family: general
+    lineage: Gemma
+    tuning: general instruction
+    license: gemma
+    license_gated: true  # HF gated=manual; accept Gemma terms
+    vllm:
+      dtype: bfloat16
+      max_model_len: 4096
+      quantization: null
+      tensor_parallel_size: 2
+      gpu_memory_utilization: 0.88
+    system_message_mode: separate  # Gemma 3 template folds the system turn into the first user turn
+    native_prompt_format: null
+    native_format_status: not_applicable
+    weights_gb: 24.4
+    gpu_memory_estimate_gb: 29
+    gpus_required: 2
+
+  - slug: gemma3_27b_it
+    tier: extended
+    hf_id: google/gemma-3-27b-it
+    hf_sha: 005ad3404e59
+    served_model_name: google/gemma-3-27b-it
+    serve_model: google/gemma-3-27b-it
+    family: general
+    lineage: Gemma
+    tuning: general instruction
+    license: gemma
+    license_gated: true
+    vllm:
+      dtype: bfloat16
+      max_model_len: 4096
+      quantization: null
+      tensor_parallel_size: 4
+      gpu_memory_utilization: 0.88
+    system_message_mode: separate
+    native_prompt_format: null
+    native_format_status: not_applicable
+    weights_gb: 54.9
+    gpu_memory_estimate_gb: 62
+    gpus_required: 4
+    alternatives:
+      - hf_id: gaunernst/gemma-3-27b-it-int4-awq  # community AWQ, 18.5 GB, hf_sha 7cf8bdc81343, TP=2
+    notes: Untuned base of neo4j/text-to-cypher-Gemma-3-27B (paired comparison).
+
+  - slug: gemma4_12b_it
+    tier: extended
+    hf_id: google/gemma-4-12B-it
+    hf_sha: 43c9d014b231
+    served_model_name: google/gemma-4-12B-it
+    serve_model: google/gemma-4-12B-it
+    family: general
+    lineage: Gemma
+    tuning: general instruction
+    license: apache-2.0
+    license_gated: false
+    vllm:
+      dtype: bfloat16
+      max_model_len: 4096
+      quantization: null
+      tensor_parallel_size: 2
+      gpu_memory_utilization: 0.88
+    system_message_mode: separate
+    native_prompt_format: null
+    native_format_status: not_applicable
+    weights_gb: 23.9
+    gpu_memory_estimate_gb: 28
+    gpus_required: 2
+    notes: >-
+      Current Gemma successor (AGENTS.md latest-family rule). Architecture
+      Gemma4UnifiedForConditionalGeneration needs a vLLM build with Gemma 4
+      support; unverified on gpu-host, smoke-test before queueing.
+
+  - slug: llama33_70b_instruct_awq
+    tier: extended
+    hf_id: casperhansen/llama-3.3-70b-instruct-awq
+    hf_sha: 64d255621f40
+    upstream_hf_id: meta-llama/Llama-3.3-70B-Instruct  # hf_sha 6f6073b42301, gated=manual
+    served_model_name: meta-llama/Llama-3.3-70B-Instruct-AWQ
+    serve_model: casperhansen/llama-3.3-70b-instruct-awq
+    family: general
+    lineage: Llama
+    tuning: general instruction (community AWQ INT4)
+    license: llama3.3
+    license_gated: true  # mirror is ungated on HF but the Llama 3.3 Community License applies
+    vllm:
+      dtype: float16
+      max_model_len: 4096
+      quantization: awq_marlin
+      tensor_parallel_size: 4
+      gpu_memory_utilization: 0.90
+    system_message_mode: separate
+    native_prompt_format: null
+    native_format_status: not_applicable
+    weights_gb: 39.8
+    gpu_memory_estimate_gb: 48
+    gpus_required: 4
+    notes: TP=2 leaves under 3 GB/GPU for KV at 0.88; TP=4 is the feasible A5000 layout.
+
+  - slug: mistral_small32_24b
+    tier: extended
+    hf_id: mistralai/Mistral-Small-3.2-24B-Instruct-2506
+    hf_sha: 95a6d26c4bfb
+    served_model_name: mistralai/Mistral-Small-3.2-24B-Instruct-2506
+    serve_model: mistralai/Mistral-Small-3.2-24B-Instruct-2506
+    family: general
+    lineage: Mistral
+    tuning: general instruction
+    license: apache-2.0
+    license_gated: false
+    vllm:
+      dtype: bfloat16
+      max_model_len: 4096
+      quantization: null
+      tensor_parallel_size: 4
+      gpu_memory_utilization: 0.88
+      extra_args:
+        - --tokenizer-mode
+        - mistral
+        - --config-format
+        - mistral
+        - --load-format
+        - mistral
+    system_message_mode: separate
+    native_prompt_format: null
+    native_format_status: not_applicable
+    weights_gb: 48.0
+    gpu_memory_estimate_gb: 54
+    gpus_required: 4
+    alternatives:
+      - hf_id: jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym  # community W4A16, 15.0 GB, hf_sha 49ec31ec0975, TP=1
+    notes: >-
+      Repo holds both consolidated and HF-format weights (48 GB each); download
+      only consolidated*.safetensors + params.json + tekken.json for
+      --load-format mistral. Mistral-Small-4 (119B MoE) does not fit 4 A5000s.
+
+  # ------------------------------------------------------------------
+  # Code models
+  # ------------------------------------------------------------------
+  - slug: qwen25_coder7b
+    tier: core
+    hf_id: Qwen/Qwen2.5-Coder-7B-Instruct
+    hf_sha: c03e6d358207
+    served_model_name: Qwen/Qwen2.5-Coder-7B-Instruct
+    serve_model: Qwen/Qwen2.5-Coder-7B-Instruct
+    family: code
+    lineage: Qwen
+    tuning: code instruction
+    license: apache-2.0
+    license_gated: false
+    vllm:
+      dtype: bfloat16
+      max_model_len: 4096
+      quantization: null
+      tensor_parallel_size: 1
+      gpu_memory_utilization: 0.88
+    system_message_mode: separate
+    native_prompt_format: null
+    native_format_status: not_applicable
+    weights_gb: 15.2
+    gpu_memory_estimate_gb: 18
+    gpus_required: 1
+    notes: Historical code baseline kept for continuity; Qwen3-Coder is the current-family row.
+
+  - slug: qwen3_coder_30b_a3b
+    tier: core
+    hf_id: Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8
+    hf_sha: dcaee4d4dfc5
+    upstream_hf_id: Qwen/Qwen3-Coder-30B-A3B-Instruct  # bf16, hf_sha b2cff646eb4b, 61 GB (TP=4)
+    served_model_name: Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8
+    serve_model: Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8
+    family: code
+    lineage: Qwen
+    tuning: code instruction (official FP8)
+    license: apache-2.0
+    license_gated: false
+    vllm:
+      dtype: bfloat16
+      max_model_len: 4096
+      quantization: fp8
+      tensor_parallel_size: 2
+      gpu_memory_utilization: 0.88
+    system_message_mode: separate
+    native_prompt_format: null
+    native_format_status: not_applicable
+    weights_gb: 31.2
+    gpu_memory_estimate_gb: 38
+    gpus_required: 2
+    alternatives:
+      - hf_id: Qwen/Qwen3-Coder-30B-A3B-Instruct  # official bf16, TP=4
+      - hf_id: cyankiwi/Qwen3-Coder-30B-A3B-Instruct-AWQ-4bit  # community compressed-tensors W4A16, 18.1 GB, hf_sha cb67b41c4b82, TP=1-2
+    notes: >-
+      Official Qwen FP8 checkpoint. A5000 (sm_86) has no FP8 tensor cores, so
+      vLLM runs it as weight-only FP8 (Marlin); FP8 MoE on Ampere is
+      unverified for the gpu-host vLLM build. Fall back to the official bf16
+      checkpoint on 4 GPUs before using the community AWQ. Qwen3-Coder-Next
+      (80B MoE) does not fit 4 A5000s at usable precision.
+
+  # ------------------------------------------------------------------
+  # Text2Cypher fine-tunes (documented prompt formats in prompt_formats.py)
+  # ------------------------------------------------------------------
+  - slug: neo4j_gemma2_text2cypher_lora
+    tier: core
+    hf_id: neo4j/text2cypher-gemma-2-9b-it-finetuned-2024v1
+    hf_sha: e0e780fad918
+    served_model_name: neo4j_gemma2_text2cypher_lora
+    serve_model: google/gemma-2-9b-it
+    lora:
+      alias: neo4j_gemma2_text2cypher_lora
+      adapter_hf_id: neo4j/text2cypher-gemma-2-9b-it-finetuned-2024v1
+      base_model: google/gemma-2-9b-it  # hf_sha 11c9b309abf7, gated=manual
+      base_served_model_name: base-google-gemma-2-9b-it
+      rank: 64
+      max_lora_rank: 64
+      use_rslora: false
+    family: text2cypher
+    lineage: Gemma
+    tuning: Text2Cypher LoRA (Neo4j Text2Cypher 2024v1)
+    license: gemma
+    license_gated: true  # base model gated=manual
+    vllm:
+      dtype: bfloat16
+      max_model_len: 4096
+      quantization: null
+      tensor_parallel_size: 1
+      gpu_memory_utilization: 0.90
+    system_message_mode: merge  # Gemma 2 chat template rejects the system role (pipe_* formats only)
+    native_prompt_format: native_neo4j_gemma2_2024
+    native_format_status: documented_model_card
+    weights_gb: 18.9
+    gpu_memory_estimate_gb: 22
+    gpus_required: 1
+    notes: >-
+      Adapter was trained on a 4-bit NF4 base; served here on the bf16 base.
+      If startup OOMs on one A5000, set tensor_parallel_size 2.
+
+  - slug: neo4j_gemma3_4b_text2cypher
+    tier: core
+    hf_id: neo4j/text-to-cypher-Gemma-3-4B-Instruct-2025.04.0
+    hf_sha: 2a93c39d7b25
+    served_model_name: neo4j/text-to-cypher-Gemma-3-4B-Instruct-2025.04.0
+    serve_model: neo4j/text-to-cypher-Gemma-3-4B-Instruct-2025.04.0
+    family: text2cypher
+    lineage: Gemma
+    tuning: Text2Cypher full fine-tune (Neo4j Text2Cypher 2025v1)
+    license: gemma
+    license_gated: false  # not gated on HF; Gemma terms apply
+    vllm:
+      dtype: bfloat16
+      max_model_len: 4096
+      quantization: null
+      tensor_parallel_size: 1
+      gpu_memory_utilization: 0.88
+    system_message_mode: separate
+    native_prompt_format: native_neo4j_gemma3_2025
+    native_format_status: documented_official_companion
+    weights_gb: 8.6
+    gpu_memory_estimate_gb: 11
+    gpus_required: 1
+
+  - slug: neo4j_gemma3_27b_text2cypher
+    tier: extended
+    hf_id: neo4j/text-to-cypher-Gemma-3-27B-Instruct-2025.04.0
+    hf_sha: c4605cf38ac4
+    served_model_name: neo4j/text-to-cypher-Gemma-3-27B-Instruct-2025.04.0
+    serve_model: neo4j/text-to-cypher-Gemma-3-27B-Instruct-2025.04.0
+    family: text2cypher
+    lineage: Gemma
+    tuning: Text2Cypher full fine-tune (Neo4j Text2Cypher 2025v1)
+    license: gemma
+    license_gated: false
+    vllm:
+      dtype: bfloat16
+      max_model_len: 4096
+      quantization: null
+      tensor_parallel_size: 4
+      gpu_memory_utilization: 0.88
+    system_message_mode: separate
+    native_prompt_format: native_neo4j_gemma3_2025
+    native_format_status: documented_official_companion
+    weights_gb: 54.9
+    gpu_memory_estimate_gb: 62
+    gpus_required: 4
+
+  - slug: tomasonjo_text2cypher8b
+    tier: core
+    hf_id: tomasonjo/text2cypher-demo-16bit
+    hf_sha: d5e560ccb4fb
+    served_model_name: tomasonjo/text2cypher-demo-16bit
+    serve_model: tomasonjo/text2cypher-demo-16bit
+    family: text2cypher
+    lineage: Llama
+    tuning: Text2Cypher full fine-tune (Llama-3-8B-Instruct, text2cypher-gpt4o-clean)
+    license: apache-2.0
+    license_gated: false
+    vllm:
+      dtype: bfloat16
+      max_model_len: 4096
+      quantization: null
+      tensor_parallel_size: 1
+      gpu_memory_utilization: 0.88
+    system_message_mode: separate
+    native_prompt_format: native_tomasonjo_llama3
+    native_format_status: documented_model_card
+    weights_gb: 16.1
+    gpu_memory_estimate_gb: 19
+    gpus_required: 1
+
+  - slug: azzedde_llama31_text2cypher
+    tier: core
+    hf_id: Azzedde/llama3.1-8b-text2cypher
+    hf_sha: b4d3cb7a88b9
+    served_model_name: Azzedde/llama3.1-8b-text2cypher
+    serve_model: Azzedde/llama3.1-8b-text2cypher
+    family: text2cypher
+    lineage: Llama
+    tuning: Text2Cypher full fine-tune (Llama-3.1-8B-Instruct, Neo4j Text2Cypher 2024v1)
+    license: mit  # card YAML says mit, card body says Apache 2.0; base is Llama 3.1 licensed
+    license_gated: false
+    vllm:
+      dtype: bfloat16  # checkpoint is float16 .bin shards
+      max_model_len: 4096
+      quantization: null
+      tensor_parallel_size: 1
+      gpu_memory_utilization: 0.88
+    system_message_mode: separate
+    native_prompt_format: native_azzedde_alpaca  # raw prompt via /v1/completions
+    native_format_status: documented_model_card
+    weights_gb: 16.1
+    gpu_memory_estimate_gb: 19
+    gpus_required: 1
+
+  - slug: aigentx_llama31_cypher_lora
+    tier: core
+    hf_id: aigentx/llama-3.1-8b-instruct-cypher
+    hf_sha: dc349afb55d8
+    served_model_name: aigentx_llama31_cypher
+    serve_model: unsloth/Meta-Llama-3.1-8B-Instruct-unsloth-bnb-4bit
+    lora:
+      alias: aigentx_llama31_cypher
+      adapter_hf_id: aigentx/llama-3.1-8b-instruct-cypher
+      base_model: unsloth/Meta-Llama-3.1-8B-Instruct-unsloth-bnb-4bit  # hf_sha 0db785ab56c0 (adapter_config base, case-redirected)
+      base_served_model_name: base-unsloth-llama-3.1-8b-instruct-bnb-4bit
+      rank: 16
+      max_lora_rank: 16
+      use_rslora: false
+    family: text2cypher
+    lineage: Llama
+    tuning: Cypher LoRA (undocumented data)
+    license: apache-2.0
+    license_gated: false
+    vllm:
+      dtype: bfloat16
+      max_model_len: 4096
+      quantization: bitsandbytes
+      tensor_parallel_size: 1
+      gpu_memory_utilization: 0.88
+    system_message_mode: separate
+    native_prompt_format: null
+    native_format_status: none_documented
+    weights_gb: 6.0
+    gpu_memory_estimate_gb: 9
+    gpus_required: 1
+
+  - slug: aigentx_llama31_cypher_mixed_lora
+    tier: core
+    hf_id: aigentx/llama-3.1-8b-instruct-cypher-mixed-samples
+    hf_sha: cd49544593b6
+    served_model_name: aigentx_llama31_cypher_mixed
+    serve_model: unsloth/Meta-Llama-3.1-8B-Instruct-unsloth-bnb-4bit
+    lora:
+      alias: aigentx_llama31_cypher_mixed
+      adapter_hf_id: aigentx/llama-3.1-8b-instruct-cypher-mixed-samples
+      base_model: unsloth/Meta-Llama-3.1-8B-Instruct-unsloth-bnb-4bit
+      base_served_model_name: base-unsloth-llama-3.1-8b-instruct-bnb-4bit
+      rank: 16
+      max_lora_rank: 16
+      use_rslora: false
+    family: text2cypher
+    lineage: Llama
+    tuning: Cypher mixed-sample LoRA (undocumented data)
+    license: unspecified
+    license_gated: false
+    vllm:
+      dtype: bfloat16
+      max_model_len: 4096
+      quantization: bitsandbytes
+      tensor_parallel_size: 1
+      gpu_memory_utilization: 0.88
+    system_message_mode: separate
+    native_prompt_format: null
+    native_format_status: none_documented
+    weights_gb: 6.0
+    gpu_memory_estimate_gb: 9
+    gpus_required: 1
+
+  - slug: projectwilsen_llama31_text2cypher_lora
+    tier: core
+    hf_id: projectwilsen/llama3.1-8b-text2cypher-neo4j-live
+    hf_sha: 5065437095e5
+    served_model_name: projectwilsen_llama31_text2cypher
+    serve_model: unsloth/Meta-Llama-3.1-8B-bnb-4bit
+    lora:
+      alias: projectwilsen_llama31_text2cypher
+      adapter_hf_id: projectwilsen/llama3.1-8b-text2cypher-neo4j-live
+      base_model: unsloth/Meta-Llama-3.1-8B-bnb-4bit  # hf_sha 70d37f62f4f4; base (non-instruct) has no chat template
+      base_served_model_name: base-unsloth-llama-3.1-8b-bnb-4bit
+      rank: 16
+      max_lora_rank: 16
+      use_rslora: true
+    family: text2cypher
+    lineage: Llama
+    tuning: Text2Cypher rsLoRA (undocumented data)
+    license: apache-2.0
+    license_gated: false
+    vllm:
+      dtype: bfloat16
+      max_model_len: 4096
+      quantization: bitsandbytes
+      tensor_parallel_size: 1
+      gpu_memory_utilization: 0.88
+      extra_args:
+        - --chat-template
+        - configs/chat_templates/plain_generation.jinja
+    system_message_mode: separate
+    native_prompt_format: null
+    native_format_status: none_documented
+    weights_gb: 6.0
+    gpu_memory_estimate_gb: 9
+    gpus_required: 1
+    notes: >-
+      plain_generation.jinja emits no BOS token and vLLM chat requests do not
+      add special tokens; treat results as format-sensitive.
+
+  - slug: saiprasanth_llama31_text2cypher_lora
+    tier: core
+    hf_id: Saiprasanth15/llama3.1-8b-text2cypher-neo4j-live
+    hf_sha: 6ac43436a553
+    served_model_name: saiprasanth_llama31_text2cypher
+    serve_model: unsloth/Meta-Llama-3.1-8B-bnb-4bit
+    lora:
+      alias: saiprasanth_llama31_text2cypher
+      adapter_hf_id: Saiprasanth15/llama3.1-8b-text2cypher-neo4j-live
+      base_model: unsloth/Meta-Llama-3.1-8B-bnb-4bit
+      base_served_model_name: base-unsloth-llama-3.1-8b-bnb-4bit
+      rank: 16
+      max_lora_rank: 16
+      use_rslora: true
+    family: text2cypher
+    lineage: Llama
+    tuning: Text2Cypher rsLoRA (undocumented data)
+    license: apache-2.0
+    license_gated: false
+    vllm:
+      dtype: bfloat16
+      max_model_len: 4096
+      quantization: bitsandbytes
+      tensor_parallel_size: 1
+      gpu_memory_utilization: 0.88
+      extra_args:
+        - --chat-template
+        - configs/chat_templates/plain_generation.jinja
+    system_message_mode: separate
+    native_prompt_format: null
+    native_format_status: none_documented
+    weights_gb: 6.0
+    gpu_memory_estimate_gb: 9
+    gpus_required: 1
+    notes: Same caveat as projectwilsen (no BOS with plain_generation.jinja).
+
+  - slug: stable_cypher_instruct3b
+    tier: core
+    hf_id: ragraph-ai/stable-cypher-instruct-3b
+    hf_sha: 644bb45555f3
+    served_model_name: ragraph-ai/stable-cypher-instruct-3b
+    serve_model: /home/user/pipecypher-models/stable-cypher-instruct-3b/stable-cypher-instruct-3b.f16.gguf
+    prepare_command: >-
+      huggingface-cli download ragraph-ai/stable-cypher-instruct-3b
+      stable-cypher-instruct-3b.f16.gguf
+      --local-dir /home/user/pipecypher-models/stable-cypher-instruct-3b
+    family: text2cypher
+    lineage: StableLM
+    tuning: Cypher instruction fine-tune (stable-code-instruct-3b, synthetic_opus_demodbs)
+    license: apache-2.0
+    license_gated: false
+    vllm:
+      dtype: float16
+      max_model_len: 4096
+      quantization: null
+      tensor_parallel_size: 1
+      gpu_memory_utilization: 0.60
+      extra_args:
+        - --tokenizer
+        - ragraph-ai/stable-cypher-instruct-3b
+    system_message_mode: separate
+    native_prompt_format: native_stable_cypher
+    native_format_status: documented_model_card
+    weights_gb: 5.6
+    gpu_memory_estimate_gb: 8
+    gpus_required: 1
+    notes: >-
+      The safetensors checkpoint declares bitsandbytes 8-bit quantization that
+      vLLM rejected in June 2026, so serve the author's merged f16 GGUF.
+      vLLM GGUF loading for the stablelm architecture is unverified on
+      gpu-host; smoke-test first. The documented native format sends the bare
+      question with no schema.
+
+  # ------------------------------------------------------------------
+  # Hosted frontier reference row (AGENTS.md owner decision 2026-11-11).
+  # Runs on PUBLIC graphs only (LDBC FinBench/SNB, public Text2Cypher-2024 /
+  # ICIJ graphs) as a reference ceiling. It is never part of the
+  # private-deployment story, never launched by --launch, and its outputs stay
+  # in separately labeled artifacts. The API key is read from OPENAI_API_KEY or
+  # PIPE_CYPHER_LLM_API_KEY by pipecypher.llm and is never written to configs,
+  # commands, logs, or metadata.
+  # ------------------------------------------------------------------
+  - slug: gpt6_luna
+    tier: reference
+    hf_id: null
+    served_model_name: gpt-6-luna
+    provider: openai
+    base_url: https://api.openai.com/v1
+    hosted: true
+    public_graphs_only: true
+    allowed_graph_profiles: [finbench, snb, icij_offshoreleaks, t2c_fincen, t2c_northwind, t2c_recommendations]
+    send_temperature: false  # set true only after confirming the model accepts temperature=0
+    reasoning_effort: null  # provider default
+    family: frontier (hosted)
+    lineage: OpenAI
+    tuning: hosted frontier reference
+    license: proprietary (hosted API)
+    license_gated: true
+    vllm: null
+    system_message_mode: separate
+    native_prompt_format: null
+    native_format_status: not_applicable
+    weights_gb: null
+    gpu_memory_estimate_gb: 0
+    gpus_required: 0
+    notes: Model availability is checked by the /models preflight with the owner's key; not verifiable on Hugging Face.

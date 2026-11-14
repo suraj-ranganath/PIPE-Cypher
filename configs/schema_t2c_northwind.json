@@ -1,0 +1,446 @@
+{
+  "categorical_properties": {
+    "Category.categoryID": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8"
+    ],
+    "Category.categoryName": [
+      "Beverages",
+      "Condiments",
+      "Confections",
+      "Dairy Products",
+      "Grains/Cereals",
+      "Meat/Poultry",
+      "Produce",
+      "Seafood"
+    ],
+    "Category.description": [
+      "Breads, crackers, pasta, and cereal",
+      "Cheeses",
+      "Desserts, candies, and sweet breads",
+      "Dried fruit and bean curd",
+      "Prepared meats",
+      "Seaweed and fish",
+      "Soft drinks, coffees, teas, beers, and ales",
+      "Sweet and savory sauces, relishes, spreads, and seasonings"
+    ],
+    "Customer.contactTitle": [
+      "Accounting Manager",
+      "Assistant Sales Agent",
+      "Assistant Sales Representative",
+      "Marketing Assistant",
+      "Marketing Manager",
+      "Order Administrator",
+      "Owner",
+      "Owner/Marketing Assistant",
+      "Sales Agent",
+      "Sales Associate",
+      "Sales Manager",
+      "Sales Representative"
+    ],
+    "Customer.region": [
+      "AK",
+      "BC",
+      "CA",
+      "Co. Cork",
+      "DF",
+      "ID",
+      "Isle of Wight",
+      "Lara",
+      "MT",
+      "NM",
+      "NULL",
+      "Nueva Esparta",
+      "OR",
+      "Qu\u00e9bec",
+      "RJ",
+      "SP",
+      "T\u00e1chira",
+      "WA",
+      "WY"
+    ],
+    "Order.employeeID": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9"
+    ],
+    "Order.shipVia": [
+      "1",
+      "2",
+      "3"
+    ],
+    "Product.categoryID": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8"
+    ],
+    "Supplier.contactTitle": [
+      "Accounting Manager",
+      "Coordinator Foreign Markets",
+      "Export Administrator",
+      "Ian Devling",
+      "International Marketing Mgr.",
+      "Marketing Manager",
+      "Marketing Representative",
+      "Order Administrator",
+      "Owner",
+      "Peter Wilson",
+      "Product Manager",
+      "Purchasing Manager",
+      "Regional Account Rep.",
+      "Sales Agent",
+      "Sales Manager",
+      "Sales Representative",
+      "Wendy Mackenzie",
+      "Wholesale Account Agent"
+    ],
+    "Supplier.region": [
+      "Annecy",
+      "Asturias",
+      "LA",
+      "MA",
+      "MI",
+      "Manchester",
+      "Melbourne",
+      "Montceau",
+      "NULL",
+      "OR",
+      "Paris",
+      "Qu\u00e9bec",
+      "Ravenna",
+      "Salerno",
+      "Singapore",
+      "Sydney"
+    ]
+  },
+  "graph_name": "t2c_northwind",
+  "node_properties": [
+    {
+      "label": "Category",
+      "property": "categoryID",
+      "type": "String"
+    },
+    {
+      "label": "Category",
+      "property": "categoryName",
+      "type": "String"
+    },
+    {
+      "label": "Category",
+      "property": "description",
+      "type": "String"
+    },
+    {
+      "label": "Category",
+      "property": "picture",
+      "type": "String"
+    },
+    {
+      "label": "Customer",
+      "property": "address",
+      "type": "String"
+    },
+    {
+      "label": "Customer",
+      "property": "city",
+      "type": "String"
+    },
+    {
+      "label": "Customer",
+      "property": "companyName",
+      "type": "String"
+    },
+    {
+      "label": "Customer",
+      "property": "contactName",
+      "type": "String"
+    },
+    {
+      "label": "Customer",
+      "property": "contactTitle",
+      "type": "String"
+    },
+    {
+      "label": "Customer",
+      "property": "country",
+      "type": "String"
+    },
+    {
+      "label": "Customer",
+      "property": "customerID",
+      "type": "String"
+    },
+    {
+      "label": "Customer",
+      "property": "fax",
+      "type": "String"
+    },
+    {
+      "label": "Customer",
+      "property": "phone",
+      "type": "String"
+    },
+    {
+      "label": "Customer",
+      "property": "postalCode",
+      "type": "String"
+    },
+    {
+      "label": "Customer",
+      "property": "region",
+      "type": "String"
+    },
+    {
+      "label": "Order",
+      "property": "customerID",
+      "type": "String"
+    },
+    {
+      "label": "Order",
+      "property": "employeeID",
+      "type": "String"
+    },
+    {
+      "label": "Order",
+      "property": "freight",
+      "type": "String"
+    },
+    {
+      "label": "Order",
+      "property": "orderDate",
+      "type": "String"
+    },
+    {
+      "label": "Order",
+      "property": "orderID",
+      "type": "String"
+    },
+    {
+      "label": "Order",
+      "property": "requiredDate",
+      "type": "String"
+    },
+    {
+      "label": "Order",
+      "property": "shipAddress",
+      "type": "String"
+    },
+    {
+      "label": "Order",
+      "property": "shipCity",
+      "type": "String"
+    },
+    {
+      "label": "Order",
+      "property": "shipCountry",
+      "type": "String"
+    },
+    {
+      "label": "Order",
+      "property": "shipName",
+      "type": "String"
+    },
+    {
+      "label": "Order",
+      "property": "shipPostalCode",
+      "type": "String"
+    },
+    {
+      "label": "Order",
+      "property": "shipRegion",
+      "type": "String"
+    },
+    {
+      "label": "Order",
+      "property": "shipVia",
+      "type": "String"
+    },
+    {
+      "label": "Order",
+      "property": "shippedDate",
+      "type": "String"
+    },
+    {
+      "label": "Product",
+      "property": "categoryID",
+      "type": "String"
+    },
+    {
+      "label": "Product",
+      "property": "discontinued",
+      "type": "Boolean"
+    },
+    {
+      "label": "Product",
+      "property": "productID",
+      "type": "String"
+    },
+    {
+      "label": "Product",
+      "property": "productName",
+      "type": "String"
+    },
+    {
+      "label": "Product",
+      "property": "quantityPerUnit",
+      "type": "String"
+    },
+    {
+      "label": "Product",
+      "property": "reorderLevel",
+      "type": "Long"
+    },
+    {
+      "label": "Product",
+      "property": "supplierID",
+      "type": "String"
+    },
+    {
+      "label": "Product",
+      "property": "unitPrice",
+      "type": "Double"
+    },
+    {
+      "label": "Product",
+      "property": "unitsInStock",
+      "type": "Long"
+    },
+    {
+      "label": "Product",
+      "property": "unitsOnOrder",
+      "type": "Long"
+    },
+    {
+      "label": "Supplier",
+      "property": "address",
+      "type": "String"
+    },
+    {
+      "label": "Supplier",
+      "property": "city",
+      "type": "String"
+    },
+    {
+      "label": "Supplier",
+      "property": "companyName",
+      "type": "String"
+    },
+    {
+      "label": "Supplier",
+      "property": "contactName",
+      "type": "String"
+    },
+    {
+      "label": "Supplier",
+      "property": "contactTitle",
+      "type": "String"
+    },
+    {
+      "label": "Supplier",
+      "property": "country",
+      "type": "String"
+    },
+    {
+      "label": "Supplier",
+      "property": "fax",
+      "type": "String"
+    },
+    {
+      "label": "Supplier",
+      "property": "homePage",
+      "type": "String"
+    },
+    {
+      "label": "Supplier",
+      "property": "phone",
+      "type": "String"
+    },
+    {
+      "label": "Supplier",
+      "property": "postalCode",
+      "type": "String"
+    },
+    {
+      "label": "Supplier",
+      "property": "region",
+      "type": "String"
+    },
+    {
+      "label": "Supplier",
+      "property": "supplierID",
+      "type": "String"
+    }
+  ],
+  "relationship_properties": [
+    {
+      "property": "discount",
+      "type": "ORDERS",
+      "value_type": "String"
+    },
+    {
+      "property": "orderID",
+      "type": "ORDERS",
+      "value_type": "String"
+    },
+    {
+      "property": "productID",
+      "type": "ORDERS",
+      "value_type": "String"
+    },
+    {
+      "property": "quantity",
+      "type": "ORDERS",
+      "value_type": "Long"
+    },
+    {
+      "property": "unitPrice",
+      "type": "ORDERS",
+      "value_type": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "count": 2155,
+      "end_label": "Product",
+      "start_label": "Order",
+      "type": "ORDERS"
+    },
+    {
+      "count": 830,
+      "end_label": "Order",
+      "start_label": "Customer",
+      "type": "PURCHASED"
+    },
+    {
+      "count": 77,
+      "end_label": "Category",
+      "start_label": "Product",
+      "type": "PART_OF"
+    },
+    {
+      "count": 77,
+      "end_label": "Product",
+      "start_label": "Supplier",
+      "type": "SUPPLIES"
+    }
+  ],
+  "source": "neo4j",
+  "symmetric_relationships": []
+}
