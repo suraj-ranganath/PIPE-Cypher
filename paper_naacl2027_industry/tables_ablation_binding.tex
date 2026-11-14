@@ -1,0 +1,24 @@
+\begin{table}[H]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{}lrr@{}}
+\toprule
+& Verified bindings on & Verified bindings off \\
+\midrule
+Candidates $\rightarrow$ accepted & 1,030 $\rightarrow$ 392 (38\%) & 1,104 $\rightarrow$ 395 (36\%) \\
+Rejected for an empty result & 16 (1.6\%) & 397 (36.0\%) \\
+Rejected: tier quota full & 313 & 179 \\
+Rejected: entity-diversity cap & 171 & 36 \\
+Rejected: tie at a \cy{LIMIT} cutoff & 36 & 51 \\
+Rejected: slot bindings unavailable & 31 & 2 \\
+Rejected: literal mismatch & 23 & 22 \\
+Rejected by the judge panel & 14 & 8 \\
+Cells reaching 25 items (of 16) & 13 & 14 \\
+API cost & \$0.65 & \$0.68 \\
+\bottomrule
+\end{tabular}}
+\caption{One-component ablation of reverse querying: the current pipeline at 25 items per category on FinBench and SNB (16 cells, seed 1), with slot values verified through the template's own query (on) or drawn from the earlier property lookup without verification (off); everything else is identical. Without verification, more than a third of all candidates return nothing. At this small target both arms accept a similar share overall, because with verification on the rejections move to the quotas: verified templates yield several valid bindings each, which then meet the tier quota and the cap on how often one entity may appear.}
+\label{tab:ablation_binding}
+\end{table}

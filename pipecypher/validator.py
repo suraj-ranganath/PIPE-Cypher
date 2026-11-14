@@ -392,7 +392,10 @@ def structural_features(query: str) -> dict[str, Any]:
         "limit": analysis.limit_value is not None,
         "skip": analysis.skip_value is not None,
         "negation": any(tok in upper for tok in (" NOT ", "NOT EXISTS", "WHERE NOT", "<>")),
-        "path_pattern": "*" in query or "shortestPath" in query,
+        # Variable-length relationship (``-[:R*1..2]->``) or shortest path; a bare
+        # ``*`` such as ``count(*)`` or ``RETURN *`` is not a path pattern.
+        "path_pattern": bool(re.search(r"\[[^\]]*\*[^\]]*\]", query))
+        or "shortestpath" in query.lower(),
         "return_arity": len(return_items),
         "labels": sorted(set(labels)),
         "relationship_types": sorted(set(rels)),
@@ -512,8 +515,11 @@ def validate_cypher(
                         issues.append(
                             ValidationIssue("error", "unknown_property", f"Unknown property :{label}.{prop}")
                         )
+        symmetric = set(getattr(schema, "symmetric_relationships", None) or [])
         for _, rel_type, direction in _relationship_fragments(normalized):
-            if direction == "undirected":
+            if direction == "undirected" and rel_type and rel_type in symmetric:
+                pass
+            elif direction == "undirected":
                 schema_valid = False
                 issues.append(
                     ValidationIssue(

@@ -1,0 +1,21 @@
+% Appendix: the running example from Figure 1, stage by stage.
+\begin{table*}[!t]
+\centering
+\footnotesize
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{2.1cm}>{\raggedright\arraybackslash}p{13.4cm}@{}}
+\toprule
+Stage & Running example (FinBench, category \emph{path/temporal}, tier \emph{hard}) \\
+\midrule
+1 Profile & Introspection records \cy{(:Account)-[:TRANSFER\_TO \{createTime, amount\}]->(:Account)}, typed properties, and bounded categorical values. \\
+2 Plan & Target: 250 path/temporal FinBench items in two halves; tier quota 5/25/70\% easy/medium/hard; at most 8 items per query signature in each half. \\
+3 Propose & The LLM proposes \emph{``How many transfers did account \{account\} make to a different account between 2020-01-01 and 2020-12-31?''} with\newline \cy{MATCH (a:Account \{accountId: \$account\})-[r:TRANSFER\_TO]->(b:Account) WHERE a <> b AND r.createTime >= datetime('2020-01-01')}\newline \cy{AND r.createTime <= datetime('2020-12-31') RETURN DISTINCT count(r) AS numTransfers} \\
+4 Bind \& verify & Candidates come from the template query rewritten to return \cy{a.accountId}; \cy{account = 4709076360369276476} is kept because the query then returns 2 (a count of 0 is rejected). Structural score 18: hard tier. \\
+5 Realize & Register \emph{imperative}: \emph{``List the number of transfers made by account with id 4709076360369276476 to a different account between 2020-01-01 and 2020-12-31.''} The generator's reference ends the window at \cy{2020-12-31T23:59:59}, so the whole last day counts (C7); here it returns the same answer as the template query. \\
+6 Checks & Read-only, schema, direction checks; every stated value (id, both dates) appears in the Cypher and no other literal does; ``different account'' is \cy{a <> b} (convention C10). \\
+7--8 Execute, judges & Non-degenerate answer; no tie at a cutoff; hard-tier and signature quotas not full; neither judge answers any checklist item ``no''. \\
+Evaluate & Prediction and reference are both executed; a prediction returning the count 2 under any column name scores 1 (single-column answers are compared by value). \\
+\bottomrule
+\end{tabular}
+\caption{The running example of Figure~\ref{fig:pipeline}, traced through all eight stages. Identifiers are from the LDBC synthetic data generator.}
+\label{tab:running_example}
+\end{table*}

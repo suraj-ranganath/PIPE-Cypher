@@ -1,0 +1,29 @@
+\begin{table*}[t]
+\centering
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+\multicolumn{4}{@{}l}{\emph{(a) Choosing the judge: 150 disagreement-oversampled v2 items, adjudicated labels}} \\
+Judge and prompt & Agreement [95\% CI] & $\kappa$ & False acc.\,/\,rej. \\
+\midrule
+GLM, v2 free-form prompt & 0.55 [0.47, 0.63] & 0.14 & 55 / 12 \\
+GLM, v3 checklist + convention sheet & 0.83 [0.77, 0.88] & 0.67 & 22 / 3 \\
+Gemma-4-26B-A4B, v3 checklist & 0.73 & 0.48 & 38 / 2 \\
+gpt-oss-20b, v3 checklist & 0.74 & 0.48 & 22 / 17 \\
+\textbf{Panel GLM + Gemma-4 (both must accept)} & \textbf{0.87 [0.80, 0.91]} & \textbf{0.73} & 15 / 5 \\
+Panel GLM + gpt-oss-20b & 0.80 & 0.59 & 10 / 20 \\
+\midrule
+\multicolumn{4}{@{}l}{\emph{(b) The panel on the v3 build (3,239 judged candidates)}} \\
+\multicolumn{3}{@{}l}{Pass rate: GLM / Gemma-4 / both} & 95.6 / 96.6 / 93.9\% \\
+\multicolumn{3}{@{}l}{Agreement between the two judges ($\kappa$; prevalence-adjusted $\kappa$)} & 95.6\% (0.41; 0.91) \\
+\midrule
+\multicolumn{4}{@{}l}{\emph{(c) Outside auditor: gpt-6-luna, same checklist and evidence, audit only}} \\
+\multicolumn{3}{@{}l}{Accepted items flagged (easy, medium, hard)} & 21.8\% (11.5, 20.1, 36.5\%) \\
+\multicolumn{3}{@{}l}{Agreement with the panel decision ($\kappa$)} & 79.0\% (0.27) \\
+\multicolumn{3}{@{}l}{On the 150 adjudicated items: agreement ($\kappa$); false acc./rej.} & 0.86 (0.71); 3 / 18 \\
+\bottomrule
+\end{tabular}
+\caption{Judges. (a) Labels came from an LLM adjudicator that read each item against the convention sheet; the set over-represents v2 defects and judge disagreements, and it also guided four prompt revisions, so these are in-sample design numbers (a frozen rerun of the GLM checklist gave $\kappa=0.61$). The GLM\,+\,Gemma panel was frozen before the build. (b) Both judges pass most v3 candidates, so $\kappa$ understates their agreement. (c) gpt-6-luna is strict: it rejects 26\% of the items adjudicated correct (and accepts 3 of 81 bad ones), so its flag rate overstates the error rate. Most frequent failing criteria: no extra constraints (258), relationships (225), aggregation (193), unambiguous (139). Human labels (\S\ref{sec:validity}) measure how many flags are real.}
+\label{tab:judges}
+\end{table*}

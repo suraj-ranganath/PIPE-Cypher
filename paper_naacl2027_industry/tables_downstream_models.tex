@@ -1,0 +1,25 @@
+\begin{table*}[!t]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{4.3cm}>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{3.85cm}>{\raggedright\arraybackslash}p{3.1cm}>{\raggedright\arraybackslash}p{1.7cm}@{}}
+\toprule
+Model (weights) & Family & Role & Precision served & Prompt formats \\
+\midrule
+GLM-5.3-Flash (zai-org/GLM-5.3-Flash, MIT) & GLM & generator, judge 1; downstream$^\dagger$ & FP8 (released), one pinned provider & standard, governed \\
+Qwen3.5-9B & Qwen & 9B generator ablation; replay generator; downstream & BF16 & standard, governed \\
+Llama-3.1-8B-Instruct & Llama & downstream & BF16 & standard, governed \\
+Gemma-3-4B-IT, Gemma-3-12B-IT & Gemma & downstream & BF16 & standard, governed \\
+Gemma-4-26B-A4B-IT & Gemma & judge 2; downstream & BF16, one pinned provider & standard, governed \\
+Phi-4 & Phi & downstream & BF16 & standard, governed \\
+Mistral-Small-3.2-24B-Instruct & Mistral & downstream & BF16 & standard, governed \\
+gpt-oss-20b & gpt-oss & downstream (open-weight reasoning) & BF16 as served (released in MXFP4) & standard, governed \\
+Qwen3-Coder-30B-A3B-Instruct & Qwen & downstream & FP8 (official release) & standard, governed \\
+Neo4j text-to-cypher Gemma-3-4B (2025.04) & Text2Cypher-tuned & downstream & BF16 (local, MLX) & standard, native \\
+Neo4j text2cypher Gemma-2-9B LoRA (2024v1) & Text2Cypher-tuned & downstream & BF16, LoRA merged (local, MLX) & standard, native \\
+gpt-6-luna (hosted, closed) & OpenAI GPT & outside auditor; replay generator; downstream reference & provider default & standard, governed \\
+\bottomrule
+\end{tabular}
+\caption{Models. All open-weight models are deployable inside an organization's boundary; in this study, models without local hardware were reached through hosted endpoints serving their released precision or higher (no FP4/INT4 re-quantization), and only on public graphs. $^\dagger$Generator family. ``Governed'' adds the answer conventions the generator saw (context columns, direction, exact literals); ``native'' is the checkpoint's documented model-card or official-notebook prompt.}
+\label{tab:models}
+\end{table*}

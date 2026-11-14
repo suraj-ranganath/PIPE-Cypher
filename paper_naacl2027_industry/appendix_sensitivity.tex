@@ -1,0 +1,132 @@
+\section{Reference Quality, Scoring, and Answer Coverage}
+\label{app:sensitivity}
+\paragraph{Do scores and rankings depend on doubtful references?} We rescored the 11 models, from their existing zero-shot predictions, on subsets of the release with fewer doubtful references (Table~\ref{tab:sensitivity}). Removing the items the outside auditor flags raises every model's accuracy by 2 to 4 points and the hard-tier median from 0.15 to 0.19, and it leaves the ranking nearly unchanged (Kendall $\tau=0.93$ with the full release). The one change among the stronger models is that gpt-6-luna and GLM, 0.01 apart, swap places; since gpt-6-luna is itself the auditor, this subset mildly favors it. On the 58 human-labeled items whose reference was resolved as not wrong the same four models lead in the same order ($\tau=0.84$), although with 58 items a model's accuracy has a 95\% interval of roughly $\pm 0.12$. The auditor-passed subset keeps 79\% of the audited items: 90\% of easy, 80\% of medium, and 65\% of hard ones (FinBench 80\%, SNB 77\%).
+
+\begin{table}[H]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+& Full & Auditor & Auditor & Human: & Human: \\
+& release & passed & flagged & not wrong & fully correct \\
+\midrule
+Items & 3,038 & 2,264 & 614 & 58 & 52 \\
+Kendall $\tau$ vs.\ full release & 1.00 & 0.93 & 0.99 & 0.84 & 0.87 \\
+Median projected EX & 0.43 & 0.47 & 0.26 & 0.38 & 0.40 \\
+\addlinespace
+gpt-6-luna & 0.77 & 0.81 & 0.61 & 0.78 & 0.79 \\
+GLM-5.3-Flash & 0.77 & 0.80 & 0.62 & 0.76 & 0.77 \\
+Gemma-4-26B-A4B & 0.69 & 0.72 & 0.55 & 0.69 & 0.69 \\
+gpt-oss-20b & 0.58 & 0.61 & 0.44 & 0.62 & 0.62 \\
+Mistral-Small-3.2-24B & 0.51 & 0.54 & 0.34 & 0.47 & 0.48 \\
+Qwen3-Coder-30B-A3B & 0.43 & 0.47 & 0.26 & 0.34 & 0.33 \\
+Phi-4 & 0.43 & 0.47 & 0.26 & 0.38 & 0.40 \\
+Qwen3.5-9B & 0.35 & 0.38 & 0.21 & 0.33 & 0.33 \\
+Llama-3.1-8B & 0.24 & 0.27 & 0.10 & 0.19 & 0.21 \\
+Gemma-3-12B & 0.21 & 0.24 & 0.06 & 0.21 & 0.21 \\
+Gemma-3-4B & 0.21 & 0.23 & 0.09 & 0.21 & 0.19 \\
+\addlinespace
+Hard-tier median (items) & 0.15 (869) & 0.19 (544) & 0.11 (298) & 0.26 (19) & 0.29 (17) \\
+\bottomrule
+\end{tabular}}
+\caption{Zero-shot projected EX of the 11 models on subsets with fewer doubtful references. The auditor judged 2,878 of the 3,038 released items (the rest had their question text normalized after the audit). Human columns are unweighted and cover the 70 labeled items; the sample oversampled hard and flagged items, so its accuracies are lower than the release's.}
+\label{tab:sensitivity}
+\end{table}
+
+\paragraph{What changes when wrong references are corrected?} Filtering removes items and so changes what is measured. As a direct test, for the seven sampled references judged wrong on a clear question we wrote a corrected query that applies the fix named in the annotators' notes and nothing else, and rescored the 11 models' stored zero-shot predictions against it (Table~\ref{tab:corrected}). The other five wrong references belong to questions judged ambiguous, three of which ask for facts the schema does not record; they have no single correct reference, so we left them uncorrected, and such items should be dropped or rewritten. Four of the seven corrections return the same rows as the released reference: the query is logically wrong, but the current data contain no case that exposes it. For the other three the answer changes. Across the 77 model--item pairs, no prediction scored wrong becomes right, and four scored right become wrong (two from gpt-6-luna, one each from GLM and Gemma-4), because those predictions repeated the reference's mistake. In this sample, wrong references therefore rewarded a few incorrect predictions and penalized no correct one. gpt-6-luna falls from 5 to 3 of the seven items and still leads, GLM from 1 to 0, and Gemma-4 from 2 to 1; the other eight models are unchanged. Seven items cannot support a rate, and three of them were first labeled differently by the two annotators, so we read this as the direction of the effect: reference errors here slightly flatter the strongest models and leave the ordering of the rest alone.
+
+\begin{table}[H]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{2.5pt}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.3\columnwidth}>{\raggedright\arraybackslash}p{0.5\columnwidth}ccc@{}}
+\toprule
+ & & Rows & \multicolumn{2}{c}{Models right} \\
+Item & Fix applied & differ & before & after \\
+\midrule
+Path/temporal, hard & Match two \cy{KNOWS} conditions separately so that they may use the same edge & no & 0 & 0 \\
+Ranking/top-$k$, hard & Count each linked account once, in either direction & yes & 0 & 0 \\
+Boolean existence, easy & Encode the date cutoff in the stored unit (epoch milliseconds) & no & 7 & 7 \\
+Path/temporal, medium & Require the three companies to be distinct & no & 1 & 1 \\
+Complex aggregation, hard & Group by the forum itself & yes & 2 & 0 \\
+Complex retrieval, hard & Count only repayments from the guaranteed person's own accounts & no & 1 & 1 \\
+Complex aggregation, medium & Average only over accounts with an outgoing transfer (C12) & yes & 2 & 0 \\
+\bottomrule
+\end{tabular}}
+\caption{The seven sampled references judged wrong on a clear question, the fix applied to each, whether the corrected query returns different rows on the current graph, and how many of the 11 models are scored right against the released and the corrected reference (zero-shot, projected EX).}
+\label{tab:corrected}
+\end{table}
+
+\paragraph{Can an open-weight model do the audit?} A private deployment cannot send its items to a closed auditor, so we ran two open-weight models that took no part in construction as auditors on the 70 human-labeled items, with the same checklist prompt and evidence (Table~\ref{tab:openauditor}). DeepSeek-V4.1-Flash flags 17 items and catches 8 of the 12 wrong references; 14 of its 17 flags mark some defect, a higher share than for gpt-6-luna (15 of 23), and 6\% of the items it passes are wrong (gpt-6-luna: 4\%). Qwen3-Coder-30B flags a single item and catches no wrong reference, so it behaves like a third panel member and adds nothing as an auditor. With 12 wrong references these recall estimates are coarse, but they indicate that a strong open-weight model can take the auditor's role inside an organization's boundary, while a small code model cannot.
+
+We also tried two \emph{decision models}, which answer typed questions with calibrated probabilities and generate no text, at a few cents for all 70 items. Each checklist criterion becomes one yes/no question (``does the reference violate this criterion?''), plus one overall question on whether the reference returns a different answer from the one asked for, and an item is flagged when any probability reaches 0.5. The input state holds the convention sheet, the schema, and the item. Clef, a 27B decision model with open weights, is documented to read about the first 2,000 tokens of its state, so for it we wrote a compact state that starts with the item, continues with the schema of only the labels and relationship types the query names, and ends with the convention sheet (1,200 to 1,800 tokens). Clef flags 10 items and catches 5 of the 12 wrong references, and 7 of its 10 flags mark some defect. Jev, a closed decision model given the full schema, flags 16 items and catches 7, close to DeepSeek at a small fraction of the cost, with 9 of its 16 flags marking some defect.
+
+Three cautions apply. The format matters and the best one differs by model: with the judges' chat prompt as the state and yes/no/na answers, Jev flagged only 6 items and caught 3; with Clef's compact state, Jev flagged 6 and caught 2. Clef's probabilities also sit close to the threshold (0.39 to 0.69 over the 70 items), so its flags are sensitive to the cutoff: at 0.4 it would flag 52 items. And all of these settings were tried on the same 12 wrong references. We read the result as follows: an open-weight decision model can serve as a low-cost first screen inside an organization's boundary, catching about half as many wrong references as the closed chat auditor, and an open-weight chat model such as DeepSeek remains the stronger choice for the auditor role.
+
+\begin{table}[H]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+& Items & Wrong refs. & Flags with & Wrong among \\
+Auditor & flagged & caught (of 12) & any defect & passed (rew.) \\
+\midrule
+gpt-6-luna (closed) & 23 & 10 & 15 of 23 & 3.9\% \\
+DeepSeek-V4.1-Flash (open) & 17 & 8 & 14 of 17 & 6.1\% \\
+Qwen3-Coder-30B-A3B (open) & 1 & 0 & 0 of 1 & 14.2\% \\
+\addlinespace
+Clef (decision model, open) & 10 & 5 & 7 of 10 & 8.8\% \\
+Jev (decision model, closed) & 16 & 7 & 9 of 16 & 8.1\% \\
+\bottomrule
+\end{tabular}}
+\caption{Outside auditors on the 70 human-labeled items (12 wrong references); the chat models received the frozen checklist prompt. ``Any defect'' counts flags on items labeled wrong, minor issue, or ambiguous. Reweighted to the release, the first three auditors flag 18\%, 17\%, and 3\% of items (sample estimates; gpt-6-luna's rate measured on the full release is 22\%) and recall 77\%, 63\%, and 0\% of wrong references; Clef flags 12\% and recalls 44\%, and Jev flags 17\% and recalls 51\%. DeepSeek ran through a hosted endpoint with low reasoning effort. The decision models (\texttt{cloudflare/clef} and \texttt{jev-latest}, reached through a hosted decisions endpoint; Clef with the compact state described in the text) return a probability for each of ten yes/no questions and produce no text; an item is flagged when any probability is at least 0.5.}
+\label{tab:openauditor}
+\end{table}
+
+\paragraph{Which metrics should a benchmark report?} Metrics for generated queries fall into three families. \emph{Text-overlap} metrics compare the predicted query string with the reference: exact string match, BLEU and Google-BLEU, ROUGE-L, and character-level similarity such as Jaro--Winkler. \emph{Structural} metrics compare the queries' components after abstracting values, as exact set match does for SQL; our analogue is whether two queries share a query signature. \emph{Execution} metrics run both queries and compare the returned rows, strictly or after projecting to the answer columns. The first two families need no database, which is why they remain common, but they assume that a correct query resembles the reference. Table~\ref{tab:metrics} measures all three on the 33,418 stored predictions of the 11 models, grouping predictions by whether they return the right answer under projected EX.
+
+\begin{table}[H]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+& \multicolumn{2}{c}{Mean when answer is} & & Range over & $\tau$ vs. & GLM $-$ \\
+\cmidrule(lr){2-3}
+Metric & right & wrong & AUC & 11 models & proj.\ EX & gpt-6-luna \\
+\midrule
+\multicolumn{7}{@{}l}{\emph{Text overlap with the reference}} \\
+Exact string match & 0.04 & 0.00 & 0.52 & 0.00--0.05 & 0.56 & $+0.02$ \\
+Google-BLEU & 0.69 & 0.53 & 0.77 & 0.51--0.70 & 0.85 & $+0.06$ \\
+BLEU-4 & 0.68 & 0.51 & 0.77 & 0.49--0.69 & 0.85 & $+0.06$ \\
+ROUGE-L & 0.82 & 0.69 & 0.77 & 0.68--0.82 & 0.78 & $+0.04$ \\
+Jaro--Winkler & 0.90 & 0.86 & 0.74 & 0.86--0.91 & 0.31 & $+0.04$ \\
+\multicolumn{7}{@{}l}{\emph{Structure}} \\
+Same query signature & 0.05 & 0.00 & 0.52 & 0.01--0.05 & 0.56 & $+0.02$ \\
+\multicolumn{7}{@{}l}{\emph{Execution}} \\
+Strict EX & 0.56 & 0.00 & 0.78 & 0.10--0.45 & 0.96 & $+0.04$ \\
+Answer F1 (projected) & 1.00 & 0.05 & -- & 0.23--0.79 & 0.96 & $+0.00$ \\
+Projected EX (criterion) & 1.00 & 0.00 & -- & 0.21--0.77 & 1.00 & $+0.00$ \\
+\bottomrule
+\end{tabular}}
+\caption{Query metrics on 33,418 zero-shot predictions (15,752 with the right answer under projected EX). AUC is the probability that a prediction with the right answer scores above one with the wrong answer. ``Range'' is the lowest and highest model mean; $\tau$ is Kendall's rank correlation between the 11 model means under the metric and under projected EX. The last column is GLM's mean minus gpt-6-luna's; the two return the right answer equally often.}
+\label{tab:metrics}
+\end{table}
+
+Three things stand out. First, correct queries rarely resemble the reference: only 3.5\% of predictions with the right answer match its text and 4.8\% share its signature, so exact text or structure matching would reject more than 95\% of correct predictions. Second, graded text metrics separate right from wrong only weakly (AUC 0.74--0.77) and compress the models: Google-BLEU spans 0.51 to 0.70 where projected EX spans 0.21 to 0.77, and Jaro--Winkler barely orders the models at all ($\tau=0.31$). Third, text metrics reward resemblance to the reference writer. Every graded text metric puts GLM, whose style the references share, ahead of gpt-6-luna by 0.04 to 0.06, although the two return the right answer equally often. Strict EX removes most of these problems but still scores 44\% of right answers as wrong, for the reasons given below.
+
+\paragraph{How the metrics work together.} These results argue for execution as the score and for the other signals as complements, each covering what execution cannot. Execution needs a reference that returns a real answer, which is what reverse querying provides (\S\ref{sec:method}). Text overlap then says what kind of prediction execution has scored. A wrong prediction with high overlap is a near miss: among the 420 wrong predictions with Google-BLEU of at least 0.8, 20\% reverse a relationship direction, against 8\% of the 7,196 wrong predictions with overlap below 0.5, and fewer fail to execute at all (31\% vs.\ 51\%). A right prediction with low overlap is a valid alternative form: 1,982 right answers (13\%) have overlap below 0.5 and would be invisible to a text metric. Neither execution nor overlap can tell whether the reference itself answers the question, since both only compare a prediction with it. That is the role of the LLM judges and the outside auditor, which read each question against its reference under the convention sheet (\S\ref{sec:validity}). We therefore recommend reporting execution accuracy as the score, text overlap as a diagnostic, and judged reference quality alongside both.
+
+\paragraph{What projected EX forgives.} Across the 11 models, 6,886 predictions pass projected EX but fail strict EX. In 42\% of them the reference returns a context column the question did not ask for (for example an account's type next to its id), which projected EX does not require; in 41\% the prediction returns the right values under different column names, sometimes with extra columns; and in 17\% it returns whole nodes where the reference returns the identifying property. Projected EX ignores column names and column order, expands returned nodes to their properties, and does not require the identifying context columns that convention C6 allows. It compares complete rows over all answer columns, so an entity stays attached to its group or count, and an extra column never earns credit unless the whole projected row set matches. Both metrics measure execution agreement on the current graph. Two queries with different meanings return the same rows whenever the data hold no case that separates them, as four of the seven corrected references show (Table~\ref{tab:corrected}), so a pass means agreement on this graph state, and a refreshed or larger graph can separate queries that agree today.
+
+\paragraph{Row order.} Both metrics compare row sets, so row order is not scored. For top-$k$ questions the cutoff makes membership depend on the order, but the 249 released items that ask for a sorted listing without a cutoff are scored on membership alone. To measure what this hides, we re-executed the reference and every prediction that passed projected EX on those items and compared the sequences of sort-key values. Of 837 such predictions across the 11 models, 165 (20\%) return the right rows in a different order. Counting them as wrong lowers a model's accuracy on the full release by 0.03 to 1.25 points (0.9 for gpt-6-luna and GLM) and leaves the ranking of the 11 models unchanged.
+
+\paragraph{Alternative readings.} Where the convention sheet admits more than one reading, the reference follows one of them, and the question writer is instructed to word the question for that reading; a prediction that follows another reading of an underspecified question is scored as wrong.
+
+\paragraph{Zero, empty, and false answers.} A binding is kept only if its template query returns a non-degenerate answer, which removes empty results but also makes zero counts rare: 5 of the 550 released items with a single numeric answer have the answer 0. Yes/no questions are exempt from the rule, since \emph{false} is a legitimate answer, and 43\% of the 384 released yes/no items have the answer \emph{false}. The rule is a single function in the binding step. Relaxing it for selected templates would admit a controlled share of zero or empty answers; we have not implemented or evaluated that mode.

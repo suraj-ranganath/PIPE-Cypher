@@ -5,8 +5,10 @@ import random
 from dataclasses import dataclass
 from typing import Any
 
+import requests
+
 from .diversity_metrics import canonical_query_signature
-from .llm import OpenAICompatibleLLM
+from .llm import ChatResponse, OpenAICompatibleLLM, strip_reasoning_text
 from .models import SchemaSummary
 from .retrieval import cosine_counts, tokenize
 from .validator import strip_code_fences
@@ -51,6 +53,11 @@ class Text2CypherPrediction:
     gold_cypher: str | None = None
     error: str | None = None
     few_shot_selection: dict[str, Any] | None = None
+    prompt_sha256: str | None = None
+    prompt_format: str = "pipe_standard"
+    prompt_transport: str = "chat"
+    system_message_mode: str | None = None
+    provider: str | None = None
 
 
 def build_text2cypher_prompt(
@@ -76,17 +83,28 @@ def predict_text2cypher(
     schema_max_items: int = 80,
     temperature: float = 0.0,
     max_tokens: int = 512,
+    prompt_format: str = "pipe_standard",
 ) -> Text2CypherPrediction:
-    prompt = build_text2cypher_prompt(
+    from .prompt_formats import render_prompt
+
+    # Prompt-format errors (unknown name, few-shot with a zero-shot native
+    # template) are configuration errors and propagate instead of being logged
+    # as per-row request failures.
+    rendered = render_prompt(
+        prompt_format,
+        schema_text=schema.to_prompt(max_items=schema_max_items),
         question=str(example["question"]),
-        schema=schema,
-        schema_max_items=schema_max_items,
         few_shot_examples=few_shot_examples,
+        schema=schema,
     )
+    system_message_mode = str(getattr(llm, "system_message_mode", "separate") or "separate")
+    # Hash of the prompt content actually sent (messages after system-message
+    # merging, or the raw completion prompt).
+    prompt_sha256 = rendered.sha256(system_message_mode)
     try:
-        response = llm.chat(
-            system=TEXT2CYPHER_SYSTEM,
-            user=prompt,
+        response = send_rendered_prompt(
+            llm,
+            rendered,
             temperature=temperature,
             max_tokens=max_tokens,
         )
@@ -109,6 +127,11 @@ def predict_text2cypher(
         model=llm.model,
         gold_cypher=example.get("cypher"),
         error=error,
+        prompt_sha256=prompt_sha256,
+        prompt_format=rendered.format_name,
+        prompt_transport=rendered.transport,
+        system_message_mode=system_message_mode if rendered.transport == "chat" else None,
+        provider=getattr(llm, "provider", None),
         few_shot_selection=selection_metadata(
             current=example,
             selected=few_shot_examples or [],
@@ -116,6 +139,101 @@ def predict_text2cypher(
         if few_shot_examples
         else None,
     )
+
+
+def send_rendered_prompt(
+    llm: Any,
+    rendered: Any,
+    *,
+    temperature: float = 0.0,
+    max_tokens: int = 512,
+) -> ChatResponse:
+    """Send a :class:`pipecypher.prompt_formats.RenderedPrompt` to ``llm``.
+
+    ``(system, user)`` chat prompts go through ``llm.chat`` unchanged, so the
+    historical pipe_standard request path is untouched. Documented formats that
+    use a single user turn or a raw completion prompt need message-level access.
+    """
+
+    if rendered.transport == "completion":
+        complete = getattr(llm, "complete", None)
+        if callable(complete):
+            return complete(
+                prompt=rendered.user,
+                temperature=temperature,
+                max_tokens=max_tokens,
+                stop=list(rendered.stop),
+            )
+        if isinstance(llm, OpenAICompatibleLLM):
+            return _openai_compatible_completion(
+                llm,
+                prompt=rendered.user,
+                temperature=temperature,
+                max_tokens=max_tokens,
+                stop=list(rendered.stop),
+            )
+        raise TypeError(f"{type(llm).__name__} cannot send completion-transport prompts")
+
+    if rendered.system is not None and not rendered.stop:
+        return llm.chat(
+            system=rendered.system,
+            user=rendered.user,
+            temperature=temperature,
+            max_tokens=max_tokens,
+        )
+    messages = rendered.messages(str(getattr(llm, "system_message_mode", "separate") or "separate"))
+    chat_messages = getattr(llm, "chat_messages", None)
+    if callable(chat_messages):
+        return chat_messages(
+            messages=messages,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            stop=list(rendered.stop),
+        )
+    if isinstance(llm, OpenAICompatibleLLM):
+        payload = llm._payload(messages, temperature, max_tokens, None)
+        if rendered.stop:
+            payload["stop"] = list(rendered.stop)
+        data = llm._post(payload).json()
+        text = data["choices"][0]["message"]["content"]
+        if llm.strip_reasoning:
+            text = strip_reasoning_text(text)
+        return ChatResponse(text=text, raw=data)
+    raise TypeError(f"{type(llm).__name__} cannot send user-only chat prompts")
+
+
+def _openai_compatible_completion(
+    llm: OpenAICompatibleLLM,
+    *,
+    prompt: str,
+    temperature: float,
+    max_tokens: int,
+    stop: list[str],
+) -> ChatResponse:
+    """POST a raw prompt to a local vLLM ``/completions`` route."""
+
+    if getattr(llm, "provider", "vllm") != "vllm":
+        raise ValueError("completion-transport prompt formats are only supported on local vLLM endpoints")
+    payload: dict[str, Any] = {
+        "model": llm.model,
+        "prompt": prompt,
+        "temperature": temperature,
+        "max_tokens": max_tokens,
+    }
+    if stop:
+        payload["stop"] = stop
+    resp = requests.post(
+        f"{llm.base_url}/completions",
+        headers={"Authorization": f"Bearer {llm.api_key}"},
+        json=payload,
+        timeout=llm.timeout_sec,
+    )
+    resp.raise_for_status()
+    data = resp.json()
+    text = data["choices"][0]["text"]
+    if llm.strip_reasoning:
+        text = strip_reasoning_text(text)
+    return ChatResponse(text=text, raw=data)
 
 
 def choose_few_shots(
@@ -279,8 +397,22 @@ def _annotate_selected(
     return annotated
 
 
+# Chat-template end markers that some local servers return as text (e.g. MLX
+# serving Gemma-2 emits "<end_of_turn>"); everything after one is not the answer.
+_END_OF_TURN_MARKERS = ("<end_of_turn>", "<eos>", "<|im_end|>", "<|eot_id|>", "<|end|>", "</s>")
+
+
+def strip_end_of_turn(text: str) -> str:
+    cut = len(text)
+    for marker in _END_OF_TURN_MARKERS:
+        index = text.find(marker)
+        if index >= 0:
+            cut = min(cut, index)
+    return text[:cut]
+
+
 def clean_predicted_cypher(text: str) -> str:
-    cleaned = strip_code_fences(text).strip()
+    cleaned = strip_code_fences(unescape_literal_whitespace(strip_end_of_turn(text))).strip()
     for prefix in ("Cypher:", "Query:", "Answer:"):
         if cleaned.lower().startswith(prefix.lower()):
             cleaned = cleaned[len(prefix) :].strip()
@@ -299,6 +431,46 @@ def clean_predicted_cypher(text: str) -> str:
     if ";" in cleaned:
         cleaned = cleaned.split(";", 1)[0].strip()
     return " ".join(cleaned.split())
+
+
+def unescape_literal_whitespace(text: str) -> str:
+    """Turn escaped ``\\n``/``\\t``/``\\r`` emitted *as text* into whitespace.
+
+    Some fine-tuned checkpoints emit JSON-style escapes (the two characters
+    backslash + ``n``) instead of real newlines. Neo4j rejects those queries, so
+    every prediction fails execution. Escapes inside quoted Cypher literals are
+    preserved exactly.
+    """
+
+    if "\\" not in text:
+        return text
+    out: list[str] = []
+    quote: str | None = None
+    index = 0
+    while index < len(text):
+        char = text[index]
+        if quote:
+            out.append(char)
+            if char == "\\" and index + 1 < len(text):
+                out.append(text[index + 1])
+                index += 2
+                continue
+            if char == quote:
+                quote = None
+            index += 1
+            continue
+        if char in {"'", '"', "`"}:
+            quote = char
+            out.append(char)
+            index += 1
+            continue
+        if char == "\\" and index + 1 < len(text) and text[index + 1] in "ntr":
+            out.append("\n" if text[index + 1] == "n" else " ")
+            index += 2
+            continue
+        out.append(char)
+        index += 1
+    return "".join(out)
 
 
 def stable_question_id(example: dict[str, Any]) -> str:
@@ -322,6 +494,11 @@ def prediction_to_dict(prediction: Text2CypherPrediction) -> dict[str, Any]:
         "model": prediction.model,
         "gold_cypher": prediction.gold_cypher,
         "error": prediction.error,
+        "prompt_sha256": prediction.prompt_sha256,
+        "prompt_format": prediction.prompt_format,
+        "prompt_transport": prediction.prompt_transport,
+        "system_message_mode": prediction.system_message_mode,
+        "provider": prediction.provider,
         "few_shot_selection": prediction.few_shot_selection,
     }
 

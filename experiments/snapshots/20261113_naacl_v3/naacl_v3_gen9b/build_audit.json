@@ -1,0 +1,121 @@
+{
+  "records": 2297,
+  "accepted": 325,
+  "executed": 2053,
+  "acceptance_rate": 0.14148889856334348,
+  "failure_reasons": {
+    "tier quota exceeded (medium)": 613,
+    "tier quota exceeded (easy)": 474,
+    "accepted": 325,
+    "category contract: a yes/no question must return exactly one boolean value": 254,
+    "tier quota exceeded (hard)": 127,
+    "slot bindings unavailable": 121,
+    "category contract: a ranking question needs ORDER BY and LIMIT": 56,
+    "execution returned no rows": 49,
+    "slot bindings exhausted": 25,
+    "reference has a tie at the ORDER BY/LIMIT boundary (rank 10 and rank 11 share the order key)": 24,
+    "validation failed": 21,
+    "reference has a tie at the ORDER BY/LIMIT boundary (rank 1 and rank 2 share the order key)": 20,
+    "category contract: an aggregation question needs an aggregate": 10,
+    "tier quota exceeded (None)": 6,
+    "entity diversity cap exceeded": 3,
+    "structural defect: pattern (Person)-[:GUARANTEE]->(Company) is not listed in the schema, so it never matches": 2,
+    "{neo4j_code: Neo.ClientError.Statement.SyntaxError} {message: Invalid input 'COUNT': expected an expression (line 1, column 117 (offset: 116))\n\"MATCH (u:University)-[:IS_LOCATED_IN]->(city:City) WITH u, city, COUNT(DISTINCT v.id) AS studentCount WHERE (SELECT COUNT(*) FROM (MATCH (v:University)-[:IS_LOCATED_IN]->(c:City) WHERE c.id = city.id RETURN c.id) AS subq) > 5 RETURN u.id AS universityId, u.name AS universityName, studentCount\"\n                                                                                                                     ^} {gql_status: 50N42} {gql_status_description: error: general processing exception - unexpected error. Unexpected error has occurred. See debug log for details.}": 2,
+    "structural defect: pattern (City)-[:IS_LOCATED_IN]->(University) is not listed in the schema, so it never matches": 2,
+    "literal mismatch: quoted value 'knows' is not a Cypher literal": 2,
+    "structural defect: pattern (Medium)<-[:SIGN_IN]-(Account) is not listed in the schema, so it never matches": 1,
+    "literal mismatch: bound value '13194139533827' is not used in the Cypher; quoted value '13194139533827' is not a Cypher literal; Cypher literal '131941419533827' is not stated in the question": 1,
+    "[primary] aggregation=no: Question asks to 'show loan applications' (list the applications); query computes COUNT(l) > 0, an existence check, not a listing or count of applications.; columns=no: Question asks to show loan applications (their details, e.g. loanId, amounts, dates); query returns only HasLoanApplications boolean.; no_extra_constraints=no: No extra filters, but the aggregation collapses the requested rows into a boolean.; unambiguous=no: 'Show loan applications where applicant id = ...' has one reasonable reading: list the APPLY_LOAN applications by that applicant; the query answers a different question (whether any exist). | [gemma4] values=no: The question asks for 'loan applications where applicant id = '5497558139648''. The query uses companyId: '5497558139648'.; aggregation=no: The question asks to 'Show loan applications', which implies returning the entities themselves or a list, but the query returns a boolean aggregate 'COUNT(l) > 0'.; columns=no: The question asks to 'Show loan applications', which implies returning the loan entities or their details. The query returns a boolean 'HasLoanApplications'.; no_extra_constraints=no: The query transforms the request from 'Show [entities]' to a boolean existence check.; unambiguous=no: The question 'Show loan applications where applicant id = '5497558139648'' is a request for a list of entities. The query returns a boolean.": 1,
+    "[primary] aggregation=no: Question asks to 'verify investments ... into companies', i.e. show the investments/companies; query computes COUNT(c) > 0, a boolean existence check, not a listing or a count of investments.; columns=no: Question asks for the investments (companies) by the person; query returns only HasInvestments boolean, not the companies or investment details.; unambiguous=no: 'Verify investments by person X into companies' most naturally asks to return/show those investments; the query answers a different question (whether any exist).": 1,
+    "{neo4j_code: Neo.ClientError.Statement.SyntaxError} {message: Variable `GUARANTEE` not defined (line 1, column 157 (offset: 156))\n\"MATCH (g:Person {personId: '17592186044823'})-[:GUARANTEE]->(b:Person) WHERE g <> b RETURN DISTINCT g.personName AS guarantor, b.personName AS beneficiary, GUARANTEE.comment AS comment\"\n                                                                                                                                                             ^} {gql_status: 50N42} {gql_status_description: error: general processing exception - unexpected error. Unexpected error has occurred. See debug log for details.}": 1,
+    "{neo4j_code: Neo.ClientError.Statement.SyntaxError} {message: Too many parameters for function 'min' (line 1, column 66 (offset: 65))\n\"MATCH (src:Account)-[:TRANSFER_TO]->(dst:Account) WITH src, dst, min(src.createTime, dst.createTime) AS t WHERE dst.createTime < t RETURN DISTINCT src.accountId, src.accountType, src.isBlocked\"\n                                                                  ^} {gql_status: 42001} {gql_status_description: error: syntax error or access rule violation - invalid syntax}": 1
+  },
+  "binding_sources": {
+    "label_lookup_verified": 119,
+    "derived_return": 596
+  },
+  "reference_sources": {
+    "generator": 310,
+    "template_cypher": 15
+  },
+  "template_cypher_agreement": {
+    "False": 20,
+    "True": 93
+  },
+  "question_realization": {
+    "realized": 325
+  },
+  "spend": {
+    "usd": 1.1438,
+    "calls": 6093,
+    "cache_hit_share": 0.15066799062369496,
+    "calls_per_accepted": 18.747692307692308
+  },
+  "accepted_by_cell": {
+    "finbench:boolean_existence": 16,
+    "finbench:complex_aggregation": 22,
+    "finbench:complex_retrieval": 24,
+    "finbench:negation_difference": 20,
+    "finbench:path_temporal": 22,
+    "finbench:ranking_topk": 24,
+    "finbench:simple_aggregation": 23,
+    "finbench:simple_retrieval": 25,
+    "snb:boolean_existence": 8,
+    "snb:complex_aggregation": 23,
+    "snb:complex_retrieval": 9,
+    "snb:negation_difference": 25,
+    "snb:path_temporal": 15,
+    "snb:ranking_topk": 19,
+    "snb:simple_aggregation": 25,
+    "snb:simple_retrieval": 25
+  },
+  "checks": {
+    "empty_reject_share": {
+      "value": 0.02133217239878102,
+      "threshold": "< 0.05",
+      "pass": true,
+      "v2": 0.242496521566289
+    },
+    "accepted_literal_mismatches": {
+      "value": 0,
+      "threshold": "== 0",
+      "pass": true
+    },
+    "tier_mix_max_deviation": {
+      "value": 0.10615384615384615,
+      "shares": {
+        "easy": 0.36,
+        "medium": 0.4461538461538462,
+        "hard": 0.19384615384615383
+      },
+      "counts": {
+        "easy": 117,
+        "medium": 145,
+        "hard": 63
+      },
+      "threshold": "<= 0.10",
+      "pass": false
+    },
+    "panel_kappa": {
+      "value": 0.49340602667059613,
+      "n": 382,
+      "threshold": ">= 0.6",
+      "pass": false,
+      "v2": 0.22
+    },
+    "self_bleu": {
+      "value": 0.738622960825697,
+      "threshold": "< 0.81",
+      "pass": true,
+      "v2": 0.87
+    },
+    "projected_generation_cost_usd": {
+      "value": 1.4078047414153776,
+      "per_item": 0.0035195118535384443,
+      "threshold": "<= 1.5",
+      "pass": true
+    }
+  },
+  "all_record_checks_pass": false,
+  "literal_problem_examples": []
+}

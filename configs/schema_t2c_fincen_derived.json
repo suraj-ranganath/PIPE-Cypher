@@ -1,0 +1,211 @@
+{
+  "categorical_properties": {},
+  "graph_name": "t2c_fincen",
+  "node_properties": [
+    {
+      "label": "Country",
+      "property": "location",
+      "type": "POINT"
+    },
+    {
+      "label": "Country",
+      "property": "code",
+      "type": "STRING"
+    },
+    {
+      "label": "Country",
+      "property": "name",
+      "type": "STRING"
+    },
+    {
+      "label": "Country",
+      "property": "tld",
+      "type": "STRING"
+    },
+    {
+      "label": "Filing",
+      "property": "begin",
+      "type": "DATE_TIME"
+    },
+    {
+      "label": "Filing",
+      "property": "end",
+      "type": "DATE_TIME"
+    },
+    {
+      "label": "Filing",
+      "property": "originator_bank_id",
+      "type": "STRING"
+    },
+    {
+      "label": "Filing",
+      "property": "sar_id",
+      "type": "STRING"
+    },
+    {
+      "label": "Filing",
+      "property": "beneficiary_bank",
+      "type": "STRING"
+    },
+    {
+      "label": "Filing",
+      "property": "filer_org_name_id",
+      "type": "STRING"
+    },
+    {
+      "label": "Filing",
+      "property": "originator_bank_country",
+      "type": "STRING"
+    },
+    {
+      "label": "Filing",
+      "property": "beneficiary_bank_country",
+      "type": "STRING"
+    },
+    {
+      "label": "Filing",
+      "property": "filer_org_name",
+      "type": "STRING"
+    },
+    {
+      "label": "Filing",
+      "property": "originator_iso",
+      "type": "STRING"
+    },
+    {
+      "label": "Filing",
+      "property": "beneficiary_bank_id",
+      "type": "STRING"
+    },
+    {
+      "label": "Filing",
+      "property": "origin_lat",
+      "type": "STRING"
+    },
+    {
+      "label": "Filing",
+      "property": "origin_lng",
+      "type": "STRING"
+    },
+    {
+      "label": "Filing",
+      "property": "end_date_format",
+      "type": "STRING"
+    },
+    {
+      "label": "Filing",
+      "property": "begin_date_format",
+      "type": "STRING"
+    },
+    {
+      "label": "Filing",
+      "property": "originator_bank",
+      "type": "STRING"
+    },
+    {
+      "label": "Filing",
+      "property": "beneficiary_lat",
+      "type": "STRING"
+    },
+    {
+      "label": "Filing",
+      "property": "beneficiary_iso",
+      "type": "STRING"
+    },
+    {
+      "label": "Filing",
+      "property": "beneficiary_lng",
+      "type": "STRING"
+    },
+    {
+      "label": "Filing",
+      "property": "begin_date",
+      "type": "STRING"
+    },
+    {
+      "label": "Filing",
+      "property": "id",
+      "type": "STRING"
+    },
+    {
+      "label": "Filing",
+      "property": "end_date",
+      "type": "STRING"
+    },
+    {
+      "label": "Filing",
+      "property": "amount",
+      "type": "INTEGER"
+    },
+    {
+      "label": "Filing",
+      "property": "number",
+      "type": "INTEGER"
+    },
+    {
+      "label": "Entity",
+      "property": "id",
+      "type": "STRING"
+    },
+    {
+      "label": "Entity",
+      "property": "location",
+      "type": "POINT"
+    },
+    {
+      "label": "Entity",
+      "property": "name",
+      "type": "STRING"
+    },
+    {
+      "label": "Entity",
+      "property": "country",
+      "type": "STRING"
+    }
+  ],
+  "provenance": {
+    "dataset": "neo4j/text2cypher-2024v1",
+    "kind": "derived_from_dataset_schema_text",
+    "note": "Parsed from the dataset's `schema` field (most frequent variant), not introspected from a live graph. Categorical values are intentionally omitted. Use only for offline checks and schema-drift comparison; runs must use the live schema written by scripts/inspect_schema.py.",
+    "revision": "d9f15541ab2f99a0f54797a0109b50663554f512",
+    "rows_total": 1493,
+    "rows_with_selected_variant": 1484,
+    "schema_text_sha256": "ee07cffcd828c593874be8c0ec91fc3c4b0d9afb78d7e9a2d0c9d62c7aa50841",
+    "schema_text_variants": 2
+  },
+  "relationship_properties": [],
+  "relationships": [
+    {
+      "count": null,
+      "end_label": "Entity",
+      "start_label": "Filing",
+      "type": "BENEFITS"
+    },
+    {
+      "count": null,
+      "end_label": "Entity",
+      "start_label": "Filing",
+      "type": "CONCERNS"
+    },
+    {
+      "count": null,
+      "end_label": "Entity",
+      "start_label": "Filing",
+      "type": "ORIGINATOR"
+    },
+    {
+      "count": null,
+      "end_label": "Filing",
+      "start_label": "Entity",
+      "type": "FILED"
+    },
+    {
+      "count": null,
+      "end_label": "Country",
+      "start_label": "Entity",
+      "type": "COUNTRY"
+    }
+  ],
+  "source": "derived:neo4j/text2cypher-2024v1@d9f15541ab2f99a0f54797a0109b50663554f512:schema_field:sha256=ee07cffcd828c593",
+  "symmetric_relationships": []
+}

@@ -4,10 +4,11 @@ import time
 from typing import Any
 
 try:
-    from neo4j import READ_ACCESS, GraphDatabase
+    from neo4j import READ_ACCESS, GraphDatabase, Query
 except Exception:  # pragma: no cover - optional until live graph runs
     GraphDatabase = None
     READ_ACCESS = "READ"
+    Query = None
 
 from .models import ExecutionResult
 from .validator import assert_read_only
@@ -56,7 +57,11 @@ class Neo4jCypherClient:
             if read_only and self.enforce_read_transactions:
                 session_kwargs["default_access_mode"] = READ_ACCESS
             with self._driver.session(**session_kwargs) as session:
-                result = session.run(query, params or {}, timeout=self.timeout_sec)
+                # The server-side timeout must travel on a Query object: extra
+                # keyword arguments to session.run are treated as query
+                # parameters, so ``timeout=`` there was silently ignored.
+                statement = Query(query, timeout=self.timeout_sec) if Query is not None else query
+                result = session.run(statement, params or {})
                 rows = [dict(record) for record in result]
                 if limit_rows is not None:
                     rows = rows[:limit_rows]

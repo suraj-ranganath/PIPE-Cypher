@@ -53,6 +53,10 @@ class SchemaSummary:
     categorical_properties: dict[str, list[str]] = field(default_factory=dict)
     graph_name: str = "unknown"
     source: str = "introspection"
+    # Relationship types whose stored direction carries no meaning (e.g. LDBC
+    # SNB ``KNOWS`` is stored once per pair). Undirected patterns are allowed
+    # for these types; every other type still requires an explicit direction.
+    symmetric_relationships: list[str] = field(default_factory=list)
 
     @property
     def labels(self) -> set[str]:
@@ -105,6 +109,11 @@ class SchemaSummary:
                 f"- :{prop.type}.{prop.property} ({prop.value_type})"
                 for prop in rel_props[:max_items]
             )
+        if self.symmetric_relationships:
+            parts.append(
+                "Symmetric relationship types (stored once per pair; match them without a "
+                "direction, e.g. -[:TYPE]-): " + ", ".join(sorted(self.symmetric_relationships))
+            )
         if self.categorical_properties:
             parts.append(
                 "Categorical property values "
@@ -142,6 +151,9 @@ class SchemaSummary:
             categorical_properties=data.get("categorical_properties", {}),
             graph_name=data.get("graph_name", "unknown"),
             source=data.get("source", "file"),
+            symmetric_relationships=[
+                _normalize_schema_type(str(x)) for x in data.get("symmetric_relationships", [])
+            ],
         )
 
 
@@ -236,6 +248,10 @@ class GenerationRecord:
     model: str | None = None
     template: str | None = None
     template_metadata: dict[str, Any] = field(default_factory=dict)
+    # Per-candidate provenance added for benchmark v2: query signature,
+    # template origin (seed / schema_derived / llm / llm_induced), induction
+    # round, canonical vs realized question, truncation checks.
+    generation_metadata: dict[str, Any] = field(default_factory=dict)
     created_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
     def to_dict(self) -> dict[str, Any]:

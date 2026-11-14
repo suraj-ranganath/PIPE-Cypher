@@ -6,6 +6,12 @@ from pathlib import Path
 from typing import Any
 
 
+# A downstream run whose predictions are mostly request failures (for example
+# HTTP 404 from an endpoint serving a different model) is an infrastructure
+# failure. It must never be summarized as 0.000 model accuracy.
+MAX_PREDICTION_FAILURE_RATE = 0.01
+
+
 METRICS = (
     "execution_accuracy",
     "answer_f1",
@@ -97,6 +103,10 @@ def summarize_model_transfer_run(run_dir: Path, metadata: dict[str, Any] | None 
             missing.append(path.name)
         elif not _summary_has_rows(path):
             missing.append(f"{path.name}: no evaluated rows")
+        else:
+            issue = _validity_issue(path, path.name)
+            if issue:
+                missing.append(issue)
     run = {
         "run_id": run_dir.name,
         "path": str(run_dir),
@@ -435,6 +445,10 @@ def _summarize_control_model(
         missing.append(str(zero_summary))
     elif not _summary_has_rows(zero_summary):
         missing.append("zero_shot_summary.json: no evaluated rows")
+    else:
+        issue = _validity_issue(zero_summary, "zero_shot")
+        if issue:
+            missing.append(issue)
     required = ["ordered", "scored_no_signature", "random_seed13", "random_seed17", "random_seed23"]
     for key in required:
         if key not in control_dirs:
@@ -443,6 +457,10 @@ def _summarize_control_model(
             missing.append(f"{key}/few_shot_summary.json")
         elif not _summary_has_rows(control_dirs[key] / "few_shot_summary.json"):
             missing.append(f"{key}/few_shot_summary.json: no evaluated rows")
+        else:
+            issue = _validity_issue(control_dirs[key] / "few_shot_summary.json", key)
+            if issue:
+                missing.append(issue)
 
     controls: dict[str, Any] = {}
     control_metadata = _control_metadata(control_dirs)
@@ -501,6 +519,10 @@ def _aggregate_control_models(models: list[dict[str, Any]]) -> dict[str, Any]:
         "mean_ordered_execution_accuracy": _mean(ordered_f),
         "mean_scored_execution_accuracy": _mean(scored_f),
         "mean_random_execution_accuracy": _mean(random_f),
+        "median_zero_execution_accuracy": _quantile(zero, 0.5),
+        "median_ordered_execution_accuracy": _quantile(ordered_f, 0.5),
+        "median_scored_execution_accuracy": _quantile(scored_f, 0.5),
+        "median_random_execution_accuracy": _quantile(random_f, 0.5),
         "ordered_improved_models": sum(
             1
             for model in models
@@ -701,6 +723,42 @@ def _read_json(path: Path) -> dict[str, Any]:
     if not path.exists():
         return {}
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def prediction_failure_rate(summary_path: Path) -> float | None:
+    """Fraction of request-failed predictions behind an evaluation summary.
+
+    Uses ``run_validity`` when the evaluator recorded it, otherwise falls back
+    to the sibling ``*_predictions.jsonl`` file (legacy runs).
+    """
+
+    summary = _read_json(summary_path)
+    validity = summary.get("run_validity") or {}
+    if "prediction_failure_rate" in validity:
+        return float(validity["prediction_failure_rate"])
+    predictions = summary_path.with_name(
+        summary_path.name.replace("_summary.json", "_predictions.jsonl")
+    )
+    if not predictions.exists():
+        return None
+    total = 0
+    failed = 0
+    for line in predictions.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        row = json.loads(line)
+        total += 1
+        error = row.get("error")
+        if error not in (None, "", "None") and not str(row.get("predicted_cypher") or "").strip():
+            failed += 1
+    return (failed / total) if total else None
+
+
+def _validity_issue(summary_path: Path, label: str) -> str | None:
+    rate = prediction_failure_rate(summary_path)
+    if rate is not None and rate > MAX_PREDICTION_FAILURE_RATE:
+        return f"{label}: prediction failure rate {rate:.3f} exceeds {MAX_PREDICTION_FAILURE_RATE:.3f}"
+    return None
 
 
 def _summary_has_rows(path: Path) -> bool:

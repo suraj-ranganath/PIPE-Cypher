@@ -1,0 +1,23 @@
+\begin{table}[H]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+& \multicolumn{3}{c}{Stale items (\%)} & \multicolumn{3}{c}{Incremental refresh (items)} \\
+\cmidrule(lr){2-4}\cmidrule(l){5-7}
+Change & broken & silent & same & rewrite & re-exec. & regen. \\
+\midrule
+Identity control & 0.0 & 0.0 & 100.0 & 0 & 0 & 0 \\
+M1 rename \cy{TRANSFER\_TO} & 29.9 & 1.4 & 68.7 & 562 & 25 & 2 \\
+M2 rename \cy{isBlocked} & 22.8 & 0.0 & 77.2 & 430 & 0 & 0 \\
+M3 add \cy{Merchant} label & 0.0 & 14.0 & 86.0 & 0 & 227 & 36 \\
+M4 drop \cy{GUARANTEE} & 9.6 & 0.0 & 90.4 & 0 & 0 & 180 \\
+D1 delete 10\% transfers & 0.0 & 15.9 & 84.1 & 0 & 295 & 4 \\
+D2 add 5\% transfers & 0.0 & 12.6 & 87.4 & 0 & 235 & 2 \\
+\bottomrule
+\end{tabular}}
+\caption{Re-executing the 1,882 stale v3 FinBench references after schema migrations (M) and data drift (D) on a copy of the graph. Broken: invalid against the new schema; Neo4j still runs them and returns empty or different rows without an error (after M1: 376 empty, 165 different, 21 unchanged of 562). Silent: valid but now returns different or no rows. Incremental refresh carries renamed items forward with a validated rewrite (after M1, 557 of 562 rewrites return the original answer), re-executes answer-only changes, and regenerates the rest.}
+\label{tab:refresh}
+\end{table}

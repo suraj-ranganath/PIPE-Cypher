@@ -1,0 +1,31 @@
+\begin{table}[H]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{}lrlrrr@{}}
+\toprule
+\multicolumn{6}{@{}l}{\emph{(a) PIPE-Cypher vs.\ curated Text2Cypher-2024 rankings of 11 models (projected EX)}} \\
+Graph & Items & Kendall $\tau$ [95\% CI] & $\rho$ & Pairs & $\tau$ strict \\
+\midrule
+Recommendations & 160 & 0.77 [0.66, 0.93] & 0.91 & 87\% & 0.57 \\
+Northwind & 160 & 0.78 [0.58, 0.88] & 0.92 & 89\% & 0.57 \\
+FinCEN & 160 & 0.66 [0.56, 0.83] & 0.87 & 82\% & 0.60 \\
+\midrule
+\multicolumn{6}{@{}l}{\emph{(b) Generator swap on 400 fixed plans (same question, template, bindings, checks, judges)}} \\
+Replay generator & \multicolumn{2}{l}{Passes checks + panel} & \multicolumn{3}{r}{Same answer as released ref.} \\
+\midrule
+GLM-5.3-Flash (second run) & \multicolumn{2}{l}{94.0\%} & \multicolumn{3}{r}{94\%} \\
+gpt-6-luna & \multicolumn{2}{l}{94.5\%} & \multicolumn{3}{r}{95\%} \\
+Qwen3.5-9B & \multicolumn{2}{l}{80.5\%} & \multicolumn{3}{r}{86\%} \\
+\multicolumn{3}{@{}l}{GLM self-preference vs.\ gpt-6-luna refs (DiD)} & \multicolumn{3}{r}{$+0.024$ [$-0.04$, $0.09$]} \\
+\multicolumn{3}{@{}l}{GLM self-preference vs.\ Qwen3.5-9B refs (DiD)} & \multicolumn{3}{r}{$+0.013$ [$-0.06$, $0.08$]} \\
+\multicolumn{3}{@{}l}{gpt-6-luna / Qwen on their own refs (DiD)} & \multicolumn{3}{r}{$-0.009$ / $+0.009$} \\
+\midrule
+\multicolumn{6}{@{}l}{\emph{(c) Regeneration stability: rankings on the two independently generated halves}} \\
+\multicolumn{3}{@{}l}{Kendall $\tau$, 11 models, projected EX (strict)} & \multicolumn{3}{r}{0.89 [0.82, 1.00] (0.95)} \\
+\bottomrule
+\end{tabular}}
+\caption{Validity tests. (a) Benchmarks generated with no hand-written templates order models like curated questions on the same graph (permutation $p<0.005$); ``Pairs'' is the share of the 55 model pairs ordered identically (a tie counts as disagreement); with the two model families used in construction (GLM and Gemma) excluded, $\tau$ over the remaining seven models is 0.88, 0.71, and 0.78. (b) The 400 replayed items are 25 per graph and category. Retrieved examples never share the replayed item's signature (when sibling references were allowed in the prompt, replays copied them: 62--76\% identical text and 97--99\% same answer). ``Same answer'' compares executed rows under projected EX against the released GLM reference; DiD is GLM's advantage over the other ten models on its own references minus that on the other generator's, on the 302 items every replay passed, with signature-clustered 95\% intervals; placebo $p$ ranks GLM's DiD among those obtained by treating each model as the generator ($p=0.09$, the smallest attainable with 11 models: GLM's DiD is the largest). (c) Rankings of the two halves of the build, which used different seeds; intervals resample signature clusters.}
+\label{tab:validity}
+\end{table}

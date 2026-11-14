@@ -1,0 +1,55 @@
+% Appendix: deployment path on a tenant graph.
+
+\section{From Public Graphs to a Tenant Graph}\label{app:tenant}
+We could not run PIPE-Cypher on a proprietary graph: we had neither a tenant's data nor its hardware. This appendix explains why the results should carry over and what a tenant would check first.
+
+\paragraph{The pipeline only reads three things from a tenant.} These are a read-only connection, the schema found by introspection, and a value policy (which properties may expose sample values, how many, and how long). Nothing in the pipeline is specific to FinBench or SNB:
+\begin{itemize}
+\item Templates are proposed by the generator from the schema, or derived from the schema itself.
+\item Slot values are drawn from the tenant's graph through the template's own query and are kept only if that query returns a non-empty answer.
+\item Every deterministic check either inspects the Cypher text (read-only, schema, direction, categorical values, ties at the \cy{LIMIT} cutoff, literal consistency) or executes the query on the tenant's graph.
+\end{itemize}
+Seed questions and query logs are optional inputs. The convention sheet (\S\ref{sec:prompt_contracts}) is a plain-text file that a tenant can edit.
+
+\paragraph{Evidence that the design carries over.} Table~\ref{tab:tenant_evidence} maps each requirement of a tenant deployment to a measurement in this paper.
+
+\begin{table}[H]
+\centering\small
+\begin{tabular}{@{}p{0.36\linewidth}p{0.58\linewidth}@{}}
+\toprule
+Tenant requirement & Evidence \\
+\midrule
+New schema, no hand-written templates & Three Text2Cypher-2024 graphs onboarded from introspection alone; the generated sets rank 11 models like curated ones (Kendall $\tau$ 0.66--0.78). \\
+Answers grounded in tenant data & Every slot value is verified by running its template's query; empty-result rejections fall from 24\% (v2) to 1.3\% of candidates. \\
+References that do not depend on one model & Given the same questions, gpt-6-luna's references return the generator's answer on 95\% of items, as often as a second generator run (94\%), and GLM gains at most 2.4 points from being scored against its own references (95\% CI includes zero). \\
+Self-hosted models & Qwen3.5-9B, which fits one 24\,GB GPU, writes references that agree with GLM's on 86\% of fixed plans; as template author it needs seed templates (Appendix~\ref{app:gen9b}). \\
+Values stay private & Value-sampling policy plus a residual audit: 36 of 12,695 sensitive values (0.28\%) remain in the redacted export, all literals the generator wrote into Cypher outside a slot (mostly place names and a label name). \\
+Affordable to run & \$1.15 and about 25 minutes per 1,000 items on hosted endpoints with 32 parallel workers on a laptop, with 37\% of prompt tokens reused from cache. \\
+Large schemas & On a 132-label, 148-type merged graph the unchanged pipeline fills every cell at 59\% acceptance and about twice the cost per item (Appendix~\ref{app:wide}). \\
+Graphs change & Refresh run end to end on a migrated copy: renamed references are rewritten (557 of 562 keep their answer) and only the 180 items touching a dropped relationship are regenerated, at 8\% of a full FinBench rebuild's cost and worker time. \\
+\bottomrule
+\end{tabular}
+\caption{What a tenant deployment needs and where this paper measures it.}
+\label{tab:tenant_evidence}
+\end{table}
+
+\paragraph{What will differ on a tenant graph, and the existing control for it.}
+\begin{itemize}
+\item \emph{Messier schemas} (sparse or free-text properties, inconsistent names): introspection caps categorical values and omits free-text properties. Templates that use properties absent from the schema are rejected and logged.
+\item \emph{Sensitive values}: the value policy and the redaction audit above. Exports for sharing are redacted, and raw artifacts stay inside the tenant's boundary.
+\item \emph{Domain conventions} (``active customer'', fiscal periods, how to count accounts): conventions are added to the sheet, which both the question writer and the judges read.
+\item \emph{A different mix of questions}: the eight categories are a balancing scaffold. Seed templates can come from a query log, so a tenant's own question mix can replace or reweight the planner's targets.
+\item \emph{Larger schemas}: the 132-label test shows the cost (a longer schema prompt, about twice the cost per item) and the new failure mode (properties attached to the wrong label, caught by the schema check). Beyond a few hundred labels, each prompt would carry only the labels within a few hops of the template's pattern, and domain quotas would sit next to category quotas.
+\end{itemize}
+
+\paragraph{Models and backend on premises.} The generator and both judges have open weights, so a tenant can serve them on its own hardware and no graph content leaves its boundary. In this study the graphs are public, which let us reach those models through hosted endpoints and add a closed frontier model, gpt-6-luna, in three roles that never decide what is released: outside auditor, replay generator, and downstream reference. It serves as a yardstick at the frontier of capability and cost against which the open-weight components can be read. A tenant that cannot use a closed model gives the auditor role to an open-weight one (Table~\ref{tab:openauditor}) and loses the other two roles, which are measurements for this paper. The graph engine is similarly replaceable in principle: the pipeline needs read-only Cypher execution and a schema, both available on openCypher engines such as Amazon Neptune, Memgraph, and Apache AGE, although we ran only Neo4j~5 and a port would start by rerunning the deterministic checks.
+
+\paragraph{Recommended rollout.}
+\begin{enumerate}
+\item Dry run with 10 items per category.
+\item Apply the go/no-go checks used for our pilot: empty-result rate below 5\%, zero ties and literal mismatches, the mix of difficulty tiers, judge agreement, question similarity, the redaction residual, and projected cost.
+\item Tenant analysts review 50 items, using our labeling interface.
+\item Full build.
+\item Scheduled refresh whenever the schema migrates.
+\end{enumerate}
+The quantity we have not measured is how useful tenant analysts find the benchmark. These are the checks we would run first to measure it.

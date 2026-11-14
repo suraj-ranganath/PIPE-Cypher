@@ -1,0 +1,201 @@
+{
+  "categorical_properties": {},
+  "graph_name": "t2c_fincen",
+  "node_properties": [
+    {
+      "label": "Country",
+      "property": "code",
+      "type": "String"
+    },
+    {
+      "label": "Country",
+      "property": "location",
+      "type": "Point"
+    },
+    {
+      "label": "Country",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "Country",
+      "property": "tld",
+      "type": "String"
+    },
+    {
+      "label": "Entity",
+      "property": "country",
+      "type": "String"
+    },
+    {
+      "label": "Entity",
+      "property": "id",
+      "type": "String"
+    },
+    {
+      "label": "Entity",
+      "property": "location",
+      "type": "Point"
+    },
+    {
+      "label": "Entity",
+      "property": "name",
+      "type": "String"
+    },
+    {
+      "label": "Filing",
+      "property": "amount",
+      "type": "Long"
+    },
+    {
+      "label": "Filing",
+      "property": "begin",
+      "type": "DateTime"
+    },
+    {
+      "label": "Filing",
+      "property": "begin_date",
+      "type": "String"
+    },
+    {
+      "label": "Filing",
+      "property": "begin_date_format",
+      "type": "String"
+    },
+    {
+      "label": "Filing",
+      "property": "beneficiary_bank",
+      "type": "String"
+    },
+    {
+      "label": "Filing",
+      "property": "beneficiary_bank_country",
+      "type": "String"
+    },
+    {
+      "label": "Filing",
+      "property": "beneficiary_bank_id",
+      "type": "String"
+    },
+    {
+      "label": "Filing",
+      "property": "beneficiary_iso",
+      "type": "String"
+    },
+    {
+      "label": "Filing",
+      "property": "beneficiary_lat",
+      "type": "String"
+    },
+    {
+      "label": "Filing",
+      "property": "beneficiary_lng",
+      "type": "String"
+    },
+    {
+      "label": "Filing",
+      "property": "end",
+      "type": "DateTime"
+    },
+    {
+      "label": "Filing",
+      "property": "end_date",
+      "type": "String"
+    },
+    {
+      "label": "Filing",
+      "property": "end_date_format",
+      "type": "String"
+    },
+    {
+      "label": "Filing",
+      "property": "filer_org_name",
+      "type": "String"
+    },
+    {
+      "label": "Filing",
+      "property": "filer_org_name_id",
+      "type": "String"
+    },
+    {
+      "label": "Filing",
+      "property": "id",
+      "type": "String"
+    },
+    {
+      "label": "Filing",
+      "property": "number",
+      "type": "Long"
+    },
+    {
+      "label": "Filing",
+      "property": "origin_lat",
+      "type": "String"
+    },
+    {
+      "label": "Filing",
+      "property": "origin_lng",
+      "type": "String"
+    },
+    {
+      "label": "Filing",
+      "property": "originator_bank",
+      "type": "String"
+    },
+    {
+      "label": "Filing",
+      "property": "originator_bank_country",
+      "type": "String"
+    },
+    {
+      "label": "Filing",
+      "property": "originator_bank_id",
+      "type": "String"
+    },
+    {
+      "label": "Filing",
+      "property": "originator_iso",
+      "type": "String"
+    },
+    {
+      "label": "Filing",
+      "property": "sar_id",
+      "type": "String"
+    }
+  ],
+  "relationship_properties": [],
+  "relationships": [
+    {
+      "count": 24491,
+      "end_label": "Entity",
+      "start_label": "Filing",
+      "type": "CONCERNS"
+    },
+    {
+      "count": 4507,
+      "end_label": "Filing",
+      "start_label": "Entity",
+      "type": "FILED"
+    },
+    {
+      "count": 4507,
+      "end_label": "Entity",
+      "start_label": "Filing",
+      "type": "BENEFITS"
+    },
+    {
+      "count": 4507,
+      "end_label": "Entity",
+      "start_label": "Filing",
+      "type": "ORIGINATOR"
+    },
+    {
+      "count": 2823,
+      "end_label": "Country",
+      "start_label": "Entity",
+      "type": "COUNTRY"
+    }
+  ],
+  "source": "neo4j",
+  "symmetric_relationships": []
+}

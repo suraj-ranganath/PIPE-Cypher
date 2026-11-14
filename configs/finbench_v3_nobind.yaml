@@ -1,0 +1,118 @@
+# Benchmark v3 (NAACL 2027 rebuild), generator + panel judge GLM-5.3-Flash.
+# v3 pipeline: parameterized templates, outcome-aware binding, deterministic gates before
+# the judge, convention sheet, style-diverse realization, calibrated difficulty quotas.
+# Public LDBC graph only. See knowledge_base/naacl2027_v3_plan.md.
+# Keys: OPENROUTER_API_KEY from the environment. Spend: PIPE_CYPHER_USAGE_LEDGER +
+# PIPE_CYPHER_MAX_COST_USD.
+models:
+  # GLM-5.3-Flash: open weights (MIT, zai-org/GLM-5.3-Flash, 321B params, released in FP8).
+  # Served through OpenRouter, pinned to Novita's FP8 endpoint (the released precision;
+  # no FP4/NVFP4 re-quantization, no fallback to other endpoints). v2 used Z.ai's FP8
+  # endpoint; owner switched to Novita on 2026-11-12 (about 44% cheaper, prefix caching).
+  generation_model: z-ai/glm-5.3-flash
+  judge_model: z-ai/glm-5.3-flash
+  embedding_model: BAAI/bge-m3
+  llm_base_url: https://openrouter.ai/api/v1
+  provider: openrouter
+  provider_routing:
+    order:
+      - novita/fp8
+    allow_fallbacks: false
+    require_parameters: true
+  request_timeout_sec: 180
+  request_seed: 20261113
+  temperature: 0.2
+  max_tokens: 2048
+  # Reasoning is mandatory for this model; "low" is the cheapest allowed effort.
+  # Reasoning text is excluded from responses (never written to artifacts).
+  reasoning_effort: low
+  include_reasoning: false
+  enable_thinking: false
+  strip_reasoning: true
+neo4j:
+  uri: bolt://localhost:7687
+  user: neo4j
+  password: password
+  database: neo4j
+  query_timeout_sec: 90
+
+generation:
+  graph_profile: finbench
+  categories:
+    - simple_retrieval
+    - complex_retrieval
+    - simple_aggregation
+    - complex_aggregation
+    - boolean_existence
+    - negation_difference
+    - path_temporal
+    - ranking_topk
+  target_per_category: 250
+  template_candidates: 12
+  template_source: mixed
+  retrieval_top_k: 4
+  repair_attempts: 2
+  deterministic_cypher_fallback: true
+  max_entity_pct: 0.08
+  require_non_empty: true
+  # --- benchmark v2 (NAACL 2027): structural diversity + reference validity ---
+  mixed_keep_llm_templates: true
+  max_examples_per_signature: 8
+  template_induction_rounds: 6
+  template_induction_batch: 10
+  max_attempts_multiplier: 8
+  question_paraphrase: true
+  reject_truncated_unordered_limit: true
+  reject_limit_boundary_ties: true
+  max_rank_slot_value: 100
+  require_slot_bindings: true
+  # --- v3 ---
+  template_cypher: true
+  outcome_aware_binding: false
+  binding_verify_attempts: 12
+  template_cypher_fallback: true
+  literal_consistency_gate: true
+  convention_sheet: true
+  realization_styles:
+    - terse_analyst
+    - business_manager
+    - imperative
+    - context_first
+  paraphrase_candidates: 2
+  difficulty_model_path: configs/difficulty_v3.json
+  prompt_profile: full_pipe_cypher_governed_v3
+  random_seed: 1
+  generated_query_limit: 300
+
+judge:
+  enabled: true
+  # Fail closed: an LLM judge error rejects the candidate (no rule-based acceptance).
+  deterministic_fallback: false
+  # v3 judge: checklist with the shared convention sheet, frozen after calibration
+  # (artifacts/naacl_v3/calibration/frozen_judge_v3.json). Gate = panel of GLM
+  # (models.judge_model, Novita FP8) + Gemma-4-26B-A4B (BF16); both must accept.
+  mode: checklist
+  schema_mode: full
+  panel:
+    - label: gemma4
+      model: google/gemma-4-26b-a4b-it
+      reasoning_effort: none
+      max_tokens: 2048
+      provider_routing:
+        order:
+          - primeintellect/bf16
+        allow_fallbacks: false
+        require_parameters: true
+  min_semantic_alignment: 0.78
+  min_schema_use: 0.85
+  max_ambiguity: 0.30
+
+paths:
+  artifact_dir: artifacts
+  schema_path: configs/schema_finbench.json
+  seed_examples_path:
+
+privacy:
+  # v2 grounds many slots on numeric ids; numeric literals must be redacted in exports
+  # (see the v2 redaction audit).
+  redact_numeric_literals: true

@@ -1,0 +1,56 @@
+{
+  "benchmark": "artifacts/benchmarks/naacl_v3_full",
+  "n": 3038,
+  "flagged": 0,
+  "flagged_share": 0.0,
+  "items_by_problem_kind": {},
+  "by_graph": {
+    "finbench": {
+      "ok": 1882
+    },
+    "snb": {
+      "ok": 1156
+    }
+  },
+  "by_category": {
+    "boolean_existence": {
+      "ok": 384
+    },
+    "complex_aggregation": {
+      "ok": 400
+    },
+    "complex_retrieval": {
+      "ok": 395
+    },
+    "negation_difference": {
+      "ok": 317
+    },
+    "path_temporal": {
+      "ok": 370
+    },
+    "ranking_topk": {
+      "ok": 386
+    },
+    "simple_aggregation": {
+      "ok": 386
+    },
+    "simple_retrieval": {
+      "ok": 400
+    }
+  },
+  "by_split": {
+    "split:dev": {
+      "ok": 341
+    },
+    "split:test": {
+      "ok": 342
+    },
+    "split:train": {
+      "ok": 2355
+    }
+  },
+  "ignore_limits": [
+    200,
+    300
+  ]
+}

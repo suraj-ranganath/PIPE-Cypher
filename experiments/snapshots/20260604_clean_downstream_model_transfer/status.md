@@ -2,6 +2,24 @@
 
 Created: 2026-06-04.
 
+> **INVALIDATED 2026-11-11. Do not cite this suite.** 8 of the 11 "completed"
+> checkpoints (both aigentx LoRAs, Azzedde, Gemma-2-9B-IT, Neo4j Gemma-3-4B,
+> projectwilsen, Saiprasanth15, tomasonjo) received
+> `404 Client Error: Not Found for url: http://localhost:800{0,1}/v1/chat/completions`
+> on 296/296 requests in every zero-shot and control run. Their predictions are
+> empty strings and the evaluator scored them 0.000. The "8/11 at 0.000" and
+> "bimodal transfer" findings in the EMNLP 2026 submission are infrastructure
+> failures, not model results. On the earlier (non-paper) split the same
+> checkpoints scored 0.07-0.29 zero-shot and 0.73-0.99 few-shot, which is
+> consistent with that reading. The readiness manifest below checked row counts
+> and checksums, not request errors.
+>
+> Only Qwen3.5-9B, Qwen2.5-Coder-7B-Instruct, and the Neo4j Gemma-2 LoRA have
+> real predictions here. Those three remain subject to the scoring fixes listed
+> in `knowledge_base/eacl_revision_plan.md`: governance-gated execution and
+> strict context-column equality. `pipecypher/downstream_model_transfer.py` now
+> refuses any run with a prediction-failure rate above 1%.
+
 Benchmark: `artifacts/benchmarks/20260604_live_full_qwen9b_reviewfix`.
 
 Purpose: rerun downstream zero-shot, ordered example-bank, scored no-signature,

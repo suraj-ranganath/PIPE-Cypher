@@ -1,0 +1,63 @@
+{
+  "benchmark": "artifacts/benchmarks/naacl_v3_full",
+  "n": 3038,
+  "by_status": {
+    "not_applicable": 2467,
+    "no_tie": 571
+  },
+  "by_graph": {
+    "finbench": {
+      "not_applicable": 1547,
+      "no_tie": 335
+    },
+    "snb": {
+      "not_applicable": 920,
+      "no_tie": 236
+    }
+  },
+  "by_category": {
+    "boolean_existence": {
+      "not_applicable": 384
+    },
+    "complex_aggregation": {
+      "not_applicable": 359,
+      "no_tie": 41
+    },
+    "complex_retrieval": {
+      "not_applicable": 351,
+      "no_tie": 44
+    },
+    "negation_difference": {
+      "not_applicable": 317
+    },
+    "path_temporal": {
+      "not_applicable": 324,
+      "no_tie": 46
+    },
+    "ranking_topk": {
+      "no_tie": 386
+    },
+    "simple_aggregation": {
+      "not_applicable": 350,
+      "no_tie": 36
+    },
+    "simple_retrieval": {
+      "not_applicable": 382,
+      "no_tie": 18
+    }
+  },
+  "by_split": {
+    "split:dev": {
+      "no_tie": 71,
+      "not_applicable": 270
+    },
+    "split:test": {
+      "not_applicable": 273,
+      "no_tie": 69
+    },
+    "split:train": {
+      "not_applicable": 1924,
+      "no_tie": 431
+    }
+  }
+}

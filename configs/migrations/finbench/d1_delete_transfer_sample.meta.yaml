@@ -1,0 +1,36 @@
+id: d1_delete_transfer_sample
+graph_profile: finbench
+kind: data_drift
+description: >-
+  Delete a deterministic 10% of TRANSFER_TO edges selected by a salted hash of
+  their endpoint ids and properties (no randomness, no internal element ids).
+cypher_file: d1_delete_transfer_sample.cypher
+batch_size: 1000
+selection:
+  query: >-
+    MATCH (src:Account)-[t:TRANSFER_TO]->(dst:Account)
+    RETURN src.accountId AS src, dst.accountId AS dst, t.orderNum AS orderNum,
+    toString(t.createTime) AS createTime, t.amount AS amount
+  key_fields: [src, dst, orderNum, createTime, amount]
+  fraction: 0.10
+  salt: pipecypher-refresh-d1-delete-transfers-v1
+  param_name: rows
+preconditions:
+  - name: transfer_before
+    query: MATCH ()-[t:TRANSFER_TO]->() RETURN count(t) AS n
+    expect: positive
+postconditions:
+  - name: transfer_after
+    query: MATCH ()-[t:TRANSFER_TO]->() RETURN count(t) AS n
+    expect: "== transfer_before - affected"
+  - name: deleted_matches_selected
+    query: RETURN $affected AS n
+    expect: "== selected"
+    severity: warning
+expected_schema_diff:
+  no_structural_changes: true
+  count_changes:
+    - {type: TRANSFER_TO, direction: decrease}
+expected_benchmark_impact: >-
+  No schema change. References over TRANSFER_TO stay valid but aggregates,
+  existence checks, negations, rankings, and paths can change or become empty.

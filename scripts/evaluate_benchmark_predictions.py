@@ -38,6 +38,25 @@ def main() -> None:
         help="Skip supplementary ROUGE/BLEU/METEOR/cosine/Jaro-Winkler/exact-match metrics",
     )
     parser.add_argument(
+        "--governed-execution-only",
+        action="store_true",
+        help=(
+            "Legacy behaviour: execute a prediction only if it passes every PIPE-Cypher "
+            "governance rule. Default scoring executes any read-only prediction as written "
+            "and reports governance violations separately."
+        ),
+    )
+    parser.add_argument(
+        "--max-prediction-failure-rate",
+        type=float,
+        default=0.01,
+        help=(
+            "Fail (exit 3) when more than this fraction of predictions are request failures "
+            "with no Cypher (e.g. HTTP 404 from a mis-routed endpoint). Such runs are "
+            "infrastructure failures, not model results."
+        ),
+    )
+    parser.add_argument(
         "--optional-text-metrics",
         action="store_true",
         help="Also attempt optional BERTScore and FrugalScore integrations when installed",
@@ -68,6 +87,8 @@ def main() -> None:
                 client=client,
                 include_text_metrics=not args.disable_text_metrics,
                 include_optional_text_metrics=args.optional_text_metrics,
+                prediction_error=prediction.get("error"),
+                governed_execution_only=args.governed_execution_only,
             )
             row.update(
                 {
@@ -88,6 +109,12 @@ def main() -> None:
 
     write_jsonl(args.output, outputs)
     summary = summarize_evaluation_rows(outputs)
+    validity = summary["run_validity"]
+    validity["max_prediction_failure_rate"] = args.max_prediction_failure_rate
+    validity["scoring_mode"] = (
+        "governed_execution_only" if args.governed_execution_only else "execute_read_only_as_written"
+    )
+    validity["valid"] = validity["prediction_failure_rate"] <= args.max_prediction_failure_rate
     if args.summary_output:
         out = Path(args.summary_output)
         out.parent.mkdir(parents=True, exist_ok=True)
@@ -96,7 +123,19 @@ def main() -> None:
     print(
         "evaluated={n} execution_accuracy={execution_accuracy:.3f} "
         "answer_f1={answer_f1:.3f} execution_success={execution_success:.3f}".format(**overall)
+        + " projected_execution_accuracy={:.3f}".format(
+            overall.get("projected_execution_accuracy", 0.0)
+        )
     )
+    if not validity["valid"]:
+        print(
+            "INVALID RUN: prediction_failure_rate={:.3f} exceeds {:.3f}; these rows are "
+            "infrastructure failures and must not be reported as model accuracy.".format(
+                validity["prediction_failure_rate"], args.max_prediction_failure_rate
+            ),
+            file=sys.stderr,
+        )
+        raise SystemExit(3)
 
 
 def _open_graph_contexts(items: list[str]):

@@ -1,0 +1,20 @@
+\begin{table}[H]
+\centering
+\footnotesize
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Graph & Nodes & Edges & Labels & Rel.\ types & Patterns \\
+\midrule
+FinBench (SF0.1) & 10,006 & 57,622 & 5 & 9 & 13 \\
+SNB (LDBC) & 34,735 & 70,842 & 14 & 15 & 59 \\
+\midrule
+Recommendations & 28,863 & 166,261 & 6 & 4 & 12 \\
+Northwind & 1,035 & 3,139 & 5 & 4 & 4 \\
+FinCEN & 7,524 & 40,835 & 3 & 5 & 5 \\
+\bottomrule
+\end{tabular}
+}
+\caption{Graphs, from live introspection. FinBench and SNB carry the main benchmark. The three public Neo4j example graphs have curated Text2Cypher-2024 questions and are used for the external anchor and ranking-agreement study; PIPE-Cypher onboards them with no hand-written templates. Patterns are directed start-label/type/end-label triples.}
+\label{tab:graph_statistics}
+\end{table}

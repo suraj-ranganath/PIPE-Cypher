@@ -82,7 +82,7 @@ claims:
       - "paper_emnlp2026_industry/tables_downstream_error_taxonomy.tex"
       - "paper_emnlp2026_industry/figures/downstream_fewshot_controls.pdf"
       - "paper_emnlp2026_industry/figures/downstream_error_taxonomy.pdf"
-    status: "Supported by live downstream evaluation against FinBench/SNB databases, with complete 11-model zero-shot/control summaries and leakage-aware few-shot controls."
+    status: "INVALIDATED 2026-11-11: 8/11 checkpoints in the 20260604 clean suite had HTTP 404 on every request (empty predictions scored 0.000); scoring also gated execution on construction-time governance rules and required policy-injected context columns. Must be rerun with request-failure guards and projection-tolerant scoring before any downstream claim is made. See knowledge_base/eacl_revision_plan.md."
     risk: "Several local fine-tuned checkpoints remain brittle under few-shot prompting; the current study shows example-bank utility and transfer failure modes, not a completed tenant-specific fine-tuning result. The stricter no-signature improvement is an aggregate signal with broad model-family uncertainty rather than a universal model-level gain."
 
   - claim: "Automated LLM-judge review can serve as a generation gate with post-hoc human calibration while still exposing judge risk."
@@ -128,3 +128,45 @@ claims:
       - "tests/test_onboarding_audit.py"
     status: "Supported by docs, config, code, deterministic tests, a concrete third-graph onboarding plan, and a completed sanitized ICIJ target-100 live onboarding run with 800/983 accepted examples and 8/8 categories at target."
     risk: "ICIJ is public rather than private/anonymized enterprise data. The strongest industry validation would still come from a real tenant graph under the same audit protocol."
+
+# ---------------------------------------------------------------------------
+# NAACL 2027 v2 claims (2026-11-12). They supersede the v1 claims above for the
+# NAACL paper (paper_naacl2027_industry/). Full run log:
+# experiments/snapshots/20261112_naacl_v2/status.md
+# ---------------------------------------------------------------------------
+naacl2027_v2_claims:
+  - claim: "Signature quotas and template induction yield a balanced, structurally diverse benchmark with a template-held-out split."
+    evidence: "2,080 items (FinBench 8x150, SNB 8x110); 1,312 signatures (v1: 123); min 19 signatures per cell; top-10 share 3.8% (v1: 67%); 0/216 held-out test items share a train signature (v1: 289/296)."
+    artifacts: ["artifacts/benchmarks/naacl_v2_random", "artifacts/benchmarks/naacl_v2_heldout", "artifacts/naacl_results/diversity_v2.json", "artifacts/naacl_results/diversity_v1.json"]
+    status: "Supported."
+    risk: "Sampled self-BLEU did not improve; the hard tier is small (0.8%); half of rejected candidates (1,220 of 2,422) return empty results."
+  - claim: "The generator does not favor its own items (no self-preference)."
+    evidence: "Generator swap (GLM vs gpt-6-luna, judge fixed): DiD -0.002 [-0.085, 0.077] (GLM) and -0.008 [-0.098, 0.077] (gpt-6-luna), 11 models, signature-clustered bootstrap."
+    artifacts: ["artifacts/naacl_results/results.json", "artifacts/benchmarks/naacl_v2_genswap_gpt6luna"]
+    status: "Supported."
+    risk: "Two generators only; the slices differ slightly in composition (category counts 26-32 vs 45-50)."
+  - claim: "PIPE-Cypher benchmarks rank models like curated benchmarks on the same graph."
+    evidence: "Kendall tau (projected EX, 11 models): recommendations 0.87, northwind 0.82, fincen 0.76; all permutation p<0.001; curated T2C-2024 test rows audited (569), oracle 1.000."
+    artifacts: ["artifacts/naacl_results/results.json", "artifacts/external_benchmarks/t2c2024_d9f1554_recommended_audited", "artifacts/benchmarks/naacl_t2c_recommendations"]
+    status: "Supported."
+    risk: "The curated T2C-2024 queries are themselves LLM-generated and not human-verified; only 11 models; 109-120 items per generated benchmark."
+  - claim: "Downstream conclusions are robust to which LLM judge is trusted, even though judges disagree."
+    evidence: "gpt-6-luna flags 29% and Qwen3.5-9B 13% of accepted items (both 6.9%; inter-judge kappa 0.22). Dropping both-flagged items: ranking tau 1.00; keeping only gpt-6-luna-accepted items: tau 0.96 zero-shot, 0.89 few-shot."
+    artifacts: ["artifacts/judges/naacl_v2/judge_agreement.json", "artifacts/naacl_results/judge_filter_robustness.json"]
+    status: "Supported as a robustness claim. No reference error rate is claimed."
+    risk: "No human labels for v2; the judge prompt's schema slice lacked the symmetric-type declaration (fixed after the runs)."
+  - claim: "Stale benchmarks fail silently under schema change and data drift."
+    evidence: "On a FinBench copy (1,200 v2 items): renames break 25.5% / 38.6%, with Neo4j returning empty or different rows rather than errors; data drift silently changes 9.4-12.1%; the stale benchmark overstates Qwen3.5-9B strict accuracy by 8.1 pp after M1; identity control 100% unchanged."
+    artifacts: ["artifacts/refresh_v2", "artifacts/refresh_v2_misestimate", "artifacts/naacl_results/refresh"]
+    status: "Supported."
+    risk: "Synthetic migrations on one graph; misestimate measured for one model only."
+  - claim: "Zero-shot transfer to unseen enterprise-style schemas is limited; few-shot from structurally different examples helps without saturating."
+    evidence: "12 models on 216 held-out items: zero-shot projected EX median 0.35 (0.15-0.64); few-shot median 0.57 (0.39-0.72); Neo4j T2C Gemma-3-4B (native prompt) 0.35 vs 0.51 on its own curated domain."
+    artifacts: ["artifacts/evaluations/naacl_v2_heldout_*", "artifacts/evaluations/naacl_v2_heldout_local_neo4j_gemma3_t2c"]
+    status: "Supported."
+    risk: "Hosted endpoints served open weights at released precision; only one T2C fine-tune could be run (local MLX)."
+  - claim: "Downstream conclusions survive removing references with nondeterministic ORDER BY ... LIMIT answers."
+    evidence: "Post-build deterministic audit: 65 of 283 ORDER BY ... LIMIT references tie at the cutoff, and 3 top-k items bind an entity id as k. Dropping the 10 affected held-out test items moves no model by more than 2.1 pp projected EX. Ranking tau versus the full test set: 0.96 (zero-shot), 1.00 (governed), 1.00 (few-shot)."
+    artifacts: ["artifacts/naacl_results/limit_ties/summary.json", "artifacts/naacl_results/limit_ties/items.jsonl", "artifacts/naacl_results/limit_ties/rescore_heldout.json", "pipecypher/limit_ties.py", "scripts/audit_limit_ties.py"]
+    status: "Supported as a robustness check. The released v2 set still contains these items."
+    risk: "The gates (reject_limit_boundary_ties, max_rank_slot_value) were added after the build and are not active in the reported run."

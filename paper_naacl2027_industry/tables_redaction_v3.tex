@@ -1,0 +1,17 @@
+\begin{table}[H]
+\centering
+\footnotesize
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Release (numeric-literal redaction on) & v2 & v3 \\
+\midrule
+Items & 2,080 & 3,038 \\
+Sensitive values audited & 7,740 & 12,695 \\
+Residual values after redaction & 81 (1.0\%) & 36 (0.28\%) \\
+Items with any residual & 26 & 18 \\
+\bottomrule
+\end{tabular}}
+\caption{Exact-match redaction audit (entity bindings, quoted and numeric Cypher literals, binding-query literals, result-row strings). The 36 v3 residuals are literals the generator wrote directly into the Cypher, outside any slot: continent and country names (Asia, India; 18), the label name Person used as a value (14), and one university name and one forum title (4). With strings-only redaction, v2 had left 11.9\% of values because many slots are numeric identifiers; v3 configurations enable numeric-literal redaction by default.}
+\label{tab:redaction}
+\end{table}

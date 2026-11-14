@@ -1,0 +1,123 @@
+{
+  "records": 5617,
+  "accepted": 3042,
+  "executed": 5436,
+  "acceptance_rate": 0.5415702332205804,
+  "failure_reasons": {
+    "accepted": 3042,
+    "tier quota exceeded (medium)": 1484,
+    "tier quota exceeded (hard)": 229,
+    "slot bindings unavailable": 181,
+    "entity diversity cap exceeded": 113,
+    "execution returned no rows": 72,
+    "category contract: a yes/no question must return exactly one boolean value": 70,
+    "reference has a tie at the ORDER BY/LIMIT boundary (rank 10 and rank 11 share the order key)": 42,
+    "reference has a tie at the ORDER BY/LIMIT boundary (rank 5 and rank 6 share the order key)": 29,
+    "reference hides a tie behind an unstated identifier tie-break (rank 5 and rank 6 share the order key)": 26,
+    "duplicate accepted question": 25,
+    "reference has a tie at the ORDER BY/LIMIT boundary (rank 3 and rank 4 share the order key)": 21,
+    "category contract: a negation question needs a NOT condition": 21,
+    "category contract: an aggregation question needs an aggregate": 7,
+    "structural defect: pattern (Person)-[:HAS_CREATOR]->(Post) is not listed in the schema, so it never matches": 5,
+    "reference has a tie at the ORDER BY/LIMIT boundary (rank 4 and rank 5 share the order key)": 4,
+    "reference has a tie at the ORDER BY/LIMIT boundary (rank 1 and rank 2 share the order key)": 4,
+    "structural defect: pattern (Person)-[:HAS_CREATOR]->(Comment) is not listed in the schema, so it never matches": 4,
+    "structural defect: pattern (Forum)-[:CONTAINER_OF]->(Comment) is not listed in the schema, so it never matches": 3,
+    "reference hides a tie behind an unstated identifier tie-break (rank 4 and rank 5 share the order key)": 3,
+    "structural defect: pattern (Person)-[:IS_LOCATED_IN]->(Country) is not listed in the schema, so it never matches": 2,
+    "structural defect: pattern (University)-[:IS_LOCATED_IN]->(Country) is not listed in the schema, so it never matches": 2,
+    "literal mismatch: quoted value '2010-11-01' is not a Cypher literal": 2,
+    "literal mismatch: quoted value '2011' is not a Cypher literal": 2,
+    "structural defect: pattern (Account)-[:OWN_ACCOUNT]->(Account) is not listed in the schema, so it never matches": 1
+  },
+  "binding_sources": {
+    "label_lookup_verified": 479,
+    "derived_return": 1243,
+    "derived_prefix": 116
+  },
+  "reference_sources": {
+    "generator": 2889,
+    "template_cypher": 153
+  },
+  "template_cypher_agreement": {
+    "True": 1928,
+    "False": 162
+  },
+  "question_realization": {
+    "realized": 3040,
+    "realization_rejected": 2
+  },
+  "spend": {
+    "usd": 3.4981,
+    "calls": 19816,
+    "cache_hit_share": 0.3673541858991084,
+    "calls_per_accepted": 6.51413543721236
+  },
+  "accepted_by_cell": {
+    "finbench:boolean_existence": 234,
+    "finbench:complex_aggregation": 250,
+    "finbench:complex_retrieval": 250,
+    "finbench:negation_difference": 172,
+    "finbench:path_temporal": 247,
+    "finbench:ranking_topk": 244,
+    "finbench:simple_aggregation": 237,
+    "finbench:simple_retrieval": 250,
+    "snb:boolean_existence": 150,
+    "snb:complex_aggregation": 150,
+    "snb:complex_retrieval": 145,
+    "snb:negation_difference": 145,
+    "snb:path_temporal": 123,
+    "snb:ranking_topk": 145,
+    "snb:simple_aggregation": 150,
+    "snb:simple_retrieval": 150
+  },
+  "checks": {
+    "empty_reject_share": {
+      "value": 0.012818230372084743,
+      "threshold": "< 0.05",
+      "pass": true,
+      "v2": 0.242496521566289
+    },
+    "accepted_literal_mismatches": {
+      "value": 0,
+      "threshold": "== 0",
+      "pass": true
+    },
+    "tier_mix_max_deviation": {
+      "value": 0.014332675871137401,
+      "shares": {
+        "easy": 0.3504273504273504,
+        "medium": 0.363905325443787,
+        "hard": 0.2856673241288626
+      },
+      "counts": {
+        "easy": 1066,
+        "medium": 1107,
+        "hard": 869
+      },
+      "threshold": "<= 0.10",
+      "pass": true
+    },
+    "panel_kappa": {
+      "value": 0.4141320214915168,
+      "n": 3239,
+      "threshold": ">= 0.6",
+      "pass": false,
+      "v2": 0.22
+    },
+    "self_bleu": {
+      "value": 0.7766373327724715,
+      "threshold": "< 0.81",
+      "pass": true,
+      "v2": 0.87
+    },
+    "projected_generation_cost_usd": {
+      "value": 3.6798345025640935,
+      "per_item": 0.0011499482820512793,
+      "threshold": "<= 7.0",
+      "pass": true
+    }
+  },
+  "all_record_checks_pass": false,
+  "literal_problem_examples": []
+}

@@ -1,0 +1,20 @@
+{
+ "20260604_live_full_qwen9b_reviewfix": {
+  "n": 3000,
+  "easy": 889,
+  "medium": 1781,
+  "hard": 330
+ },
+ "naacl_v2_heldout": {
+  "n": 2080,
+  "easy": 679,
+  "medium": 854,
+  "hard": 547
+ },
+ "naacl_v3_full": {
+  "n": 3038,
+  "easy": 1068,
+  "medium": 1104,
+  "hard": 866
+ }
+}

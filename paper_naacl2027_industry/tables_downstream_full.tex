@@ -1,0 +1,27 @@
+\begin{table*}[!t]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lrrrrrrrr@{}}
+\toprule
+& \multicolumn{7}{c}{All 3,038 items (919 signature clusters)} & Held-out test (342) \\
+\cmidrule(lr){2-8}\cmidrule(l){9-9}
+Model & Strict EX [95\% CI] & Projected EX [95\% CI] & FinBench / SNB & Parse & Exec. & Schema-valid & Wrong dir. & Projected EX [95\% CI] \\
+\midrule
+gpt-6-luna$^\ddagger$ & 0.41 [0.38, 0.45] & 0.77 [0.74, 0.79] & 0.80 / 0.70 & 0.98 & 0.90 & 0.99 & 0.00 & 0.76 [0.68, 0.84] \\
+GLM-5.3-Flash$^\dagger$ & 0.45 [0.42, 0.49] & 0.77 [0.74, 0.79] & 0.80 / 0.71 & 1.00 & 0.95 & 0.96 & 0.00 & 0.80 [0.71, 0.88] \\
+Gemma-4-26B-A4B & 0.34 [0.30, 0.37] & 0.69 [0.66, 0.72] & 0.71 / 0.65 & 1.00 & 0.84 & 0.88 & 0.03 & 0.76 [0.67, 0.83] \\
+gpt-oss-20b & 0.32 [0.29, 0.35] & 0.58 [0.55, 0.62] & 0.62 / 0.51 & 0.98 & 0.83 & 0.91 & 0.05 & 0.58 [0.46, 0.69] \\
+Mistral-Small-3.2-24B & 0.26 [0.23, 0.30] & 0.51 [0.47, 0.54] & 0.54 / 0.44 & 1.00 & 0.83 & 0.85 & 0.08 & 0.52 [0.40, 0.63] \\
+Qwen3-Coder-30B-A3B & 0.27 [0.24, 0.31] & 0.43 [0.39, 0.47] & 0.46 / 0.38 & 0.99 & 0.77 & 0.84 & 0.10 & 0.41 [0.28, 0.53] \\
+Phi-4 & 0.25 [0.22, 0.28] & 0.43 [0.39, 0.46] & 0.45 / 0.40 & 1.00 & 0.78 & 0.81 & 0.08 & 0.41 [0.28, 0.53] \\
+Qwen3.5-9B & 0.21 [0.18, 0.24] & 0.35 [0.32, 0.39] & 0.38 / 0.31 & 0.99 & 0.67 & 0.85 & 0.08 & 0.39 [0.26, 0.51] \\
+Llama-3.1-8B & 0.16 [0.13, 0.19] & 0.24 [0.21, 0.27] & 0.25 / 0.22 & 0.99 & 0.80 & 0.65 & 0.13 & 0.27 [0.15, 0.40] \\
+Gemma-3-12B & 0.10 [0.08, 0.12] & 0.21 [0.18, 0.24] & 0.24 / 0.17 & 0.97 & 0.53 & 0.77 & 0.09 & 0.16 [0.09, 0.25] \\
+Gemma-3-4B & 0.14 [0.12, 0.17] & 0.21 [0.18, 0.24] & 0.23 / 0.19 & 0.99 & 0.63 & 0.76 & 0.12 & 0.22 [0.12, 0.32] \\
+\bottomrule
+\end{tabular}}
+\caption{Zero-shot results with the standard prompt and signature-clustered bootstrap intervals (2,000 resamples). Parse validity, execution success, schema validity, and the rate of reversed relationship directions are reported as diagnostics only. Up to 13\% of a model's predictions traverse a relationship backwards. Every model's projected EX falls from easy to medium to hard on all items (Figure~\ref{fig:tiers}). No model had a failed request.}
+\label{tab:downstream_full}
+\end{table*}

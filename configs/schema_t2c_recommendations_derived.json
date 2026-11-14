@@ -1,0 +1,320 @@
+{
+  "categorical_properties": {},
+  "graph_name": "t2c_recommendations",
+  "node_properties": [
+    {
+      "label": "Movie",
+      "property": "url",
+      "type": "STRING"
+    },
+    {
+      "label": "Movie",
+      "property": "runtime",
+      "type": "INTEGER"
+    },
+    {
+      "label": "Movie",
+      "property": "revenue",
+      "type": "INTEGER"
+    },
+    {
+      "label": "Movie",
+      "property": "imdbRating",
+      "type": "FLOAT"
+    },
+    {
+      "label": "Movie",
+      "property": "released",
+      "type": "STRING"
+    },
+    {
+      "label": "Movie",
+      "property": "countries",
+      "type": "LIST"
+    },
+    {
+      "label": "Movie",
+      "property": "languages",
+      "type": "LIST"
+    },
+    {
+      "label": "Movie",
+      "property": "plot",
+      "type": "STRING"
+    },
+    {
+      "label": "Movie",
+      "property": "imdbVotes",
+      "type": "INTEGER"
+    },
+    {
+      "label": "Movie",
+      "property": "imdbId",
+      "type": "STRING"
+    },
+    {
+      "label": "Movie",
+      "property": "year",
+      "type": "INTEGER"
+    },
+    {
+      "label": "Movie",
+      "property": "poster",
+      "type": "STRING"
+    },
+    {
+      "label": "Movie",
+      "property": "movieId",
+      "type": "STRING"
+    },
+    {
+      "label": "Movie",
+      "property": "tmdbId",
+      "type": "STRING"
+    },
+    {
+      "label": "Movie",
+      "property": "title",
+      "type": "STRING"
+    },
+    {
+      "label": "Movie",
+      "property": "budget",
+      "type": "INTEGER"
+    },
+    {
+      "label": "Genre",
+      "property": "name",
+      "type": "STRING"
+    },
+    {
+      "label": "User",
+      "property": "userId",
+      "type": "STRING"
+    },
+    {
+      "label": "User",
+      "property": "name",
+      "type": "STRING"
+    },
+    {
+      "label": "Actor",
+      "property": "url",
+      "type": "STRING"
+    },
+    {
+      "label": "Actor",
+      "property": "name",
+      "type": "STRING"
+    },
+    {
+      "label": "Actor",
+      "property": "tmdbId",
+      "type": "STRING"
+    },
+    {
+      "label": "Actor",
+      "property": "bornIn",
+      "type": "STRING"
+    },
+    {
+      "label": "Actor",
+      "property": "bio",
+      "type": "STRING"
+    },
+    {
+      "label": "Actor",
+      "property": "died",
+      "type": "DATE"
+    },
+    {
+      "label": "Actor",
+      "property": "born",
+      "type": "DATE"
+    },
+    {
+      "label": "Actor",
+      "property": "imdbId",
+      "type": "STRING"
+    },
+    {
+      "label": "Actor",
+      "property": "poster",
+      "type": "STRING"
+    },
+    {
+      "label": "Director",
+      "property": "url",
+      "type": "STRING"
+    },
+    {
+      "label": "Director",
+      "property": "bornIn",
+      "type": "STRING"
+    },
+    {
+      "label": "Director",
+      "property": "born",
+      "type": "DATE"
+    },
+    {
+      "label": "Director",
+      "property": "died",
+      "type": "DATE"
+    },
+    {
+      "label": "Director",
+      "property": "tmdbId",
+      "type": "STRING"
+    },
+    {
+      "label": "Director",
+      "property": "imdbId",
+      "type": "STRING"
+    },
+    {
+      "label": "Director",
+      "property": "name",
+      "type": "STRING"
+    },
+    {
+      "label": "Director",
+      "property": "poster",
+      "type": "STRING"
+    },
+    {
+      "label": "Director",
+      "property": "bio",
+      "type": "STRING"
+    },
+    {
+      "label": "Person",
+      "property": "url",
+      "type": "STRING"
+    },
+    {
+      "label": "Person",
+      "property": "died",
+      "type": "DATE"
+    },
+    {
+      "label": "Person",
+      "property": "bornIn",
+      "type": "STRING"
+    },
+    {
+      "label": "Person",
+      "property": "born",
+      "type": "DATE"
+    },
+    {
+      "label": "Person",
+      "property": "imdbId",
+      "type": "STRING"
+    },
+    {
+      "label": "Person",
+      "property": "name",
+      "type": "STRING"
+    },
+    {
+      "label": "Person",
+      "property": "poster",
+      "type": "STRING"
+    },
+    {
+      "label": "Person",
+      "property": "tmdbId",
+      "type": "STRING"
+    },
+    {
+      "label": "Person",
+      "property": "bio",
+      "type": "STRING"
+    }
+  ],
+  "provenance": {
+    "dataset": "neo4j/text2cypher-2024v1",
+    "kind": "derived_from_dataset_schema_text",
+    "note": "Parsed from the dataset's `schema` field (most frequent variant), not introspected from a live graph. Categorical values are intentionally omitted. Use only for offline checks and schema-drift comparison; runs must use the live schema written by scripts/inspect_schema.py.",
+    "revision": "d9f15541ab2f99a0f54797a0109b50663554f512",
+    "rows_total": 2383,
+    "rows_with_selected_variant": 2374,
+    "schema_text_sha256": "cab78fb6531ffbbd360931a10c5c69596db23f284aebe96cac47014b2a9cfbff",
+    "schema_text_variants": 2
+  },
+  "relationship_properties": [
+    {
+      "property": "rating",
+      "type": "RATED",
+      "value_type": "FLOAT"
+    },
+    {
+      "property": "timestamp",
+      "type": "RATED",
+      "value_type": "INTEGER"
+    },
+    {
+      "property": "role",
+      "type": "ACTED_IN",
+      "value_type": "STRING"
+    },
+    {
+      "property": "role",
+      "type": "DIRECTED",
+      "value_type": "STRING"
+    }
+  ],
+  "relationships": [
+    {
+      "count": null,
+      "end_label": "Genre",
+      "start_label": "Movie",
+      "type": "IN_GENRE"
+    },
+    {
+      "count": null,
+      "end_label": "Movie",
+      "start_label": "User",
+      "type": "RATED"
+    },
+    {
+      "count": null,
+      "end_label": "Movie",
+      "start_label": "Actor",
+      "type": "ACTED_IN"
+    },
+    {
+      "count": null,
+      "end_label": "Movie",
+      "start_label": "Actor",
+      "type": "DIRECTED"
+    },
+    {
+      "count": null,
+      "end_label": "Movie",
+      "start_label": "Director",
+      "type": "DIRECTED"
+    },
+    {
+      "count": null,
+      "end_label": "Movie",
+      "start_label": "Director",
+      "type": "ACTED_IN"
+    },
+    {
+      "count": null,
+      "end_label": "Movie",
+      "start_label": "Person",
+      "type": "ACTED_IN"
+    },
+    {
+      "count": null,
+      "end_label": "Movie",
+      "start_label": "Person",
+      "type": "DIRECTED"
+    }
+  ],
+  "source": "derived:neo4j/text2cypher-2024v1@d9f15541ab2f99a0f54797a0109b50663554f512:schema_field:sha256=cab78fb6531ffbbd",
+  "symmetric_relationships": []
+}

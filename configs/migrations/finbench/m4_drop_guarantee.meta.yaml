@@ -1,0 +1,31 @@
+id: m4_drop_guarantee
+graph_profile: finbench
+kind: schema_migration
+description: >-
+  Drop relationship type GUARANTEE entirely (all Person->Person and
+  Company->Company guarantee edges are deleted).
+cypher_file: m4_drop_guarantee.cypher
+preconditions:
+  - name: guarantee_before
+    query: MATCH ()-[r:GUARANTEE]->() RETURN count(r) AS n
+    expect: positive
+  - name: relationships_before
+    query: MATCH ()-[r]->() RETURN count(r) AS n
+    expect: positive
+postconditions:
+  - name: guarantee_after
+    query: MATCH ()-[r:GUARANTEE]->() RETURN count(r) AS n
+    expect: zero
+  - name: relationships_after
+    query: MATCH ()-[r]->() RETURN count(r) AS n
+    expect: "== relationships_before - guarantee_before"
+expected_schema_diff:
+  removed_relationship_types: [GUARANTEE]
+  removed_relationship_patterns:
+    - "(:Person)-[:GUARANTEE]->(:Person)"
+    - "(:Company)-[:GUARANTEE]->(:Company)"
+expected_benchmark_impact: >-
+  Only references that use GUARANTEE break (unknown_relationship); there is no
+  rename target, so they must be regenerated. Benchmarks that never sampled
+  GUARANTEE are fully reusable, which the static plan should predict without
+  re-executing anything.

@@ -371,6 +371,9 @@ def reference_schema(profile: str) -> SchemaSummary:
     return finbench_reference_schema()
 
 
+FINBENCH_PROFILES = {"finbench", "ldbc_finbench", "local", "local_smoke", "smoke"}
+
+
 def default_templates(profile: str) -> list[TemplateCandidate]:
     if _is_icij_profile(profile):
         return [
@@ -510,6 +513,11 @@ def default_templates(profile: str) -> list[TemplateCandidate]:
                 rationale="Tag-scoped ranking over forum membership counts.",
             ),
         ]
+    if profile.lower() not in FINBENCH_PROFILES:
+        # Unknown enterprise schemas get no hand-written seeds: generation must
+        # come from schema-derived and LLM-induced templates, not FinBench text
+        # that cannot bind on another graph.
+        return []
     return [
         TemplateCandidate(
             category="simple_retrieval",
@@ -840,6 +848,14 @@ def default_reverse_cypher_for_template(template: TemplateCandidate, limit: int 
     return None
 
 
+def _arrow_head(schema: SchemaSummary | None, rel_type: str) -> str:
+    """Return ``>`` for directed relationship types, ``""`` for symmetric ones."""
+
+    if schema is not None and rel_type in (getattr(schema, "symmetric_relationships", None) or []):
+        return ""
+    return ">"
+
+
 def default_cypher_for_template(
     template: TemplateCandidate,
     limit: int = 50,
@@ -1023,7 +1039,7 @@ def default_cypher_for_template(
     if "people who know person" in text and "have not liked any post" in text:
         person_id = _binding(bindings, "personId", "personId")
         return (
-            f"MATCH (src:Person {{id: {person_id}}})-[:KNOWS]->(p:Person) "
+            f"MATCH (src:Person {{id: {person_id}}})-[:KNOWS]-{_arrow_head(schema, 'KNOWS')}(p:Person) "
             "WHERE NOT (p)-[:LIKES]->(:Post) "
             f"RETURN DISTINCT p.id AS PersonId, p.firstName AS FirstName, p.lastName AS LastName LIMIT {limit}"
         )
@@ -1045,7 +1061,7 @@ def default_cypher_for_template(
     if "within two knows hops" in text:
         person_id = _binding(bindings, "personId", "personId")
         return (
-            f"MATCH (src:Person {{id: {person_id}}})-[:KNOWS*1..2]->(dst:Person) "
+            f"MATCH (src:Person {{id: {person_id}}})-[:KNOWS*1..2]-{_arrow_head(schema, 'KNOWS')}(dst:Person) "
             f"RETURN DISTINCT dst.id AS PersonId, dst.firstName AS FirstName, dst.lastName AS LastName LIMIT {limit}"
         )
     if "forum has the most members" in text:

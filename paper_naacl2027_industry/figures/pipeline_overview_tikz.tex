@@ -1,0 +1,72 @@
+\definecolor{pipeBlue}{HTML}{2F5F98}
+\definecolor{pipeTeal}{HTML}{00856F}
+\definecolor{pipePurple}{HTML}{6B5CA5}
+\definecolor{pipeRed}{HTML}{B5524A}
+\definecolor{pipeInk}{HTML}{243040}
+\definecolor{pipeSlate}{HTML}{5A6778}
+\definecolor{pipeLine}{HTML}{AAB4C0}
+\definecolor{pipePaleBlue}{HTML}{EAF1F8}
+\definecolor{pipePaleTeal}{HTML}{E8F5F1}
+\definecolor{pipePalePurple}{HTML}{F0EDF8}
+\definecolor{pipePaleRed}{HTML}{F8EAE8}
+\definecolor{pipePaleGray}{HTML}{F3F5F7}
+
+\begin{tikzpicture}[
+  font=\sffamily\scriptsize,
+  >=Latex,
+  box/.style={rounded corners=2pt, draw=pipeInk, line width=0.5pt, minimum height=1.32cm,
+    text width=1.62cm, align=center, inner sep=2.5pt},
+  det/.style={box, fill=pipePaleBlue},
+  llm/.style={box, fill=pipePalePurple, dashed},
+  live/.style={box, fill=pipePaleTeal},
+  note/.style={rounded corners=1.5pt, draw=pipeLine, line width=0.35pt, fill=white,
+    text width=1.78cm, align=left, inner sep=2.5pt, font=\sffamily\tiny},
+  pkgbox/.style={rounded corners=2pt, draw=pipeTeal, line width=0.6pt, fill=pipePaleTeal,
+    text width=2.1cm, align=left, inner sep=3pt, font=\sffamily\tiny},
+  arrow/.style={->, line width=0.65pt, draw=pipeInk},
+  soft/.style={->, line width=0.5pt, draw=pipeSlate},
+  rej/.style={->, line width=0.5pt, draw=pipeRed, dashed},
+  lane/.style={font=\sffamily\scriptsize\bfseries, text=pipeSlate, anchor=west}
+]
+% ---------------- Construction lane ----------------
+\node[lane] at (-1.15,1.25) {A. Benchmark construction (per graph, rerun on refresh)};
+\node[det] (profile) at (0,0) {\textbf{1 Profile}\\schema, directions, safe values};
+\node[det, right=0.26cm of profile] (plan) {\textbf{2 Plan}\\category $\times$ difficulty-tier and signature quotas};
+\node[llm, right=0.26cm of plan] (tmpl) {\textbf{3 Propose}\\parameterized template + its Cypher};
+\node[live, right=0.26cm of tmpl] (bind) {\textbf{4 Bind \& verify}\\slot values whose template query returns rows};
+\node[llm, right=0.26cm of bind] (gen) {\textbf{5 Realize}\\question in a sampled register; reference Cypher};
+\node[det, right=0.26cm of gen] (gate) {\textbf{6 Govern}\\read-only, schema, direction, literals, category contract};
+\node[live, right=0.26cm of gate] (exec) {\textbf{7 Execute}\\non-empty, no \texttt{LIMIT} ties, tier quota};
+\node[llm, right=0.26cm of exec] (judge) {\textbf{8 Judge panel}\\two cross-family LLMs; both must accept};
+\foreach \a/\b in {profile/plan, plan/tmpl, tmpl/bind, bind/gen, gen/gate, gate/exec, exec/judge}
+  \draw[arrow] (\a) -- (\b);
+\node[pkgbox, right=0.26cm of judge] (pkg) {\textbf{Benchmark package}\\
+  NL question\\pipeline-validated reference Cypher\\answer contract, tier\\template-held-out splits\\provenance ledger};
+\draw[arrow] (judge) -- (pkg);
+\node[note, below=0.16cm of tmpl] (induce) {saturated signature or tier $\rightarrow$ induction};
+\draw[soft] (induce.west) -| (plan.south);
+\node[note, below=0.16cm of bind, xshift=0.95cm, text width=3.1cm] (conv) {convention sheet (C1--C13) shared by question writer, generator, and judges};
+\node[note, below=0.16cm of exec] (ledger) {every rejection logged with first blocking gate};
+\draw[rej] (gate.south) |- (ledger.west);
+\draw[rej] (judge.south) |- (ledger.east);
+\node[note, above=0.16cm of pkg, fill=pipePaleRed, draw=pipeRed] (indep) {\textbf{Independent check}\\frontier auditor + 70 labeled items $\rightarrow$ error rate};
+\draw[soft] (pkg.north) -- (indep.south);
+% ---------------- Evaluation lane ----------------
+\node[lane] at (-1.15,-1.95) {B. Downstream evaluation of a Text2Cypher system};
+\node[box, fill=pipePaleGray, minimum height=0.95cm] (q) at (0,-2.85) {question + schema (+ retrieved train examples)};
+\node[box, fill=pipePaleGray, minimum height=0.95cm, right=0.32cm of q] (sut) {\textbf{system under test}\\any model};
+\node[live, minimum height=0.95cm, right=0.32cm of sut] (pexec) {execute predicted Cypher (read-only)};
+\node[live, minimum height=0.95cm, below=0.25cm of pexec] (gexec) {execute reference Cypher};
+\node[det, right=0.45cm of pexec, minimum height=2.15cm, yshift=-0.6cm] (cmp) {\textbf{compare rows}\\strict EX\\projected EX\\answer F1};
+\node[note, right=0.32cm of cmp, text width=2.15cm] (diag) {governance diagnostics (direction, write attempts) reported, not gating};
+\draw[arrow] (q) -- (sut);
+\draw[arrow] (sut) -- (pexec);
+\draw[arrow] (pexec.east) -- (cmp.west |- pexec.east);
+\draw[arrow] (gexec.east) -- (cmp.west |- gexec.east);
+\draw[soft] (cmp) -- (diag);
+\draw[soft] (pkg.south) |- ($(gexec.south)+(0,-0.25)$) -- (gexec.south);
+% Legend
+\node[det, minimum height=0.3cm, text width=1.5cm, font=\tiny] (l1) at (13.0,-2.35) {deterministic};
+\node[llm, minimum height=0.3cm, text width=1.5cm, font=\tiny, below=0.1cm of l1] (l2) {LLM};
+\node[live, minimum height=0.3cm, text width=1.5cm, font=\tiny, below=0.1cm of l2] (l3) {live graph};
+\end{tikzpicture}

@@ -1,0 +1,339 @@
+# Hosted downstream manifest (NAACL 2027). NOT a RunConfig; read by
+# scripts/run_downstream_suite.py only. Open-weight models run on hosted endpoints
+# at their released precision (bf16, or the vendor's official FP8 release); routing is
+# supplied per model through PIPE_CYPHER_OPENROUTER_ROUTING by
+# scripts/run_hosted_downstream.sh. Public graphs only.
+manifest_kind: pipecypher_downstream_model_manifest
+manifest_version: 1
+title: 'NAACL 2027 downstream suite: hosted open-weight models via OpenRouter + hosted frontier reference'
+verified_on: '2026-11-12'
+verification_method: OpenRouter /api/v1/models/<id>/endpoints (quantization, pricing) and Hugging Face API
+hardware:
+  host: jamming (CPU only; inference via hosted APIs)
+  gpu: none
+  gpu_memory_gb: 0
+defaults:
+  provider: openrouter
+  system_message_mode: separate
+launch:
+  serve_script: none (hosted)
+  command_template: none
+  health_timeout_sec: 1
+models:
+- slug: glm53_flash
+  tier: core
+  hf_id: zai-org/GLM-5.3-Flash
+  served_model_name: z-ai/glm-5.3-flash
+  family: general
+  lineage: Z.ai GLM
+  tuning: general instruction (benchmark generator)
+  license: MIT
+  license_gated: false
+  system_message_mode: separate
+  native_prompt_format: null
+  native_format_status: not_applicable
+  gpu_memory_estimate_gb: 0
+  gpus_required: 0
+  provider: openrouter
+  base_url: https://openrouter.ai/api/v1
+  hosted: true
+  public_graphs_only: true
+  allowed_graph_profiles:
+  - finbench
+  - snb
+  - t2c_recommendations
+  - t2c_northwind
+  - t2c_fincen
+  send_temperature: true
+  reasoning_effort: low
+  is_generator: true
+  notes: 'Open weights served by a hosted provider; precision: native FP8 (official release precision); pinned z-ai/fp8. Routing
+    via PIPE_CYPHER_OPENROUTER_ROUTING={''quantizations'': [''fp8''], ''sort'': ''price'', ''allow_fallbacks'': True}'
+- slug: qwen35_9b
+  tier: core
+  hf_id: Qwen/Qwen3.5-9B
+  served_model_name: qwen/qwen3.5-9b
+  family: general
+  lineage: Qwen
+  tuning: general instruction (v1 generator)
+  license: Apache-2.0
+  license_gated: false
+  system_message_mode: separate
+  native_prompt_format: null
+  native_format_status: not_applicable
+  gpu_memory_estimate_gb: 0
+  gpus_required: 0
+  provider: openrouter
+  base_url: https://openrouter.ai/api/v1
+  hosted: true
+  public_graphs_only: true
+  allowed_graph_profiles:
+  - finbench
+  - snb
+  - t2c_recommendations
+  - t2c_northwind
+  - t2c_fincen
+  send_temperature: true
+  reasoning_effort: none
+  is_generator: false
+  notes: 'Open weights served by a hosted provider; precision: bf16. Routing via PIPE_CYPHER_OPENROUTER_ROUTING={''quantizations'':
+    [''bf16'', ''fp16'', ''fp32''], ''sort'': ''price'', ''allow_fallbacks'': True}'
+- slug: llama31_8b
+  tier: core
+  hf_id: meta-llama/Llama-3.1-8B-Instruct
+  served_model_name: meta-llama/llama-3.1-8b-instruct
+  family: general
+  lineage: Llama
+  tuning: general instruction
+  license: Llama 3.1 Community
+  license_gated: true
+  system_message_mode: separate
+  native_prompt_format: null
+  native_format_status: not_applicable
+  gpu_memory_estimate_gb: 0
+  gpus_required: 0
+  provider: openrouter
+  base_url: https://openrouter.ai/api/v1
+  hosted: true
+  public_graphs_only: true
+  allowed_graph_profiles:
+  - finbench
+  - snb
+  - t2c_recommendations
+  - t2c_northwind
+  - t2c_fincen
+  send_temperature: true
+  reasoning_effort: none
+  is_generator: false
+  notes: 'Open weights served by a hosted provider; precision: bf16. Routing via PIPE_CYPHER_OPENROUTER_ROUTING={''quantizations'':
+    [''bf16'', ''fp16'', ''fp32''], ''sort'': ''price'', ''allow_fallbacks'': True}'
+- slug: gemma3_4b
+  tier: core
+  hf_id: google/gemma-3-4b-it
+  served_model_name: google/gemma-3-4b-it
+  family: general
+  lineage: Gemma
+  tuning: general instruction
+  license: Gemma
+  license_gated: true
+  system_message_mode: separate
+  native_prompt_format: null
+  native_format_status: not_applicable
+  gpu_memory_estimate_gb: 0
+  gpus_required: 0
+  provider: openrouter
+  base_url: https://openrouter.ai/api/v1
+  hosted: true
+  public_graphs_only: true
+  allowed_graph_profiles:
+  - finbench
+  - snb
+  - t2c_recommendations
+  - t2c_northwind
+  - t2c_fincen
+  send_temperature: true
+  reasoning_effort: none
+  is_generator: false
+  notes: 'Open weights served by a hosted provider; precision: bf16. Routing via PIPE_CYPHER_OPENROUTER_ROUTING={''quantizations'':
+    [''bf16'', ''fp16'', ''fp32''], ''sort'': ''price'', ''allow_fallbacks'': True}'
+- slug: gemma3_12b
+  tier: core
+  hf_id: google/gemma-3-12b-it
+  served_model_name: google/gemma-3-12b-it
+  family: general
+  lineage: Gemma
+  tuning: general instruction
+  license: Gemma
+  license_gated: true
+  system_message_mode: separate
+  native_prompt_format: null
+  native_format_status: not_applicable
+  gpu_memory_estimate_gb: 0
+  gpus_required: 0
+  provider: openrouter
+  base_url: https://openrouter.ai/api/v1
+  hosted: true
+  public_graphs_only: true
+  allowed_graph_profiles:
+  - finbench
+  - snb
+  - t2c_recommendations
+  - t2c_northwind
+  - t2c_fincen
+  send_temperature: true
+  reasoning_effort: none
+  is_generator: false
+  notes: 'Open weights served by a hosted provider; precision: bf16. Routing via PIPE_CYPHER_OPENROUTER_ROUTING={''quantizations'':
+    [''bf16'', ''fp16'', ''fp32''], ''sort'': ''price'', ''allow_fallbacks'': True}'
+- slug: gemma4_26b_a4b
+  tier: core
+  hf_id: google/gemma-4-26B-A4B-it
+  served_model_name: google/gemma-4-26b-a4b-it
+  family: general
+  lineage: Gemma
+  tuning: general instruction
+  license: Gemma
+  license_gated: true
+  system_message_mode: separate
+  native_prompt_format: null
+  native_format_status: not_applicable
+  gpu_memory_estimate_gb: 0
+  gpus_required: 0
+  provider: openrouter
+  base_url: https://openrouter.ai/api/v1
+  hosted: true
+  public_graphs_only: true
+  allowed_graph_profiles:
+  - finbench
+  - snb
+  - t2c_recommendations
+  - t2c_northwind
+  - t2c_fincen
+  send_temperature: true
+  reasoning_effort: none
+  is_generator: false
+  notes: 'Open weights served by a hosted provider; precision: bf16. Routing via PIPE_CYPHER_OPENROUTER_ROUTING={''quantizations'':
+    [''bf16'', ''fp16'', ''fp32''], ''sort'': ''price'', ''allow_fallbacks'': True}'
+- slug: phi4
+  tier: core
+  hf_id: microsoft/phi-4
+  served_model_name: microsoft/phi-4
+  family: general
+  lineage: Phi
+  tuning: general instruction
+  license: MIT
+  license_gated: false
+  system_message_mode: separate
+  native_prompt_format: null
+  native_format_status: not_applicable
+  gpu_memory_estimate_gb: 0
+  gpus_required: 0
+  provider: openrouter
+  base_url: https://openrouter.ai/api/v1
+  hosted: true
+  public_graphs_only: true
+  allowed_graph_profiles:
+  - finbench
+  - snb
+  - t2c_recommendations
+  - t2c_northwind
+  - t2c_fincen
+  send_temperature: true
+  reasoning_effort: none
+  is_generator: false
+  notes: 'Open weights served by a hosted provider; precision: bf16. Routing via PIPE_CYPHER_OPENROUTER_ROUTING={''quantizations'':
+    [''bf16'', ''fp16'', ''fp32''], ''sort'': ''price'', ''allow_fallbacks'': True}'
+- slug: mistral_small32_24b
+  tier: core
+  hf_id: mistralai/Mistral-Small-3.2-24B-Instruct-2506
+  served_model_name: mistralai/mistral-small-3.2-24b-instruct
+  family: general
+  lineage: Mistral
+  tuning: general instruction
+  license: Apache-2.0
+  license_gated: false
+  system_message_mode: separate
+  native_prompt_format: null
+  native_format_status: not_applicable
+  gpu_memory_estimate_gb: 0
+  gpus_required: 0
+  provider: openrouter
+  base_url: https://openrouter.ai/api/v1
+  hosted: true
+  public_graphs_only: true
+  allowed_graph_profiles:
+  - finbench
+  - snb
+  - t2c_recommendations
+  - t2c_northwind
+  - t2c_fincen
+  send_temperature: true
+  reasoning_effort: none
+  is_generator: false
+  notes: 'Open weights served by a hosted provider; precision: bf16. Routing via PIPE_CYPHER_OPENROUTER_ROUTING={''quantizations'':
+    [''bf16'', ''fp16'', ''fp32''], ''sort'': ''price'', ''allow_fallbacks'': True}'
+- slug: gpt_oss_20b
+  tier: core
+  hf_id: openai/gpt-oss-20b
+  served_model_name: openai/gpt-oss-20b
+  family: general
+  lineage: gpt-oss
+  tuning: open-weight reasoning
+  license: Apache-2.0
+  license_gated: false
+  system_message_mode: separate
+  native_prompt_format: null
+  native_format_status: not_applicable
+  gpu_memory_estimate_gb: 0
+  gpus_required: 0
+  provider: openrouter
+  base_url: https://openrouter.ai/api/v1
+  hosted: true
+  public_graphs_only: true
+  allowed_graph_profiles:
+  - finbench
+  - snb
+  - t2c_recommendations
+  - t2c_northwind
+  - t2c_fincen
+  send_temperature: true
+  reasoning_effort: low
+  is_generator: false
+  notes: 'Open weights served by a hosted provider; precision: bf16. Routing via PIPE_CYPHER_OPENROUTER_ROUTING={''quantizations'':
+    [''bf16'', ''fp16'', ''fp32''], ''sort'': ''price'', ''allow_fallbacks'': True}'
+- slug: qwen3_coder_30b_a3b
+  tier: core
+  hf_id: Qwen/Qwen3-Coder-30B-A3B-Instruct
+  served_model_name: qwen/qwen3-coder-30b-a3b-instruct
+  family: code
+  lineage: Qwen
+  tuning: code instruction
+  license: Apache-2.0
+  license_gated: false
+  system_message_mode: separate
+  native_prompt_format: null
+  native_format_status: not_applicable
+  gpu_memory_estimate_gb: 0
+  gpus_required: 0
+  provider: openrouter
+  base_url: https://openrouter.ai/api/v1
+  hosted: true
+  public_graphs_only: true
+  allowed_graph_profiles:
+  - finbench
+  - snb
+  - t2c_recommendations
+  - t2c_northwind
+  - t2c_fincen
+  send_temperature: true
+  reasoning_effort: none
+  is_generator: false
+  notes: 'Open weights served by a hosted provider; precision: official FP8 release (no bf16 endpoint hosted). Routing via
+    PIPE_CYPHER_OPENROUTER_ROUTING={''quantizations'': [''fp8''], ''sort'': ''price'', ''allow_fallbacks'': True}'
+- slug: gpt6_luna
+  tier: reference
+  hf_id: null
+  served_model_name: gpt-6-luna
+  family: frontier (hosted)
+  lineage: OpenAI
+  tuning: hosted frontier reference
+  license: proprietary (hosted API)
+  license_gated: true
+  system_message_mode: separate
+  native_prompt_format: null
+  native_format_status: not_applicable
+  gpu_memory_estimate_gb: 0
+  gpus_required: 0
+  provider: openai
+  base_url: https://api.openai.com/v1
+  hosted: true
+  public_graphs_only: true
+  allowed_graph_profiles:
+  - finbench
+  - snb
+  - t2c_recommendations
+  - t2c_northwind
+  - t2c_fincen
+  send_temperature: false
+  reasoning_effort: null
+  notes: Closed frontier model; temperature fixed at the provider default (temperature=0 rejected).

@@ -13,6 +13,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from pipecypher.artifact_snapshot import sha256_file
+from pipecypher.downstream_model_transfer import MAX_PREDICTION_FAILURE_RATE, prediction_failure_rate
 
 
 ZERO_FILES = (
@@ -158,6 +159,19 @@ def _run_entry(path: Path, expected_files: tuple[str, ...], *, rows_per_run: int
     for name, entry in files.items():
         if name.endswith(".jsonl") and entry.get("line_count") != rows_per_run:
             issues.append(f"{path.name}: {name} has {entry.get('line_count')} rows")
+    # Row counts and checksums alone let a suite of HTTP-404 empty predictions
+    # pass as "complete" in June 2026. Request failures are now a blocker.
+    for summary_name in ("zero_shot_summary.json", "few_shot_summary.json"):
+        summary_path = path / summary_name
+        if not summary_path.exists():
+            continue
+        rate = prediction_failure_rate(summary_path)
+        files.setdefault(summary_name, {})["prediction_failure_rate"] = rate
+        if rate is not None and rate > MAX_PREDICTION_FAILURE_RATE:
+            issues.append(
+                f"{path.name}: {summary_name} prediction failure rate {rate:.3f} "
+                f"exceeds {MAX_PREDICTION_FAILURE_RATE:.3f}"
+            )
     return {
         "run_id": path.name,
         "path": str(path),

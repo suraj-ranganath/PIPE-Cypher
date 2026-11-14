@@ -1,0 +1,111 @@
+{
+  "records": 186,
+  "accepted": 96,
+  "executed": 185,
+  "acceptance_rate": 0.5161290322580645,
+  "failure_reasons": {
+    "accepted": 96,
+    "tier quota exceeded (medium)": 36,
+    "reference has a tie at the ORDER BY/LIMIT boundary (rank 10 and rank 11 share the order key)": 21,
+    "execution returned no rows": 10,
+    "reference has a tie at the ORDER BY/LIMIT boundary (rank 5 and rank 6 share the order key)": 6,
+    "reference has a tie at the ORDER BY/LIMIT boundary (rank 3 and rank 4 share the order key)": 5,
+    "tier quota exceeded (hard)": 4,
+    "reference has a tie at the ORDER BY/LIMIT boundary (rank 7 and rank 8 share the order key)": 2,
+    "literal mismatch: quoted value 'd like to see the accounts that got transfers coming from accounts owned by ' is not a Cypher literal": 1,
+    "slot bindings unavailable": 1,
+    "[gemma4] values=no: The question contains 'true false' at the end which are not identifiers or values in the schema, and the query does not use them. However, the question asks a boolean question ('Person ... LIKED Post ...') which the query answers with a boolean. The 'true false' in the question is malform; unambiguous=no: The question contains trailing 'true false' which are not part of the graph schema or the question's logic, making it malformed according to C13.": 1,
+    "[primary] no_extra_constraints=no: Query adds (m)-[:HAS_CREATOR]->(mod), restricting to messages authored by the moderator. The question's phrase 'created after the forum's moderator created the forum' does not clearly state that only the moderator's own messages are wanted; under the natural reading, all mes; unambiguous=no: 'the forum's moderator created the forum' is not a fact the schema records (forums have moderators, not creators), and it is unclear whether only the moderator's messages are wanted; the question has more than one reasonable reading. | [gemma4] no_extra_constraints=no: The query includes a constraint that the message must be created by the moderator: (m)-[:HAS_CREATOR]->(mod). The question says 'messages in the forum ... created after the forum's moderator created the forum'. This phrasing is slightly ambiguous: does it mean messages creat; unambiguous=no: The phrase 'messages ... created after the forum's moderator created the forum' is ambiguous. It could mean: 1. Messages in the forum where creationDate > forum.creationDate. 2. Messages in the forum created by the moderator, where creationDate > forum.creationDate. The query assumes": 1,
+    "cannot verify ORDER BY/LIMIT determinism (order key `numEmployees` is not a returned column)": 1,
+    "cannot verify ORDER BY/LIMIT determinism (order key `employees` is not a returned column)": 1
+  },
+  "binding_sources": {
+    "label_lookup_verified": 6,
+    "derived_return": 42,
+    "derived_prefix": 1
+  },
+  "reference_sources": {
+    "generator": 92,
+    "template_cypher": 4
+  },
+  "template_cypher_agreement": {
+    "True": 48,
+    "False": 5
+  },
+  "question_realization": {
+    "realized": 96
+  },
+  "spend": {
+    "usd": 0.2101,
+    "calls": 1082,
+    "cache_hit_share": 0.2880147359473186,
+    "calls_per_accepted": 11.270833333333334
+  },
+  "accepted_by_cell": {
+    "finbench:boolean_existence": 6,
+    "finbench:complex_aggregation": 6,
+    "finbench:complex_retrieval": 6,
+    "finbench:negation_difference": 6,
+    "finbench:path_temporal": 6,
+    "finbench:ranking_topk": 6,
+    "finbench:simple_aggregation": 6,
+    "finbench:simple_retrieval": 6,
+    "snb:boolean_existence": 6,
+    "snb:complex_aggregation": 6,
+    "snb:complex_retrieval": 6,
+    "snb:negation_difference": 6,
+    "snb:path_temporal": 6,
+    "snb:ranking_topk": 6,
+    "snb:simple_aggregation": 6,
+    "snb:simple_retrieval": 6
+  },
+  "checks": {
+    "empty_reject_share": {
+      "value": 0.053763440860215055,
+      "threshold": "< 0.05",
+      "pass": false,
+      "v2": 0.242496521566289
+    },
+    "accepted_literal_mismatches": {
+      "value": 0,
+      "threshold": "== 0",
+      "pass": true
+    },
+    "tier_mix_max_deviation": {
+      "value": 0.03541666666666671,
+      "shares": {
+        "easy": 0.34375,
+        "medium": 0.3854166666666667,
+        "hard": 0.2708333333333333
+      },
+      "counts": {
+        "medium": 37,
+        "easy": 33,
+        "hard": 26
+      },
+      "threshold": "<= 0.10",
+      "pass": true
+    },
+    "panel_kappa": {
+      "value": 0.6620689655172413,
+      "n": 98,
+      "threshold": ">= 0.6",
+      "pass": true,
+      "v2": 0.22
+    },
+    "self_bleu": {
+      "value": 0.6379729643945419,
+      "threshold": "< 0.81",
+      "pass": true,
+      "v2": 0.87
+    },
+    "projected_generation_cost_usd": {
+      "value": 7.003642073333334,
+      "per_item": 0.002188638147916667,
+      "threshold": "<= 4.0",
+      "pass": false
+    }
+  },
+  "all_record_checks_pass": false,
+  "literal_problem_examples": []
+}
