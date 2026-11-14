@@ -2,129 +2,72 @@
 
 PIPE-Cypher is a synthetic data pipeline that creates balanced, executable, privacy-aware NL-to-Cypher benchmarks for enterprise knowledge graphs. The value here is that enterprise graphs are highly differentiated: their schemas, terminology, query patterns, and even the questions users ask are unique to each deployment. A strong coding agent today can probably generate data by inspecting a schema, but PIPE-Cypher makes this scalable, cost-effective, and repeatable when the schema inevitably changes. By constraining this as a pipeline, even small local models can efficiently create large amounts of synthetic benchmark data, with deterministic graph checks for balance, diversity, auditability, and execution validity. That makes it useful for keeping private Text2Cypher benchmarks grounded in how a graph is actually used as it evolves.
 
-![PIPE-Cypher pipeline](docs/assets/pipeline_overview.png)
+## How it works
 
-## What PIPE-Cypher Does
+An LLM proposes question templates, and each template is filled only with
+values for which its own query returns an answer on the live graph (reverse
+querying). Deterministic checks reject unsafe or inconsistent items, and a
+cross-family judge panel reads what remains against a written convention
+sheet. The same machinery refreshes a benchmark after a schema change, and the
+validity of what is generated is measured separately with human labels, an
+outside auditor, and curated benchmarks.
 
-- Profiles property-graph schemas, relationship directions, properties, and
-  bounded categorical values.
-- Grounds candidate questions with read-only reverse Cypher queries so examples
-  are answerable before natural-language realization.
-- Generates NL--Cypher pairs with local OpenAI-compatible model endpoints such
-  as vLLM.
-- Applies deterministic Cypher governance: read-only safety, schema validity,
-  relationship direction checks, exact literal handling, categorical-value
-  constraints, execution validation, and conservative rewrites.
-- Reviews executable candidates with a local LLM judge and records a full
-  accepted/rejected ledger for audit.
-- Exports benchmark JSONL splits, benchmark cards, diversity diagnostics,
-  redacted review artifacts, and downstream evaluation utilities.
+## Contents
 
-## Quick Start
+| Path | What it holds |
+|---|---|
+| `pipecypher/` | The pipeline: profiling, planning, template binding, checks, judges, export, scoring, refresh |
+| `scripts/` | Command-line entry points for building, evaluating, auditing, and analysis |
+| `configs/` | Build configurations (`finbench_v3.yaml`, `snb_v3.yaml`, public-graph and ablation configs), schemas, difficulty model |
+| `tests/` | Deterministic unit tests (no GPU, no graph, no network) |
+| `release/benchmarks/` | The released benchmarks: FinBench/SNB (3,038 items, signature-disjoint train/dev/test) and the three public-graph builds |
+| `release/predictions/` | Zero-shot predictions of the 11 evaluated models on all 3,038 items, with score summaries |
+| `release/results/` | The result files behind the paper's tables and figures |
+| `release/human_validation/` | The 70 audited items, sampling key and weights, and the annotators' labels (annotators appear as A and B) |
+| `docs/` | Benchmark row format and onboarding guide for a new graph |
 
-```bash
-python -m pip install -e ".[dev]"
-pytest
-```
-
-Run an offline smoke generation pass without a graph server or model endpoint:
-
-```bash
-python scripts/run_pipeline.py \
-  --config configs/local_smoke.yaml \
-  --offline-smoke \
-  --run-name offline_smoke
-
-python scripts/summarize_run.py artifacts/runs/<run_id>/records.jsonl
-```
-
-Inspect a live graph schema:
+## Quick start
 
 ```bash
-python scripts/inspect_schema.py \
-  --config configs/enterprise_template.yaml \
-  --output configs/schema_enterprise_private.json
+python -m venv .venv && . .venv/bin/activate
+pip install -e ".[dev]"
+python -m pytest -q          # deterministic tests
+python scripts/run_pipeline.py --config configs/finbench_v3.yaml --offline-smoke   # no graph or model needed
 ```
 
-Run a small enterprise dry run after configuring read-only graph credentials and
-a local model endpoint:
+## Reproducing the paper
 
-```bash
-python scripts/run_pipeline.py \
-  --config configs/enterprise_template.yaml \
-  --run-name enterprise_dry_run
-```
+See `REPRODUCIBILITY.md` for the full sequence. In short:
 
-## Enterprise Onboarding
+1. Load the public graphs into Neo4j 5 (`scripts/load_finbench_neo4j.sh`,
+   `scripts/load_snb_neo4j.sh`, `scripts/fetch_neo4j_example_graphs.sh`).
+2. Point a config at the graph and at any OpenAI-compatible endpoint serving
+   the generator and judges, then build: `scripts/launch_cells.sh` runs one
+   process per category, seed, and graph; `scripts/export_benchmark.py`
+   writes the splits.
+3. Generate and score predictions with
+   `scripts/generate_text2cypher_predictions.py` and
+   `scripts/evaluate_benchmark_predictions.py`.
+4. Recompute the analyses from the released predictions and labels (no model
+   calls): `scripts/reference_quality_sensitivity.py`,
+   `scripts/order_aware_rescoring.py`, `scripts/query_metric_comparison.py`,
+   `scripts/corrected_reference_rescoring.py`.
 
-Start with [`configs/enterprise_template.yaml`](configs/enterprise_template.yaml)
-and the deployment guide in
-[`docs/enterprise_onboarding.md`](docs/enterprise_onboarding.md). A typical
-deployment flow is:
+Every script documents its options under `--help`. API keys are read from the
+environment and are never written to configs, logs, or outputs.
 
-1. Create read-only graph credentials.
-2. Configure schema introspection, value-sampling bounds, and sensitive-property
-   omit lists.
-3. Serve a local generation/judge model through vLLM or another
-   OpenAI-compatible internal endpoint.
-4. Run a small dry pass and inspect rejected candidates.
-5. Scale generation by category and difficulty targets.
-6. Export internal raw benchmarks and redacted review copies.
-7. Calibrate the judge with a post-hoc human audit sample.
-8. Refresh the benchmark when the graph, values, or user workloads change.
+## Models and data
 
-You can also try PIPE-Cypher with an AI coding agent: point the agent at this
-repository and your hosted read-only knowledge graph, then ask it to use
-`AGENTS.md` and the `.agents/skills/pipecypher-enterprise-benchmark` skill to
-configure onboarding, run a dry pass, and export an agent-ready benchmark.
+All graphs are public (LDBC FinBench, LDBC SNB, and the Neo4j example graphs
+Recommendations, Northwind, and FinCEN). The generator and both judges have
+open weights; a closed model is used only as outside auditor, replay
+generator, and downstream reference, and never decides what is released.
 
-## Benchmark Data Format
+## Citation
 
-Accepted examples are exported as JSONL files with train/dev/test splits. Each
-row contains the NL question, Cypher query, graph/category/difficulty metadata,
-structural features, validation gates, result samples, and provenance fields.
-See [`docs/benchmark_format.md`](docs/benchmark_format.md) for the schema and
-recommended evaluation protocol.
-
-## Reproducing the Paper Experiments
-
-The public branch includes a separate reproducibility guide for the experiments
-reported in the PIPE-Cypher paper: graph loading, model endpoints, full
-generation configs, ablations, diversity selection, judge calibration,
-downstream evaluation, and paper-scale result targets. See
-[`docs/reproducing_paper_experiments.md`](docs/reproducing_paper_experiments.md).
-
-## Library Surfaces
-
-PIPE-Cypher is organized around reusable library components rather than a
-single fixed dataset. The public branch contains:
-
-- schema introspection and schema-card generation for property graphs;
-- reverse-grounded candidate generation and slot binding;
-- deterministic Cypher validators for read-only safety, labels,
-  relationship types, properties, directions, literals, execution, and result
-  shape;
-- conservative query normalization and rewrite auditing;
-- local LLM generation and judging through OpenAI-compatible endpoints;
-- privacy redaction, value-sampling policies, and benchmark-card exports;
-- diversity selection and diagnostics;
-- downstream Text2Cypher evaluation utilities.
-
-Paper source, experiment snapshots, and submission packages are intentionally
-kept on the research branch rather than on `main`.
-
-## Repository Layout
-
-- [`pipecypher/`](pipecypher/): pipeline, validators, grounding, diversity,
-  judge, export, and reporting modules.
-- [`scripts/`](scripts/): command-line entry points for running, exporting,
-  auditing, redacting, and evaluating benchmarks.
-- [`configs/`](configs/): local smoke, public graph, and enterprise template
-  configs.
-- [`tests/`](tests/): deterministic tests for pipeline and library behavior.
-- [`docs/`](docs/): public deployment, onboarding, and benchmark-format
-  documentation.
+See `CITATION.cff`. A paper describing this version is under review.
 
 ## License
 
-MIT.
+MIT (see `LICENSE`). The benchmark items derive from public LDBC and Neo4j
+example data and are released for research use.

@@ -1,0 +1,34 @@
+{
+  "pc_02f90111aabc0853": {
+    "clarity": "clear",
+    "reference": "wrong"
+  },
+  "pc_30f9fc75774b617c": {
+    "clarity": "ambiguous",
+    "reference": "correct"
+  },
+  "pc_4336f86aed7d3d9f": {
+    "clarity": "clear",
+    "reference": "correct"
+  },
+  "pc_4abe21902cf04b54": {
+    "clarity": "clear",
+    "reference": "minor"
+  },
+  "pc_702315dac5e12517": {
+    "clarity": "clear",
+    "reference": "wrong"
+  },
+  "pc_96aadbfd62ae1c48": {
+    "clarity": "clear",
+    "reference": "wrong"
+  },
+  "pc_c59da28f4a5a0efa": {
+    "clarity": "clear",
+    "reference": "minor"
+  },
+  "pc_c8ae16a5acf229f4": {
+    "clarity": "clear",
+    "reference": "wrong"
+  }
+}

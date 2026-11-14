@@ -1,0 +1,30 @@
+{
+  "accepted_only": true,
+  "all_path": "artifacts/benchmarks/naacl_v3_pub_fincen/all.jsonl",
+  "cell_cap_dropped": 0,
+  "created_at": "2026-11-13T02:20:13.535990+00:00",
+  "max_per_cell": {},
+  "max_per_signature": 0,
+  "records_paths": [
+    "artifacts/runs/20261112_180825_naacl_v3_pub_t2c_fincen_v3_s1_boolean_existence",
+    "artifacts/runs/20261112_180825_naacl_v3_pub_t2c_fincen_v3_s1_complex_aggregation",
+    "artifacts/runs/20261112_180825_naacl_v3_pub_t2c_fincen_v3_s1_negation_difference",
+    "artifacts/runs/20261112_180825_naacl_v3_pub_t2c_fincen_v3_s1_path_temporal",
+    "artifacts/runs/20261112_180825_naacl_v3_pub_t2c_fincen_v3_s1_ranking_topk",
+    "artifacts/runs/20261112_180825_naacl_v3_pub_t2c_fincen_v3_s1_simple_retrieval",
+    "artifacts/runs/20261112_180826_naacl_v3_pub_t2c_fincen_v3_s1_complex_retrieval",
+    "artifacts/runs/20261112_180826_naacl_v3_pub_t2c_fincen_v3_s1_simple_aggregation"
+  ],
+  "result_sample_limit": 5,
+  "sha256": "2f30c07fd831e02ec5b964d4e7c8344f306d3b9938831b6d4ba9263a9518c925",
+  "signature_cap_dropped": 0,
+  "split_counts": {
+    "dev": 16,
+    "test": 16,
+    "train": 128
+  },
+  "split_seed": "naacl-v3",
+  "split_strategy": "random",
+  "stats_path": "artifacts/benchmarks/naacl_v3_pub_fincen/stats.json",
+  "total_examples": 160
+}

@@ -1,0 +1,93 @@
+{
+ "items": 249,
+ "models": {
+  "gpt6_luna": {
+   "projected_correct": 146,
+   "order_consistent": 118,
+   "order_violated": 28,
+   "unchecked": 0,
+   "n_all": 3038,
+   "accuracy_drop_points_all_items": 0.92
+  },
+  "glm53_flash": {
+   "projected_correct": 167,
+   "order_consistent": 138,
+   "order_violated": 29,
+   "unchecked": 0,
+   "n_all": 3038,
+   "accuracy_drop_points_all_items": 0.95
+  },
+  "gemma4_26b_a4b": {
+   "projected_correct": 173,
+   "order_consistent": 135,
+   "order_violated": 38,
+   "unchecked": 0,
+   "n_all": 3038,
+   "accuracy_drop_points_all_items": 1.25
+  },
+  "gpt_oss_20b": {
+   "projected_correct": 105,
+   "order_consistent": 80,
+   "order_violated": 25,
+   "unchecked": 0,
+   "n_all": 3038,
+   "accuracy_drop_points_all_items": 0.82
+  },
+  "mistral_small32_24b": {
+   "projected_correct": 75,
+   "order_consistent": 64,
+   "order_violated": 11,
+   "unchecked": 0,
+   "n_all": 3038,
+   "accuracy_drop_points_all_items": 0.36
+  },
+  "qwen3_coder_30b_a3b": {
+   "projected_correct": 44,
+   "order_consistent": 33,
+   "order_violated": 11,
+   "unchecked": 0,
+   "n_all": 3038,
+   "accuracy_drop_points_all_items": 0.36
+  },
+  "phi4": {
+   "projected_correct": 61,
+   "order_consistent": 54,
+   "order_violated": 7,
+   "unchecked": 0,
+   "n_all": 3038,
+   "accuracy_drop_points_all_items": 0.23
+  },
+  "qwen35_9b": {
+   "projected_correct": 18,
+   "order_consistent": 13,
+   "order_violated": 5,
+   "unchecked": 0,
+   "n_all": 3038,
+   "accuracy_drop_points_all_items": 0.16
+  },
+  "llama31_8b": {
+   "projected_correct": 17,
+   "order_consistent": 9,
+   "order_violated": 8,
+   "unchecked": 0,
+   "n_all": 3038,
+   "accuracy_drop_points_all_items": 0.26
+  },
+  "gemma3_12b": {
+   "projected_correct": 24,
+   "order_consistent": 22,
+   "order_violated": 2,
+   "unchecked": 0,
+   "n_all": 3038,
+   "accuracy_drop_points_all_items": 0.07
+  },
+  "gemma3_4b": {
+   "projected_correct": 7,
+   "order_consistent": 6,
+   "order_violated": 1,
+   "unchecked": 0,
+   "n_all": 3038,
+   "accuracy_drop_points_all_items": 0.03
+  }
+ }
+}

@@ -17,10 +17,13 @@ class _FakeSession:
     def __exit__(self, exc_type, exc, tb):
         return False
 
-    def run(self, query, params, timeout):
+    def run(self, query, params=None, **kwargs):
+        # Real driver: extra kwargs become query parameters, so a timeout must
+        # arrive on the neo4j.Query object, never as a keyword argument.
+        assert "timeout" not in kwargs
         self.query = query
         self.params = params
-        self.timeout = timeout
+        self.timeout = getattr(query, "timeout", None)
         return _FakeResult()
 
 

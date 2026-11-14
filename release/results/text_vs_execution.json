@@ -1,0 +1,58 @@
+{
+ "predictions": 33418,
+ "execution_correct": 15752,
+ "exact_text_match_among_correct": 0.0351066531234129,
+ "exact_text_match_among_wrong": 0.0,
+ "gleu_mean_correct": 0.687600640506868,
+ "gleu_mean_wrong": 0.5255271843243415,
+ "gleu_median_correct": 0.6853932584269663,
+ "wrong_with_gleu_at_or_above_median_correct": 0.1363070304539794,
+ "correct_with_gleu_below_0.5": 0.12582529202640935,
+ "model_rank_tau_gleu_vs_projected_ex": 0.8545454545454545,
+ "per_model": {
+  "gpt6_luna": {
+   "gleu": 0.6470501118839113,
+   "projected_ex": 0.7656352863726136
+  },
+  "glm53_flash": {
+   "gleu": 0.7032507000903784,
+   "projected_ex": 0.7669519420671495
+  },
+  "gemma4_26b_a4b": {
+   "gleu": 0.6306276000885893,
+   "projected_ex": 0.6872942725477288
+  },
+  "gpt_oss_20b": {
+   "gleu": 0.64442094752607,
+   "projected_ex": 0.5829493087557603
+  },
+  "mistral_small32_24b": {
+   "gleu": 0.6324308337599742,
+   "projected_ex": 0.5059249506254114
+  },
+  "qwen3_coder_30b_a3b": {
+   "gleu": 0.5851624212769504,
+   "projected_ex": 0.4315339038841343
+  },
+  "phi4": {
+   "gleu": 0.6222480753486636,
+   "projected_ex": 0.4292297564186965
+  },
+  "qwen35_9b": {
+   "gleu": 0.5798190083734861,
+   "projected_ex": 0.35286372613561556
+  },
+  "llama31_8b": {
+   "gleu": 0.5329944430423592,
+   "projected_ex": 0.23864384463462804
+  },
+  "gemma3_12b": {
+   "gleu": 0.5283002231648493,
+   "projected_ex": 0.20934825543120475
+  },
+  "gemma3_4b": {
+   "gleu": 0.5148439328568818,
+   "projected_ex": 0.21461487820934824
+  }
+ }
+}

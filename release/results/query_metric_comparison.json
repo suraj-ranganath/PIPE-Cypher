@@ -1,0 +1,85 @@
+{
+ "exact_text": {
+  "mean_when_right": 0.0351066531234129,
+  "mean_when_wrong": 0.0,
+  "auc": 0.5175533265617065,
+  "model_min": 0.0013166556945358788,
+  "model_max": 0.0467412771560237,
+  "rank_tau_vs_projected_ex": 0.5636363636363636,
+  "glm_minus_gpt6luna": 0.02040816326530612
+ },
+ "same_signature": {
+  "mean_when_right": 0.047866937531742,
+  "mean_when_wrong": 5.660590965696819e-05,
+  "auc": 0.5239051658110425,
+  "model_min": 0.005266622778143515,
+  "model_max": 0.052995391705069124,
+  "rank_tau_vs_projected_ex": 0.5636363636363636,
+  "glm_minus_gpt6luna": 0.015141540487162604
+ },
+ "google_bleu": {
+  "mean_when_right": 0.687600640506868,
+  "mean_when_wrong": 0.5255271843243415,
+  "auc": 0.7680071890223978,
+  "model_min": 0.5148439328568818,
+  "model_max": 0.7032507000903784,
+  "rank_tau_vs_projected_ex": 0.8545454545454545,
+  "glm_minus_gpt6luna": 0.05620058820646712
+ },
+ "bleu4": {
+  "mean_when_right": 0.6770584240388577,
+  "mean_when_wrong": 0.5049182162963272,
+  "auc": 0.7673103114118491,
+  "model_min": 0.4913508732169499,
+  "model_max": 0.6942383415103981,
+  "rank_tau_vs_projected_ex": 0.8545454545454545,
+  "glm_minus_gpt6luna": 0.05955132471877611
+ },
+ "rouge_l": {
+  "mean_when_right": 0.8199238114179507,
+  "mean_when_wrong": 0.6866920471040712,
+  "auc": 0.769735581046007,
+  "model_min": 0.6833106479328681,
+  "model_max": 0.8200518758882754,
+  "rank_tau_vs_projected_ex": 0.7818181818181819,
+  "glm_minus_gpt6luna": 0.03522955089309332
+ },
+ "jaro_winkler": {
+  "mean_when_right": 0.9042431714842019,
+  "mean_when_wrong": 0.8624022882860914,
+  "auc": 0.7380049878172238,
+  "model_min": 0.8644411302468611,
+  "model_max": 0.9080795966110299,
+  "rank_tau_vs_projected_ex": 0.3090909090909091,
+  "glm_minus_gpt6luna": 0.036812995878929944
+ },
+ "strict_ex": {
+  "mean_when_right": 0.5628491620111732,
+  "mean_when_wrong": 0.0,
+  "auc": 0.7814245810055865,
+  "model_min": 0.09973666886109282,
+  "model_max": 0.4519420671494404,
+  "rank_tau_vs_projected_ex": 0.9636363636363636,
+  "glm_minus_gpt6luna": 0.040816326530612235
+ },
+ "answer_f1": {
+  "mean_when_right": 1.0,
+  "mean_when_wrong": 0.04691996859043854,
+  "auc": 1.0,
+  "model_min": 0.2287305086798676,
+  "model_max": 0.7923752135247996,
+  "rank_tau_vs_projected_ex": 0.9636363636363636,
+  "glm_minus_gpt6luna": 0.0014818026845551113
+ },
+ "projected_ex": {
+  "mean_when_right": 1.0,
+  "mean_when_wrong": 0.0,
+  "auc": 1.0,
+  "model_min": 0.20934825543120475,
+  "model_max": 0.7669519420671495,
+  "rank_tau_vs_projected_ex": 1.0,
+  "glm_minus_gpt6luna": 0.0013166556945358732
+ },
+ "n_predictions": 33418,
+ "n_right": 15752
+}

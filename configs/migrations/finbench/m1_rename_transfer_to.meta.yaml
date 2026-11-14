@@ -1,0 +1,40 @@
+id: m1_rename_transfer_to
+graph_profile: finbench
+kind: schema_migration
+description: >-
+  Rename relationship type TRANSFER_TO to SENDS_FUNDS. Endpoints, direction,
+  multiplicity, and all relationship properties are preserved.
+cypher_file: m1_rename_transfer_to.cypher
+preconditions:
+  - name: transfer_to_before
+    query: MATCH ()-[r:TRANSFER_TO]->() RETURN count(r) AS n
+    expect: positive
+  - name: transfer_to_amounts_before
+    query: MATCH ()-[r:TRANSFER_TO]->() RETURN count(r.amount) AS n
+    expect: positive
+  - name: sends_funds_before
+    query: MATCH ()-[r:SENDS_FUNDS]->() RETURN count(r) AS n
+    expect: zero
+postconditions:
+  - name: transfer_to_after
+    query: MATCH ()-[r:TRANSFER_TO]->() RETURN count(r) AS n
+    expect: zero
+  - name: sends_funds_after
+    query: MATCH ()-[r:SENDS_FUNDS]->() RETURN count(r) AS n
+    expect: "== transfer_to_before"
+  - name: sends_funds_amounts_after
+    query: MATCH ()-[r:SENDS_FUNDS]->() RETURN count(r.amount) AS n
+    expect: "== transfer_to_amounts_before"
+expected_schema_diff:
+  removed_relationship_types: [TRANSFER_TO]
+  added_relationship_types: [SENDS_FUNDS]
+  removed_relationship_patterns: ["(:Account)-[:TRANSFER_TO]->(:Account)"]
+  added_relationship_patterns: ["(:Account)-[:SENDS_FUNDS]->(:Account)"]
+  renames:
+    - {kind: relationship_type, before: TRANSFER_TO, after: SENDS_FUNDS}
+expected_benchmark_impact: >-
+  Every reference matching TRANSFER_TO fails schema validation
+  (unknown_relationship). Neo4j does not raise on an unknown relationship type,
+  so at runtime these references silently return empty or different rows. A
+  confident relationship-type rename should let the rename-aware rewrite carry
+  them forward without LLM regeneration.

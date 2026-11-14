@@ -1,16 +1,38 @@
 from __future__ import annotations
 
 import hashlib
+import re
 import json
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from .diversity_metrics import canonical_query_signature
 from .io import read_jsonl, write_jsonl
 
 
 DEFAULT_SPLITS = {"train": 0.8, "dev": 0.1, "test": 0.1}
+SPLIT_STRATEGIES = ("random", "signature_disjoint")
+
+
+def answer_contract(cypher: str, result_rows: list[dict[str, Any]]) -> dict[str, list[str]]:
+    """Separate the columns a question asks for from policy-injected context.
+
+    Downstream scoring treats ``answer_columns`` as required and forgives
+    missing ``context_columns`` (added by the contextual-return governance rule,
+    not requested by the question).
+    """
+
+    from .evaluation import policy_context_columns
+
+    columns = list(result_rows[0].keys()) if result_rows else []
+    context = policy_context_columns(cypher, columns) if columns else []
+    return {
+        "result_columns": columns,
+        "answer_columns": [column for column in columns if column not in context],
+        "context_columns": context,
+    }
 
 
 def load_generation_records(paths: list[str | Path]) -> list[dict[str, Any]]:
@@ -26,6 +48,22 @@ def load_generation_records(paths: list[str | Path]) -> list[dict[str, Any]]:
             row["_source_records_path"] = str(records_path)
             rows.append(row)
     return rows
+
+
+_DUPLICATED_ID_PHRASE = re.compile(r"\b([A-Za-z]*[Ii]d)\s+(?:the\s+)?[a-z]+ with id\s+")
+
+
+def normalize_id_phrasing(question: str) -> str:
+    """Collapse "with companyId company with id 42" to "with companyId 42".
+
+    The id-slot filler wrote "<label> with id <value>" even when the template
+    already named the id property ("... with companyId {company}"), and some
+    rewrites kept both phrases. The value and meaning are unchanged; ids are
+    still computed from the original record, and the export keeps the original
+    wording under ``question_normalization``.
+    """
+
+    return _DUPLICATED_ID_PHRASE.sub(lambda m: m.group(1) + " ", question)
 
 
 def benchmark_id(row: dict[str, Any]) -> str:
@@ -69,13 +107,19 @@ def materialize_benchmark_examples(
         judge = row.get("judge", {})
         features = validation.get("structural_features", {})
         result_rows = execution.get("rows", []) or []
+        generation_metadata = dict(row.get("generation_metadata") or {})
+        signature = generation_metadata.get("query_signature") or canonical_query_signature(
+            str(row.get("cypher") or "")
+        )
         examples.append(
             {
                 "id": example_id,
                 "graph_profile": row.get("graph_profile"),
                 "category": row.get("category"),
-                "difficulty": features.get("difficulty", "unknown"),
-                "question": row.get("question"),
+                # v3 builds record the calibrated tier; v1/v2 keep the structural heuristic.
+                "difficulty": generation_metadata.get("difficulty_tier") or features.get("difficulty", "unknown"),
+                "difficulty_heuristic": features.get("difficulty", "unknown"),
+                "question": normalize_id_phrasing(str(row.get("question") or "")),
                 "cypher": row.get("cypher"),
                 "normalized_cypher": validation.get("normalized_cypher"),
                 "structural_features": features,
@@ -85,6 +129,14 @@ def materialize_benchmark_examples(
                 "reverse_cypher": row.get("reverse_cypher"),
                 "result_rows_sample": result_rows[:result_sample_limit],
                 "result_row_count_observed": len(result_rows),
+                "query_signature": signature,
+                "answer_contract": answer_contract(str(row.get("cypher") or ""), result_rows),
+                "generation_metadata": generation_metadata,
+                "question_normalization": (
+                    {"rule": "duplicated_id_phrase", "before": row.get("question")}
+                    if normalize_id_phrasing(str(row.get("question") or "")) != row.get("question")
+                    else None
+                ),
                 "gates": {
                     "read_only": bool(validation.get("read_only")),
                     "syntax_valid": bool(validation.get("syntax_valid")),
@@ -110,12 +162,80 @@ def materialize_benchmark_examples(
     return sorted(examples, key=lambda item: item["id"])
 
 
+def cap_examples_per_signature(
+    examples: list[dict[str, Any]], max_per_signature: int, *, seed: str = "pipe-cypher-v1"
+) -> tuple[list[dict[str, Any]], int]:
+    """Keep at most ``max_per_signature`` items per (graph, category, signature).
+
+    Selection is deterministic (hash of seed and id), so sharded generation runs
+    whose per-shard quotas overlap still export the same global quota as a
+    single-process run.
+    """
+
+    if max_per_signature <= 0:
+        return examples, 0
+    groups: dict[tuple[str, str, str], list[dict[str, Any]]] = defaultdict(list)
+    for example in examples:
+        signature = str(example.get("query_signature") or canonical_query_signature(str(example.get("cypher") or "")))
+        groups[(str(example.get("graph_profile")), str(example.get("category")), signature)].append(example)
+    kept: list[dict[str, Any]] = []
+    dropped = 0
+    for rows in groups.values():
+        ordered = sorted(rows, key=lambda item: hashlib.sha256(f"{seed}:{item['id']}".encode("utf-8")).hexdigest())
+        kept.extend(ordered[:max_per_signature])
+        dropped += max(0, len(ordered) - max_per_signature)
+    return sorted(kept, key=lambda item: item["id"]), dropped
+
+
+def cap_examples_per_cell(
+    examples: list[dict[str, Any]],
+    max_per_cell: int | dict[str, int],
+    *,
+    seed: str = "pipe-cypher-v1",
+) -> tuple[list[dict[str, Any]], int]:
+    """Keep at most ``max_per_cell`` items per (graph, category), round-robin
+    across signatures so trimming removes repeated signatures before rare ones.
+    ``max_per_cell`` may map graph_profile -> cap (key "*" = default)."""
+
+    caps = max_per_cell if isinstance(max_per_cell, dict) else {"*": max_per_cell}
+    if not any(int(v) > 0 for v in caps.values()):
+        return examples, 0
+    cells: dict[tuple[str, str], list[dict[str, Any]]] = defaultdict(list)
+    for example in examples:
+        cells[(str(example.get("graph_profile")), str(example.get("category")))].append(example)
+    kept: list[dict[str, Any]] = []
+    dropped = 0
+    for (graph, _category), rows in cells.items():
+        limit = int(caps.get(graph, caps.get("*", 0)) or 0)
+        if limit <= 0 or len(rows) <= limit:
+            kept.extend(rows)
+            continue
+        by_sig: dict[str, list[dict[str, Any]]] = defaultdict(list)
+        for row in sorted(rows, key=lambda item: hashlib.sha256(f"{seed}:{item['id']}".encode("utf-8")).hexdigest()):
+            by_sig[str(row.get("query_signature") or canonical_query_signature(str(row.get("cypher") or "")))].append(row)
+        # Round-robin across signatures keeps structural diversity when trimming.
+        chosen: list[dict[str, Any]] = []
+        queues = [list(v) for _, v in sorted(by_sig.items())]
+        while len(chosen) < limit and any(queues):
+            for queue in queues:
+                if queue and len(chosen) < limit:
+                    chosen.append(queue.pop(0))
+        kept.extend(chosen)
+        dropped += len(rows) - len(chosen)
+    return sorted(kept, key=lambda item: item["id"]), dropped
+
+
 def assign_splits(
     examples: list[dict[str, Any]],
     *,
     split_ratios: dict[str, float] | None = None,
     seed: str = "pipe-cypher-v1",
+    strategy: str = "random",
 ) -> dict[str, list[dict[str, Any]]]:
+    if strategy not in SPLIT_STRATEGIES:
+        raise ValueError(f"unknown split strategy {strategy!r}; expected one of {SPLIT_STRATEGIES}")
+    if strategy == "signature_disjoint":
+        return assign_signature_disjoint_splits(examples, split_ratios=split_ratios, seed=seed)
     ratios = split_ratios or DEFAULT_SPLITS
     for split in ("train", "dev", "test"):
         if split not in ratios:
@@ -142,6 +262,69 @@ def assign_splits(
 
     _ensure_nonempty_splits(splits, total=len(examples))
     return {split: sorted(rows, key=lambda item: item["id"]) for split, rows in splits.items()}
+
+
+def assign_signature_disjoint_splits(
+    examples: list[dict[str, Any]],
+    *,
+    split_ratios: dict[str, float] | None = None,
+    seed: str = "pipe-cypher-v1",
+) -> dict[str, list[dict[str, Any]]]:
+    """Template-held-out split: every query signature lives in exactly one split.
+
+    Signatures are assigned whole within each graph/category cell (hash order,
+    filling test, then dev, then train by example count), so test questions never
+    share a Cypher structure with train demonstrations. Cells with fewer than
+    three signatures cannot be split this way and stay in train; they are listed
+    in ``export_stats`` under ``signature_split_cells_train_only``.
+    """
+
+    ratios = split_ratios or DEFAULT_SPLITS
+    groups: dict[tuple[str, str], dict[str, list[dict[str, Any]]]] = defaultdict(lambda: defaultdict(list))
+    for example in examples:
+        key = (str(example.get("graph_profile")), str(example.get("category")))
+        signature = str(example.get("query_signature") or canonical_query_signature(str(example.get("cypher") or "")))
+        groups[key][signature].append(example)
+
+    splits: dict[str, list[dict[str, Any]]] = {"train": [], "dev": [], "test": []}
+    for (graph, category), clusters in sorted(groups.items()):
+        ordered = sorted(
+            clusters.items(),
+            key=lambda item: hashlib.sha256(f"{seed}:{graph}:{category}:{item[0]}".encode("utf-8")).hexdigest(),
+        )
+        total = sum(len(rows) for _, rows in ordered)
+        if len(ordered) < 3:
+            for _, rows in ordered:
+                for row in rows:
+                    row["split_note"] = "signature_cell_train_only"
+                splits["train"].extend(rows)
+            continue
+        targets = {
+            "test": max(1, round(total * ratios["test"])),
+            "dev": max(1, round(total * ratios["dev"])),
+        }
+        filled = {"test": 0, "dev": 0}
+        remaining = list(ordered)
+        for split in ("test", "dev"):
+            while remaining and filled[split] < targets[split] and len(remaining) > 1:
+                _, rows = remaining.pop(0)
+                splits[split].extend(rows)
+                filled[split] += len(rows)
+        for _, rows in remaining:
+            splits["train"].extend(rows)
+    return {split: sorted(rows, key=lambda item: item["id"]) for split, rows in splits.items()}
+
+
+def split_signature_overlap(splits: dict[str, list[dict[str, Any]]]) -> dict[str, Any]:
+    def sig(row: dict[str, Any]) -> str:
+        return str(row.get("query_signature") or canonical_query_signature(str(row.get("cypher") or "")))
+
+    train = {sig(row) for row in splits.get("train", [])}
+    out: dict[str, Any] = {"unique_signatures": {name: len({sig(r) for r in rows}) for name, rows in splits.items()}}
+    for name in ("dev", "test"):
+        rows = splits.get(name, [])
+        out[f"{name}_rows_sharing_train_signature"] = sum(1 for row in rows if sig(row) in train)
+    return out
 
 
 def export_stats(
@@ -175,6 +358,15 @@ def export_stats(
         "label_counts": dict(sorted(labels.items())),
         "relationship_type_counts": dict(sorted(relationships.items())),
         "gate_counts": _gate_counts(examples),
+        "unique_query_signatures": len({row.get("query_signature") for row in examples}),
+        "signature_split_overlap": split_signature_overlap(splits),
+        "signature_split_cells_train_only": sorted(
+            {
+                f"{row.get('graph_profile')}::{row.get('category')}"
+                for row in splits.get("train", [])
+                if row.get("split_note") == "signature_cell_train_only"
+            }
+        ),
     }
 
 
@@ -185,6 +377,9 @@ def export_benchmark_package(
     accepted_only: bool = True,
     split_seed: str = "pipe-cypher-v1",
     result_sample_limit: int = 5,
+    split_strategy: str = "random",
+    max_per_signature: int = 0,
+    max_per_cell: int | dict[str, int] = 0,
 ) -> dict[str, Any]:
     rows = load_generation_records(records_paths)
     examples = materialize_benchmark_examples(
@@ -192,7 +387,11 @@ def export_benchmark_package(
         accepted_only=accepted_only,
         result_sample_limit=result_sample_limit,
     )
-    splits = assign_splits(examples, seed=split_seed)
+    examples, signature_cap_dropped = cap_examples_per_signature(
+        examples, max_per_signature, seed=split_seed
+    )
+    examples, cell_cap_dropped = cap_examples_per_cell(examples, max_per_cell, seed=split_seed)
+    splits = assign_splits(examples, seed=split_seed, strategy=split_strategy)
     stats = export_stats(examples, splits)
 
     out = Path(output_dir)
@@ -209,6 +408,11 @@ def export_benchmark_package(
         "records_paths": [str(Path(path)) for path in records_paths],
         "accepted_only": accepted_only,
         "split_seed": split_seed,
+        "split_strategy": split_strategy,
+        "max_per_signature": max_per_signature,
+        "signature_cap_dropped": signature_cap_dropped,
+        "max_per_cell": max_per_cell,
+        "cell_cap_dropped": cell_cap_dropped,
         "result_sample_limit": result_sample_limit,
         "total_examples": len(examples),
         "split_counts": stats["by_split"],

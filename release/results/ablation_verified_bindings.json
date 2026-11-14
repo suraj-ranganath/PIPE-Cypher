@@ -1,0 +1,32 @@
+{
+ "naacl_v3_abl_ctrl": {
+  "cand": 1030,
+  "other": 241,
+  "acc": 392,
+  "empty": 16,
+  "panel": 14,
+  "bind": 31,
+  "tier": 313,
+  "literal": 23,
+  "cells": 16,
+  "cells_at_25": 13,
+  "cost_usd": 0.654,
+  "entity_cap": 171,
+  "ties": 36
+ },
+ "naacl_v3_abl_nobind": {
+  "cand": 1104,
+  "panel": 8,
+  "acc": 395,
+  "other": 101,
+  "empty": 397,
+  "literal": 22,
+  "tier": 179,
+  "bind": 2,
+  "cells": 16,
+  "cells_at_25": 14,
+  "cost_usd": 0.682,
+  "entity_cap": 36,
+  "ties": 51
+ }
+}

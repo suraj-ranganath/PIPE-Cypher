@@ -1,0 +1,78 @@
+{
+  "by_category": {
+    "boolean_existence": 20,
+    "complex_aggregation": 20,
+    "complex_retrieval": 20,
+    "negation_difference": 20,
+    "path_temporal": 20,
+    "ranking_topk": 20,
+    "simple_aggregation": 20,
+    "simple_retrieval": 20
+  },
+  "by_difficulty": {
+    "easy": 106,
+    "medium": 54
+  },
+  "by_graph": {
+    "t2c_fincen": 160
+  },
+  "by_graph_category": {
+    "t2c_fincen::boolean_existence": 20,
+    "t2c_fincen::complex_aggregation": 20,
+    "t2c_fincen::complex_retrieval": 20,
+    "t2c_fincen::negation_difference": 20,
+    "t2c_fincen::path_temporal": 20,
+    "t2c_fincen::ranking_topk": 20,
+    "t2c_fincen::simple_aggregation": 20,
+    "t2c_fincen::simple_retrieval": 20
+  },
+  "by_split": {
+    "dev": 16,
+    "test": 16,
+    "train": 128
+  },
+  "gate_counts": {
+    "accepted": 160,
+    "execution_success": 160,
+    "judge_pass": 160,
+    "read_only": 160,
+    "schema_valid": 160,
+    "syntax_valid": 160
+  },
+  "label_counts": {
+    "Country": 41,
+    "Entity": 127,
+    "Filing": 134
+  },
+  "relationship_type_counts": {
+    "BENEFITS": 24,
+    "CONCERNS": 42,
+    "COUNTRY": 36,
+    "FILED": 41,
+    "ORIGINATOR": 27
+  },
+  "signature_split_cells_train_only": [],
+  "signature_split_overlap": {
+    "dev_rows_sharing_train_signature": 8,
+    "test_rows_sharing_train_signature": 8,
+    "unique_signatures": {
+      "dev": 14,
+      "test": 16,
+      "train": 84
+    }
+  },
+  "total": 160,
+  "unique_labels": [
+    "Country",
+    "Entity",
+    "Filing"
+  ],
+  "unique_query_signatures": 99,
+  "unique_relationship_types": [
+    "BENEFITS",
+    "CONCERNS",
+    "COUNTRY",
+    "FILED",
+    "ORIGINATOR"
+  ]
+}

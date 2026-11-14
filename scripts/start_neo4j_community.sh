@@ -8,6 +8,13 @@ SESSION="${SESSION:-pipecypher_neo4j}"
 BOLT_PORT="${BOLT_PORT:-7687}"
 HTTP_PORT="${HTTP_PORT:-7474}"
 AUTH_ENABLED="${AUTH_ENABLED:-false}"
+# Loopback by default: auth is disabled for local benchmarking, so never listen
+# on a routable interface unless explicitly asked (and then enable auth).
+LISTEN_ADDRESS="${LISTEN_ADDRESS:-127.0.0.1}"
+if [[ "${LISTEN_ADDRESS}" != "127.0.0.1" && "${AUTH_ENABLED}" != "true" ]]; then
+  echo "Refusing to listen on ${LISTEN_ADDRESS} with auth disabled; set AUTH_ENABLED=true" >&2
+  exit 1
+fi
 HEAP_INITIAL="${HEAP_INITIAL:-4G}"
 HEAP_MAX="${HEAP_MAX:-8G}"
 PAGECACHE="${PAGECACHE:-4G}"
@@ -46,7 +53,7 @@ RUN_DIR="${RUN_ROOT}/run"
 mkdir -p "${CONF_DIR}" "${DATA_DIR}" "${IMPORT_DIR}" "${LOG_DIR}" "${RUN_DIR}"
 
 cat > "${CONF_DIR}/neo4j.conf" <<EOF
-server.default_listen_address=0.0.0.0
+server.default_listen_address=${LISTEN_ADDRESS}
 server.bolt.listen_address=:${BOLT_PORT}
 server.http.listen_address=:${HTTP_PORT}
 dbms.security.auth_enabled=${AUTH_ENABLED}

@@ -1,37 +1,14 @@
-.DS_Store
 __pycache__/
 *.py[cod]
 *.egg-info/
 .pytest_cache/
 .ruff_cache/
-.mypy_cache/
 .venv/
 venv/
-dist/
-build/
-
-# Local/generated artifacts
-artifacts/
-data/
-models/
-logs/
-*.jsonl
-*.sqlite
-*.db
-external/
-
-# LaTeX build intermediates
-*.aux
-*.bbl
-*.blg
-*.fdb_latexmk
-*.fls
-*.log
-!experiments/snapshots/**/remote_run.log
-*.out
-*.synctex.gz
-
-# Secrets and local runtime config
+.DS_Store
 .env
 .env.*
 !.env.example
+# local run outputs (the released data lives under release/)
+artifacts/
+logs/

@@ -54,6 +54,16 @@ PROMPT_PROFILES: dict[str, PromptProfile] = {
         include_entity_hints=True,
         governed=True,
     ),
+    # v3: same content as the governed profile plus the shared convention
+    # sheet, laid out with fixed blocks first so providers can cache the prefix.
+    "full_pipe_cypher_governed_v3": PromptProfile(
+        name="full_pipe_cypher_governed_v3",
+        label="Full governed PIPE-Cypher (v3, conventions)",
+        include_examples=True,
+        include_instructions=True,
+        include_entity_hints=True,
+        governed=True,
+    ),
 }
 
 

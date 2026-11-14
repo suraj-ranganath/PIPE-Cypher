@@ -97,8 +97,8 @@ if [[ ! -d "${DATA_ROOT}/raw" ]]; then
 fi
 
 if [[ -z "${PYTHON_BIN}" ]]; then
-  if [[ -x "${HOME}/miniforge3/envs/pipe-rdf-arr/bin/python" ]]; then
-    PYTHON_BIN="${HOME}/miniforge3/envs/pipe-rdf-arr/bin/python"
+  if [[ -x "${HOME}/miniforge3/envs/pipe-env/bin/python" ]]; then
+    PYTHON_BIN="${HOME}/miniforge3/envs/pipe-env/bin/python"
   else
     PYTHON_BIN="$(command -v python3)"
   fi

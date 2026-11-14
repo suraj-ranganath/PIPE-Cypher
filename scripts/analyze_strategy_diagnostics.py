@@ -28,7 +28,7 @@ from pipecypher.strategy_analysis import (
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Render PIPE-RDF-inspired strategy diagnostics for PIPE-Cypher."
+        description="Render predecessor-inspired strategy diagnostics for PIPE-Cypher."
     )
     parser.add_argument(
         "--benchmark",
@@ -43,19 +43,22 @@ def main() -> None:
     )
     parser.add_argument(
         "--output-json",
-        default="artifacts/reports/strategy_diagnostics.json",
+        default=(
+            "experiments/snapshots/20260604_clean_downstream_model_transfer/"
+            "strategy_diagnostics.json"
+        ),
     )
     parser.add_argument(
         "--output-tex",
-        default="artifacts/reports/strategy_diagnostics.tex",
+        default="paper_emnlp2026_industry/tables_strategy_diagnostics.tex",
     )
     parser.add_argument(
         "--coverage-figure",
-        default="artifacts/reports/strategy_coverage.pdf",
+        default="paper_emnlp2026_industry/figures/strategy_coverage.pdf",
     )
     parser.add_argument(
         "--downstream-figure",
-        default="artifacts/reports/strategy_downstream_errors.pdf",
+        default="paper_emnlp2026_industry/figures/strategy_downstream_errors.pdf",
     )
     args = parser.parse_args()
 

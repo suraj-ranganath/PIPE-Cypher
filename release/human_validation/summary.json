@@ -1,0 +1,50 @@
+{
+  "conventions": 14,
+  "items_with_solve_counts": 70,
+  "population": 3038,
+  "population_by_tier": {
+    "easy": 1065,
+    "hard": 869,
+    "medium": 1104
+  },
+  "queue_lengths": {
+    "A": 50,
+    "B": 50
+  },
+  "sample_by_category": {
+    "boolean_existence": 9,
+    "complex_aggregation": 8,
+    "complex_retrieval": 10,
+    "negation_difference": 7,
+    "path_temporal": 11,
+    "ranking_topk": 9,
+    "simple_aggregation": 8,
+    "simple_retrieval": 8
+  },
+  "sample_by_graph": {
+    "finbench": 41,
+    "snb": 29
+  },
+  "sample_by_tier": {
+    "easy": 21,
+    "hard": 27,
+    "medium": 22
+  },
+  "sample_focus": {
+    "judge_disagreement": 20,
+    "regular": 45,
+    "unsolved": 2,
+    "unsolved+judge_disagreement": 3
+  },
+  "sampled": 70,
+  "set_id": "v3d",
+  "shared": 30,
+  "solve_files": 11,
+  "strata_sampled": 66,
+  "unassigned": 0,
+  "verdict_judges": [
+    "gpt6_luna",
+    "panel"
+  ],
+  "weight_sum": 3038.0
+}
